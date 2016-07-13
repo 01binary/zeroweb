@@ -15,8 +15,6 @@
 
 "use strict"
 
-// How to stop requesting SVG every time?
-
 /**
  * Register svg service.
  */

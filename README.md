@@ -14,3 +14,5 @@ Loads inline SVG fragments with AJAX requests:
 
 - npm install to restore packages
 - npm start to run gulp webserver (open the address printed by gulp-webserver in your browser)
+- gulp minify or npm run min to create app script package in scripts/zero.min.js
+- use index.htm as the start page

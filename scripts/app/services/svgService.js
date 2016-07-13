@@ -6,14 +6,18 @@
 |  !______!  !__!  |  binary : tech art
 |
 |  @file Service that loads inline vector graphics.
-|  @requires ../angular/angular-min.js
+|  @requires ../../angular/angular.js
+|  @requires ../../jquery/dist/jquery.js
+|  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 "use strict"
 
-/*
+// How to stop requesting SVG every time?
+
+/**
  * Register svg service.
  */
 angular.module("zeroApp")
@@ -58,11 +62,11 @@ function svgService($q, $http)
     
     /**
      * Prepend inline SVG fragment to container.
-     * @param {jQuery} $container - jQuery to prepend to.
+     * @param {object} $container - jQuery to prepend to.
      * @param {string} iconUri - Uri for ajax request, use '#' to specify symbol in set.
      * @param {string} fallbackGroup - Fallback symbol if original doesn't exist.
      * @param {string} classToApply - Set class on new element.
-     * @returns {deferred} Promise that receives new SVG element.
+     * @returns {object} Promise that receives new SVG element.
      *
      * @example load($("#viewer), "images/tiger.svg")
      * @example load($("#panel), "images/symbol-set.svg#symbol-name", "fallback-symbol", "myclass")
@@ -87,14 +91,14 @@ function svgService($q, $http)
         }
     }
 
-    /*
+    /**
      * Create SVG use fragment referring to symbol in symbol set.
-     * @param {jQuery} $container - jQuery to prepend inline SVG reference to.
+     * @param {object} $container - jQuery to prepend inline SVG reference to.
      * @param {string} definitionUri - Uri of SVG with symbol definitions.
      * @param {string} groupName - Symbol name in definition SVG.
      * @param {string} fallbackGroupName - Fallback symbol name in definition SVG.
      * @param {string} classToApply - Set class on inline reference SVG element.
-     * @returns {deferred} Promise that receives jQuery object for inline SVG.
+     * @returns {object} Promise that receives jQuery object for inline SVG.
      */
     function loadIconFromDefinition(
         $container, definitionUri, groupName, fallbackGroupName, classToApply)
@@ -119,18 +123,22 @@ function svgService($q, $http)
         }.bind(this));
     }
 
-    /*
+    /**
      * Load SVG fragment.
-     * @param {jQuery} $container - jQuery Lite element to prepend to.
+     * @param {object} $container - jQuery Lite element to prepend to.
      * @param {string} iconUri - Uri for ajax request.
      * @param {string} classToApply - Set class on new element.
-     * @returns {deferred} Promise that receives jQuery object for new element.
+     * @returns {object} Promise that receives jQuery object for new element.
      */
     function loadIconFromFile($container, iconUri, classToApply)
     {   
         return this.promiseService(function(resolve)
-        {
-            this.ajaxService.get(iconUri).then(function(request)
+        {   
+            this.ajaxService
+            ({
+                url: iconUri,
+                cache: true
+            }).then(function(request)
             {                
                 var content = new DOMParser().parseFromString(
                     request.data, "application/xml");
@@ -143,7 +151,7 @@ function svgService($q, $http)
     /**
      * Load SVG symbol set fragment.
      * @param {string} definitionUri - SVG uri in ajax request.
-     * @returns {deferred} Promise that receives loaded SVG jQuery object.
+     * @returns {object} Promise that receives loaded SVG jQuery object.
      */
     function loadIconDefinition(definitionUri)
     {

@@ -6,7 +6,10 @@
 |  !______!  !__!  |  binary : tech art
 |
 |  @file Directive that animates page transitions.
-|  @requires ../angular/angular-min.js
+|  @requires ../../angular/angular.js
+|  @requires ../../jquery/dist/jquery.js
+|  @requires ../services/svgService.js
+|  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -29,9 +32,9 @@ function transitionDirective()
         replace: false,
         link: function($scope, $element, attributes)
         {
-            var $overlay = $(".overlay");/*$("<div></div>")
+            var $overlay = $("<div></div>")
                             .addClass("overlay")
-                            .prependTo($("body"));*/
+                            .prependTo($("body"));
             
             switch (attributes["transition"])
             {

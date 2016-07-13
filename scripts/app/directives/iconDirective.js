@@ -6,14 +6,17 @@
 |  !______!  !__!  |  binary : tech art
 |
 |  @file Directive that resolves inline vector graphics.
-|  @requires ../angular/angular-min.js
+|  @requires ../../angular/angular.js
+|  @requires ../../jquery/dist/jquery.js
+|  @requires ../services/svgService.js
+|  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 "use strict"
     
-/*
+/**
  * Register icon directive.
  */
 angular.module("zeroApp")

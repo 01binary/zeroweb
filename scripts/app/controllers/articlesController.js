@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file News controller.
+|  @file Articles controller.
 |  @requires ../../angular/angular-min.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
@@ -14,14 +14,14 @@
 "use strict";
     
 /**
- * Register news controller.
+ * Register articles controller.
  */
 angular.module("zeroApp")
-       .controller("newsController", newsController);
+       .controller("articlesController", articlesController);
 
 /**
- * Implement news controller.
+ * Implement articles controller.
  */
-function newsController()
+function articlesController()
 {
 }

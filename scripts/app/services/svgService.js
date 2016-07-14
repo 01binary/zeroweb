@@ -13,7 +13,7 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-"use strict"
+"use strict";
 
 /**
  * Register svg service.
@@ -31,12 +31,12 @@ function svgService($q, $http)
     /**
      * @type {object} Service used to create promises.
      */
-    this.promiseService = $q;
+    this.promiseProvider = $q;
     
     /**
      * @type {object} Service used to make ajax requests.
      */
-    this.ajaxService = $http;
+    this.ajaxProvider = $http;
     
     /**
      * @type {function} Prepend inline SVG fragment to container.
@@ -101,7 +101,7 @@ function svgService($q, $http)
     function loadIconFromDefinition(
         $container, definitionUri, groupName, fallbackGroupName, classToApply)
     {
-        return this.promiseService(function(resolve)
+        return this.promiseProvider(function(resolve)
         {
             this.loadIconDefinition(definitionUri).then(function($loaded)
             {   
@@ -130,9 +130,9 @@ function svgService($q, $http)
      */
     function loadIconFromFile($container, iconUri, classToApply)
     {   
-        return this.promiseService(function(resolve)
+        return this.promiseProvider(function(resolve)
         {   
-            this.ajaxService
+            this.ajaxProvider
             ({
                 url: iconUri,
                 cache: true
@@ -164,7 +164,7 @@ function svgService($q, $http)
         }
 
         loadIconDefinition.loaded[definitionUri] =
-            this.promiseService(function(resolve)
+            this.promiseProvider(function(resolve)
         {
             this.loadIconFromFile($("body"), definitionUri)
             .then(function($loaded)

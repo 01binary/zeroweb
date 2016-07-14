@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="zeroApp">
     <head>
+        <title>Title - 01 Binary</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>News - 01 Binary</title>
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <script type="text/javascript" src="scripts/zero.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="zero.css">
+        <script type="text/javascript" src="zero.min.js"></script>
     </head>
     
-    <body data-ng-app="zeroApp">
+    <body data-ng-cloak data-transition="fade">
         <header>
             <icon class="logo" data-src="images/banner.svg#logo"></icon>
             
             <h1>binary : tech art</h1>
 
             <nav data-src="images/banner.svg">
-                <a href="index.htm" class="navigation-selected">news</a>
-                <a href="articles.htm" class="navigation-unselected navigation-afterselected">articles</a>
-                <a href="projects.htm" class="navigation-unselected">projects</a>
-                <a href="about.htm" class="navigation-unselected navigation-last">about</a>
+                <a href="news" class="navigation-selected">news</a>
+                <a href="articles" class="navigation-unselected navigation-afterselected">articles</a>
+                <a href="projects" class="navigation-unselected">projects</a>
+                <a href="about" class="navigation-unselected navigation-last">about</a>
             </nav>
         </header>
         
-        <main>
-            <h1>news</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <main data-ng-view>
         </main>
     </body>
 </html>

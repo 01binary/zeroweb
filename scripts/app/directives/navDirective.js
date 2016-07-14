@@ -11,7 +11,7 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-"use strict"
+"use strict";
     
 /*
  * Register nav directive.

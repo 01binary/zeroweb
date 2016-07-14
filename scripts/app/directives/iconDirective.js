@@ -14,7 +14,7 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-"use strict"
+"use strict";
     
 /**
  * Register icon directive.

@@ -5,10 +5,9 @@
   "description": "01 Binary Website",
   "devDependencies": {
     "bower": "^1.7.9",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-connect": "4.1.0",
-    "gulp-minify": "0.0.12",
+    "grunt": "^1.0.1",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",

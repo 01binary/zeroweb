@@ -28,13 +28,13 @@ module.exports = function(grunt)
                         // jQuery
                         "scripts/jquery/dist/jquery.js",
                         
-                        // Application
-                        "scripts/app.js",
-                        "scripts/app/**/*.js",
-                        
                         // Angular
                         "scripts/angular/angular.js",
-                        "scripts/angular-route/angular-route.js"
+                        "scripts/angular-route/angular-route.js",
+                        
+                        // Application
+                        "scripts/app.js",
+                        "scripts/app/**/*.js"
                     ]
                 }
             }

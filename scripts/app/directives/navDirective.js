@@ -56,7 +56,8 @@ function navDirective($svg)
                 });
 
                 var buttonName = $(this).text();
-                $(this).text("");
+                
+                $(this).text("").attr("data-ng-class", "main.glutton('" + buttonName + "')");
 
                 for (var partIndex in buttonParts)
                 {

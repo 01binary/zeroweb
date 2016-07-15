@@ -8,17 +8,17 @@
         <script type="text/javascript" src="zero.min.js"></script>
     </head>
     
-    <body data-ng-cloak data-transition="fade">
+    <body data-ng-controller="mainController as main" data-ng-cloak data-transition="fade">
         <header>
-            <icon class="logo" data-src="images/banner.svg#logo"></icon>
+            <icon class="logo" data-src="images/banner.svg#logo">01</icon>
             
             <h1>binary : tech art</h1>
-
+            
             <nav data-src="images/banner.svg">
-                <a href="news" class="navigation-selected">news</a>
-                <a href="articles" class="navigation-unselected navigation-afterselected">articles</a>
-                <a href="projects" class="navigation-unselected">projects</a>
-                <a href="about" class="navigation-unselected navigation-last">about</a>
+                <a href="news">news</a>
+                <a href="articles">articles</a>
+                <a href="projects">projects</a>
+                <a href="about">about</a>
             </nav>
         </header>
         

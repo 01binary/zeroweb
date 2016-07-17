@@ -5,10 +5,9 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Directive that animates page transitions.
+|  @file Directive that animates full screen transitions.
 |  @requires ../../angular/angular.js
 |  @requires ../../jquery/dist/jquery.js
-|  @requires ../services/svgService.js
 |  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy

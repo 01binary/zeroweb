@@ -7,6 +7,7 @@
 |
 |  @file Projects controller.
 |  @requires ../../angular/angular-min.js
+|  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/

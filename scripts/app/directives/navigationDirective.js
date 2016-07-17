@@ -160,7 +160,9 @@ function updateNavigation(next, current, $rootScope)
     }
 
     $rootScope.lastRouteName = routeName;
-    $rootScope.title = routeName[0].toUpperCase() + routeName.substring(1);
+    
+    if (routeName)
+        $rootScope.title = routeName[0].toUpperCase() + routeName.substring(1);
 }
 
 /**

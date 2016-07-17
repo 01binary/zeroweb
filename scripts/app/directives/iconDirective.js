@@ -24,9 +24,9 @@ angular.module("zeroApp")
 
 /**
  * Implement icon directive.
- * @param {factory} $svg - SVG factory.
+ * @param {object} $svgProvider - Service used to load SVG fragments.
  */
-function iconDirective($svg)
+function iconDirective($svgProvider)
 {   
     return {
         restrict: "E",
@@ -39,18 +39,7 @@ function iconDirective($svg)
         template: "<div></div>",
         link: function($scope, $element, attributes)
         {   
-            $svg.load( 
-                // Pass the element being created.
-                $element,
-                
-                // Pass the SVG uri.
-                attributes.src,
-                
-                // Not using fallback for basic icon directive.
-                null,
-                
-                // Not applying a class for basic icon directive.
-                null);
+            $svgProvider.load($element, attributes.src, null, null);
         }
     };
 }

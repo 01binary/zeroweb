@@ -191,8 +191,9 @@ main h3
 
 main h1, main h2, main h3
 {
-    /* Open Sans is linked from Google Fonts */
-    font-family: "Open Sans", sans-serif;
+    /* Helvetica Neue is available only on Mac */
+    /* Calibri is available only on PC */
+    font-family: "Helvetica Neue", "Calibri", sans-serif;
     margin-bottom: 9pt;
     margin-top: 9pt;
 }

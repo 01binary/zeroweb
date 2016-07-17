@@ -13,23 +13,29 @@
 
 "use strict";
     
-/*
+/**
  * Register nav directive.
  */
 angular.module("zeroApp")
-       .directive("nav", ["svg", navDirective]);
+       .directive("nav", ["svg", "$rootScope", navDirective]);
 
 /**
  * Implement nav directive.
- * @param {factory} $svg - SVG factory.
+ * @param {object} $svg - SVG factory.
+ * @param {object} $rootScope - Root application scope.
  */
-function navDirective($svg)
-{
+function navDirective($svg, $rootScope)
+{   
     return {
         restrict: "E",
         replace: false,
+        scope: {},
         link: function($scope, $element, attributes)
         {
+            $scope.updateNavigation = updateNavigation;
+            $scope.getRouteName = getRouteName;
+            
+            // Load navigation.
             var navSrc = attributes["src"];
             
             var buttonParts =
@@ -56,8 +62,7 @@ function navDirective($svg)
                 });
 
                 var buttonName = $(this).text();
-                
-                $(this).text("").attr("data-ng-class", "main.glutton('" + buttonName + "')");
+                $(this).text("");
 
                 for (var partIndex in buttonParts)
                 {
@@ -83,6 +88,62 @@ function navDirective($svg)
                     .addClass("navigation navigation-text")
                     .appendTo($(this));
             });
+            
+            // Update navigation styles when changing views.
+            $rootScope.$on
+            (
+                "$routeChangeStart",
+                function(event, next, current)
+                {
+                    $scope.updateNavigation(next, current, $rootScope);
+                }
+            );
         }
     };
+}
+
+/**
+ * Update navigation on route change.
+ * @param {object} next - Future route information.
+ * @param {object} current - Current route information.
+ * @param {object} $rootScope - Root scope object.
+ */
+function updateNavigation(next, current, $rootScope)
+{
+    var routeName = this.getRouteName(next);
+
+    if (current)
+    {
+        var $buttons = $("nav a");
+        var prevSelected = false;
+
+        $buttons.each(function(index, element)
+        {
+            var afterSelectedStyle = prevSelected ?
+                " navigation-afterselected" : "";
+
+            var selectedStyle = (prevSelected = $(this).attr("href") == routeName) ?
+                "navigation-selected" : "navigation-unselected";
+
+            var lastStyle = index == $buttons.length - 1 ?
+                " navigation-last" : "";
+
+            $(this).attr("class", selectedStyle + afterSelectedStyle + lastStyle);
+        });
+    }
+
+    $rootScope.lastRouteName = routeName;
+}
+
+/**
+ * Parse route name.
+ * @param {object} $route - Route to examine.
+ * @returns {string} Route name.
+ */
+function getRouteName($route)
+{
+    if (!$route.templateUrl || $route.templateUrl.indexOf("/") == -1)
+        return null;
+
+    return $route.templateUrl.split("/")[1].split(".")[0];
 }

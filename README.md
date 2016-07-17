@@ -7,7 +7,7 @@ A working website prototype before filling in Angular controllers and replacing 
 
 Loads inline SVG fragments with AJAX requests:
 - icon elements are resolved with icon directive in scripts/app/directives/iconDirective.js
-- hyperlink elements under nav element are resolved with nav directive in scripts/app/directives/navDirective.js which loads multiple graphics to create a navigation menu
+- hyperlink elements under navigation element are resolved with navigation directive in scripts/app/directives/navigationDirective.js which loads multiple graphics to create a navigation menu
 - svg service is used to perform the actual loading in scripts/app/services/svgService.js
 
 ## Setup

@@ -15,7 +15,7 @@
 "use strict";
 
 /**
- * Implement the Angular application.
+ * Implement Angular application.
  */
 angular.module("zeroApp", ["ngRoute"])
        .config(["$routeProvider", "$locationProvider", route]);

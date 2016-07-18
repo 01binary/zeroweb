@@ -1,14 +1,17 @@
 [
   {
-    "outputFileName": "wwwroot/css/site.min.css",
+    "outputFileName": "wwwroot/zero.min.css",
     "inputFiles": [
-      "wwwroot/css/site.css"
+      "Styles/*.css"
     ]
   },
   {
-    "outputFileName": "wwwroot/js/site.min.js",
+    "outputFileName": "wwwroot/zero.min.js",
     "inputFiles": [
-      "wwwroot/js/site.js"
+      "Scripts/jquery/dist/jquery.js",
+      "Scripts/angular/angular.js",
+      "Scripts/angular-route/angular-route.js",
+      "Scripts/app/*/*.js"
     ],
     "minify": {
       "enabled": true,

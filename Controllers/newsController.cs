@@ -26,5 +26,13 @@ namespace ZeroWeb.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Error action.
+        /// </summary>
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

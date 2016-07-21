@@ -12,17 +12,21 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-"use strict";
-    
-/**
- * Register news controller.
- */
-angular.module("zeroApp")
-       .controller("newsController", newsController);
+(function() {
 
-/**
- * Implement news controller.
- */
-function newsController()
-{
-}
+    "use strict";
+        
+    /**
+     * Register news controller.
+     */
+    angular.module("zeroApp")
+        .controller("newsController", newsController);
+
+    /**
+     * Implement news controller.
+     */
+    function newsController()
+    {
+    }
+
+})();

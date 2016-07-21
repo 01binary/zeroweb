@@ -12,51 +12,55 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-"use strict";
+(function() {
 
-/**
- * Implement Angular application.
- */
-angular.module("zeroApp", ["ngRoute"])
-       .config(["$routeProvider", "$locationProvider", route]);
+    "use strict";
 
-/**
- * Implement application routing.
- * @param {object} $routeProvider - Route configuration provider.
- * @param {object} $locationProvider - Location query provider.
- */
-function route($routeProvider, $locationProvider)
-{
-    $routeProvider
-        .when("/",
+    /**
+     * Implement Angular application.
+     */
+    angular.module("zeroApp", ["ngRoute"])
+        .config(["$routeProvider", "$locationProvider", route]);
+
+    /**
+     * Implement application routing.
+     * @param {object} $routeProvider - Route configuration provider.
+     * @param {object} $locationProvider - Location query provider.
+     */
+    function route($routeProvider, $locationProvider)
+    {
+        $routeProvider
+            .when("/",
+            {
+                templateUrl: "news",
+                controller: "newsController"
+            })
+            .when("/articles",
+            {
+                templateUrl: "articles",
+                controller: "articlesController"
+            })
+            .when("/projects",
+            {
+                templateUrl: "projects",
+                controller: "projectsController"
+            })
+            .when("/about",
+            {
+                templateUrl: "about",
+                controller: "aboutController"
+            })
+            .otherwise(
+            {
+                redirectTo: "/"
+            });
+        
+        $locationProvider.html5Mode(
         {
-            templateUrl: "views/news.htm",
-            controller: "newsController"
-        })
-        .when("/articles",
-        {
-            templateUrl: "views/articles.htm",
-            controller: "articlesController"
-        })
-        .when("/projects",
-        {
-            templateUrl: "views/projects.htm",
-            controller: "projectsController"
-        })
-        .when("/about",
-        {
-            templateUrl: "views/about.htm",
-            controller: "aboutController"
-        })
-        .otherwise(
-        {
-            redirectTo: "/"
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: true
         });
-    
-    $locationProvider.html5Mode(
-       {
-           enabled: true,
-           requireBase: false,
-           rewriteLinks: true
-       });
-}
+    }
+
+})();

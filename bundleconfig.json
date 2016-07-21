@@ -11,6 +11,7 @@
       "Scripts/jquery/dist/jquery.js",
       "Scripts/angular/angular.js",
       "Scripts/angular-route/angular-route.js",
+      "Scripts/app/*.js",
       "Scripts/app/*/*.js"
     ],
     "minify": {

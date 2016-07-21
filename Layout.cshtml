@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html data-ng-app="zeroApp">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>{{title}} - 01 Binary</title>
+        
+        <link rel="stylesheet" type="text/css" href="~/zero.min.css">
+        <script type="text/javascript" src="~/zero.min.js"></script>
+    </head>
+    
+    <body data-ng-cloak data-transition="fade">
+        <header>
+            <icon class="logo" data-src="images/banner.svg#logo">01</icon>
+            
+            <h1>binary : tech art</h1>
+            
+            <navigation data-src="images/banner.svg">
+                <a href="news">news</a>
+                <a href="articles">articles</a>
+                <a href="projects">projects</a>
+                <a href="about">about</a>
+            </navigation>
+        </header>
+        
+        <main data-ng-view>
+        </main>
+    </body>
+</html>

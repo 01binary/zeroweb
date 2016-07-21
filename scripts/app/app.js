@@ -32,22 +32,22 @@
         $routeProvider
             .when("/",
             {
-                templateUrl: "news",
+                templateUrl: "views/news",
                 controller: "newsController"
             })
             .when("/articles",
             {
-                templateUrl: "articles",
+                templateUrl: "views/articles",
                 controller: "articlesController"
             })
             .when("/projects",
             {
-                templateUrl: "projects",
+                templateUrl: "views/projects",
                 controller: "projectsController"
             })
             .when("/about",
             {
-                templateUrl: "about",
+                templateUrl: "views/about",
                 controller: "aboutController"
             })
             .otherwise(

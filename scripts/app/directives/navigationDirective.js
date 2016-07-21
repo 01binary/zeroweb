@@ -147,7 +147,7 @@
                     " navigation-afterselected" : "";
 
                 var selectedStyle =
-                    (prevSelected = $(this).attr("href") == next.templateUrl) ?
+                    (prevSelected = "views/" + $(this).attr("href") == next.templateUrl) ?
                     "navigation-selected" : "navigation-unselected";
 
                 var lastStyle = index == $buttons.length - 1 ?

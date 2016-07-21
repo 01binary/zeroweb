@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace ZeroWeb
 {
@@ -40,7 +41,23 @@ namespace ZeroWeb
                 app.UseExceptionHandler("/Home/Error");
             }
             
+            // Setup static resource routes.
             app.UseStaticFiles();
+
+            // Setup Angular redirects.
+            app.Use(async(context, next) =>
+            {
+                await next();
+
+                if (context.Response.StatusCode == 404 &&
+                    !Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "/";
+                    await next();
+                }
+            });
+
+            // Setup layout and partial routes.
             app.UseMvc(routes =>
             {
                 // Layout.
@@ -57,7 +74,7 @@ namespace ZeroWeb
                 // News.
                 routes.MapRoute(
                     name: "news",
-                    template: "news",
+                    template: "views/news",
                     defaults: new
                     {
                         controller = "News",
@@ -68,7 +85,7 @@ namespace ZeroWeb
                 // Articles.
                 routes.MapRoute(
                     name: "articles",
-                    template: "articles",
+                    template: "views/articles",
                     defaults: new
                     {
                         controller = "Articles",
@@ -79,7 +96,7 @@ namespace ZeroWeb
                 // Projects.
                 routes.MapRoute(
                     name: "projects",
-                    template: "projects",
+                    template: "views/projects",
                     defaults: new
                     {
                         controller = "Projects",
@@ -90,7 +107,7 @@ namespace ZeroWeb
                 // About.
                 routes.MapRoute(
                     name: "about",
-                    template: "about",
+                    template: "views/about",
                     defaults: new
                     {
                         controller = "About",

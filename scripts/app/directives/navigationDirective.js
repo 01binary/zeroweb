@@ -135,9 +135,11 @@
     {
         if (next.templateUrl)
         {
-            $rootScope.title = next.templateUrl[0].toUpperCase() +
-                next.templateUrl.substring(1);
+            // Update page title.
+            var page = next.templateUrl.substring(next.templateUrl.indexOf("/") + 1);
+            $rootScope.title = page[0].toUpperCase() + page.substring(1);
 
+            // Update navigation styles.
             var $buttons = $("nav a");
             var prevSelected = false;
 

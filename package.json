@@ -16,7 +16,7 @@
     "prestart": "npm install",
     "start": "dotnet run",
     "pretest": "npm install",
-    "test": "karma start karma.conf.js",
-    "ftest": "protractor protractor.conf.js"
+    "test": "karma start Scripts/Tests/karma.conf.js",
+    "ftest": "protractor Scripts/Tests/protractor.conf.js"
   }
 }

@@ -44,7 +44,7 @@ namespace ZeroWeb
             // Setup static resource routes.
             app.UseStaticFiles();
 
-            // Setup Angular redirects.
+            // Add middleware handler to redirect Angular routes to Startup controller.
             app.Use(async(context, next) =>
             {
                 await next();
@@ -60,7 +60,7 @@ namespace ZeroWeb
             // Setup layout and partial routes.
             app.UseMvc(routes =>
             {
-                // Layout.
+                // Default route redirects to Startup controller.
                 routes.MapRoute(
                     name: string.Empty,
                     template: string.Empty,

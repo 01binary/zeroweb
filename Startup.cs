@@ -1,31 +1,65 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  Application startup.
+|----------------------------------------------------------
+|  Copyright(C) 2016 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.IO;
+using ZeroWeb.Models;
 
 namespace ZeroWeb
 {
+    /// <summary>
+    /// Application startup.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Initialize configuration.
+        /// </summary>
+        /// <param name="env">The hosting environment.
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
         public IConfigurationRoot Configuration { get; }
 
+        /// <summary>
+        /// Configures the injection container.
+        /// </summary>
+        /// <param name="services">The IoC container interface.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddOptions();
+            services.AddSingleton<IConfiguration>(this.Configuration);
+            services.AddDbContext<Context>();
         }
         
+        /// <summary>
+        /// Configures the injected dependencies.
+        /// </summary>
+        /// <param name="app">
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));

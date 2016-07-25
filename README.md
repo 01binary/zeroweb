@@ -35,6 +35,6 @@ A working website prototype using ASP.net core to render layout page and partial
 - Visual Studio Code is recommended for opening this folder
 - npm install to restore Node.js packages (Bower, Jasmine, Karma, and Protractor)
 - bower install to restore Bower packages (Angular, Angular Route, and jQuery)
-- dotnet install to restore NuGet packages
+- dotnet restore to restore NuGet packages
 - dotnet run to start ASP.net Core engine
 - Navigate to http://localhost:5000/ to see the site

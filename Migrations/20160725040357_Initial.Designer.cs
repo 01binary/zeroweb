@@ -8,13 +8,40 @@ using ZeroWeb.Models;
 namespace zeroweb.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20160725005005_Initial")]
+    [Migration("20160725040357_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+
+            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int?>("ItemId");
+
+                    b.Property<bool>("Published");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Comments");
+                });
 
             modelBuilder.Entity("ZeroWeb.Models.SiteItem", b =>
                 {
@@ -85,10 +112,14 @@ namespace zeroweb.Migrations
                         .HasColumnType("char")
                         .HasAnnotation("MaxLength", 16);
 
+                    b.Property<int>("ParentId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Tags");
                 });
@@ -176,6 +207,13 @@ namespace zeroweb.Migrations
                     b.ToTable("TaskMetadata");
                 });
 
+            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.SiteItem", "Item")
+                        .WithMany("Comments")
+                        .HasForeignKey("ItemId");
+                });
+
             modelBuilder.Entity("ZeroWeb.Models.SiteItem", b =>
                 {
                     b.HasOne("ZeroWeb.Models.Tag", "Author")
@@ -194,6 +232,14 @@ namespace zeroweb.Migrations
                     b.HasOne("ZeroWeb.Models.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Tag", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Tag", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

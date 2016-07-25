@@ -18,7 +18,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZeroWeb.Models
 {
     /// <summary>
-    /// News story, article, or project.
+    /// News story, article, project, or about page.
     /// </summary>
     [Table("SiteItems")]
     public class SiteItem
@@ -43,6 +43,11 @@ namespace ZeroWeb.Models
         /// Gets or sets the item metadata.
         /// </summary>
         public ICollection<SiteItemMetadata> Metadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets the item comments.
+        /// </summary>
+        public ICollection<Comment> Comments { get; set; }
 
         /// <summary>
         /// Gets or sets the project tasks if this article is a project.

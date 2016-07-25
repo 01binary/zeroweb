@@ -65,14 +65,20 @@ namespace ZeroWeb.Models
             modelBuilder.Entity<Tag>()
                         .HasIndex(tag => tag.Name)
                         .IsUnique(true);
+
+            // Create foreign key from Tag.ParentId to Tag.Id.
+            modelBuilder.Entity<Tag>()
+                        .HasOne(tag => tag.Parent)
+                        .WithMany()
+                        .HasForeignKey(tag => tag.ParentId);
             
-            // Create foreign key from Task.Parent to Task.Id.
+            // Create foreign key from Task.ParentId to Task.Id.
             modelBuilder.Entity<Task>()
                         .HasOne(task => task.Parent)
                         .WithMany()
                         .HasForeignKey(task => task.ParentId);
 
-            // Create foreign key from Task.Dependency to Task.Id.
+            // Create foreign key from Task.DependencyId to Task.Id.
             modelBuilder.Entity<Task>()
                         .HasOne(task => task.Dependency)
                         .WithMany()

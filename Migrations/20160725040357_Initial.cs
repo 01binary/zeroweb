@@ -15,11 +15,18 @@ namespace zeroweb.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     Description = table.Column<string>(type: "char", maxLength: 128, nullable: true),
-                    Name = table.Column<string>(type: "char", maxLength: 16, nullable: false)
+                    Name = table.Column<string>(type: "char", maxLength: 16, nullable: false),
+                    ParentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tags_Tags_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,6 +51,29 @@ namespace zeroweb.Migrations
                         principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Author = table.Column<string>(type: "char", maxLength: 64, nullable: false),
+                    Content = table.Column<string>(maxLength: 256, nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ItemId = table.Column<int>(nullable: true),
+                    Published = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_SiteItems_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "SiteItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -166,6 +196,11 @@ namespace zeroweb.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_ItemId",
+                table: "Comments",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SiteItems_AuthorId",
                 table: "SiteItems",
                 column: "AuthorId");
@@ -190,6 +225,11 @@ namespace zeroweb.Migrations
                 table: "Tags",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_ParentId",
+                table: "Tags",
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_DependencyId",
@@ -229,6 +269,9 @@ namespace zeroweb.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Comments");
+
             migrationBuilder.DropTable(
                 name: "SiteItemMetadata");
 

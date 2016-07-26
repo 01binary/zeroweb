@@ -4,161 +4,161 @@ Use the following directly in HTML5 or Markdown to extend page content:
 
 ## icon (element)
 
-    ### example
+### example
 
     <icon data-src="images/vectorimage.svg">Fallback content</icon>
 
-    ### summary
+### summary
 
-    Replaces the element with inline <svg> fragment before content is shown.
+Replaces the element with inline <svg> fragment before content is shown.
 
-    ### source
+### source
 
-    See ../Scripts/app/directives/iconDirective.js
+See ../Scripts/app/directives/iconDirective.js
 
 ## navigation (element)
 
-    ### example
+### example
 
     <navigation data-src="images/symbolset.svg"><a ...><a ...><a ...></navigation>
 
-    ### summary
+### summary
 
-    Replaces the element with <nav> HTML5 element and loads nested <svg><use></use></svg> fragments under each <a> child.
-    All <use> references refer to an inline <svg> fragment loaded with AJAX and pre-pended to document body, which contains multiple <symbol> elements that can be referenced.
+Replaces the element with <nav> HTML5 element and loads nested <svg><use></use></svg> fragments under each <a> child.
+All <use> references refer to an inline <svg> fragment loaded with AJAX and pre-pended to document body, which contains multiple <symbol> elements that can be referenced.
 
-    For each <a> under <navigation>, the following symbols are referenced from the symbol set:
+For each <a> under <navigation>, the following symbols are referenced from the symbol set:
 
-    - matte
-    - hover
-    - border
-    - highlight
-    - icon
-    - selection
+- matte
+- hover
+- border
+- highlight
+- icon
+- selection
 
-    The full name of the reference is in the form:
+The full name of the reference is in the form:
 
-    #button_name-element_name
+#button_name-element_name
 
-    Where:
-    
-    - button_name is the text found inside each <a></a> under <navigation>
-    - element_name is one of above listed elements such as "matte"
+Where:
 
-    Additionally, the following CSS styles are applied to <a> elements by Angular route change handler installed by this directive:
+- button_name is the text found inside each <a></a> under <navigation>
+- element_name is one of above listed elements such as "matte"
 
-    - navigation (CSS class applied to all <a> children)
-    - navigation-selected (CSS class applied to <a> corresponding to current Angular route)
-    - navigation-unselected (CSS class applied to <a>'s not related to current route)
-    - navigation-last (CSS class applied to last <a> under <navigation>)
-    - navigation-afterselected (CSS class applied to next <a> sibling of the <a> that corresponds to current route)
+Additionally, the following CSS styles are applied to <a> elements by Angular route change handler installed by this directive:
 
-    ### source
+- navigation (CSS class applied to all <a> children)
+- navigation-selected (CSS class applied to <a> corresponding to current Angular route)
+- navigation-unselected (CSS class applied to <a>'s not related to current route)
+- navigation-last (CSS class applied to last <a> under <navigation>)
+- navigation-afterselected (CSS class applied to next <a> sibling of the <a> that corresponds to current route)
 
-    See ../Scripts/app/directives/navigationDirective.js
+### source
+
+See ../Scripts/app/directives/navigationDirective.js
 
 ## pointer (attribute)
 
-    ### example
+### example
 
     <h1 data-pointer>projects</h1>
 
-    ### summary
+### summary
 
-    Prepends a 2d <canvas> to element this attribute is applied to, and draws an arrow pointing from navigation button corresponding to current Angular route to this element.
-    Commonly used on headers in partial views.
+Prepends a 2d <canvas> to element this attribute is applied to, and draws an arrow pointing from navigation button corresponding to current Angular route to this element.
+Commonly used on headers in partial views.
 
-    ### source
+### source
 
-    See ../Scripts/app/directives/pointerDirective.js
+See ../Scripts/app/directives/pointerDirective.js
 
 ## transition (attribute)
 
-    ### example
+### example
 
     <body data-ng-cloak data-transition="fade">
 
-    ### summary
+### summary
 
-    Used on cloaked Angular containers to apply a simple transition on single page application first load. This reduces harsh effects from page blinking into existance.
+Used on cloaked Angular containers to apply a simple transition on single page application first load. This reduces harsh effects from page blinking into existance.
 
-    ### source
+### source
 
-    See ../Scripts/app/directives/transitionDirective.js
+See ../Scripts/app/directives/transitionDirective.js
 
 ## thumbnail (attribute)
 
-    ### example
+### example
 
     <img data-thumbnail src="..."></img>
 
-    ### summary
+### summary
 
-    Used on site items tagged with "story", "article", or "project" to define a thumbnail to be displayed when listing the item without displaying its full content.
+Used on site items tagged with "story", "article", or "project" to define a thumbnail to be displayed when listing the item without displaying its full content.
 
-    ### source
+### source
 
-    Not yet implemented
+Not yet implemented
 
 ## step (attribute)
 
-    ### example
+### example
 
     <h2 data-step="1">Prepare the Walrus</h2>
     <h2 data-step="2">Wash the Walrus</h2>
 
-    ### summary
+### summary
 
-    Used on sub-headers in site items tagged with "article" to define a tutorial that consists of discrete steps.
-    This could be used to display a sidebar with links to the steps, automatically create named anchors, etc.
+Used on sub-headers in site items tagged with "article" to define a tutorial that consists of discrete steps.
+This could be used to display a sidebar with links to the steps, automatically create named anchors, etc.
 
-    ### source
+### source
 
-    Not yet implemented.
+Not yet implemented.
 
 ## time (attribute)
 
-    ### example
+### example
 
     <h2 data-step="1" data-time="00:00:30">Make a 2" cut on metal bar</h2>
 
-    ### summary
+### summary
 
-    Used on sub-headers in site items tagged with "article" to define a tutorial that consists of discrete steps.
-    This is a hint to the reader on how much time they can expect to spend on this step, and could be used to display an overlay that displays the "time offset into tutorial" as user scrolls.
-    For example, when user scrolls past the first two steps marked with "00:00:30" and "00:02:00" they can be shown a hint that says how much time they have left to go versus sum of all steps.
+Used on sub-headers in site items tagged with "article" to define a tutorial that consists of discrete steps.
+This is a hint to the reader on how much time they can expect to spend on this step, and could be used to display an overlay that displays the "time offset into tutorial" as user scrolls.
+For example, when user scrolls past the first two steps marked with "00:00:30" and "00:02:00" they can be shown a hint that says how much time they have left to go versus sum of all steps.
 
-    ### source
+### source
 
-    Not yet implemented
+Not yet implemented
 
 ## reference (attribute)
 
-    ### example
+### example
     
     <a href="..." data-reference>Material safety data sheet</a>
 
-    ### summary
+### summary
 
-    Used on hyperlinks for site items tagged with "article" to define a reference. For example, referring reader to more information about a subject from an article on that subject.
-    This can be used as a hint to display a sidebar with a list of references.
+Used on hyperlinks for site items tagged with "article" to define a reference. For example, referring reader to more information about a subject from an article on that subject.
+This can be used as a hint to display a sidebar with a list of references.
 
-    ### source
+### source
 
-    Not yet implemented
+Not yet implemented
 
 ## prerequisite (attribute)
 
-    ### example
+### example
 
     <a href="..." data-prerequisite>Metal sheers</a>
     <a href="..." data-prerequisite>Work gloves</a>
 
-    ### summary
+### summary
 
-    Used on hyperlinks for site items tagged with "article" to define a prerequisite. For example, listing items required before attempting a tutorial.
-    This can be used as a hint to display a sidebar with a list of prerequisite.
+Used on hyperlinks for site items tagged with "article" to define a prerequisite. For example, listing items required before attempting a tutorial.
+This can be used as a hint to display a sidebar with a list of prerequisite.
 
-    ### source
+### source
 
-    Not yet implemented
+Not yet implemented

@@ -21,10 +21,11 @@
     - database
     - cad
     - industrial
-+ theory
-    - physics
-    - math
-    - logic
++ it
+    - sql
++ art
+    - music
+    - painting
 
 ## Authors and Resources
 

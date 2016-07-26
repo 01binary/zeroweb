@@ -8,7 +8,7 @@ using ZeroWeb.Models;
 namespace zeroweb.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20160725040357_Initial")]
+    [Migration("20160726030520_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,8 @@ namespace zeroweb.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("ItemId");
+                    b.Property<int?>("ItemId")
+                        .IsRequired();
 
                     b.Property<bool>("Published");
 
@@ -112,7 +113,7 @@ namespace zeroweb.Migrations
                         .HasColumnType("char")
                         .HasAnnotation("MaxLength", 16);
 
-                    b.Property<int>("ParentId");
+                    b.Property<int?>("ParentId");
 
                     b.HasKey("Id");
 
@@ -211,7 +212,8 @@ namespace zeroweb.Migrations
                 {
                     b.HasOne("ZeroWeb.Models.SiteItem", "Item")
                         .WithMany("Comments")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ZeroWeb.Models.SiteItem", b =>
@@ -239,8 +241,7 @@ namespace zeroweb.Migrations
                 {
                     b.HasOne("ZeroWeb.Models.Tag", "Parent")
                         .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("ZeroWeb.Models.Task", b =>

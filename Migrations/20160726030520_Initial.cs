@@ -16,7 +16,7 @@ namespace zeroweb.Migrations
                         .Annotation("Autoincrement", true),
                     Description = table.Column<string>(type: "char", maxLength: 128, nullable: true),
                     Name = table.Column<string>(type: "char", maxLength: 16, nullable: false),
-                    ParentId = table.Column<int>(nullable: false)
+                    ParentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,7 +26,7 @@ namespace zeroweb.Migrations
                         column: x => x.ParentId,
                         principalTable: "Tags",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,7 +62,7 @@ namespace zeroweb.Migrations
                     Author = table.Column<string>(type: "char", maxLength: 64, nullable: false),
                     Content = table.Column<string>(maxLength: 256, nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
-                    ItemId = table.Column<int>(nullable: true),
+                    ItemId = table.Column<int>(nullable: false),
                     Published = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -73,7 +73,7 @@ namespace zeroweb.Migrations
                         column: x => x.ItemId,
                         principalTable: "SiteItems",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

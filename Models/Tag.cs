@@ -30,7 +30,7 @@ namespace ZeroWeb.Models
         /// <summary>
         /// Gets or sets the parent foreign key.
         /// </summary>
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         /// <summary>
         /// Gets or sets the parent tag.

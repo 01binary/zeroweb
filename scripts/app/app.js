@@ -8,6 +8,7 @@
 |  @file Application module
 |  @requires ../angular/angular.js
 |  @requires ../angular-route/angular-route.js
+|  @requires ../angular-route/angular-resource.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -19,8 +20,8 @@
     /**
      * Implement Angular application.
      */
-    angular.module("zeroApp", ["ngRoute"])
-        .config(["$routeProvider", "$locationProvider", route]);
+    angular.module("zeroApp", ["ngRoute", "ngResource"])
+           .config(["$routeProvider", "$locationProvider", route]);
 
     /**
      * Implement application routing.
@@ -33,22 +34,26 @@
             .when("/",
             {
                 templateUrl: "views/news",
-                controller: "newsController"
+                controller: "newsController",
+                controllerAs: "news"
             })
             .when("/articles",
             {
                 templateUrl: "views/articles",
-                controller: "articlesController"
+                controller: "articlesController",
+                controllerAs: "articles"
             })
             .when("/projects",
             {
                 templateUrl: "views/projects",
-                controller: "projectsController"
+                controller: "projectsController",
+                controllerAs: "projects"
             })
             .when("/about",
             {
                 templateUrl: "views/about",
-                controller: "aboutController"
+                controller: "aboutController",
+                controllerAs: "about"
             })
             .otherwise(
             {

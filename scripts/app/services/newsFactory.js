@@ -5,8 +5,9 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Projects controller.
-|  @requires ../../angular/angular-min.js
+|  @file Factory that loads news stories.
+|  @requires ../angular/angular.js
+|  @requires ../angular-resource/angular-resource.js
 |  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
@@ -15,18 +16,20 @@
 (function() {
 
     "use strict";
-        
-    /**
-     * Register projects controller.
-     */
-    angular.module("zeroApp")
-           .controller("projectsController", projectsController);
 
     /**
-     * Implement projects controller.
+     * Register news factory.
      */
-    function projectsController()
+    angular.module("zeroApp")
+           .factory("news", ["$resource", newsFactory]);
+
+    /**
+     * Implement news factory.
+     * @param {object} $resource - AJAX service.
+     */
+    function newsFactory($resource)
     {
+        return $resource("/services/news");
     }
 
 })();

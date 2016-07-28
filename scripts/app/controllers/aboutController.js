@@ -20,7 +20,7 @@
      * Register about controller.
      */
     angular.module("zeroApp")
-        .controller("aboutController", aboutController);
+	       .controller("aboutController", aboutController);
 
     /**
      * Implement about controller.

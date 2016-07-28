@@ -19,7 +19,7 @@
      * Register render2d service.
      */
     angular.module("zeroApp")
-        .service("render2d", render2dService);
+           .service("render2d", render2dService);
 
     /**
      * Implement render2d service.

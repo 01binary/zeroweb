@@ -20,7 +20,7 @@
      * Register articles controller.
      */
     angular.module("zeroApp")
-        .controller("articlesController", articlesController);
+           .controller("articlesController", articlesController);
 
     /**
      * Implement articles controller.

@@ -38,7 +38,7 @@ For each <a> under <navigation>, the following symbols are referenced from the s
 
 The full name of the reference is in the form:
 
-#button_name-element_name
+    #button_name-element_name
 
 Where:
 
@@ -56,6 +56,22 @@ Additionally, the following CSS styles are applied to <a> elements by Angular ro
 ### source
 
 See ../Scripts/app/directives/navigationDirective.js
+
+## markdown (element)
+
+### example
+
+    <markdown>### This is heading3!</markdown>
+
+### summary
+
+Replaces the element with a div that contains formatted text resolved using **markdown-it** parser.
+Angular expressions (such as binds) are supported inside the markdown element and resolved using $compile before the parser.
+
+### source
+
+See ../Scripts/app/directives/markdownDirective.js
+See ../Scripts/markdown-it/dist/markdown-it.js
 
 ## pointer (attribute)
 

@@ -28,7 +28,7 @@ namespace ZeroWeb.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="Context"/> class.
         /// </summary>
-        /// <param name="configuration">
+        /// <param name="configuration">The application configuration</param>
         public Context(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -38,6 +38,11 @@ namespace ZeroWeb.Models
         /// Gets or sets news, articles, and projects.
         /// </summary>
         public DbSet<SiteItem> SiteItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tag taxonomy.
+        /// </summary>
+        public DbSet<Tag> Tags { get; set; }
 
         /// <summary>
         /// Configures the context.

@@ -21,7 +21,7 @@
      * Register navigation directive.
      */
     angular.module("zeroApp")
-        .directive("navigation", ["svg", "$rootScope", navigationDirective]);
+           .directive("navigation", ["svg", "$rootScope", navigationDirective]);
 
     /**
      * Implement navigation directive.

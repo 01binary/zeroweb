@@ -54,6 +54,8 @@ namespace ZeroWeb
             services.AddOptions();
             services.AddSingleton<IConfiguration>(this.Configuration);
             services.AddDbContext<Context>();
+            services.AddSingleton(typeof(IDataStore), typeof(SiteDataStore));
+            
         }
         
         /// <summary>

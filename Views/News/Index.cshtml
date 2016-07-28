@@ -1,7 +1,13 @@
-<h1 data-pointer>news</h1>
+<h1 data-pointer data-markdown>news</h1>
 
-<p>The news page will display calendar chart with stacked series for tags, and load all the news article heads.</p>
+<!-- Call WebAPI once to return news heads, then load content and thumbnails -->
 
-<h2>entry</h2>
-
-<p>This is an example news update.</p>
+<div data-ng-repeat="story in news.stories">
+    <p>{{story.title}}</p>
+    <p>{{story.date}}</p>
+    <p>by {{story.author}}</p>
+    <p>
+        <span data-ng-repeat="tag in story.tags">{{tag}}&nbsp;</span>
+    </p>
+    <markdown>{{story.content}}</markdown>
+</div>

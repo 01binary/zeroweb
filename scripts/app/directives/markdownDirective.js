@@ -36,10 +36,10 @@
             scope: {},
             link: function($scope, $element, attributes)
             {
-                if ($element.attr("inline"))
+                if (attributes["inline"] != undefined)
                 {
                     // Process static contents.
-                    $element.html(window.markdownit().render($element.html()));
+                    $element.html(window.markdownit().render($element.text()));
                 }
                 else
                 {

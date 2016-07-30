@@ -61,16 +61,20 @@ See ../Scripts/app/directives/navigationDirective.js
 
 ### example
 
-    <markdown>### This is heading3!</markdown>
+    <markdown data-inline>### This is heading3!</markdown>
+
+    <markdown>{{markdownBinding}}</markdown>
 
 ### summary
 
 Replaces the element with a div that contains formatted text resolved using **markdown-it** parser.
+
 Angular expressions (such as binds) are supported inside the markdown element and resolved using $compile before the parser.
 
 ### source
 
 See ../Scripts/app/directives/markdownDirective.js
+
 See ../Scripts/markdown-it/dist/markdown-it.js
 
 ## pointer (attribute)

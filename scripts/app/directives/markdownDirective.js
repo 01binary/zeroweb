@@ -36,8 +36,31 @@
             scope: {},
             link: function($scope, $element, attributes)
             {
-                // Resolve expressions, transform to markdown, and replace DOM with result.
-                $element.html(window.markdownit().render($compile($element.text())));
+                if ($element.attr("inline"))
+                {
+                    // Process static contents.
+                    $element.html(window.markdownit().render($element.html()));
+                }
+                else
+                {
+                    // Watch binding expression and process when bindings are resolved.
+                    $scope.originalText = $element.text();
+                    $scope.stopWatching = $scope.$watch
+                    (
+                        function()
+                        {
+                            return $element.text();
+                        },
+                        function(value)
+                        {
+                            if ($scope.originalText == value)
+                                return;
+
+                            $element.html(window.markdownit().render(value));
+                            $scope.stopWatching();
+                        }
+                    );
+                }
             }
         };
     }

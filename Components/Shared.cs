@@ -30,6 +30,16 @@ namespace ZeroWeb
         }
 
         /// <summary>
+        /// Format a tag to enforce content transformation policy.
+        /// </summary>
+        /// <param name="tagName">The tag to format.</param>
+        /// <returns>The formatted tag.</returns>
+        public static string FormatTag(string tagName)
+        {
+            return tagName.ToLower();
+        }
+
+        /// <summary>
         /// Format a date for end user display.
         /// </summary>
         /// <param name="date">The date to format</param>
@@ -40,31 +50,32 @@ namespace ZeroWeb
             {
                 if (date.Month == DateTime.Today.Month)
                 {
-                    DateTime weekStart = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + 1);
-                    DateTime weekEnd = weekStart.AddDays(7);
-
-                    if (date >= weekStart && date <= weekEnd)
+                    if (date.Date == DateTime.Today)
                     {
-                        if (date.Date == DateTime.Today)
-                        {
-                            // Today but different time.
-                            return date.ToString("h:MM tt") + " today";
-                        }
-                        else
+                        // Today but different time.
+                        return string.Format("{0} today", date.ToString("h:mm tt")).ToLower();
+                    }
+                    else
+                    {
+                        DateTime weekStart = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ?
+                            DateTime.Today.AddDays(-6) :
+                            DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek - 1);
+
+                        if (date >= weekStart)
                         {
                             // Another day this week.
-                            return date.ToString("ddd").ToLower() + " at " + date.ToString("h:MM tt");
+                            return string.Format("{0} at {1}", date.ToString("ddd"), date.ToString("h:mm tt")).ToLower();
                         }
                     }
                 }
 
                 // This month or this year.
-                return date.ToString("mm/dd h:MM tt");
+                return date.ToString("M/d h:mm tt").ToLower();
             }
             else
             {
                 // Display the full date.
-                return date.ToString("mm/dd/yy h:MM tt");
+                return date.ToString("M/d/yy h:mm tt").ToLower();
             }
         }
     }

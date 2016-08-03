@@ -136,8 +136,11 @@
         if (next.templateUrl)
         {
             // Update page title.
+            if (!this.baseTitle)
+                this.baseTitle = $("title").text();
+
             var page = next.templateUrl.substring(next.templateUrl.indexOf("/") + 1);
-            $rootScope.title = page[0].toUpperCase() + page.substring(1);
+            $("title").text(page[0].toUpperCase() + page.substring(1) + " - " + this.baseTitle);
 
             // Update navigation styles.
             var $buttons = $("nav a");

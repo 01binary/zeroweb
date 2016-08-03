@@ -140,9 +140,7 @@ main
 
     width: 95%;
     
-    /* Geneva is available only on Mac */
-    /* Segoe UI is available only on PC */
-    font-family: "Geneva", "Segoe UI", sans-serif;
+    font-family: "Segoe UI", "Verdana", sans-serif;
     font-size: 10pt;
 }
 
@@ -151,13 +149,13 @@ main:before
     content: "{";
     font-family: arial;
     font-size: 45pt;
-    color: #EEEEEE;
+    color: lightgray;
     
     float: left;
     position: relative;
     left: -29px;
     top: 26pt;
-    width:0;
+    width: 0;
 }
 
 main:after
@@ -165,7 +163,7 @@ main:after
     content: "}";
     font-family: arial;
     font-size: 45pt;
-    color: #EEEEEE;
+    color: lightgray;
     
     position: relative;
     top: -1em;
@@ -334,4 +332,105 @@ body
     float: left;
     left: -12px;
     color: #12C0E1;
+}
+
+.tags
+{
+    font-size: 0;
+}
+
+.tag
+{
+    display: inline-block;
+    font-size: 9pt;
+    color: #127191;
+    background: #E3EBEC;
+    padding-top: 3.5pt;
+    padding-bottom: 3.5pt;
+    padding-left: 5.5pt;
+    padding-right: 5pt;
+    margin-left: 2pt;
+    margin-right: 2pt;
+    margin-top: -4pt;
+    cursor: pointer;
+}
+
+.tag:before
+{
+    content: "";
+    position: absolute;
+    border-top: 8pt solid transparent;
+    border-left: 8pt solid white;
+    margin-left: -6.5pt;
+    margin-top: 8pt;
+    cursor: default;
+}
+
+.tag:after
+{
+    content: "";
+    position: absolute;
+    float: right;
+    border-bottom: 8pt solid transparent;
+    border-right: 8pt solid white;
+    margin-left: -2pt;
+    margin-top: -4.5pt;
+    cursor: default;
+    cursor: default;
+}
+
+.author
+{
+    color: #127191;
+    border-bottom: 1px dotted #127191;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.metadata
+{
+    font-family: "Segoe UI", "Verdana", sans-serif;
+    font-size: 9pt;
+    color: #848d95;
+    margin-top: -4pt;
+    margin-bottom: -5pt;
+}
+
+.article
+{
+    border-bottom: 1px dotted #B5D9E3;
+}
+
+.placeholder
+{
+    color: #127191;
+    background: #E3EBEC;
+    padding-left: 5pt;
+    padding-right: 5pt;
+    padding-top: 3pt;
+    padding-bottom: 3pt;
+}
+
+.placeholder:before
+{
+    content: "";
+    position: absolute;
+    border-top: 8pt solid transparent;
+    border-left: 8pt solid white;
+    margin-left: -6.5pt;
+    margin-top: 8pt;
+    cursor: default;
+}
+
+.placeholder:after
+{
+    content: "";
+    position: absolute;
+    float: right;
+    border-bottom: 8pt solid transparent;
+    border-right: 8pt solid white;
+    margin-left: -2pt;
+    margin-top: -4.5pt;
+    cursor: default;
+    cursor: default;
 }

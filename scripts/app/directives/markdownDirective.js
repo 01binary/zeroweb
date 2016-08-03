@@ -44,7 +44,7 @@
                 else
                 {
                     // Watch binding expression and process when bindings are resolved.
-                    $scope.originalText = $element.text();
+                    $scope.unresolvedText = $element.text();
                     $scope.stopWatching = $scope.$watch
                     (
                         function()
@@ -53,8 +53,11 @@
                         },
                         function(value)
                         {
-                            if ($scope.originalText == value)
+                            if ($scope.unresolvedText == value ||
+                                attributes["ignore"] == value)
+                            {
                                 return;
+                            }
 
                             $element.html(window.markdownit().render(value));
                             $scope.stopWatching();

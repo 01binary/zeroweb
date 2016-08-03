@@ -35,57 +35,57 @@
         this.newsFactory = $news;
 
         /**
-         * News stories.
-         * @type {object[]}
-         */
-        this.stories = [];
-
-        /**
-         * Whether loading stories.
-         * @type {bool}
-         */
-        this.loadingStories = false;
-
-        /**
-         * Error message if failed to load.
-         */
-        this.loadingStoriesError = "";
-
-        /**
-         * Load stories.
+         * Load news story content.
          * @type {function}
          */
-        this.loadStories = loadStories;
+        this.loadStory = loadStory;
 
         /**
-         * Initialize controller.
+         * Load news story content.
+         * @param {int} storyId - The story Id.
          */
-        this.loadStories();
-
-        /**
-         * Load stories.
-         */
-        function loadStories()
+        function loadStory(storyId)
         {
-            this.loadingStories = true;
+            if (!this.loading)
+            {
+                // Keep track of loading state for each story Id.
+                this.loading = {};
+            }
 
-            this.newsFactory.query(
-                {},
+            this.newsFactory.get(
+                {
+                    // Request markdown content for this story.
+                    id: storyId
+                },
 
                 function(result)
                 {
-                    this.stories = result;
-                    this.loadingStories = false;
+                    // Story content finished loading.
+                    this[storyId] = result.content;
+                    this.loading[storyId] = false;
 
                 }.bind(this),
 
                 function(error)
                 {
-                    this.loadingStoriesError = error;
-                    this.loadingStories = false;
+                    // Error loading story content.
+                    this.loading[storyId] = false;
+
+                    if (error.statusText)
+                    {
+                        this[storyId] = "[" + error.status + "] " +
+                            error.statusText;
+                    }
+                    else
+                    {
+                        this[storyId] = error;
+                    }
                     
                 }.bind(this)
             );
+
+            this[storyId] = "";
+            this.loading[storyId] = true;
         }
     }
 

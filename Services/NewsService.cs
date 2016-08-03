@@ -10,6 +10,7 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,50 +25,61 @@ namespace ZeroWeb.API
         /// <summary>
         /// The site data store.
         /// </summary>
-        IDataStore store;
+        IServiceProvider services;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewsService"/> class.
         /// </summary>
-        /// <param name="store">The data store.</param>
-        public NewsService(IDataStore store)
+        /// <param name="services">The application container.</param>
+        public NewsService(IServiceProvider services)
         {
-            this.store = store;
+            this.services = services;
         }
 
         /// <summary>
         /// Gets the news stories.
         /// </summary>
-        public IActionResult Get()
+        public IActionResult GetStories()
         {
-            // TODO: Store should support getting items with tags.
-            // Find the news story tag.
-            var newsTag = this.store.Tags.Where(
-                tag => tag.Name == "story").FirstOrDefault();
+            IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+            string excludeTag = Tags.Story.ToString().ToLower();
 
-            // Return an empty list if could not find the tag.
-            if (newsTag == null)
-            {
-                return Json(new object[0]);
-            }
-
-            // Return site items with the news story tag.
-            return Json(this.store.SiteItems
-                .Where(item =>
-                    item.Published == true &&
-                    item.Metadata.Count(metadata => metadata.Tag == newsTag) > 0
-                )
-                .Select(story => new
+            return Json(
+                store.GetItems(Tags.Story).Select(result => new 
                 {
-                    id = story.Id,
-                    title = Shared.FormatTitle(story.Title),
-                    date = Shared.FormatDate(story.Date),
-                    author = story.Author.Name,
-                    thumbnail = story.Thumbnail,
-                    content = story.Content,
-                    tags = story.Metadata.Where(metadata => metadata.Tag != newsTag)
-                                         .Select(metadata => metadata.Tag.Name)
-                }).ToList());
+                    id = result.Id,
+                    title = result.Title,
+                    date = result.Date,
+                    author = result.Author.Name,
+                    tags = result.Metadata.Where(metadata => metadata.Tag.Name != excludeTag)
+                                          .Select(metadata => metadata.Tag.Name),
+                    content = result.Content
+                }).ToArray().Select(final => new
+                {
+                    final.id,
+                    title = Shared.FormatTitle(final.title),
+                    date = Shared.FormatDate(final.date),
+                    author = final.author,
+                    tags = final.tags.Select(tagName => Shared.FormatTag(tagName)),
+                    content = final.content
+                }));
+        }
+
+        /// <summary>
+        /// Gets the news story markdown content.
+        /// </summary>
+        /// <param name="id">The story id</param>
+        [Route("{id}")]
+        public IActionResult GetStory(int id)
+        {
+            IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+
+            return NotFound();
+            
+            return Ok(new
+            {
+                store.GetItem(id).Content
+            });
         }
     }
 }

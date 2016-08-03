@@ -1,13 +1,22 @@
+@using ZeroWeb;
+
 <h1 data-pointer data-markdown>news</h1>
 
-<!-- Call WebAPI once to return news heads, then load content and thumbnails -->
-
-<div data-ng-repeat="story in news.stories">
-    <p>{{story.title}}</p>
-    <p>{{story.date}}</p>
-    <p>by {{story.author}}</p>
-    <p>
-        <span data-ng-repeat="tag in story.tags">{{tag}}&nbsp;</span>
+@foreach (var story in this.Model)
+{
+<div class="article">
+    <h2>@Shared.FormatTitle(story.title)</h2>
+    <p class="metadata">
+        <span class="date">@Shared.FormatDate(story.date)</span> by
+        <span class="author">@story.author</span>
+        <span class="tags">
+        @foreach (var tag in story.tags)
+        {
+            <span class="tag">@Shared.FormatTag(tag)</span>
+        }
+        </span>
     </p>
-    <markdown>{{story.content}}</markdown>
+    <p data-ng-show="news.loading[@story.id]"><span class="placeholder">[ loading... ]</span></p>
+    <markdown data-ng-init="news.loadStory(@story.id)" data-ignore="">{{news[@story.id]}}</markdown>
 </div>
+}

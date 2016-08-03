@@ -29,7 +29,7 @@
      */
     function newsFactory($resource)
     {
-        return $resource("/services/news");
+        return $resource("/services/news/:id");
     }
 
 })();

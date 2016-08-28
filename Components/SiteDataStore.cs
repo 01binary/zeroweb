@@ -11,6 +11,7 @@
 \*---------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using ZeroWeb.Models;
@@ -120,25 +121,25 @@ namespace ZeroWeb
 
             return this.context.SiteItems
                 .Where(byCount =>
-                       (
-                           byCount.Title.ToLower().Contains(searchLower) ||
-                           searchLower.Contains(byCount.Title.ToLower()) ||
-                           byCount.Content.ToLower().Contains(searchLower)
-                       ) &&
-                       byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byCount.Published)
+                    (
+                        byCount.Title.ToLower().Contains(searchLower) ||
+                        searchLower.Contains(byCount.Title.ToLower()) ||
+                        byCount.Content.ToLower().Contains(searchLower)
+                    ) &&
+                    byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    byCount.Published)
                 .OrderByDescending(order => order.Date)
                 .Take(count)
                 .Union(this.context.SiteItems
                 .Where(byDate =>
-                       (
-                            byDate.Title.ToLower().Contains(searchLower) ||
-                            searchLower.Contains(byDate.Title.ToLower()) ||
-                            byDate.Content.ToLower().Contains(searchLower)
-                       ) &&
-                       byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byDate.Date <= oldest &&
-                       byDate.Published))
+                    (
+                        byDate.Title.ToLower().Contains(searchLower) ||
+                        searchLower.Contains(byDate.Title.ToLower()) ||
+                        byDate.Content.ToLower().Contains(searchLower)
+                    ) &&
+                    byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    byDate.Date <= oldest &&
+                    byDate.Published))
                 .OrderByDescending(order => order.Date)
                 .Take(count);
         }
@@ -159,27 +160,27 @@ namespace ZeroWeb
 
             return this.context.SiteItems
                 .Where(byCount =>
-                       (
-                           byCount.Title.ToLower().Contains(searchLower) ||
-                           searchLower.Contains(byCount.Title.ToLower()) ||
-                           byCount.Content.ToLower().Contains(searchLower)
-                       ) &&
-                       byCount.Author.Name == author &&
-                       byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byCount.Published)
+                    (
+                        byCount.Title.ToLower().Contains(searchLower) ||
+                        searchLower.Contains(byCount.Title.ToLower()) ||
+                        byCount.Content.ToLower().Contains(searchLower)
+                    ) &&
+                    byCount.Author.Name == author &&
+                    byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    byCount.Published)
                 .OrderByDescending(order => order.Date)
                 .Take(count)
                 .Union(this.context.SiteItems
                 .Where(byDate =>
-                       (
-                            byDate.Title.ToLower().Contains(searchLower) ||
-                            searchLower.Contains(byDate.Title.ToLower()) ||
-                            byDate.Content.ToLower().Contains(searchLower)
-                       ) &&
-                       byDate.Author.Name == author &&
-                       byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byDate.Date <= oldest &&
-                       byDate.Published))
+                    (
+                        byDate.Title.ToLower().Contains(searchLower) ||
+                        searchLower.Contains(byDate.Title.ToLower()) ||
+                        byDate.Content.ToLower().Contains(searchLower)
+                    ) &&
+                    byDate.Author.Name == author &&
+                    byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    byDate.Date <= oldest &&
+                    byDate.Published))
                 .OrderByDescending(order => order.Date)
                 .Take(count);
         }
@@ -217,10 +218,29 @@ namespace ZeroWeb
         /// <summary>
         /// Gets a site item.
         /// </summary>
+        /// <param name="id">The site item Id.</param>
         /// <returns>The site item requested or null if not found.</returns>
         public SiteItem GetItem(int id)
         {
-            return this.context.SiteItems.Where(item => item.Id == id).FirstOrDefault();
+            var result = this.context.SiteItems.Where(item => item.Id == id).FirstOrDefault();
+
+            if (result != null && result.Comments == null)
+            {
+                result.Comments = new List<Comment>();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the site item comments.
+        /// </summary>
+        /// <param name="id">The site item Id.</param>
+        /// <returns>The comments for the site item.</returns>
+        public IQueryable<Comment[]> GetItemComments(int id)
+        {
+            return this.context.SiteItems.Where(item => item.Id == id)
+                                         .Select(result => result.Comments.ToArray());
         }
 
         /// <summary>

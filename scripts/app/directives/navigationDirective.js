@@ -88,12 +88,12 @@
             // Scripted hovers due to poor CSS support.
             $(this).mouseenter(function()
             {
-                var $elem = $(this).find(".navigation-hover").stop().fadeIn("fast");
+                $(this).find(".navigation-hover").stop().fadeIn("fast");
             });
 
             $(this).mouseleave(function()
             {
-                var $elem = $(this).find(".navigation-hover").stop().fadeOut("fast");
+                $(this).find(".navigation-hover").stop().fadeOut("fast");
             });
 
             var buttonName = $(this).text();

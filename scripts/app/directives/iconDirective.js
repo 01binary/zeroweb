@@ -40,8 +40,25 @@
             },
             template: "<div></div>",
             link: function($scope, $element, attributes)
-            {   
-                $svgProvider.load($element, attributes.src, null, null);
+            {
+                $svgProvider.load(
+                    // Container element.
+                    $element,
+
+                    // SVG uri or SVG symbol set uri with symbol id after '#'.
+                    attributes.src,
+                    
+                    // Fallback group - not used for simple icons.
+                    null,
+                    
+                    // Class to apply - not used for simple icons.
+                    null,
+                    
+                    // Specify width if the container is a block style element.
+                    attributes.width,
+                    
+                    // Specify height if the container is a block style element.
+                    attributes.height);
             }
         };
     }

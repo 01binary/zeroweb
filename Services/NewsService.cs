@@ -51,7 +51,7 @@ namespace ZeroWeb.API
                     title = result.Title,
                     date = result.Date,
                     author = result.Author.Name,
-                    tags = result.Metadata.Where(metadata => metadata.Tag.Name != excludeTag)
+                    tags = result.Metadata.Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
                                           .Select(metadata => metadata.Tag.Name),
                     content = result.Content
                 }).ToArray().Select(final => new
@@ -73,13 +73,14 @@ namespace ZeroWeb.API
         public IActionResult GetStory(int id)
         {
             IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+            var item = store.GetItem(id);
 
-            return NotFound();
-            
-            return Ok(new
+            if (item == null)
             {
-                store.GetItem(id).Content
-            });
+                return NotFound();
+            }
+
+            return Ok(new { store.GetItem(id).Content });
         }
     }
 }

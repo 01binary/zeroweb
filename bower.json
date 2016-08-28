@@ -19,6 +19,7 @@
     "angular-mocks": "1.5.8",
     "angular-route": "1.5.8",
     "angular-resource": "1.5.8",
-    "markdown-it": "^7.0.0"
+    "markdown-it": "^7.0.0",
+    "jquery-ui": "^1.12.0"
   }
 }

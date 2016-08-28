@@ -1,3 +1,4 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
 <html data-ng-app="zeroApp">
     <head>
@@ -5,9 +6,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <title>01 Binary</title>
-        
+
         <link rel="stylesheet" type="text/css" href="~/zero.min.css">
-        <script type="text/javascript" src="~/zero.min.js"></script>
+        
+        <environment names="Development">
+            <script type="text/javascript" src="Scripts/app/integration/facebook.js"></script>
+
+            <script type="text/javascript" src="Scripts/jquery/dist/jquery.js"></script>
+            <script type="text/javascript" src="Scripts/jquery-ui/jquery-ui.js"></script>
+
+            <script type="text/javascript" src="Scripts/angular/angular.js"></script>
+            <script type="text/javascript" src="Scripts/angular-route/angular-route.js"></script>
+            <script type="text/javascript" src="Scripts/angular-resource/angular-resource.js"></script>
+
+            <script type="text/javascript" src="Scripts/markdown-it/dist/markdown-it.js"></script>
+
+            <script type="text/javascript" src="Scripts/app/app.js"></script>
+
+            <script type="text/javascript" src="Scripts/app/controllers/aboutController.js"></script>
+            <script type="text/javascript" src="Scripts/app/controllers/articlesController.js"></script>
+            <script type="text/javascript" src="Scripts/app/controllers/newsController.js"></script>
+            <script type="text/javascript" src="Scripts/app/controllers/projectsController.js"></script>
+
+            <script type="text/javascript" src="Scripts/app/directives/actionDirective.js"></script>
+            <script type="text/javascript" src="Scripts/app/directives/errorDirective.js"></script>
+            <script type="text/javascript" src="Scripts/app/directives/iconDirective.js"></script>
+            <script type="text/javascript" src="Scripts/app/directives/markdownDirective.js"></script>
+            <script type="text/javascript" src="Scripts/app/directives/navigationDirective.js"></script>
+            <script type="text/javascript" src="Scripts/app/directives/pointerDirective.js"></script>
+            <script type="text/javascript" src="Scripts/app/directives/tagDirective.js"></script>
+            <script type="text/javascript" src="Scripts/app/directives/transitionDirective.js"></script>
+
+            <script type="text/javascript" src="Scripts/app/factories/commentsFactory.js"></script>
+            <script type="text/javascript" src="Scripts/app/factories/newsFactory.js"></script>
+            <script type="text/javascript" src="Scripts/app/factories/usersFactory.js"></script>
+
+            <script type="text/javascript" src="Scripts/app/services/render2dService.js"></script>
+            <script type="text/javascript" src="Scripts/app/services/svgService.js"></script>
+            <script type="text/javascript" src="Scripts/app/services/loginService.js"></script>
+        </environment>
+        
+        <environment names="Staging,Production">
+            <script type="text/javascript" src="~/zero.min.js"></script>
+        </environment>
     </head>
     
     <body data-ng-cloak data-transition="fade">

@@ -5,6 +5,9 @@
   "description": "01 Binary Website",
   "devDependencies": {
     "bower": "^1.7.9",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",

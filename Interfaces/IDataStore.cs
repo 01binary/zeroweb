@@ -86,8 +86,16 @@ namespace ZeroWeb
         /// <summary>
         /// Gets a site item.
         /// </summary>
+        /// <param name="id">The site item Id.</param>
         /// <returns>The site item requested or null if not found.</returns>
         SiteItem GetItem(int id);
+
+        /// <summary>
+        /// Gets the site item comments.
+        /// </summary>
+        /// <param name="id">The site item Id.</param>
+        /// <returns>The comments for the site item.</returns>
+        IQueryable<Comment[]> GetItemComments(int id);
 
         /// <summary>
         /// Adds a new site item.

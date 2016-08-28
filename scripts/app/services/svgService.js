@@ -64,14 +64,16 @@
          * Prepend inline SVG fragment to container.
          * @param {object} $container - jQuery to prepend to.
          * @param {string} iconUri - Uri for ajax request, use '#' to specify symbol in set.
-         * @param {string} fallbackGroup - Fallback symbol if original doesn't exist.
-         * @param {string} classToApply - Set class on new element.
+         * @param {string} fallbackGroup - Fallback symbol if original doesn't exist (optional).
+         * @param {string} classToApply - Set class on new element (optional).
+         * @param {int} width - The width to set on the inline svg (optional).
+         * @param {int} height - The height to set on the inline svg (optional).
          * @returns {object} Promise that receives new SVG element.
          *
          * @example load($("#viewer), "images/tiger.svg")
          * @example load($("#panel), "images/symbol-set.svg#symbol-name", "fallback-symbol", "myclass")
          */
-        function load($container, iconUri, fallbackGroup, classToApply)
+        function load($container, iconUri, fallbackGroup, classToApply, width, height)
         {
             if (~iconUri.indexOf("#"))
             {
@@ -82,12 +84,14 @@
                     sourceComponents[0],
                     sourceComponents[1],
                     fallbackGroup,
-                    classToApply);
+                    classToApply,
+                    width,
+                    height);
             }
             else
             {
                 return this.loadIconFromFile(
-                    $container, iconUri, classToApply);
+                    $container, iconUri, classToApply, width, height);
             }
         }
 
@@ -96,12 +100,14 @@
          * @param {object} $container - jQuery to prepend inline SVG reference to.
          * @param {string} definitionUri - Uri of SVG with symbol definitions.
          * @param {string} groupName - Symbol name in definition SVG.
-         * @param {string} fallbackGroupName - Fallback symbol name in definition SVG.
-         * @param {string} classToApply - Set class on inline reference SVG element.
+         * @param {string} fallbackGroupName - Fallback symbol name in definition SVG (optional).
+         * @param {string} classToApply - Set class on inline reference SVG element (optional).
+         * @param {int} width - The width to set on the inline svg (optional).
+         * @param {int} height - The height to set on the inline svg (optional).
          * @returns {object} Promise that receives jQuery object for inline SVG.
          */
         function loadIconFromDefinition(
-            $container, definitionUri, groupName, fallbackGroupName, classToApply)
+            $container, definitionUri, groupName, fallbackGroupName, classToApply, width, height)
         {
             return this.promiseProvider(function(resolve)
             {
@@ -112,11 +118,25 @@
                         groupName = fallbackGroupName;
                     }
                     
-                    var $svg = $("<svg><use xlink:href=\"#" + groupName + "\"></use></svg>")
-                        .prependTo($container);
+                    var $svg = null;
+
+                    if (width && height)
+                    {
+                        $svg = $("<svg width=\"" + width + "\" height=\"" + height +
+                                 "\" viewBox=\"0 0 " + width + " " + height +
+                                 "\"><use xlink:href=\"#" + groupName + "\"></use></svg>");
+                    }
+                    else
+                    {
+                        $svg = $("<svg><use xlink:href=\"#" + groupName + "\"></use></svg>");
+                    }
+
+                    $svg.prependTo($container);
                     
                     if (classToApply)
+                    {
                         $svg.addClass(classToApply);
+                    }
                     
                     resolve($loaded);
                 });
@@ -128,9 +148,11 @@
          * @param {object} $container - jQuery Lite element to prepend to.
          * @param {string} iconUri - Uri for ajax request.
          * @param {string} classToApply - Set class on new element.
+         * @param {int} width - The width to set on the inline svg (optional).
+         * @param {int} height - The height to set on the inline svg (optional).
          * @returns {object} Promise that receives jQuery object for new element.
          */
-        function loadIconFromFile($container, iconUri, classToApply)
+        function loadIconFromFile($container, iconUri, classToApply, width, height)
         {   
             return this.promiseProvider(function(resolve)
             {   
@@ -142,8 +164,17 @@
                 {                
                     var content = new DOMParser().parseFromString(
                         request.data, "application/xml");
+
+                    var $svg = $("svg", content).prependTo($container);
+
+                    if (width && height)
+                    {
+                        $svg.get(0).setAttributeNS(null, "width", width);
+                        $svg.get(0).setAttributeNS(null, "height", height);
+                        $svg.get(0).setAttributeNS(null, "viewBox", "0 0 " + width + " " + height);
+                    }
                     
-                    resolve($("svg", content).prependTo($container), null);
+                    resolve($svg, null);
                 });
             }.bind(this));
         }

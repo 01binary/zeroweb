@@ -10,6 +10,7 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -18,7 +19,7 @@ namespace ZeroWeb.Models
     /// <summary>
     /// Application database context.
     /// </summary>
-    public class Context : DbContext
+    public class Context : IdentityDbContext<User>
     {
         /// <summary>
         /// The application configuration.
@@ -51,7 +52,7 @@ namespace ZeroWeb.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(
-                ConfigurationExtensions.GetConnectionString(this.configuration, "ZeroDatabase"),
+                this.configuration.GetConnectionString("ZeroDatabase"),
                 options => options.MigrationsAssembly("zeroweb"));
         }
 
@@ -61,6 +62,9 @@ namespace ZeroWeb.Models
         /// <param name="optionsBuilder">The configuration interface.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Describe the Owin Identity context we are deriving from.
+            base.OnModelCreating(modelBuilder);
+
             // Create index IX_SiteItems_Date_Published.
             modelBuilder.Entity<SiteItem>()
                         .HasIndex(siteItem => new { siteItem.Date, siteItem.Published })

@@ -40,6 +40,27 @@ namespace ZeroWeb.Models
         public bool Published { get; set; }
 
         /// <summary>
+        /// Gets or sets the publish geographical location name where the item was authored.
+        /// </summary>
+        [MaxLength(32)]
+        public string LocationName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location latitude.
+        /// </summary>
+        public double? LocationLatitude { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location longitude.
+        /// </summary>
+        public double? LocationLongitude { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location zoom.
+        /// </summary>
+        public double? LocationZoom { get; set;}
+
+        /// <summary>
         /// Gets or sets the item metadata.
         /// </summary>
         public ICollection<SiteItemMetadata> Metadata { get; set; }

@@ -1,0 +1,644 @@
+header
+{
+    font-family: $title-font;
+    -webkit-font-smoothing: antialiased;
+    background: $primary-color;
+    color: $primary-text-color;
+    min-width: 349px;
+    width: 100%;
+    height: 200px;
+    position: relative;
+    margin-top: 9%;
+}
+
+/* adorner: left corner shadow */
+header:before
+{
+    content: "";
+    position: absolute;
+    left: 8px;
+    bottom: 0.1px;
+    width: 1px;
+    height: 12px;
+    transform: skewX(45deg);
+    box-shadow: 0px 0px 4px $drop-shadow-dark-color;
+    z-index: 4;
+}
+
+/* adorner: right corner cut */
+header:after
+{
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: -6px;
+    width: 13px;
+    height: 39px;
+    background: $background-color;
+    transform: skewX(45deg);
+}
+
+header h1
+{
+    position: absolute;
+    left: 103px;
+    top: 55px;
+    margin: 0;
+    font-size: $title-font-size;
+    font-weight: $title-font-weight;
+}
+
+header h1:after
+{
+    position: absolute;
+    left: 10.3em;
+    top: 17px;
+    width: 11pt;
+    height: 4pt;
+    
+    content: "";
+    background: $primary-text-color;
+    animation: blink 1.1s linear infinite;
+}
+@keyframes blink
+{
+    0%
+    {
+        opacity: 0;
+    }
+    
+    25%
+    {
+        opacity: 1;
+    }
+    
+    75%
+    {
+        opacity: 1;
+    }
+    
+    100%
+    {
+        opacity: 0;
+    }
+}
+
+nav a
+{
+    float: left;
+    width: 88px;
+    height: 67px;
+}
+
+nav
+{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    min-width: 299px;
+    width: 100%;
+    height: 66px;
+}
+
+/* adorner: bottom shadow */
+nav:before
+{
+    content: "";
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 1px;
+    box-shadow: 0px 0px 2px $drop-shadow-light-color;
+    z-index: -1;
+}
+
+/* adorner: left corner cut */
+nav:after
+{
+    content: "";
+    position: absolute;
+    left: -10px;
+    bottom: -2px;
+    width: 17px;
+    height: 17px;
+    background: $background-color;
+    transform: skewX(45deg);
+}
+
+main
+{
+    float: left;
+    position: relative;
+    margin-left: 22px;
+
+    width: 95%;
+    
+    font-family: $normal-font;
+    font-size: $normal-font-size;
+}
+
+main:before
+{
+    content: "{";
+    font-family: $background-font;
+    font-size: 45pt;
+    color: $border-color;
+    
+    float: left;
+    position: relative;
+    left: -29px;
+    top: 26pt;
+    width: 0;
+}
+
+main:after
+{
+    content: "}";
+    font-family: $background-font;
+    font-size: 45pt;
+    color: $border-color;
+    
+    position: relative;
+    top: -1em;
+    left: 101%;
+    text-align: right;
+    margin-bottom: -2em;
+}
+
+main h1
+{
+    font-size: $heading-font-size-large;
+}
+
+main h2
+{
+    font-size: $heading-font-size-medium;
+}
+
+main h3
+{
+    font-size: $heading-font-size-small;
+}
+
+main h1, main h2, main h3
+{
+    font-family: $heading-font;
+    margin-bottom: $margin;
+    margin-top: $margin;
+}
+
+main p
+{
+    margin-top: $margin;
+    margin-bottom: $margin;
+}
+
+body
+{
+    float: none;
+    margin: auto;
+    width: 75%;
+}
+
+a.tag:hover
+{
+    color: $accent-text-color;
+}
+
+a
+{
+    color: $accent-text-color;
+}
+
+a:hover
+{
+    color: $primary-color;
+}
+
+a.location
+{
+    border-bottom: $border-thickness dotted $accent-text-color;
+    text-decoration: none;
+}
+
+a.location:hover
+{
+    border-bottom: $border-thickness dotted $primary-color;
+}
+
+a.author
+{
+    border-bottom: $border-thickness dotted $accent-text-color;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.author:hover
+{
+    border-bottom: $border-thickness dotted $primary-color;
+}
+
+div.form
+{
+    display: table;
+}
+
+div.form>div
+{
+    display: table-cell;
+    vertical-align: top;
+}
+
+input.name-input
+{
+    min-width: 7em;
+    max-width: 7em;
+    margin-right: 0.5em;
+}
+
+textarea.comment-input
+{
+    margin-bottom: 10pt;
+}
+
+button.button-form
+{
+    display: inline-block;
+    color: $primary-text-color;
+    background: $primary-color;
+    font-size: $small-font-size;
+    border: $border-thickness solid $primary-dark-color;
+    box-shadow: 0px 1px 0px $primary-light-color inset;
+    padding-top: 2pt;
+    padding-bottom: 3pt;
+    outline: none;
+    cursor: pointer;
+}
+
+button.button-form:before
+{
+    content: "";
+    position: absolute;
+    transform: skewX(45deg);
+    width: 4pt;
+    height: 4pt;
+    background: $background-color;
+    float: left;
+    margin-left: -9px;
+    margin-top: 11pt;
+    border-right: 2px solid $primary-dark-color;
+    cursor: default;
+}
+
+button.button-form:after
+{
+    content: "";
+    position: absolute;
+    transform: skewX(45deg);
+    width: 4pt;
+    height: 4pt;
+    background: $background-color;
+    float: right;
+    margin-left: 2px;
+    margin-top: -3pt;
+    border-left: 2px solid $primary-dark-color;
+    cursor: default;
+}
+
+button.button-inline
+{   
+    color: $secondary-text-color;
+    background: $background-color;
+    cursor: pointer;
+    padding: 0;
+    margin-top: -1pt;
+    margin-bottom: 8pt;
+    outline: none;
+    border: none;
+    font-family: $small-font;
+    font-size: $small-font-size;
+}
+
+button.button-secondary
+{
+    color: $accent-text-color;
+    border-bottom: $border-thickness dotted $accent-text-color;
+}
+
+button.button-inline:hover
+{
+    color: $primary-color;
+}
+
+button.button-inline-toggled
+{
+    color: $accent-text-color;
+}
+
+button.button-right
+{
+    min-width: 5.5em;
+    margin-left: 4pt;
+}
+
+.overlay
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background: $background-color;
+}
+
+.logo
+{
+    position: absolute;
+    left: 17px;
+    top: 17px;
+    width: 73px;
+    height: 60px;
+    font-size: 48pt;
+    fill: $primary-color;
+    color: $background-color;
+}
+
+.navigation
+{
+    display: inline;
+    position: absolute;
+    margin-left: 1px;
+    width: 88px;
+    height: 66px;
+}
+
+.navigation-matte
+{
+    fill: $primary-color;
+    z-index: 4;
+}
+
+.navigation-hover
+{
+    fill: $primary-hover-color;
+    display: none;
+    z-index: 5;
+}
+
+.navigation-border
+{
+    fill: $shadow-dark-color;
+    z-index: 6;
+}
+
+.navigation-highlight
+{
+    fill: $primary-light-color;
+    z-index: 7;
+}
+
+.navigation-selection
+{
+    z-index: 6;
+    fill:$selection-color;
+}
+
+.navigation-selected,
+.navigation-unselected
+{
+    margin-left: -1px;
+}
+
+.navigation-unselected
+.navigation-selection
+{
+    display: none;
+}
+
+.navigation-selected
+.navigation-border
+{
+    display: none;
+}
+
+.navigation-selected
+.navigation-highlight
+{
+    display: none;
+}
+
+.navigation-afterselected.navigation-last
+.navigation-highlight
+{
+    top: 3px;
+    height: 62px;
+}
+
+.navigation-icon
+{
+    fill: $primary-text-color;
+    z-index: 6;
+    
+    width: 18px;
+    height: 18px;
+    
+    margin-left: 11px;
+    margin-top: 20px;
+}
+
+.navigation-text
+{
+    padding-left: 12px;
+    padding-top: 42px;
+    height: auto;
+    width: auto;
+    color: $primary-text-color;
+    font-size: $normal-font-size;
+    z-index: 6;
+}
+
+.tags
+{
+    font-size: 0;
+    margin-top: -6pt;
+}
+
+.tag
+{
+    display: inline-block;
+    color: $accent-text-color;
+    background: $accent-color;
+    font-size: $small-font-size;
+    text-decoration: none;
+    margin-left: 2pt;
+    margin-right: 2pt;
+    padding-top: 3pt;
+    padding-bottom: 3.5pt;
+    padding-left: 5.5pt;
+    padding-right: 5pt;
+    cursor: pointer;
+}
+
+.tag:before
+{
+    content: "";
+    position: absolute;
+    border-top: 8pt solid transparent;
+    border-left: 8pt solid $background-color;
+    margin-left: -6.5pt;
+    margin-top: 8pt;
+    cursor: default;
+}
+
+.tag:after
+{
+    content: "";
+    position: absolute;
+    float: right;
+    border-bottom: 8pt solid transparent;
+    border-right: 8pt solid $background-color;
+    margin-left: -2pt;
+    margin-top: -4.5pt;
+    cursor: default;
+}
+
+.metadata
+{
+    font-family: $small-font;
+    font-size: $small-font-size;
+    color: $secondary-text-color;
+    margin-top: -6pt;
+}
+
+.article
+{
+    border-bottom: $border-thickness dotted $shadow-light-color;
+}
+
+.placeholder
+{
+    color: $accent-text-color;
+    background: $accent-color;
+    padding-left: 5pt;
+    padding-right: 5pt;
+    padding-top: 3pt;
+    padding-bottom: 3pt;
+}
+
+.placeholder:before
+{
+    content: "";
+    position: absolute;
+    border-top: 8pt solid transparent;
+    border-left: 8pt solid $background-color;
+    margin-left: -6.5pt;
+    margin-top: 8pt;
+    cursor: default;
+}
+
+.placeholder:after
+{
+    content: "";
+    position: absolute;
+    float: right;
+    border-bottom: 8pt solid transparent;
+    border-right: 8pt solid $background-color;
+    margin-left: -2pt;
+    margin-top: -4.5pt;
+    cursor: default;
+    cursor: default;
+}
+
+.icon-header
+{
+    display: inline;
+    position: relative;
+    fill: $secondary-text-color;
+    top: 1.8pt;
+}
+
+.icon-button
+{
+    display: inline;
+    position: relative;
+    fill: $primary-text-color;
+    top: 2pt;
+    margin-right: 2pt;
+}
+
+.comments
+{
+    margin-left: 1.5em;
+    font-family: $small-font;
+    font-size: $small-font-size;
+    margin-bottom: -3pt;
+}
+
+.comment
+{
+    border-top: $border-thickness solid $shadow-color;
+    padding-top: 5pt;
+    margin-top: -3pt;
+    padding-bottom: 5pt;
+    margin-bottom: 3pt;
+}
+
+.comment-official
+{
+    background: $accent-light-color;
+}
+
+.full-width
+{
+    width: 100%;
+}
+
+.error
+{
+    color: $error-color;
+    margin-bottom: 5pt;
+}
+
+.emphasis
+{
+    color: $primary-color;
+}
+
+.form-input
+{
+    font-family: $small-font;
+    font-size: $small-font-size;
+    min-height: 1.8em;
+    outline: none;
+    border: $border-thickness solid $border-color;
+    box-sizing: border-box;
+}
+
+.form-input:focus
+{
+    border: $border-thickness solid $accent-text-color;
+    box-shadow: 0px 0px 8px 0px $primary-color;
+}
+
+.callout
+{
+    position: absolute;
+    float: left;
+    left: -12px;
+    color: $primary-color;
+}
+
+.name-label
+{
+    position: relative;
+    margin-right: 0.4em;
+    top: 0.15em;
+}
+
+.comment-offset
+{
+    margin-left: 11pt;
+    margin-right: 11pt;
+}

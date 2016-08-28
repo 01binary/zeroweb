@@ -21,12 +21,13 @@
      * Register markdown directive.
      */
     angular.module("zeroApp")
-           .directive("markdown", ["$compile", markdownDirective]);
+           .directive("markdown", markdownDirective);
 
     /**
      * Implement markdown directive.
+     * 
      */
-    function markdownDirective($compile)
+    function markdownDirective()
     {
         return {
             restrict: "E",

@@ -1,0 +1,60 @@
+/*
+ * Colors
+ */
+
+$primary-color: #12C0E1;
+$primary-hover-color: #19C9EA;
+$primary-light-color: #71D3DB;
+$primary-dark-color: #0E93AD;
+$primary-text-color: #FFFFFF;
+
+$secondary-text-color: #848D95;
+
+$accent-color:#E3EBEC;
+$accent-light-color: #EFEFEF;
+$accent-text-color: #127191;
+
+$background-color: #FFFFFF;
+$border-color: lightgray;
+$selection-color: #C3C3C3;
+
+$shadow-color: lightgray;
+$shadow-dark-color: #595959;
+$shadow-light-color: #B5D9E3;
+
+$drop-shadow-dark-color: #777777;
+$drop-shadow-light-color: #999999;
+
+$error-color: indianred;
+
+/*
+ * Fonts
+ */
+
+/* Consolas is only available on Windows */
+/* Menlo is only available on Mac */
+$title-font: Consolas, Menlo, monospace;
+$title-font-size: 12pt;
+$title-font-weight: normal;
+
+/* Helvetica Neue is available only on Mac */
+/* Calibri is available only on PC */
+$heading-font: "Helvetica Neue", Calibri, sans-serif;
+$heading-font-size-large: 13pt;
+$heading-font-size-medium: 11pt;
+$heading-font-size-small: 10pt;
+
+$normal-font: "Segoe UI", Verdana, sans-serif;
+$normal-font-size: 10pt;
+
+$small-font: $normal-font;
+$small-font-size: 9pt;
+
+$background-font: Arial;
+
+/*
+ * Scalars
+ */
+
+ $margin: 9pt;
+ $border-thickness: 1px;

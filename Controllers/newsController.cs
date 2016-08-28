@@ -40,7 +40,7 @@ namespace ZeroWeb.Controllers
         /// </summary>
         public IActionResult Index()
         {
-            string excludeTag = Tags.Story.ToString();
+            string excludeTag = Tags.Story.ToString().ToLower();
 
             return View(this.store
                 .GetItems(Tags.Story)
@@ -50,6 +50,10 @@ namespace ZeroWeb.Controllers
                     title = item.Title,
                     date = item.Date,
                     author = item.Author.Name,
+                    location = item.LocationName,
+                    latitude = item.LocationLatitude,
+                    longitude = item.LocationLongitude,
+                    zoom = item.LocationZoom,
                     tags = item.Metadata
                         .Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
                         .Select(metadata => metadata.Tag.Name).ToArray()
@@ -62,6 +66,10 @@ namespace ZeroWeb.Controllers
                     story.title = result.title;
                     story.date = result.date;
                     story.author = result.author;
+                    story.location = result.location;
+                    story.latitude = result.latitude;
+                    story.longitude = result.longitude;
+                    story.zoom = result.zoom;
                     story.tags = result.tags;
                     return story;
                 }));

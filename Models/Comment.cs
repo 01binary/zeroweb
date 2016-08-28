@@ -23,6 +23,28 @@ namespace ZeroWeb.Models
     public class Comment
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Comment"/> class.
+        /// </summary>
+        public Comment()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Comment"/> class.
+        /// </summary>
+        /// <param name="item">The item the comment is for.</param>
+        /// <param name="author">The external identity creating the comment.</param>
+        /// <param name="content">The comment content.</param>
+        public Comment(SiteItem item, string author, string content)
+        {
+            this.Item = item;
+            this.Date = DateTime.Now;
+            this.Author = author;
+            this.Published = false;
+            this.Content = content;
+        }
+
+        /// <summary>
         /// Gets or sets the primary key.
         /// </summary>
         [Key]

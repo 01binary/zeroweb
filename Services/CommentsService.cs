@@ -12,11 +12,12 @@
 
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ZeroWeb.Models;
 
 namespace ZeroWeb.API
 {
     /// <summary>
-    /// News API.
+    /// Comments API.
     /// </summary>
     [Route("services/comments")]
     public class CommentsService: Controller
@@ -38,18 +39,75 @@ namespace ZeroWeb.API
         /// <summary>
         /// Gets the site item comments.
         /// </summary>
+        /// <param name="id">The site item Id.</param>
+        [HttpGet("{id}")]
         public IActionResult GetComments(int id)
         {
-            return Json(
-                this.store
-                .GetItem(id).Comments
+            return Json(this.store.GetItemComments(id)
+                .First()
+                .Where(comment => comment.Published == true)
+                .OrderByDescending(comment => comment.Date)
                 .Select(comment => new
                 {
-                    comment.Id,
-                    comment.Author,
-                    comment.Published,
-                    comment.Content
-                }).ToArray());
+                    id = comment.Id,
+                    date = Shared.FormatDate(comment.Date),
+                    author = comment.Author,
+                    content = comment.Content
+                })
+                .ToArray());
+        }
+
+        /// <summary>
+        /// Creates a new site item comment.
+        /// </summary>
+        /// <param name="request">The comment to create.</param>
+        [HttpPost]
+        public IActionResult CreateComment([FromBody]dynamic request)
+        {
+            try
+            {
+                if (request.item == null || request.author == null || request.content == null)
+                {
+                    return this.BadRequest();
+                }
+
+                SiteItem item = this.store.GetItem((int)request.item.Value);
+                Comment comment = new Comment(item, request.author.Value, request.content.Value);
+
+                item.Comments.Add(comment);
+
+                this.store.Save();
+
+                return this.CreatedAtRoute(string.Empty, new
+                {
+                    id = comment.Id,
+                    date = Shared.FormatDate(comment.Date)
+                });
+            }
+            catch
+            {
+                return this.BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// Edits a site item comment.
+        /// </summary>
+        /// <param name="commentId">The Id of the comment to edit.</param>
+        [HttpPut]
+        public IActionResult EditComment(int commentId)
+        {
+            return this.NoContent();
+        }
+
+        /// <summary>
+        /// Edits a site item comment.
+        /// </summary>
+        /// <param name="commentId">The Id of the comment to edit.</param>
+        [HttpDelete("{id}")]
+        public IActionResult DeleteComment(int commentId)
+        {
+            return this.Ok();
         }
     }
 }

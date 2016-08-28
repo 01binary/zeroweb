@@ -13,8 +13,10 @@
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using ZeroWeb.Models;
 
@@ -36,6 +38,12 @@ namespace ZeroWeb
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets();
+            }
+
             Configuration = builder.Build();
         }
 
@@ -51,9 +59,17 @@ namespace ZeroWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
             services.AddOptions();
             services.AddSingleton<IConfiguration>(this.Configuration);
-            services.AddDbContext<Context>();
+
+            services.AddEntityFrameworkSqlite()
+                    .AddDbContext<Context>();
+            
+            services.AddIdentity<User, IdentityRole>()
+                    .AddEntityFrameworkStores<Context>()
+                    .AddDefaultTokenProviders();
+
             services.AddScoped(typeof(IDataStore), typeof(SiteDataStore));
         }
         
@@ -68,6 +84,20 @@ namespace ZeroWeb
 
             if (env.IsDevelopment())
             {
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    FileProvider = new PhysicalFileProvider(
+                        Path.Combine(Directory.GetCurrentDirectory(), "Styles")),
+                    RequestPath = "/Styles"
+                });
+
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    FileProvider = new PhysicalFileProvider(
+                        Path.Combine(Directory.GetCurrentDirectory(), "Scripts")),
+                    RequestPath = "/Scripts"
+                });
+
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
@@ -78,6 +108,14 @@ namespace ZeroWeb
             
             // Setup static resource routes.
             app.UseStaticFiles();
+
+            // Setup identity.
+            app.UseIdentity();
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+                AppId = this.Configuration["facebookId"],
+                AppSecret = this.Configuration["facebookSecret"]
+            });
 
             // Add middleware handler to redirect Angular routes to Startup controller.
             app.Use(async(context, next) =>

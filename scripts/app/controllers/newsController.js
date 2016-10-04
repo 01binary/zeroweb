@@ -23,16 +23,18 @@
      */
     angular.module("zeroApp")
            .controller("newsController",
-           ["$q", "news", "comments", "login", newsController]);
+           ["$q", "$scope", "safeApply", "news", "comments", "login", newsController]);
 
     /**
      * Implement news controller.
      * @param {object} $q - Promise factory.
+     * @param {object} $scope - Controller scope.
+     * @param {object} $safeApply - Safe apply factory.
      * @param {object} $news - News factory.
      * @param {object} $comments - Comments factory.
      * @param {object} $login - Login service.
      */
-    function newsController($q, $news, $comments, $login)
+    function newsController($q, $scope, $safeApply, $news, $comments, $login)
     {
         /**
          * News factory.
@@ -45,6 +47,12 @@
          * @type {object}
          */
         this.commentsFactory = $comments;
+
+        /**
+         * Factory used to perform safe out-of-context updates.
+         * @type {object}
+         */
+        this.safeApplyFactory = $safeApply;
 
         /**
          * Login service.
@@ -95,12 +103,6 @@
         this.newComment = {};
 
         /**
-         * Showing login providers state for each story key.
-         * @type {bool{}}
-         */
-        this.showLogin = {};
-
-        /**
          * Comment submission or loading error for each story key.
          * @type {object{}}
          */
@@ -116,12 +118,6 @@
          * @type {object}
          */
         this.user = null;
-
-        /**
-         * The user name to register.
-         * @type {string}
-         */
-        this.registerName = null;
 
         /**
          * Load news story content.
@@ -142,61 +138,32 @@
         this.addComment = addComment;
 
         /**
-         * Authenticate with the application.
+         * Authenticate user.
          * @type {function}
          */
         this.login = login;
 
         /**
-         * Register with the application.
-         * @type {function}
+         * Initialize controller.
          */
-        this.register = register;
-
-        /**
-         * Initialize the controller.
-         */
-        this.loginService.initialize().then(function(userInfo)
+        this.loginService.getUser().then(function(result)
         {
-            // Logged in with any supported external login provider.
-            this.user = userInfo;
+            this.user = result.name || null;
 
         }.bind(this));
 
         /**
-         * Login user.
-         * @param {string} provider - External login provider.
+         * Authenticate user.
          */
-        function login(provider)
+        function login()
         {
-            this.loginService.login(provider).then(function(userInfo)
+            this.loginService.showPopup("login", function(result)
             {
-                // If the user is logged in with provider but not registered, name property is null.
-                this.user = userInfo;
-
-            }.bind(this));
-        }
-
-        /**
-         * Register user if needed.
-         */
-        function register()
-        {
-            return this.promiseService(function(resolve)
-            {
-                if (this.registerName && !this.user.name)
+                if (result && result.success)
                 {
-                    this.loginService.register(
-                        this.user.provider,
-                        this.user.providerKey,
-                        this.registerName).then(function()
-                    {
-                        resolve();
-                    });
-                }
-                else
-                {
-                    resolve();
+                    this.safeApplyFactory($scope, function() {
+                        this.user = result.parameter;
+                    }.bind(this));
                 }
             }.bind(this));
         }
@@ -265,7 +232,7 @@
 
             this.comments[storyId] = [];
             this.loadingComments[storyId] = true;
-            this.addingComment[storyId] = false;
+            this.addingComment[storyId] = true;
             this.newComment[storyId] = null;
             this.commentError[storyId] = null;
         }
@@ -277,56 +244,51 @@
         function addComment(storyId)
         {
             // Validate user name.
-            if (!this.user.name && !this.registerName)
+            if (!this.user)
             {
-                this.commentError[storyId] = "Please enter a name to use for posting this comment (we trust that you would want to).";
+                this.commentError[storyId] = "Please login with one of the providers below to post comments.";
                 return;
             }
 
             // Validate comment.
             if (!this.newComment[storyId] || !this.newComment[storyId].length)
             {
-                this.commentError[storyId] = "Please enter a comment to post (you know about the Internet, right?)";
+                this.commentError[storyId] = "Please enter a comment to post.";
                 return;
             }
 
-            // Register user if not registered.
-            this.register().then(function()
-            {
-                // Add comment.
-                var commentContent = this.newComment[storyId];
+            // Add comment.
+            var commentContent = this.newComment[storyId];
 
-                this.commentsFactory.create(
+            this.commentsFactory.create(
+                {
+                    item: storyId,
+                    author: this.user,
+                    content: commentContent
+                },
+
+                function(result)
+                {
+                    this.comments[storyId].push(
                     {
-                        item: storyId,
-                        author: this.user.name,
+                        id: result.id,
+                        author: this.user,
+                        date: result.date,
                         content: commentContent
-                    },
+                    });
 
-                    function(result)
-                    {
-                        this.comments[storyId].push(
-                        {
-                            id: result.id,
-                            author: this.user.name,
-                            date: result.date,
-                            content: commentContent
-                        });
+                }.bind(this),
 
-                    }.bind(this),
+                function(error)
+                {
+                    this.commentOperation[storyId] = "post a comment";
+                    this.commentError[storyId] = error;
 
-                    function(error)
-                    {
-                        this.commentOperation[storyId] = "post a comment";
-                        this.commentError[storyId] = error;
+                }.bind(this)
+            );
 
-                    }.bind(this)
-                );
-
-                this.commentError[storyId] = null;
-                this.newComment[storyId] = null;
-
-            }.bind(this));
+            this.commentError[storyId] = null;
+            this.newComment[storyId] = null;
         }
     }
 

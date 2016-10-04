@@ -239,30 +239,12 @@ a.author:hover
     border-bottom: $border-thickness dotted $primary-color;
 }
 
-div.form
+.form-inline
 {
-    display: table;
+    display: inline;
 }
 
-div.form>div
-{
-    display: table-cell;
-    vertical-align: top;
-}
-
-input.name-input
-{
-    min-width: 7em;
-    max-width: 7em;
-    margin-right: 0.5em;
-}
-
-textarea.comment-input
-{
-    margin-bottom: 10pt;
-}
-
-button.button-form
+.button-form
 {
     display: inline-block;
     color: $primary-text-color;
@@ -276,7 +258,7 @@ button.button-form
     cursor: pointer;
 }
 
-button.button-form:before
+.button-form:before
 {
     content: "";
     position: absolute;
@@ -291,7 +273,7 @@ button.button-form:before
     cursor: default;
 }
 
-button.button-form:after
+.button-form:after
 {
     content: "";
     position: absolute;
@@ -306,7 +288,7 @@ button.button-form:after
     cursor: default;
 }
 
-button.button-inline
+.button-inline
 {   
     color: $secondary-text-color;
     background: $background-color;
@@ -320,26 +302,26 @@ button.button-inline
     font-size: $small-font-size;
 }
 
-button.button-secondary
+.button-secondary
 {
     color: $accent-text-color;
     border-bottom: $border-thickness dotted $accent-text-color;
 }
 
-button.button-inline:hover
+.button-inline:hover
 {
     color: $primary-color;
 }
 
-button.button-inline-toggled
+.button-inline-toggled
 {
     color: $accent-text-color;
 }
 
-button.button-right
+.button-right
 {
-    min-width: 5.5em;
-    margin-left: 4pt;
+    min-width: 6.4em;
+    float: right;
 }
 
 .overlay
@@ -363,6 +345,12 @@ button.button-right
     font-size: 48pt;
     fill: $primary-color;
     color: $background-color;
+}
+
+.title-popup
+{
+    display: inline;
+    color: $shadow-dark-color;
 }
 
 .navigation
@@ -606,20 +594,35 @@ button.button-right
     color: $primary-color;
 }
 
+.spacer-right
+{
+    float: right;
+    width: 5pt;
+    min-height: 10pt;
+}
+
+.spacer-left
+{
+    float: left;
+    width: 11pt;
+    min-height: 10pt;
+}
+
 .form-input
 {
     font-family: $small-font;
     font-size: $small-font-size;
-    min-height: 1.8em;
+    padding: 4px;
     outline: none;
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
+    margin-bottom: 10pt;
 }
 
 .form-input:focus
 {
     border: $border-thickness solid $accent-text-color;
-    box-shadow: 0px 0px 8px 0px $primary-color;
+    box-shadow: 0px 0px 6px 0px $primary-color;
 }
 
 .callout
@@ -630,15 +633,46 @@ button.button-right
     color: $primary-color;
 }
 
-.name-label
+.form-group
 {
-    position: relative;
-    margin-right: 0.4em;
-    top: 0.15em;
+    overflow: hidden;
 }
 
-.comment-offset
+.comment-input
 {
-    margin-left: 11pt;
-    margin-right: 11pt;
+    resize: vertical;
+}
+
+.popup
+{
+    h2
+    {
+        float: left;
+        margin-top: 62pt;
+        margin-left: 65pt;
+        font-family: $heading-font;
+        font-size: $title-font-size;
+        color: $secondary-text-color;
+    }
+
+    .logo
+    {
+        color: $primary-color;
+        fill: $background-color;
+        width: 73px;
+        height: 60px;
+        margin-left: 30pt;
+        margin-top: 20pt;
+        float: left;
+    }
+
+    p
+    {
+        float: left;
+        margin-top: 2em;
+        margin-bottom: 1em;
+    }
+
+    font-family: $normal-font;
+    font-size: $normal-font-size;
 }

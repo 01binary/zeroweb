@@ -24,7 +24,7 @@ namespace ZeroWeb.Controllers
         /// </summary>
         public IActionResult Index()
         {
-            return View("~/Views/Layout.cshtml");
+            return View("~/Views/Index.cshtml");
         }
     }
 }

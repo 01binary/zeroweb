@@ -94,10 +94,10 @@
 
         <!-- Login providers -->
         <span data-ng-show="!news.user && news.addingComment[@story.id]">
-            
-            @{ bool first = true; }
+        @{
+            bool first = true;
 
-            @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes().ToList())
+            foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes().ToList())
             {
                 if (first)
                 {
@@ -110,31 +110,36 @@
                     <span class="metadata">, </span>
                 }
 
-                <button class="button-inline button-secondary"
+                <form action="~/services/users/login/@loginProvider.AuthenticationScheme"
+                    method="get"
+                    target="login"
+                    class="form-inline">
+
+                    <input type="submit"
+                        class="button-inline
+                        button-secondary"
+                        title="@loginProvider.DisplayName.ToLower()"
+                        name="authenticationScheme"
+                        value="@loginProvider.AuthenticationScheme"
                         data-ng-show="!news.user"
-                        data-ng-click="news.login('@loginProvider.AuthenticationScheme')">
-                        @loginProvider.DisplayName.ToLower()
-                </button>
+                        data-ng-click="news.login()">
+                </form>
             }
+        }
         </span>
 
-        <!-- Add comment form -->
-        <div class="full-width form" data-ng-show="news.addingComment[@story.id]">
-            <!-- Register login name -->
-            <span class="metadata name-label comment-offset" data-ng-show="news.user && !news.user.name">name<span class="emphasis">*</span></span>
-
-            <div data-ng-show="news.user && !news.user.name">
-                <input type="text" class="form-input name-input" data-ng-model="news.registerName"></input>
-            </div>
-            
-            <!-- Comment input -->
-            <div class="full-width">
-                <textarea class="form-input comment-input full-width" data-ng-class="{'comment-offset': !news.user || (news.user && news.user.name)}" rows="1" data-ng-model="news.newComment[@story.id]"></textarea>
-            </div>
-
+        <div data-ng-show="news.addingComment[@story.id]">
             <!-- Submit button -->
-            <div>
-                <button class="button-form button-right" data-action data-ng-click="news.addComment(@story.id)"><icon class="icon-button" data-src="images/banner.svg#submit" data-width="10" data-height="10"></icon>submit</button>
+            <button class="button-form button-right" data-primary data-ng-click="news.addComment(@story.id)">
+                <icon class="icon-button" data-src="images/banner.svg#submit" data-width="10" data-height="10"></icon> submit
+            </button>
+
+            <div class="spacer-right"></div>
+            <div class="spacer-left"></div>
+
+            <!-- Comment input -->
+            <div class="form-group">
+                <textarea class="form-input comment-input full-width" rows="1" data-ng-model="news.newComment[@story.id]" />
             </div>
         </div>
     </div>

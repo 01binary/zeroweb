@@ -11,6 +11,7 @@
 \*---------------------------------------------------------*/
 
 using System.IO;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -66,7 +67,10 @@ namespace ZeroWeb
             services.AddEntityFrameworkSqlite()
                     .AddDbContext<Context>();
             
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options =>
+                    {
+                        options.User.AllowedUserNameCharacters += "=";
+                    })
                     .AddEntityFrameworkStores<Context>()
                     .AddDefaultTokenProviders();
 
@@ -76,14 +80,21 @@ namespace ZeroWeb
         /// <summary>
         /// Configures the injected dependencies.
         /// </summary>
-        /// <param name="app">
+        /// <param name="app">The application configuration.</param>
+        /// <param name="env">The hosting environment.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            // Redirect all routes to single page application views.
+            this.ConfigureSinglePageRoutes(app);
 
             if (env.IsDevelopment())
             {
+                // Enable logging.
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+                loggerFactory.AddDebug();
+
+                // Setup static resource routes for development.
                 app.UseStaticFiles(new StaticFileOptions()
                 {
                     FileProvider = new PhysicalFileProvider(
@@ -98,12 +109,16 @@ namespace ZeroWeb
                     RequestPath = "/Scripts"
                 });
 
+                // Redirect routes that throw exceptions to developer error page.
                 app.UseDeveloperExceptionPage();
+
+                // Enable browser debugging connection.
                 app.UseBrowserLink();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                // Redirect routes that throws exceptions to production error page.
+                app.UseExceptionHandler("/Shared/Error");
             }
             
             // Setup static resource routes.
@@ -111,26 +126,20 @@ namespace ZeroWeb
 
             // Setup identity.
             app.UseIdentity();
-            app.UseFacebookAuthentication(new FacebookOptions()
-            {
-                AppId = this.Configuration["facebookId"],
-                AppSecret = this.Configuration["facebookSecret"]
-            });
 
-            // Add middleware handler to redirect Angular routes to Startup controller.
-            app.Use(async(context, next) =>
-            {
-                await next();
-
-                if (context.Response.StatusCode == 404 &&
-                    !Path.HasExtension(context.Request.Path.Value))
-                {
-                    context.Request.Path = "/";
-                    await next();
-                }
-            });
+            // Setup Facebook authentication.
+            this.ConfigureFacebookAuthentication(app);
 
             // Setup layout and partial routes.
+            this.ConfigureRoutes(app);
+        }
+
+        /// <summary>
+        /// Configures the application routing.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureRoutes(IApplicationBuilder app)
+        {
             app.UseMvc(routes =>
             {
                 // Default route redirects to Startup controller.
@@ -188,6 +197,64 @@ namespace ZeroWeb
                     }
                 );
             });
+        }
+
+        /// <summary>
+        /// Configures single page application routing.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureSinglePageRoutes(IApplicationBuilder app)
+        {
+            app.Use(async(context, next) =>
+            {
+                await next();
+
+                if (context.Response.StatusCode == 404 &&
+                    !Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "/";
+                    await next();
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures the faceboook external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureFacebookAuthentication(IApplicationBuilder app)
+        {
+            var facebookOptions = new FacebookOptions()
+            {
+                AppId = this.Configuration["facebookId"],
+                AppSecret = this.Configuration["facebookSecret"],
+
+                // Use popup style for the challenge page.
+                Events = new OAuthEvents()
+                {
+                    OnRedirectToAuthorizationEndpoint = (originalContext) =>
+                    {
+                        var context = new OAuthRedirectToAuthorizationContext(
+                            originalContext.HttpContext,
+                            originalContext.Options,
+                            originalContext.Properties,
+                            string.Format("{0}&display=popup", originalContext.RedirectUri));
+                        
+                        context.Response.Redirect(context.RedirectUri);
+                        return System.Threading.Tasks.Task.FromResult(0);
+                    }
+                }
+            };
+
+            // Request only the public profile.
+            facebookOptions.Scope.Clear();
+            facebookOptions.Scope.Add("public_profile");
+
+            // Request only the name claim.
+            facebookOptions.Fields.Clear();
+            facebookOptions.Fields.Add("name");
+
+            app.UseFacebookAuthentication(facebookOptions);
         }
     }
 }

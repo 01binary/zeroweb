@@ -34,9 +34,12 @@
             link: function($scope, $element, attributes)
             {
                 // Calculate the gradient from base color.
-                var style = $element.css("background");
+                var style = $element.css("backgroundColor");
+
                 var color = style.substring(
                     style.indexOf("(") + 1, style.indexOf(")")).split(",");
+
+                console.log("extracted color", color);
                 
                 $element.baseHsl = $render2d.rgbToHsl(
                     parseInt(color[0]),
@@ -93,6 +96,8 @@
         $element.css({
             background: buttonGradient(fadeBase, fadeShadow)
         });
+
+        console.log(buttonGradient(fadeBase, fadeShadow));
     }
 
     /**

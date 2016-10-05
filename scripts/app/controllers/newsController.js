@@ -232,7 +232,7 @@
 
             this.comments[storyId] = [];
             this.loadingComments[storyId] = true;
-            this.addingComment[storyId] = true;
+            this.addingComment[storyId] = false;
             this.newComment[storyId] = null;
             this.commentError[storyId] = null;
         }

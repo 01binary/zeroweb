@@ -24,6 +24,7 @@ $shadow-light-color: #B5D9E3;
 
 $drop-shadow-dark-color: #777777;
 $drop-shadow-light-color: #999999;
+$drop-shadow-transparent-color: black;
 
 $error-color: indianred;
 
@@ -58,3 +59,5 @@ $background-font: Arial;
 
  $margin: 9pt;
  $border-thickness: 1px;
+ $corner-small: 8px;
+ $drop-shadow-opacity: 0.07;

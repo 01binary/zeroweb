@@ -38,8 +38,6 @@
 
                 var color = style.substring(
                     style.indexOf("(") + 1, style.indexOf(")")).split(",");
-
-                console.log("extracted color", color);
                 
                 $element.baseHsl = $render2d.rgbToHsl(
                     parseInt(color[0]),
@@ -94,10 +92,8 @@
         fadeShadow[2] += fade * scale;
 
         $element.css({
-            background: buttonGradient(fadeBase, fadeShadow)
+            backgroundColor: buttonGradient(fadeBase, fadeShadow)
         });
-
-        console.log(buttonGradient(fadeBase, fadeShadow));
     }
 
     /**

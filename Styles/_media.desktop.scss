@@ -346,6 +346,7 @@ a.author:hover
 
 .button-special-content
 {
+    box-sizing: border-box;
     padding-left: 7px;
     padding-right: 9px;
     padding-bottom: $corner-small / 2 + $border-thickness;
@@ -508,6 +509,11 @@ a.author:hover
     {
         bottom: 0;
         right: -$border-thickness;
+    }
+
+    .button-special
+    {
+        min-height: 2.2em;
     }
     
     .button-special-content

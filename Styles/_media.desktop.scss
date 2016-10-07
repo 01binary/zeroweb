@@ -504,6 +504,12 @@ a.author:hover
         top: $border-thickness;
     }
     
+    .hi-dpi .button-special-rightcornerborder
+    {
+        bottom: 0;
+        right: -$border-thickness;
+    }
+    
     .button-special-content
     {
         padding-top: 1px;

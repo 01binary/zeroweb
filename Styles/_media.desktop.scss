@@ -472,8 +472,32 @@ a.author:hover
     box-shadow: 0 $border-thickness * 2 $border-thickness * 4 $drop-shadow-dark-color;
 }
 
+.hi-dpi .button-special-leftcornerborder
+{
+	left: 0;
+	top: -$border-thickness;
+}
+
+.hi-dpi .button-special-leftcornerhighlight
+{
+	left: 0;
+	top: $border-thickness;
+}
+
 @-moz-document url-prefix()
 {
+    .hi-dpi .button-special-leftcorner
+    {
+        border-top: $corner-small + $border-thickness solid $background-color;
+        border-right: $corner-small + $border-thickness solid transparent;
+    }
+    
+    .hi-dpi .button-special-leftcornerborder
+    {
+        left: 0;
+        top: 0;
+    }
+    
     .button-special-content
     {
         padding-top: 1px;

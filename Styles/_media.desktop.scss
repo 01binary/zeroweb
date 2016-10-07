@@ -508,7 +508,7 @@ a.author:hover
     .hi-dpi .button-special-rightcornerborder
     {
         bottom: 0;
-        right: -$border-thickness;
+        right: -$border-thickness / 2;
     }
 
     .button-special

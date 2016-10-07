@@ -57,7 +57,7 @@
                 $element.mouseenter(function()
                 {
                     // Lighten on mouse over.
-                    $({fade:0}).animate({fade:1},
+                    $element.animation = $({fade:0}).animate({fade:1},
                     {
                         duration: "fast",
                         step: function() { fadeButton($element, +this.fade); }
@@ -67,11 +67,33 @@
                 $element.mouseleave(function()
                 {
                     // Back to normal on mouse leave.
-                    $({fade:1}).animate({fade:0},
+                    $element.animation = $({fade:1}).animate({fade:0},
                     {
                         duration: "fast",
                         step: function() { fadeButton($element, this.fade); }
                     });
+                });
+
+                $element.mousedown(function()
+                {
+                    // Reverse on mouse down.
+                    if ($element.animation)
+                    {
+                        $element.animation.stop();
+                    }
+
+                    pushButton($element);
+                });
+
+                $element.mouseup(function()
+                {
+                    // Reverse on mouse down.
+                    if ($element.animation)
+                    {
+                        $element.animation.stop();
+                    }
+
+                    fadeButton($element, 1);
                 });
             }
         };
@@ -80,7 +102,7 @@
     /**
      * Modify hsl lightness of a linear background on a button.
      * @param {object} $element - The button element.
-     * @param {number} fade - The lightness modifier from 0 (do nothing) to 1 (darken slightly to indicate focus).
+     * @param {number} fade - The lightness modifier from 0 (do nothing) to 1 (lighten to indicate focus).
      */
     function fadeButton($element, fade)
     {
@@ -92,7 +114,24 @@
         fadeShadow[2] += fade * scale;
 
         $element.css({
-            backgroundColor: buttonGradient(fadeBase, fadeShadow)
+            background: buttonGradient(fadeBase, fadeShadow)
+        });
+    }
+
+    /**
+     * Modify hsl linear background by reversing with constant lighness values.
+     * @param {object} $element - The button element.
+     */
+    function pushButton($element)
+    {
+        var fadeBase = $element.baseHsl.slice(0);
+        var fadeShadow = $element.shadowHsl.slice(0);
+
+        fadeBase[2] = 0.55;
+        fadeShadow[2] = 0.4;
+
+        $element.css({
+            background: buttonGradient(fadeShadow, fadeBase)
         });
     }
 

@@ -294,8 +294,8 @@ a.author:hover
     border-top: $corner-small solid $primary-light-color;
     border-right: $corner-small solid transparent;
     position: absolute;
-    left: 1px;
-    top: 1px;
+    left: $border-thickness;
+    top: $border-thickness;
 }
 
 .button-special-rightcorner
@@ -496,6 +496,12 @@ a.author:hover
     {
         left: 0;
         top: 0;
+    }
+
+    .hi-dpi .button-special-leftcornerhighlight
+    {
+        left: $border-thickness;
+        top: $border-thickness;
     }
     
     .button-special-content

@@ -21,12 +21,13 @@
     * Register userAgent directive.
     */
     angular.module("zeroApp")
-        .directive("userAgent", userAgentDirective);
+        .directive("userAgent", ["render2d", userAgentDirective]);
 
     /**
      * Implement userAgent directive.
+     * @param {object} $render2dProvider - Service used to render 2d graphics.
      */
-    function userAgentDirective()
+    function userAgentDirective($render2dProvider)
     {
         return {
             restrict: "A",
@@ -43,6 +44,11 @@
                     navigator.userAgent.indexOf("rv:11.0") != -1)
                 {
                     $element.addClass("gt-ie9");
+                }
+                
+                if ($render2dProvider.getPixelRatio() > 1)
+                {
+                    $element.addClass("hi-dpi");
                 }
             }
         };

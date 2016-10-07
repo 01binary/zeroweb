@@ -45,6 +45,12 @@
         this.getContext = getContext;
         
         /**
+         * Get device pixel ratio.
+         * @type {function}
+         */
+        this.getPixelRatio = getPixelRatio;
+        
+        /**
         * Get css property.
         * @type {function}
         */
@@ -73,8 +79,7 @@
         {
             // Apply both element and css size to
             // increase bitmap resolution on high-dpi screens.
-            var pixelRatio = window.devicePixelRatio ||
-                            window.screen.deviceXDPI / window.screen.deviceYDPI;
+            var pixelRatio = this.getPixelRatio();
 
             var canvas = $("<canvas></canvas>")
                         .attr("class", className)
@@ -89,6 +94,15 @@
             context.scale(pixelRatio, pixelRatio);
 
             return canvas;
+        }
+        
+        /**
+         * Get device pixel ratio.
+         */
+        function getPixelRatio()
+        {
+            return window.devicePixelRatio ||
+                window.screen.deviceXDPI / window.screen.deviceYDPI;
         }
         
         /**

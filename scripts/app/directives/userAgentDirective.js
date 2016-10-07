@@ -38,9 +38,11 @@
                     $element.addClass("ie");
                 }
 
-                if (navigator.userAgent.indexOf("Edge/") != -1)
+                if (navigator.userAgent.indexOf("Edge/") != -1 ||
+                    navigator.userAgent.indexOf("MSIE 10") != -1 ||
+                    navigator.userAgent.indexOf("rv:11.0") != -1)
                 {
-                    $element.addClass("edge");
+                    $element.addClass("gt-ie9");
                 }
             }
         };

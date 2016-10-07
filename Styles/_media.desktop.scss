@@ -247,27 +247,28 @@ a.author:hover
 .button-special
 {
     display: inline-block;
+    position: relative;
     color: $primary-text-color;
     background: $primary-color;
     font-size: $small-font-size;
+    padding: 0;
     border: $border-thickness solid $primary-dark-color;
     box-shadow: $border-thickness $border-thickness 0px $primary-light-color inset;
     outline: none;
     cursor: pointer;
-    padding: 0;
-    position: relative;
+    overflow: visible;
 }
 
 .button-special:before
 {
     content: "";
-    z-index: -1;
     position: absolute;
     left: 0;
-    right: $corner-small;
-    top: 0;
+    top: $corner-small + $border-thickness * 2;
     bottom: 0;
-    box-shadow: $border-thickness $border-thickness $border-thickness $drop-shadow-dark-color;
+    right: $corner-small;
+    box-shadow: 0 $border-thickness $border-thickness * 2 $drop-shadow-dark-color;
+    z-index: -1;
 }
 
 .button-special-leftcorner
@@ -276,8 +277,8 @@ a.author:hover
     border-top: $corner-small solid $background-color;
     border-right: $corner-small solid transparent;
     position: absolute;
-    left: -$border-thickness;
-    top: -$border-thickness;
+    left: -$border-thickness * 1.1;
+    top: -$border-thickness * 1.1;
 }
 
 .button-special-leftcornerborder
@@ -296,8 +297,8 @@ a.author:hover
     border-top: $corner-small solid $primary-light-color;
     border-right: $corner-small solid transparent;
     position: absolute;
-    left: $border-thickness / 2;
-    top: $border-thickness / 2;
+    left: $border-thickness / 4;
+    top: $border-thickness / 4;
 }
 
 .button-special-rightcorner
@@ -314,12 +315,11 @@ a.author:hover
 .button-special-rightcornershadow
 {
     content: "";
-    border-bottom: $corner-small solid $drop-shadow-transparent-color;
+    border-bottom: $corner-small solid $primary-dark-shadow-color;
     border-left: $corner-small solid transparent;
     position: absolute;
-    opacity: $drop-shadow-opacity;
     right: $border-thickness / 4;
-    bottom: $border-thickness;
+    bottom: 0;
 }
 
 .button-special-rightcornerborder
@@ -329,25 +329,23 @@ a.author:hover
     border-left: $corner-small solid transparent;
     position: absolute;
     right: -$border-thickness / 2;
-    bottom: 0;
+    bottom: -$border-thickness / 2;
 }
 
 .button-special-rightshadow
 {
     content: "";
-    opacity: $drop-shadow-opacity;
-    border-right: $border-thickness solid $drop-shadow-transparent-color;
+    border-right: $border-thickness solid $primary-dark-shadow-color;
     position: absolute;
     top: $border-thickness;
     bottom: 0;
     right: 0;
 }
 
-.button-special-bottomborder
+.button-special-bottomshadow
 {
     content: "";
-    opacity: $drop-shadow-opacity;
-    border-bottom: $border-thickness solid $drop-shadow-transparent-color;
+    border-bottom: $border-thickness solid $primary-dark-shadow-color;
     position: absolute;
     bottom: -$border-thickness / 4;
     left: 0;
@@ -356,10 +354,123 @@ a.author:hover
 
 .button-special-content
 {
-    padding-left: $corner-small * 1.5;
-    padding-right: $corner-small * 1.5;
+    padding-left: 7px;
+    padding-right: 9px;
     padding-bottom: $corner-small / 2 + $border-thickness;
     padding-top: $corner-small / 2;
+}
+
+.lt-ie8 .button-special-leftcorner
+{
+    display: none;
+}
+
+.lt-ie8 .button-special-leftcornerborder
+{
+    border-top: none;
+    border-right: none;
+    border-left: $border-thickness solid $primary-light-color;
+    left: -$border-thickness;
+    top: -$border-thickness;
+    bottom: 0;
+}
+
+.lt-ie9 .button-special-leftcornerhighlight
+{
+    display: none;
+}
+
+.lt-ie8 .button-special-leftcornerhighlight
+{
+    border-top: $border-thickness solid $primary-light-color;
+    border-right: none;
+    left: -$border-thickness;
+    top: -$border-thickness;
+    right: 0;
+    display: block;
+}
+
+.lt-ie8 .button-special-rightcorner
+{
+    display: none;
+}
+
+.lt-ie8 .button-special-rightcornerborder
+{
+    display: none;
+}
+
+.lt-ie8 .button-special-rightcornershadow
+{
+    display: none;
+}
+
+.lt-ie8 .button-special-rightshadow
+{
+    top: 0;
+    bottom: -$border-thickness;
+    right: -$border-thickness;
+}
+
+.lt-ie8 .button-special-bottomshadow
+{
+    bottom: -$border-thickness;
+}
+
+.lt-ie8 .button-special-content
+{
+    padding-left: $corner-small * 0.9;
+    padding-right: $corner-small * 0.9;
+    padding-bottom: $border-thickness * 3;
+    padding-top: $border-thickness * 2;
+}
+
+.lt-ie9 .button-special
+{
+    font-family: $fallback-font !important;
+}
+
+.lt-ie9 .button-special:hover
+{
+    background: $primary-hover-color;
+}
+
+.lt-ie9 .button-special-leftcorner
+{
+    left: -2px !important;
+}
+
+.lt-ie9 .button-special-rightcorner
+{
+    bottom: -2px !important;
+}
+
+.lt-ie9 .button-special-rightcornershadow
+{
+    right: 0;
+    bottom: 0;
+}
+
+.ie .button-special:before
+{
+    box-shadow: 0 $border-thickness * 1.7 $border-thickness * 2 $drop-shadow-light-color;
+}
+
+.gt-ie9 .button-special:before
+{
+    bottom: $border-thickness;
+    box-shadow: 0 $border-thickness * 2 $border-thickness * 4 $drop-shadow-dark-color;
+}
+
+@-moz-document url-prefix()
+{
+    .button-special-content
+    {
+        padding-top: 2px;
+        padding-bottom: 4px;
+        padding-left: 4px;
+        padding-right: 6px;
+    }
 }
 
 .button-form
@@ -369,7 +480,7 @@ a.author:hover
     background: $primary-color;
     font-size: $small-font-size;
     border: $border-thickness solid $primary-dark-color;
-    box-shadow: 0px 1px 0px $primary-light-color inset;
+    box-shadow: 0 $border-thickness 0 $primary-light-color inset;
     padding-top: 2pt;
     padding-bottom: 3pt;
     outline: none;

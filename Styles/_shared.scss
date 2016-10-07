@@ -6,6 +6,7 @@ $primary-color: #12C0E1;
 $primary-hover-color: #19C9EA;
 $primary-light-color: #71D3DB;
 $primary-dark-color: #0E93AD;
+$primary-dark-shadow-color: #10a6c4;
 $primary-text-color: #FFFFFF;
 
 $secondary-text-color: #848D95;
@@ -51,6 +52,8 @@ $normal-font-size: 10pt;
 $small-font: $normal-font;
 $small-font-size: 9pt;
 
+$fallback-font: sans-serif;
+
 $background-font: Arial;
 
 /*
@@ -60,4 +63,3 @@ $background-font: Arial;
  $margin: 9pt;
  $border-thickness: 1px;
  $corner-small: 8px;
- $drop-shadow-opacity: 0.07;

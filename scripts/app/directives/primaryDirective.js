@@ -60,7 +60,7 @@
                     $element.animation = $({fade:0}).animate({fade:1},
                     {
                         duration: "fast",
-                        step: function() { fadeButton($element, +this.fade); }
+                        step: function() { fadeButton($element, this.fade); }
                     });
                 });
 
@@ -114,6 +114,7 @@
         fadeShadow[2] += fade * scale;
 
         $element.css({
+            backgroundColor: buttonColor(fadeBase),
             background: buttonGradient(fadeBase, fadeShadow)
         });
     }
@@ -131,8 +132,25 @@
         fadeShadow[2] = 0.4;
 
         $element.css({
+            backgroundColor: buttonColor(fadeBase),
             background: buttonGradient(fadeShadow, fadeBase)
         });
+    }
+    
+    /**
+     * Serializes a css color declaration for button background.
+     * @param {int[3]} color - Color in HSL as 3-component int array.
+     * @returns {string} Button color css declaration.
+     */
+    function buttonColor(baseColorHsl)
+    {
+        return "hsl(" +
+            Math.ceil(baseColorHsl[0] * 360) +
+            "," +
+            Math.ceil(baseColorHsl[1] * 100) +
+             "%," +
+            Math.ceil(baseColorHsl[2] * 100) +
+            "%)";
     }
 
     /**

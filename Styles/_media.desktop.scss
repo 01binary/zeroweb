@@ -900,17 +900,16 @@ a.author:hover
 {
     font-family: $small-font;
     font-size: $small-font-size;
-    padding: 4px;
+    padding: $border-thickness * 4;
     outline: none;
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
-    margin-bottom: 10pt;
 }
 
 .form-input:focus
 {
     border: $border-thickness solid $accent-text-color;
-    box-shadow: 0px 0px 6px 0px $primary-color;
+    box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color;
 }
 
 .callout
@@ -924,6 +923,8 @@ a.author:hover
 .form-group
 {
     overflow: hidden;
+    padding: 3px;
+    margin-bottom: 10pt;
 }
 
 .comment-input

@@ -38,12 +38,23 @@
                 {
                     $element.addClass("ie");
                 }
+                
+                var edge = navigator.userAgent.indexOf("Edge/") != -1
+                var ie10 = navigator.userAgent.indexOf("MSIE 10") != -1;
+                var ie11 = navigator.userAgent.indexOf("rv:11.0") != -1;
 
-                if (navigator.userAgent.indexOf("Edge/") != -1 ||
-                    navigator.userAgent.indexOf("MSIE 10") != -1 ||
-                    navigator.userAgent.indexOf("rv:11.0") != -1)
+                if (ie10 || ie11 || edge)
                 {
                     $element.addClass("gt-ie9");
+                    
+                    if (edge)
+                    {
+                        $element.addClass("edge");
+                    }
+                    else if (ie11)
+                    {
+                        $element.addClass("gt-ie10");
+                    }
                 }
                 
                 if ($render2dProvider.getPixelRatio() > 1)

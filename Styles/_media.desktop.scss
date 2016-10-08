@@ -254,6 +254,7 @@ a.author:hover
     padding: 0;
     border: $border-thickness solid $primary-dark-color;
     box-shadow: $border-thickness $border-thickness 0px $primary-light-color inset;
+    text-shadow: -0.5px -0.5px 0 $primary-dark-color;
     outline: none;
     cursor: pointer;
     overflow: visible;
@@ -477,6 +478,12 @@ a.author:hover
 {
 	left: 0;
 	top: -$border-thickness;
+}
+
+.edge.hi-dpi .button-special-leftcornerborder
+{
+    left: 0;
+    top: 0;
 }
 
 .hi-dpi .button-special-leftcornerhighlight

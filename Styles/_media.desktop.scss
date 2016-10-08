@@ -254,7 +254,7 @@ a.author:hover
     padding: 0;
     border: $border-thickness solid $primary-dark-color;
     box-shadow: $border-thickness $border-thickness 0px $primary-light-color inset;
-    text-shadow: -0.5px -0.5px 0 $primary-dark-color;
+    text-shadow: 0 (-$border-thickness / 2) 0 $primary-dark-color;
     outline: none;
     cursor: pointer;
     overflow: visible;
@@ -268,7 +268,7 @@ a.author:hover
     top: $corner-small + $border-thickness * 2;
     bottom: 0;
     right: $corner-small;
-    box-shadow: 0 $border-thickness $border-thickness * 2 $drop-shadow-dark-color;
+    box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
     z-index: -1;
 }
 
@@ -311,8 +311,8 @@ a.author:hover
 
 .button-special-rightcornershadow
 {
-    border-bottom: $corner-small + $border-thickness solid $primary-dark-shadow-color;
-    border-left: $corner-small + $border-thickness solid transparent;
+    border-bottom: ($corner-small + $border-thickness) solid $primary-dark-shadow-color;
+    border-left: ($corner-small + $border-thickness) solid transparent;
     position: absolute;
     right: 0;
     bottom: 0;
@@ -320,8 +320,8 @@ a.author:hover
 
 .button-special-rightcornerborder
 {
-    border-bottom: $corner-small + $border-thickness solid $primary-dark-color;
-    border-left: $corner-small + $border-thickness solid transparent;
+    border-bottom: ($corner-small + $border-thickness) solid $primary-dark-color;
+    border-left: ($corner-small + $border-thickness) solid transparent;
     position: absolute;
     right: 0;
     bottom: -$border-thickness;
@@ -350,7 +350,7 @@ a.author:hover
     box-sizing: border-box;
     padding-left: 7px;
     padding-right: 9px;
-    padding-bottom: $corner-small / 2 + $border-thickness;
+    padding-bottom: ($corner-small / 2) + $border-thickness;
     padding-top: $corner-small / 2;
 }
 
@@ -465,13 +465,13 @@ a.author:hover
 
 .ie .button-special:before
 {
-    box-shadow: 0 $border-thickness * 1.7 $border-thickness * 2 $drop-shadow-light-color;
+    box-shadow: 0 ($border-thickness * 1.7) ($border-thickness * 2) $drop-shadow-light-color;
 }
 
 .gt-ie9 .button-special:before
 {
     bottom: $border-thickness;
-    box-shadow: 0 $border-thickness * 2 $border-thickness * 4 $drop-shadow-dark-color;
+    box-shadow: 0 ($border-thickness * 2) ($border-thickness * 4) $drop-shadow-dark-color;
 }
 
 .hi-dpi .button-special-leftcornerborder
@@ -496,8 +496,8 @@ a.author:hover
 {
     .hi-dpi .button-special-leftcorner
     {
-        border-top: $corner-small + $border-thickness solid $background-color;
-        border-right: $corner-small + $border-thickness solid transparent;
+        border-top: ($corner-small + $border-thickness) solid $background-color;
+        border-right: ($corner-small + $border-thickness) solid transparent;
     }
     
     .hi-dpi .button-special-leftcornerborder

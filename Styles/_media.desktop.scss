@@ -896,6 +896,13 @@ a.author:hover
     min-height: 10pt;
 }
 
+.form-group
+{
+    overflow: hidden;
+    padding: 3px;
+    margin-bottom: 10pt;
+}
+
 .form-input
 {
     font-family: $small-font;
@@ -904,12 +911,18 @@ a.author:hover
     outline: none;
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
+    box-shadow: inset 0 $border-thickness ($border-thickness * 2) $accent-color;
 }
 
 .form-input:focus
 {
     border: $border-thickness solid $accent-text-color;
-    box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color;
+    box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color, inset 0 $border-thickness ($border-thickness * 2) $border-color;
+}
+
+.comment-input
+{
+    resize: vertical;
 }
 
 .callout
@@ -918,18 +931,6 @@ a.author:hover
     float: left;
     left: -12px;
     color: $primary-color;
-}
-
-.form-group
-{
-    overflow: hidden;
-    padding: 3px;
-    margin-bottom: 10pt;
-}
-
-.comment-input
-{
-    resize: vertical;
 }
 
 .popup

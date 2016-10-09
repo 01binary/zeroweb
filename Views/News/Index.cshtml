@@ -128,10 +128,16 @@
         }
         </span>
 
-        <div data-ng-show="news.addingComment[@story.id]">
+        <div class="comment-form" data-ng-show="news.addingComment[@story.id]">
             <!-- Submit button -->
-            <button class="button-form button-right" data-primary data-ng-click="news.addComment(@story.id)">
-                <icon class="icon-button" data-src="images/banner.svg#submit" data-width="10" data-height="10"></icon> submit
+            <button class="button-right"
+                data-primary
+                data-ng-click="news.addComment(@story.id)">
+                <icon class="icon-button"
+                    data-src="images/banner.svg#submit"
+                    data-width="10"
+                    data-height="10" />
+                submit
             </button>
 
             <div class="spacer-right"></div>
@@ -139,7 +145,10 @@
 
             <!-- Comment input -->
             <div class="form-group">
-                <textarea class="form-input comment-input full-width" rows="1" data-ng-model="news.newComment[@story.id]" />
+                <textarea class="form-input comment-input full-width"
+                    data-ng-model="news.newComment[@story.id]"
+                    placeholder="Leave a comment"
+                    rows="1" />
             </div>
         </div>
     </div>

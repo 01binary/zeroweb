@@ -33,6 +33,44 @@
             scope: {},
             link: function($scope, $element, attributes)
             {
+                // Add primary class.
+                $element.addClass("button-primary");
+
+                // Add layout elements.
+                var layoutBefore =
+                [
+                    "button-primary-leftcornerhighlight",
+                    "button-primary-leftcornerborder",
+                    "button-primary-leftcorner"
+                ];
+
+                var layoutAfter =
+                [
+                    "button-primary-rightcorner",
+                    "button-primary-rightcornershadow",
+                    "button-primary-rightshadow",
+                    "button-primary-bottomshadow",
+                    "button-primary-rightcornerborder"
+                ];
+
+                var $content = $element.contents().detach();
+
+                for (var before in layoutBefore)
+                {
+                    $("<div class=\"" + layoutBefore[before] + "\"></div>")
+                        .appendTo($element);
+                }
+
+                $("<div class=\"button-primary-content\"></div>")
+                    .append($content)
+                    .appendTo($element);
+
+                for (var after in layoutAfter)
+                {
+                    $("<div class=\"" + layoutAfter[after] + "\"></div>")
+                        .appendTo($element);
+                }
+                
                 // Calculate the gradient from base color.
                 var style = $element.css("backgroundColor");
 

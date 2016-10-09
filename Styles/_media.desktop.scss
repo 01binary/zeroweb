@@ -239,7 +239,7 @@ a.author:hover
     border-bottom: $border-thickness dotted $primary-color;
 }
 
-.button-special
+.button-primary
 {
     display: inline-block;
     position: relative;
@@ -255,7 +255,7 @@ a.author:hover
     overflow: visible;
 }
 
-.button-special:before
+.button-primary:before
 {
     content: "";
     position: absolute;
@@ -267,7 +267,7 @@ a.author:hover
     z-index: -1;
 }
 
-.button-special-leftcorner
+.button-primary-leftcorner
 {
     border-top: $corner-small solid $background-color;
     border-right: $corner-small solid transparent;
@@ -276,7 +276,7 @@ a.author:hover
     top: -$border-thickness;
 }
 
-.button-special-leftcornerborder
+.button-primary-leftcornerborder
 {
     border-top: $corner-small solid $primary-dark-color;
     border-right: $corner-small solid transparent;
@@ -285,7 +285,7 @@ a.author:hover
     top: 0;
 }
 
-.button-special-leftcornerhighlight
+.button-primary-leftcornerhighlight
 {
     border-top: $corner-small solid $primary-light-color;
     border-right: $corner-small solid transparent;
@@ -294,7 +294,7 @@ a.author:hover
     top: $border-thickness;
 }
 
-.button-special-rightcorner
+.button-primary-rightcorner
 {
     border-bottom: $corner-small solid $background-color;
     border-left: $corner-small solid transparent;
@@ -304,7 +304,7 @@ a.author:hover
     z-index: 1;
 }
 
-.button-special-rightcornershadow
+.button-primary-rightcornershadow
 {
     border-bottom: ($corner-small + $border-thickness) solid $primary-dark-shadow-color;
     border-left: ($corner-small + $border-thickness) solid transparent;
@@ -313,7 +313,7 @@ a.author:hover
     bottom: 0;
 }
 
-.button-special-rightcornerborder
+.button-primary-rightcornerborder
 {
     border-bottom: ($corner-small + $border-thickness) solid $primary-dark-color;
     border-left: ($corner-small + $border-thickness) solid transparent;
@@ -322,7 +322,7 @@ a.author:hover
     bottom: -$border-thickness;
 }
 
-.button-special-rightshadow
+.button-primary-rightshadow
 {
     border-right: $border-thickness solid $primary-dark-shadow-color;
     position: absolute;
@@ -331,7 +331,7 @@ a.author:hover
     right: 0;
 }
 
-.button-special-bottomshadow
+.button-primary-bottomshadow
 {
     border-bottom: $border-thickness solid $primary-dark-shadow-color;
     position: absolute;
@@ -340,7 +340,7 @@ a.author:hover
     right: 0;
 }
 
-.button-special-content
+.button-primary-content
 {
     box-sizing: border-box;
     padding-left: 7px;
@@ -349,24 +349,24 @@ a.author:hover
     padding-top: $corner-small / 2;
 }
 
-.lt-ie9 .button-special-leftcornerborder
+.lt-ie9 .button-primary-leftcornerborder
 {
     left: -$border-thickness;
     top: -$border-thickness;
 }
 
-.lt-ie9 .button-special-rightcornerborder
+.lt-ie9 .button-primary-rightcornerborder
 {
     right: -$border-thickness;
     bottom: -$border-thickness;
 }
 
-.lt-ie8 .button-special-leftcorner
+.lt-ie8 .button-primary-leftcorner
 {
     display: none;
 }
 
-.lt-ie8 .button-special-leftcornerborder
+.lt-ie8 .button-primary-leftcornerborder
 {
     border-top: none;
     border-right: none;
@@ -376,12 +376,12 @@ a.author:hover
     bottom: 0;
 }
 
-.lt-ie9 .button-special-leftcornerhighlight
+.lt-ie9 .button-primary-leftcornerhighlight
 {
     display: none;
 }
 
-.lt-ie8 .button-special-leftcornerhighlight
+.lt-ie8 .button-primary-leftcornerhighlight
 {
     border-top: $border-thickness solid $primary-light-color;
     border-right: none;
@@ -391,39 +391,39 @@ a.author:hover
     display: block;
 }
 
-.lt-ie8 .button-special-rightcorner
+.lt-ie8 .button-primary-rightcorner
 {
     display: none;
 }
 
-.lt-ie8 .button-special-rightcornerborder
+.lt-ie8 .button-primary-rightcornerborder
 {
     display: none;
 }
 
-.lt-ie8 .button-special-rightcornershadow
+.lt-ie8 .button-primary-rightcornershadow
 {
     display: none;
 }
 
-.lt-ie8 .button-special-rightshadow
+.lt-ie8 .button-primary-rightshadow
 {
     top: 0;
     bottom: -$border-thickness;
     right: -$border-thickness;
 }
 
-.lt-ie9 .button-special-bottomshadow
+.lt-ie9 .button-primary-bottomshadow
 {
     bottom: 0;
 }
 
-.lt-ie8 .button-special-bottomshadow
+.lt-ie8 .button-primary-bottomshadow
 {
     bottom: -$border-thickness;
 }
 
-.lt-ie8 .button-special-content
+.lt-ie8 .button-primary-content
 {
     padding-left: 7px;
     padding-right: 7px;
@@ -431,57 +431,57 @@ a.author:hover
     padding-top: $border-thickness * 2;
 }
 
-.lt-ie9 .button-special
+.lt-ie9 .button-primary
 {
     font-family: $fallback-font !important;
 }
 
-.lt-ie9 .button-special:hover
+.lt-ie9 .button-primary:hover
 {
     background: $primary-hover-color;
 }
 
-.lt-ie9 .button-special-leftcorner
+.lt-ie9 .button-primary-leftcorner
 {
     left: -$border-thickness * 2;
 }
 
-.lt-ie9 .button-special-rightcorner
+.lt-ie9 .button-primary-rightcorner
 {
     bottom: -$border-thickness * 2;
     right: -$border-thickness * 2;
 }
 
-.lt-ie9 .button-special-rightcornershadow
+.lt-ie9 .button-primary-rightcornershadow
 {
     right: -$border-thickness;
     bottom: -$border-thickness;
 }
 
-.ie .button-special:before
+.ie .button-primary:before
 {
     box-shadow: 0 ($border-thickness * 1.7) ($border-thickness * 2) $drop-shadow-light-color;
 }
 
-.gt-ie9 .button-special:before
+.gt-ie9 .button-primary:before
 {
     bottom: $border-thickness;
     box-shadow: 0 ($border-thickness * 2) ($border-thickness * 4) $drop-shadow-dark-color;
 }
 
-.hi-dpi .button-special-leftcornerborder
+.hi-dpi .button-primary-leftcornerborder
 {
 	left: 0;
 	top: -$border-thickness;
 }
 
-.edge.hi-dpi .button-special-leftcornerborder
+.edge.hi-dpi .button-primary-leftcornerborder
 {
     left: 0;
     top: 0;
 }
 
-.hi-dpi .button-special-leftcornerhighlight
+.hi-dpi .button-primary-leftcornerhighlight
 {
 	left: 0;
 	top: $border-thickness;
@@ -489,86 +489,42 @@ a.author:hover
 
 @-moz-document url-prefix()
 {
-    .hi-dpi .button-special-leftcorner
+    .hi-dpi .button-primary-leftcorner
     {
         border-top: ($corner-small + $border-thickness) solid $background-color;
         border-right: ($corner-small + $border-thickness) solid transparent;
     }
     
-    .hi-dpi .button-special-leftcornerborder
+    .hi-dpi .button-primary-leftcornerborder
     {
         left: 0;
         top: 0;
     }
 
-    .hi-dpi .button-special-leftcornerhighlight
+    .hi-dpi .button-primary-leftcornerhighlight
     {
         left: $border-thickness;
         top: $border-thickness;
     }
     
-    .hi-dpi .button-special-rightcornerborder
+    .hi-dpi .button-primary-rightcornerborder
     {
         bottom: 0;
         right: 0;
     }
 
-    .button-special
+    .button-primary
     {
         min-height: 2.2em;
     }
     
-    .button-special-content
+    .button-primary-content
     {
         padding-top: 1px;
         padding-bottom: 4px;
         padding-left: 4px;
         padding-right: 6px;
     }
-}
-
-.button-form
-{
-    display: inline-block;
-    color: $primary-text-color;
-    background: $primary-color;
-    font-size: $small-font-size;
-    border: $border-thickness solid $primary-dark-color;
-    box-shadow: 0 $border-thickness 0 $primary-light-color inset;
-    padding-top: 2pt;
-    padding-bottom: 3pt;
-    outline: none;
-    cursor: pointer;
-}
-
-.button-form:before
-{
-    content: "";
-    position: absolute;
-    transform: skewX(45deg);
-    width: 4pt;
-    height: 4pt;
-    background: $background-color;
-    float: left;
-    margin-left: -9px;
-    margin-top: 11pt;
-    border-right: 2px solid $primary-dark-color;
-    cursor: default;
-}
-
-.button-form:after
-{
-    content: "";
-    position: absolute;
-    transform: skewX(45deg);
-    width: 4pt;
-    height: 4pt;
-    background: $background-color;
-    float: right;
-    margin-left: 2px;
-    margin-top: -3pt;
-    border-left: 2px solid $primary-dark-color;
-    cursor: default;
 }
 
 .button-inline
@@ -604,6 +560,7 @@ a.author:hover
 .button-right
 {
     min-width: 6.4em;
+    margin-top: 3px;
     float: right;
 }
 
@@ -861,6 +818,12 @@ a.author:hover
     background: $accent-light-color;
 }
 
+.comment-form
+{
+    margin-top: -3px;
+    margin-bottom: -10px;
+}
+
 .full-width
 {
     width: 100%;
@@ -911,7 +874,7 @@ a.author:hover
     outline: none;
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
-    box-shadow: inset 0 $border-thickness ($border-thickness * 2) $accent-color;
+    box-shadow: inset 0 $border-thickness $border-thickness $accent-color;
 }
 
 .form-input:focus
@@ -922,6 +885,7 @@ a.author:hover
 
 .comment-input
 {
+    min-height: 20pt;
     resize: vertical;
 }
 

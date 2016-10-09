@@ -239,11 +239,6 @@ a.author:hover
     border-bottom: $border-thickness dotted $primary-color;
 }
 
-.form-inline
-{
-    display: inline;
-}
-
 .button-special
 {
     display: inline-block;
@@ -896,6 +891,11 @@ a.author:hover
     min-height: 10pt;
 }
 
+.form-inline
+{
+    display: inline;
+}
+
 .form-group
 {
     overflow: hidden;
@@ -917,7 +917,7 @@ a.author:hover
 .form-input:focus
 {
     border: $border-thickness solid $accent-text-color;
-    box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color, inset 0 $border-thickness ($border-thickness * 2) $border-color;
+    box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color;
 }
 
 .comment-input

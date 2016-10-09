@@ -43,25 +43,31 @@
         <script type="text/javascript" src="../scripts/app/services/svgService.js"></script>
     </head>
     <body>
-        <p>Testing!</p>
-        
-        <div class="form-group">
-            <textarea class="form-input comment-input full-width" rows="1" placeholder="Leave a comment"></textarea>
-        </div>
-        
-        <button class="button-special" data-primary>
-            <div class="button-special-leftcornerhighlight"></div>
-            <div class="button-special-leftcornerborder"></div>
-            <div class="button-special-leftcorner"></div>
-            <div class="button-special-content">
-                <icon class="icon-button" data-src="images/banner.svg#submit" data-width="10" data-height="10"></icon>
+        <p>Testing Testing</p>
+        <div class="comment-form" data-ng-show="news.addingComment[@story.id]">
+            <!-- Submit button -->
+            <button class="button-right"
+                data-primary
+                data-ng-click="news.addComment(@story.id)">
+                <icon class="icon-button"
+                    data-src="images/banner.svg#submit"
+                    data-width="10"
+                    data-height="10">
+                </icon>
                 submit
+            </button>
+
+            <div class="form-spacer-right"></div>
+            <div class="form-spacer-left"></div>
+
+            <!-- Comment input -->
+            <div class="form-group">
+                <textarea class="form-input comment-input full-width"
+                    data-ng-model="news.newComment[@story.id]"
+                    placeholder=">"
+                    rows="1">
+                </textarea>
             </div>
-            <div class="button-special-rightcorner"></div>
-            <div class="button-special-rightcornershadow"></div>
-            <div class="button-special-rightshadow"></div>
-            <div class="button-special-bottomshadow"></div>
-            <div class="button-special-rightcornerborder"></div>
-        </button>
+        </div>
     </body>
 </html>

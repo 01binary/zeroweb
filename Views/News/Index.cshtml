@@ -52,7 +52,8 @@
     <error data-ng-show="news.error[@story.id]"
            data-operation="'load news story'"
            data-code="news.error[@story.id].status"
-           data-message="news.error[@story.id].statusText"></error>
+           data-message="news.error[@story.id].statusText">
+    </error>
 
     <!-- Story loading indicator -->
     <p data-ng-show="news.loading[@story.id]">
@@ -83,7 +84,8 @@
                data-operation="news.commentOperation[@story.id]"
                data-error="news.commentError[@story.id]"
                data-code="news.commentError[@story.id].status"
-               data-message="news.commentError[@story.id].statusText"></error>
+               data-message="news.commentError[@story.id].statusText">
+        </error>
 
         <!-- Add comment button -->
         <button class="button-inline"
@@ -136,19 +138,21 @@
                 <icon class="icon-button"
                     data-src="images/banner.svg#submit"
                     data-width="10"
-                    data-height="10" />
+                    data-height="10">
+                </icon>
                 submit
             </button>
 
-            <div class="spacer-right"></div>
-            <div class="spacer-left"></div>
+            <div class="form-spacer-right"></div>
+            <div class="form-spacer-left"></div>
 
             <!-- Comment input -->
             <div class="form-group">
                 <textarea class="form-input comment-input full-width"
                     data-ng-model="news.newComment[@story.id]"
                     placeholder="Leave a comment"
-                    rows="1" />
+                    rows="1">
+                </textarea>
             </div>
         </div>
     </div>

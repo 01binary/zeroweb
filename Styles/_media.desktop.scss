@@ -840,14 +840,14 @@ a.author:hover
     color: $primary-color;
 }
 
-.spacer-right
+.form-spacer-right
 {
     float: right;
     width: 5pt;
     min-height: 10pt;
 }
 
-.spacer-left
+.form-spacer-left
 {
     float: left;
     width: 11pt;
@@ -885,7 +885,7 @@ a.author:hover
 
 .comment-input
 {
-    min-height: 20pt;
+    min-height: 19pt;
     resize: vertical;
 }
 

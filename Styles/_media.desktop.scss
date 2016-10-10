@@ -875,6 +875,7 @@ a.author:hover
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
     box-shadow: inset 0 $border-thickness $border-thickness $accent-color;
+    transition: all .15s linear;
 }
 
 .form-input:focus

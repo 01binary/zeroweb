@@ -890,6 +890,15 @@ a.author:hover
     box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color;
 }
 
+::-webkit-input-placeholder {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+}
+:-moz-placeholder {
+    font-weight: normal;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .comment-input
 {
     min-height: 19pt;

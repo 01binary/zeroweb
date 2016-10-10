@@ -835,6 +835,30 @@ a.author:hover
     margin-bottom: 10px;
 }
 
+.register-form:before
+{
+    content: "[";
+    position: absolute;
+    left: -15pt;
+    top: -35pt;
+    font-family: $background-font;
+    font-size: 220pt;
+    color: $accent-color;
+    z-index: -1;
+}
+
+.register-form:after
+{
+    content: "]";
+    position: absolute;
+    right: -15pt;
+    top: -35pt;
+    font-family: $background-font;
+    font-size: 220pt;
+    color: $accent-color;
+    z-index: -1;
+}
+
 .full-width
 {
     width: 100%;
@@ -964,4 +988,5 @@ a.author:hover
 
     font-family: $normal-font;
     font-size: $normal-font-size;
+    overflow: hidden;
 }

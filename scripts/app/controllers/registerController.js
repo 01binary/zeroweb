@@ -33,15 +33,16 @@
         $(document).ready(function()
         {
             window.resizeTo(window.outerWidth, 350);
-        });
 
-        setTimeout(function()
-        {
-            $("#defaultInput").focus(function()
+            var initialFocus = $("#defaultInput");
+
+            initialFocus.focus(function()
             {
                 $(this).select();
             });
-        }, 500);
+
+            initialFocus.focus();
+        });
     }
 
 })();

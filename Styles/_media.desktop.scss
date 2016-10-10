@@ -830,6 +830,11 @@ a.author:hover
     margin-bottom: -7px;
 }
 
+.register-form
+{
+    margin-bottom: 10px;
+}
+
 .full-width
 {
     width: 100%;
@@ -850,6 +855,13 @@ a.author:hover
 {
     float: right;
     width: 4px;
+    min-height: 10pt;
+}
+
+.form-spacer-right-large
+{
+    float: right;
+    width: 6px;
     min-height: 10pt;
 }
 
@@ -894,6 +906,7 @@ a.author:hover
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
 }
+
 :-moz-placeholder {
     font-weight: normal;
     -moz-osx-font-smoothing: grayscale;

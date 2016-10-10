@@ -21,7 +21,8 @@
 </p>
 
 <!-- Register form -->
-<form id="registration"
+<form class="register-form"
+    id="registration"
     action="~/services/users/register"
     method="post"
     asp-antiforgery="true"
@@ -32,12 +33,15 @@
         class="form-input full-width"
         id="defaultInput"
         name="name"
+        placeholder="Type your name"
         value="@defaultName"/>
 </form>
 
 <!-- Buttons are merged with popup layout buttons -->
 @section Buttons
 {
+    <div class="form-spacer-right-large"></div>
+
     <button type="submit"
         class="button-form button-right"
         onclick="registration.submit()"

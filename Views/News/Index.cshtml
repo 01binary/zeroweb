@@ -80,14 +80,6 @@
             </p>
         </span>
 
-        <!-- Comments error -->
-        <error data-ng-show="news.commentError[@story.id]"
-               data-operation="news.commentOperation[@story.id]"
-               data-error="news.commentError[@story.id]"
-               data-code="news.commentError[@story.id].status"
-               data-message="news.commentError[@story.id].statusText">
-        </error>
-
         <!-- Add comment button -->
         <button class="button-inline"
                 data-ng-class="{'button-inline-toggled': news.addingComment[@story.id]}"
@@ -132,6 +124,15 @@
         </span>
 
         <div class="comment-form" data-ng-show="news.addingComment[@story.id]">
+            <!-- Comments error -->
+            <error class="comment-error"
+                data-ng-show="news.commentError[@story.id]"
+                data-operation="news.commentOperation[@story.id]"
+                data-error="news.commentError[@story.id]"
+                data-code="news.commentError[@story.id].status"
+                data-message="news.commentError[@story.id].statusText">
+            </error>
+
             <!-- Submit button -->
             <button class="button-right"
                 data-primary

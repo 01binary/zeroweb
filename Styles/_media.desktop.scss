@@ -690,7 +690,6 @@ a.author:hover
 .tags
 {
     font-size: 0;
-    margin-top: -6pt;
 }
 
 .tag
@@ -700,6 +699,7 @@ a.author:hover
     background: $accent-color;
     font-size: $small-font-size;
     text-decoration: none;
+    line-height: $heading-font-size-medium;
     margin-left: 2pt;
     margin-right: 2pt;
     padding-top: 3pt;
@@ -738,11 +738,17 @@ a.author:hover
     font-size: $small-font-size;
     color: $secondary-text-color;
     margin-top: -6pt;
+    line-height: 16pt;
 }
 
 .article
 {
     border-bottom: $border-thickness dotted $shadow-light-color;
+}
+
+.article-content
+{
+    margin-top: -6pt;
 }
 
 .placeholder

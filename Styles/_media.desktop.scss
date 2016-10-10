@@ -2,6 +2,7 @@ header
 {
     font-family: $title-font;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background: $primary-color;
     color: $primary-text-color;
     min-width: 349px;

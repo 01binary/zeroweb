@@ -34,14 +34,16 @@
             replace: true,
             link: function($scope, $element, attributes)
             {
-                if (navigator.userAgent.indexOf("MSIE ") != -1)
+                var agent = navigator.userAgent.toLowerCase();
+
+                if (agent.indexOf("msie ") != -1)
                 {
                     $element.addClass("ie");
                 }
                 
-                var edge = navigator.userAgent.indexOf("Edge/") != -1
-                var ie10 = navigator.userAgent.indexOf("MSIE 10") != -1;
-                var ie11 = navigator.userAgent.indexOf("rv:11.0") != -1;
+                var edge = agent.indexOf("edge/") != -1
+                var ie10 = agent.indexOf("msie 10") != -1;
+                var ie11 = agent.indexOf("rv:11.0") != -1;
 
                 if (ie10 || ie11 || edge)
                 {
@@ -55,6 +57,11 @@
                     {
                         $element.addClass("gt-ie10");
                     }
+                }
+
+                if (agent.indexOf("windows") != -1)
+                {
+                    $element.addClass("ua-win");
                 }
                 
                 if ($render2dProvider.getPixelRatio() > 1)

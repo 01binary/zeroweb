@@ -39,18 +39,20 @@ $title-font: Consolas, Menlo, monospace;
 $title-font-size: 12pt;
 $title-font-weight: normal;
 
+$navigation-font-size: 14px;
+
 /* Helvetica Neue is available only on Mac */
 /* Calibri is available only on PC */
 $heading-font: "Helvetica Neue", Calibri, sans-serif;
-$heading-font-size-large: 13pt;
-$heading-font-size-medium: 11pt;
+$heading-font-size-large: 20px;
+$heading-font-size-medium: 17px;
 $heading-font-size-small: 10pt;
 
 $normal-font: "Segoe UI", Verdana, sans-serif;
-$normal-font-size: 10pt;
+$normal-font-size: 14px;
 
 $small-font: $normal-font;
-$small-font-size: 9pt;
+$small-font-size: 12.5px;
 
 $fallback-font: sans-serif;
 

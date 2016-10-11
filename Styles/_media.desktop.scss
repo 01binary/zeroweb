@@ -137,6 +137,7 @@ main
     
     font-family: $normal-font;
     font-size: $normal-font-size;
+    -webkit-font-smoothing: antialiased;
 }
 
 main:before
@@ -684,7 +685,7 @@ a.author:hover
     height: auto;
     width: auto;
     color: $primary-text-color;
-    font-size: $normal-font-size;
+    font-size: $navigation-font-size;
     z-index: 6;
 }
 
@@ -700,11 +701,11 @@ a.author:hover
     background: $accent-color;
     font-size: $small-font-size;
     text-decoration: none;
-    line-height: $heading-font-size-medium;
+    line-height: $small-font-size;
     margin-left: 2pt;
     margin-right: 2pt;
-    padding-top: 3pt;
-    padding-bottom: 3.5pt;
+    padding-top: 5px;
+    padding-bottom: 7px;
     padding-left: 5.5pt;
     padding-right: 5pt;
     cursor: pointer;

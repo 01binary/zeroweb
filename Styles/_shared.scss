@@ -13,6 +13,7 @@ $secondary-text-color: #848D95;
 
 $accent-color:#E3EBEC;
 $accent-light-color: #EFEFEF;
+$accent-highlight-color: mix($accent-light-color, white, 40%);
 $accent-text-color: #127191;
 
 $background-color: #FFFFFF;
@@ -43,7 +44,7 @@ $title-font-weight: normal;
 /* Calibri is available only on PC */
 $heading-font: "Helvetica Neue", Calibri, sans-serif;
 $heading-font-size-large: 13pt;
-$heading-font-size-medium: 11pt;
+$heading-font-size-medium: 11.5pt;
 $heading-font-size-small: 10pt;
 
 $normal-font: "Segoe UI", Verdana, sans-serif;

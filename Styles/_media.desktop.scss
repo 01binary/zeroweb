@@ -815,8 +815,15 @@ a.author:hover
     border-top: $border-thickness solid $shadow-color;
     padding-top: 2pt;
     margin-top: -3pt;
-    padding-bottom: 4pt;
+    padding-bottom: 3pt;
     margin-bottom: 3pt;
+    transition: all .15s ease-in-out;
+}
+
+.comment:hover
+{
+    background-color: $accent-highlight-color;
+    background: linear-gradient(white, $accent-highlight-color);
 }
 
 .comment-official
@@ -920,7 +927,7 @@ a.author:hover
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
     box-shadow: inset 0 $border-thickness $border-thickness $accent-color;
-    transition: all .15s linear;
+    transition: all .15s ease-in-out;
 }
 
 .form-input:focus

@@ -927,6 +927,12 @@ a.author:hover
     box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color;
 }
 
+.ua-win .form-input
+{
+    padding-bottom: 0;
+    padding-top: $border-thickness * 3;
+}
+
 ::-webkit-input-placeholder {
     font-weight: normal;
     -webkit-font-smoothing: antialiased;

@@ -913,7 +913,10 @@ a.author:hover
 {
     font-family: $small-font;
     font-size: $small-font-size;
-    padding: $border-thickness * 4;
+    padding-top: $border-thickness * 3;
+    padding-left: $border-thickness * 4;
+    padding-right: $border-thickness * 4;
+    padding-bottom: $border-thickness * 4;
     outline: none;
     border: $border-thickness solid $border-color;
     box-sizing: border-box;

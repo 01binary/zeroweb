@@ -10,6 +10,7 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+using System;
 using System.IO;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
@@ -245,6 +246,13 @@ namespace ZeroWeb
                     }
                 }
             };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(facebookOptions.AppId) ||
+                string.IsNullOrEmpty(facebookOptions.AppSecret))
+            {
+                throw new InvalidOperationException("Ensure facebookId and facebookSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
 
             // Request only the public profile.
             facebookOptions.Scope.Clear();

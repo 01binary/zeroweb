@@ -49,15 +49,13 @@ header h1
     font-weight: $title-font-weight;
 }
 
-header h1:after
+.title-caret
 {
     position: absolute;
-    left: 10.3em;
-    top: 17px;
     width: 11pt;
     height: 4pt;
-    
-    content: "";
+    right: -11pt;
+    bottom: -3pt;
     background: $primary-text-color;
     animation: blink 1.1s linear infinite;
 }

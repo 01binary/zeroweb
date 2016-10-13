@@ -710,7 +710,8 @@ a.author:hover
     cursor: pointer;
 }
 
-.ua-win .tag
+.ua-win .tag,
+.lt-ie10 .tag
 {
     padding-top: 4px;
 }
@@ -857,6 +858,36 @@ a.author:hover
     white-space: pre-line;
     margin-top: 2pt;
     margin-bottom: 2pt;
+}
+
+.ua-win.hi-dpi
+{
+    .comment .metadata
+    {
+        margin-top: 1pt;
+        margin-bottom: 2pt;
+    }
+
+    .comment-content
+    {
+        margin-top: 1pt;
+        margin-bottom: 2pt;
+    }
+}
+
+.ie10, .lt-ie10
+{
+    .comment .metadata
+    {
+        margin-top: 1pt;
+        margin-bottom: 3pt;
+    }
+
+    .comment-content
+    {
+        margin-top: 1pt;
+        margin-bottom: 3pt;
+    }
 }
 
 .comment-form

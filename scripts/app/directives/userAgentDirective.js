@@ -57,6 +57,10 @@
                     {
                         $element.addClass("gt-ie10");
                     }
+                    else if (ie10)
+                    {
+                        $element.addClass("ie10");
+                    }
                 }
 
                 if (agent.indexOf("windows") != -1)

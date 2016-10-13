@@ -71,14 +71,14 @@
     <div class="comments" data-ng-init="news.loadComments(@story.id)">
         <span class="metadata" data-ng-show="news.comments[@story.id].length">
             <!-- Comments heading -->
-            <p>[{{news.comments[@story.id].length}}] Comments</p>
+            <p class="comments-header">[<span class="attention-inline">{{news.comments[@story.id].length}}</span>] Comments</p>
 
             <!-- Story comment -->
             <p class="comment" data-ng-repeat="comment in news.comments[@story.id]" data-ng-class="{'comment-official': comment.author === 'zero'}">
                 <span class="metadata">
                     &nbsp;// <a class="author">{{comment.author}}</a> {{comment.date}}:
                 </span>
-                {{comment.content}}
+                <span class="comment-content">{{comment.content}}</span>
             </p>
         </span>
 

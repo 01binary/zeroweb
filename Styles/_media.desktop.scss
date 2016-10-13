@@ -532,7 +532,6 @@ a.author:hover
     background: $background-color;
     cursor: pointer;
     padding: 0;
-    margin-top: -1pt;
     margin-bottom: 8pt;
     outline: none;
     border: none;
@@ -572,6 +571,11 @@ a.author:hover
     height: 100%;
     z-index: 100;
     background: $background-color;
+}
+
+.attention-inline
+{
+    color: black;
 }
 
 .logo
@@ -811,15 +815,23 @@ a.author:hover
     margin-left: 1.5em;
     font-family: $small-font;
     font-size: $small-font-size;
+    padding-bottom: 0;
+}
+
+.comments-header
+{
+    margin-bottom: 3pt;
 }
 
 .comment
 {
-    border-top: $border-thickness solid $shadow-color;
-    padding-top: 2pt;
-    margin-top: -3pt;
-    padding-bottom: 3pt;
-    margin-bottom: 3pt;
+    overflow: auto;
+    clear: both;
+    border-top: $border-thickness solid $accent-color;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
     transition: all .15s ease-in-out;
 }
 
@@ -829,14 +841,30 @@ a.author:hover
     background: linear-gradient(white, $accent-highlight-color);
 }
 
+.comment .metadata
+{
+    float: left;
+    margin-top: 3pt;
+    margin-right: 2pt;
+    margin-bottom: 3pt;
+}
+
 .comment-official
 {
     background: $accent-light-color;
 }
 
+.comment-content
+{
+    float: left;
+    white-space: pre-line;
+    margin-top: 3pt;
+    margin-bottom: 3pt;
+}
+
 .comment-form
 {
-    margin-top: -3px;
+    margin-top: -7px;
     margin-bottom: -7px;
 }
 

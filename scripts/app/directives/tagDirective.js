@@ -38,12 +38,12 @@
                 // Add handlers to fade background color.
                 $element.mouseenter(function()
                 {
-                    $element.animate({ backgroundColor: '#d7dfe0'}, "fast");
+                    $element.stop().animate({ backgroundColor: '#d7dfe0'}, "fast");
                 });
 
                 $element.mouseleave(function()
                 {
-                    $element.animate({ backgroundColor: '#E3EBEC'}, "fast");
+                    $element.stop().animate({ backgroundColor: '#E3EBEC'}, "fast");
                 });
             }
         };

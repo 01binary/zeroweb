@@ -36,7 +36,6 @@
 
             $element.on('change keyup paste', function()
             {
-                console.log('updating ');
                 $resizer.html($(this).val().replace("\n", "<br/>"));
                 $element.height($resizer.height());
             });

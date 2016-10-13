@@ -1,8 +1,6 @@
 header
 {
     font-family: $title-font;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     background: $primary-color;
     color: $primary-text-color;
     min-width: 349px;
@@ -130,9 +128,7 @@ main
     float: left;
     position: relative;
     margin-left: 22px;
-
     width: 95%;
-    
     font-family: $normal-font;
     font-size: $normal-font-size;
 }
@@ -198,6 +194,8 @@ body
     float: none;
     margin: auto;
     width: 75%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 a.tag:hover
@@ -843,9 +841,9 @@ a.author:hover
 .comment .metadata
 {
     float: left;
-    margin-top: 3pt;
+    margin-top: 2pt;
     margin-right: 2pt;
-    margin-bottom: 3pt;
+    margin-bottom: 2pt;
 }
 
 .comment-official
@@ -857,8 +855,8 @@ a.author:hover
 {
     float: left;
     white-space: pre-line;
-    margin-top: 3pt;
-    margin-bottom: 3pt;
+    margin-top: 2pt;
+    margin-bottom: 2pt;
 }
 
 .comment-form

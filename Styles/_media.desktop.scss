@@ -913,6 +913,7 @@ a.author:hover
 
 .form-group
 {
+    position: relative;
     overflow: hidden;
     padding: 3px;
     margin-bottom: 10pt;
@@ -925,7 +926,7 @@ a.author:hover
     padding-top: $border-thickness * 3;
     padding-left: $border-thickness * 4;
     padding-right: $border-thickness * 4;
-    padding-bottom: $border-thickness * 4;
+    padding-bottom: 0;
     outline: none;
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
@@ -939,10 +940,19 @@ a.author:hover
     box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color;
 }
 
-.ua-win textarea.form-input
+.form-input-resizer
 {
-    padding-bottom: 0;
+    display: none;
+    font-family: $small-font;
+    font-size: $small-font-size;
+    white-space: pre-wrap;
+    word-wrap: break-word;
     padding-top: $border-thickness * 3;
+    padding-left: $border-thickness * 4;
+    padding-right: $border-thickness * 4;
+    padding-bottom: 0;
+    overflow: auto;
+    clear: both;
 }
 
 ::-webkit-input-placeholder {

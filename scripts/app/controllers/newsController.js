@@ -7,8 +7,11 @@
 |
 |  @file News controller.
 |  @requires ../../angular/angular.js
-|  @requires ../factories/newsFactory.js
-|  @requires ../factories/commentsFactory.js
+|  @requires ../factories/newsStore.js
+|  @requires ../factories/commentsStore.js
+|  @requires ../factories/safeApplyFactory.js
+|  @requires ../factories/inputResizeFactory.js
+|  @requires ../services/loginService.js
 |  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
@@ -23,48 +26,42 @@
      */
     angular.module("zeroApp")
            .controller("newsController",
-           ["$q", "$scope", "safeApply", "news", "comments", "login", newsController]);
+           ["news", "comments", "safeApply", "inputResize", "login", "$scope", newsController]);
 
     /**
      * Implement news controller.
-     * @param {object} $q - Promise factory.
-     * @param {object} $scope - Controller scope.
-     * @param {object} $safeApply - Safe apply factory.
      * @param {object} $news - News factory.
      * @param {object} $comments - Comments factory.
-     * @param {object} $login - Login service.
+     * @param {object} $safeApply - Safe apply factory.
+     * @param {object} $inputResize - Input auto resize factory.
+     * @param {object} $login - Login service.     
+     * @param {object} $scope - Controller scope.
      */
-    function newsController($q, $scope, $safeApply, $news, $comments, $login)
+    function newsController($news, $comments, $safeApply, $inputResize, $login, $scope)
     {
         /**
-         * News factory.
+         * News store.
          * @type {object}
          */
-        this.newsFactory = $news;
+        this.newsStore = $news;
 
         /** 
-         * Comments factory.
+         * Comments store.
          * @type {object}
          */
-        this.commentsFactory = $comments;
+        this.commentsStore = $comments;
 
         /**
-         * Factory used to perform safe out-of-context updates.
-         * @type {object}
+         * Input resize factory.
+         * @type {function}
          */
-        this.safeApplyFactory = $safeApply;
+        this.inputResizeFactory = $inputResize;
 
         /**
          * Login service.
          * @type {object}
          */
         this.loginService = $login;
-
-        /**
-         * Service used to create promises.
-         * @type {object}
-         */
-        this.promiseService = $q;
 
         /**
          * Loading state for each story key.
@@ -161,8 +158,9 @@
             {
                 if (result && result.success)
                 {
-                    this.safeApplyFactory($scope, function() {
+                    $safeApply($scope, function() {
                         this.user = result.parameter;
+                        
                     }.bind(this));
                 }
             }.bind(this));
@@ -175,7 +173,7 @@
         function loadStory(storyId)
         {
             // Request markdown content for this story.
-            this.newsFactory.get(
+            this.newsStore.get(
                 {
                     id: storyId
                 },
@@ -208,7 +206,7 @@
          */
         function loadComments(storyId)
         {
-            this.commentsFactory.query(
+            this.commentsStore.query(
                 {
                     id: storyId
                 },
@@ -246,7 +244,7 @@
             // Validate user name.
             if (!this.user)
             {
-                this.commentError[storyId] = "Please login with one of the providers below to post comments.";
+                this.commentError[storyId] = "Please login with one of the providers above to post comments.";
                 return;
             }
 
@@ -260,7 +258,7 @@
             // Add comment.
             var commentContent = this.newComment[storyId];
 
-            this.commentsFactory.create(
+            this.commentsStore.create(
                 {
                     item: storyId,
                     author: this.user,

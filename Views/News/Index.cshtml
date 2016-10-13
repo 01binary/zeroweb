@@ -8,6 +8,8 @@
 
 @foreach (var story in this.Model)
 {
+    var storyId = story.id;
+
 <div class="article">
     <!-- Story title -->
     <h2>@Shared.FormatTitle(story.title)</h2>
@@ -150,8 +152,10 @@
 
             <!-- Comment input -->
             <div class="form-group">
-                <textarea class="form-input comment-input full-width"
+                <textarea id="comment-@storyId"
+                    class="form-input comment-input full-width"
                     data-ng-model="news.newComment[@story.id]"
+                    data-ng-init="news.inputResizeFactory('#comment-@storyId')"
                     placeholder="Leave a comment"
                     rows="1">
                 </textarea>

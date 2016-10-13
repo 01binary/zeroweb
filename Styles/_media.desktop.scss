@@ -926,12 +926,17 @@ a.author:hover
     padding-top: $border-thickness * 3;
     padding-left: $border-thickness * 4;
     padding-right: $border-thickness * 4;
-    padding-bottom: 0;
+    padding-bottom: $border-thickness * 3;
     outline: none;
     border: $border-thickness solid $border-color;
     box-sizing: border-box;
     box-shadow: inset 0 $border-thickness $border-thickness $accent-color;
     transition: all .15s ease-in-out;
+}
+
+textarea.form-input
+{
+    padding-bottom: 0;
 }
 
 .form-input:focus

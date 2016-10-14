@@ -77,7 +77,7 @@
     <symbol id="clock">
         <ellipse cx="8" cy="8" rx="6" ry="6" fill="white" stroke="darkgray" stroke-width="1.35"/>
         <line x1="8" y1="8" x2="8" y2="5" stroke="darkgray" stroke-width="1"/>
-        <line x1="8" y1="8" x2="11" y2="11" stroke="darkgray" stroke-width="1"/>
+        <line x1="8" y1="8" x2="10.5" y2="10.5" stroke="darkgray" stroke-width="1"/>
     </symbol>
 
     <symbol id="submit">

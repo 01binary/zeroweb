@@ -20,8 +20,13 @@ header:before
     width: 1px;
     height: 12px;
     transform: skewX(45deg);
-    box-shadow: 0px 0px 4px $drop-shadow-dark-color;
+    box-shadow: 0 0 4px $drop-shadow-dark-color;
     z-index: 4;
+}
+
+.ie header:before
+{
+    box-shadow: -1px 0 7px $drop-shadow-transparent-color;
 }
 
 /* adorner: right corner cut */
@@ -106,8 +111,14 @@ nav:before
     bottom: 0px;
     width: 100%;
     height: 1px;
-    box-shadow: 0px 0px 2px $drop-shadow-light-color;
+    box-shadow: 0 0 2px $drop-shadow-light-color;
     z-index: -1;
+}
+
+.ie nav:before,
+.edge nav:before
+{
+    box-shadow: 0 0 3px $drop-shadow-transparent-color;
 }
 
 /* adorner: left corner cut */
@@ -121,6 +132,13 @@ nav:after
     height: 17px;
     background: $background-color;
     transform: skewX(45deg);
+}
+
+.ie nav:after,
+.edge nav:after
+{
+    left: -9px;
+    bottom: -3px;
 }
 
 main
@@ -155,7 +173,7 @@ main:after
     color: $border-color;
     
     position: relative;
-    top: -1em;
+    top: -1.1em;
     left: 101%;
     text-align: right;
     margin-bottom: -2em;
@@ -472,7 +490,7 @@ a.author:hover
 	top: -$border-thickness;
 }
 
-.edge.hi-dpi .button-primary-leftcornerborder
+.os-win.hi-dpi .button-primary-leftcornerborder
 {
     left: 0;
     top: 0;
@@ -710,7 +728,7 @@ a.author:hover
     cursor: pointer;
 }
 
-.ua-win .tag
+.os-win .tag
 {
     padding-top: 4px;
 }
@@ -857,6 +875,36 @@ a.author:hover
     white-space: pre-line;
     margin-top: 2pt;
     margin-bottom: 2pt;
+}
+
+.os-win.hi-dpi
+{
+    .comment .metadata
+    {
+        margin-top: 1pt;
+        margin-bottom: 2pt;
+    }
+
+    .comment-content
+    {
+        margin-top: 1pt;
+        margin-bottom: 2pt;
+    }
+}
+
+.ie10, .lt-ie10
+{
+    .comment .metadata
+    {
+        margin-top: 1pt;
+        margin-bottom: 3pt;
+    }
+
+    .comment-content
+    {
+        margin-top: 1pt;
+        margin-bottom: 3pt;
+    }
 }
 
 .comment-form

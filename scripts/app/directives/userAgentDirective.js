@@ -65,7 +65,7 @@
 
                 if (agent.indexOf("windows") != -1)
                 {
-                    $element.addClass("ua-win");
+                    $element.addClass("os-win");
                 }
                 
                 if ($render2dProvider.getPixelRatio() > 1)

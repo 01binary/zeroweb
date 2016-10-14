@@ -710,8 +710,7 @@ a.author:hover
     cursor: pointer;
 }
 
-.ua-win .tag,
-.lt-ie10 .tag
+.os-win .tag
 {
     padding-top: 4px;
 }
@@ -860,7 +859,7 @@ a.author:hover
     margin-bottom: 2pt;
 }
 
-.ua-win.hi-dpi
+.os-win.hi-dpi
 {
     .comment .metadata
     {

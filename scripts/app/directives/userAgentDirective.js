@@ -55,10 +55,12 @@
                     }
                     else if (ie11)
                     {
+                        $element.addClass("ie");
                         $element.addClass("gt-ie10");
                     }
                     else if (ie10)
                     {
+                        $element.addClass("ie");
                         $element.addClass("ie10");
                     }
                 }

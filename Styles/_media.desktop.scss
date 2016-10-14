@@ -155,7 +155,7 @@ main:after
     color: $border-color;
     
     position: relative;
-    top: -1em;
+    top: -1.1em;
     left: 101%;
     text-align: right;
     margin-bottom: -2em;
@@ -472,7 +472,7 @@ a.author:hover
 	top: -$border-thickness;
 }
 
-.edge.hi-dpi .button-primary-leftcornerborder
+.os-win.hi-dpi .button-primary-leftcornerborder
 {
     left: 0;
     top: 0;

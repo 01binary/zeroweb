@@ -134,6 +134,13 @@ nav:after
     transform: skewX(45deg);
 }
 
+.ie nav:after,
+.edge nav:after
+{
+    left: -9px;
+    bottom: -3px;
+}
+
 main
 {
     float: left;

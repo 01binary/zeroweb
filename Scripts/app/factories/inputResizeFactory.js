@@ -34,6 +34,9 @@
             var $resizer = $("<div class='form-input-resizer'></div>")
                 .appendTo($parent);
 
+            $resizer.html("<br/>");
+            $element.height($resizer.height());
+
             $element.on('change keyup paste', function()
             {
                 $resizer.html($(this).val().replace("\n", "<br/>"));

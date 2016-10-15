@@ -50,25 +50,28 @@ $heading-font-size-large: 13pt;
 $heading-font-size-medium: 11.5pt;
 $heading-font-size-small: 10pt;
 
-$normal-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+$normal-font: "Open Sans", "-apple-system", BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 $normal-font-size: 10pt;
-$navigation-font-size: $normal-font-size;
+$navigation-font-size: 10pt;
 
-$small-font: $normal-font;
+$small-font: "-apple-system", BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 $small-font-size: 9pt;
 $small-font-line-height: 17pt;
+$small-font-letter-spacing: 0;
 
 $fallback-font: sans-serif;
 
 $background-font: Arial;
 
+$title-font-size-win: 13pt;
 $navigation-font-size-win: 11pt;
-$heading-font-size-large-win: 13pt;
-$heading-font-size-medium-win: 12pt;
+$heading-font-size-large-win: 13.5pt;
+$heading-font-size-medium-win: 13.5pt;
 $heading-font-size-small-win: 16px;
 $normal-font-size-win: 11pt;
-$small-font-size-win: 10pt;
-$small-font-line-height-win: 19pt;
+$small-font-size-win: 10.5pt;
+$small-font-line-height-win: 18pt;
+$small-font-letter-spacing-win: 0.25px;
 
 /*
  * Scalars

@@ -24,7 +24,7 @@ header:before
     z-index: 4;
 }
 
-.ie header:before
+.os-win header:before
 {
     box-shadow: -1px 0 7px $drop-shadow-transparent-color;
 }
@@ -50,6 +50,11 @@ header h1
     margin: 0;
     font-size: $title-font-size;
     font-weight: $title-font-weight;
+}
+
+.os-win header h1
+{
+    font-size: $title-font-size-win;
 }
 
 .title-caret
@@ -115,8 +120,7 @@ nav:before
     z-index: -1;
 }
 
-.ie nav:before,
-.edge nav:before
+.os-win nav:before
 {
     box-shadow: 0 0 3px $drop-shadow-transparent-color;
 }
@@ -134,8 +138,7 @@ nav:after
     transform: skewX(45deg);
 }
 
-.ie nav:after,
-.edge nav:after
+.os-win nav:after
 {
     left: -9px;
     bottom: -3px;
@@ -281,13 +284,20 @@ a.author:hover
     color: $primary-text-color;
     background: $primary-color;
     font-size: $small-font-size;
+    letter-spacing: $small-font-letter-spacing;
     padding: 0;
     border: $border-thickness solid $primary-dark-color;
-    box-shadow: $border-thickness $border-thickness 0px $primary-light-color inset;
+    box-shadow: $border-thickness $border-thickness 0 $primary-light-color inset;
     text-shadow: 0 (-$border-thickness / 2) 0 $primary-dark-color;
     outline: none;
     cursor: pointer;
     overflow: visible;
+}
+
+.os-win .button-primary
+{
+    font-size: $small-font-size-win;
+    letter-spacing: $small-font-letter-spacing-win;
 }
 
 .button-primary:before
@@ -300,6 +310,11 @@ a.author:hover
     right: $corner-small;
     box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
     z-index: -1;
+}
+
+.os-win .button-primary:before
+{
+    box-shadow: 0 $border-thickness ($border-thickness * 3) $drop-shadow-dark-color;
 }
 
 .button-primary-leftcorner
@@ -573,11 +588,13 @@ a.author:hover
     border: none;
     font-family: $small-font;
     font-size: $small-font-size;
+    letter-spacing: $small-font-letter-spacing;
 }
 
 .os-win .button-inline
 {
     font-size: $small-font-size-win;
+    letter-spacing: $small-font-letter-spacing-win;
 }
 
 .button-secondary
@@ -731,6 +748,13 @@ a.author:hover
     z-index: 6;
 }
 
+.os-win .navigation-text
+{
+    font-size: $navigation-font-size-win;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
 .tags
 {
     font-size: 0;
@@ -742,6 +766,7 @@ a.author:hover
     color: $accent-text-color;
     background: $accent-color;
     font-size: $small-font-size;
+    letter-spacing: $small-font-letter-spacing;
     text-decoration: none;
     line-height: $small-font-size;
     margin-left: 2pt;
@@ -755,8 +780,16 @@ a.author:hover
 
 .os-win .tag
 {
-    padding-top: 4px;
+    padding-top: 4pt;
+    padding-bottom: 6pt;
     font-size: $small-font-size-win;
+    letter-spacing: $small-font-letter-spacing-win;
+}
+
+.ie .tag
+{
+    padding-top: 4pt;
+    padding-bottom: 7pt;
 }
 
 .tag:before
@@ -786,6 +819,7 @@ a.author:hover
 {
     font-family: $small-font;
     font-size: $small-font-size;
+    letter-spacing: $small-font-letter-spacing;
     color: $secondary-text-color;
     margin-top: -6pt;
     line-height: $small-font-line-height;
@@ -795,6 +829,7 @@ a.author:hover
 {
     font-size: $small-font-size-win;
     line-height: $small-font-line-height-win;
+    letter-spacing: $small-font-letter-spacing-win;
 }
 
 .article
@@ -863,7 +898,14 @@ a.author:hover
     margin-left: 1.5em;
     font-family: $small-font;
     font-size: $small-font-size;
+    letter-spacing: $small-font-letter-spacing;
     padding-bottom: 0;
+}
+
+.os-win .comments
+{
+    font-size: $small-font-size-win;
+    letter-spacing: $small-font-letter-spacing-win;
 }
 
 .comments-header
@@ -888,6 +930,11 @@ a.author:hover
     background-color: $accent-highlight-color;
 }
 
+.os-win .comment:hover
+{
+    background-color: $accent-light-color;
+}
+
 .comment .metadata
 {
     float: left;
@@ -907,6 +954,21 @@ a.author:hover
     white-space: pre-line;
     margin-top: 2pt;
     margin-bottom: 2pt;
+}
+
+.os-win
+{
+    .comment .metadata
+    {
+        margin-top: 0;
+        margin-bottom: 2pt;
+    }
+
+    .comment-content
+    {
+        margin-top: 0;
+        margin-bottom: 2pt;
+    }
 }
 
 .os-win.hi-dpi
@@ -1038,6 +1100,7 @@ a.author:hover
 {
     font-family: $small-font;
     font-size: $small-font-size;
+    letter-spacing: $small-font-letter-spacing;
     padding-top: $border-thickness * 3;
     padding-left: $border-thickness * 4;
     padding-right: $border-thickness * 4;
@@ -1052,11 +1115,7 @@ a.author:hover
 .os-win .form-input
 {
     font-size: $small-font-size-win;
-}
-
-textarea.form-input
-{
-    padding-bottom: 0;
+    letter-spacing: $small-font-letter-spacing-win;
 }
 
 .form-input:focus
@@ -1070,6 +1129,7 @@ textarea.form-input
     display: none;
     font-family: $small-font;
     font-size: $small-font-size;
+    letter-spacing: $small-font-letter-spacing;
     white-space: pre-wrap;
     word-wrap: break-word;
     padding-top: $border-thickness * 3;
@@ -1078,6 +1138,12 @@ textarea.form-input
     padding-bottom: 0;
     overflow: auto;
     clear: both;
+}
+
+.os-win .form-input-resizer
+{
+    font-size: $small-font-size-win;
+    letter-spacing: $small-font-letter-spacing-win;
 }
 
 ::-webkit-input-placeholder {

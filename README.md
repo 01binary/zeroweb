@@ -33,8 +33,10 @@ A working website prototype using ASP.net core to render layout page and partial
 ## Setup
 
 - Visual Studio Code is recommended for opening this folder
-- npm install to restore Node.js packages (Bower, Jasmine, Karma, and Protractor)
-- bower install to restore Bower packages (Angular, Angular Route, and jQuery)
-- dotnet restore to restore NuGet packages
-- dotnet run to start ASP.net Core engine
+- `npm install` to restore Node.js packages
+- `dotnet restore` to restore NuGet packages
+- `dotnet ef database update` to create initial SqLite database
+- `dotnet user-secrets set facebookId` to set facebook app Id for login integration
+- `dotnet user-secrets set facebookSecret` to set facebook app secret
+- `dotnet run` to start ASP.net Core engine (or click Run in VSCode and skip the last step)
 - Navigate to http://localhost:5000/ to see the site

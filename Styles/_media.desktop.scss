@@ -151,6 +151,11 @@ main
     font-size: $normal-font-size;
 }
 
+.os-win main
+{
+    font-size: $normal-font-size-win;
+}
+
 main:before
 {
     content: "{";
@@ -184,14 +189,29 @@ main h1
     font-size: $heading-font-size-large;
 }
 
+.os-win main h1
+{
+    font-size: $heading-font-size-large-win;
+}
+
 main h2
 {
     font-size: $heading-font-size-medium;
 }
 
+.os-win main h2
+{
+    font-size: $heading-font-size-medium-win;
+}
+
 main h3
 {
     font-size: $heading-font-size-small;
+}
+
+.os-win main h3
+{
+    font-size: $heading-font-size-small-win;
 }
 
 main h1, main h2, main h3
@@ -555,6 +575,11 @@ a.author:hover
     font-size: $small-font-size;
 }
 
+.os-win .button-inline
+{
+    font-size: $small-font-size-win;
+}
+
 .button-secondary
 {
     color: $accent-text-color;
@@ -731,6 +756,7 @@ a.author:hover
 .os-win .tag
 {
     padding-top: 4px;
+    font-size: $small-font-size-win;
 }
 
 .tag:before
@@ -762,7 +788,13 @@ a.author:hover
     font-size: $small-font-size;
     color: $secondary-text-color;
     margin-top: -6pt;
-    line-height: 17pt;
+    line-height: $small-font-line-height;
+}
+
+.os-win .metadata
+{
+    font-size: $small-font-size-win;
+    line-height: $small-font-line-height-win;
 }
 
 .article
@@ -913,6 +945,11 @@ a.author:hover
     margin-bottom: -7px;
 }
 
+.os-win .comment-form
+{
+    margin-top: -4px;
+}
+
 .register-form
 {
     margin-bottom: 10px;
@@ -945,6 +982,11 @@ a.author:hover
 .full-width
 {
     width: 100%;
+}
+
+.top-margin
+{
+    margin-top: 8px;
 }
 
 .error
@@ -1005,6 +1047,11 @@ a.author:hover
     box-sizing: border-box;
     box-shadow: inset 0 $border-thickness $border-thickness $accent-color;
     transition: all .15s ease-in-out;
+}
+
+.os-win .form-input
+{
+    font-size: $small-font-size-win;
 }
 
 textarea.form-input

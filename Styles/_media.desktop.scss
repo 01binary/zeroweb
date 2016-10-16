@@ -8,6 +8,8 @@ header
     height: 200px;
     position: relative;
     margin-top: 9%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* adorner: left corner shadow */
@@ -238,8 +240,6 @@ body
     float: none;
     margin: auto;
     width: 75%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 a.tag:hover

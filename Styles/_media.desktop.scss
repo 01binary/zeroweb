@@ -228,6 +228,7 @@ main h1, main h2, main h3
 
 main p
 {
+    color: $foreground-color;
     margin-top: $margin;
     margin-bottom: $margin;
 }
@@ -917,6 +918,7 @@ a.author:hover
 
 .comments-header
 {
+    color: $secondary-text-color;
     margin-bottom: 3pt;
 }
 

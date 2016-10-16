@@ -914,6 +914,7 @@ a.author:hover
     display: inline;
     position: relative;
     fill: $primary-text-color;
+    stroke: $primary-text-color;
     top: $border-thickness * 3;
     margin-right: $border-thickness;
 }

@@ -190,6 +190,8 @@ main:after
 main h1
 {
     font-size: $heading-font-size-large;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 .os-win main h1
@@ -751,7 +753,6 @@ a.author:hover
 .os-win .navigation-text
 {
     font-size: $navigation-font-size-win;
-    font-smooth: never;
     -webkit-font-smoothing: none;
 }
 

@@ -784,6 +784,8 @@ a.author:hover
 {
     padding-top: 4.5pt;
     padding-bottom: 6.5pt;
+    padding-left: 8pt;
+    padding-right: 7pt;
     font-size: $small-font-size-win;
     letter-spacing: $small-font-letter-spacing-win;
 }
@@ -811,6 +813,14 @@ a.author:hover
     cursor: default;
 }
 
+.os-win .tag:before
+{
+    border-top: 10pt solid transparent;
+    border-left: 10pt solid $background-color;
+    margin-top: 9pt;
+    margin-left: -8pt;
+}
+
 .tag:after
 {
     content: "";
@@ -821,6 +831,13 @@ a.author:hover
     margin-left: -2pt;
     margin-top: -4.5pt;
     cursor: default;
+}
+
+.os-win .tag:after
+{
+    border-bottom: 10pt solid transparent;
+    border-right: 10pt solid $background-color;
+    margin-left: 0pt;
 }
 
 .metadata

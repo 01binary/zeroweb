@@ -915,8 +915,13 @@ a.author:hover
     position: relative;
     fill: $primary-text-color;
     stroke: $primary-text-color;
-    top: $border-thickness * 3;
+    top: $border-thickness * 2;
     margin-right: $border-thickness;
+}
+
+.icon-button-offset
+{
+    top: $border-thickness;
 }
 
 .comments

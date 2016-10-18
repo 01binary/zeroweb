@@ -86,6 +86,16 @@
         <path d="M6,7,3,4V2.87l2.6,2.6V.27h.8v5.2L9,2.87V4Z" stroke="none"/>
     </symbol>
 
+    <symbol id="register">
+        <rect x="4" width="2" height="1" stroke="none"/>
+        <rect x="1" y="9" width="8" height="1" stroke="none"/>
+        <rect x="2" y="7" width="6" height="1" stroke="none"/>
+        <rect x="2" y="5" width="6" height="1" stroke="none"/>
+        <rect y="2" width="1" height="7" stroke="none"/>
+        <rect x="9" y="2" width="1" height="7" stroke="none"/>
+        <polygon points="6 1 6 2 4 2 4 1 1 1 1 2 3 2 3 3 7 3 7 2 9 2 9 1 6 1" stroke="none"/>
+    </symbol>
+
     <symbol id="cancel">
         <line x1="8" y1="0" x2="0" y2="8" fill="none"/>
         <line x1="0" y1="0" x2="8" y2="8" fill="none"/>

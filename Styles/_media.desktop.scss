@@ -964,6 +964,11 @@ a.author:hover
 
 .os-win .comment:hover
 {
+    background-color: $accent-color;
+}
+
+.os-win.hi-dpi .comment:hover
+{
     background-color: $accent-light-color;
 }
 

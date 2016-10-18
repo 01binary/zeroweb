@@ -1178,14 +1178,19 @@ a.author:hover
     letter-spacing: $small-font-letter-spacing-win;
 }
 
-::-webkit-input-placeholder {
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-}
+.os-win
+{
+    ::-webkit-input-placeholder
+    {
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+    }
 
-:-moz-placeholder {
-    font-weight: normal;
-    -moz-osx-font-smoothing: grayscale;
+    :-moz-placeholder
+    {
+        font-weight: normal;
+        -moz-osx-font-smoothing: grayscale;
+    }
 }
 
 .comment-input

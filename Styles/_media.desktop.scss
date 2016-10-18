@@ -1247,3 +1247,8 @@ a.author:hover
     font-size: $normal-font-size;
     overflow: hidden;
 }
+
+#loading-bar-spinner .spinner-icon
+{
+    display: none;
+}

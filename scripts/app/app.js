@@ -20,7 +20,7 @@
     /**
      * Implement Angular application.
      */
-    angular.module("zeroApp", ["ngRoute", "ngResource"])
+    angular.module("zeroApp", ["ngRoute", "ngResource", "angular-loading-bar"])
            .config(["$routeProvider", "$locationProvider", route]);
 
     /**

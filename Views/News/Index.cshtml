@@ -9,6 +9,8 @@
 @foreach (var story in this.Model)
 {
     var storyId = story.id;
+    var starClass = "metadata-icon" +
+        (story.stars > 0 ? " metadata-icon-toggled" : string.Empty);
 
 <div class="article">
     <!-- Story title -->
@@ -40,6 +42,17 @@
                 @story.location
             }
         }
+
+        <!-- Stars -->
+        <span id="star-@storyId" class="metadata-action">
+            <icon class="@starClass"
+                data-src="images/banner.svg#star"
+                data-width="16"
+                data-height="16"
+                data-ng-click="news.addStar(@storyId)">
+            </icon>
+            @story.stars
+        </span>
 
         <!-- Tags -->
         <span class="tags">

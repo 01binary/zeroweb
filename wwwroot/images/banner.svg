@@ -85,4 +85,8 @@
         <rect x="1" y="8" width="6" height="1"/>
         <path d="M6,7,3,4V2.87l2.6,2.6V.27h.8v5.2L9,2.87V4Z"/>
     </symbol>
+
+    <symbol id="star">
+        <polygon points="7.9,0 9.8,5.9 16,5.9 11,9.5 12.9,15.3 7.9,11.7 3,15.3 4.9,9.5 -0.1,5.9 6,5.9 " stroke="none"/>
+    </symbol>
 </svg>

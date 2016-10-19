@@ -857,6 +857,36 @@ a.author:hover
     letter-spacing: $small-font-letter-spacing-win;
 }
 
+.metadata-action
+{
+    margin-left: $border-thickness * 3;
+    margin-right: $border-thickness * 3;
+}
+
+.metadata-icon
+{
+    position: relative;
+    display: inline-block;
+    fill: $accent-color;
+    stroke: $accent-color;
+    width: 16px;
+    height: 16px;
+    top: 3px;
+    cursor: pointer;
+}
+
+.metadata-icon:hover
+{
+    fill: $primary-hover-color;
+    stroke: $primary-hover-color;
+}
+
+.metadata-icon-toggled
+{
+    fill: $primary-color;
+    stroke: $primary-color;
+}
+
 .article
 {
     border-bottom: $border-thickness dotted $shadow-light-color;

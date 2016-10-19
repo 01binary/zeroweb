@@ -29,7 +29,19 @@
      */
     function newsFactory($resource)
     {
-        return $resource("/services/news/:id");
+        return $resource(
+            "/services/news/:id",
+
+            {
+            },
+            
+            {
+                "star":
+                {
+                    method: "POST",
+                    url: "/services/news"
+                }
+            });
     }
 
 })();

@@ -50,6 +50,7 @@ namespace ZeroWeb.Controllers
                     title = item.Title,
                     date = item.Date,
                     author = item.Author.Name,
+                    stars = item.Stars,
                     location = item.LocationName,
                     latitude = item.LocationLatitude,
                     longitude = item.LocationLongitude,
@@ -66,6 +67,7 @@ namespace ZeroWeb.Controllers
                     story.title = result.title;
                     story.date = result.date;
                     story.author = result.author;
+                    story.stars = result.stars;
                     story.location = result.location;
                     story.latitude = result.latitude;
                     story.longitude = result.longitude;

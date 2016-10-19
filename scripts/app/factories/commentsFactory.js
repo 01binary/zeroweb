@@ -29,8 +29,7 @@
      */
     function commentsFactory($resource)
     {
-        return $resource
-        (
+        return $resource(
             "/services/comments/:id",
 
             {},

@@ -135,6 +135,12 @@
         this.addComment = addComment;
 
         /**
+         * Add a story star (favorite).
+         * @type {function}
+         */
+        this.addStar = addStar;
+
+        /**
          * Authenticate user.
          * @type {function}
          */
@@ -287,6 +293,34 @@
 
             this.commentError[storyId] = null;
             this.newComment[storyId] = null;
+        }
+
+        /**
+         * Add a story star.
+         * @param {int} storyId - The id of the story to star.
+         */
+        function addStar(storyId)
+        {
+            this.commentsStore.star(
+                {
+                    id: storyId
+                },
+
+                function(result)
+                {
+                    var $star = $("#star-" + storyId);
+                    var count = parseInt($star.text()) + 1;
+                    $star.text(count);
+
+                }.bind(this),
+
+                function(error)
+                {
+                    this.commentOperation[storyId] = "add a star";
+                    this.commentError[storyId] = error;
+
+                }.bind(this)
+            );
         }
     }
 

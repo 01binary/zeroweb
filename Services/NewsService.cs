@@ -82,5 +82,34 @@ namespace ZeroWeb.API
 
             return Ok(new { store.GetItem(id).Content });
         }
+
+        /// <summary>
+        /// Star a news story.
+        /// </summary>
+        /// <param name="id">The story id</param>
+        [HttpPost("star")]
+        public IActionResult Star(int id)
+        {
+            IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+            var item = store.GetItem(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.Stars++;
+
+            try
+            {
+                store.Save();
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(500, ex.Message);
+            }
+
+            return Ok(new { store.GetItem(id).Content });
+        }
     }
 }

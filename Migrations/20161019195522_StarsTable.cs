@@ -8,10 +8,6 @@ namespace zeroweb.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Stars",
-                table: "SiteItems");
-
             migrationBuilder.CreateTable(
                 name: "Stars",
                 columns: table => new
@@ -42,12 +38,6 @@ namespace zeroweb.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Stars");
-
-            migrationBuilder.AddColumn<int>(
-                name: "Stars",
-                table: "SiteItems",
-                nullable: false,
-                defaultValue: 0);
         }
     }
 }

@@ -44,28 +44,30 @@
             }
         }
 
-        <!-- Impressions -->
-        <span class="metadata-indicator">
-            <icon class="metadata-icon metadata-icon-readonly"
-                data-src="images/banner.svg#view"
-                data-width="16"
-                data-height="16">
-            </icon>
-            <span class="metadata-indicator-content">
-                @story.views
+        <span class="metadata-group">
+            <!-- Impressions -->
+            <span class="metadata-indicator">
+                <icon class="metadata-icon metadata-icon-readonly"
+                    data-src="images/banner.svg#view"
+                    data-width="16"
+                    data-height="16">
+                </icon>
+                <span class="metadata-indicator-content">
+                    @story.views
+                </span>
             </span>
-        </span>
 
-        <!-- Favorites -->
-        <span id="star-@storyId" class="metadata-indicator">
-            <icon class="@starClass"
-                data-src="images/banner.svg#star"
-                data-width="16"
-                data-height="16"
-                data-ng-click="news.addStar(@storyId)">
-            </icon>
-            <span class="metadata-indicator-content">
-                @story.stars
+            <!-- Favorites -->
+            <span id="star-@storyId" class="metadata-indicator">
+                <icon class="@starClass"
+                    data-src="images/banner.svg#star"
+                    data-width="16"
+                    data-height="16"
+                    data-ng-click="news.addStar(@storyId)">
+                </icon>
+                <span class="metadata-indicator-content">
+                    @story.stars
+                </span>
             </span>
         </span>
 

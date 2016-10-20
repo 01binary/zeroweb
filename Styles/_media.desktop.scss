@@ -850,9 +850,9 @@ a.author:hover
     line-height: $small-font-line-height-win;
 }
 
-.metadata-action
+.metadata-group
 {
-    margin-left: $border-thickness * 3;
+    margin-left: $border-thickness * 6;
     margin-right: $border-thickness * 3;
 }
 
@@ -860,8 +860,8 @@ a.author:hover
 {
     position: relative;
     display: inline-block;
-    fill: $accent-color;
-    stroke: $accent-color;
+    fill: $accent-hover-color;
+    stroke: $accent-hover-color;
     width: 16px;
     height: 16px;
     top: 3px;
@@ -876,7 +876,13 @@ a.author:hover
 
 .metadata-icon-readonly
 {
-    cursor: default;
+    cursor:default;
+}
+
+.metadata-icon-readonly:hover
+{
+    fill: $accent-hover-color;
+    stroke: $accent-hover-color;
 }
 
 .metadata-icon-toggled

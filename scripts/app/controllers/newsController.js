@@ -317,7 +317,7 @@
                         .addClass("metadata-icon-readonly")
                         .addClass("metadata-icon-toggled");
 
-                    $star.find(".metadata-content").text(result.stars);
+                    $star.find(".metadata-indicator-content").text(result.stars);
 
                 }.bind(this),
 

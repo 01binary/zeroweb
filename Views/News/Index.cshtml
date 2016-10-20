@@ -10,7 +10,8 @@
 {
     var storyId = story.id;
     var starClass = "metadata-icon" +
-        (story.stars > 0 ? " metadata-icon-toggled" : string.Empty);
+        (story.stars > 0 ? " metadata-icon-toggled" : string.Empty) +
+        (story.starsReadOnly ? " metadata-icon-readonly" : string.Empty);
 
 <div class="article">
     <!-- Story title -->
@@ -51,7 +52,9 @@
                 data-height="16"
                 data-ng-click="news.addStar(@storyId)">
             </icon>
-            @story.stars
+            <span class="metadata-content">
+                @story.stars
+            </span>
         </span>
 
         <!-- Tags -->

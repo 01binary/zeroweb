@@ -33,13 +33,14 @@
             "/services/news/:id",
 
             {
+                id: '@id'
             },
             
             {
                 "star":
                 {
                     method: "POST",
-                    url: "/services/news"
+                    url: "/services/news/star/:id"
                 }
             });
     }

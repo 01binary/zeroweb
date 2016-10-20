@@ -40,11 +40,6 @@ namespace ZeroWeb.Models
         public bool Published { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of times the article was starred as favorite.
-        /// </summary>
-        public int Stars { get; set; }
-
-        /// <summary>
         /// Gets or sets the publish geographical location name where the item was authored.
         /// </summary>
         [MaxLength(32)]
@@ -74,6 +69,11 @@ namespace ZeroWeb.Models
         /// Gets or sets the item comments.
         /// </summary>
         public ICollection<Comment> Comments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the item stars.
+        /// </summary>
+        public ICollection<Star> Stars { get; set; }
 
         /// <summary>
         /// Gets or sets the project tasks if this article is a project.

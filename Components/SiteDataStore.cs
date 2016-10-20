@@ -224,9 +224,17 @@ namespace ZeroWeb
         {
             var result = this.context.SiteItems.Where(item => item.Id == id).FirstOrDefault();
 
-            if (result != null && result.Comments == null)
+            if (result != null)
             {
-                result.Comments = new List<Comment>();
+                if (result.Comments == null)
+                {
+                    result.Comments = new List<Comment>();
+                }
+
+                if (result.Stars == null)
+                {
+                    result.Stars = new List<Star>();
+                }
             }
 
             return result;
@@ -243,6 +251,16 @@ namespace ZeroWeb
                                          .Select(result => result.Comments.ToArray());
         }
 
+        /// <summary>
+        /// Gets the site item stars.
+        /// </summary>
+        /// <param name="id">The site item Id.</param>
+        /// <returns>The stars for the site item.</returns>
+        public IQueryable<Star> GetItemStars(int id)
+        {
+            return this.context.Stars.Where(star => star.Item.Id == id);
+        }
+        
         /// <summary>
         /// Adds a new tag.
         /// </summary>

@@ -301,16 +301,23 @@
          */
         function addStar(storyId)
         {
-            this.commentsStore.star(
+            var $star = $("#star-" + storyId);
+
+            if ($star.find("metadata-icon-readonly").length > 0)
+                return;
+
+            this.newsStore.star(
                 {
                     id: storyId
                 },
 
                 function(result)
                 {
-                    var $star = $("#star-" + storyId);
-                    var count = parseInt($star.text()) + 1;
-                    $star.text(count);
+                    $star.find(".metadata-icon")
+                        .addClass("metadata-icon-readonly")
+                        .addClass("metadata-icon-toggled");
+
+                    $star.find(".metadata-content").text(result.stars);
 
                 }.bind(this),
 

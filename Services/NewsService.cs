@@ -13,6 +13,8 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ZeroWeb;
+using ZeroWeb.Models;
 
 namespace ZeroWeb.API
 {
@@ -87,29 +89,36 @@ namespace ZeroWeb.API
         /// Star a news story.
         /// </summary>
         /// <param name="id">The story id</param>
-        [HttpPost("star")]
-        public IActionResult Star(int id)
+        [HttpPost("star/{id}")]
+        public IActionResult StarStory(int id)
         {
-            IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-            var item = store.GetItem(id);
-
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            item.Stars++;
-
             try
             {
+                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                SiteItem item = store.GetItem(id);
+
+                if (item == null)
+                {
+                    return this.NotFound();
+                }
+                
+                IQueryable<Star> itemStars = store.GetItemStars(id);
+                string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
+                
+                if (itemStars.Any(star => star.IpAddress == excludeIpAddress))
+                {
+                    return this.BadRequest();
+                }
+                
+                item.Stars.Add(new Star(item, excludeIpAddress));
                 store.Save();
+                
+                return this.Ok(new { stars = itemStars.Count() });
             }
             catch (Exception ex)
             {
-                return this.StatusCode(500, ex.Message);
+                return this.StatusCode(500);
             }
-
-            return Ok(new { store.GetItem(id).Content });
         }
     }
 }

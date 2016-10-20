@@ -881,10 +881,27 @@ a.author:hover
     stroke: $primary-hover-color;
 }
 
+.metadata-icon-readonly
+{
+    cursor: default;
+}
+
 .metadata-icon-toggled
 {
     fill: $primary-color;
     stroke: $primary-color;
+}
+
+.metadata-icon-readonly.metadata-icon-toggled
+{
+    fill: $primary-light-color;
+    stroke: $primary-light-color;
+}
+
+.metadata-icon-readonly.metadata-icon-toggled:hover
+{
+    fill: $primary-light-color;
+    stroke: $primary-light-color;
 }
 
 .article

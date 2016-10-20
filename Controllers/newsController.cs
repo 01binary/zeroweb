@@ -13,6 +13,7 @@
 using System.Dynamic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ZeroWeb.Models;
 
 namespace ZeroWeb.Controllers
 {
@@ -43,14 +44,36 @@ namespace ZeroWeb.Controllers
             string excludeTag = Tags.Story.ToString().ToLower();
             string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
 
-            return View(this.store
-                .GetItems(Tags.Story)
+            IQueryable<SiteItem> stories = this.store
+                .GetItems(Tags.Story);
+
+            try
+            {
+                foreach (SiteItem item in stories)
+                {
+                    byte[] visit;
+
+                    if (!this.HttpContext.Session.TryGetValue(item.Id.ToString(), out visit))
+                    {
+                        this.HttpContext.Session.Set(item.Id.ToString(), new byte[] { 1 });
+                        item.Views++;
+                    }
+                }
+
+                this.store.Save();
+            }
+            catch
+            {
+            }
+
+            return View(stories
                 .Select(item => new
                 {
                     id = item.Id,
                     title = item.Title,
                     date = item.Date,
                     author = item.Author.Name,
+                    views = item.Views,
                     stars = item.Stars.Count,
                     starsReadOnly = item.Stars.Any(star => star.IpAddress == excludeIpAddress),
                     location = item.LocationName,
@@ -69,6 +92,7 @@ namespace ZeroWeb.Controllers
                     story.title = result.title;
                     story.date = result.date;
                     story.author = result.author;
+                    story.views = result.views;
                     story.stars = result.stars;
                     story.starsReadOnly = result.starsReadOnly;
                     story.location = result.location;

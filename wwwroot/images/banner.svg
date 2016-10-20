@@ -104,4 +104,11 @@
     <symbol id="star">
         <polygon points="7.9,0 9.8,5.9 16,5.9 11,9.5 12.9,15.3 7.9,11.7 3,15.3 4.9,9.5 -0.1,5.9 6,5.9 " stroke="none"/>
     </symbol>
+
+    <symbol id="view">
+        <rect x="1.5" y="2.5" width="13" height="9"/>
+        <rect x="5" y="13" height="2" stroke="none"/>
+        <rect x="4" y="4.5" width="4" height="5" stroke="white"/>
+        <rect x="11" y="3.5" width="2" height="7" fill="white"/>
+    </symbol>
 </svg>

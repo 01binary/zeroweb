@@ -850,7 +850,7 @@ a.author:hover
     line-height: $small-font-line-height-win;
 }
 
-.metadata-action
+.metadata-indicator
 {
     margin-left: $border-thickness * 3;
     margin-right: $border-thickness * 3;
@@ -874,9 +874,10 @@ a.author:hover
     stroke: $primary-hover-color;
 }
 
-.metadata-icon-readonly
+.metadata-icon-readonly:hover
 {
-    cursor: default;
+    fill: $accent-color;
+    stroke: $accent-color;
 }
 
 .metadata-icon-toggled

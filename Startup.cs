@@ -61,6 +61,7 @@ namespace ZeroWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSession();
 
             services.AddOptions();
             services.AddSingleton<IConfiguration>(this.Configuration);
@@ -127,6 +128,9 @@ namespace ZeroWeb
 
             // Setup identity.
             app.UseIdentity();
+
+            // Setup sessions.
+            app.UseSession();
 
             // Setup Facebook authentication.
             this.ConfigureFacebookAuthentication(app);

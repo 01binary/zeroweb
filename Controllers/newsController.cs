@@ -41,6 +41,7 @@ namespace ZeroWeb.Controllers
         public IActionResult Index()
         {
             string excludeTag = Tags.Story.ToString().ToLower();
+            string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
 
             return View(this.store
                 .GetItems(Tags.Story)
@@ -50,6 +51,8 @@ namespace ZeroWeb.Controllers
                     title = item.Title,
                     date = item.Date,
                     author = item.Author.Name,
+                    stars = item.Stars.Count,
+                    starsReadOnly = item.Stars.Any(star => star.IpAddress == excludeIpAddress),
                     location = item.LocationName,
                     latitude = item.LocationLatitude,
                     longitude = item.LocationLongitude,
@@ -66,6 +69,8 @@ namespace ZeroWeb.Controllers
                     story.title = result.title;
                     story.date = result.date;
                     story.author = result.author;
+                    story.stars = result.stars;
+                    story.starsReadOnly = result.starsReadOnly;
                     story.location = result.location;
                     story.latitude = result.latitude;
                     story.longitude = result.longitude;

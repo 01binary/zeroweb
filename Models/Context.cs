@@ -41,6 +41,11 @@ namespace ZeroWeb.Models
         public DbSet<SiteItem> SiteItems { get; set; }
 
         /// <summary>
+        /// Gets or sets the site item stars.
+        /// </summary>
+        public DbSet<Star> Stars { get; set; }
+
+        /// <summary>
         /// Gets or sets the tag taxonomy.
         /// </summary>
         public DbSet<Tag> Tags { get; set; }

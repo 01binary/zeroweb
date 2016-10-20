@@ -850,6 +850,53 @@ a.author:hover
     line-height: $small-font-line-height-win;
 }
 
+.metadata-action
+{
+    margin-left: $border-thickness * 3;
+    margin-right: $border-thickness * 3;
+}
+
+.metadata-icon
+{
+    position: relative;
+    display: inline-block;
+    fill: $accent-color;
+    stroke: $accent-color;
+    width: 16px;
+    height: 16px;
+    top: 3px;
+    cursor: pointer;
+}
+
+.metadata-icon:hover
+{
+    fill: $primary-hover-color;
+    stroke: $primary-hover-color;
+}
+
+.metadata-icon-readonly
+{
+    cursor: default;
+}
+
+.metadata-icon-toggled
+{
+    fill: $primary-color;
+    stroke: $primary-color;
+}
+
+.metadata-icon-readonly.metadata-icon-toggled
+{
+    fill: $primary-light-color;
+    stroke: $primary-light-color;
+}
+
+.metadata-icon-readonly.metadata-icon-toggled:hover
+{
+    fill: $primary-light-color;
+    stroke: $primary-light-color;
+}
+
 .article
 {
     border-bottom: $border-thickness dotted $shadow-light-color;

@@ -71,6 +71,11 @@ namespace ZeroWeb.Models
         public ICollection<Comment> Comments { get; set; }
 
         /// <summary>
+        /// Gets or sets the item stars.
+        /// </summary>
+        public ICollection<Star> Stars { get; set; }
+
+        /// <summary>
         /// Gets or sets the project tasks if this article is a project.
         /// </summary>
         public ICollection<Task> Tasks { get; set; }

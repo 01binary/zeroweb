@@ -8,9 +8,10 @@ using ZeroWeb.Models;
 namespace zeroweb.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20161018152526_Stars")]
+    partial class Stars
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
@@ -175,6 +176,8 @@ namespace zeroweb.Migrations
 
                     b.Property<bool>("Published");
 
+                    b.Property<int>("Stars");
+
                     b.Property<string>("Thumbnail")
                         .IsRequired()
                         .HasColumnType("char")
@@ -212,26 +215,6 @@ namespace zeroweb.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("SiteItemMetadata");
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.Star", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasColumnType("char")
-                        .HasAnnotation("MaxLength", 16);
-
-                    b.Property<int?>("ItemId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Stars");
                 });
 
             modelBuilder.Entity("ZeroWeb.Models.Tag", b =>
@@ -455,14 +438,6 @@ namespace zeroweb.Migrations
                     b.HasOne("ZeroWeb.Models.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.Star", b =>
-                {
-                    b.HasOne("ZeroWeb.Models.SiteItem", "Item")
-                        .WithMany("Stars")
-                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

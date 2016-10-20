@@ -135,6 +135,12 @@
         this.addComment = addComment;
 
         /**
+         * Add a story star (favorite).
+         * @type {function}
+         */
+        this.addStar = addStar;
+
+        /**
          * Authenticate user.
          * @type {function}
          */
@@ -287,6 +293,41 @@
 
             this.commentError[storyId] = null;
             this.newComment[storyId] = null;
+        }
+
+        /**
+         * Add a story star.
+         * @param {int} storyId - The id of the story to star.
+         */
+        function addStar(storyId)
+        {
+            var $star = $("#star-" + storyId);
+
+            if ($star.find("metadata-icon-readonly").length > 0)
+                return;
+
+            this.newsStore.star(
+                {
+                    id: storyId
+                },
+
+                function(result)
+                {
+                    $star.find(".metadata-icon")
+                        .addClass("metadata-icon-readonly")
+                        .addClass("metadata-icon-toggled");
+
+                    $star.find(".metadata-content").text(result.stars);
+
+                }.bind(this),
+
+                function(error)
+                {
+                    this.commentOperation[storyId] = "add a star";
+                    this.commentError[storyId] = error;
+
+                }.bind(this)
+            );
         }
     }
 

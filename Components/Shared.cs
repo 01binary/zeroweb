@@ -11,6 +11,7 @@
 \*---------------------------------------------------------*/
 
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace ZeroWeb
 {
@@ -77,6 +78,15 @@ namespace ZeroWeb
                 // Display the full date.
                 return date.ToString("M/d/yy h:mm tt").ToLower();
             }
+        }
+
+        /// <summary>
+        /// Gets the request IP address.
+        /// </summary>
+        /// <returns>The request IP address.</returns>
+        public static string GetRequestIpAddress(HttpRequest request)
+        {
+            return request.HttpContext.Connection.RemoteIpAddress.ToString();
         }
     }
 }

@@ -98,6 +98,13 @@ namespace ZeroWeb
         IQueryable<Comment[]> GetItemComments(int id);
 
         /// <summary>
+        /// Gets the site item stars.
+        /// </summary>
+        /// <param name="id">The site item Id.</param>
+        /// <returns>The stars for the site item.</returns>
+        IQueryable<Star> GetItemStars(int id);
+
+        /// <summary>
         /// Adds a new site item.
         /// </summary>
         /// <param name="item">The site item to add.</param>

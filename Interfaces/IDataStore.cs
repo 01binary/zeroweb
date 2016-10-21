@@ -91,11 +91,18 @@ namespace ZeroWeb
         SiteItem GetItem(int id);
 
         /// <summary>
+        /// Gets a site item comment.
+        /// </summary>
+        /// <param name="id">The comment Id.</param>
+        /// <returns>The comment requested or null if not found.</returns>
+        Comment GetComment(int id);
+
+        /// <summary>
         /// Gets the site item comments.
         /// </summary>
         /// <param name="id">The site item Id.</param>
         /// <returns>The comments for the site item.</returns>
-        IQueryable<Comment[]> GetItemComments(int id);
+        IQueryable<Comment> GetItemComments(int id);
 
         /// <summary>
         /// Gets the site item stars.
@@ -103,6 +110,13 @@ namespace ZeroWeb
         /// <param name="id">The site item Id.</param>
         /// <returns>The stars for the site item.</returns>
         IQueryable<Star> GetItemStars(int id);
+
+        /// <summary>
+        /// Gets the site item comment votes.
+        /// </summary>
+        /// <param name="id">The site item comment Id.</param>
+        /// <returns>The votes for the site item comment.</returns>
+        IQueryable<Vote> GetCommentVotes(int id);
 
         /// <summary>
         /// Adds a new site item.

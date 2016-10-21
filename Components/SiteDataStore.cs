@@ -222,7 +222,9 @@ namespace ZeroWeb
         /// <returns>The site item requested or null if not found.</returns>
         public SiteItem GetItem(int id)
         {
-            var result = this.context.SiteItems.Where(item => item.Id == id).FirstOrDefault();
+            var result = this.context.SiteItems
+                .Where(item => item.Id == id)
+                .FirstOrDefault();
 
             if (result != null)
             {
@@ -241,14 +243,36 @@ namespace ZeroWeb
         }
 
         /// <summary>
+        /// Gets a site item comment.
+        /// </summary>
+        /// <param name="id">The comment Id.</param>
+        /// <returns>The comment requested or null if not found.</returns>
+        public Comment GetComment(int id)
+        {
+            var result = this.context.Comments
+                .Where(comment => comment.Id == id)
+                .FirstOrDefault();
+
+            if (result != null)
+            {
+                if (result.Votes == null)
+                {
+                    result.Votes = new List<Vote>();
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Gets the site item comments.
         /// </summary>
         /// <param name="id">The site item Id.</param>
         /// <returns>The comments for the site item.</returns>
-        public IQueryable<Comment[]> GetItemComments(int id)
+        public IQueryable<Comment> GetItemComments(int id)
         {
-            return this.context.SiteItems.Where(item => item.Id == id)
-                                         .Select(result => result.Comments.ToArray());
+            return this.context.Comments
+                .Where(comment => comment.Item.Id == id);
         }
 
         /// <summary>
@@ -259,6 +283,16 @@ namespace ZeroWeb
         public IQueryable<Star> GetItemStars(int id)
         {
             return this.context.Stars.Where(star => star.Item.Id == id);
+        }
+
+        /// <summary>
+        /// Gets the site item comment votes.
+        /// </summary>
+        /// <param name="id">The site item comment Id.</param>
+        /// <returns>The votes for the site item comment.</returns>
+        public IQueryable<Vote> GetCommentVotes(int id)
+        {
+            return this.context.Votes.Where(vote => vote.Comment.Id == id);
         }
         
         /// <summary>

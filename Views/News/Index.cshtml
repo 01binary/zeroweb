@@ -12,6 +12,8 @@
     var starClass = "metadata-icon" +
         (story.stars > 0 ? " metadata-icon-toggled" : string.Empty) +
         (story.starsReadOnly ? " metadata-icon-readonly" : string.Empty);
+    var starRole = (story.starsReadOnly ? "" : "button");
+    var starAriaDisabled = story.starsReadOnly.ToString();
 
 <div class="article">
     <!-- Story title -->
@@ -21,10 +23,15 @@
     <p class="metadata">
 
         <!-- Clock icon -->
-        <icon class="icon-header" data-src="images/banner.svg#clock" data-width="15" data-height="15"/>
+        <icon class="icon-header"
+            data-src="images/banner.svg#clock"
+            data-width="15"
+            data-height="15"/>
 
         <!-- Date -->
-        <span class="date">@Shared.FormatDate(story.date)</span> by
+        <span class="date">
+            @Shared.FormatDate(story.date)
+        </span> by
 
         <!-- Author -->
         <a class="author" href="#">@story.author</a>
@@ -34,9 +41,15 @@
             <!-- Geographic Location -->
             @: - from
             
-            @if (story.latitude != null && story.longitude != null && story.location != null)
+            @if (story.latitude != null &&
+                 story.longitude != null &&
+                 story.location != null)
             {
-                <a class="location" href="https://www.google.com/maps/@@@(story.latitude),@(story.longitude),@(story.zoom)z" target="_blank">@story.location</a>
+                <a class="location"
+                    href="https://www.google.com/maps/@@@(story.latitude),@(story.longitude),@(story.zoom)z"
+                    target="_blank">
+                    @story.location
+                </a>
             }
             else
             {
@@ -45,17 +58,20 @@
         }
 
         <span class="metadata-group">
-            <!-- Impressions -->
-            <span class="metadata-indicator">
+            <!-- Views -->
+            <span class="metadata-indicator" title="Views">
                 <span class="metadata-icon-text">&#xF0E4;</span>
                 <span class="metadata-indicator-content">
                     @story.views
                 </span>
             </span>
 
-            <!-- Favorites -->
-            <span id="star-@storyId" class="metadata-indicator">
+            <!-- Stars -->
+            <span id="star-@storyId" class="metadata-indicator" title="Stars">
                 <icon class="@starClass"
+                    role="@starRole"
+                    title="Star this article"
+                    area-disabled="@starAriaDisabled"
                     data-src="images/banner.svg#star"
                     data-width="16"
                     data-height="16"
@@ -78,9 +94,9 @@
 
     <!-- Story loading error -->
     <error data-ng-show="news.error[@story.id]"
-           data-operation="'load news story'"
-           data-code="news.error[@story.id].status"
-           data-message="news.error[@story.id].statusText">
+        data-operation="'load news story'"
+        data-code="news.error[@story.id].status"
+        data-message="news.error[@story.id].statusText">
     </error>
 
     <!-- Story loading indicator -->
@@ -97,22 +113,33 @@
     <div class="comments" data-ng-init="news.loadComments(@story.id)">
         <span class="metadata" data-ng-show="news.comments[@story.id].length">
             <!-- Comments heading -->
-            <p class="comments-header">[<span class="attention-inline">{{news.comments[@story.id].length}}</span>] Comments</p>
+            <p class="comments-header">
+                [<span class="attention-inline">{{news.comments[@story.id].length}}</span>] Comments
+            </p>
 
             <!-- Story comment -->
-            <p class="comment" data-ng-repeat="comment in news.comments[@story.id]" data-ng-class="{'comment-official': comment.author === 'zero'}">
-                <span class="metadata">
-                    &nbsp;// <a class="author">{{comment.author}}</a> {{comment.date}}:
+            <div class="comment-group" data-ng-repeat="comment in news.comments[@story.id]">
+                <span class="comment-vote" data-ng-class="{'comment-vote-readonly': comment.readOnly}">
+                    <span id="#vote-{{comment.id}}" class="vote-content">{{comment.votes}}</span>
+                    <span class="metadata-icon-text button-vote upvote"
+                        data-ng-click="news.upVote(@storyId, comment.id)">&#xF035;</span>
+                    <span class="metadata-icon-text button-vote downvote"
+                        data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</span>
                 </span>
-                <span class="comment-content">{{comment.content}}</span>
-            </p>
+                <p class="comment" data-ng-class="{'comment-official': comment.author === 'zero'}">
+                    <span class="metadata">
+                        &nbsp;// <a class="author">{{comment.author}}</a> {{comment.date}}:
+                    </span>
+                    <span class="comment-content">{{comment.content}}</span>
+                </p>
+            </div>
         </span>
 
         <!-- Add comment button -->
         <button class="button-inline top-margin"
-                data-ng-class="{'button-inline-toggled': news.addingComment[@story.id]}"
-                data-ng-click="news.addingComment['@story.id'] = !news.addingComment['@story.id']">
-                + comment
+            data-ng-class="{'button-inline-toggled': news.addingComment[@story.id]}"
+            data-ng-click="news.addingComment['@story.id'] = !news.addingComment['@story.id']">
+            + comment
         </button>
 
         <!-- Login providers -->

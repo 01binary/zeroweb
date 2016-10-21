@@ -329,6 +329,78 @@
                 }.bind(this)
             );
         }
+
+        /**
+         * Upvote a comment.
+         * @param {int} storyId - The id of the story the comment is for.
+         * @param {int} commentId - The id of the comment to upvote.
+         */
+        function upVote(storyId, commentId)
+        {
+            this.commentsStore.upVote(
+                {
+                    id: commentId,
+                },
+
+                function(result)
+                {
+                    global.console.log('downVote ', index);
+                    var storyComments = this.comments[storyId];
+
+                    for (var index in storyComments)
+                    {
+                        if (storyComments[index].id == commentId)
+                        {
+                            storyComments[index].votes = result.votes;
+                            break;
+                        }
+                    }
+
+                }.bind(this),
+
+                function(error)
+                {
+                    this.commentOperation[storyId] = "upvote a comment";
+                    this.commentError[storyId] = error;
+
+                }.bind(this)
+            );
+        }
+
+        /**
+         * Downvote a comment.
+         * @param {int} storyId - The id of the story the comment is for.
+         * @param {int} commentId - The id of the comment to downvote.
+         */
+        function downVote(storyId, commentId)
+        {
+            this.commentsStore.upVote(
+                {
+                    id: commentId,
+                },
+
+                function(result)
+                {
+                    for (var index in this.comments[storyId])
+                    {
+                        global.console.log('downVote ', index);
+                        if (storyComments[index].id == commentId)
+                        {
+                            storyComments[index].votes = result.votes;
+                            break;
+                        }
+                    }
+
+                }.bind(this),
+
+                function(error)
+                {
+                    this.commentOperation[storyId] = "upvote a comment";
+                    this.commentError[storyId] = error;
+
+                }.bind(this)
+            );
+        }
     }
 
 })();

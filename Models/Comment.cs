@@ -11,6 +11,7 @@
 \*---------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -42,6 +43,7 @@ namespace ZeroWeb.Models
             this.Author = author;
             this.Published = false;
             this.Content = content;
+            this.Votes = new List<Vote>();
         }
 
         /// <summary>
@@ -65,6 +67,11 @@ namespace ZeroWeb.Models
         /// Gets or sets a value indicating whether or not the item is visible.
         /// </summary>
         public bool Published { get; set; }
+
+        /// <summary>
+        /// Gets or sets the comment votes.
+        /// </summary>
+        public ICollection<Vote> Votes { get; set; }
 
         /// <summary>
         /// Gets or sets the comment author identity.

@@ -138,6 +138,9 @@ namespace ZeroWeb
             // Setup Twitter authentication.
             this.ConfigureTwitterAuthentication(app);
 
+            // Setup Microsoft authentication.
+            this.ConfigureMicrosoftAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -224,6 +227,15 @@ namespace ZeroWeb
                     await next();
                 }
             });
+        }
+
+        /// <summary>
+        /// Configures the Microsoft external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureMicrosoftAuthentication(IApplicationBuilder app)
+        {
+            app.UseMicrosoftAccountAuthentication();
         }
 
         /// <summary>

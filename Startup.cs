@@ -235,7 +235,20 @@ namespace ZeroWeb
         /// <param name="app">The application configuration.</param>
         private void ConfigureMicrosoftAuthentication(IApplicationBuilder app)
         {
-            app.UseMicrosoftAccountAuthentication();
+            var microsoftOptions = new MicrosoftAccountOptions()
+            {
+                ClientId = this.Configuration["microsoftId"],
+                ClientSecret = this.Configuration["microsoftSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(microsoftOptions.ClientId) ||
+                string.IsNullOrEmpty(microsoftOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure microsoftId and microsoftSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseMicrosoftAccountAuthentication(microsoftOptions);
         }
 
         /// <summary>

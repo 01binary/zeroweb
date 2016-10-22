@@ -124,19 +124,24 @@
                 data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes'">
                 <!-- Comment votes -->
                 <div class="comment-vote"
+                    title="votes"
                     data-ng-class="{'vote-readonly': comment.votesReadOnly || !news.user, 'vote-default': comment.votes == 0}">
                     <!-- Votes -->
-                    <span class="vote-content">
+                    <div class="vote-content" title="votes">
                         {{comment.votes}}
-                    </span>
+                    </div>
 
                     <!-- Upvote -->
-                    <span class="metadata-icon-text button-vote upvote"
-                        data-ng-click="news.upVote(@storyId, comment.id)">&#xF035;</span>
+                    <div class="metadata-icon-text button-vote upvote"
+                        title="upvote"
+                        role="button"
+                        data-ng-click="news.upVote(@storyId, comment.id)">&#xF035;</div>
                     
                     <!-- Downvote -->
-                    <span class="metadata-icon-text button-vote downvote"
-                        data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</span>
+                    <div class="metadata-icon-text button-vote downvote"
+                        title="downvote"
+                        role="button"
+                        data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</div>
                 </div>
 
                 <!-- Comment body -->

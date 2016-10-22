@@ -1063,7 +1063,7 @@ a.author:hover
 {
     position: absolute;
     float: left;
-    margin-left: -18px;
+    margin-left: -27px;
     width: 30pt;
     height: 20pt;
 }
@@ -1096,7 +1096,7 @@ a.author:hover
 {
     position: relative;
     top: 1pt;
-    left: 2pt;
+    left: 5pt;
     transition: all .15s ease-in-out;
     opacity: 0.5;
 }
@@ -1120,8 +1120,8 @@ a.author:hover
 
     .vote-content
     {
-        left: 0;
         opacity: 1;
+        left: -1pt;
     }
 
     .vote-readonly
@@ -1133,8 +1133,8 @@ a.author:hover
 
         .vote-content
         {
-            left: 2pt;
             opacity: 0.5;
+            left: 5pt;
         }
     }
 

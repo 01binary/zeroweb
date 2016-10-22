@@ -39,12 +39,12 @@
             {
                 "create": { method: "POST" },
                 "edit": { method: "PUT" },
-                "upvote":
+                "upVote":
                 {
                     method: "POST",
                     url: "/services/comments/upvote/:id"
                 },
-                "downvote":
+                "downVote":
                 {
                     method: "POST",
                     url: "/services/comments/downvote/:id"

@@ -1072,6 +1072,7 @@ a.author:hover
     cursor: pointer;
     font-family: "Webdings";
     opacity: 0;
+    display: none;
     transition: all .15s ease-in-out;
 }
 
@@ -1099,11 +1100,17 @@ a.author:hover
     opacity: 0.5;
 }
 
+.vote-default.vote-content
+{
+    display: none;
+}
+
 .comment-group:hover
 {
     .button-vote
     {
         opacity: 1;
+        display: block;
     }
 
     .vote-content
@@ -1111,6 +1118,22 @@ a.author:hover
         left: -9px;
         opacity: 1;
     }
+
+    .comment-vote-readonly .button-vote
+    {
+        opacity: 0;
+    }
+
+    .comment-vote-readonly .vote-content
+    {
+        left: 2pt;
+        opacity: 0.5;
+    }
+}
+
+.comment-vote-readonly .button-vote
+{
+    cursor: default;
 }
 
 .os-win

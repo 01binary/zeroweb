@@ -11,7 +11,6 @@
 \*---------------------------------------------------------*/
 
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZeroWeb.Models;
 
@@ -70,6 +69,11 @@ namespace ZeroWeb.API
         {
             try
             {
+                if (this.User.Identity.Name == null)
+                {
+                    return this.Unauthorized();
+                }
+
                 if (request.item == null || request.author == null || request.content == null)
                 {
                     return this.BadRequest();
@@ -97,12 +101,16 @@ namespace ZeroWeb.API
         /// Upvotes a site item comment.
         /// </summary>
         /// <param name="request">The comment to upvote.</param>
-        [Authorize]
         [HttpPost("upvote/{id}")]
         public IActionResult UpvoteComment(int id)
         {
             try
             {
+                if (this.User.Identity.Name == null)
+                {
+                    return this.Unauthorized();
+                }
+
                 var comment = this.store.GetComment(id);
 
                 if (comment == null)
@@ -137,6 +145,11 @@ namespace ZeroWeb.API
         {
             try
             {
+                if (this.User.Identity.Name == null)
+                {
+                    return this.Unauthorized();
+                }
+
                 var comment = this.store.GetComment(id);
 
                 if (comment == null)
@@ -154,7 +167,7 @@ namespace ZeroWeb.API
                 comment.Votes.Add(new Vote(comment, this.User.Identity.Name, false));
                 store.Save();
                 
-                return this.Ok(new { votes = commentVotes.Count() });
+                return this.Ok(new { votes = commentVotes.Sum(vote => vote.Value) });
             }
             catch
             {

@@ -141,6 +141,18 @@
         this.addStar = addStar;
 
         /**
+         * Upvote a comment.
+         * @type {function}
+         */
+        this.upVote = upVote;
+
+        /**
+         * Downvote a comment.
+         * @type {function}
+         */
+        this.downVote = downVote;
+
+        /**
          * Authenticate user.
          * @type {function}
          */
@@ -324,7 +336,7 @@
                 function(error)
                 {
                     this.commentOperation[storyId] = "add a star";
-                    this.commentError[storyId] = error;
+                    this.commentError[storyId] = error.statusText;
 
                 }.bind(this)
             );
@@ -344,7 +356,6 @@
 
                 function(result)
                 {
-                    global.console.log('downVote ', index);
                     var storyComments = this.comments[storyId];
 
                     for (var index in storyComments)
@@ -352,6 +363,7 @@
                         if (storyComments[index].id == commentId)
                         {
                             storyComments[index].votes = result.votes;
+                            storyComments[index].votesReadOnly = true;
                             break;
                         }
                     }
@@ -361,7 +373,7 @@
                 function(error)
                 {
                     this.commentOperation[storyId] = "upvote a comment";
-                    this.commentError[storyId] = error;
+                    this.commentError[storyId] = error.statusText;
 
                 }.bind(this)
             );
@@ -374,19 +386,21 @@
          */
         function downVote(storyId, commentId)
         {
-            this.commentsStore.upVote(
+            this.commentsStore.downVote(
                 {
                     id: commentId,
                 },
 
                 function(result)
                 {
-                    for (var index in this.comments[storyId])
+                    var storyComments = this.comments[storyId];
+
+                    for (var index in storyComments)
                     {
-                        global.console.log('downVote ', index);
                         if (storyComments[index].id == commentId)
                         {
                             storyComments[index].votes = result.votes;
+                            storyComments[index].votesReadOnly = true;
                             break;
                         }
                     }
@@ -395,8 +409,8 @@
 
                 function(error)
                 {
-                    this.commentOperation[storyId] = "upvote a comment";
-                    this.commentError[storyId] = error;
+                    this.commentOperation[storyId] = "downvote a comment";
+                    this.commentError[storyId] = error.statusText;
 
                 }.bind(this)
             );

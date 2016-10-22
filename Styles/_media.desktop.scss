@@ -1064,6 +1064,8 @@ a.author:hover
     position: absolute;
     float: left;
     margin-left: -18px;
+    width: 30pt;
+    height: 20pt;
 }
 
 .button-vote
@@ -1072,8 +1074,7 @@ a.author:hover
     cursor: pointer;
     font-family: "Webdings";
     opacity: 0;
-    display: none;
-    transition: all .15s ease-in-out;
+    transition: opacity .15s ease-in-out;
 }
 
 .button-vote:hover
@@ -1100,9 +1101,14 @@ a.author:hover
     opacity: 0.5;
 }
 
-.vote-default.vote-content
+.vote-default .vote-content
 {
-    display: none;
+    opacity: 0;
+}
+
+.vote-readonly .button-vote
+{
+    cursor: default;
 }
 
 .comment-group:hover
@@ -1110,30 +1116,35 @@ a.author:hover
     .button-vote
     {
         opacity: 1;
-        display: block;
     }
 
     .vote-content
     {
-        left: -9px;
+        left: 0;
         opacity: 1;
     }
 
-    .comment-vote-readonly .button-vote
+    .vote-readonly
     {
-        opacity: 0;
+        .button-vote
+        {
+            opacity: 0;
+        }
+
+        .vote-content
+        {
+            left: 2pt;
+            opacity: 0.5;
+        }
     }
 
-    .comment-vote-readonly .vote-content
+    .vote-default
     {
-        left: 2pt;
-        opacity: 0.5;
+        .vote-content
+        {
+            opacity: 0;
+        }
     }
-}
-
-.comment-vote-readonly .button-vote
-{
-    cursor: default;
 }
 
 .os-win
@@ -1152,7 +1163,7 @@ a.author:hover
 
     .comment-vote
     {
-        margin-left: -35px;
+        margin-left: -25px;
     }
 }
 

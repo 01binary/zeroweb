@@ -123,11 +123,10 @@
             <div class="comment-group"
                 data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes'">
                 <!-- Comment votes -->
-                <span class="comment-vote"
-                    data-ng-class="{'comment-vote-readonly': comment.votesReadOnly || !news.user}">
+                <div class="comment-vote"
+                    data-ng-class="{'vote-readonly': comment.votesReadOnly || !news.user, 'vote-default': comment.votes == 0}">
                     <!-- Votes -->
-                    <span class="vote-content"
-                        data-ng-class="{'vote-default': comment.votes == 0}">
+                    <span class="vote-content">
                         {{comment.votes}}
                     </span>
 
@@ -138,7 +137,7 @@
                     <!-- Downvote -->
                     <span class="metadata-icon-text button-vote downvote"
                         data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</span>
-                </span>
+                </div>
 
                 <!-- Comment body -->
                 <p class="comment" data-ng-class="{'comment-official': comment.author === 'zero'}">

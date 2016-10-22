@@ -135,6 +135,9 @@ namespace ZeroWeb
             // Setup Facebook authentication.
             this.ConfigureFacebookAuthentication(app);
 
+            // Setup Twitter authentication.
+            this.ConfigureTwitterAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -224,7 +227,29 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Configures the faceboook external login provider.
+        /// Configures the Twitter external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureTwitterAuthentication(IApplicationBuilder app)
+        {
+            var twitterOptions = new TwitterOptions()
+            {
+                ConsumerKey = this.Configuration["twitterId"],
+                ConsumerSecret = this.Configuration["twitterSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(twitterOptions.ConsumerKey) ||
+                string.IsNullOrEmpty(twitterOptions.ConsumerSecret))
+            {
+                throw new InvalidOperationException("Ensure twitterId and twitterSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseTwitterAuthentication(twitterOptions);
+        }
+
+        /// <summary>
+        /// Configures the Faceboook external login provider.
         /// </summary>
         /// <param name="app">The application configuration.</param>
         private void ConfigureFacebookAuthentication(IApplicationBuilder app)

@@ -32,11 +32,23 @@
         return $resource(
             "/services/comments/:id",
 
-            {},
+            {
+                id: '@id'
+            },
             
             {
                 "create": { method: "POST" },
-                "edit": { method: "PUT" }
+                "edit": { method: "PUT" },
+                "upVote":
+                {
+                    method: "POST",
+                    url: "/services/comments/upvote/:id"
+                },
+                "downVote":
+                {
+                    method: "POST",
+                    url: "/services/comments/downvote/:id"
+                }
             }
         );
     }

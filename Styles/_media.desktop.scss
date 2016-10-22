@@ -906,14 +906,23 @@ a.author:hover
 .metadata-icon-text
 {
     position: relative;
-    font-family: "Wingdings";
-    font-size: $small-font-size + 2;
     top: 2px;
+    color: $accent-hover-color;
+    font-family: "Wingdings";
+    font-size: $small-font-size + 3;
 }
 
-.os-win .metadata-icon-text
+.os-win
 {
-    font-size: $small-font-size-win + 2;
+    .metadata-icon-text
+    {
+        font-size: $small-font-size-win + 3;
+    }
+
+    .metadata-icon-text.small
+    {
+        font-size: $small-font-size-win + 1;
+    }
 }
 
 .article
@@ -1026,7 +1035,7 @@ a.author:hover
 
 .os-win.hi-dpi .comment:hover
 {
-    background-color: $accent-light-color;
+    background-color: desaturate($accent-light-color, 100%);
 }
 
 .comment .metadata
@@ -1050,6 +1059,83 @@ a.author:hover
     margin-bottom: 3pt;
 }
 
+.comment-vote
+{
+    position: absolute;
+    float: left;
+    margin-left: -18px;
+}
+
+.button-vote
+{
+    position: absolute;
+    cursor: pointer;
+    font-family: "Webdings";
+    opacity: 0;
+    display: none;
+    transition: all .15s ease-in-out;
+}
+
+.button-vote:hover
+{
+    color: $primary-hover-color;
+}
+
+.button-vote.upvote
+{
+    top: -2px;
+}
+
+.button-vote.downvote
+{
+    top: 8px;
+}
+
+.vote-content
+{
+    position: relative;
+    top: 1pt;
+    left: 2pt;
+    transition: all .15s ease-in-out;
+    opacity: 0.5;
+}
+
+.vote-default.vote-content
+{
+    display: none;
+}
+
+.comment-group:hover
+{
+    .button-vote
+    {
+        opacity: 1;
+        display: block;
+    }
+
+    .vote-content
+    {
+        left: -9px;
+        opacity: 1;
+    }
+
+    .comment-vote-readonly .button-vote
+    {
+        opacity: 0;
+    }
+
+    .comment-vote-readonly .vote-content
+    {
+        left: 2pt;
+        opacity: 0.5;
+    }
+}
+
+.comment-vote-readonly .button-vote
+{
+    cursor: default;
+}
+
 .os-win
 {
     .comment .metadata
@@ -1062,6 +1148,11 @@ a.author:hover
     {
         margin-top: 0;
         margin-bottom: 2pt;
+    }
+
+    .comment-vote
+    {
+        margin-left: -35px;
     }
 }
 

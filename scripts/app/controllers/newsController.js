@@ -141,6 +141,18 @@
         this.addStar = addStar;
 
         /**
+         * Upvote a comment.
+         * @type {function}
+         */
+        this.upVote = upVote;
+
+        /**
+         * Downvote a comment.
+         * @type {function}
+         */
+        this.downVote = downVote;
+
+        /**
          * Authenticate user.
          * @type {function}
          */
@@ -324,7 +336,81 @@
                 function(error)
                 {
                     this.commentOperation[storyId] = "add a star";
-                    this.commentError[storyId] = error;
+                    this.commentError[storyId] = error.statusText;
+
+                }.bind(this)
+            );
+        }
+
+        /**
+         * Upvote a comment.
+         * @param {int} storyId - The id of the story the comment is for.
+         * @param {int} commentId - The id of the comment to upvote.
+         */
+        function upVote(storyId, commentId)
+        {
+            this.commentsStore.upVote(
+                {
+                    id: commentId,
+                },
+
+                function(result)
+                {
+                    var storyComments = this.comments[storyId];
+
+                    for (var index in storyComments)
+                    {
+                        if (storyComments[index].id == commentId)
+                        {
+                            storyComments[index].votes = result.votes;
+                            storyComments[index].votesReadOnly = true;
+                            break;
+                        }
+                    }
+
+                }.bind(this),
+
+                function(error)
+                {
+                    this.commentOperation[storyId] = "upvote a comment";
+                    this.commentError[storyId] = error.statusText;
+
+                }.bind(this)
+            );
+        }
+
+        /**
+         * Downvote a comment.
+         * @param {int} storyId - The id of the story the comment is for.
+         * @param {int} commentId - The id of the comment to downvote.
+         */
+        function downVote(storyId, commentId)
+        {
+            this.commentsStore.downVote(
+                {
+                    id: commentId,
+                },
+
+                function(result)
+                {
+                    var storyComments = this.comments[storyId];
+
+                    for (var index in storyComments)
+                    {
+                        if (storyComments[index].id == commentId)
+                        {
+                            storyComments[index].votes = result.votes;
+                            storyComments[index].votesReadOnly = true;
+                            break;
+                        }
+                    }
+
+                }.bind(this),
+
+                function(error)
+                {
+                    this.commentOperation[storyId] = "downvote a comment";
+                    this.commentError[storyId] = error.statusText;
 
                 }.bind(this)
             );

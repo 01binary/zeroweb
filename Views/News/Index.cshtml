@@ -12,6 +12,8 @@
     var starClass = "metadata-icon" +
         (story.stars > 0 ? " metadata-icon-toggled" : string.Empty) +
         (story.starsReadOnly ? " metadata-icon-readonly" : string.Empty);
+    var starRole = (story.starsReadOnly ? "" : "button");
+    var starAriaDisabled = story.starsReadOnly.ToString();
 
 <div class="article">
     <!-- Story title -->
@@ -21,10 +23,15 @@
     <p class="metadata">
 
         <!-- Clock icon -->
-        <icon class="icon-header" data-src="images/banner.svg#clock" data-width="15" data-height="15"/>
+        <icon class="icon-header"
+            data-src="images/banner.svg#clock"
+            data-width="15"
+            data-height="15"/>
 
         <!-- Date -->
-        <span class="date">@Shared.FormatDate(story.date)</span> by
+        <span class="date">
+            @Shared.FormatDate(story.date)
+        </span> by
 
         <!-- Author -->
         <a class="author" href="#">@story.author</a>
@@ -34,9 +41,15 @@
             <!-- Geographic Location -->
             @: - from
             
-            @if (story.latitude != null && story.longitude != null && story.location != null)
+            @if (story.latitude != null &&
+                 story.longitude != null &&
+                 story.location != null)
             {
-                <a class="location" href="https://www.google.com/maps/@@@(story.latitude),@(story.longitude),@(story.zoom)z" target="_blank">@story.location</a>
+                <a class="location"
+                    href="https://www.google.com/maps/@@@(story.latitude),@(story.longitude),@(story.zoom)z"
+                    target="_blank">
+                    @story.location
+                </a>
             }
             else
             {
@@ -45,17 +58,20 @@
         }
 
         <span class="metadata-group">
-            <!-- Impressions -->
-            <span class="metadata-indicator">
+            <!-- Views -->
+            <span class="metadata-indicator" title="Views">
                 <span class="metadata-icon-text">&#xF0E4;</span>
                 <span class="metadata-indicator-content">
                     @story.views
                 </span>
             </span>
 
-            <!-- Favorites -->
-            <span id="star-@storyId" class="metadata-indicator">
+            <!-- Stars -->
+            <span id="star-@storyId" class="metadata-indicator" title="Stars">
                 <icon class="@starClass"
+                    role="@starRole"
+                    title="Star this article"
+                    area-disabled="@starAriaDisabled"
                     data-src="images/banner.svg#star"
                     data-width="16"
                     data-height="16"
@@ -77,46 +93,72 @@
     </p>
 
     <!-- Story loading error -->
-    <error data-ng-show="news.error[@story.id]"
-           data-operation="'load news story'"
-           data-code="news.error[@story.id].status"
-           data-message="news.error[@story.id].statusText">
+    <error data-ng-show="news.error[@storyId]"
+        data-operation="'load news story'"
+        data-code="news.error[@storyId].status"
+        data-message="news.error[@storyId].statusText">
     </error>
 
     <!-- Story loading indicator -->
-    <p data-ng-show="news.loading[@story.id]">
+    <p data-ng-show="news.loading[@storyId]">
         <span class="tag">[ loading... ]</span>
     </p>
 
     <!-- Story content -->
     <markdown class="article-content"
-        data-ng-init="news.loadStory(@story.id)"
-        data-ignore="">{{news[@story.id]}}</markdown>
+        data-ng-init="news.loadStory(@storyId)"
+        data-ignore="">{{news[@storyId]}}</markdown>
     
     <!-- Story comments -->
-    <div class="comments" data-ng-init="news.loadComments(@story.id)">
-        <span class="metadata" data-ng-show="news.comments[@story.id].length">
+    <div class="comments"
+        data-ng-init="news.loadComments(@storyId)">
+        <span class="metadata"
+            data-ng-show="news.comments[@storyId].length">
             <!-- Comments heading -->
-            <p class="comments-header">[<span class="attention-inline">{{news.comments[@story.id].length}}</span>] Comments</p>
+            <p class="comments-header">
+                [<span class="attention-inline">{{news.comments[@storyId].length}}</span>] Comments
+            </p>
 
             <!-- Story comment -->
-            <p class="comment" data-ng-repeat="comment in news.comments[@story.id]" data-ng-class="{'comment-official': comment.author === 'zero'}">
-                <span class="metadata">
-                    &nbsp;// <a class="author">{{comment.author}}</a> {{comment.date}}:
+            <div class="comment-group"
+                data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes'">
+                <!-- Comment votes -->
+                <span class="comment-vote"
+                    data-ng-class="{'comment-vote-readonly': comment.votesReadOnly || !news.user}">
+                    <!-- Votes -->
+                    <span class="vote-content"
+                        data-ng-class="{'vote-default': comment.votes == 0}">
+                        {{comment.votes}}
+                    </span>
+
+                    <!-- Upvote -->
+                    <span class="metadata-icon-text button-vote upvote"
+                        data-ng-click="news.upVote(@storyId, comment.id)">&#xF035;</span>
+                    
+                    <!-- Downvote -->
+                    <span class="metadata-icon-text button-vote downvote"
+                        data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</span>
                 </span>
-                <span class="comment-content">{{comment.content}}</span>
-            </p>
+
+                <!-- Comment body -->
+                <p class="comment" data-ng-class="{'comment-official': comment.author === 'zero'}">
+                    <span class="metadata">
+                        &nbsp;// <a class="author">{{comment.author}}</a> {{comment.date}}:
+                    </span>
+                    <span class="comment-content">{{comment.content}}</span>
+                </p>
+            </div>
         </span>
 
         <!-- Add comment button -->
         <button class="button-inline top-margin"
-                data-ng-class="{'button-inline-toggled': news.addingComment[@story.id]}"
-                data-ng-click="news.addingComment['@story.id'] = !news.addingComment['@story.id']">
-                + comment
+            data-ng-class="{'button-inline-toggled': news.addingComment[@storyId]}"
+            data-ng-click="news.addingComment['@storyId'] = !news.addingComment['@storyId']">
+            + comment
         </button>
 
         <!-- Login providers -->
-        <span data-ng-show="!news.user && news.addingComment[@story.id]">
+        <span data-ng-show="!news.user && news.addingComment[@storyId]">
         @{
             bool first = true;
 
@@ -151,20 +193,20 @@
         }
         </span>
 
-        <div class="comment-form" data-ng-show="news.addingComment[@story.id]">
+        <div class="comment-form" data-ng-show="news.addingComment[@storyId]">
             <!-- Comments error -->
             <error class="comment-error"
-                data-ng-show="news.commentError[@story.id]"
-                data-operation="news.commentOperation[@story.id]"
-                data-error="news.commentError[@story.id]"
-                data-code="news.commentError[@story.id].status"
-                data-message="news.commentError[@story.id].statusText">
+                data-ng-show="news.commentError[@storyId]"
+                data-operation="news.commentOperation[@storyId]"
+                data-error="news.commentError[@storyId]"
+                data-code="news.commentError[@storyId].status"
+                data-message="news.commentError[@storyId].statusText">
             </error>
 
             <!-- Submit button -->
             <button class="button-right"
                 data-primary
-                data-ng-click="news.addComment(@story.id)">
+                data-ng-click="news.addComment(@storyId)">
                 <icon class="icon-button"
                     data-src="images/banner.svg#submit"
                     data-width="10"
@@ -180,7 +222,7 @@
             <div class="form-group">
                 <textarea id="comment-@storyId"
                     class="form-input comment-input full-width"
-                    data-ng-model="news.newComment[@story.id]"
+                    data-ng-model="news.newComment[@storyId]"
                     data-ng-init="news.inputResizeFactory('#comment-@storyId')"
                     placeholder="Leave a comment"
                     rows="1">

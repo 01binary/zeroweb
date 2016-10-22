@@ -41,9 +41,19 @@ namespace ZeroWeb.Models
         public DbSet<SiteItem> SiteItems { get; set; }
 
         /// <summary>
+        /// Gets or sets comments.
+        /// </summary>
+        public DbSet<Comment> Comments { get; set; }
+
+        /// <summary>
         /// Gets or sets the site item stars.
         /// </summary>
         public DbSet<Star> Stars { get; set; }
+
+        /// <summary>
+        /// Gets or sets the site item comment votes.
+        /// </summary>
+        public DbSet<Vote> Votes { get; set; }
 
         /// <summary>
         /// Gets or sets the tag taxonomy.
@@ -69,6 +79,10 @@ namespace ZeroWeb.Models
         {
             // Describe the Owin Identity context we are deriving from.
             base.OnModelCreating(modelBuilder);
+
+            // Create foreign key from Comment.Id to Vote.CommentId.
+            modelBuilder.Entity<Comment>()
+                .HasMany(comment => comment.Votes);
 
             // Create index IX_SiteItems_Date_Published.
             modelBuilder.Entity<SiteItem>()

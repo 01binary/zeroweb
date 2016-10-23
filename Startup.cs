@@ -240,7 +240,7 @@ namespace ZeroWeb
             {
                 ClientId = this.Configuration["microsoftId"],
                 ClientSecret = this.Configuration["microsoftSecret"],
-                CallbackPath = new PathString("/services/users/callback")
+                CallbackPath = new PathString("/callback")
             };
 
             // Ensure secrets have been loaded.

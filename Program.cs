@@ -1,4 +1,5 @@
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -15,7 +16,12 @@ namespace ZeroWeb
 
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
-                .UseKestrel()
+                .UseKestrel(options =>
+                {
+                    options.UseHttps("cert.pfx", "password");
+                    options.UseConnectionLogging();
+                })
+                .UseUrls("http://localhost:5000", "https://localhost:5001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

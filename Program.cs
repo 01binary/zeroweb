@@ -15,14 +15,16 @@ namespace ZeroWeb
                 .Build();
 
             var root = Directory.GetCurrentDirectory();
-            var certificate = new X509Certificate2(
-                Path.Combine(root, "Certificates", "01binary.us.crt"));
 
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseKestrel(options =>
-                    options.UseHttps(certificate))
-                .UseContentRoot(root)
+                {
+                    options.UseHttps("cert.pfx", "password");
+                    options.UseConnectionLogging();
+                })
+                .UseUrls("http://localhost:5000", "https://localhost:5001")
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

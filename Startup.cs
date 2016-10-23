@@ -235,7 +235,7 @@ namespace ZeroWeb
         /// <param name="app">The application configuration.</param>
         private void ConfigureMicrosoftAuthentication(IApplicationBuilder app)
         {
-            var microsoftOptions = new MicrosoftAccountOptions()
+            var microsoftOptions = new OpenIdConnectOptions()
             {
                 ClientId = this.Configuration["microsoftId"],
                 ClientSecret = this.Configuration["microsoftSecret"]
@@ -248,7 +248,7 @@ namespace ZeroWeb
                 throw new InvalidOperationException("Ensure microsoftId and microsoftSecret have been set with \"dotnet user-secrets set <key> <value>\"");
             }
 
-            app.UseMicrosoftAccountAuthentication(microsoftOptions);
+            app.UseOpenIdConnectAuthentication(microsoftOptions);
         }
 
         /// <summary>

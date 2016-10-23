@@ -239,8 +239,7 @@ namespace ZeroWeb
             var microsoftOptions = new MicrosoftAccountOptions()
             {
                 ClientId = this.Configuration["microsoftId"],
-                ClientSecret = this.Configuration["microsoftSecret"],
-                RedirectUri = "https://localhost:5001"
+                ClientSecret = this.Configuration["microsoftSecret"]
             };
 
             // Ensure secrets have been loaded.

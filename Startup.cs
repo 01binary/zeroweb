@@ -146,6 +146,9 @@ namespace ZeroWeb
             // Setup Github authentication.
             this.ConfigureGithubAuthentication(app);
 
+            // Setup Google authentication.
+            this.ConfigureGoogleAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -232,6 +235,29 @@ namespace ZeroWeb
                     await next();
                 }
             });
+        }
+
+        /// <summary>
+        /// Configures the Google external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureGoogleAuthentication(IApplicationBuilder app)
+        {
+            var googleOptions = new GoogleOptions()
+            {
+                ClientId = this.Configuration["googleId"],
+                ClientSecret = this.Configuration["googleSecret"],
+                CallbackPath = new PathString("/callback")
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(googleOptions.ClientId) ||
+                string.IsNullOrEmpty(googleOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure googleId and googleSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseGoogleAuthentication(googleOptions);
         }
 
         /// <summary>

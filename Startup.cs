@@ -239,7 +239,8 @@ namespace ZeroWeb
             var microsoftOptions = new MicrosoftAccountOptions()
             {
                 ClientId = this.Configuration["microsoftId"],
-                ClientSecret = this.Configuration["microsoftSecret"]
+                ClientSecret = this.Configuration["microsoftSecret"],
+                CallbackPath = new PathString("/services/users/callback")
             };
 
             // Ensure secrets have been loaded.

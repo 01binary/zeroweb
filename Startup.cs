@@ -12,6 +12,7 @@
 
 using System;
 using System.IO;
+using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -239,23 +240,12 @@ namespace ZeroWeb
         /// <param name="app">The application configuration.</param>
         private void ConfigureGithubAuthentication(IApplicationBuilder app)
         {
-            var githubOptions = new OAuthOptions
+            var githubOptions = new GitHubAuthenticationOptions
             {
-                AuthenticationScheme = "GitHub",
-                DisplayName = "GitHub",
                 ClientId = this.Configuration["githubId"],
                 ClientSecret = this.Configuration["githubSecret"],
                 CallbackPath = new PathString("/callback"),
-                AuthorizationEndpoint = "https://github.com/login/oauth/authorize",
-                TokenEndpoint = "https://github.com/login/oauth/access_token",
-                UserInformationEndpoint = "https://api.github.com/user",
-                ClaimsIssuer = "OAuth2-Github",
-                SaveTokensAsClaims = true,
-
-                Events = new OAuthEvents
-                {
-                    OnCreatingTicket = async context => { await this.CreateGitHubAuthTicket(context); }
-                }
+                Scope = { "user:login" }
             };
 
             // Ensure secrets have been loaded.
@@ -265,41 +255,7 @@ namespace ZeroWeb
                 throw new InvalidOperationException("Ensure githubId and githubSecret have been set with \"dotnet user-secrets set <key> <value>\"");
             }
 
-            app.UseOAuthAuthentication(githubOptions);
-        }
-
-        /// <summary>
-        /// Copies claims from auth token to identity principal.
-        /// </summary>
-        /// <param name="app">The application configuration.</param>
-        private void CreateGitHubAuthTicket(OAuthCreatingTicketContext context)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = await context.Backchannel.SendAsync(request, context.HttpContext.RequestAborted);
-            response.EnsureSuccessStatusCode();
-
-            var user = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-            var identifier = user.Value<string>("id");
-
-            if (!string.IsNullOrEmpty(identifier))
-            {
-                context.Identity.AddClaim(new Claim(
-                    ClaimTypes.NameIdentifier, identifier,
-                    ClaimValueTypes.String, context.Options.ClaimsIssuer));
-            }
-
-            var name = user.Value<string>("login");
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                context.Identity.AddClaim(new Claim(
-                    ClaimsIdentity.DefaultNameClaimType, userName,
-                    ClaimValueTypes.String, context.Options.ClaimsIssuer));
-            }
+            app.UseGitHubAuthentication(githubOptions);
         }
 
         /// <summary>

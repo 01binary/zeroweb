@@ -16,6 +16,7 @@
     "Microsoft.AspNetCore.Authentication.Google" : "1.0.0",
     "Microsoft.AspNetCore.Authentication.Twitter" : "1.0.0",
     "Microsoft.AspNetCore.Authentication.MicrosoftAccount" : "1.0.0",
+    "AspNet.Security.OAuth.GitHub" : "1.0.0-beta1-final",
     "Microsoft.AspNetCore.Authentication.OAuth": "1.0.0",
     "Microsoft.AspNetCore.Session": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.0",

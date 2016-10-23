@@ -12,12 +12,10 @@
 
 using System;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -89,10 +87,6 @@ namespace ZeroWeb
         /// <param name="loggerFactory">The logger factory.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Setup SSL.
-            var certificate = new X509Certificate2(Path.Combine(env.WebRootPath, "Certificates", "01binary.us.crt"));
-            app.UseKestrelHttps(certificate);
-
             // Redirect all routes to single page application views.
             this.ConfigureSinglePageRoutes(app);
 

@@ -1,4 +1,5 @@
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -13,10 +14,15 @@ namespace ZeroWeb
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
                 .Build();
 
+            var root = Directory.GetCurrentDirectory();
+            var certificate = new X509Certificate2(
+                Path.Combine(root, "Certificates", "01binary.us.crt"));
+
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseKestrel(options =>
+                    options.UseHttps(certificate))
+                .UseContentRoot(root)
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

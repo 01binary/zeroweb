@@ -7,3 +7,4 @@ wwwroot/*.min.*
 Scripts/angular*
 Scripts/jquery*
 Scripts/markdown*
+*.key

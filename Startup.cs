@@ -15,6 +15,7 @@ using System.IO;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -235,10 +236,11 @@ namespace ZeroWeb
         /// <param name="app">The application configuration.</param>
         private void ConfigureMicrosoftAuthentication(IApplicationBuilder app)
         {
-            var microsoftOptions = new OpenIdConnectOptions()
+            var microsoftOptions = new MicrosoftAccountOptions()
             {
                 ClientId = this.Configuration["microsoftId"],
-                ClientSecret = this.Configuration["microsoftSecret"]
+                ClientSecret = this.Configuration["microsoftSecret"],
+                RedirectUri = "https://localhost:5001"
             };
 
             // Ensure secrets have been loaded.
@@ -248,7 +250,7 @@ namespace ZeroWeb
                 throw new InvalidOperationException("Ensure microsoftId and microsoftSecret have been set with \"dotnet user-secrets set <key> <value>\"");
             }
 
-            app.UseOpenIdConnectAuthentication(microsoftOptions);
+            app.UseMicrosoftAccountAuthentication(microsoftOptions);
         }
 
         /// <summary>

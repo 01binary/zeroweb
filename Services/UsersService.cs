@@ -125,14 +125,14 @@ namespace ZeroWeb.API
             // Prompt for name to register with.
             return this.View("Register");
         }
-/*
+
         /// <summary>
         /// Revokes authentication for the current user.
         /// </summary>
-        [Authorize]
-        public async System.Threading.Tasks.Task<IActionResult> LogOff()
+        [HttpPost("signout")]
+        public async System.Threading.Tasks.Task<IActionResult> SignOut()
         {
-            if (this.HttpContext.User != null)
+            if (this.HttpContext.User.Identity.Name != null)
             {
                 await this.signInManager.SignOutAsync();
                 return this.Ok();
@@ -140,7 +140,6 @@ namespace ZeroWeb.API
 
             return this.BadRequest();
         }
-        */
 
         /// <summary>
         /// Registers a new application user and associates with external login.

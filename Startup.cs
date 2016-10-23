@@ -15,6 +15,7 @@ using System.IO;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -135,6 +136,12 @@ namespace ZeroWeb
             // Setup Facebook authentication.
             this.ConfigureFacebookAuthentication(app);
 
+            // Setup Twitter authentication.
+            this.ConfigureTwitterAuthentication(app);
+
+            // Setup Microsoft authentication.
+            this.ConfigureMicrosoftAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -224,7 +231,52 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Configures the faceboook external login provider.
+        /// Configures the Microsoft external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureMicrosoftAuthentication(IApplicationBuilder app)
+        {
+            var microsoftOptions = new MicrosoftAccountOptions()
+            {
+                ClientId = this.Configuration["microsoftId"],
+                ClientSecret = this.Configuration["microsoftSecret"],
+                CallbackPath = new PathString("/callback")
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(microsoftOptions.ClientId) ||
+                string.IsNullOrEmpty(microsoftOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure microsoftId and microsoftSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseMicrosoftAccountAuthentication(microsoftOptions);
+        }
+
+        /// <summary>
+        /// Configures the Twitter external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureTwitterAuthentication(IApplicationBuilder app)
+        {
+            var twitterOptions = new TwitterOptions()
+            {
+                ConsumerKey = this.Configuration["twitterId"],
+                ConsumerSecret = this.Configuration["twitterSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(twitterOptions.ConsumerKey) ||
+                string.IsNullOrEmpty(twitterOptions.ConsumerSecret))
+            {
+                throw new InvalidOperationException("Ensure twitterId and twitterSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseTwitterAuthentication(twitterOptions);
+        }
+
+        /// <summary>
+        /// Configures the Faceboook external login provider.
         /// </summary>
         /// <param name="app">The application configuration.</param>
         private void ConfigureFacebookAuthentication(IApplicationBuilder app)

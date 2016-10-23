@@ -115,7 +115,7 @@ namespace ZeroWeb.API
                 
                 return this.Ok(new { stars = itemStars.Count() });
             }
-            catch (Exception ex)
+            catch
             {
                 return this.StatusCode(500);
             }

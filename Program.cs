@@ -14,8 +14,6 @@ namespace ZeroWeb
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
                 .Build();
 
-            var root = Directory.GetCurrentDirectory();
-
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseKestrel(options =>

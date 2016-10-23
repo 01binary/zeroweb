@@ -12,6 +12,7 @@
 
 using System;
 using System.IO;
+using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -142,6 +143,9 @@ namespace ZeroWeb
             // Setup Microsoft authentication.
             this.ConfigureMicrosoftAuthentication(app);
 
+            // Setup Github authentication.
+            this.ConfigureGithubAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -228,6 +232,30 @@ namespace ZeroWeb
                     await next();
                 }
             });
+        }
+
+        /// <summary>
+        /// Configures the Github external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureGithubAuthentication(IApplicationBuilder app)
+        {
+            var githubOptions = new GitHubAuthenticationOptions
+            {
+                ClientId = this.Configuration["githubId"],
+                ClientSecret = this.Configuration["githubSecret"],
+                CallbackPath = new PathString("/callback"),
+                Scope = { "user:login" }
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(githubOptions.ClientId) ||
+                string.IsNullOrEmpty(githubOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure githubId and githubSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseGitHubAuthentication(githubOptions);
         }
 
         /// <summary>

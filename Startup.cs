@@ -14,6 +14,7 @@ using System;
 using System.IO;
 using AspNet.Security.OAuth.GitHub;
 using AspNet.Security.OAuth.LinkedIn;
+using AspNet.Security.OAuth.Reddit;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -153,6 +154,9 @@ namespace ZeroWeb
             // Setup LinkedIn authentication.
             this.ConfigureLinkedInAuthentication(app);
 
+            // Setup Reddit authentication.
+            this.ConfigureRedditAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -239,6 +243,28 @@ namespace ZeroWeb
                     await next();
                 }
             });
+        }
+
+        /// <summary>
+        /// Configures the Reddit external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureRedditAuthentication(IApplicationBuilder app)
+        {
+            var redditOptions = new RedditAuthenticationOptions()
+            {
+                ClientId = this.Configuration["redditId"],
+                ClientSecret = this.Configuration["redditSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(redditOptions.ClientId) ||
+                string.IsNullOrEmpty(redditOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure redditId and redditSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseRedditAuthentication(redditOptions);
         }
 
         /// <summary>

@@ -13,6 +13,7 @@
 using System;
 using System.IO;
 using AspNet.Security.OAuth.GitHub;
+using AspNet.Security.OAuth.LinkedIn;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -149,6 +150,9 @@ namespace ZeroWeb
             // Setup Google authentication.
             this.ConfigureGoogleAuthentication(app);
 
+            // Setup LinkedIn authentication.
+            this.ConfigureLinkedInAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -238,6 +242,28 @@ namespace ZeroWeb
         }
 
         /// <summary>
+        /// Configures the LinkedIn external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureLinkedInAuthentication(IApplicationBuilder app)
+        {
+            var linkedInOptions = new LinkedInAuthenticationOptions()
+            {
+                ClientId = this.Configuration["linkedInId"],
+                ClientSecret = this.Configuration["linkedInSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(linkedInOptions.ClientId) ||
+                string.IsNullOrEmpty(linkedInOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure linkedInId and linkedInSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseLinkedInAuthentication(linkedInOptions);
+        }
+
+        /// <summary>
         /// Configures the Google external login provider.
         /// </summary>
         /// <param name="app">The application configuration.</param>
@@ -246,8 +272,7 @@ namespace ZeroWeb
             var googleOptions = new GoogleOptions()
             {
                 ClientId = this.Configuration["googleId"],
-                ClientSecret = this.Configuration["googleSecret"],
-                CallbackPath = new PathString("/callback")
+                ClientSecret = this.Configuration["googleSecret"]
             };
 
             // Ensure secrets have been loaded.
@@ -270,7 +295,6 @@ namespace ZeroWeb
             {
                 ClientId = this.Configuration["githubId"],
                 ClientSecret = this.Configuration["githubSecret"],
-                CallbackPath = new PathString("/callback"),
                 Scope = { "user:login" }
             };
 
@@ -293,8 +317,7 @@ namespace ZeroWeb
             var microsoftOptions = new MicrosoftAccountOptions()
             {
                 ClientId = this.Configuration["microsoftId"],
-                ClientSecret = this.Configuration["microsoftSecret"],
-                CallbackPath = new PathString("/callback")
+                ClientSecret = this.Configuration["microsoftSecret"]
             };
 
             // Ensure secrets have been loaded.

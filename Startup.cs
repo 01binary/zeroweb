@@ -149,6 +149,9 @@ namespace ZeroWeb
             // Setup Google authentication.
             this.ConfigureGoogleAuthentication(app);
 
+            // Setup LinkedIn authentication.
+            this.ConfigureLinkedInAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -235,6 +238,29 @@ namespace ZeroWeb
                     await next();
                 }
             });
+        }
+
+        /// <summary>
+        /// Configures the LinkedIn external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureLinkedInAuthentication(IApplicationBuilder app)
+        {
+            var linkedInOptions = new LinkedInAuthenticationOptions()
+            {
+                ClientId = this.Configuration["linkedInId"],
+                ClientSecret = this.Configuration["linkedInSecret"],
+                CallbackPath = new PathString("/callback")
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(linkedInOptions.ClientId) ||
+                string.IsNullOrEmpty(linkedInOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure linkedInId and linkedInSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseLinkedInAuthentication(linkedInOptions);
         }
 
         /// <summary>

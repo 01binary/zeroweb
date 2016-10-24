@@ -19,6 +19,7 @@
     "AspNet.Security.OAuth.GitHub" : "1.0.0-beta1-final",
     "AspNet.Security.OAuth.LinkedIn" : "1.0.0-beta1-final",
     "AspNet.Security.OAuth.Reddit" : "1.0.0-beta1-final",
+    "AspNet.Security.OAuth.Yahoo" : "1.0.0-beta1-final",
     "Microsoft.AspNetCore.Authentication.OAuth": "1.0.0",
     "Microsoft.AspNetCore.Session": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.0",

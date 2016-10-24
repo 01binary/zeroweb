@@ -13,6 +13,7 @@
 using System;
 using System.IO;
 using AspNet.Security.OAuth.GitHub;
+using AspNet.Security.OAuth.LinkedIn;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -249,8 +250,7 @@ namespace ZeroWeb
             var linkedInOptions = new LinkedInAuthenticationOptions()
             {
                 ClientId = this.Configuration["linkedInId"],
-                ClientSecret = this.Configuration["linkedInSecret"],
-                CallbackPath = new PathString("/callback")
+                ClientSecret = this.Configuration["linkedInSecret"]
             };
 
             // Ensure secrets have been loaded.
@@ -272,8 +272,7 @@ namespace ZeroWeb
             var googleOptions = new GoogleOptions()
             {
                 ClientId = this.Configuration["googleId"],
-                ClientSecret = this.Configuration["googleSecret"],
-                CallbackPath = new PathString("/callback")
+                ClientSecret = this.Configuration["googleSecret"]
             };
 
             // Ensure secrets have been loaded.
@@ -296,7 +295,6 @@ namespace ZeroWeb
             {
                 ClientId = this.Configuration["githubId"],
                 ClientSecret = this.Configuration["githubSecret"],
-                CallbackPath = new PathString("/callback"),
                 Scope = { "user:login" }
             };
 
@@ -319,8 +317,7 @@ namespace ZeroWeb
             var microsoftOptions = new MicrosoftAccountOptions()
             {
                 ClientId = this.Configuration["microsoftId"],
-                ClientSecret = this.Configuration["microsoftSecret"],
-                CallbackPath = new PathString("/callback")
+                ClientSecret = this.Configuration["microsoftSecret"]
             };
 
             // Ensure secrets have been loaded.

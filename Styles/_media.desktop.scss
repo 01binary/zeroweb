@@ -566,7 +566,7 @@ a.author:hover
 
     .button-primary
     {
-        min-height: 2.2em;
+        min-height: 27px;
     }
     
     .button-primary-content
@@ -617,6 +617,14 @@ a.author:hover
     min-width: 6.4em;
     margin-top: 2px;
     float: right;
+}
+
+@-moz-document url-prefix()
+{
+    .button-right
+    {
+        margin-top: 3px;
+    }
 }
 
 .overlay

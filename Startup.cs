@@ -136,11 +136,14 @@ namespace ZeroWeb
             // Setup sessions.
             app.UseSession();
 
-            // Setup Facebook authentication.
-            this.ConfigureFacebookAuthentication(app);
+            // Setup Yahoo authentication.
+            this.ConfigureYahooAuthentication(app);
 
-            // Setup Twitter authentication.
-            this.ConfigureTwitterAuthentication(app);
+            // Setup LinkedIn authentication.
+            this.ConfigureLinkedInAuthentication(app);
+
+            // Setup Reddit authentication.
+            this.ConfigureRedditAuthentication(app);
 
             // Setup Microsoft authentication.
             this.ConfigureMicrosoftAuthentication(app);
@@ -151,14 +154,11 @@ namespace ZeroWeb
             // Setup Google authentication.
             this.ConfigureGoogleAuthentication(app);
 
-            // Setup LinkedIn authentication.
-            this.ConfigureLinkedInAuthentication(app);
+            // Setup Twitter authentication.
+            this.ConfigureTwitterAuthentication(app);
 
-            // Setup Reddit authentication.
-            this.ConfigureRedditAuthentication(app);
-
-            // Setup Yahoo authentication.
-            this.ConfigureYahooAuthentication(app);
+            // Setup Facebook authentication.
+            this.ConfigureFacebookAuthentication(app);
 
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);

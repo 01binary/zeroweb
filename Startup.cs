@@ -15,6 +15,7 @@ using System.IO;
 using AspNet.Security.OAuth.GitHub;
 using AspNet.Security.OAuth.LinkedIn;
 using AspNet.Security.OAuth.Reddit;
+using AspNet.Security.OAuth.Yahoo;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -157,6 +158,9 @@ namespace ZeroWeb
             // Setup Reddit authentication.
             this.ConfigureRedditAuthentication(app);
 
+            // Setup Yahoo authentication.
+            this.ConfigureYahooAuthentication(app);
+
             // Setup layout and partial routes.
             this.ConfigureRoutes(app);
         }
@@ -243,6 +247,28 @@ namespace ZeroWeb
                     await next();
                 }
             });
+        }
+
+        /// <summary>
+        /// Configures the Yahoo external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureYahooAuthentication(IApplicationBuilder app)
+        {
+            var yahooOptions = new YahooAuthenticationOptions()
+            {
+                ClientId = this.Configuration["yahooId"],
+                ClientSecret = this.Configuration["yahooSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(yahooOptions.ClientId) ||
+                string.IsNullOrEmpty(yahooOptions.ClientSecret))
+            {
+                throw new InvalidOperationException("Ensure yahooId and yahooSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+            }
+
+            app.UseYahooAuthentication(yahooOptions);
         }
 
         /// <summary>

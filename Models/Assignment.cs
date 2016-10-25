@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Enables assigning Tags to Tasks.
+|  Assigns Tags (representing resources or taxonomy) to Issues.
 |----------------------------------------------------------
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -16,10 +16,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZeroWeb.Models
 {
     /// <summary>
-    /// Task tag.
+    /// Issue assignment.
     /// </summary>
-    [Table("TaskMetadata")]
-    public class TaskMetadata
+    [Table("Assignments")]
+    public class Assignment
     {
         /// <summary>
         /// Gets or sets the primary key.
@@ -28,13 +28,13 @@ namespace ZeroWeb.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the Task to map to a Tag.
+        /// Gets or sets the Issue to assign to a Tag.
         /// </summary>
         [Required]
-        public Task Task { get; set; }
+        public Issue Issue { get; set; }
 
         /// <summary>
-        /// Gets or sets the Tag to map to a Task.
+        /// Gets or sets the Tag to assign to an Issue.
         /// </summary>
         [Required]
         public Tag Tag { get; set; }

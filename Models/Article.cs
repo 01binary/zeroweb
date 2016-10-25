@@ -20,8 +20,8 @@ namespace ZeroWeb.Models
     /// <summary>
     /// News story, article, project, or about page.
     /// </summary>
-    [Table("SiteItems")]
-    public class SiteItem
+    [Table("Articles")]
+    public class Article
     {
         /// <summary>
         /// Gets or sets the primary key.
@@ -45,7 +45,7 @@ namespace ZeroWeb.Models
         public int Views { get; set; }
 
         /// <summary>
-        /// Gets or sets the publish geographical location name where the item was authored.
+        /// Gets or sets the publish geographical location name where the article was authored.
         /// </summary>
         [MaxLength(32)]
         public string LocationName { get; set; }
@@ -68,7 +68,7 @@ namespace ZeroWeb.Models
         /// <summary>
         /// Gets or sets the item metadata.
         /// </summary>
-        public ICollection<SiteItemMetadata> Metadata { get; set; }
+        public ICollection<Metadata> Metadata { get; set; }
 
         /// <summary>
         /// Gets or sets the item comments.
@@ -81,9 +81,9 @@ namespace ZeroWeb.Models
         public ICollection<Star> Stars { get; set; }
 
         /// <summary>
-        /// Gets or sets the project tasks if this article is a project.
+        /// Gets or sets the project issues if this article is a project.
         /// </summary>
-        public ICollection<Task> Tasks { get; set; }
+        public ICollection<Issue> Issues { get; set; }
 
         /// <summary>
         /// Gets or sets the author (tag).

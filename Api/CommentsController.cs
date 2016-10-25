@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Comments API.
+|  Defines the Comments Endpoint.
 |----------------------------------------------------------
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -13,14 +13,15 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ZeroWeb.Models;
+using ZeroWeb.Api.Models;
 
-namespace ZeroWeb.API
+namespace ZeroWeb.Api
 {
     /// <summary>
-    /// Comments API.
+    /// The Comments Endpoint.
     /// </summary>
-    [Route("services/comments")]
-    public class CommentsService: Controller
+    [Route("api/comments")]
+    public class CommentsController: Controller
     {
         /// <summary>
         /// The site data store.
@@ -28,10 +29,10 @@ namespace ZeroWeb.API
         IDataStore store;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommentsService"/> class.
+        /// Initializes a new instance of the <see cref="CommentsController"/> class.
         /// </summary>
         /// <param name="store">The data store.</param>
-        public CommentsService(IDataStore store)
+        public CommentsController(IDataStore store)
         {
             this.store = store;
         }
@@ -43,7 +44,7 @@ namespace ZeroWeb.API
         [HttpGet("{id}")]
         public IActionResult GetComments(int id)
         {
-            return this.Json(this.store.GetItemComments(id)
+            return this.Json(this.store.GetArticleComments(id)
                 .Where(comment => comment.Published == true)
                 .OrderByDescending(comment => comment.Date)
                 .Select(comment => new
@@ -63,9 +64,9 @@ namespace ZeroWeb.API
         /// <summary>
         /// Creates a new site item comment.
         /// </summary>
-        /// <param name="request">The comment to create.</param>
+        /// <param name="request">The request to create a new comment.</param>
         [HttpPost]
-        public IActionResult CreateComment([FromBody]dynamic request)
+        public IActionResult CreateComment([FromBody]CreateComment request)
         {
             try
             {
@@ -74,21 +75,22 @@ namespace ZeroWeb.API
                     return this.Unauthorized();
                 }
 
-                if (request.item == null || request.author == null || request.content == null)
+                if (request.ArticleId == 0 || string.IsNullOrEmpty(request.Content))
                 {
                     return this.BadRequest();
                 }
 
-                SiteItem item = this.store.GetItem((int)request.item.Value);
-                Comment comment = new Comment(item, request.author.Value, request.content.Value);
+                var article = this.store.GetArticle(request.ArticleId);
+                var comment = new Comment(article, this.User.Identity.Name, request.Content);
 
-                item.Comments.Add(comment);
+                article.Comments.Add(comment);
                 this.store.Save();
 
                 return this.CreatedAtRoute(string.Empty, new
                 {
                     id = comment.Id,
-                    date = Shared.FormatDate(comment.Date)
+                    date = comment.Date,
+                    formattedDate = Shared.FormatDate(comment.Date)
                 });
             }
             catch
@@ -118,7 +120,7 @@ namespace ZeroWeb.API
                     return this.NotFound();
                 }
                 
-                IQueryable<Vote> commentVotes = this.store.GetCommentVotes(id);
+                var commentVotes = this.store.GetCommentVotes(id);
                 
                 if (commentVotes.Any(vote => vote.Author == this.User.Identity.Name))
                 {
@@ -157,7 +159,7 @@ namespace ZeroWeb.API
                     return this.NotFound();
                 }
                 
-                IQueryable<Vote> commentVotes = this.store.GetCommentVotes(id);
+                var commentVotes = this.store.GetCommentVotes(id);
                 
                 if (commentVotes.Any(vote => vote.Author == this.User.Identity.Name))
                 {
@@ -182,16 +184,18 @@ namespace ZeroWeb.API
         [HttpPut]
         public IActionResult EditComment(int commentId)
         {
+            // TODO
             return this.NoContent();
         }
 
         /// <summary>
-        /// Edits a site item comment.
+        /// Deletes a site item comment.
         /// </summary>
-        /// <param name="commentId">The Id of the comment to edit.</param>
+        /// <param name="commentId">The Id of the comment to delete.</param>
         [HttpDelete("{id}")]
         public IActionResult DeleteComment(int commentId)
         {
+            // TODO
             return this.Ok();
         }
     }

@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Enables assigning Resources to Tasks.
+|  Enables assigning Tags to Articles.
 |----------------------------------------------------------
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -16,10 +16,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZeroWeb.Models
 {
     /// <summary>
-    /// Task assignment.
+    /// Article tags.
     /// </summary>
-    [Table("TaskAssignments")]
-    public class TaskAssignment
+    [Table("Metadata")]
+    public class Metadata
     {
         /// <summary>
         /// Gets or sets the primary key.
@@ -28,15 +28,15 @@ namespace ZeroWeb.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the Task to assign to a Resource (tag).
+        /// Gets or sets the Article to map to a Tag.
         /// </summary>
         [Required]
-        public Task Task { get; set; }
+        public Article Article { get; set; }
 
         /// <summary>
-        /// Gets or sets the Resource (tag) to assign to a Task.
+        /// Gets or sets the Tag to map to an Article.
         /// </summary>
         [Required]
-        public Tag Assignment { get; set; }
+        public Tag Tag { get; set; }
     }
 }

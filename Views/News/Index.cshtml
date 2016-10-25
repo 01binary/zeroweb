@@ -121,7 +121,7 @@
 
             <!-- Story comment -->
             <div class="comment-group"
-                data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes'">
+                data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes' | orderBy:'-date'">
                 <!-- Comment votes -->
                 <div class="comment-vote"
                     title="votes"
@@ -147,7 +147,7 @@
                 <!-- Comment body -->
                 <p class="comment" data-ng-class="{'comment-official': comment.author === 'zero'}">
                     <span class="metadata">
-                        &nbsp;// <a class="author">{{comment.author}}</a> {{comment.date}}:
+                        &nbsp;// <a class="author">{{comment.author}}</a> {{comment.formattedDate}}:
                     </span>
                     <span class="comment-content">{{comment.content}}</span>
                 </p>
@@ -179,7 +179,7 @@
                     <span class="metadata">, </span>
                 }
 
-                <form action="~/services/users/login/@loginProvider.AuthenticationScheme"
+                <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
                     method="get"
                     target="login"
                     class="form-inline">

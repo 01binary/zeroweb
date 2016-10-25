@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Defines site item stars.
+|  Defines article stars.
 |----------------------------------------------------------
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZeroWeb.Models
 {
     /// <summary>
-    /// Star a site item.
+    /// Star an article.
     /// </summary>
     [Table("Stars")]
     public class Star
@@ -32,11 +32,11 @@ namespace ZeroWeb.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="Star"/> class.
         /// </summary>
-        /// <param name="item">The item the star is for.</param>
-        /// <param name="ip">The external identity starring the site item.</param>
-        public Star(SiteItem item, string ip)
+        /// <param name="article">The article the star is for.</param>
+        /// <param name="ip">The external identity starring the article.</param>
+        public Star(Article article, string ip)
         {
-            this.Item = item;
+            this.Article = article;
             this.IpAddress = ip;
         }
 
@@ -47,13 +47,13 @@ namespace ZeroWeb.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the site item this star is for.
+        /// Gets or sets the article this star is for.
         /// </summary>
         [Required]
-        public SiteItem Item { get; set; }
+        public Article Article { get; set; }
 
         /// <summary>
-        /// Gets or sets the comment author identity.
+        /// Gets or sets the external comment author identity.
         /// </summary>
         [Required]
         [MaxLength(16)]

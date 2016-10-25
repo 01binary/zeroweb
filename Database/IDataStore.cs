@@ -21,114 +21,114 @@ namespace ZeroWeb
     public interface IDataStore
     {
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
-        /// <param name="published">Whether to return only published items.</param>
+        /// <param name="count">How many articles to return at most.</param>
+        /// <param name="published">Whether to return only published articles.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        IQueryable<SiteItem> GetItems(int days, int count, bool published, params string[] tags);
+        /// <returns>A list of articles.</returns>
+        IQueryable<Article> GetArticles(int days, int count, bool published, params string[] tags);
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
+        /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author to search for.</param>
-        /// <param name="published">Whether to return only published items.</param>
+        /// <param name="published">Whether to return only published articles.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        IQueryable<SiteItem> GetItems(int days, int count, string author, bool published, params string[] tags);
+        /// <returns>A list of articles.</returns>
+        IQueryable<Article> GetArticles(int days, int count, string author, bool published, params string[] tags);
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
+        /// <param name="count">How many articles to return at most.</param>
         /// <param name="search">Search titles and full text.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        IQueryable<SiteItem> GetItems(int days, int count, string search, params string[] tags);
+        /// <returns>A list of articles.</returns>
+        IQueryable<Article> GetArticles(int days, int count, string search, params string[] tags);
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
+        /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author to search for.</param>
         /// <param name="search">Search titles and full text.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        IQueryable<SiteItem> GetItems(int days, int count, string author, string search, params string[] tags);
+        /// <returns>A list of articles.</returns>
+        IQueryable<Article> GetArticles(int days, int count, string author, string search, params string[] tags);
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="typeTag">The built-in tag to search for.</param>
-        /// <returns>A list of site items</returns>
-        IQueryable<SiteItem> GetItems(Tags typeTag);
+        /// <returns>A list of articles.</returns>
+        IQueryable<Article> GetArticles(Tags typeTag);
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="typeTag">The built-in tag to search for.</param>
         /// <param name="search">Search titles and full text.</param>
-        /// <returns>A list of site items</returns>
-        IQueryable<SiteItem> GetItems(Tags typeTag, string search);
+        /// <returns>A list of articles.</returns>
+        IQueryable<Article> GetArticles(Tags typeTag, string search);
 
         /// <summary>
         /// Gets the tags.
         /// </summary>
-        /// <returns>A list of tags</returns>
+        /// <returns>A list of tags.</returns>
         IQueryable<Tag> GetTags();
 
         /// <summary>
-        /// Gets a site item.
+        /// Gets an article.
         /// </summary>
-        /// <param name="id">The site item Id.</param>
-        /// <returns>The site item requested or null if not found.</returns>
-        SiteItem GetItem(int id);
+        /// <param name="id">The article Id.</param>
+        /// <returns>The article requested or null if not found.</returns>
+        Article GetArticle(int id);
 
         /// <summary>
-        /// Gets a site item comment.
+        /// Gets an article comment.
         /// </summary>
         /// <param name="id">The comment Id.</param>
         /// <returns>The comment requested or null if not found.</returns>
         Comment GetComment(int id);
 
         /// <summary>
-        /// Gets the site item comments.
+        /// Gets the article comments.
         /// </summary>
-        /// <param name="id">The site item Id.</param>
-        /// <returns>The comments for the site item.</returns>
-        IQueryable<Comment> GetItemComments(int id);
+        /// <param name="id">The article Id.</param>
+        /// <returns>The comments for the article.</returns>
+        IQueryable<Comment> GetArticleComments(int id);
 
         /// <summary>
-        /// Gets the site item stars.
+        /// Gets the article stars.
         /// </summary>
-        /// <param name="id">The site item Id.</param>
-        /// <returns>The stars for the site item.</returns>
-        IQueryable<Star> GetItemStars(int id);
+        /// <param name="id">The article Id.</param>
+        /// <returns>The stars for the article.</returns>
+        IQueryable<Star> GetArticleStars(int id);
 
         /// <summary>
-        /// Gets the site item comment votes.
+        /// Gets the comment votes.
         /// </summary>
-        /// <param name="id">The site item comment Id.</param>
-        /// <returns>The votes for the site item comment.</returns>
+        /// <param name="id">The comment Id.</param>
+        /// <returns>The votes for the comment.</returns>
         IQueryable<Vote> GetCommentVotes(int id);
 
         /// <summary>
-        /// Adds a new site item.
+        /// Adds a new article.
         /// </summary>
-        /// <param name="item">The site item to add.</param>
-        void Add(SiteItem item);
+        /// <param name="article">The article to add.</param>
+        void Add(Article article);
 
         /// <summary>
-        /// Removes a site  item.
+        /// Removes an article.
         /// </summary>
-        /// <param name="item">The site item to remove.</param>
-        void Remove(SiteItem item);
+        /// <param name="article">The article to remove.</param>
+        void Remove(Article article);
 
         /// <summary>
         /// Adds a new tag.

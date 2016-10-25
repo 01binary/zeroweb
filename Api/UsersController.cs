@@ -5,22 +5,23 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Users API.
+|  Defines the Users Endpoint.
 |----------------------------------------------------------
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ZeroWeb.Models;
 
-namespace ZeroWeb.API
+namespace ZeroWeb.Api
 {
     /// <summary>
-    /// Users API.
+    /// The Users Endpoint.
     /// </summary>
-    [Route("services/users")]
-    public class UsersService: Controller
+    [Route("api/users")]
+    public class UsersController: Controller
     {
         /// <summary>
         /// The view to display on successful login.
@@ -43,12 +44,12 @@ namespace ZeroWeb.API
         private readonly SignInManager<User> signInManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersService"/> class.
+        /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="signInManager">The sign-in manager.</param>
-        public UsersService(UserManager<User> userManager,
-                            SignInManager<User> signInManager)
+        public UsersController(UserManager<User> userManager,
+                               SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -75,7 +76,7 @@ namespace ZeroWeb.API
         /// </summary>
         /// <param name="provider">The external login provider.</param>
         [HttpGet("login/{provider}")]
-        public async System.Threading.Tasks.Task<IActionResult> Login(string provider)
+        public async Task<IActionResult> Login(string provider)
         {
             // When already signed in with external provider, continue to Register.
             // https://github.com/aspnet/Identity/issues/915
@@ -83,13 +84,13 @@ namespace ZeroWeb.API
 
             if (info != null)
             {
-                return this.Redirect("~/services/users/callback?interrupted=true");
+                return this.Redirect("~/api/users/callback?interrupted=true");
             }
 
             // Request a redirect to the external login provider.
             var properties = this.signInManager.ConfigureExternalAuthenticationProperties(
                 provider,
-                "services/users/callback");
+                "api/users/callback");
 
             return this.Challenge(properties, provider);
         }
@@ -98,7 +99,7 @@ namespace ZeroWeb.API
         /// Completes login with an external provider.
         /// </summary>
         [HttpGet("callback")]
-        public async System.Threading.Tasks.Task<IActionResult> LoginCallback([FromQuery]string interrupted)
+        public async Task<IActionResult> LoginCallback([FromQuery]string interrupted)
         {
             var info = await this.signInManager.GetExternalLoginInfoAsync();
 
@@ -130,7 +131,7 @@ namespace ZeroWeb.API
         /// Revokes authentication for the current user.
         /// </summary>
         [HttpPost("signout")]
-        public async System.Threading.Tasks.Task<IActionResult> SignOut()
+        public async Task<IActionResult> SignOut()
         {
             if (this.HttpContext.User.Identity.Name != null)
             {
@@ -147,7 +148,7 @@ namespace ZeroWeb.API
         /// <param name="name">The new user name.</param>
         [HttpPost("register")]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> Register(string name)
+        public async Task<IActionResult> Register(string name)
         {
             try
             {

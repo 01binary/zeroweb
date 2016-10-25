@@ -38,7 +38,12 @@ namespace ZeroWeb.Models
         /// <summary>
         /// Gets or sets news, articles, and projects.
         /// </summary>
-        public DbSet<SiteItem> SiteItems { get; set; }
+        public DbSet<Article> Articles { get; set; }
+
+        /// <summary>
+        /// Gets or sets project issues.
+        /// </summary>
+        public DbSet<Issue> Issues { get; set; }
 
         /// <summary>
         /// Gets or sets comments.
@@ -46,12 +51,12 @@ namespace ZeroWeb.Models
         public DbSet<Comment> Comments { get; set; }
 
         /// <summary>
-        /// Gets or sets the site item stars.
+        /// Gets or sets the article stars.
         /// </summary>
         public DbSet<Star> Stars { get; set; }
 
         /// <summary>
-        /// Gets or sets the site item comment votes.
+        /// Gets or sets the article comment votes.
         /// </summary>
         public DbSet<Vote> Votes { get; set; }
 
@@ -59,6 +64,11 @@ namespace ZeroWeb.Models
         /// Gets or sets the tag taxonomy.
         /// </summary>
         public DbSet<Tag> Tags { get; set; }
+
+        /// <summary>
+        /// Gets or sets project issue assignments.
+        /// </summary>
+        public DbSet<Assignment> Assignments { get; set; }
 
         /// <summary>
         /// Configures the context.
@@ -84,9 +94,9 @@ namespace ZeroWeb.Models
             modelBuilder.Entity<Comment>()
                 .HasMany(comment => comment.Votes);
 
-            // Create index IX_SiteItems_Date_Published.
-            modelBuilder.Entity<SiteItem>()
-                        .HasIndex(siteItem => new { siteItem.Date, siteItem.Published })
+            // Create index IX_Articles_Date_Published.
+            modelBuilder.Entity<Article>()
+                        .HasIndex(article => new { article.Date, article.Published })
                         .IsUnique(false);
 
             // Create index UX_Tags_Name.
@@ -101,16 +111,16 @@ namespace ZeroWeb.Models
                         .HasForeignKey(tag => tag.ParentId);
             
             // Create foreign key from Task.ParentId to Task.Id.
-            modelBuilder.Entity<Task>()
-                        .HasOne(task => task.Parent)
+            modelBuilder.Entity<Issue>()
+                        .HasOne(issue => issue.Parent)
                         .WithMany()
-                        .HasForeignKey(task => task.ParentId);
+                        .HasForeignKey(issue => issue.ParentId);
 
             // Create foreign key from Task.DependencyId to Task.Id.
-            modelBuilder.Entity<Task>()
-                        .HasOne(task => task.Dependency)
+            modelBuilder.Entity<Issue>()
+                        .HasOne(issue => issue.Dependency)
                         .WithMany()
-                        .HasForeignKey(task => task.DependencyId);
+                        .HasForeignKey(issue => issue.DependencyId);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ZeroWeb
     public class SiteDataStore : IDataStore
     {
         /// <summary>
-        /// The default max. number of site items to query.
+        /// The default max. number of articles. to query.
         /// </summary>
         private const int DefaultCount = 10;
 
@@ -48,25 +48,25 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
-        /// <param name="published">Whether to return only published items.</param>
+        /// <param name="count">How many articles to return at most.</param>
+        /// <param name="published">Whether to return only published articles.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        public IQueryable<SiteItem> GetItems(int days, int count, bool published, params string[] tags)
+        /// <returns>A list of articles.</returns>
+        public IQueryable<Article> GetArticles(int days, int count, bool published, params string[] tags)
         {
-            // Select max number of items, or items within specified number of days, whichever returns more.
+            // Select max number of articles, or articles within specified number of days, whichever returns more.
             DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
 
-            return this.context.SiteItems
+            return this.context.Articles
                 .Where(byCount =>
                        byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
                        byCount.Published)
                 .OrderByDescending(order => order.Date)
                 .Take(count)
-                .Union(this.context.SiteItems
+                .Union(this.context.Articles
                 .Where(byDate =>
                        byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
                        byDate.Date <= oldest &&
@@ -76,27 +76,27 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
+        /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author name.</param>
-        /// <param name="published">Whether to return only published items.</param>
+        /// <param name="published">Whether to return only published articles.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        public IQueryable<SiteItem> GetItems(int days, int count, string author, bool published, params string[] tags)
+        /// <returns>A list of articles.</returns>
+        public IQueryable<Article> GetArticles(int days, int count, string author, bool published, params string[] tags)
         {
-            // Select max number of items, or items within specified number of days, whichever returns more.
+            // Select max number of articles, or articles within specified number of days, whichever returns more.
             DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
 
-            return this.context.SiteItems
+            return this.context.Articles
                 .Where(byCount =>
                        byCount.Author.Name == author &&
                        byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
                        byCount.Published)
                 .OrderByDescending(order => order.Date)
                 .Take(count)
-                .Union(this.context.SiteItems
+                .Union(this.context.Articles
                 .Where(byDate =>
                        byDate.Author.Name == author &&
                        byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
@@ -107,19 +107,19 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
+        /// <param name="count">How many articles to return at most.</param>
         /// <param name="search">Search titles and full text.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        public IQueryable<SiteItem> GetItems(int days, int count, string search, params string[] tags)
+        /// <returns>A list of articles.</returns>
+        public IQueryable<Article> GetArticles(int days, int count, string search, params string[] tags)
         {
             DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
             string searchLower = search.ToLower();
 
-            return this.context.SiteItems
+            return this.context.Articles
                 .Where(byCount =>
                     (
                         byCount.Title.ToLower().Contains(searchLower) ||
@@ -130,7 +130,7 @@ namespace ZeroWeb
                     byCount.Published)
                 .OrderByDescending(order => order.Date)
                 .Take(count)
-                .Union(this.context.SiteItems
+                .Union(this.context.Articles
                 .Where(byDate =>
                     (
                         byDate.Title.ToLower().Contains(searchLower) ||
@@ -145,20 +145,20 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="days">How many days to return.</param>
-        /// <param name="count">How many items to return at most.</param>
+        /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author to search for.</param>
         /// <param name="search">Search titles and full text.</param>
         /// <param name="tags">The tags to search for.</param>
-        /// <returns>A list of site items</returns>
-        public IQueryable<SiteItem> GetItems(int days, int count, string author, string search, params string[] tags)
+        /// <returns>A list of articles.</returns>
+        public IQueryable<Article> GetArticles(int days, int count, string author, string search, params string[] tags)
         {
             DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
             string searchLower = search.ToLower();
 
-            return this.context.SiteItems
+            return this.context.Articles
                 .Where(byCount =>
                     (
                         byCount.Title.ToLower().Contains(searchLower) ||
@@ -170,7 +170,7 @@ namespace ZeroWeb
                     byCount.Published)
                 .OrderByDescending(order => order.Date)
                 .Take(count)
-                .Union(this.context.SiteItems
+                .Union(this.context.Articles
                 .Where(byDate =>
                     (
                         byDate.Title.ToLower().Contains(searchLower) ||
@@ -186,24 +186,24 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="typeTag">The built-in tag to search for.</param>
-        /// <returns>A list of site items</returns>
-        public IQueryable<SiteItem> GetItems(Tags typeTag)
+        /// <returns>A list of articles.</returns>
+        public IQueryable<Article> GetArticles(Tags typeTag)
         {
-            return this.GetItems(DefaultDays, DefaultCount, true, typeTag.ToString().ToLower());
+            return this.GetArticles(DefaultDays, DefaultCount, true, typeTag.ToString().ToLower());
         }
 
         /// <summary>
-        /// Gets the site items.
+        /// Gets the articles.
         /// </summary>
         /// <param name="typeTag">The built-in tag to search for.</param>
         /// <param name="search">Search titles and full text.</param>
-        /// <returns>A list of site items</returns>
-        public IQueryable<SiteItem> GetItems(Tags typeTag, string search)
+        /// <returns>A list of articles.</returns>
+        public IQueryable<Article> GetArticles(Tags typeTag, string search)
         {
-            return this.GetItems(DefaultDays, DefaultCount, search, typeTag.ToString().ToLower());
+            return this.GetArticles(DefaultDays, DefaultCount, search, typeTag.ToString().ToLower());
         }
 
         /// <summary>
@@ -216,13 +216,13 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets a site item.
+        /// Gets an article.
         /// </summary>
-        /// <param name="id">The site item Id.</param>
-        /// <returns>The site item requested or null if not found.</returns>
-        public SiteItem GetItem(int id)
+        /// <param name="id">The article Id.</param>
+        /// <returns>The article requested or null if not found.</returns>
+        public Article GetArticle(int id)
         {
-            var result = this.context.SiteItems
+            var result = this.context.Articles
                 .Where(item => item.Id == id)
                 .FirstOrDefault();
 
@@ -243,7 +243,7 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets a site item comment.
+        /// Gets an article comment.
         /// </summary>
         /// <param name="id">The comment Id.</param>
         /// <returns>The comment requested or null if not found.</returns>
@@ -265,31 +265,31 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the site item comments.
+        /// Gets the article comments.
         /// </summary>
-        /// <param name="id">The site item Id.</param>
-        /// <returns>The comments for the site item.</returns>
-        public IQueryable<Comment> GetItemComments(int id)
+        /// <param name="id">The article Id.</param>
+        /// <returns>The comments for the article.</returns>
+        public IQueryable<Comment> GetArticleComments(int id)
         {
             return this.context.Comments
-                .Where(comment => comment.Item.Id == id);
+                .Where(comment => comment.Article.Id == id);
         }
 
         /// <summary>
-        /// Gets the site item stars.
+        /// Gets the article stars.
         /// </summary>
-        /// <param name="id">The site item Id.</param>
-        /// <returns>The stars for the site item.</returns>
-        public IQueryable<Star> GetItemStars(int id)
+        /// <param name="id">The article Id.</param>
+        /// <returns>The stars for the article.</returns>
+        public IQueryable<Star> GetArticleStars(int id)
         {
-            return this.context.Stars.Where(star => star.Item.Id == id);
+            return this.context.Stars.Where(star => star.Article.Id == id);
         }
 
         /// <summary>
-        /// Gets the site item comment votes.
+        /// Gets the article comment votes.
         /// </summary>
-        /// <param name="id">The site item comment Id.</param>
-        /// <returns>The votes for the site item comment.</returns>
+        /// <param name="id">The article comment Id.</param>
+        /// <returns>The votes for the article comment.</returns>
         public IQueryable<Vote> GetCommentVotes(int id)
         {
             return this.context.Votes.Where(vote => vote.Comment.Id == id);
@@ -305,12 +305,12 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Adds a new site item.
+        /// Adds a new article.
         /// </summary>
-        /// <param name="item">The site item to add.</param>
-        public void Add(SiteItem item)
+        /// <param name="item">The article to add.</param>
+        public void Add(Article item)
         {
-            this.context.SiteItems.Add(item);
+            this.context.Articles.Add(item);
         }
 
         /// <summary>
@@ -323,10 +323,10 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Removes a site item.
+        /// Removes an article.
         /// </summary>
-        /// <param name="item">The site item to remove.</param>
-        public void Remove(SiteItem item)
+        /// <param name="item">The article to remove.</param>
+        public void Remove(Article item)
         {
             this.context.Remove(item);
         }

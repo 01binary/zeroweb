@@ -278,8 +278,7 @@
 
             this.commentsStore.create(
                 {
-                    item: storyId,
-                    author: this.user,
+                    articleId: storyId,
                     content: commentContent
                 },
 
@@ -290,6 +289,7 @@
                         id: result.id,
                         author: this.user,
                         date: result.date,
+                        formattedDate: result.formattedDate,
                         content: commentContent
                     });
 

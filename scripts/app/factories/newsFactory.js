@@ -30,7 +30,7 @@
     function newsFactory($resource)
     {
         return $resource(
-            "/services/news/:id",
+            "/api/news/:id",
 
             {
                 id: '@id'
@@ -40,7 +40,7 @@
                 "star":
                 {
                     method: "POST",
-                    url: "/services/news/star/:id"
+                    url: "/api/news/star/:id"
                 }
             });
     }

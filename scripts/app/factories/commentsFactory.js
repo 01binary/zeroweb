@@ -30,7 +30,7 @@
     function commentsFactory($resource)
     {
         return $resource(
-            "/services/comments/:id",
+            "/api/comments/:id",
 
             {
                 id: '@id'
@@ -42,12 +42,12 @@
                 "upVote":
                 {
                     method: "POST",
-                    url: "/services/comments/upvote/:id"
+                    url: "/api/comments/upvote/:id"
                 },
                 "downVote":
                 {
                     method: "POST",
-                    url: "/services/comments/downvote/:id"
+                    url: "/api/comments/downvote/:id"
                 }
             }
         );

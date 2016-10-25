@@ -8,8 +8,8 @@ using ZeroWeb.Models;
 namespace zeroweb.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20161019195522_StarsTable")]
-    partial class StarsTable
+    [Migration("20161025020750_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,35 +123,7 @@ namespace zeroweb.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("char")
-                        .HasAnnotation("MaxLength", 64);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int?>("ItemId")
-                        .IsRequired();
-
-                    b.Property<bool>("Published");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.SiteItem", b =>
+            modelBuilder.Entity("ZeroWeb.Models.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -186,21 +158,23 @@ namespace zeroweb.Migrations
                         .HasColumnType("char")
                         .HasAnnotation("MaxLength", 64);
 
+                    b.Property<int>("Views");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("Date", "Published");
 
-                    b.ToTable("SiteItems");
+                    b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("ZeroWeb.Models.SiteItemMetadata", b =>
+            modelBuilder.Entity("ZeroWeb.Models.Assignment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ItemId")
+                    b.Property<int?>("IssueId")
                         .IsRequired();
 
                     b.Property<int?>("TagId")
@@ -208,11 +182,102 @@ namespace zeroweb.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("IssueId");
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("SiteItemMetadata");
+                    b.ToTable("Assignments");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Published");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Issue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<TimeSpan?>("BaselineDuration");
+
+                    b.Property<DateTime?>("BaselineEnd");
+
+                    b.Property<DateTime?>("BaselineStart");
+
+                    b.Property<byte>("Complexity")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("DependencyId");
+
+                    b.Property<TimeSpan?>("Duration");
+
+                    b.Property<DateTime?>("End");
+
+                    b.Property<int?>("ParentId");
+
+                    b.Property<DateTime?>("Start");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 32);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("DependencyId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Issues");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Metadata", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<int?>("TagId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("Metadata");
                 });
 
             modelBuilder.Entity("ZeroWeb.Models.Star", b =>
@@ -220,17 +285,17 @@ namespace zeroweb.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
                     b.Property<string>("IpAddress")
                         .IsRequired()
                         .HasColumnType("char")
                         .HasAnnotation("MaxLength", 16);
 
-                    b.Property<int?>("ItemId")
-                        .IsRequired();
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("Stars");
                 });
@@ -259,89 +324,6 @@ namespace zeroweb.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.Task", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<TimeSpan?>("BaselineDuration");
-
-                    b.Property<DateTime?>("BaselineEnd");
-
-                    b.Property<DateTime?>("BaselineStart");
-
-                    b.Property<byte>("Complexity")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int?>("DependencyId");
-
-                    b.Property<TimeSpan?>("Duration");
-
-                    b.Property<DateTime?>("End");
-
-                    b.Property<int?>("ItemId")
-                        .IsRequired();
-
-                    b.Property<int?>("ParentId");
-
-                    b.Property<DateTime?>("Start");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("char")
-                        .HasAnnotation("MaxLength", 32);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DependencyId");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.TaskAssignment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("AssignmentId")
-                        .IsRequired();
-
-                    b.Property<int?>("TaskId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignmentId");
-
-                    b.HasIndex("TaskId");
-
-                    b.ToTable("TaskAssignments");
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.TaskMetadata", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("TagId")
-                        .IsRequired();
-
-                    b.Property<int?>("TaskId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TagId");
-
-                    b.HasIndex("TaskId");
-
-                    b.ToTable("TaskMetadata");
                 });
 
             modelBuilder.Entity("ZeroWeb.Models.User", b =>
@@ -393,6 +375,28 @@ namespace zeroweb.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ZeroWeb.Models.Vote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<int?>("CommentId")
+                        .IsRequired();
+
+                    b.Property<int>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("Votes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -430,15 +434,7 @@ namespace zeroweb.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
-                {
-                    b.HasOne("ZeroWeb.Models.SiteItem", "Item")
-                        .WithMany("Comments")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.SiteItem", b =>
+            modelBuilder.Entity("ZeroWeb.Models.Article", b =>
                 {
                     b.HasOne("ZeroWeb.Models.Tag", "Author")
                         .WithMany()
@@ -446,11 +442,48 @@ namespace zeroweb.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ZeroWeb.Models.SiteItemMetadata", b =>
+            modelBuilder.Entity("ZeroWeb.Models.Assignment", b =>
                 {
-                    b.HasOne("ZeroWeb.Models.SiteItem", "Item")
+                    b.HasOne("ZeroWeb.Models.Issue", "Issue")
+                        .WithMany("Assignments")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ZeroWeb.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Issue", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Issues")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ZeroWeb.Models.Issue", "Dependency")
+                        .WithMany()
+                        .HasForeignKey("DependencyId");
+
+                    b.HasOne("ZeroWeb.Models.Issue", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Metadata", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
                         .WithMany("Metadata")
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ZeroWeb.Models.Tag", "Tag")
@@ -461,9 +494,9 @@ namespace zeroweb.Migrations
 
             modelBuilder.Entity("ZeroWeb.Models.Star", b =>
                 {
-                    b.HasOne("ZeroWeb.Models.SiteItem", "Item")
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
                         .WithMany("Stars")
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -474,45 +507,11 @@ namespace zeroweb.Migrations
                         .HasForeignKey("ParentId");
                 });
 
-            modelBuilder.Entity("ZeroWeb.Models.Task", b =>
+            modelBuilder.Entity("ZeroWeb.Models.Vote", b =>
                 {
-                    b.HasOne("ZeroWeb.Models.Task", "Dependency")
-                        .WithMany()
-                        .HasForeignKey("DependencyId");
-
-                    b.HasOne("ZeroWeb.Models.SiteItem", "Item")
-                        .WithMany("Tasks")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ZeroWeb.Models.Task", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.TaskAssignment", b =>
-                {
-                    b.HasOne("ZeroWeb.Models.Tag", "Assignment")
-                        .WithMany()
-                        .HasForeignKey("AssignmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ZeroWeb.Models.Task", "Task")
-                        .WithMany("Assignments")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ZeroWeb.Models.TaskMetadata", b =>
-                {
-                    b.HasOne("ZeroWeb.Models.Tag", "Tag")
-                        .WithMany()
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ZeroWeb.Models.Task", "Task")
-                        .WithMany("Metadata")
-                        .HasForeignKey("TaskId")
+                    b.HasOne("ZeroWeb.Models.Comment", "Comment")
+                        .WithMany("Votes")
+                        .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

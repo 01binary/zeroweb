@@ -29,7 +29,7 @@
      */
     function usersFactory($resource)
     {
-        return $resource("services/users/current");
+        return $resource("api/users/current");
     }
 
 })();

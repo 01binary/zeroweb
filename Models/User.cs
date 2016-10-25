@@ -19,5 +19,6 @@ namespace ZeroWeb.Models
     /// </summary>
     public class User : IdentityUser
     {
+        // TODO: link to a single Tag.
     }
 }

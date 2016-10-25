@@ -44,43 +44,50 @@ namespace ZeroWeb.Controllers
             string excludeTag = Tags.Story.ToString().ToLower();
             string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
 
-            IQueryable<SiteItem> stories = this.store
-                .GetItems(Tags.Story);
+            var stories = this.store.GetArticles(Tags.Story);
 
             try
             {
-                foreach (SiteItem item in stories)
+                bool modified = false;
+
+                foreach (Article story in stories)
                 {
                     byte[] visit;
 
-                    if (!this.HttpContext.Session.TryGetValue(item.Id.ToString(), out visit))
+                    if (!this.HttpContext.Session.TryGetValue(story.Id.ToString(), out visit))
                     {
-                        this.HttpContext.Session.Set(item.Id.ToString(), new byte[] { 1 });
-                        item.Views++;
+                        this.HttpContext.Session.Set(
+                            story.Id.ToString(), new byte[] { 1 });
+                            
+                        story.Views++;
+                        modified = true;
                     }
                 }
 
-                this.store.Save();
+                if (modified)
+                {
+                    this.store.Save();
+                }
             }
             catch
             {
             }
 
             return View(stories
-                .Select(item => new
+                .Select(story => new
                 {
-                    id = item.Id,
-                    title = item.Title,
-                    date = item.Date,
-                    author = item.Author.Name,
-                    views = item.Views,
-                    stars = item.Stars.Count,
-                    starsReadOnly = item.Stars.Any(star => star.IpAddress == excludeIpAddress),
-                    location = item.LocationName,
-                    latitude = item.LocationLatitude,
-                    longitude = item.LocationLongitude,
-                    zoom = item.LocationZoom,
-                    tags = item.Metadata
+                    id = story.Id,
+                    title = story.Title,
+                    date = story.Date,
+                    author = story.Author.Name,
+                    views = story.Views,
+                    stars = story.Stars.Count,
+                    starsReadOnly = story.Stars.Any(star => star.IpAddress == excludeIpAddress),
+                    location = story.LocationName,
+                    latitude = story.LocationLatitude,
+                    longitude = story.LocationLongitude,
+                    zoom = story.LocationZoom,
+                    tags = story.Metadata
                         .Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
                         .Select(metadata => metadata.Tag.Name).ToArray()
                 })

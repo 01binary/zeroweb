@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Defines a site item comment.
+|  Defines an article comment.
 |----------------------------------------------------------
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -33,12 +33,12 @@ namespace ZeroWeb.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="Comment"/> class.
         /// </summary>
-        /// <param name="item">The item the comment is for.</param>
+        /// <param name="article">The article the comment is for.</param>
         /// <param name="author">The external identity creating the comment.</param>
         /// <param name="content">The comment content.</param>
-        public Comment(SiteItem item, string author, string content)
+        public Comment(Article article, string author, string content)
         {
-            this.Item = item;
+            this.Article = article;
             this.Date = DateTime.Now;
             this.Author = author;
             this.Published = false;
@@ -53,10 +53,10 @@ namespace ZeroWeb.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the site item this comment is for.
+        /// Gets or sets the article this comment is for.
         /// </summary>
         [Required]
-        public SiteItem Item { get; set; }
+        public Article Article { get; set; }
 
         /// <summary>
         /// Gets or sets the publish date.
@@ -64,7 +64,7 @@ namespace ZeroWeb.Models
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the item is visible.
+        /// Gets or sets a value indicating whether or not the comment is visible.
         /// </summary>
         public bool Published { get; set; }
 

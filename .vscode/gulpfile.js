@@ -11,7 +11,6 @@
 |  @requires gulp-rename
 |  @requires gulp-uglify
 |  @requires gulp-concat
-|  @requires merge-stream
 |  @requires pump
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
@@ -24,8 +23,6 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
-var merge = require('merge-stream');
-var pump = require('pump');
 
 var source = '../src/';
 var packages = '../node_modules/';

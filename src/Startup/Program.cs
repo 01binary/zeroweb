@@ -18,7 +18,7 @@ namespace ZeroWeb
                 .UseConfiguration(config)
                 .UseKestrel(options =>
                 {
-                    options.UseHttps("cert.pfx", "password");
+                    options.UseHttps("Certificates/cert.pfx", "password");
                     options.UseConnectionLogging();
                 })
                 .UseUrls("http://localhost:5000", "https://localhost:5001")

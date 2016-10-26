@@ -69,10 +69,7 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true,
-    "compile": {
-      "exclude": ["Packages"]
-    }
+    "preserveCompilationContext": true
   },
 
   "runtimeOptions": {
@@ -90,10 +87,9 @@
     ]
   },
 
+  "webroot": "Content",
+
   "scripts": {
-    "precompile": [ "gulp sass" ],
-    "prepublish": [ "bower install" ],
-    "watchstyles": [ "gulp sass:watch" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   },
 

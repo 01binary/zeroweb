@@ -71,7 +71,7 @@
     "emitEntryPoint": true,
     "preserveCompilationContext": true,
     "compile": {
-      "exclude": ["node_modules"]
+      "exclude": ["Packages"]
     }
   },
 
@@ -83,16 +83,15 @@
 
   "publishOptions": {
     "include": [
-      "wwwroot",
+      "Content",
       "Views",
-      "Areas/**/Views",
       "Settings/appsettings.json",
       "Settings/web.config"
     ]
   },
 
   "scripts": {
-    "precompile": [ "dotnet bundle", "gulp sass" ],
+    "precompile": [ "gulp sass" ],
     "prepublish": [ "bower install" ],
     "watchstyles": [ "gulp sass:watch" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]

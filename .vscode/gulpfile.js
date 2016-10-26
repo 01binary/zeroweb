@@ -11,7 +11,6 @@
 |  @requires gulp-rename
 |  @requires gulp-uglify
 |  @requires gulp-concat
-|  @requires pump
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/

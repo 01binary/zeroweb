@@ -50,6 +50,8 @@ function watch() {
 }
 
 function buildStyles() {
+  console.log('\t\tBuilding and minifying styles');
+
   return gulp.src(source + 'Styles/**/*.scss')
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(rename('zero.min.css'))
@@ -57,10 +59,13 @@ function buildStyles() {
 }
 
 function watchStyles() {
+  console.log('\t\tWatching styles for changes');
   gulp.watch(source + 'Styles/**/*.scss', ['sass']);
 }
 
 function buildScripts() {
+  console.log('\t\tMinifying scripts');
+
   var sources = [
     packages + 'angular/angular.js',
     packages + 'angular-route/angular-route.js',
@@ -80,5 +85,6 @@ function buildScripts() {
 }
 
 function watchScripts() {
+  console.log('\t\tWatching scripts for changes');
   gulp.watch(source + 'Scripts/**/*.js', ['uglify']);
 }

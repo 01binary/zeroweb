@@ -19,9 +19,8 @@
   },
   "scripts": {
     "prebuild": "npm install",
-    "build": "gulp --gulpfile .vscode/gulpfile.js",
-    "prestart": "npm build",
-    "start": "dotnet run",
+    "build": "cd src && dotnet build && gulp --gulpfile ../.vscode/gulpfile.js",
+    "start": "cd src && dotnet run",
     "pretest": "npm install",
     "test": "karma start Scripts/Tests/karma.conf.js",
     "e2e": "protractor Scripts/Tests/protractor.conf.js"

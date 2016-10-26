@@ -1,0 +1,1 @@
+module.exports=function(a){a.set({basePath:"./scripts",files:["bower_components/angular/angular.js","bower_components/angular-mocks/angular-mocks.js","*.js"],autoWatch:!0,frameworks:["jasmine"],browsers:["Chrome"],plugins:["karma-chrome-launcher","karma-jasmine"]})};

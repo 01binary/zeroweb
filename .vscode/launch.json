@@ -15,7 +15,7 @@
                 "args": "https://localhost:5001",
                 "windows": {
                     "command": "cmd.exe",
-                    "args": "/C start https://localhost:5001"
+                    "args": "/C start"
                 },
                 "osx": {
                     "command": "open"

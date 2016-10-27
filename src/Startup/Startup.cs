@@ -41,8 +41,8 @@ namespace ZeroWeb
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("./Settings/appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"./Settings/appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("./Properties/appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"./Properties/appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             if (env.IsDevelopment())

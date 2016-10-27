@@ -78,7 +78,7 @@ namespace ZeroWeb.Models
         {
             optionsBuilder.UseSqlite(
                 this.configuration.GetConnectionString("ZeroDatabase"),
-                options => options.MigrationsAssembly("zeroweb"));
+                options => options.MigrationsAssembly("src"));
         }
 
         /// <summary>

@@ -19,8 +19,10 @@
   },
   "scripts": {
     "postinstall": "cd src && dotnet restore && cd ..",
-    "build": "cd src && dotnet build -f netcoreapp1.0 -b Build -o Build/Output && mv Build/Output/src* zeroweb*.dll && gulp --gulpfile ../.vscode/gulpfile.js",
+    "build": "cd src && dotnet build -f netcoreapp1.0 -b Build -o Build/Output && gulp --gulpfile ../.vscode/gulpfile.js",
     "start": "cd src && dotnet run",
+    "update-database": "cd src && dotnet ef database update -b Build -o Build/Output",
+    "add-migration": "cd src && dotnet ef migrations add -b Build -o Build/Output",
     "pretest": "npm install",
     "test": "karma start Scripts/Tests/karma.conf.js",
     "e2e": "protractor Scripts/Tests/protractor.conf.js"

@@ -100,21 +100,6 @@ namespace ZeroWeb
                 loggerFactory.AddConsole(Configuration.GetSection("Logging"));
                 loggerFactory.AddDebug();
 
-                // Setup static resource routes for development.
-                app.UseStaticFiles(new StaticFileOptions()
-                {
-                    FileProvider = new PhysicalFileProvider(
-                        Path.Combine(Directory.GetCurrentDirectory(), "Styles")),
-                    RequestPath = "/Styles"
-                });
-
-                app.UseStaticFiles(new StaticFileOptions()
-                {
-                    FileProvider = new PhysicalFileProvider(
-                        Path.Combine(Directory.GetCurrentDirectory(), "Scripts")),
-                    RequestPath = "/Scripts"
-                });
-
                 // Redirect routes that throw exceptions to developer error page.
                 app.UseDeveloperExceptionPage();
 

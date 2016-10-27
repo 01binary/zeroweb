@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Task automation
+|  @file Task automation.
 |  @requires gulp
 |  @requires gulp-sass
 |  @requires gulp-rename
@@ -20,8 +20,8 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
 var concat = require('gulp-concat');
+// TODO: gulp-strip-json-comments before dest
 
 var source = '../src/';
 var packages = '../node_modules/';
@@ -46,41 +46,47 @@ function watch() {
 }
 
 function buildStyles() {
-  console.log('\t\tBuilding and minifying styles');
+  console.log('\tBuilding and minifying styles');
 
-  return gulp.src(source + 'Styles/**/*.scss')
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(rename('zero.min.css'))
+  var sources = [
+    packages + 'angular-loading-bar/build/loading-bar.css',
+    source + 'Styles/**/*.scss'
+  ];
+
+  return gulp.src(sources)
+    .pipe(sass({outputStyle: 'compressed'})
+      .on('error', sass.logError))
+    .pipe(concat('zero.min.css'))
     .pipe(gulp.dest(destination));
 }
 
 function watchStyles() {
-  console.log('\t\tWatching styles for changes');
+  console.log('\tWatching styles for changes');
   gulp.watch(source + 'Styles/**/*.scss', ['sass']);
 }
 
 function buildScripts() {
-  console.log('\t\tMinifying scripts');
+  console.log('\tMinifying scripts');
 
   var sources = [
+    packages + 'jquery/dist/jquery.js',
+    packages + 'jquery-ui/ui/effect.js',
+
     packages + 'angular/angular.js',
     packages + 'angular-route/angular-route.js',
     packages + 'angular-resource/angular-resource.js',
-    packages + 'angular-loading-bar/src/loading-bar.js',
-
-    packages + 'jquery/dist/jquery.js',
-    packages + 'jquery-ui/ui/effect.js',
+    packages + 'angular-loading-bar/build/loading-bar.js',
 
     source + 'Scripts/**/*.js'
   ];
 
   return gulp.src(sources)
-    .pipe(concat('zero.min.js'))
     .pipe(uglify())
+    .pipe(concat('zero.min.js'))
     .pipe(gulp.dest(destination));
 }
 
 function watchScripts() {
-  console.log('\t\tWatching scripts for changes');
+  console.log('\tWatching scripts for changes');
   gulp.watch(source + 'Scripts/**/*.js', ['uglify']);
 }

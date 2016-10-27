@@ -23,6 +23,7 @@ namespace ZeroWeb
                 })
                 .UseUrls("http://localhost:5000", "https://localhost:5001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "Content"))
                 .UseStartup<Startup>()
                 .Build();
 

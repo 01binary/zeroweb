@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Ensure current directory is set to project directory
+|  @file Ensure current directory is project directory.
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -17,5 +17,9 @@ var elements = cwd.split('/');
 var leaf = elements[elements.length - 1];
 
 if (leaf !== 'src') {
-    process.chdir('src');
+    if (leaf === '.vscode') {
+        process.chdir('../src');
+    } else {
+        process.chdir('src');
+    }
 }

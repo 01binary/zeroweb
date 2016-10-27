@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Entity Framework forwarder for Node.js integration
+|  @file Entity Framework forwarder for Node.js integration.
 |  @requires child_process
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy

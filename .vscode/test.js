@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Test commands
+|  @file Test commands.
 |  @requires child_process
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy

@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Run command forwarder for Node.js integration
+|  @file Run command forwarder for Node.js integration.
 |  @requires child_process
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy

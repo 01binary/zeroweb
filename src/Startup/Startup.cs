@@ -264,7 +264,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(yahooOptions.ClientId) ||
                 string.IsNullOrEmpty(yahooOptions.ClientSecret))
             {
-                throw new InvalidOperationException("Ensure yahooId and yahooSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             app.UseYahooAuthentication(yahooOptions);
@@ -286,7 +286,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(redditOptions.ClientId) ||
                 string.IsNullOrEmpty(redditOptions.ClientSecret))
             {
-                throw new InvalidOperationException("Ensure redditId and redditSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             app.UseRedditAuthentication(redditOptions);
@@ -308,7 +308,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(linkedInOptions.ClientId) ||
                 string.IsNullOrEmpty(linkedInOptions.ClientSecret))
             {
-                throw new InvalidOperationException("Ensure linkedInId and linkedInSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             app.UseLinkedInAuthentication(linkedInOptions);
@@ -330,7 +330,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(googleOptions.ClientId) ||
                 string.IsNullOrEmpty(googleOptions.ClientSecret))
             {
-                throw new InvalidOperationException("Ensure googleId and googleSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             app.UseGoogleAuthentication(googleOptions);
@@ -353,7 +353,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(githubOptions.ClientId) ||
                 string.IsNullOrEmpty(githubOptions.ClientSecret))
             {
-                throw new InvalidOperationException("Ensure githubId and githubSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             app.UseGitHubAuthentication(githubOptions);
@@ -375,7 +375,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(microsoftOptions.ClientId) ||
                 string.IsNullOrEmpty(microsoftOptions.ClientSecret))
             {
-                throw new InvalidOperationException("Ensure microsoftId and microsoftSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             app.UseMicrosoftAccountAuthentication(microsoftOptions);
@@ -397,7 +397,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(twitterOptions.ConsumerKey) ||
                 string.IsNullOrEmpty(twitterOptions.ConsumerSecret))
             {
-                throw new InvalidOperationException("Ensure twitterId and twitterSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             app.UseTwitterAuthentication(twitterOptions);
@@ -435,7 +435,7 @@ namespace ZeroWeb
             if (string.IsNullOrEmpty(facebookOptions.AppId) ||
                 string.IsNullOrEmpty(facebookOptions.AppSecret))
             {
-                throw new InvalidOperationException("Ensure facebookId and facebookSecret have been set with \"dotnet user-secrets set <key> <value>\"");
+                return;
             }
 
             // Request only the public profile.

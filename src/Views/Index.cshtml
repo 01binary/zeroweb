@@ -1,4 +1,3 @@
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
 <!--[if lt IE 7]>   <html class="ie lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en" data-ng-app="zeroApp" data-user-agent> <![endif]-->
 <!--[if IE 7]>      <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en" data-ng-app="zeroApp" data-user-agent> <![endif]-->
@@ -13,59 +12,16 @@
         
         <title>01 Binary</title>
 
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+        <link rel="stylesheet" type="text/css" href="~/zero.min.css">
         <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" href="~/favicon.ico" type="image/x-icon"/ >
         <link rel="shortcut icon" sizes="196x196" href="~/images/favicons/favicon-196.png">
         <link rel="apple-touch-icon-precomposed" href="~/images/favicons/favicon-152.png">
         <link rel="icon" sizes="76x76" href="~/images/favicons/favicon-76.png">
         <link rel="icon" sizes="57x57" href="~/images/favicons/favicon-57.png">
         <link rel="icon" sizes="32x32" href="~/images/favicons/favicon-32.png">
-        
-        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
-        <link rel="stylesheet" type="text/css" href="~/zero.min.css">
-        
-        <environment names="Development">
-            <script type="text/javascript" src="~/Scripts/jquery/dist/jquery.js"></script>
-            <script type="text/javascript" src="~/Scripts/jquery-ui/jquery-ui.js"></script>
 
-            <script type="text/javascript" src="~/Scripts/angular/angular.js"></script>
-            <script type="text/javascript" src="~/Scripts/angular-route/angular-route.js"></script>
-            <script type="text/javascript" src="~/Scripts/angular-resource/angular-resource.js"></script>
-
-            <script type="text/javascript" src="~/Scripts/markdown-it/dist/markdown-it.js"></script>
-
-            <script type="text/javascript" src="~/Scripts/app/app.js"></script>
-
-            <script type="text/javascript" src="~/Scripts/app/controllers/registerController.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/controllers/aboutController.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/controllers/articlesController.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/controllers/newsController.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/controllers/projectsController.js"></script>
-
-            <script type="text/javascript" src="~/Scripts/app/directives/primaryDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/errorDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/iconDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/markdownDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/navigationDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/pointerDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/tagDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/transitionDirective.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/directives/userAgentDirective.js"></script>
-
-            <script type="text/javascript" src="~/Scripts/app/factories/safeApplyFactory.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/factories/commentsFactory.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/factories/newsFactory.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/factories/usersFactory.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/factories/inputResizeFactory.js"></script>
-
-            <script type="text/javascript" src="~/Scripts/app/services/loginService.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/services/render2dService.js"></script>
-            <script type="text/javascript" src="~/Scripts/app/services/svgService.js"></script>
-            <script type="text/javascript" src="~/Scripts/angular-loading-bar/build/loading-bar.js"></script>
-        </environment>
-        
-        <environment names="Staging,Production">
-            <script type="text/javascript" src="~/zero.min.js"></script>
-        </environment>
+        <script type="text/javascript" src="~/zero.min.js"></script>
     </head>
     
     <body data-ng-cloak data-transition="fade">

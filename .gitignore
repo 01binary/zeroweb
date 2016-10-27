@@ -1,7 +1,5 @@
 *.DS_Store
-src/bin/
-src/obj/
-src/project.lock.json
+src/Build
 src/Content/*.min.*
 node_modules
 npm-debug.log

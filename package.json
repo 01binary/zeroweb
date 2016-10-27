@@ -18,8 +18,8 @@
     "pump": "^1.0.1"
   },
   "scripts": {
-    "prebuild": "npm install",
-    "build": "cd src && dotnet build && gulp --gulpfile ../.vscode/gulpfile.js",
+    "postinstall": "cd src && dotnet restore && cd ..",
+    "build": "cd src && dotnet build -f netcoreapp1.0 -b Build -o Build/Output && mv Build/Output/src* zeroweb*.dll && gulp --gulpfile ../.vscode/gulpfile.js",
     "start": "cd src && dotnet run",
     "pretest": "npm install",
     "test": "karma start Scripts/Tests/karma.conf.js",

@@ -13,18 +13,15 @@
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
     "karma-jasmine": "^0.3.8",
-    "merge-stream": "^1.0.0",
-    "protractor": "^3.2.2",
-    "pump": "^1.0.1"
+    "protractor": "^3.2.2"
   },
   "scripts": {
-    "postinstall": "cd src && dotnet restore && cd ..",
-    "build": "cd src && dotnet build -f netcoreapp1.0 -b Build -o Build/Output && gulp --gulpfile ../.vscode/gulpfile.js",
-    "start": "cd src && dotnet run",
-    "update-database": "cd src && dotnet ef -b Build -o Build/Output database update",
-    "add-migration": "cd src && dotnet ef -b Build -o Build/Output migrations add",
-    "test": "karma start src/Tests/karma.conf.js",
-    "e2e": "protractor src/Tests/protractor.conf.js"
+    "postinstall": "node .vscode/restore",
+    "build": "node .vscode/build",
+    "start": "node .vscode/run",
+    "database": "node .vscode/ef database",
+    "migrations": "node .vscode/ef migrations",
+    "test": "node .vscode/test"
   },
   "dependencies": {
     "angular": "^1.5.8",

@@ -28,16 +28,12 @@ var packages = '../node_modules/';
 var intermediate = '../src/Build/';
 var destination = '../src/Content/';
 
-gulp.task('default', startup);
+gulp.task('default', build);
+gulp.task('watch', watch)
 gulp.task('sass', buildStyles);
 gulp.task('sass:watch', watchStyles);
 gulp.task('uglify', buildScripts);
 gulp.task('uglify:watch', watchScripts);
-
-function startup() {
-  build();
-  watch();
-}
 
 function build() {
   buildStyles();

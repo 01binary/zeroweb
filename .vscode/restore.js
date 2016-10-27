@@ -17,5 +17,6 @@ var spawn = require('child_process').spawn;
 
 require('./projectdir');
 
-spawn('dotnet', [ 'restore' ], { stdio: 'inherit' });
-//spawn('ef', [ 'database', 'update' ], { stdio: 'inherit' });
+spawn('dotnet', [ 'restore' ], { stdio: 'inherit' }).on('exit', function() {
+    spawn('node', [ '../.vscode/ef', 'database', 'update' ], { stdio: 'inherit' });
+});

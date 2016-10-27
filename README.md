@@ -25,18 +25,27 @@ A working website prototype using ASP.net core to render layout page and partial
 - navigation directive handles client-side route changes to set page title in addition to changing site menu styles
 - URL rewriting is employed on server side to redirect URLs rewritten by Angular to the layout .cshtml, while Angular still picks the right partial
 
-####Unit Tests
-- Supports Karma for Angular unit tests (not yet written)
-- Supports Protractor for Angular functional tests (not yet written)
-- Pending support for .NET unit tests (not yet written)
-
 ## Setup
 
 - Visual Studio Code is recommended for opening this folder
-- `npm install` to restore Node.js packages
-- `dotnet restore` to restore NuGet packages
-- `dotnet ef database update` to create initial SqLite database
-- `dotnet user-secrets set facebookId` to set facebook app Id for login integration
-- `dotnet user-secrets set facebookSecret` to set facebook app secret
-- `dotnet run` to start ASP.net Core engine (or click Run in VSCode and skip the last step)
-- Navigate to http://localhost:5000/ to see the site
+- `npm install` to restore both Node.js and .NET packages
+- `dotnet user-secrets set *key* *value*` to set the following:
+   - facebookId, facebookSecret
+   - twitterId, twitterSecret
+   - microsoftId, microsoftSecret
+   - githubId, githubSecret
+   - googleId, googleSecret
+   - linkedInId, linkedInSecret
+   - redditId, redditSecret
+   - yahooId, yahooSecret
+- `npm start` to start ASP.net Core engine (or click Run in VSCode)
+- Navigate to https://localhost:5001/ if not running in VSCode
+
+## Development
+
+- `npm run build` to rebuild
+- `npm run database update` to apply migrations and create the site database
+- `npm run migrations add` to record a new migration after modifying models
+- `npm run migrations remove` to remove the last recorded migration
+- `npm run test unit` to run unit tests
+- `npm run test functional` to run functional tests

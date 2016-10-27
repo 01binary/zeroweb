@@ -23,8 +23,8 @@
     "start": "cd src && dotnet run",
     "update-database": "cd src && dotnet ef -b Build -o Build/Output database update",
     "add-migration": "cd src && dotnet ef -b Build -o Build/Output migrations add",
-    "test": "karma start Scripts/Tests/karma.conf.js",
-    "e2e": "protractor Scripts/Tests/protractor.conf.js"
+    "test": "karma start src/Tests/karma.conf.js",
+    "e2e": "protractor src/Tests/protractor.conf.js"
   },
   "dependencies": {
     "angular": "^1.5.8",

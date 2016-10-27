@@ -2,11 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Run",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/Build/Debug/netcoreapp1.0/zeroweb.dll",
+            "program": "${workspaceRoot}/src/Build/Output/src.dll",
             "args": [],
             "cwd": "${workspaceRoot}/src",
             "stopAtEntry": false,

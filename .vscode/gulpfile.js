@@ -78,6 +78,8 @@ function buildScripts() {
     packages + 'angular-resource/angular-resource.js',
     packages + 'angular-loading-bar/build/loading-bar.js',
 
+    packages + 'markdown-it/dist/markdown-it.js',
+
     source + 'Scripts/**/*.js'
   ];
 

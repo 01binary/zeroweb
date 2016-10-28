@@ -40,7 +40,7 @@ namespace ZeroWeb
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile(Shared.GetApplicationSettingsPath(), optional: false)
+                .AddJsonFile(Shared.GetAppSettingsPath(), optional: false)
                 .AddEnvironmentVariables();
 
             if (env.IsDevelopment())

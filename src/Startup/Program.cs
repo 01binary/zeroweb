@@ -2,7 +2,6 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using ZeroWeb.Shared;
 
 namespace ZeroWeb
 {
@@ -13,7 +12,7 @@ namespace ZeroWeb
             var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
-                .AddJsonFile(Shared.GetApplicationSettingsPath(), optional: false)
+                .AddJsonFile(Shared.GetAppSettingsPath(), optional: false)
                 .Build();
 
             var host = new WebHostBuilder()

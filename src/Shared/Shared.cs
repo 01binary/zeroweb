@@ -24,9 +24,11 @@ namespace ZeroWeb
         /// <summary>
         /// Get the application settings file path.
         /// </summary>
-        public static string GetApplicationSettingsPath()
+        public static string GetAppSettingsPath()
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), "Properties/appsettings.json");
+            return Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "Properties/appsettings.json");
         }
 
         /// <summary>

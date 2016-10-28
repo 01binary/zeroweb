@@ -57,7 +57,7 @@ function buildStyles() {
     .pipe(strip())
     .pipe(sass({outputStyle: 'compressed'})
       .on('error', sass.logError))
-    .pipe(concat('zero.min.css', { newLine: ';' }))
+    .pipe(concat('zero.min.css'))
     .pipe(gulp.dest(destination));
 }
 

@@ -11,6 +11,7 @@
 \*---------------------------------------------------------*/
 
 using System;
+using System.IO;
 using Microsoft.AspNetCore.Http;
 
 namespace ZeroWeb
@@ -20,6 +21,14 @@ namespace ZeroWeb
     /// </summary>
     public static class Shared
     {
+        /// <summary>
+        /// Get the application settings file path.
+        /// </summary>
+        public static string GetApplicationSettingsPath()
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), "Properties/appsettings.json");
+        }
+
         /// <summary>
         /// Format a title to enforce content transformation policy.
         /// </summary>

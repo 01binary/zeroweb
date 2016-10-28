@@ -2,6 +2,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using ZeroWeb.Shared;
 
 namespace ZeroWeb
 {
@@ -12,18 +13,19 @@ namespace ZeroWeb
             var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
+                .AddJsonFile(Shared.GetApplicationSettingsPath(), optional: false)
                 .Build();
 
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseKestrel(options =>
                 {
-                    options.UseHttps("Certificates/cert.pfx", "password");
+                    options.UseHttps(config["cert"], config["password"]);
                     options.UseConnectionLogging();
                 })
-                .UseUrls("http://localhost:5000", "https://localhost:5001")
+                .UseUrls(config["url"])
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "Content"))
+                .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), config["webroot"]))
                 .UseStartup<Startup>()
                 .Build();
 

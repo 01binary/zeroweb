@@ -79,8 +79,6 @@
     }
   },
 
-  "webroot": "./Content",
-
   "userSecretsId": "aspnet-ZeroWeb-0723def9-a37b-44a7-a3b1-b0c201eba7de",
 
   "tooling": {

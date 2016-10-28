@@ -5,6 +5,36 @@
 
 A working website prototype using ASP.net core to render layout page and partials, and Angular to make the site more interactive by attaching Angular controllers to Views returned from ASP.net controllers.
 
+## Setup
+
+- Visual Studio Code is recommended for opening this folder
+- `npm install` to restore both Node.js and .NET packages
+- `dotnet user-secrets set *key* *value*` to set the following keys (optional):
+   - facebookId, facebookSecret
+   - twitterId, twitterSecret
+   - microsoftId, microsoftSecret
+   - githubId, githubSecret
+   - googleId, googleSecret
+   - linkedInId, linkedInSecret
+   - redditId, redditSecret
+   - yahooId, yahooSecret
+- `npm start` to start ASP.net Core engine (or click Run in VSCode)
+- Navigate to https://localhost:5001/ if not running in VSCode
+
+## Development
+
+- `npm run build` to rebuild
+- `npm run build sass` or `npm run sass` to rebuild styles
+- `npm run build uglify` or `npm run uglify` to rebuild scripts
+- `npm run watch` to watch styles and scripts and rebuild on change
+- `npm run watch sass` or `npm sass:watch` to watch and rebuild styles
+- `npm run watch uglify` or `npm uglify:watch` to watch and rebuild scripts
+- `npm run database update` to apply migrations and create the site database
+- `npm run migrations add` to record a new migration after modifying models
+- `npm run migrations remove` to remove the last recorded migration
+- `npm run test unit` or `npm run test` to run unit tests
+- `npm run test functional` or `npm run test f` to run functional tests
+
 ### Features
 
 ####Loads inline SVG fragments with AJAX requests:
@@ -24,19 +54,3 @@ A working website prototype using ASP.net core to render layout page and partial
 - Angular application defines client-side routes to attach Angular controllers to .cshtml partials for each views
 - navigation directive handles client-side route changes to set page title in addition to changing site menu styles
 - URL rewriting is employed on server side to redirect URLs rewritten by Angular to the layout .cshtml, while Angular still picks the right partial
-
-####Unit Tests
-- Supports Karma for Angular unit tests (not yet written)
-- Supports Protractor for Angular functional tests (not yet written)
-- Pending support for .NET unit tests (not yet written)
-
-## Setup
-
-- Visual Studio Code is recommended for opening this folder
-- `npm install` to restore Node.js packages
-- `dotnet restore` to restore NuGet packages
-- `dotnet ef database update` to create initial SqLite database
-- `dotnet user-secrets set facebookId` to set facebook app Id for login integration
-- `dotnet user-secrets set facebookSecret` to set facebook app secret
-- `dotnet run` to start ASP.net Core engine (or click Run in VSCode and skip the last step)
-- Navigate to http://localhost:5000/ to see the site

@@ -1,10 +1,6 @@
 *.DS_Store
-node_modules/
-bin/
-obj/
-project.lock.json
-wwwroot/*.min.*
-Scripts/angular*
-Scripts/jquery*
-Scripts/markdown*
-*.key
+build/output
+build/src
+src/Content/*.min.*
+node_modules
+npm-debug.log

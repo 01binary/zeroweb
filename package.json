@@ -1,25 +1,43 @@
 {
   "name": "01binary",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "01 Binary Website",
   "devDependencies": {
-    "bower": "^1.7.9",
     "gulp": "^3.9.1",
-    "gulp-rename": "^1.2.2",
+    "gulp-concat": "^2.6.0",
     "gulp-sass": "^2.3.2",
+    "gulp-strip-json-comments": "^2.0.0",
+    "gulp-uglify": "^2.0.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
     "karma-jasmine": "^0.3.8",
-    "protractor": "^3.2.2"
+    "protractor": "^3.2.2",
+    "rimraf": "^2.5.4"
   },
   "scripts": {
-    "postinstall": "bower install",
-    "prestart": "npm install",
-    "start": "dotnet run",
-    "pretest": "npm install",
-    "test": "karma start Scripts/Tests/karma.conf.js",
-    "ftest": "protractor Scripts/Tests/protractor.conf.js"
+    "postinstall": "node build/tasks/restore",
+    "build": "node build/tasks/build",
+    "start": "node build/tasks/run",
+    "watch": "node build/tasks/watch",
+    "uglify": "node build/tasks/build uglify",
+    "sass": "node build/tasks/build sass",
+    "uglify:watch": "node build/tasks/watch uglify",
+    "sass:watch": "node build/tasks/watch sass",
+    "database": "node build/tasks/ef database",
+    "migrations": "node build/tasks/ef migrations",
+    "test": "node build/tasks/test",
+    "clean": "node build/tasks/build clean"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-loading-bar": "^0.9.0",
+    "angular-mocks": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "jquery": "^3.1.1",
+    "jquery-ui": "^1.12.1",
+    "markdown-it": "^8.0.1"
   }
 }

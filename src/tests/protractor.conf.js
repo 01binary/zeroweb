@@ -1,0 +1,1 @@
+exports.config={allScriptsTimeout:11e3,directConnect:!0,specs:["scripts/*scenarios.js"],capabilities:{browserName:"chrome"},baseUrl:"http://localhost:8000/index.htm",framework:"jasmine",jasmineNodeOpts:{defaultTimeoutInterval:3e4}};

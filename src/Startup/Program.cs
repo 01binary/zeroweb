@@ -7,12 +7,15 @@ namespace ZeroWeb
 {
     public class Program
     {
+        public static readonly string Settings = "Properties/appsettings.json";
+        
         public static void Main(string[] args)
         {
             var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddCommandLine(args)
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
-                .AddJsonFile(Shared.GetAppSettingsPath(), optional: false)
+                .AddJsonFile(Settings, optional: false)
                 .Build();
 
             var host = new WebHostBuilder()

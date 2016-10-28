@@ -22,16 +22,6 @@ namespace ZeroWeb
     public static class Shared
     {
         /// <summary>
-        /// Get the application settings file path.
-        /// </summary>
-        public static string GetAppSettingsPath()
-        {
-            return Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "Properties/appsettings.json");
-        }
-
-        /// <summary>
         /// Format a title to enforce content transformation policy.
         /// </summary>
         /// <param name="title">The title to format.</param>

@@ -21,7 +21,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
-// TODO: gulp-strip-json-comments before dest
+var strip = require('gulp-strip-json-comments');
 
 var source = '../src/';
 var packages = '../node_modules/';
@@ -54,9 +54,10 @@ function buildStyles() {
   ];
 
   return gulp.src(sources)
+    .pipe(strip())
     .pipe(sass({outputStyle: 'compressed'})
       .on('error', sass.logError))
-    .pipe(concat('zero.min.css'))
+    .pipe(concat('zero.min.css', { newLine: ';' }))
     .pipe(gulp.dest(destination));
 }
 
@@ -82,7 +83,7 @@ function buildScripts() {
 
   return gulp.src(sources)
     .pipe(uglify())
-    .pipe(concat('zero.min.js'))
+    .pipe(concat('zero.min.js', { newLine: ';' }))
     .pipe(gulp.dest(destination));
 }
 

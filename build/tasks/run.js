@@ -16,4 +16,4 @@
 var spawn = require('child_process').spawn;
 
 require('./projectdir');
-spawn('dotnet' [ 'run' ], { stdio: 'inherit' });
+spawn('dotnet', [ 'run' ], { stdio: 'inherit' });

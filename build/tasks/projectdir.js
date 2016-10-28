@@ -5,17 +5,17 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Entity Framework forwarder for Node.js integration.
-|  @requires child_process
+|  @file Ensure current directory is project directory.
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 'use strict';
 
-var spawn = require('child_process').spawn;
-var args = process.argv.slice(2).join(' ');
+var cwd = process.cwd();
+var elements = cwd.split('/');
+var leaf = elements[elements.length - 1];
 
-require('./projectdir');
-
-spawn('dotnet', ('ef -b Build -o Build/Output ' + args).split(' '), { stdio: 'inherit' });
+if (leaf !== 'src') {
+    process.chdir('src');
+}

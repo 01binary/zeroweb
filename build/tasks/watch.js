@@ -15,7 +15,7 @@
 
 var spawn = require('child_process').spawn;
 
-var gulpOptions = '--gulpfile ../.vscode/gulpfile.js ';
+var gulpOptions = '--gulpfile ../build/tasks/gulpfile.js ';
 
 require('./projectdir');
 

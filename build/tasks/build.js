@@ -14,9 +14,9 @@
 'use strict';
 
 var spawn = require('child_process').spawn;
-var rimraf = require('../node_modules/rimraf').sync;
+var rimraf = require('../../node_modules/rimraf').sync;
 
-var gulpOptions = '--gulpfile ../.vscode/gulpfile.js';
+var gulpOptions = '--gulpfile ../build/tasks/gulpfile.js';
 
 require('./projectdir');
 

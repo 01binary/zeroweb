@@ -67,10 +67,7 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true,
-    "compile": {
-      "exclude": ["Build"]
-    }
+    "preserveCompilationContext": true
   },
 
   "runtimeOptions": {

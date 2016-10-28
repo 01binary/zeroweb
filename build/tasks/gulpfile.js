@@ -23,10 +23,10 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var strip = require('gulp-strip-json-comments');
 
-var source = '../src/';
-var packages = '../node_modules/';
-var intermediate = '../src/Build/';
-var destination = '../src/Content/';
+var source = '../../src/';
+var packages = '../../node_modules/';
+var intermediate = '../../build/';
+var destination = '../../src/Content/';
 
 gulp.task('default', build);
 gulp.task('watch', watch)

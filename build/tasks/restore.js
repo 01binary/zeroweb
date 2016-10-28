@@ -5,21 +5,18 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Ensure current directory is project directory.
+|  @file Run command forwarder for Node.js integration.
+|  @requires child_process
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 'use strict';
 
-var cwd = process.cwd();
-var elements = cwd.split('/');
-var leaf = elements[elements.length - 1];
+var spawn = require('child_process').spawn;
 
-if (leaf !== 'src') {
-    if (leaf === '.vscode') {
-        process.chdir('../src');
-    } else {
-        process.chdir('src');
-    }
-}
+require('./projectdir');
+
+spawn('dotnet', [ 'restore' ], { stdio: 'inherit' }).on('exit', function() {
+    spawn('node', [ '../build/tasks/ef', 'database', 'update' ], { stdio: 'inherit' });
+});

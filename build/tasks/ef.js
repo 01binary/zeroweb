@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Run command forwarder for Node.js integration.
+|  @file Entity Framework forwarder for Node.js integration.
 |  @requires child_process
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
@@ -14,9 +14,8 @@
 'use strict';
 
 var spawn = require('child_process').spawn;
+var args = process.argv.slice(2).join(' ');
 
 require('./projectdir');
 
-spawn('dotnet', [ 'restore' ], { stdio: 'inherit' }).on('exit', function() {
-    spawn('node', [ '../.vscode/ef', 'database', 'update' ], { stdio: 'inherit' });
-});
+spawn('dotnet', ('ef -b ../build -o ../build/output ' + args).split(' '), { stdio: 'inherit' });

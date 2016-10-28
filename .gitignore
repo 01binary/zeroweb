@@ -1,5 +1,6 @@
 *.DS_Store
-src/Build
+build/output
+build/src
 src/Content/*.min.*
 node_modules
 npm-debug.log

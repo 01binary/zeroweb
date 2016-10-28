@@ -14,6 +14,7 @@
 'use strict';
 
 var spawn = require('child_process').spawn;
+var rimraf = require('../node_modules/rimraf').sync;
 
 var gulpOptions = '--gulpfile ../.vscode/gulpfile.js';
 
@@ -27,9 +28,13 @@ if (process.argv.length > 2 && process.argv[2] === 'sass') {
     spawn('gulp', (gulpOptions + ' uglify').split(' '), { stdio: 'inherit' });
 } else if (process.argv.length > 2 && process.argv[2] === 'dotnet') {
     // dotnet
-    spawn('dotnet', 'build -f netcoreapp1.0 -b Build -o Build/Output'.split(' '), { stdio: 'inherit' });
+    spawn('dotnet', 'build -f netcoreapp1.0 -b ../build -o ../build/output'.split(' '), { stdio: 'inherit' });
+} else if (process.argv.length > 2 && process.argv[2] === 'clean') {
+    // clean
+    rimraf('../build/output');
+    rimraf('../build/src');
 } else {
     // dotnet, sass, uglify
-    spawn('dotnet', 'build -f netcoreapp1.0 -b Build -o Build/Output'.split(' '), { stdio: 'inherit' });
+    spawn('dotnet', 'build -f netcoreapp1.0 -b ../build -o ../build/output'.split(' '), { stdio: 'inherit' });
     spawn('gulp', gulpOptions.split(' '), { stdio: 'inherit' });
 }

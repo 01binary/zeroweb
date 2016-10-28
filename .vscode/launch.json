@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/Build/Output/src.dll",
+            "program": "${workspaceRoot}/build/Output/src.dll",
             "args": [],
             "cwd": "${workspaceRoot}/src",
             "stopAtEntry": false,

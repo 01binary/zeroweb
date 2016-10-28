@@ -13,7 +13,8 @@
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
     "karma-jasmine": "^0.3.8",
-    "protractor": "^3.2.2"
+    "protractor": "^3.2.2",
+    "rimraf": "^2.5.4"
   },
   "scripts": {
     "postinstall": "node .vscode/restore",
@@ -26,7 +27,8 @@
     "sass:watch": "node .vscode/watch sass",
     "database": "node .vscode/ef database",
     "migrations": "node .vscode/ef migrations",
-    "test": "node .vscode/test"
+    "test": "node .vscode/test",
+    "clean": "node .vscode/build clean"
   },
   "dependencies": {
     "angular": "^1.5.8",

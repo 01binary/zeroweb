@@ -9,7 +9,7 @@ A working website prototype using ASP.net core to render layout page and partial
 
 - Visual Studio Code is recommended for opening this folder
 - `npm install` to restore both Node.js and .NET packages
-- `dotnet user-secrets set *key* *value*` to set the following (optional):
+- `dotnet user-secrets set *key* *value*` to set the following keys (optional):
    - facebookId, facebookSecret
    - twitterId, twitterSecret
    - microsoftId, microsoftSecret
@@ -24,6 +24,11 @@ A working website prototype using ASP.net core to render layout page and partial
 ## Development
 
 - `npm run build` to rebuild
+- `npm run build sass` to rebuild styles
+- `npm run build uglify` to rebuild scripts
+- `npm run watch` to watch styles and scripts and rebuild on change
+- `npm run watch sass` to watch and rebuild styles
+- `npm run watch uglify` to watch and rebuild scripts
 - `npm run database update` to apply migrations and create the site database
 - `npm run migrations add` to record a new migration after modifying models
 - `npm run migrations remove` to remove the last recorded migration

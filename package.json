@@ -20,6 +20,10 @@
     "build": "node .vscode/build",
     "start": "node .vscode/run",
     "watch": "node .vscode/watch",
+    "uglify": "node .vscode/build uglify",
+    "sass": "node .vscode/build sass",
+    "uglify:watch": "node .vscode/watch uglify",
+    "sass:watch": "node .vscode/watch sass",
     "database": "node .vscode/ef database",
     "migrations": "node .vscode/ef migrations",
     "test": "node .vscode/test"

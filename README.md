@@ -24,16 +24,16 @@ A working website prototype using ASP.net core to render layout page and partial
 ## Development
 
 - `npm run build` to rebuild
-- `npm run build sass` to rebuild styles
-- `npm run build uglify` to rebuild scripts
+- `npm run build sass` or `npm run sass` to rebuild styles
+- `npm run build uglify` or `npm run uglify` to rebuild scripts
 - `npm run watch` to watch styles and scripts and rebuild on change
-- `npm run watch sass` to watch and rebuild styles
-- `npm run watch uglify` to watch and rebuild scripts
+- `npm run watch sass` or `npm sass:watch` to watch and rebuild styles
+- `npm run watch uglify` or `npm uglify:watch` to watch and rebuild scripts
 - `npm run database update` to apply migrations and create the site database
 - `npm run migrations add` to record a new migration after modifying models
 - `npm run migrations remove` to remove the last recorded migration
-- `npm run test unit` to run unit tests
-- `npm run test functional` to run functional tests
+- `npm run test unit` or `npm run test` to run unit tests
+- `npm run test functional` or `npm run test f` to run functional tests
 
 ### Features
 

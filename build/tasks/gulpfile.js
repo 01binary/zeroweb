@@ -11,6 +11,7 @@
 |  @requires gulp-rename
 |  @requires gulp-uglify
 |  @requires gulp-concat
+|  @requires gulp-iife
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -24,10 +25,9 @@ var concat = require('gulp-concat');
 var strip = require('gulp-strip-json-comments');
 var iife = require('gulp-iife');
 
-var source = '../../src/';
-var packages = '../../node_modules/';
-var intermediate = '../../build/';
-var destination = '../../src/Content/';
+var bundle = require('../bundle.json');
+var source = '../../src';
+var packages = '../../node_modules';
 
 gulp.task('default', build);
 gulp.task('watch', watch)
@@ -49,50 +49,52 @@ function watch() {
 function buildStyles() {
   console.log('\tBuilding and minifying styles');
 
-  var sources = [
-    packages + 'angular-loading-bar/build/loading-bar.css',
-    source + 'Styles/**/*.scss'
-  ];
-
-  return gulp.src(sources)
+  return gulp.src(getStyles())
     .pipe(strip())
     .pipe(sass({outputStyle: 'compressed'})
       .on('error', sass.logError))
     .pipe(concat('zero.min.css'))
-    .pipe(gulp.dest(destination));
+    .pipe(gulp.dest(getDestination()));
 }
 
 function watchStyles() {
   console.log('\tWatching styles for changes');
-  gulp.watch(source + 'Styles/**/*.scss', ['sass']);
+  gulp.watch(getStyles(), ['sass']);
 }
 
 function buildScripts() {
   console.log('\tMinifying scripts');
 
-  var sources = [
-    packages + 'jquery/dist/jquery.js',
-    packages + 'jquery-ui/ui/effect.js',
-
-    packages + 'angular/angular.js',
-    packages + 'angular-route/angular-route.js',
-    packages + 'angular-resource/angular-resource.js',
-    packages + 'angular-loading-bar/build/loading-bar.js',
-
-    packages + 'markdown-it/dist/markdown-it.js',
-
-    source + 'Scripts/**/*.js',
-    '!' + source + 'Scripts/tests/*'
-  ];
-
-  return gulp.src(sources)
+  return gulp.src(getScripts())
     .pipe(iife())
     .pipe(uglify())
     .pipe(concat('zero.min.js', { newLine: ';' }))
-    .pipe(gulp.dest(destination));
+    .pipe(gulp.dest(getDestination()));
 }
 
 function watchScripts() {
   console.log('\tWatching scripts for changes');
-  gulp.watch(source + 'Scripts/**/*.js', ['uglify']);
+  gulp.watch(getScripts(), ['uglify']);
+}
+
+function getScripts() {
+  return bundle.scripts.map(function(path) {
+    return replaceMacros(path);
+  });
+}
+
+function getStyles() {
+  return bundle.styles.map(function(path) {
+    return replaceMacros(path);
+  });
+}
+
+function getDestination() {
+  return bundle.destination.replace('$(source)', source);
+}
+
+function replaceMacros(path) {
+  return path
+    .replace('${packages}', packages)
+    .replace('${source}', source);
 }

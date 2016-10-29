@@ -27,6 +27,7 @@ switch(helpers.operation) {
         break;
     case 'clean':
         helpers
+            .clean('../src/Content/zero.min.*')
             .clean('../build/output')
             .clean('../build/src');
         break;

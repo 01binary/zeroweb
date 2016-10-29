@@ -12,36 +12,30 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
 
-    "use strict";
+/**
+ * Register input resize factory.
+ */
+angular.module('zeroApp')
+    .factory('inputResize', inputResizeFactory);
 
-    /**
-     * Register input resize factory.
-     */
-    angular.module("zeroApp")
-           .factory("inputResize", inputResizeFactory);
+/**
+ * Implement input resize factory.
+ */
+function inputResizeFactory() {
+    return function(name) {
+        var $element = $(name);
+        var $parent = $element.parent();
+        var $resizer = $('<div class="form-input-resizer"></div>')
+            .appendTo($parent);
 
-    /**
-     * Implement input resize factory.
-     */
-    function inputResizeFactory()
-    {
-        return function (name)
-        {
-            var $element = $(name);
-            var $parent = $element.parent();
-            var $resizer = $("<div class='form-input-resizer'></div>")
-                .appendTo($parent);
+        $resizer.html('<br/>');
+        $element.height($resizer.height());
 
-            $resizer.html("<br/>");
+        $element.on('change keyup paste', function() {
+            $resizer.html($(this).val().replace('\n', '<br/>'));
             $element.height($resizer.height());
-
-            $element.on('change keyup paste', function()
-            {
-                $resizer.html($(this).val().replace("\n", "<br/>"));
-                $element.height($resizer.height());
-            });
-        }
+        });
     }
-})();
+}

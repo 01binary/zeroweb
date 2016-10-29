@@ -12,23 +12,23 @@
 
 module.exports = function(config) {
     config.set({
-        basePath: "..",
+        basePath: '..',
 
         files: [
-            "../../node_modules/angular/angular.js",
-            "../../node_modules/angular-mocks/angular-mocks.js",
-            "*.unit.tests.js"
+            '../../node_modules/angular/angular.js',
+            '../../node_modules/angular-mocks/angular-mocks.js',
+            '*.unit.tests.js'
         ],
 
         autoWatch: true,
 
-        frameworks: [ "jasmine" ],
+        frameworks: [ 'jasmine' ],
 
-        browsers: [ "Chrome" ],
+        browsers: [ 'Chrome' ],
 
         plugins: [
-            "karma-chrome-launcher",
-            "karma-jasmine"
+            'karma-chrome-launcher',
+            'karma-jasmine'
         ]
     });
 };

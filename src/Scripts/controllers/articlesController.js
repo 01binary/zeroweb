@@ -12,21 +12,16 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
-
-    "use strict";
+'use strict';
         
-    /**
-     * Register articles controller.
-     */
-    angular.module("zeroApp")
-           .controller("articlesController", articlesController);
+/**
+ * Register articles controller.
+ */
+angular.module('zeroApp')
+    .controller('articlesController', articlesController);
 
-    /**
-     * Implement articles controller.
-     */
-    function articlesController()
-    {
-    }
-
-})();
+/**
+ * Implement articles controller.
+ */
+function articlesController() {
+}

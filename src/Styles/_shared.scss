@@ -6,12 +6,12 @@ $primary-color: #12C0E1;
 $primary-hover-color: #19C9EA;
 $primary-light-color: #71D3DB;
 $primary-dark-color: #0E93AD;
-$primary-dark-shadow-color: #10a6c4;
+$primary-dark-shadow-color: #10A6C4;
 $primary-text-color: #FFFFFF;
 
 $secondary-text-color: #848D95;
 
-$accent-color:#E3EBEC;
+$accent-color: #E3EBEC;
 $accent-light-color: #F6F6F6;
 $accent-highlight-color: mix($accent-light-color, white, 45%);
 $accent-hover-color: #D7DFE0;
@@ -30,7 +30,7 @@ $drop-shadow-dark-color: #777777;
 $drop-shadow-light-color: #999999;
 $drop-shadow-transparent-color: black;
 
-$warning-color: #E1b412;
+$warning-color: #E1B412;
 $error-color: #E11912;
 $highlight-color1: #E11268;
 $highlight-color2: #8B12E1;
@@ -78,6 +78,6 @@ $small-font-letter-spacing-win: 0;
  * Scalars
  */
 
- $margin: 9pt;
- $border-thickness: 1px;
- $corner-small: 8px;
+$margin: 9pt;
+$border-thickness: 1px;
+$corner-small: 8px;

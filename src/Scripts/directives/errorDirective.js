@@ -12,34 +12,29 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
+    
+/**
+ * Register error directive.
+ */
+angular.module('zeroApp')
+    .directive('error', errorDirective);
 
-    "use strict";
-        
-    /**
-     * Register error directive.
-     */
-    angular.module("zeroApp")
-           .directive("error", errorDirective);
-
-    /**
-     * Implement error directive.
-     */
-    function errorDirective()
-    {
-        return {
-            restrict: "E",
-            replace: true,
-            transclude: false,
-            template: "<div class=\"error\">! <span ng-show=\"{{errorCode}}\">Failed to {{operation}}: [{{errorCode}}] {{errorMessage}}.</span><span ng-show=\"{{!errorCode}}\">{{error}}</span></div>",
-            scope:
-            {
-                operation: "=operation",
-                errorCode: "=code",
-                errorMessage: "=message",
-                error: "=error"
-            }
-        };
-    }
-
-})();
+/**
+ * Implement error directive.
+ */
+function errorDirective()
+{
+    return {
+        restrict: 'E',
+        replace: true,
+        transclude: false,
+        template: '<div class="error">! <span ng-show="{{errorCode}}">Failed to {{operation}}: [{{errorCode}}] {{errorMessage}}.</span><span ng-show="{{!errorCode}}">{{error}}</span></div>',
+        scope: {
+            operation: '=operation',
+            errorCode: '=code',
+            errorMessage: '=message',
+            error: '=error'
+        }
+    };
+}

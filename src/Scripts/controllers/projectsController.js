@@ -12,21 +12,16 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
+    
+/**
+ * Register projects controller.
+ */
+angular.module('zeroApp')
+       .controller('projectsController', projectsController);
 
-    "use strict";
-        
-    /**
-     * Register projects controller.
-     */
-    angular.module("zeroApp")
-           .controller("projectsController", projectsController);
-
-    /**
-     * Implement projects controller.
-     */
-    function projectsController()
-    {
-    }
-
-})();
+/**
+ * Implement projects controller.
+ */
+function projectsController() {
+}

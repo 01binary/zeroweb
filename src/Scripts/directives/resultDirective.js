@@ -12,33 +12,27 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
+    
+/**
+ * Register result directive.
+ */
+angular.module('zeroApp')
+    .directive('result', resultDirective);
 
-    "use strict";
-        
-    /**
-     * Register result directive.
-     */
-    angular.module("zeroApp").directive("result", resultDirective);
-
-    /**
-     * Implement result directive.
-     */
-    function resultDirective()
-    {   
-        return {
-            restrict: "E",
-            replace: true,
-            template: "<div></div>",
-            link: function($scope, $element, attributes)
-            {
-                window.result =
-                {
-                    success: Boolean(attributes.success),
-                    parameter: attributes.parameter
-                };
-            }
-        };
-    }
-
-})();
+/**
+ * Implement result directive.
+ */
+function resultDirective() {  
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div></div>',
+        link: function($scope, $element, attributes) {
+            window.result = {
+                success: Boolean(attributes.success),
+                parameter: attributes.parameter
+            };
+        }
+    };
+}

@@ -13,36 +13,28 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
 
-    "use strict";
+/**
+ * Register news factory.
+ */
+angular.module('zeroApp')
+    .factory('news', [ '$resource', newsFactory ]);
 
-    /**
-     * Register news factory.
-     */
-    angular.module("zeroApp")
-           .factory("news", ["$resource", newsFactory]);
-
-    /**
-     * Implement news factory.
-     * @param {object} $resource - AJAX service.
-     */
-    function newsFactory($resource)
-    {
-        return $resource(
-            "/api/news/:id",
-
-            {
-                id: '@id'
-            },
-            
-            {
-                "star":
-                {
-                    method: "POST",
-                    url: "/api/news/star/:id"
-                }
-            });
-    }
-
-})();
+/**
+ * Implement news factory.
+ * @param {object} $resource - AJAX service.
+ */
+function newsFactory($resource) {
+    return $resource('/api/news/:id',
+        {
+            id: '@id'
+        },
+        
+        {
+            'star': {
+                method: 'POST',
+                url: '/api/news/star/:id'
+            }
+        });
+}

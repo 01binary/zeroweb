@@ -12,37 +12,27 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
+    
+/**
+ * Register register controller.
+ */
+angular.module('zeroApp')
+       .controller('registerController', registerController);
 
-    "use strict";
-        
-    /**
-     * Register register controller.
-     */
-    angular.module("zeroApp")
-	       .controller("registerController", registerController);
+/**
+ * Implement register controller.
+ */
+function registerController() {
+    $(document).ready(function() {
+        window.resizeTo(window.outerWidth, 350);
 
-    /**
-     * Implement register controller.
-     */
-    function registerController()
-    {
-        /**
-         * Initialize.
-         */
-        $(document).ready(function()
-        {
-            window.resizeTo(window.outerWidth, 350);
+        var initialFocus = $('#defaultInput');
 
-            var initialFocus = $("#defaultInput");
-
-            initialFocus.focus(function()
-            {
-                $(this).select();
-            });
-
-            initialFocus.focus();
+        initialFocus.focus(function() {
+            $(this).select();
         });
-    }
 
-})();
+        initialFocus.focus();
+    });
+}

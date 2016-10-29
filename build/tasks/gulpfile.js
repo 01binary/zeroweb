@@ -80,7 +80,8 @@ function buildScripts() {
 
     packages + 'markdown-it/dist/markdown-it.js',
 
-    source + 'Scripts/**/*.js'
+    source + 'Scripts/**/*.js',
+    '!' + source + 'Scripts/tests/*'
   ];
 
   return gulp.src(sources)

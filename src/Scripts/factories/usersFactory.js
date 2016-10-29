@@ -13,23 +13,18 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
 
-    "use strict";
+/**
+ * Register users factory.
+ */
+angular.module('zeroApp')
+    .factory('users', [ '$resource', usersFactory ]);
 
-    /**
-     * Register users factory.
-     */
-    angular.module("zeroApp")
-           .factory("users", ["$resource", usersFactory]);
-
-    /**
-     * Implement users factory.
-     * @param {object} $resource - AJAX service.
-     */
-    function usersFactory($resource)
-    {
-        return $resource("api/users/current");
-    }
-
-})();
+/**
+ * Implement users factory.
+ * @param {object} $resource - AJAX service.
+ */
+function usersFactory($resource) {
+    return $resource('api/users/current');
+}

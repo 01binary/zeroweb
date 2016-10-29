@@ -12,21 +12,16 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
+    
+/**
+ * Register about controller.
+ */
+angular.module('zeroApp')
+    .controller('aboutController', aboutController);
 
-    "use strict";
-        
-    /**
-     * Register about controller.
-     */
-    angular.module("zeroApp")
-	       .controller("aboutController", aboutController);
-
-    /**
-     * Implement about controller.
-     */
-    function aboutController()
-    {
-    }
-
-})();
+/**
+ * Implement about controller.
+ */
+function aboutController() {
+}

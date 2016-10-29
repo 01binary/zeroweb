@@ -12,41 +12,33 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
+    
+/**
+ * Register tag directive.
+ */
+angular.module('zeroApp')
+    .directive('tag', tagDirective);
 
-    "use strict";
-        
-    /**
-     * Register tag directive.
-     */
-    angular.module("zeroApp")
-           .directive("tag", tagDirective);
+/**
+ * Implement tag directive.
+ */
+function tagDirective() {
+    return {
+        restrict: 'E',
+        replace: true,
+        transclude: true,
+        template: '<a class="tag" data-ng-transclude></a>',
+        scope: {},
+        link: function($scope, $element, attributes) {
+            // Add handlers to fade background color.
+            $element.mouseenter(function() {
+                $element.stop().animate({ backgroundColor: '#D7DFE0'}, 'fast');
+            });
 
-    /**
-     * Implement tag directive.
-     */
-    function tagDirective()
-    {
-        return {
-            restrict: "E",
-            replace: true,
-            transclude: true,
-            template: "<a class=\"tag\" data-ng-transclude></a>",
-            scope: {},
-            link: function($scope, $element, attributes)
-            {
-                // Add handlers to fade background color.
-                $element.mouseenter(function()
-                {
-                    $element.stop().animate({ backgroundColor: '#d7dfe0'}, "fast");
-                });
-
-                $element.mouseleave(function()
-                {
-                    $element.stop().animate({ backgroundColor: '#E3EBEC'}, "fast");
-                });
-            }
-        };
-    }
-
-})();
+            $element.mouseleave(function() {
+                $element.stop().animate({ backgroundColor: '#E3EBEC'}, 'fast');
+            });
+        }
+    };
+}

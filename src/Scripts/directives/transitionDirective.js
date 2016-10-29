@@ -13,40 +13,31 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-(function() {
+'use strict';
+    
+/*
+* Register transition directive.
+*/
+angular.module('zeroApp')
+    .directive('transition', transitionDirective);
 
-    "use strict";
-        
-    /*
-    * Register transition directive.
-    */
-    angular.module("zeroApp")
-        .directive("transition", transitionDirective);
-
-    /**
-     * Implement transition directive.
-     */
-    function transitionDirective()
-    {
-        return {
-            restrict: "A",
-            replace: false,
-            link: function($scope, $element, attributes)
-            {
-                var $overlay = $("<div></div>")
-                                .addClass("overlay")
-                                .prependTo($("body"));
-                
-                switch (attributes["transition"])
-                {
-                    case "fade":
-                        {
-                            $overlay.fadeOut(200);
-                        }
-                        break;
-                }
+/**
+ * Implement transition directive.
+ */
+function transitionDirective() {
+    return {
+        restrict: 'A',
+        replace: false,
+        link: function($scope, $element, attributes) {
+            var $overlay = $('<div></div>')
+                .addClass('overlay')
+                .prependTo($('body'));
+            
+            switch (attributes['transition']) {
+                case 'fade':
+                    $overlay.fadeOut(200);
+                    break;
             }
-        };
-    }
-
-})();
+        }
+    };
+}

@@ -10,22 +10,22 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-exports.config = {
+module.exports.config = {
 
     allScriptsTimeout: 11000,
     directConnect: true,
 
     specs: [
-        "../*.functional.tests.js"
+        '../*.functional.tests.js'
     ],
 
     capabilities: {
-        "browserName": "chrome"
+        'browserName': 'chrome'
     },
 
-    baseUrl: "https://localhost:5001",
+    baseUrl: 'https://localhost:5001',
 
-    framework: "jasmine",
+    framework: 'jasmine',
 
     jasmineNodeOpts: {
         defaultTimeoutInterval: 30000

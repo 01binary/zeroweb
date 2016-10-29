@@ -46,11 +46,11 @@ namespace ZeroWeb.Api
         {
             return this.Json(this.store.GetArticleComments(id)
                 .Where(comment => comment.Published == true)
-                .OrderByDescending(comment => comment.Date)
                 .Select(comment => new
                 {
                     id = comment.Id,
-                    date = Shared.FormatDate(comment.Date),
+                    formattedDate = Shared.FormatDate(comment.Date),
+                    date = comment.Date,
                     author = comment.Author,
                     votes = comment.Votes.Sum(vote => vote.Value),
                     votesReadOnly = this.User == null ||
@@ -119,6 +119,11 @@ namespace ZeroWeb.Api
                 {
                     return this.NotFound();
                 }
+
+                if (comment.Author.Name == this.User.Identity.Name)
+                {
+                    return this.BadRequest();
+                }
                 
                 var commentVotes = this.store.GetCommentVotes(id);
                 
@@ -157,6 +162,11 @@ namespace ZeroWeb.Api
                 if (comment == null)
                 {
                     return this.NotFound();
+                }
+
+                if (comment.Author.Name == this.User.Identity.Name)
+                {
+                    return this.BadRequest();
                 }
                 
                 var commentVotes = this.store.GetCommentVotes(id);

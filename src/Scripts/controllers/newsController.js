@@ -279,7 +279,8 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
                     author: this.user,
                     date: result.date,
                     formattedDate: result.formattedDate,
-                    content: commentContent
+                    content: commentContent,
+                    votesReadOnly: true
                 });
 
             }.bind(this),

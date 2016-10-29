@@ -5,17 +5,16 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Entity Framework forwarder for Node.js integration.
-|  @requires child_process
+|  @file Entity Framework build tasks.
+|  @requires helpers
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 'use strict';
 
-var spawn = require('child_process').spawn;
-var args = process.argv.slice(2).join(' ');
+var helpers = require('./helpers');
 
-require('./projectdir');
-
-spawn('dotnet', ('ef -b ../build -o ../build/output ' + args).split(' '), { stdio: 'inherit' });
+helpers
+    .changeToProjectDir()
+    .dotnet('ef', helpers.parameters);

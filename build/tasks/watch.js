@@ -5,27 +5,20 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Watch command forwarder for Node.js integration.
-|  @requires child_process
+|  @file Build watch tasks.
+|  @requires helpers
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 'use strict';
 
-var spawn = require('child_process').spawn;
+var helpers = require('./helpers');
 
-var gulpOptions = '--gulpfile ../build/tasks/gulpfile.js ';
+helpers.changeToProjectDir();
 
-require('./projectdir');
-
-if (process.argv.length > 2 && process.argv[2] === 'sass') {
-    // sass:watch
-    spawn('gulp', (gulpOptions + 'sass:watch').split(' '), { stdio: 'inherit' });
-} else if (process.argv.length > 2 && process.argv[2] == 'uglify') {
-    // uglify:watch
-    spawn('gulp', (gulpOptions + 'uglify:watch').split(' '), { stdio: 'inherit' });
+if (helpers.operation) {
+    helpers.gulp(helpers.operation + ':watch');
 } else {
-    // sass:watch, uglify:watch
-    spawn('gulp', (gulpOptions + 'watch').split(' '), { stdio: 'inherit' });
-};
+    helpers.gulp('watch');
+}

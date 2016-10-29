@@ -5,38 +5,33 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Build command forwarder for Node.js integration.
-|  @requires child_process
+|  @file Build ASP.net project, scripts, or styles.
+|  @requires helpers
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 'use strict';
 
-var spawn = require('child_process').spawn;
-var rimraf = require('../../node_modules/rimraf').sync;
+var helpers = require('./helpers');
 
-var gulpOptions = '--gulpfile ../build/tasks/gulpfile.js';
-var dotNetOptions = 'build -f netcoreapp1.0 -b ../build -o ../build/output';
+helpers.changeToProjectDir();
 
-require('./projectdir');
-
-if (process.argv.length > 2 && process.argv[2] === 'sass') {
-    // sass
-    spawn('gulp', (gulpOptions + ' sass').split(' '), { stdio: 'inherit' });
-} else if (process.argv.length > 2 && process.argv[2] === 'uglify') {
-    // uglify
-    spawn('gulp', (gulpOptions + ' uglify').split(' '), { stdio: 'inherit' });
-} else if (process.argv.length > 2 && process.argv[2] === 'dotnet') {
-    // dotnet
-    spawn('dotnet', dotNetOptions.split(' '), { stdio: 'inherit' });
-} else if (process.argv.length > 2 && process.argv[2] === 'clean') {
-    // clean
-    rimraf('../build/output');
-    rimraf('../build/src');
-} else {
-    // ef, sass, uglify
-    spawn('node', [ '../build/tasks/ef', 'database', 'update' ], { stdio: 'inherit' }).on('exit', function() {
-        spawn('gulp', gulpOptions.split(' '), { stdio: 'inherit' });
-    });
+switch(helpers.operation) {
+    case 'sass':
+    case 'uglify':
+        helpers.gulp(helpers.operation);
+        break;
+    case 'dotnet':
+        helpers.dotnet('build');
+        break;
+    case 'clean':
+        helpers
+            .clean('../build/output')
+            .clean('../build/src');
+        break;
+    default:
+        helpers
+            .node('ef database update')
+            .gulp();
 }

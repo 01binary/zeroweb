@@ -5,18 +5,15 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Run command forwarder for Node.js integration.
-|  @requires child_process
+|  @file Restore .NET packages and create the database.
+|  @requires helpers
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 'use strict';
 
-var spawn = require('child_process').spawn;
-
-require('./projectdir');
-
-spawn('dotnet', [ 'restore' ], { stdio: 'inherit' }).on('exit', function() {
-    spawn('node', [ '../build/tasks/ef', 'database', 'update' ], { stdio: 'inherit' });
-});
+require('./helpers')
+    .changeToProjectDir()
+    .run('dotnet restore')
+    .node('ef database update');

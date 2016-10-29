@@ -5,20 +5,20 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Run command forwarder for Node.js integration.
-|  @requires child_process
+|  @file Run the ASP.net Core project.
+|  @requires helpers
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 'use strict';
 
-var spawn = require('child_process').spawn;
+console.log('WARNING: build output for "run" vs VSCode launch is in different folders');
+console.log('Use only one of these ways to launch the project.');
 
-require('./projectdir');
+var helpers = require('./helpers');
 
-console.log('WARNING: build output for "run" vs VSCode launch is in different folders due to dotnet bug. Use only one of these ways to launch the project.');
-
-spawn('dotnet', ('ef database update').split(' '), { stdio: 'inherit' }).on('exit', function() {
-    spawn('dotnet', 'run'.split(' '), { stdio: 'inherit' });
-});
+helpers
+    .changeToProjectDir()
+    .dotnet('ef', 'database update', true)
+    .dotnet('run', null, true);

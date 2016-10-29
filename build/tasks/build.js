@@ -35,8 +35,8 @@ if (process.argv.length > 2 && process.argv[2] === 'sass') {
     rimraf('../build/output');
     rimraf('../build/src');
 } else {
-    // dotnet, sass, uglify
-    spawn('dotnet', dotNetOptions.split(' '), { stdio: 'inherit' }).on('exit', function() {
+    // ef, sass, uglify
+    spawn('node', [ '../build/tasks/ef', 'database', 'update' ], { stdio: 'inherit' }).on('exit', function() {
         spawn('gulp', gulpOptions.split(' '), { stdio: 'inherit' });
     });
 }

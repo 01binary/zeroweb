@@ -1,21 +1,16 @@
 {
     "version": "0.1.0",
-    "command": "dotnet",
-    "isShellCommand": true,
+    "command": "node",
+    "isShellCommand": false,
     "options": {
-        "cwd": "${workspaceRoot}/src"
+        "cwd": "${workspaceRoot}"
     },
+    "args": [
+        "build/tasks/build"
+    ],
     "tasks": [
         {
             "taskName": "build",
-            "args": [
-                "-f",
-                "netcoreapp1.0",
-                "-b",
-                "../build",
-                "-o",
-                "../build/output"
-            ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"
         }

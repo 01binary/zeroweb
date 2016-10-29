@@ -22,6 +22,7 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var strip = require('gulp-strip-json-comments');
+var iife = require('gulp-iife');
 
 var source = '../../src/';
 var packages = '../../node_modules/';
@@ -85,6 +86,7 @@ function buildScripts() {
   ];
 
   return gulp.src(sources)
+    .pipe(iife())
     .pipe(uglify())
     .pipe(concat('zero.min.js', { newLine: ';' }))
     .pipe(gulp.dest(destination));

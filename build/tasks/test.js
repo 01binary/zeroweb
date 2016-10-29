@@ -18,7 +18,7 @@ var helpers = require('./helpers');
 helpers.changeToProjectDir();
 
 if (helpers.operation.startsWith('f')) {
-    helpers.run('protractor Tests/protractor.conf.js');
+    helpers.run('protractor Scripts/tests/protractor.conf.js');
 } else {
-    helpers.run('karma start Tests/karma.conf.js');
+    helpers.run('karma start Scripts/tests/karma.conf.js');
 }

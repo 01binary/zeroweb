@@ -1,1 +1,33 @@
-exports.config={allScriptsTimeout:11e3,directConnect:!0,specs:["scripts/*scenarios.js"],capabilities:{browserName:"chrome"},baseUrl:"http://localhost:8000/index.htm",framework:"jasmine",jasmineNodeOpts:{defaultTimeoutInterval:3e4}};
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Configures Protractor functional tests for Chrome.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+exports.config = {
+
+    allScriptsTimeout: 11000,
+    directConnect: true,
+
+    specs: [
+        "../*.functional.tests.js"
+    ],
+
+    capabilities: {
+        "browserName": "chrome"
+    },
+
+    baseUrl: "https://localhost:5001",
+
+    framework: "jasmine",
+
+    jasmineNodeOpts: {
+        defaultTimeoutInterval: 30000
+    }
+};

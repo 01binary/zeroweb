@@ -722,7 +722,7 @@ a.author:hover {
 }
 
 .metadata-group {
-  margin-left: $border-thickness * 6;
+  margin-left: $border-thickness * 3;
   margin-right: $border-thickness * 3;
 }
 
@@ -772,6 +772,17 @@ a.author:hover {
   color: $accent-hover-color;
   font-family: "Wingdings";
   font-size: $small-font-size + 3;
+}
+
+.metadata-indicator-content {
+  font-weight: normal;
+  margin-left: -$border-thickness * 2;
+}
+
+.metadata-title {
+  position: relative;
+  top: -$border-thickness;
+  color: $border-color;
 }
 
 .os-win {
@@ -937,7 +948,7 @@ a.author:hover {
 
 .vote-content {
   float: right;
-  padding-top: 1px;
+  padding-top: $border-thickness;
   padding-right: $small-font-size * 1.5;
   transition: all .15s ease-in-out;
   opacity: .5;

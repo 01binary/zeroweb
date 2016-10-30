@@ -17,7 +17,25 @@
 
 <div class="article">
     <!-- Story title -->
-    <h2>@Shared.FormatTitle(story.title)</h2>
+    <h2>@Shared.FormatTitle(story.title)
+        <!-- Stars -->
+        <span id="star-@storyId" class="metadata metadata-indicator metadata-title" title="Stars">
+            <icon class="@starClass"
+                role="@starRole"
+                title="Star this article"
+                area-disabled="@starAriaDisabled"
+                data-src="images/banner.svg#star"
+                data-width="16"
+                data-height="16"
+                data-ng-click="news.addStar(@storyId)">
+            </icon>
+            <span class="metadata-indicator-content">
+                @story.stars
+            </span>
+        </span>
+    </h2>
+
+    
 
     <!-- Story metadata -->
     <p class="metadata">
@@ -48,8 +66,7 @@
                 <a class="location"
                     href="https://www.google.com/maps/@@@(story.latitude),@(story.longitude),@(story.zoom)z"
                     target="_blank">
-                    @story.location
-                </a>
+                    @story.location</a>
             }
             else
             {
@@ -59,28 +76,7 @@
 
         <span class="metadata-group">
             <!-- Views -->
-            <span class="metadata-indicator" title="Views">
-                <span class="metadata-icon-text">&#xF0E4;</span>
-                <span class="metadata-indicator-content">
-                    @story.views
-                </span>
-            </span>
-
-            <!-- Stars -->
-            <span id="star-@storyId" class="metadata-indicator" title="Stars">
-                <icon class="@starClass"
-                    role="@starRole"
-                    title="Star this article"
-                    area-disabled="@starAriaDisabled"
-                    data-src="images/banner.svg#star"
-                    data-width="16"
-                    data-height="16"
-                    data-ng-click="news.addStar(@storyId)">
-                </icon>
-                <span class="metadata-indicator-content">
-                    @story.stars
-                </span>
-            </span>
+            - @story.views views
         </span>
 
         <!-- Tags -->
@@ -101,7 +97,7 @@
 
     <!-- Story loading indicator -->
     <p data-ng-show="news.loading[@storyId]">
-        <span class="tag">[ loading... ]</span>
+        <span class="tag">loading...</span>
     </p>
 
     <!-- Story content -->

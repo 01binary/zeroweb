@@ -163,38 +163,27 @@
 
         <!-- Login providers -->
         <span data-ng-show="!news.user && news.addingComment[@storyId]">
-        @{
-            bool first = true;
-
-            foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes().ToList())
+            <span class="metadata"> | login with: </span>
+            @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes().ToList())
             {
-                if (first)
-                {
-                    first = false;
-
-                    <span class="metadata"> | login with: </span>
-                }
-                else
-                {
-                    <span class="metadata">, </span>
-                }
-
-                <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
-                    method="get"
-                    target="login"
-                    class="form-inline">
-
-                    <input type="submit"
-                        class="button-inline
-                        button-secondary"
-                        title="@loginProvider.DisplayName.ToLower()"
-                        name="authenticationScheme"
-                        value="@loginProvider.AuthenticationScheme"
-                        data-ng-show="!news.user"
-                        data-ng-click="news.login()">
-                </form>
+            <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
+                method="get"
+                target="login"
+                class="form-inline">
+                <button type="submit"
+                    class="button-inline"
+                    title="@loginProvider.DisplayName.ToLower()"
+                    name="authenticationScheme"
+                    data-ng-show="!news.user"
+                    data-ng-click="news.login()">
+                    <icon class="icon-button"
+                        data-src="images/social.svg#@loginProvider.DisplayName.ToLower()"
+                        data-width="16"
+                        data-height="16">
+                    </icon>
+                </button>
+            </form>
             }
-        }
         </span>
 
         <div class="comment-form" data-ng-show="news.addingComment[@storyId]">

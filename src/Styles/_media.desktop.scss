@@ -836,6 +836,15 @@ a.author:hover {
   margin-right: $border-thickness;
 }
 
+.button-inline {
+  .icon-button {
+    margin: 0;
+    padding: 0;
+    top: $border-thickness;
+    fill: $secondary-text-color;
+  }
+}
+
 .icon-button-offset {
   top: $border-thickness;
 }

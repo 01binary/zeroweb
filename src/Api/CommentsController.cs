@@ -120,7 +120,7 @@ namespace ZeroWeb.Api
                     return this.NotFound();
                 }
 
-                if (comment.Author.Name == this.User.Identity.Name)
+                if (comment.Author == this.User.Identity.Name)
                 {
                     return this.BadRequest();
                 }
@@ -164,7 +164,7 @@ namespace ZeroWeb.Api
                     return this.NotFound();
                 }
 
-                if (comment.Author.Name == this.User.Identity.Name)
+                if (comment.Author == this.User.Identity.Name)
                 {
                     return this.BadRequest();
                 }

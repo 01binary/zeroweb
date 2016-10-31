@@ -13,7 +13,7 @@ header {
 
 /* adorner: left corner shadow */
 header:before {
-  content: "";
+  content: '';
   position: absolute;
   left: 8px;
   bottom: .1px;
@@ -30,7 +30,7 @@ header:before {
 
 /* adorner: right corner cut */
 header:after {
-  content: "";
+  content: '';
   position: absolute;
   left: 100%;
   top: -6px;
@@ -97,7 +97,7 @@ nav {
 
 /* adorner: bottom shadow */
 nav:before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   bottom: 0;
@@ -113,7 +113,7 @@ nav:before {
 
 /* adorner: left corner cut */
 nav:after {
-  content: "";
+  content: '';
   position: absolute;
   left: -10px;
   bottom: -2px;
@@ -142,7 +142,7 @@ main {
 }
 
 main:before {
-  content: "{";
+  content: '{';
   font-family: $background-font;
   font-size: 45pt;
   color: $border-color;
@@ -155,7 +155,7 @@ main:before {
 }
 
 main:after {
-  content: "}";
+  content: '}';
   font-family: $background-font;
   font-size: 45pt;
   color: $border-color;
@@ -264,7 +264,7 @@ a.author:hover {
 }
 
 .button-primary:before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: $corner-small + $border-thickness * 2;
@@ -658,6 +658,10 @@ a.author:hover {
   cursor: pointer;
 }
 
+.tag:hover {
+  background: $accent-hover-color;
+}
+
 .os-win .tag {
   padding: 4.5pt 7pt 6.5pt 8pt;
   font-size: $small-font-size-win;
@@ -675,7 +679,7 @@ a.author:hover {
 }
 
 .tag:before {
-  content: "";
+  content: '';
   position: absolute;
   border-top: 8pt solid transparent;
   border-left: 8pt solid $background-color;
@@ -692,7 +696,7 @@ a.author:hover {
 }
 
 .tag:after {
-  content: "";
+  content: '';
   position: absolute;
   float: right;
   border-bottom: 8pt solid transparent;
@@ -770,7 +774,7 @@ a.author:hover {
   position: relative;
   top: 2px;
   color: $accent-hover-color;
-  font-family: "Wingdings";
+  font-family: 'Wingdings';
   font-size: $small-font-size + 3;
 }
 
@@ -810,7 +814,7 @@ a.author:hover {
 }
 
 .placeholder:before {
-  content: "";
+  content: '';
   position: absolute;
   border-top: 8pt solid transparent;
   border-left: 8pt solid $background-color;
@@ -820,7 +824,7 @@ a.author:hover {
 }
 
 .placeholder:after {
-  content: "";
+  content: '';
   position: absolute;
   float: right;
   border-bottom: 8pt solid transparent;
@@ -858,6 +862,174 @@ a.author:hover {
 
 .icon-button-offset {
   top: $border-thickness;
+}
+
+.button-social {
+  background: $accent-color;
+  padding-left: $border-thickness * 4;
+  padding-right: $border-thickness * 4;
+  padding-top: $border-thickness;
+  padding-bottom: $border-thickness;
+  position: relative;
+  top: $border-thickness;
+  transition: fill .15s ease-in-out;
+}
+
+.button-social:before {
+  content: '';
+  position: absolute;
+  border-top: 4pt solid transparent;
+  border-left: 4pt solid $background-color;
+  cursor: default;
+  bottom: 0;
+  left: 0;
+}
+
+.button-social:after {
+  content: '';
+  position: absolute;
+  border-bottom: 4pt solid transparent;
+  border-right: 4pt solid $background-color;
+  cursor: default;
+  top: 0;
+  right: 0;
+}
+
+.button-social:hover {
+  .icon-button {
+    color: $primary-text-color;
+    fill: $primary-text-color;
+  }
+}
+
+.button-social-facebook:hover {
+  background: $facebook-color;
+}
+
+.button-social-twitter:hover {
+  background: $twitter-color;
+}
+
+.button-social-google:hover {
+  background: $google-color;
+}
+
+.button-social-linkedin:hover {
+  background: $linkedin-color;
+}
+
+.button-social-microsoft:hover {
+  background: $microsoft-color;
+}
+
+.button-social-github:hover {
+  background: $github-color;
+}
+
+.button-social-reddit:hover {
+  background: $reddit-color;
+}
+
+.button-social-yahoo:hover {
+  background: $yahoo-color;
+}
+
+.ui-tooltip {
+    background: $shadow-dark-color;
+    color: $primary-text-color;
+    border: none;
+    padding: 0;
+    opacity: 1;
+}
+
+.ui-tooltip-content {
+    position: relative;
+    padding: 1em;
+}
+
+.ui-tooltip-content::after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+}
+
+.right .ui-tooltip-content::after {
+    top: 18px;
+    left: -10px;
+    border-color: transparent $shadow-dark-color;
+    border-width: 10px 10px 10px 0;
+}
+
+.left .ui-tooltip-content::after {
+    top: 18px;
+    right: -10px;
+    border-color: transparent $shadow-dark-color;
+    border-width: 10px 0 10px 10px;
+}
+
+.top .ui-tooltip-content::after {
+    bottom: -10px;
+    left: 72px;
+    border-color: $shadow-dark-color transparent;
+    border-width: 10px 10px 0;    
+}
+
+.bottom .ui-tooltip-content::after {
+    top: -10px;
+    left: 72px;
+    border-color: $shadow-dark-color transparent;
+    border-width: 0 10px 10px;
+}
+
+.ui-tooltip {
+    background: $shadow-dark-color;
+    color: white;
+    border: none;
+    padding: 0;
+    opacity: 1;
+}
+
+.ui-tooltip-content {
+    position: relative;
+    padding: 1em;
+}
+
+.ui-tooltip-content::after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+}
+
+.right .ui-tooltip-content::after {
+    top: 18px;
+    left: -10px;
+    border-color: transparent $shadow-dark-color;
+    border-width: 10px 10px 10px 0;
+}
+
+.left .ui-tooltip-content::after {
+    top: 18px;
+    right: -10px;
+    border-color: transparent $shadow-dark-color;
+    border-width: 10px 0 10px 10px;
+}
+
+.top .ui-tooltip-content::after {
+    bottom: -10px;
+    left: 72px;
+    border-color: $shadow-dark-color transparent;
+    border-width: 10px 10px 0;    
+}
+
+.bottom .ui-tooltip-content::after {
+    top: -10px;
+    left: 72px;
+    border-color: $shadow-dark-color transparent;
+    border-width: 0 10px 10px;
 }
 
 .comments {
@@ -929,7 +1101,7 @@ a.author:hover {
   cursor: pointer;
   position: absolute;
   left: $small-font-size * .6;
-  font-family: "Webdings";
+  font-family: 'Webdings';
   opacity: 0;
   transition: opacity .15s ease-in-out;
 }
@@ -1028,8 +1200,8 @@ a.author:hover {
 }
 
 .comment-form {
-  margin-top: -7px;
-  margin-bottom: -7px;
+  margin-top: -4px;
+  margin-bottom: -5px;
 }
 
 .os-win .comment-form {
@@ -1041,7 +1213,7 @@ a.author:hover {
 }
 
 .register-form:before {
-  content: "[";
+  content: '[';
   position: absolute;
   left: -15pt;
   top: -35pt;
@@ -1052,7 +1224,7 @@ a.author:hover {
 }
 
 .register-form:after {
-  content: "]";
+  content: ']';
   position: absolute;
   right: -15pt;
   top: -35pt;

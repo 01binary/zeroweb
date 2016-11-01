@@ -47,14 +47,23 @@ function watch() {
 }
 
 function buildStyles() {
-  console.log('\tBuilding and minifying styles');
-
-  return gulp.src(getStyles())
-    .pipe(strip())
-    .pipe(sass({outputStyle: 'compressed'})
-      .on('error', sass.logError))
-    .pipe(concat('zero.min.css'))
-    .pipe(gulp.dest(getDestination()));
+  if (bundle.compress) {
+    console.log('\tBundling and minifying styles');
+    return gulp.src(getStyles())
+      .pipe(strip())
+      .pipe(sass({outputStyle: 'compressed'})
+        .on('error', sass.logError))
+      .pipe(concat('zero.min.css'))
+      .pipe(gulp.dest(getDestination()));
+  }
+  else {
+    console.log('\tBundling styles');
+    return gulp.src(getStyles())
+      .pipe(strip())
+      .pipe(sass().on('error', sass.logError))
+      .pipe(concat('zero.min.css'))
+      .pipe(gulp.dest(getDestination()));
+  }
 }
 
 function watchStyles() {
@@ -63,13 +72,20 @@ function watchStyles() {
 }
 
 function buildScripts() {
-  console.log('\tMinifying scripts');
-
-  return gulp.src(getScripts())
-    .pipe(iife())
-    .pipe(uglify())
-    .pipe(concat('zero.min.js', { newLine: ';' }))
-    .pipe(gulp.dest(getDestination()));
+  if (bundle.compress) {
+    console.log('\tBundling and minifying scripts');
+    return gulp.src(getScripts())
+      .pipe(iife())
+      .pipe(uglify())
+      .pipe(concat('zero.min.js', { newLine: ';' }))
+      .pipe(gulp.dest(getDestination()));
+  } else {
+    console.log('\tBundling scripts');
+    return gulp.src(getScripts())
+      .pipe(iife())
+      .pipe(concat('zero.min.js', { newLine: ';' }))
+      .pipe(gulp.dest(getDestination()));
+  }
 }
 
 function watchScripts() {

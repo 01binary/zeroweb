@@ -1,9 +1,7 @@
 {
     "scripts": [
         "${packages}/jquery/dist/jquery.js",
-        "${packages}/jquery-ui/ui/**/*.js",
-        "${packages}/jquery-ui/ui/escape-selector.js",
-        "!${packages}/jquery-ui/ui/core.js",
+        "${packages}/jquery-ui/ui/effect.js",
 
         "${packages}/angular/angular.js",
         "${packages}/angular-route/angular-route.js",
@@ -21,5 +19,6 @@
         "${source}/Styles/**/*.scss"
     ],
 
-    "destination": "$(source)/Content"
+    "destination": "$(source)/Content",
+    "compress": true
 }

@@ -35,8 +35,6 @@ function fadeDirective() {
             var hoverBackgroundColor = null;
             var hoverForegroundColor = null;
 
-            $element.tooltip();
-
             // Add handlers to fade background color.
             $element.mouseenter(function() {
                 if (!hoverBackgroundColor) {

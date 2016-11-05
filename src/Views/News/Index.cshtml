@@ -17,7 +17,23 @@
 
 <div class="article">
     <!-- Story title -->
-    <h2>@Shared.FormatTitle(story.title)</h2>
+    <h2>@Shared.FormatTitle(story.title)
+        <!-- Stars -->
+        <span id="star-@storyId" class="metadata metadata-indicator metadata-title" title="Stars">
+            <icon class="@starClass"
+                role="@starRole"
+                title="Star this article"
+                area-disabled="@starAriaDisabled"
+                data-src="images/banner.svg#star"
+                data-width="16"
+                data-height="16"
+                data-ng-click="news.addStar(@storyId)">
+            </icon>
+            <span class="metadata-indicator-content">
+                @story.stars
+            </span>
+        </span>
+    </h2>
 
     <!-- Story metadata -->
     <p class="metadata">
@@ -36,9 +52,9 @@
         <!-- Author -->
         <a class="author" href="#">@story.author</a>
 
+        <!-- Geographic Location -->
         @if (!string.IsNullOrEmpty(story.location))
         {
-            <!-- Geographic Location -->
             @: - from
             
             @if (story.latitude != null &&
@@ -57,37 +73,16 @@
             }
         }
 
+        <!-- Views -->
         <span class="metadata-group">
-            <!-- Views -->
-            <span class="metadata-indicator" title="Views">
-                <span class="metadata-icon-text">&#xF0E4;</span>
-                <span class="metadata-indicator-content">
-                    @story.views
-                </span>
-            </span>
-
-            <!-- Stars -->
-            <span id="star-@storyId" class="metadata-indicator" title="Stars">
-                <icon class="@starClass"
-                    role="@starRole"
-                    title="Star this article"
-                    area-disabled="@starAriaDisabled"
-                    data-src="images/banner.svg#star"
-                    data-width="16"
-                    data-height="16"
-                    data-ng-click="news.addStar(@storyId)">
-                </icon>
-                <span class="metadata-indicator-content">
-                    @story.stars
-                </span>
-            </span>
+            - @story.views views
         </span>
 
         <!-- Tags -->
         <span class="tags">
         @foreach (var tag in story.tags)
         {
-            <tag>@Shared.FormatTag(tag)</tag>
+            <a class="tag" data-fade>@Shared.FormatTag(tag)</a>
         }
         </span>
     </p>
@@ -101,7 +96,7 @@
 
     <!-- Story loading indicator -->
     <p data-ng-show="news.loading[@storyId]">
-        <span class="tag">[ loading... ]</span>
+        <span class="tag">loading...</span>
     </p>
 
     <!-- Story content -->
@@ -163,38 +158,28 @@
 
         <!-- Login providers -->
         <span data-ng-show="!news.user && news.addingComment[@storyId]">
-        @{
-            bool first = true;
-
-            foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes().ToList())
+            <span class="metadata"> | login: </span>
+            @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
             {
-                if (first)
-                {
-                    first = false;
-
-                    <span class="metadata"> | login with: </span>
-                }
-                else
-                {
-                    <span class="metadata">, </span>
-                }
-
-                <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
-                    method="get"
-                    target="login"
-                    class="form-inline">
-
-                    <input type="submit"
-                        class="button-inline
-                        button-secondary"
-                        title="@loginProvider.DisplayName.ToLower()"
-                        name="authenticationScheme"
-                        value="@loginProvider.AuthenticationScheme"
-                        data-ng-show="!news.user"
-                        data-ng-click="news.login()">
-                </form>
+            <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
+                method="get"
+                target="login"
+                class="form-inline">
+                <button type="submit"
+                    class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
+                    name="authenticationScheme"
+                    data-tooltip="// login with @loginProvider.DisplayName"
+                    data-ng-show="!news.user"
+                    data-ng-click="news.login()"
+                    data-fade>
+                    <icon class="icon-button"
+                        data-src="images/social.svg#@loginProvider.DisplayName.ToLower()"
+                        data-width="16"
+                        data-height="16">
+                    </icon>
+                </button>
+            </form>
             }
-        }
         </span>
 
         <div class="comment-form" data-ng-show="news.addingComment[@storyId]">

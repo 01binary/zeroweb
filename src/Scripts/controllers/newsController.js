@@ -242,7 +242,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
 
         this.comments[storyId] = [];
         this.loadingComments[storyId] = true;
-        this.addingComment[storyId] = false;
+        this.addingComment[storyId] = true;
         this.newComment[storyId] = null;
         this.commentError[storyId] = null;
     }

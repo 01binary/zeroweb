@@ -19,5 +19,6 @@
         "${source}/Styles/**/*.scss"
     ],
 
-    "destination": "$(source)/Content"
+    "destination": "$(source)/Content",
+    "compress": true
 }

@@ -169,6 +169,7 @@ main:after {
 
 main h1 {
   font-size: $heading-font-size-large;
+  text-transform: lowercase;
   padding-top: 0;
   margin-top: 0;
 }
@@ -179,6 +180,7 @@ main h1 {
 
 main h2 {
   font-size: $heading-font-size-medium;
+  text-transform: lowercase;
 }
 
 .os-win main h2 {
@@ -187,6 +189,7 @@ main h2 {
 
 main h3 {
   font-size: $heading-font-size-small;
+  text-transform: lowercase;
 }
 
 .os-win main h3 {
@@ -199,6 +202,18 @@ main h3 {
   font-family: $heading-font;
   margin-bottom: $margin;
   margin-top: $margin;
+}
+
+main h2,
+main h3,
+main h4 {
+  padding-left: 1.2em;
+}
+
+main h2:hover {
+  .permalink-anchor {
+    opacity: 1;
+  }
 }
 
 main p {
@@ -242,6 +257,20 @@ a.author {
 
 a.author:hover {
   border-bottom: $border-thickness dotted $primary-color;
+}
+
+.permalink-anchor {
+  display: inline;
+  margin-left: -1em;
+  margin-right: 0.4em;
+  color: $secondary-text-color;
+  opacity: 0.5;
+  transition: opacity .15s ease-in-out;
+  text-decoration: none;
+}
+
+.permalink-anchor:hover {
+  color: $primary-color !important;
 }
 
 .button-primary {

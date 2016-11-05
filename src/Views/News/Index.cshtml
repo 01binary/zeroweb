@@ -158,7 +158,7 @@
 
         <!-- Login providers -->
         <span data-ng-show="!news.user && news.addingComment[@storyId]">
-            <span class="metadata"> | login with: </span>
+            <span class="metadata"> | login: </span>
             @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
             {
             <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
@@ -167,8 +167,8 @@
                 class="form-inline">
                 <button type="submit"
                     class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
-                    title="Login with @loginProvider.DisplayName"
                     name="authenticationScheme"
+                    data-tooltip="// login with @loginProvider.DisplayName"
                     data-ng-show="!news.user"
                     data-ng-click="news.login()"
                     data-fade>

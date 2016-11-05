@@ -1345,6 +1345,39 @@ a.author:hover {
   color: $primary-color;
 }
 
+.tooltip {
+  position: absolute;
+  background: $drop-shadow-dark-color;
+  color: $accent-light-color;
+  font-family: $small-font;
+  font-size: $small-font-size;
+  border-width: $border-thickness;
+  border-style: solid;
+  border-left-color: $drop-shadow-light-color;
+  border-top-color: $drop-shadow-light-color;
+  border-right-color: $shadow-dark-color;
+  border-bottom-color: $shadow-dark-color;
+  pointer-events: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-shadow: 0 0 3px 0 $drop-shadow-light-color;
+}
+
+.tooltip:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: $drop-shadow-dark-color transparent transparent transparent;
+  pointer-events: none;
+  top: 24px;
+  left: 50%;
+}
+
 .popup {
   h2 {
     float: left;

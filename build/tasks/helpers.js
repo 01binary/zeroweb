@@ -26,6 +26,11 @@ module.exports = {
     changeToProjectDir: function() {
         var cwd = process.cwd();
         var elements = cwd.split('/');
+
+        if (elements.length === 1) {
+            elements = cwd.split('\\');
+        }
+
         var leaf = elements[elements.length - 1];
 
         if (leaf !== 'src') {

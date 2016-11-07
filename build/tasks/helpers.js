@@ -6,7 +6,8 @@
 |  !______!  !__!  |  binary : tech art
 |
 |  @file Build task helpers.
-|  @requires child_process
+|  @requires cross-spawn
+|  @requires spawn-sync
 |  @requires rimraf
 |  @requires gulp
 |  @requires dotnet
@@ -16,7 +17,7 @@
 
 'use strict';
 
-var spawn = require('child_process').spawnSync;
+var spawn = require('../../node_modules/cross-spawn').sync;
 var rimraf = require('../../node_modules/rimraf').sync;
 var spawnOptions = { stdio: 'inherit' };
 var dotNetOptions = ' -f netcoreapp1.0 -b ../build -o ../build/output';

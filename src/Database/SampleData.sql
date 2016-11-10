@@ -168,7 +168,7 @@ BEGIN TRANSACTION;
         1,
         '',
         'The sample news story with very long title to ensure it overlaps tags',
-        'the-sample-news-story-with-very-long-title-to-ensure-it-overlaps-tags',' 
+        'the-sample-news-story-with-very-long-title-to-ensure-it-overlaps-tags',
         45.4467013,
         -122.7666811,
         'Bavarian Sausage',

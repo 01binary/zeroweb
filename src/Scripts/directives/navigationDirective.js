@@ -18,12 +18,11 @@
 /**
  * Register navigation directive.
  */
-angular.module('zeroApp')
-    .directive('navigation', [
-        'svg',
-        '$rootScope',
-        navigationDirective
-    ]);
+angular.module('zeroApp').directive('navigation', [
+    'svg',
+    '$rootScope',
+    navigationDirective
+]);
 
 /**
  * Implement navigation directive.
@@ -131,6 +130,7 @@ function updateNavigation(next, current, $rootScope) {
 
         var templateUrlString = isFunction(next.templateUrl) ?
             next.templateUrl(next.params) : next.templateUrl;
+
         var page = templateUrlString.substring(templateUrlString.indexOf('/') + 1);
         var queryStringIndex = page.indexOf('?');
 
@@ -149,7 +149,7 @@ function updateNavigation(next, current, $rootScope) {
                 ' navigation-afterselected' : '';
 
             var selectedStyle =
-                templateUrlString.startsWith(prevSelected = 'views/' + $(this).attr('href')) ?
+                templateUrlString.indexOf(prevSelected = 'views/' + $(this).attr('href')) !== -1 ?
                 'navigation-selected' : 'navigation-unselected';
 
             var lastStyle = index == $buttons.length - 1 ?

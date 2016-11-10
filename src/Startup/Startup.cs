@@ -90,9 +90,6 @@ namespace ZeroWeb
         /// <param name="loggerFactory">The logger factory.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Redirect all routes to single page application views.
-            this.ConfigureSinglePageRoutes(app);
-
             if (env.IsDevelopment())
             {
                 // Enable logging.
@@ -158,7 +155,7 @@ namespace ZeroWeb
             {
                 // Default route redirects to Startup controller.
                 routes.MapRoute(
-                    name: string.Empty,
+                    name: "default",
                     template: string.Empty,
                     defaults: new
                     {
@@ -167,20 +164,32 @@ namespace ZeroWeb
                     }
                 );
 
-                // News.
+                // News Partial called by Angular template.
                 routes.MapRoute(
-                    name: "news",
-                    template: "views/news",
+                    name: "news-view",
+                    template: "views/news/{id:int?}",
                     defaults: new
                     {
                         controller = "News",
+                        action = "Index",
+                        id = 0
+                    }
+                );
+
+                // News.
+                routes.MapRoute(
+                    name: "news",
+                    template: "news",
+                    defaults: new
+                    {
+                        controller = "Startup",
                         action = "Index"
                     }
                 );
 
-                // Articles.
+                // Articles Partial called by Angular template.
                 routes.MapRoute(
-                    name: "articles",
+                    name: "articles-view",
                     template: "views/articles",
                     defaults: new
                     {
@@ -189,9 +198,20 @@ namespace ZeroWeb
                     }
                 );
 
-                // Projects.
+                // Articles.
                 routes.MapRoute(
-                    name: "projects",
+                    name: "articles",
+                    template: "articles",
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
+
+                // Projects Partial called by Angular template.
+                routes.MapRoute(
+                    name: "projects-view",
                     template: "views/projects",
                     defaults: new
                     {
@@ -200,9 +220,20 @@ namespace ZeroWeb
                     }
                 );
 
-                // About.
+                // Projects.
                 routes.MapRoute(
-                    name: "about",
+                    name: "projects",
+                    template: "projects",
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
+
+                // About Partial called by Angular template.
+                routes.MapRoute(
+                    name: "about-view",
                     template: "views/about",
                     defaults: new
                     {
@@ -210,25 +241,17 @@ namespace ZeroWeb
                         action = "Index"
                     }
                 );
-            });
-        }
 
-        /// <summary>
-        /// Configures single page application routing.
-        /// </summary>
-        /// <param name="app">The application configuration.</param>
-        private void ConfigureSinglePageRoutes(IApplicationBuilder app)
-        {
-            app.Use(async(context, next) =>
-            {
-                await next();
-
-                if (context.Response.StatusCode == 404 &&
-                    !Path.HasExtension(context.Request.Path.Value))
-                {
-                    context.Request.Path = "/";
-                    await next();
-                }
+                // About.
+                routes.MapRoute(
+                    name: "about",
+                    template: "about",
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
             });
         }
 

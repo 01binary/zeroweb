@@ -5,11 +5,16 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file ZeroWeb master styles.
+|  @file Social provider colors.
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-@import "shared";
-@import "social";
-@import "media.desktop";
+$facebook-color: #3563A1;
+$twitter-color: #00B6F1;
+$google-color: #DD4B39;
+$microsoft-color: #7FBA00;
+$linkedin-color: #0976B4;
+$github-color: #7171A9;
+$reddit-color: #FF4500;
+$yahoo-color: #630AFF;

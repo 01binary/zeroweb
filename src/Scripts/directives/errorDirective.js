@@ -17,8 +17,7 @@
 /**
  * Register error directive.
  */
-angular.module('zeroApp')
-    .directive('error', errorDirective);
+angular.module('zeroApp').directive('error', errorDirective);
 
 /**
  * Implement error directive.

@@ -96,31 +96,35 @@ namespace ZeroWeb.Models
 
             // Create index IX_Articles_Date_Published.
             modelBuilder.Entity<Article>()
-                        .HasIndex(article => new { article.Date, article.Published })
-                        .IsUnique(false);
+                .HasIndex(article => new { article.Date, article.Published })
+                .IsUnique(false);
+
+            // Create index IX_Articles_Key.
+            modelBuilder.Entity<Article>()
+                .HasIndex(article => article.Key);
 
             // Create index UX_Tags_Name.
             modelBuilder.Entity<Tag>()
-                        .HasIndex(tag => tag.Name)
-                        .IsUnique(true);
+                .HasIndex(tag => tag.Name)
+                .IsUnique(true);
 
             // Create foreign key from Tag.ParentId to Tag.Id.
             modelBuilder.Entity<Tag>()
-                        .HasOne(tag => tag.Parent)
-                        .WithMany()
-                        .HasForeignKey(tag => tag.ParentId);
+                .HasOne(tag => tag.Parent)
+                .WithMany()
+                .HasForeignKey(tag => tag.ParentId);
             
             // Create foreign key from Task.ParentId to Task.Id.
             modelBuilder.Entity<Issue>()
-                        .HasOne(issue => issue.Parent)
-                        .WithMany()
-                        .HasForeignKey(issue => issue.ParentId);
+                .HasOne(issue => issue.Parent)
+                .WithMany()
+                .HasForeignKey(issue => issue.ParentId);
 
             // Create foreign key from Task.DependencyId to Task.Id.
             modelBuilder.Entity<Issue>()
-                        .HasOne(issue => issue.Dependency)
-                        .WithMany()
-                        .HasForeignKey(issue => issue.DependencyId);
+                .HasOne(issue => issue.Dependency)
+                .WithMany()
+                .HasForeignKey(issue => issue.DependencyId);
         }
     }
 }

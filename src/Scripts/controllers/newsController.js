@@ -22,16 +22,18 @@
 /**
  * Register news controller.
  */
-angular.module('zeroApp')
-    .controller('newsController', [
-        'news',
-        'comments',
-        'safeApply',
-        'inputResize',
-        'login',
-        '$scope',
-        newsController
-    ]);
+angular.module('zeroApp').controller('newsController', [
+    'news',
+    'comments',
+    'safeApply',
+    'inputResize',
+    'login',
+    '$scope',
+    '$routeParams',
+    '$location',
+    '$timeout',
+    newsController
+]);
 
 /**
  * Implement news controller.
@@ -41,8 +43,11 @@ angular.module('zeroApp')
  * @param {object} $inputResize - Input auto resize factory.
  * @param {object} $login - Login service.     
  * @param {object} $scope - Controller scope.
+ * @param {object} $routeParams - The route parameters.
+ * @param {object} $location - The navigator location.
+ * @param {object} $timeout - The timeout service.
  */
-function newsController($news, $comments, $safeApply, $inputResize, $login, $scope) {
+function newsController($news, $comments, $safeApply, $inputResize, $login, $scope, $routeParams, $location, $timeout) {
     /**
      * News store.
      * @type {object}
@@ -163,12 +168,96 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.login = login;
 
     /**
+     * How many articles to load.
+     * @type {number}
+     */
+    this.count = 0;
+
+    /**
+     * How many articles are loaded.
+     * @type {number}
+     */
+    this.loaded = 0;
+
+    /**
+     * How many articles have comments loaded.
+     * @type {number}
+     */
+    this.commentsLoaded = 0;
+
+    /**
+     * Initialize controller.
+     * @type {function}
+     */
+    this.initialize = initialize;
+
+    /**
+     * Scroll to anchor after loading.
+     * @type {function}
+     */
+    this.scrollToAnchor = scrollToAnchor;
+
+    /**
      * Initialize controller.
      */
-    this.loginService.getUser().then(function(result) {
-        this.user = result.name || null;
+    function initialize() {
+        this.loginService.getUser().then(function(result) {
+            this.user = result.name || null;
+        }.bind(this));
 
-    }.bind(this));
+        this.count = $('.article').length;
+
+        $timeout(this.scrollToAnchor.bind(this), 100);
+    }
+
+    /**
+     * Scroll to anchor after loading.
+     */
+    function scrollToAnchor() {
+        if ($routeParams.story) {
+            if (this.loaded !== this.count && this.commentsLoaded !== this.count) {
+                $timeout(this.scrollToAnchor.bind(this), 100);
+                return;
+            }
+
+            // Find article heading by Id.
+            var $anchor = $('#story' + $routeParams.story);
+
+            if ($anchor.length == 0) {
+                // Find article heading by Key.
+                $anchor = $('a[href*="' + $routeParams.story + '"]');
+            }
+
+            var $article = $anchor.closest('.article');
+
+            if ($article.length === 0 || $anchor.length === 0) {
+                return;
+            }
+
+            // Find the sub-heading if specified.
+            if ($location.hash()) {
+                $anchor = $article.find('a[name="' + $location.hash() + '"]');
+
+                if ($anchor.length === 0) {
+                    return;
+                }
+            }
+
+            var anchorRect = $anchor[0].getBoundingClientRect();
+            var articleRect = $article[0].getBoundingClientRect();
+            var viewHeight = window.innerHeight || document.documentElement.clientHeight;
+
+            if (anchorRect.bottom >= 0 &&
+                anchorRect.bottom <= viewHeight &&
+                articleRect.bottom >= 0) {
+                return;
+            }
+
+            $('html, body').animate({
+                scrollTop: $anchor.offset().top
+            }, 'slow');
+        }
+    }
 
     /**
      * Authenticate user.
@@ -199,6 +288,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
                 // Story content finished loading.
                 this[storyId] = result.content;
                 this.loading[storyId] = false;
+                this.loaded++;
 
             }.bind(this),
 
@@ -206,6 +296,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
                 // Error loading story content.
                 this.loading[storyId] = false;
                 this.error[storyId] = error;
+                this.loaded++;
 
             }.bind(this)
         );
@@ -229,6 +320,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
                 // Story comments finished loading.
                 this.comments[storyId] = result;
                 this.loadingComments[storyId] = false;
+                this.commentsLoaded++;
 
             }.bind(this),
 
@@ -236,13 +328,14 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
                 // Error loading story comments.
                 this.commentOperation[storyId] = 'load comments';
                 this.commentError[storyId] = error;
+                this.commentsLoaded++;
 
             }.bind(this)
         );
 
         this.comments[storyId] = [];
         this.loadingComments[storyId] = true;
-        this.addingComment[storyId] = true;
+        this.addingComment[storyId] = false;
         this.newComment[storyId] = null;
         this.commentError[storyId] = null;
     }

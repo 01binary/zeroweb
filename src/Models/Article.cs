@@ -100,6 +100,14 @@ namespace ZeroWeb.Models
         public string Title { get; set; }
 
         /// <summary>
+        /// Gets or sets the friendly URL key.
+        /// </summary>
+        [Required]
+        [MaxLength(128)]
+        [Column(TypeName="char")]
+        public string Key { get; set; }
+
+        /// <summary>
         /// Gets or sets the thumbnail URI.
         /// </summary>
         [Required]

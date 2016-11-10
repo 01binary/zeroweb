@@ -129,7 +129,15 @@ function updateNavigation(next, current, $rootScope) {
         if (!this.baseTitle)
             this.baseTitle = $('title').text();
 
-        var page = next.templateUrl.substring(next.templateUrl.indexOf('/') + 1);
+        var templateUrlString = isFunction(next.templateUrl) ?
+            next.templateUrl(next.params) : next.templateUrl;
+        var page = templateUrlString.substring(templateUrlString.indexOf('/') + 1);
+        var queryStringIndex = page.indexOf('?');
+
+        if (queryStringIndex != -1) {
+            page = page.substring(0, queryStringIndex);
+        }
+
         $('title').text(page[0].toUpperCase() + page.substring(1) + ' - ' + this.baseTitle);
 
         // Update navigation styles.
@@ -141,7 +149,7 @@ function updateNavigation(next, current, $rootScope) {
                 ' navigation-afterselected' : '';
 
             var selectedStyle =
-                (prevSelected = 'views/' + $(this).attr('href') == next.templateUrl) ?
+                templateUrlString.startsWith(prevSelected = 'views/' + $(this).attr('href')) ?
                 'navigation-selected' : 'navigation-unselected';
 
             var lastStyle = index == $buttons.length - 1 ?
@@ -150,4 +158,13 @@ function updateNavigation(next, current, $rootScope) {
             $(this).attr('class', selectedStyle + afterSelectedStyle + lastStyle);
         });
     }
+}
+
+/*
+ * Determine if object is a function.
+ * @param {object} obj - The variable to test.
+ * @returns true if the object is a function, false if a string or otherwise.
+ */
+function isFunction(obj) {
+    return !!(obj && obj.constructor && obj.call && obj.apply);
 }

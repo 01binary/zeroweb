@@ -60,7 +60,7 @@ namespace ZeroWeb.Api
                     }).ToArray().Select(result => new
                     {
                         result.id,
-                        title = Shared.FormatTitle(result.title),
+                        title = result.title,
                         date = Shared.FormatDate(result.date),
                         author = result.author,
                         tags = result.tags.Select(tagName => Shared.FormatTag(tagName)),

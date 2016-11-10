@@ -1,3 +1,15 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Desktop browser styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 header {
   font-family: $title-font;
   background: $primary-color;
@@ -169,6 +181,7 @@ main:after {
 
 main h1 {
   font-size: $heading-font-size-large;
+  text-transform: lowercase;
   padding-top: 0;
   margin-top: 0;
 }
@@ -179,6 +192,7 @@ main h1 {
 
 main h2 {
   font-size: $heading-font-size-medium;
+  text-transform: lowercase;
 }
 
 .os-win main h2 {
@@ -187,22 +201,49 @@ main h2 {
 
 main h3 {
   font-size: $heading-font-size-small;
+  text-transform: lowercase;
 }
 
 .os-win main h3 {
   font-size: $heading-font-size-small-win;
 }
 
+main h4 {
+  font-size: $heading-font-size-smaller;
+  text-transform: lowercase;
+}
+
 main h1,
 main h2,
-main h3 {
+main h3,
+main h4 {
   font-family: $heading-font;
   margin-bottom: $margin;
   margin-top: $margin;
 }
 
+main h2,
+main h3,
+main h4 {
+  padding-left: 1.2em;
+}
+
+main h3,
+main h4 {
+  margin-left: 1.2em;
+}
+
+main h2:hover,
+main h3:hover,
+main h4:hover {
+  .permalink-anchor {
+    opacity: 1;
+  }
+}
+
 main p {
   color: $foreground-color;
+  margin-left: 1.4em;
   margin-top: $margin;
   margin-bottom: $margin;
 }
@@ -242,6 +283,21 @@ a.author {
 
 a.author:hover {
   border-bottom: $border-thickness dotted $primary-color;
+}
+
+.permalink-anchor {
+  display: inline;
+  margin-left: -1em;
+  margin-right: 0.4em;
+  color: $secondary-text-color;
+  opacity: 0.5;
+  transition: opacity .15s ease-in-out;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.permalink-anchor:hover {
+  color: $primary-color !important;
 }
 
 .button-primary {
@@ -1034,6 +1090,7 @@ a.author:hover {
 }
 
 .comments {
+  margin-top: -8px;
   margin-left: 1.5em;
   font-family: $small-font;
   font-size: $small-font-size;
@@ -1046,6 +1103,7 @@ a.author:hover {
 
 .comments-header {
   color: $secondary-text-color;
+  margin-top: 10px;
   margin-bottom: 3pt;
 }
 
@@ -1245,7 +1303,9 @@ a.author:hover {
 
 .error {
   color: $error-color;
-  margin-bottom: 5pt;
+  margin-top: -.4em;
+  margin-left: 1.4em;
+  margin-bottom: .4em;
 }
 
 .emphasis {

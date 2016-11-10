@@ -1,3 +1,15 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Shared variables.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 /*
  * Colors
  */
@@ -30,15 +42,6 @@ $drop-shadow-dark-color: #777777;
 $drop-shadow-light-color: #999999;
 $drop-shadow-transparent-color: black;
 
-$facebook-color: #3563A1;
-$twitter-color: #00B6F1;
-$google-color: #DD4B39;
-$microsoft-color: #7FBA00;
-$linkedin-color: #0976B4;
-$github-color: #7171A9;
-$reddit-color: #FF4500;
-$yahoo-color: #630AFF;
-
 $warning-color: #E1B412;
 $error-color: #E11912;
 $highlight-color1: #E11268;
@@ -60,6 +63,7 @@ $heading-font: "Open Sans", "Helvetica Neue", Calibri, sans-serif;
 $heading-font-size-large: 13.5pt;
 $heading-font-size-medium: 13pt;
 $heading-font-size-small: 12pt;
+$heading-font-size-smaller: 11.5pt;
 
 $normal-font: "Open Sans", "-apple-system", BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 $normal-font-size: 11.5pt;

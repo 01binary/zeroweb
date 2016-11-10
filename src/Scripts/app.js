@@ -19,15 +19,15 @@
  * Implement Angular application.
  */
 angular.module('zeroApp', [
-        'ngRoute',
-        'ngResource',
-        'angular-loading-bar'
-    ])
-    .config([
-        '$routeProvider',
-        '$locationProvider',
-        route
-    ]);
+    'ngRoute',
+    'ngResource',
+    'angular-loading-bar'
+])
+.config([
+    '$routeProvider',
+    '$locationProvider',
+    route
+]);
 
 /**
  * Implement application routing.
@@ -41,18 +41,23 @@ function route($routeProvider, $locationProvider) {
             controller: 'newsController',
             controllerAs: 'news'
         })
+        .when('/news', {
+            templateUrl: newsTemplate,
+            controller: 'newsController',
+            controllerAs: 'news'
+        })
         .when('/articles', {
-            templateUrl: 'views/articles',
+            templateUrl: articlesTemplate,
             controller: 'articlesController',
             controllerAs: 'articles'
         })
         .when('/projects', {
-            templateUrl: 'views/projects',
+            templateUrl: projectsTemplate,
             controller: 'projectsController',
             controllerAs: 'projects'
         })
         .when('/about', {
-            templateUrl: 'views/about',
+            templateUrl: aboutTemplate,
             controller: 'aboutController',
             controllerAs: 'about'
         })
@@ -65,4 +70,44 @@ function route($routeProvider, $locationProvider) {
         requireBase: false,
         rewriteLinks: true
     });
+}
+
+/*
+ * News view.
+ * @param {object} params - Route parameters.
+ * @returns The template Uri.
+ */
+function newsTemplate(params) {
+    return 'views/news' +
+        (params.story ? '?story=' + params.story : '');
+}
+
+/*
+ * Articles view.
+ * @param {object} params - Route parameters.
+ * @returns The template Uri.
+ */
+function articlesTemplate(params) {
+    return 'views/articles' +
+        (params.article ? '?article=' + params.article : '');
+}
+
+/*
+ * Projects view.
+ * @param {object} params - Route parameters.
+ * @returns The template Uri.
+ */
+function projectsTemplate(params) {
+    return 'views/projects' +
+        (params.project ? '?project=' + params.project : '');
+}
+
+/*
+ * About view.
+ * @param {object} params - Route parameters.
+ * @returns The template Uri.
+ */
+function aboutTemplate(params) {
+    return 'views/about' +
+        (params.event ? '?event=' + params.event : '');
 }

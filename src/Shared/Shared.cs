@@ -22,16 +22,6 @@ namespace ZeroWeb
     public static class Shared
     {
         /// <summary>
-        /// Format a title to enforce content transformation policy.
-        /// </summary>
-        /// <param name="title">The title to format.</param>
-        /// <returns>The formatted title.</returns>
-        public static string FormatTitle(string title)
-        {
-            return title.ToLower();
-        }
-
-        /// <summary>
         /// Format a tag to enforce content transformation policy.
         /// </summary>
         /// <param name="tagName">The tag to format.</param>

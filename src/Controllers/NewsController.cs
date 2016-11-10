@@ -39,27 +39,29 @@ namespace ZeroWeb.Controllers
         /// <summary>
         /// Default action.
         /// </summary>
-        public IActionResult Index()
+        /// <param name="story">Display a page with the specified story.</param>
+        public IActionResult Index([FromQuery]string story)
         {
             string excludeTag = Tags.Story.ToString().ToLower();
             string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
 
-            var stories = this.store.GetArticles(Tags.Story);
+            var articles = this.store.GetArticles(
+                Tags.Story, 0, story);
 
             try
             {
                 bool modified = false;
 
-                foreach (Article story in stories)
+                foreach (Article article in articles)
                 {
                     byte[] visit;
 
-                    if (!this.HttpContext.Session.TryGetValue(story.Id.ToString(), out visit))
+                    if (!this.HttpContext.Session.TryGetValue(article.Id.ToString(), out visit))
                     {
                         this.HttpContext.Session.Set(
-                            story.Id.ToString(), new byte[] { 1 });
+                            article.Id.ToString(), new byte[] { 1 });
                             
-                        story.Views++;
+                        article.Views++;
                         modified = true;
                     }
                 }
@@ -73,41 +75,43 @@ namespace ZeroWeb.Controllers
             {
             }
 
-            return View(stories
-                .Select(story => new
+            return View(articles
+                .Select(article => new
                 {
-                    id = story.Id,
-                    title = story.Title,
-                    date = story.Date,
-                    author = story.Author.Name,
-                    views = story.Views,
-                    stars = story.Stars.Count,
-                    starsReadOnly = story.Stars.Any(star => star.IpAddress == excludeIpAddress),
-                    location = story.LocationName,
-                    latitude = story.LocationLatitude,
-                    longitude = story.LocationLongitude,
-                    zoom = story.LocationZoom,
-                    tags = story.Metadata
+                    id = article.Id,
+                    title = article.Title,
+                    key = article.Key,
+                    date = article.Date,
+                    author = article.Author.Name,
+                    views = article.Views,
+                    stars = article.Stars.Count,
+                    starsReadOnly = article.Stars.Any(star => star.IpAddress == excludeIpAddress),
+                    location = article.LocationName,
+                    latitude = article.LocationLatitude,
+                    longitude = article.LocationLongitude,
+                    zoom = article.LocationZoom,
+                    tags = article.Metadata
                         .Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
                         .Select(metadata => metadata.Tag.Name).ToArray()
                 })
                 .ToArray()
                 .Select(result =>
                 {
-                    dynamic story = new ExpandoObject();
-                    story.id = result.id;
-                    story.title = result.title;
-                    story.date = result.date;
-                    story.author = result.author;
-                    story.views = result.views;
-                    story.stars = result.stars;
-                    story.starsReadOnly = result.starsReadOnly;
-                    story.location = result.location;
-                    story.latitude = result.latitude;
-                    story.longitude = result.longitude;
-                    story.zoom = result.zoom;
-                    story.tags = result.tags;
-                    return story;
+                    dynamic article = new ExpandoObject();
+                    article.id = result.id;
+                    article.title = result.title;
+                    article.key = result.key;
+                    article.date = result.date;
+                    article.author = result.author;
+                    article.views = result.views;
+                    article.stars = result.stars;
+                    article.starsReadOnly = result.starsReadOnly;
+                    article.location = result.location;
+                    article.latitude = result.latitude;
+                    article.longitude = result.longitude;
+                    article.zoom = result.zoom;
+                    article.tags = result.tags;
+                    return article;
                 }));
         }
 

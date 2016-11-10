@@ -4,25 +4,36 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ZeroWeb.Models.User> SignInManager
 
-<h1 data-pointer>news</h1>
+<h1 data-pointer
+    data-ng-init="news.initialize()">news</h1>
 
 @foreach (var story in this.Model)
 {
     var storyId = story.id;
+    var permalinkId = "story" + storyId;
     var starClass = "metadata-icon" +
         (story.stars > 0 ? " metadata-icon-toggled" : string.Empty) +
         (story.starsReadOnly ? " metadata-icon-readonly" : string.Empty);
     var starRole = (story.starsReadOnly ? "" : "button");
+    var starTip = (story.starsReadOnly ? "// times starred" : "// star this story");
     var starAriaDisabled = story.starsReadOnly.ToString();
 
 <div class="article">
-    <!-- Story title -->
-    <h2>@Shared.FormatTitle(story.title)
+    <!-- Story heading -->
+    <h2>
+        <!-- Title and Permalink -->
+        <a class="permalink-anchor"
+            href="news?story=@story.key"
+            id="@permalinkId"
+            data-tooltip="// permalink">#</a>@story.title
+        
         <!-- Stars -->
-        <span id="star-@storyId" class="metadata metadata-indicator metadata-title" title="Stars">
+        <span id="star-@storyId"
+            class="metadata metadata-indicator metadata-title"
+            data-tooltip="// star this story">
             <icon class="@starClass"
                 role="@starRole"
-                title="Star this article"
+                data-tooltip="@starTip"
                 area-disabled="@starAriaDisabled"
                 data-src="images/banner.svg#star"
                 data-width="16"
@@ -47,12 +58,14 @@
         <!-- Date -->
         <span class="date">
             @Shared.FormatDate(story.date)
-        </span> by
+        </span>
+        
+        by
 
         <!-- Author -->
         <a class="author" href="#">@story.author</a>
 
-        <!-- Geographic Location -->
+        <!-- Location -->
         @if (!string.IsNullOrEmpty(story.location))
         {
             @: - from
@@ -109,6 +122,7 @@
         data-ng-init="news.loadComments(@storyId)">
         <span class="metadata"
             data-ng-show="news.comments[@storyId].length">
+            
             <!-- Comments heading -->
             <p class="comments-header">
                 [<span class="attention-inline">{{news.comments[@storyId].length}}</span>] Comments
@@ -117,10 +131,12 @@
             <!-- Story comment -->
             <div class="comment-group"
                 data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes' | orderBy:'date'">
+                
                 <!-- Comment votes -->
                 <div class="comment-vote"
                     title="votes"
                     data-ng-class="{'vote-readonly': comment.votesReadOnly || !news.user, 'vote-default': comment.votes == 0}">
+                    
                     <!-- Votes -->
                     <div class="vote-content" title="votes">
                         {{comment.votes}}
@@ -128,14 +144,14 @@
 
                     <!-- Upvote -->
                     <div class="metadata-icon-text button-vote upvote"
-                        title="upvote"
                         role="button"
+                        data-tooltip="// upvote"
                         data-ng-click="news.upVote(@storyId, comment.id)">&#xF035;</div>
                     
                     <!-- Downvote -->
                     <div class="metadata-icon-text button-vote downvote"
-                        title="downvote"
                         role="button"
+                        data-tooltip="// downvote"
                         data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</div>
                 </div>
 
@@ -152,7 +168,8 @@
         <!-- Add comment button -->
         <button class="button-inline top-margin"
             data-ng-class="{'button-inline-toggled': news.addingComment[@storyId]}"
-            data-ng-click="news.addingComment['@storyId'] = !news.addingComment['@storyId']">
+            data-ng-click="news.addingComment['@storyId'] = !news.addingComment['@storyId']"
+            data-ng-tooltip="// post a comment">
             + comment
         </button>
 

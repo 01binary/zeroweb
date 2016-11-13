@@ -73,12 +73,6 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.loginService = $login;
 
     /**
-     * Loading state for each story key.
-     * @type {object{}}
-     */
-    this.loading = {};
-
-    /**
      * Error state for each story key.
      * @type {object{}}
      */
@@ -126,12 +120,6 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.user = null;
 
     /**
-     * Load news story content.
-     * @type {function}
-     */
-    this.loadStory = loadStory;
-
-    /**
      * Load news story comments.
      * @type {function}
      */
@@ -174,12 +162,6 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.count = 0;
 
     /**
-     * How many articles are loaded.
-     * @type {number}
-     */
-    this.loaded = 0;
-
-    /**
      * How many articles have comments loaded.
      * @type {number}
      */
@@ -215,7 +197,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
      */
     function scrollToAnchor() {
         if ($routeParams.story) {
-            if (this.loaded !== this.count && this.commentsLoaded !== this.count) {
+            if (this.commentsLoaded !== this.count) {
                 $timeout(this.scrollToAnchor.bind(this), 100);
                 return;
             }
@@ -271,39 +253,6 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
                 }.bind(this));
             }
         }.bind(this));
-    }
-
-    /**
-     * Load news story content.
-     * @param {int} storyId - The story Id.
-     */
-    function loadStory(storyId) {
-        // Request markdown content for this story.
-        this.newsStore.get(
-            {
-                id: storyId
-            },
-
-            function(result) {
-                // Story content finished loading.
-                this[storyId] = result.content;
-                this.loading[storyId] = false;
-                this.loaded++;
-
-            }.bind(this),
-
-            function(error) {
-                // Error loading story content.
-                this.loading[storyId] = false;
-                this.error[storyId] = error;
-                this.loaded++;
-
-            }.bind(this)
-        );
-
-        this[storyId] = '';
-        this.error[storyId] = null;
-        this.loading[storyId] = true;
     }
 
     /**

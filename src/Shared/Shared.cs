@@ -15,6 +15,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using CommonMark;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Html;
 
@@ -32,26 +33,7 @@ namespace ZeroWeb
         /// <returns>The formatted content.</returns>
         public static HtmlString FormatContent(string content)
         {
-            const string GitHubApiUrl = "https://api.github.com/markdown/raw";
-            const string Operation = "format content";
-            string formatted = string.Empty;
-
-            try
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Add("User-Agent", "ZeroWeb");
-
-                    var result = client.PostAsync(GitHubApiUrl, new StringContent(content)).Result;
-                    formatted = result.Content.ReadAsStringAsync().Result;
-                }
-            }
-            catch (Exception ex)
-            {
-                formatted = FormatError(Operation, "server error", ex.Message);
-            }
-
-            return new HtmlString(formatted);
+            return new HtmlString(CommonMarkConverter.Convert(content));
         }
 
         /// <summary>

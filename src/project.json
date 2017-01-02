@@ -29,6 +29,8 @@
       "type": "build"
     },
 
+    "CommonMark.NET": "0.14.0",
+
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
     "Microsoft.AspNetCore.Server.Kestrel.Https": "1.0.1",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",

@@ -12,7 +12,12 @@
 
 using System;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using CommonMark;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Html;
 
 namespace ZeroWeb
 {
@@ -21,6 +26,16 @@ namespace ZeroWeb
     /// </summary>
     public static class Shared
     {
+        /// <summary>
+        /// Format story content using GitHub Markdown Api.
+        /// </summary>
+        /// <param name="tagName">The content to format.</param>
+        /// <returns>The formatted content.</returns>
+        public static HtmlString FormatContent(string content)
+        {
+            return new HtmlString(CommonMarkConverter.Convert(content));
+        }
+
         /// <summary>
         /// Format a tag to enforce content transformation policy.
         /// </summary>
@@ -78,6 +93,22 @@ namespace ZeroWeb
         public static string GetRequestIpAddress(HttpRequest request)
         {
             return request.HttpContext.Connection.RemoteIpAddress.ToString();
+        }
+
+        /// <summary>
+        /// Renders a formatted error.
+        /// </summary>
+        /// <param name="operation">The operation that resulted in the error.</param>
+        /// <param name="code">The error code.</param>
+        /// <param name="message">The error message.</param>
+        /// <returns>The formatted error rendered with error directive on the client.</returns>
+        private static string FormatError(string operation, string code, string message)
+        {
+            return string.Format(
+                "<error data-operation=\"'{0}'\" data-code=\"'{1}'\" data-message=\"'{2}'\"></error>",
+                operation,
+                code,
+                message);
         }
     }
 }

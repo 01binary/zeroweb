@@ -92,7 +92,8 @@ namespace ZeroWeb.Controllers
                     zoom = article.LocationZoom,
                     tags = article.Metadata
                         .Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
-                        .Select(metadata => metadata.Tag.Name).ToArray()
+                        .Select(metadata => metadata.Tag.Name).ToArray(),
+                    content = article.Content
                 })
                 .ToArray()
                 .Select(result =>
@@ -111,6 +112,7 @@ namespace ZeroWeb.Controllers
                     article.longitude = result.longitude;
                     article.zoom = result.zoom;
                     article.tags = result.tags;
+                    article.content = result.content;
                     return article;
                 }));
         }

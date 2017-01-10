@@ -8,6 +8,10 @@
         "${packages}/angular-resource/angular-resource.js",
         "${packages}/angular-loading-bar/build/loading-bar.js",
 
+        "${source}/Scripts/external/three.js",
+        "${source}/Scripts/external/OBJLoader.js",
+        "${source}/Scripts/external/OrbitControls.js",
+
         "${source}/Scripts/**/*.js",
         "!${source}/Scripts/tests/*"
     ],

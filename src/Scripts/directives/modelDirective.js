@@ -7,7 +7,9 @@
 |
 |  @file Directive that displays a single OBJ model
 |        with edge toggle & turn-table control.
-|  @requires ../three/build/three.js
+|  @requires ../external/three.js
+|  @requires ../external/OBJLoader.js
+|  @requires ../external/OrbitControls.js
 |  @requires ../app.js
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
@@ -33,7 +35,22 @@ function modelDirective($q, $http, $render2d) {
         replace: false,
         scope: {},
         link: function($scope, $element, attributes) {
-            // TODO
+            var noLogo = attributes['data-nologo'];
+            var noTexture = attributes['data-notexture'];
+            var noMaterial = attributes['data-nomaterial'];
+            var materialColor = attributes['data-color'] || '#FFFFFF';
+            var edgesColor = attributes['data-edgecolor'] || '#000000';
+
+            if (attributes['data-random']) {
+                showRandom3dModel($q, $http, $scope, $element.get(0), noLogo, noTexture, noMaterial, materialColor, edgesColor);
+            } else {
+                var project = attributes['data-project'];
+                var part = attributes['data-part'];
+
+                show3dModel($q, $scope, $element.get(0), project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor);
+            }
+
+            animate($scope);
         }
     };
 }
@@ -102,9 +119,9 @@ function show3dModel($q, $scope, container, project, part, noLogo, noTexture, no
             animate();
 
             $q.all([
-                loadModelMetadata(modelBaseUrl + '.json'),
-                loadModelTexture(modelBaseUrl + '.png', noTexture),
-                loadModel(modelBaseUrl + '.obj', materialColor)
+                loadModelMetadata($http, $scope, modelBaseUrl + '.json'),
+                loadModelTexture($q, $scope, modelBaseUrl + '.png', noTexture),
+                loadModel($q, $scope, modelBaseUrl + '.obj', materialColor)
 
             ]).then(function() {
                 if (!noTexture) {
@@ -210,7 +227,6 @@ function animate($scope) {
 
     // Render spinning logo until the model loads.
     if (!$scope.done && $scope.logo) {
-        // TODO: don't create a new vector3
         $scope.logo.rotateOnAxis(new THREE.Vector3(1, 0, 0), 0.07);
 
         if ($scope.camera) {
@@ -250,13 +266,12 @@ function loadModelMetadata($http, $scope, url) {
 /**
  * Load the model texture from an image URL.
  * @param {object} $q - The Angular Promise service.
- * @param {object} $http - The Angular AJAX service.
  * @param {object} $scope - The directive scope.
  * @param {string} url - The url to load the texture from, preferring .png format.
  * @param {bool} disable - Whether to skip loading the texture and return a resolved promise.
  * @returns - A promise that receives the loaded texture.
  */
-function loadModelTexture($q, $http, $scope, url, disable) {
+function loadModelTexture($q, $scope, url, disable) {
     return $q(function(resolve) {
         if (!disable) {
             var loader = new THREE.ImageLoader();
@@ -275,49 +290,23 @@ function loadModelTexture($q, $http, $scope, url, disable) {
 }
 
 /**
- * Load a logo model from a hard-coded path and set up edges helper for outlining the model.
- * @param {bool} disable - Whether to return an empty promise that does nothing.
- * @returns - A promise that receives the loaded logo model or null if disable is set to true.
- */
-function loadLogo(disable) {
-    return new Promise(function(resolve) {
-        if (disable) {
-            resolve(null);
-        } else {
-            var loader = new THREE.OBJLoader();
-
-            loader.load("/projects/shared/logo.obj", function(object) {
-                object.traverse(function(child) {
-                    if (child instanceof THREE.Mesh) {
-                        child.material = new THREE.MultiMaterial([
-                            new THREE.MeshBasicMaterial({color:0x12c0e1, side:THREE.DoubleSide}),
-                            new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide})
-                        ]);
-
-                        logoEdges = new THREE.EdgesHelper(child, 0xbbbbbb, 10);
-
-                        resolve(child);
-                    }
-                });
-            });
-        }
-    });
-}
-
-/**
  * Loads a model in OBJ format from the specified URL.
+ * @param {object} $q - The Angular promise service.
+ * @param {object} $scope - The directive scope.
  * @param {string} url - The url to load the model form.
  * @param {number} materialColor - The color (hex number) to use for the unlit material.
  * @returns - A promise that receives the loaded model.
  */
-function loadModel(url, materialColor) {
-    return new Promise(function(resolve) {
+function loadModel($q, $scope, url, materialColor) {
+    return $q(function(resolve) {
         var loader = new THREE.OBJLoader();
 
         var onProgress = function(progressInfo) {
             if (progressInfo.lengthComputable) {
                 var percentComplete = Math.ceil(progressInfo.loaded / progressInfo.total * 100.0);
-                updateProgressBar(progressBar, percentComplete);
+
+                // TODO: update progress bar
+                //updateProgressBar(progressBar, percentComplete);
             }
         };
 
@@ -327,20 +316,50 @@ function loadModel(url, materialColor) {
                     if (materialColor == null) {
                         child.material = new THREE.MeshBasicMaterial();
                     } else {
-                        child.material = new THREE.MeshBasicMaterial(
-                        {
+                        child.material = new THREE.MeshBasicMaterial({
                             color: new THREE.Color(materialColor)
                         });
                     }
                     
-                    mesh = child;
+                    $scope.mesh = child;
                 }
             });
 
-            model = object;
-
+            $scope.model = object;
             resolve(model);
 
         }, onProgress);
+    });
+}
+
+/**
+ * Load a logo model from a hard-coded path and set up edges helper for outlining the model.
+ * @param {object} $q - The Angular promise service.
+ * @param {object} $scope - The directive scope.
+ * @param {bool} disable - Whether to return an empty promise that does nothing.
+ * @returns - A promise that receives the loaded logo model or null if disable is set to true.
+ */
+function loadLogo($q, $scope, disable) {
+    return $q(function(resolve) {
+        if (disable) {
+            resolve(null);
+        } else {
+            var loader = new THREE.OBJLoader();
+
+            loader.load('/projects/shared/logo.obj', function(object) {
+                object.traverse(function(child) {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = new THREE.MultiMaterial([
+                            new THREE.MeshBasicMaterial({color:0x12c0e1, side:THREE.DoubleSide}),
+                            new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide})
+                        ]);
+
+                        $scope.logoEdges = new THREE.EdgesHelper(child, 0xbbbbbb, 10);
+
+                        resolve(child);
+                    }
+                });
+            });
+        }
     });
 }

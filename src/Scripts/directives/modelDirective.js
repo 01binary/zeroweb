@@ -89,7 +89,7 @@ function show3dModel($q, $scope, container, project, part, noLogo, noTexture, no
         //progressBar = createProgressBar(container);
         //container.appendChild(progressBar);
 
-        var modelBaseUrl = '/projects/' + project + '/' + part;
+        var modelBaseUrl = '/models/' + project + '/' + part;
 
         loadLogo($q, noLogo).then(function(logoModel) {
             var aspect = $scope.width / $scope.height;
@@ -181,7 +181,7 @@ function showRandom3dModel($q, $http, $scope, container, noLogo, noTexture, noMa
     var partName = null;
     
     return $http({
-        url: '../projects/list.json'
+        url: '../models/list.json'
 
     }).then(function(response) {
         var randomProjectId = Math.random() * (response.length - 1);
@@ -344,7 +344,7 @@ function loadLogo($q, $scope, disable) {
         } else {
             var loader = new THREE.OBJLoader();
 
-            loader.load('/projects/shared/logo.obj', function(object) {
+            loader.load('/models/shared/logo.obj', function(object) {
                 object.traverse(function(child) {
                     if (child instanceof THREE.Mesh) {
                         child.material = new THREE.MultiMaterial([

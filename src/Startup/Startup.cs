@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -109,7 +110,13 @@ namespace ZeroWeb
             }
             
             // Setup static resource routes.
-            app.UseStaticFiles();
+            var customContentTypes = new FileExtensionContentTypeProvider();
+            customContentTypes.Mappings[".obj"] = "text/plain";
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                ContentTypeProvider = customContentTypes
+            });
 
             // Setup identity.
             app.UseIdentity();

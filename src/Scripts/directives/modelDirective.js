@@ -49,8 +49,6 @@ function modelDirective($q, $http, $render2d) {
 
                 show3dModel($q, $scope, $element.get(0), project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor);
             }
-
-            animate($scope);
         }
     };
 }
@@ -93,7 +91,7 @@ function show3dModel($q, $scope, container, project, part, noLogo, noTexture, no
 
         var modelBaseUrl = '/projects/' + project + '/' + part;
 
-        loadLogo(noLogo).then(function(logoModel) {
+        loadLogo($q, noLogo).then(function(logoModel) {
             var aspect = $scope.width / $scope.height;
             
             if (!noLogo) {
@@ -116,7 +114,7 @@ function show3dModel($q, $scope, container, project, part, noLogo, noTexture, no
                 $scope.logoCamera.lookAt($scope.logo.position);
             }
 
-            animate();
+            animate($scope);
 
             $q.all([
                 loadModelMetadata($http, $scope, modelBaseUrl + '.json'),

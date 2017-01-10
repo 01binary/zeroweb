@@ -31,7 +31,7 @@ angular.module('zeroApp')
  */
 function modelDirective($q, $http, $render2d) {
     return {
-        restrict: 'A',
+        restrict: 'E',
         replace: false,
         scope: {},
         link: function($scope, $element, attributes) {

@@ -114,12 +114,22 @@ pre {
     color: #1d3e81
 }
 
-.view-3d-portrait-small canvas {
-    width: 150px;
-    height: 300px;
+.portrait-3d-small {
+    width: 125px;
+    height: 200px;
 }
 
-.view-3d-square-small canvas {
-    width: 150px;
-    height: 150px;
+.square-3d-small {
+    width: 125px;
+    height: 125px;
+}
+
+.portrait-3d-large {
+    width: 300px;
+    height: 450px;
+}
+
+.square-3d-large {
+    width: 300px;
+    height: 300px;
 }

@@ -44,16 +44,14 @@ function modelDirective($q, $http, $render2d) {
             var edgesColor = attributes['edgecolor'] || '#000000';
             var small = attributes['small'] || true;
             var portrait = attributes['portrait'] || true;
-            var square = attributes['square'] || !portrait;
+            var square = attributes['square'] || false;
             var elem = $element.get(0);
-            var width = elem.clientWidth;
-            var height = elem.clientHeight;
             var classSuffix = small ? 'small' : 'large';
             
             if (square) {
-                $element.addClass('view-3d-square-' + classSuffix);
+                $element.addClass('square-3d-' + classSuffix);
             } else if (portrait) {
-                $element.addClass('view-3d-portrait-' + classSuffix);
+                $element.addClass('portrait-3d-' + classSuffix);
             }
 
             if (attributes['random']) {
@@ -97,8 +95,6 @@ function show3dModel($q, $http, $scope, canvas, project, part, noLogo, noTexture
         $scope.renderer.setPixelRatio(window.devicePixelRatio);
         $scope.renderer.setSize($scope.width, $scope.height);
         $scope.renderer.autoClear = false;
-
-        console.log('initializing with', $scope.width, $scope.height);
 
         var modelBaseUrl = '/models/' + project + '/' + part;
 
@@ -164,9 +160,7 @@ function show3dModel($q, $http, $scope, canvas, project, part, noLogo, noTexture
                 orbit.enableDamping = true;
                 orbit.dampingFactor = 0.25;
                 orbit.enableZoom = false;
-
-                // TODO: progress bar
-                //hideProgressBar(progressBar);
+                
                 $scope.done = true;
             });
         });
@@ -250,8 +244,6 @@ function animate($scope) {
 
         $scope.renderer.render($scope.logoScene, $scope.logoCamera);
     }
-
-    // TODO: render progress bar under the logo
 }
 
 /**
@@ -318,15 +310,6 @@ function loadModel($q, $scope, url, materialColor) {
     return $q(function(resolve) {
         var loader = new THREE.OBJLoader();
 
-        var onProgress = function(progressInfo) {
-            if (progressInfo.lengthComputable) {
-                var percentComplete = Math.ceil(progressInfo.loaded / progressInfo.total * 100.0);
-
-                // TODO: update progress bar
-                //updateProgressBar(progressBar, percentComplete);
-            }
-        };
-
         loader.load(url, function(object) {
             object.traverse(function(child) {
                 if (child instanceof THREE.Mesh) {
@@ -345,7 +328,7 @@ function loadModel($q, $scope, url, materialColor) {
             $scope.model = object;
             resolve(object);
 
-        }, onProgress);
+        });
     });
 }
 

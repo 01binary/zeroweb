@@ -33,7 +33,8 @@ function modelDirective($q, $http, $render2d) {
     return {
         restrict: 'E',
         replace: true,
-        translude: true,
+        transclude: true,
+        template: '<canvas></canvas>',
         scope: {},
         link: function($scope, $element, attributes) {
             var noLogo = attributes['nologo'];
@@ -41,14 +42,27 @@ function modelDirective($q, $http, $render2d) {
             var noMaterial = attributes['nomaterial'];
             var materialColor = attributes['color'] || '#FFFFFF';
             var edgesColor = attributes['edgecolor'] || '#000000';
+            var small = attributes['small'] || true;
+            var portrait = attributes['portrait'] || true;
+            var square = attributes['square'] || !portrait;
+            var elem = $element.get(0);
+            var width = elem.clientWidth;
+            var height = elem.clientHeight;
+            var classSuffix = small ? 'small' : 'large';
+            
+            if (square) {
+                $element.addClass('view-3d-square-' + classSuffix);
+            } else if (portrait) {
+                $element.addClass('view-3d-portrait-' + classSuffix);
+            }
 
             if (attributes['random']) {
-                showRandom3dModel($q, $http, $scope, $element.get(0), noLogo, noTexture, noMaterial, materialColor, edgesColor);
+                showRandom3dModel($q, $http, $scope, elem, noLogo, noTexture, noMaterial, materialColor, edgesColor);
             } else {
                 var project = attributes['project'];
                 var part = attributes['part'];
 
-                show3dModel($q, $http, $scope, $element.get(0), project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor);
+                show3dModel($q, $http, $scope, elem, project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor);
             }
         }
     };
@@ -59,7 +73,7 @@ function modelDirective($q, $http, $render2d) {
  * @param {object} $q - The Angular promise service.
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $scope - The directive scope.
- * @param {object} container - The div used to host the dynamically created webGL canvas.
+ * @param {object} canvas - The WebGL canvas.
  * @param {string} project - The string identifying a sub-directory of '/projects' to load the model files from.
  * @param {string} part - The string identifying a common name of supporting files to load.
  * @param {bool} noLogo - Whether to skip loading and showing a logo graphic while loading the main model.
@@ -69,27 +83,22 @@ function modelDirective($q, $http, $render2d) {
  * @param {number} edgesColor - Color to use for rendering wireframe edges.
  * @returns - Promise indicating the loading has completed but receiving nothing.
  */ 
-function show3dModel($q, $http, $scope, container, project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor) {
+function show3dModel($q, $http, $scope, canvas, project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor) {
     return $q(function(resolve) {
         $scope.scene = new THREE.Scene();
         $scope.renderer = new THREE.WebGLRenderer({
-            precision: 'highp',
+            canvas: canvas,
             antialias: true,
             alpha: true
         });
 
-        $scope.width = container.clientWidth;
-        $scope.height = container.clientHeight;
-
+        $scope.width = canvas.clientWidth;
+        $scope.height = canvas.clientHeight;
         $scope.renderer.setPixelRatio(window.devicePixelRatio);
         $scope.renderer.setSize($scope.width, $scope.height);
         $scope.renderer.autoClear = false;
 
-        container.appendChild($scope.renderer.domElement);
-
-        // TODO: progress bar service or render it in logo scene
-        //progressBar = createProgressBar(container);
-        //container.appendChild(progressBar);
+        console.log('initializing with', $scope.width, $scope.height);
 
         var modelBaseUrl = '/models/' + project + '/' + part;
 
@@ -118,11 +127,12 @@ function show3dModel($q, $http, $scope, container, project, part, noLogo, noText
 
             animate($scope);
 
-            $q.all([
+            $q.all(
+            [
                 loadModelMetadata($http, $scope, modelBaseUrl + '.json'),
                 loadModelTexture($q, $scope, modelBaseUrl + '.png', noTexture),
                 loadModel($q, $scope, modelBaseUrl + '.obj', materialColor)
-
+                
             ]).then(function() {
                 if (!noTexture) {
                     $scope.mesh.material.map = $scope.texture;
@@ -170,7 +180,7 @@ function show3dModel($q, $http, $scope, container, project, part, noLogo, noText
  * @param {object} $q - The Angular Promise service.
  * @param {object} $http - The The Angular AJAX service.
  * @param {object} $scope - The directive scope.
- * @param {object} container - The div used to host a dynamically created webGL canvas.
+ * @param {object} canvas - The webGL canvas.
  * @param {bool} noLogo - Whether to disable loading and displaying a logo while loading the main model.
  * @param {bool} noTexture - Whether to disable loading and rendering a texture on the model.
  * @param {bool} noMaterial - Whether to render a filled mesh for the model to prevent seeing wireframe edges on the other side.
@@ -178,7 +188,7 @@ function show3dModel($q, $http, $scope, container, project, part, noLogo, noText
  * @param {number} edgesColor - color to use for wireframe edges.
  * @returns - A promise indicating when loading has completed but receiving no arguments.
  */
-function showRandom3dModel($q, $http, $scope, container, noLogo, noTexture, noMaterial, materialColor, edgesColor) {
+function showRandom3dModel($q, $http, $scope, canvas, noLogo, noTexture, noMaterial, materialColor, edgesColor) {
     var projectName = null;
     var partName = null;
     
@@ -197,7 +207,7 @@ function showRandom3dModel($q, $http, $scope, container, noLogo, noTexture, noMa
             $q,
             $http,
             $scope,
-            container,
+            canvas,
             projectName,
             partName,
             noLogo,
@@ -213,13 +223,13 @@ function showRandom3dModel($q, $http, $scope, container, noLogo, noTexture, noMa
  * @param {object} $scope - The directive scope.
  */
 function animate($scope) {
-    // Clear the canvas.
-    $scope.renderer.clear();
-
     // Request the next frame.
     requestAnimationFrame(function() {
         animate($scope)
     });
+
+    // Clear the canvas.
+    $scope.renderer.clear();
 
     // Render the model if fully loaded.
     if ($scope.camera) {
@@ -253,18 +263,20 @@ function animate($scope) {
  */
 function loadModelMetadata($http, $scope, url) {
     return $http({ url: url }).then(function(response) {
+        var metadata = response.data;
+
         $scope.baseRotation = new THREE.Vector3(
-            response.baseRotationX,
-            response.baseRotationY,
-            response.baseRotationZ);
+            metadata.baseRotationX,
+            metadata.baseRotationY,
+            metadata.baseRotationZ);
 
         $scope.displayRotationAxis = new THREE.Vector3(
-            response.displayRotationAxisX,
-            response.displayRotationAxisY,
-            response.displayRotationAxisZ);
+            metadata.displayRotationAxisX,
+            metadata.displayRotationAxisY,
+            metadata.displayRotationAxisZ);
 
-        $scope.cameraDistanceScale = response.cameraDistanceScale;
-        $scope.edgesAngle = response.edgesAngle;
+        $scope.cameraDistanceScale = metadata.cameraDistanceScale;
+        $scope.edgesAngle = metadata.edgesAngle;
     });
 }
 

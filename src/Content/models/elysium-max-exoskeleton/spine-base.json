@@ -7,7 +7,7 @@
     "displayRotationAxisY" : 0,
     "displayRotationAxisZ" : 1,
     
-    "cameraDistanceScale" : 4.5,
+    "cameraDistanceScale" : 3,
     
     "edgesAngle" : 8
 }

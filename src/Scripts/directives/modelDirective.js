@@ -91,7 +91,7 @@ function show3dModel($q, $scope, container, project, part, noLogo, noTexture, no
 
         var modelBaseUrl = '/models/' + project + '/' + part;
 
-        loadLogo($q, noLogo).then(function(logoModel) {
+        loadLogo($q, $scope, noLogo).then(function(logoModel) {
             var aspect = $scope.width / $scope.height;
             
             if (!noLogo) {

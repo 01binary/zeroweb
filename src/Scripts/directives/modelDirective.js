@@ -32,22 +32,23 @@ angular.module('zeroApp')
 function modelDirective($q, $http, $render2d) {
     return {
         restrict: 'E',
-        replace: false,
+        replace: true,
+        translude: true,
         scope: {},
         link: function($scope, $element, attributes) {
-            var noLogo = attributes['data-nologo'];
-            var noTexture = attributes['data-notexture'];
-            var noMaterial = attributes['data-nomaterial'];
-            var materialColor = attributes['data-color'] || '#FFFFFF';
-            var edgesColor = attributes['data-edgecolor'] || '#000000';
+            var noLogo = attributes['nologo'];
+            var noTexture = attributes['notexture'];
+            var noMaterial = attributes['nomaterial'];
+            var materialColor = attributes['color'] || '#FFFFFF';
+            var edgesColor = attributes['edgecolor'] || '#000000';
 
-            if (attributes['data-random']) {
+            if (attributes['random']) {
                 showRandom3dModel($q, $http, $scope, $element.get(0), noLogo, noTexture, noMaterial, materialColor, edgesColor);
             } else {
-                var project = attributes['data-project'];
-                var part = attributes['data-part'];
+                var project = attributes['project'];
+                var part = attributes['part'];
 
-                show3dModel($q, $scope, $element.get(0), project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor);
+                show3dModel($q, $http, $scope, $element.get(0), project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor);
             }
         }
     };
@@ -56,6 +57,7 @@ function modelDirective($q, $http, $render2d) {
 /**
  * Display a rotating model with edge visualization and turn-table controls.
  * @param {object} $q - The Angular promise service.
+ * @param {object} $http - The Angular AJAX service.
  * @param {object} $scope - The directive scope.
  * @param {object} container - The div used to host the dynamically created webGL canvas.
  * @param {string} project - The string identifying a sub-directory of '/projects' to load the model files from.
@@ -67,7 +69,7 @@ function modelDirective($q, $http, $render2d) {
  * @param {number} edgesColor - Color to use for rendering wireframe edges.
  * @returns - Promise indicating the loading has completed but receiving nothing.
  */ 
-function show3dModel($q, $scope, container, project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor) {
+function show3dModel($q, $http, $scope, container, project, part, noLogo, noTexture, noMaterial, materialColor, edgesColor) {
     return $q(function(resolve) {
         $scope.scene = new THREE.Scene();
         $scope.renderer = new THREE.WebGLRenderer({
@@ -123,7 +125,7 @@ function show3dModel($q, $scope, container, project, part, noLogo, noTexture, no
 
             ]).then(function() {
                 if (!noTexture) {
-                    $scope.mesh.material.map = texture;
+                    $scope.mesh.material.map = $scope.texture;
                 }
 
                 $scope.edges = new THREE.EdgesHelper(
@@ -193,6 +195,7 @@ function showRandom3dModel($q, $http, $scope, container, noLogo, noTexture, noMa
     }).then(function() {
         return show3dModel(
             $q,
+            $http,
             $scope,
             container,
             projectName,
@@ -210,9 +213,13 @@ function showRandom3dModel($q, $http, $scope, container, noLogo, noTexture, noMa
  * @param {object} $scope - The directive scope.
  */
 function animate($scope) {
-    requestAnimationFrame(animate);
-
+    // Clear the canvas.
     $scope.renderer.clear();
+
+    // Request the next frame.
+    requestAnimationFrame(function() {
+        animate($scope)
+    });
 
     // Render the model if fully loaded.
     if ($scope.camera) {
@@ -245,7 +252,7 @@ function animate($scope) {
  * @returns - A promise indicating when loading has completed.
  */
 function loadModelMetadata($http, $scope, url) {
-    return $http({ url: url }).done(function(response) {
+    return $http({ url: url }).then(function(response) {
         $scope.baseRotation = new THREE.Vector3(
             response.baseRotationX,
             response.baseRotationY,
@@ -324,7 +331,7 @@ function loadModel($q, $scope, url, materialColor) {
             });
 
             $scope.model = object;
-            resolve(model);
+            resolve(object);
 
         }, onProgress);
     });

@@ -1,0 +1,13 @@
+{
+    "baseRotationX" : 0.51,
+    "baseRotationY" : 0.0,
+    "baseRotationZ" : 0.0,
+    
+    "displayRotationAxisX" : 0,
+    "displayRotationAxisY" : 0,
+    "displayRotationAxisZ" : 1,
+    
+    "cameraDistanceScale" : 3,
+    
+    "edgesAngle" : 8
+}

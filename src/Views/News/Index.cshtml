@@ -100,22 +100,10 @@
         </span>
     </p>
 
-    <!-- Story loading error -->
-    <error data-ng-show="news.error[@storyId]"
-        data-operation="'load news story'"
-        data-code="news.error[@storyId].status"
-        data-message="news.error[@storyId].statusText">
-    </error>
-
-    <!-- Story loading indicator -->
-    <p data-ng-show="news.loading[@storyId]">
-        <span class="tag">loading...</span>
-    </p>
-
     <!-- Story content -->
-    <markdown class="article-content"
-        data-ng-init="news.loadStory(@storyId)"
-        data-ignore="">{{news[@storyId]}}</markdown>
+    <div class="markdown">
+        @Shared.FormatContent(story.content)
+    </div>
     
     <!-- Story comments -->
     <div class="comments"

@@ -74,31 +74,6 @@ namespace ZeroWeb.Api
         }
 
         /// <summary>
-        /// Gets the news story markdown content.
-        /// </summary>
-        /// <param name="id">The story id</param>
-        [Route("{id}")]
-        public IActionResult GetStory(int id)
-        {
-            try
-            {
-                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-                var story = store.GetArticle(id);
-
-                if (story == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(new { story.Content });
-            }
-            catch
-            {
-                return this.StatusCode(500);
-            }
-        }
-
-        /// <summary>
         /// Star a news story.
         /// </summary>
         /// <param name="id">The story id</param>

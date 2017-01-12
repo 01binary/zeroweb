@@ -8,7 +8,9 @@
         "${packages}/angular-resource/angular-resource.js",
         "${packages}/angular-loading-bar/build/loading-bar.js",
 
-        "${packages}/markdown-it/dist/markdown-it.js",
+        "${source}/Scripts/external/three.min.js",
+        "${source}/Scripts/external/OBJLoader.js",
+        "${source}/Scripts/external/OrbitControls.js",
 
         "${source}/Scripts/**/*.js",
         "!${source}/Scripts/tests/*"
@@ -20,5 +22,5 @@
     ],
 
     "destination": "$(source)/Content",
-    "compress": true
+    "compress": false
 }

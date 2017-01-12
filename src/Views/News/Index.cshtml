@@ -29,8 +29,7 @@
         
         <!-- Stars -->
         <span id="star-@storyId"
-            class="metadata metadata-indicator metadata-title"
-            data-tooltip="// star this story">
+            class="metadata metadata-indicator metadata-title">
             <icon class="@starClass"
                 role="@starRole"
                 data-tooltip="@starTip"
@@ -38,6 +37,7 @@
                 data-src="images/banner.svg#star"
                 data-width="16"
                 data-height="16"
+                data-tooltip="// star this story"
                 data-ng-click="news.addStar(@storyId)">
             </icon>
             <span class="metadata-indicator-content">

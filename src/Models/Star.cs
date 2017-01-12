@@ -10,7 +10,6 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

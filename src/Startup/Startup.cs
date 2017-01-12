@@ -10,8 +10,6 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-using System;
-using System.IO;
 using AspNet.Security.OAuth.GitHub;
 using AspNet.Security.OAuth.LinkedIn;
 using AspNet.Security.OAuth.Reddit;
@@ -23,7 +21,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using ZeroWeb.Models;
 

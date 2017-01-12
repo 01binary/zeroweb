@@ -178,7 +178,7 @@ BEGIN TRANSACTION;
     (
         2,
         22,
-        'This is a more recent story with some content.',
+        'This is a more recent story with some content. [3d-square-left](elysium-max-exoskeleton/spine-base)',
         '11/06/2016',
         1,
         '',

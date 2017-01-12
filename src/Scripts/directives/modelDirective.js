@@ -41,7 +41,7 @@ function modelDirective($q, $http, $render2d) {
             var noTexture = attributes['notexture'];
             var noMaterial = attributes['nomaterial'];
             var materialColor = attributes['color'] || '#FFFFFF';
-            var edgesColor = attributes['edgecolor'] || '#CCCCCC';
+            var edgesColor = attributes['edgecolor'] || '#888888';
             var small = attributes['small'] || true;
             var alignLeft = attributes['left'];
             var alignRight = attributes['right']

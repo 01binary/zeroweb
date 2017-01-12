@@ -997,6 +997,7 @@ a.author:hover {
   font-family: $small-font;
   font-size: $small-font-size;
   padding-bottom: 0;
+  clear: both;
 }
 
 .os-win .comments {
@@ -1373,4 +1374,12 @@ a.author:hover {
 
 #loading-bar-spinner .spinner-icon {
   display: none;
+}
+
+.align-left {
+    float: left;
+}
+
+.align-right {
+    float: right;
 }

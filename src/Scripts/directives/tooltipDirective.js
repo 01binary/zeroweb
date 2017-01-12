@@ -78,12 +78,23 @@ function showTooltip(show, $element) {
 
     if (show) {
         $tooltip.text($element.attr('data-tooltip'));
-        
-        var y = $element.offset().top - 20;
-        var x = $element.offset().left + $element.width() / 2 - 18;
 
-        $tooltip.css({ left: x - $tooltip.width() / 2, top: y - $tooltip.height()});
-        $tooltip.stop().fadeIn();
+        var arrowSize = parseInt(window.getComputedStyle($tooltip.get(0), ':after')
+            .getPropertyValue('border-width'));
+
+        var y = Math.max(0,
+            $element.offset().top -
+            $tooltip.height() -
+            arrowSize * 2 -
+            parseInt($element.css('padding-top'), 10) * 5);
+
+        var x = Math.max(0,
+            $element.offset().left +
+            $element.width() / 2 -
+            $tooltip.width() / 2 -
+            parseInt($tooltip.css('padding-left') || 0));
+
+        $tooltip.css({ left: x, top: y }).stop().fadeIn();
     } else {
         $tooltip.stop().fadeOut();
     }

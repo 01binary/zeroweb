@@ -43,6 +43,8 @@ function modelDirective($q, $http, $render2d) {
             var materialColor = attributes['color'] || '#FFFFFF';
             var edgesColor = attributes['edgecolor'] || '#000000';
             var small = attributes['small'] || true;
+            var alignLeft = attributes['left'];
+            var alignRight = attributes['right']
             var portrait = attributes['portrait'] || true;
             var square = attributes['square'] || false;
             var elem = $element.get(0);
@@ -52,6 +54,12 @@ function modelDirective($q, $http, $render2d) {
                 $element.addClass('square-3d-' + classSuffix);
             } else if (portrait) {
                 $element.addClass('portrait-3d-' + classSuffix);
+            }
+
+            if (alignLeft) {
+                $element.addClass('align-left');
+            } else if (alignRight) {
+                $element.addClass('align-right');
             }
 
             if (attributes['random']) {

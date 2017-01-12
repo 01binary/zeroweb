@@ -11,10 +11,6 @@
 \*---------------------------------------------------------*/
 
 using System;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using CommonMark;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Html;
@@ -33,7 +29,8 @@ namespace ZeroWeb
         /// <returns>The formatted content.</returns>
         public static HtmlString FormatContent(string content)
         {
-            return new HtmlString(CommonMarkConverter.Convert(content));
+            content = CommonMarkConverter.Convert(content);
+            return new HtmlString(MarkdownExtensions.PostProcess(content));
         }
 
         /// <summary>

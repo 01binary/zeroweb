@@ -61,11 +61,16 @@ function getTooltip() {
 function createTooltip() {
     var div = '<div></div>';
 
-    return $(div)
+    var ret = $(div)
         .attr('id', 'tip')
         .addClass('tooltip')
         .hide()
         .appendTo($('body'));
+
+    ret.append($('<span></span>').addClass('tooltip-content'));
+    ret.append($(div).addClass('tooltip-point'))
+
+    return ret;
 }
 
 /*
@@ -77,22 +82,25 @@ function showTooltip(show, $element) {
     var $tooltip = getTooltip();
 
     if (show) {
-        $tooltip.text($element.attr('data-tooltip'));
+        $tooltip.find('.tooltip-content').text($element.attr('data-tooltip'));
 
-        var arrowSize = parseInt(window.getComputedStyle($tooltip.get(0), ':after')
-            .getPropertyValue('border-width'));
+        var pointSize = parseInt($tooltip
+            .find('.tooltip-point')
+            .css('border-width'));
 
         var y = Math.max(0,
             $element.offset().top -
             $tooltip.height() -
-            arrowSize * 2 -
-            parseInt($element.css('padding-top'), 10) * 5);
+            pointSize * 2 -
+            parseInt($element.css('padding-top')) * 7);
+
+            console.log(y);
 
         var x = Math.max(0,
             $element.offset().left +
             $element.width() / 2 -
             $tooltip.width() / 2 -
-            parseInt($tooltip.css('padding-left') || 0));
+            parseInt($tooltip.css('padding-left')));
 
         $tooltip.css({ left: x, top: y }).stop().fadeIn();
     } else {

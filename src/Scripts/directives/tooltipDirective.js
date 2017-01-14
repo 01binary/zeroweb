@@ -82,19 +82,15 @@ function showTooltip(show, $element) {
     var $tooltip = getTooltip();
 
     if (show) {
-        $tooltip.find('.tooltip-content').text($element.attr('data-tooltip'));
-
-        var pointSize = parseInt($tooltip
-            .find('.tooltip-point')
-            .css('border-width'));
+        $tooltip
+            .find('.tooltip-content')
+            .text($element.attr('data-tooltip'));
 
         var y = Math.max(0,
             $element.offset().top -
             $tooltip.height() -
-            pointSize * 2 -
+            15 -
             parseInt($element.css('padding-top')) * 7);
-
-            console.log(y);
 
         var x = Math.max(0,
             $element.offset().left +

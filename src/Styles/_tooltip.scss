@@ -22,26 +22,28 @@
     top: 0;
     bottom: 0;
     box-shadow: 0px 1px 6px $selection-color;
+    z-index: -2000;
 }
 
 .tooltip-point {
+    position: absolute;
+    border-width: 8px;
+    border-style: solid;
+    border-color: $shadow-color transparent transparent transparent;
+    pointer-events: none;
+    left: calc(50% - 8px);
+    top: 100%;
+    z-index: 1;
+}
+
+.tooltip-point:before {
+    content: '';
     position: absolute;
     border-width: 7px;
     border-style: solid;
     border-color: rgb(240, 240, 240) transparent transparent transparent;
     pointer-events: none;
     left: calc(50% - 7px);
-    top: 100%;
-}
-
-.tooltip-point:before {
-    content: '';
-    position: absolute;
-    border-width: 7.5px;
-    border-style: solid;
-    border-color: $shadow-color transparent transparent transparent;
-    pointer-events: none;
-    left: calc(50% - 7px);
-    top: -6px;
-    z-index: -1;
+    top: -8px;
+    z-index: 2;
 }

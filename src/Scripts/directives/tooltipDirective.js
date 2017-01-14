@@ -89,14 +89,14 @@ function showTooltip(show, $element) {
         var y = Math.max(0,
             $element.offset().top -
             $tooltip.height() -
-            15 -
+            14 -
             parseInt($element.css('padding-top')) * 7);
 
-        var x = Math.max(0,
+        var x = Math.round(Math.max(0,
             $element.offset().left +
             $element.width() / 2 -
             $tooltip.width() / 2 -
-            parseInt($tooltip.css('padding-left')));
+            parseInt($tooltip.css('padding-left'))));
 
         $tooltip.css({ left: x, top: y }).stop().fadeIn();
     } else {

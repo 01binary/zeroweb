@@ -1,0 +1,81 @@
+.navigation {
+  display: inline;
+  position: absolute;
+  margin-left: 1px;
+  width: 88px;
+  height: 66px;
+}
+
+.navigation-matte {
+  fill: $primary-color;
+  z-index: 4;
+}
+
+.navigation-hover {
+  fill: $primary-hover-color;
+  display: none;
+  z-index: 5;
+}
+
+.navigation-border {
+  fill: $shadow-dark-color;
+  z-index: 6;
+}
+
+.navigation-highlight {
+  fill: $primary-light-color;
+  z-index: 7;
+}
+
+.navigation-selection {
+  z-index: 6;
+  fill: $selection-color;
+}
+
+.navigation-selected,
+.navigation-unselected {
+  margin-left: -1px;
+}
+
+.navigation-unselected .navigation-selection {
+  display: none;
+}
+
+.navigation-selected .navigation-border {
+  display: none;
+}
+
+.navigation-selected .navigation-highlight {
+  display: none;
+}
+
+.navigation-afterselected.navigation-last .navigation-highlight {
+  top: 3px;
+  height: 62px;
+}
+
+.navigation-icon {
+  fill: $primary-text-color;
+  z-index: 6;
+
+  width: 18px;
+  height: 18px;
+
+  margin-left: 11px;
+  margin-top: 20px;
+}
+
+.navigation-text {
+  padding-left: 12px;
+  padding-top: 42px;
+  height: auto;
+  width: auto;
+  color: $primary-text-color;
+  font-size: $navigation-font-size;
+  z-index: 6;
+}
+
+.os-win .navigation-text {
+  font-size: $navigation-font-size-win;
+  -webkit-font-smoothing: none;
+}

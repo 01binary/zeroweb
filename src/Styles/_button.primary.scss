@@ -1,0 +1,244 @@
+.button-primary {
+  display: inline-block;
+  position: relative;
+  color: $primary-text-color;
+  background: $primary-color;
+  font-size: $small-font-size;
+  padding: 0;
+  border: $border-thickness solid $primary-dark-color;
+  box-shadow: $border-thickness $border-thickness 0 $primary-light-color inset;
+  text-shadow: 0 (-$border-thickness / 2) 0 $primary-dark-color;
+  outline: none;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.os-win .button-primary {
+  font-size: $small-font-size-win;
+}
+
+.button-primary:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: $corner-small + $border-thickness * 2;
+  bottom: 0;
+  right: $corner-small;
+  box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+  z-index: -1;
+}
+
+.os-win .button-primary:before {
+  box-shadow: 0 $border-thickness ($border-thickness * 3) $drop-shadow-dark-color;
+}
+
+.button-primary-leftcorner {
+  border-top: $corner-small solid $background-color;
+  border-right: $corner-small solid transparent;
+  position: absolute;
+  left: -$border-thickness;
+  top: -$border-thickness;
+}
+
+.button-primary-leftcornerborder {
+  border-top: $corner-small solid $primary-dark-color;
+  border-right: $corner-small solid transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.button-primary-leftcornerhighlight {
+  border-top: $corner-small solid $primary-light-color;
+  border-right: $corner-small solid transparent;
+  position: absolute;
+  left: $border-thickness;
+  top: $border-thickness;
+}
+
+.button-primary-rightcorner {
+  border-bottom: $corner-small solid $background-color;
+  border-left: $corner-small solid transparent;
+  position: absolute;
+  bottom: -$border-thickness;
+  right: -$border-thickness;
+  z-index: 1;
+}
+
+.button-primary-rightcornershadow {
+  border-bottom: ($corner-small + $border-thickness) solid $primary-dark-shadow-color;
+  border-left: ($corner-small + $border-thickness) solid transparent;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.button-primary-rightcornerborder {
+  border-bottom: ($corner-small + $border-thickness) solid $primary-dark-color;
+  border-left: ($corner-small + $border-thickness) solid transparent;
+  position: absolute;
+  right: 0;
+  bottom: -$border-thickness;
+}
+
+.button-primary-rightshadow {
+  border-right: $border-thickness solid $primary-dark-shadow-color;
+  position: absolute;
+  top: $border-thickness;
+  bottom: 0;
+  right: 0;
+}
+
+.button-primary-bottomshadow {
+  border-bottom: $border-thickness solid $primary-dark-shadow-color;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.button-primary-content {
+  box-sizing: border-box;
+  padding: $corner-small / 2 9px ($corner-small / 2) + $border-thickness 7px;
+}
+
+.lt-ie9 .button-primary-leftcornerborder {
+  left: -$border-thickness;
+  top: -$border-thickness;
+}
+
+.lt-ie9 .button-primary-rightcornerborder {
+  right: -$border-thickness;
+  bottom: -$border-thickness;
+}
+
+.lt-ie8 .button-primary-leftcorner {
+  display: none;
+}
+
+.lt-ie8 .button-primary-leftcornerborder {
+  border-top: none;
+  border-right: none;
+  border-left: $border-thickness solid $primary-light-color;
+  left: -$border-thickness;
+  top: -$border-thickness;
+  bottom: 0;
+}
+
+.lt-ie9 .button-primary-leftcornerhighlight {
+  display: none;
+}
+
+.lt-ie8 .button-primary-leftcornerhighlight {
+  border-top: $border-thickness solid $primary-light-color;
+  border-right: none;
+  left: -$border-thickness;
+  top: -$border-thickness;
+  right: 0;
+  display: block;
+}
+
+.lt-ie8 .button-primary-rightcorner {
+  display: none;
+}
+
+.lt-ie8 .button-primary-rightcornerborder {
+  display: none;
+}
+
+.lt-ie8 .button-primary-rightcornershadow {
+  display: none;
+}
+
+.lt-ie8 .button-primary-rightshadow {
+  top: 0;
+  bottom: -$border-thickness;
+  right: -$border-thickness;
+}
+
+.lt-ie9 .button-primary-bottomshadow {
+  bottom: 0;
+}
+
+.lt-ie8 .button-primary-bottomshadow {
+  bottom: -$border-thickness;
+}
+
+.lt-ie8 .button-primary-content {
+  padding: $border-thickness * 2 7px $border-thickness * 3;
+}
+
+.lt-ie9 .button-primary {
+  font-family: $fallback-font !important;
+}
+
+.lt-ie9 .button-primary:hover {
+  background: $primary-hover-color;
+}
+
+.lt-ie9 .button-primary-leftcorner {
+  left: -$border-thickness * 2;
+}
+
+.lt-ie9 .button-primary-rightcorner {
+  bottom: -$border-thickness * 2;
+  right: -$border-thickness * 2;
+}
+
+.lt-ie9 .button-primary-rightcornershadow {
+  right: -$border-thickness;
+  bottom: -$border-thickness;
+}
+
+.ie .button-primary:before {
+  box-shadow: 0 ($border-thickness * 1.7) ($border-thickness * 2) $drop-shadow-light-color;
+}
+
+.gt-ie9 .button-primary:before {
+  bottom: $border-thickness;
+  box-shadow: 0 ($border-thickness * 2) ($border-thickness * 4) $drop-shadow-dark-color;
+}
+
+.hi-dpi .button-primary-leftcornerborder {
+  left: 0;
+  top: -$border-thickness;
+}
+
+.os-win.hi-dpi .button-primary-leftcornerborder {
+  left: 0;
+  top: 0;
+}
+
+.hi-dpi .button-primary-leftcornerhighlight {
+  left: 0;
+  top: $border-thickness;
+}
+@-moz-document url-prefix() {
+  .hi-dpi .button-primary-leftcorner {
+    border-top: ($corner-small + $border-thickness) solid $background-color;
+    border-right: ($corner-small + $border-thickness) solid transparent;
+  }
+
+  .hi-dpi .button-primary-leftcornerborder {
+    left: 0;
+    top: 0;
+  }
+
+  .hi-dpi .button-primary-leftcornerhighlight {
+    left: $border-thickness;
+    top: $border-thickness;
+  }
+
+  .hi-dpi .button-primary-rightcornerborder {
+    bottom: 0;
+    right: 0;
+  }
+
+  .button-primary {
+    min-height: 27px;
+  }
+
+  .button-primary-content {
+    padding: 2px 6px 4px 4px;
+  }
+}

@@ -1,0 +1,41 @@
+a {
+  color: $accent-text-color;
+}
+
+a:hover {
+  color: $primary-color;
+}
+
+a.location {
+  border-bottom: $border-thickness dotted $accent-text-color;
+  text-decoration: none;
+}
+
+a.location:hover {
+  border-bottom: $border-thickness dotted $primary-color;
+}
+
+a.author {
+  border-bottom: $border-thickness dotted $accent-text-color;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.author:hover {
+  border-bottom: $border-thickness dotted $primary-color;
+}
+
+.permalink-anchor {
+  display: inline;
+  margin-left: -1em;
+  margin-right: 0.4em;
+  color: $secondary-text-color;
+  opacity: 0.5;
+  transition: opacity .15s ease-in-out;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.permalink-anchor:hover {
+  color: $primary-color !important;
+}

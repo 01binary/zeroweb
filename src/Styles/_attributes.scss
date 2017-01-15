@@ -1,0 +1,26 @@
+.align-left {
+    float: left;
+}
+
+.align-right {
+    float: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.top-margin {
+  margin-top: 8px;
+}
+
+.error {
+  color: $error-color;
+  margin-top: -.4em;
+  margin-left: 1.4em;
+  margin-bottom: .4em;
+}
+
+.emphasis {
+  color: $primary-color;
+}

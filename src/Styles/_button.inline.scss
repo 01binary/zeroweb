@@ -1,0 +1,39 @@
+.button-inline {
+  color: $secondary-text-color;
+  background: $background-color;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 8pt;
+  outline: none;
+  border: none;
+  font-family: $small-font;
+  font-size: $small-font-size;
+}
+
+.os-win .button-inline {
+  font-size: $small-font-size-win;
+}
+
+.button-secondary {
+  color: $accent-text-color;
+  border-bottom: $border-thickness dotted $accent-text-color;
+}
+
+.button-inline:hover {
+  color: $primary-color;
+}
+
+.button-inline-toggled {
+  color: $accent-text-color;
+}
+
+.button-right {
+  min-width: 6.4em;
+  margin-top: 2px;
+  float: right;
+}
+@-moz-document url-prefix() {
+  .button-right {
+    margin-top: 3px;
+  }
+}

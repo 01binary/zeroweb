@@ -68,3 +68,7 @@
   border-right: 10pt solid $background-color;
   margin-left: 0;
 }
+
+a.tag:hover {
+  color: $accent-text-color;
+}

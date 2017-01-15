@@ -1,0 +1,87 @@
+.metadata {
+  font-family: $small-font;
+  font-size: $small-font-size;
+  color: $secondary-text-color;
+  margin-top: -6pt;
+  line-height: $small-font-line-height;
+}
+
+.os-win .metadata {
+  font-size: $small-font-size-win;
+  line-height: $small-font-line-height-win;
+}
+
+.metadata-group {
+  margin-left: $border-thickness * 3;
+  margin-right: $border-thickness * 3;
+}
+
+.metadata-icon {
+  position: relative;
+  display: inline-block;
+  fill: $accent-hover-color;
+  stroke: $accent-hover-color;
+  width: 16px;
+  height: 16px;
+  top: 3px;
+  cursor: pointer;
+}
+
+.metadata-icon:hover {
+  fill: $primary-hover-color;
+  stroke: $primary-hover-color;
+}
+
+.metadata-icon-readonly {
+  cursor: default;
+}
+
+.metadata-icon-readonly:hover {
+  fill: $accent-hover-color;
+  stroke: $accent-hover-color;
+}
+
+.metadata-icon-toggled {
+  fill: $primary-color;
+  stroke: $primary-color;
+}
+
+.metadata-icon-readonly.metadata-icon-toggled {
+  fill: $primary-light-color;
+  stroke: $primary-light-color;
+}
+
+.metadata-icon-readonly.metadata-icon-toggled:hover {
+  fill: $primary-light-color;
+  stroke: $primary-light-color;
+}
+
+.metadata-icon-text {
+  position: relative;
+  top: 2px;
+  color: $accent-hover-color;
+  font-family: 'Wingdings';
+  font-size: $small-font-size + 3;
+}
+
+.metadata-indicator-content {
+  font-weight: normal;
+  margin-left: -$border-thickness * 2;
+}
+
+.metadata-title {
+  position: relative;
+  top: -$border-thickness;
+  color: $border-color;
+  white-space: nowrap;
+}
+
+.os-win {
+  .metadata-icon-text {
+    font-size: $small-font-size-win + 3;
+  }
+
+  .metadata-icon-text.small {
+    font-size: $small-font-size-win + 1;
+  }
+}

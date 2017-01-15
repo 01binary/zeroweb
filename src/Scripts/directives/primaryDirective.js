@@ -98,6 +98,8 @@ function primaryDirective($render2d) {
                     duration: 'fast',
                     step: function() { fadeButton($element, this.fade); }
                 });
+
+                $element.removeClass('pushed');
             });
 
             $element.mousedown(function() {
@@ -105,6 +107,8 @@ function primaryDirective($render2d) {
                 if ($element.animation) {
                     $element.animation.stop();
                 }
+
+                $element.addClass('pushed');
 
                 pushButton($element);
             });
@@ -114,6 +118,8 @@ function primaryDirective($render2d) {
                 if ($element.animation) {
                     $element.animation.stop();
                 }
+
+                $element.removeClass('pushed');
 
                 fadeButton($element, 1);
             });

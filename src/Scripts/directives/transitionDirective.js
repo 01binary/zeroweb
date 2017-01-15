@@ -30,14 +30,16 @@ function transitionDirective() {
         replace: false,
         link: function($scope, $element, attributes) {
             var $overlay = $('<div></div>')
-                .addClass('overlay')
-                .prependTo($('body'));
-            
-            switch (attributes['transition']) {
-                case 'fade':
-                    $overlay.fadeOut(200);
-                    break;
-            }
+                    .addClass('overlay')
+                    .prependTo($('body'));
+
+            setTimeout(function() {
+                switch (attributes['transition']) {
+                    case 'fade':
+                        $overlay.fadeOut(600);
+                        break;
+                }
+            }, 500);
         }
     };
 }

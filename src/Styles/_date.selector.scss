@@ -1,0 +1,148 @@
+.date-selector {
+    position: relative;
+    width: 100%;
+    height: 85px;
+}
+
+.date-selector-background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: $accent-light-color;
+    z-index: -1;
+}
+
+.date-selector-background:before {
+    content: '';
+    position: absolute;
+    border-width: 8px;
+    border-style: solid;
+    border-color: $background-color transparent transparent $background-color;
+    left: 0;
+    top: 0%;
+}
+
+.date-selector-background:after {
+    content: '';
+    position: absolute;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent $background-color $background-color transparent;
+    right: 0;
+    bottom: 0;
+}
+
+.date-selector-collapsed {
+    height: 34px;
+
+    .date-selector-heading:before {
+        content: '+ ';
+        left: -13px;
+    }
+
+    .date-selector-scroll {
+        display: none;
+    }
+
+    .date-selector-view {
+        display: none;
+    }
+
+    .date-selector-pages {
+        display: none;
+    }
+}
+
+.date-selector-heading {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+}
+
+.date-selector-heading:before {
+    content: '- ';
+    position: absolute;
+    left: -10px;
+}
+
+.date-selector-scroll {
+    font-family: 'Wingdings 3';
+    color: $foreground-color;
+    text-shadow: none;
+    background: $accent-light-color;
+    border: $border-thickness solid $secondary-text-color;
+    box-shadow: $border-thickness $border-thickness 0 $background-color inset;
+    position: absolute;
+    width: 23px;
+    height: 32px;
+}
+
+.date-selector-scroll.pushed {
+    color: $background-color;
+    box-shadow: $border-thickness $border-thickness 0 $shadow-dark-color inset;
+}
+
+.date-selector-scroll .button-primary-content {
+    padding-left: 2px;
+    padding-right: 1px;
+}
+
+.date-selector-scroll .button-primary-leftcorner {
+  border-top: $corner-small solid $accent-light-color;
+}
+
+.date-selector-scroll .button-primary-rightcorner {
+    border-bottom: $corner-small solid $accent-light-color;
+}
+
+.date-selector-scroll .button-primary-leftcornerborder {
+    border-top: $corner-small solid $secondary-text-color;
+}
+
+.date-selector-scroll .button-primary-leftcornerhighlight {
+    border-top: $corner-small solid $background-color;
+}
+
+.date-selector-scroll.pushed .button-primary-leftcornerhighlight {
+    border-top: $corner-small solid $shadow-dark-color;
+}
+
+.date-selector-scroll .button-primary-rightcornerborder {
+  border-bottom: ($corner-small + $border-thickness) solid $secondary-text-color;
+}
+
+.date-selector-scroll .button-primary-rightcornershadow {
+  border-bottom: ($corner-small + $border-thickness) solid $shadow-color;
+}
+
+.date-selector-scroll.pushed .button-primary-rightcornershadow {
+  border-bottom: ($corner-small + $border-thickness) solid $drop-shadow-light-color;
+}
+
+.date-selector-scroll .button-primary-rightshadow {
+  border-right: $border-thickness solid $shadow-color;
+}
+
+.date-selector-scroll.pushed .button-primary-rightshadow {
+  border-right: $border-thickness solid $drop-shadow-light-color;
+}
+
+.date-selector-scroll .button-primary-bottomshadow {
+  border-bottom: $border-thickness solid $shadow-color;
+}
+
+.date-selector-scroll.pushed .button-primary-bottomshadow {
+  border-bottom: $border-thickness solid $drop-shadow-light-color;
+}
+
+.date-selector-scroll-left {
+    left: 10px;
+    top: 50%;
+}
+
+.date-selector-scroll-right {
+    right: 10px;
+    top: 50%;
+}

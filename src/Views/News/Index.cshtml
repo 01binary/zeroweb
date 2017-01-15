@@ -7,6 +7,8 @@
 <h1 data-pointer
     data-ng-init="news.initialize()">news</h1>
 
+<dateselector />
+
 @foreach (var story in this.Model)
 {
     var storyId = story.id;
@@ -33,6 +35,7 @@
             <icon class="@starClass"
                 role="@starRole"
                 data-tooltip="@starTip"
+                data-tooltip-offset-y="5"
                 area-disabled="@starAriaDisabled"
                 data-src="images/banner.svg#star"
                 data-width="16"
@@ -157,7 +160,9 @@
         <button class="button-inline top-margin"
             data-ng-class="{'button-inline-toggled': news.addingComment[@storyId]}"
             data-ng-click="news.addingComment['@storyId'] = !news.addingComment['@storyId']"
-            data-ng-tooltip="// post a comment">
+            data-tooltip="// post a comment"
+            data-tooltip-offset-x="33"
+            data-tooltip-offset-y="1">
             + comment
         </button>
 
@@ -174,6 +179,7 @@
                     class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
                     name="authenticationScheme"
                     data-tooltip="// login with @loginProvider.DisplayName"
+                    data-tooltip-offset-x="-4"
                     data-ng-show="!news.user"
                     data-ng-click="news.login()"
                     data-fade>

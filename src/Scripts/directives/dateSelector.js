@@ -55,15 +55,17 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
     $scope.scrolling = false;
     $scope.timeline = {};
 
-    // Create initial custom control elements.
+    // Create initial elements.
     $element.addClass('date-selector');
     $element.addClass('loading');
 
-    $scope.background = $('<div></div>')
+    // Create background rectangle.
+    $('<div></div>')
         .addClass('date-selector-background')
         .appendTo($element);
 
-    $scope.heading = $('<button>date</button>')
+    // Create expand/collapse heading.
+    $('<button>date</button>')
         .addClass('date-selector-heading')
         .addClass('button-inline')
         .click(expandCollapse.bind($element, $scope))
@@ -71,39 +73,69 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
 
     // Load content and create the rest of the elements when loaded.
     loadContent($q, $http, $scope).then(function() {
-        $scope.scrollLeft = $('<button data-primary></button>')
+        // Page button backgrounds.
+        $('<svg version="1.1" ' +
+            'xmlns="http://www.w3.org/2000/svg" ' +
+            'xmlns:xlink="http://www.w3.org/1999/xlink" ' +
+            'style="display:none">' +
+            '<linearGradient id="background" ' +
+                'x1="0" y1="0" x2="0" y2="10">' +
+                '<stop offset="0" style="stop-color:#FFFFFF"/>' +
+                '<stop offset="1" style="stop-color:#000000"/>' +
+            '</linearGradient>' +
+            '<symbol id="page-button-top">' +
+	            '<polygon fill=“url(#background)” points="0.8,17.5 9.2,0.5 40.1,0.5 47.2,17.5"/>' +
+	            '<path fill=“#C0BFBF” d="M39.7,1l6.7,16H1.6L9.5,1H39.7 M40.4,0H8.9L0,18h48L40.4,0L40.4,0z"/>' +
+            '</symbol>' +
+        '</svg>').appendTo($element);
+
+        // Create left scroll button.
+        $('<button data-primary></button>')
             .addClass('date-selector-scroll')
             .addClass('date-selector-scroll-left')
             .click(prevPage.bind($element, $scope))
             .appendTo($element);
 
-        $scope.scrollRight = $('<button data-primary></button>')
+        // Create right scroll button.
+        $('<button data-primary></button>')
             .addClass('date-selector-scroll')
             .addClass('date-selector-scroll-right')
             .click(nextPage.bind($element, $scope))
             .appendTo($element);
 
-        $scope.pages = $('<div></div>')
+        // Create paging containers.
+        var pages = $('<div></div>')
             .addClass('date-selector-pages')
             .appendTo($element);
 
-        $scope.pageNumbers = $('<div></div>')
+        $('<div></div>')
             .addClass('date-selector-page-numbers')
-            .appendTo($scope.pages);
+            .append(
+                $('<div data-ng-repeat="(page, weeks) in timeline">' +
+                    '<div>{{page}}</div>' +
+                    '<svg width="48" height="18" viewBox="0 0 48 18">' +
+                        '<use xlink:href="#page-button-top"></use>' +
+                    '</svg>' +
+                '</div>'))
+            .appendTo(pages);
 
-        $scope.dates = $('<div></div>')
-            .addClass('dates-selector-dates')
-            .appendTo($scope.pages);
+        $('<div></div>')
+            .addClass('date-selector-dates')
+            .appendTo(pages);
 
+        // Create the rendered view.
         $scope.view = $render2d.createCanvas(
-            $scope.pages,
+            pages,
             'date-selector-view',
             $element.width() - 10,
             $element.height() - 10);
 
+        // Register handlers.
         $element.onresize =
             resize.bind($element, $render2d, $scope);
 
+        // Render for the first time.
+        $element.removeClass('loading');
         $compile($element)($scope);
         render.apply($element, $scope);
     });
@@ -303,6 +335,17 @@ function loadContent($q, $http, $scope) {
             }
         }
     };
+
+    $scope.summary = Object.keys($scope.timeline).map(function(key) {
+        var month = $scope.timeline[key];
+        var weeks = Object.keys($month)
+        var firstWeekMonthDay = weeks[0].split(' ');
+        var lastWeekMonthDay = weeks[weeks.length - 1].split(' ');
+
+        if (firstWeekMonthDay[0] === lastWeekMonthDay) {
+            
+        }
+    });
 
     $scope.loading = false;
 

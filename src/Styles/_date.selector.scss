@@ -147,12 +147,74 @@
     top: 50%;
 }
 
-.date-selector-page-numbers div {
-    width: 48px;
-    background: red;
+.date-selector-pages {
+    position: absolute;
+    left: 33px;
+    right: 33px;
+    bottom: 7px;
+    font-family: $small-font;
+    font-size: $small-font-size;
 }
 
-.date-selector-dates div {
+.os-win .date-selector-pages {
+  font-size: $small-font-size-win;
+}
+
+.date-selector-page-numbers {
+    width: 100%;
+    height: 18px;
+    overflow: hidden;
+}
+
+.date-selector-page-numbers div {
+    float: left;
     width: 48px;
-    background: orange;
+    text-align: center;
+    cursor: pointer;
+}
+
+.date-selector-page-numbers div > svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.date-selector-page-numbers div > div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+/* bordered facing up */
+.date-selector-page-numbers div:nth-child(odd) {
+    position: relative;
+}
+
+.date-selector-page-numbers div:nth-child(odd):hover {
+
+}
+
+.date-selector-page-numbers div:nth-child(odd).selected {
+
+}
+
+.date-selector-dates {
+    width: 100%;
+    height: 18px;
+    overflow: hidden;
+}
+
+/* bordered facing down */
+.date-selector-dates div:nth-child(even) {
+
+}
+
+.date-selector-dates div:nth-child(even):hover {
+
+}
+
+.date-selector-dates div:nth-child(even).selected {
+
 }

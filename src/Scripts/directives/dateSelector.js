@@ -76,16 +76,16 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
         // Page button backgrounds.
         $('<svg version="1.1" ' +
             'xmlns="http://www.w3.org/2000/svg" ' +
-            'xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-            'style="display:none">' +
-            '<defs>' +
-                '<linearGradient id="mom">' +
-                    '<stop offset="0%" style="stop-color:red"/>' +
-                    '<stop offset="50%" style="stop-color:green"/>' +
-                '</linearGradient>' +
-            '</defs>' +
+            'xmlns:xlink="http://www.w3.org/1999/xlink">' +
+            '<linearGradient id="background" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="13">' +
+                '<stop offset="0" style="stop-color:rgb(248, 248, 248)"/>' +
+                '<stop offset="1" style="stop-color:rgb(235, 235, 235)"/>' +
+            '</linearGradient>' +
             '<symbol id="page-button-top">' +
-	            '<polygon fill="url(#mom)" points="0.8,17.5 9.2,0.5 40.1,0.5 47.2,17.5"/>' +
+                '<polygon fill="url(#background)" points="0,17.5 8.9,0.5 82.4,0.5 90,17.5"/>' +
+            '</symbol>' +
+            '<symbol id="page-button-bottom">' +
+                '<polygon fill="url(#background)" points="0,0.5 8.9,17.5 82.4,17.5 90,0.5"/>' +
             '</symbol>' +
         '</svg>').appendTo($element);
 
@@ -113,7 +113,7 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
             .append(
                 $('<div data-ng-repeat="(page, weeks) in timeline">' +
                     '<div>{{page}}</div>' +
-                    '<svg width="48" height="18" viewBox="0 0 48 18">' +
+                    '<svg width="90" height="16" viewBox="0 0 90 18">' +
                         '<use xlink:href="#page-button-top"></use>' +
                     '</svg>' +
                 '</div>'))
@@ -121,6 +121,13 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
 
         $('<div></div>')
             .addClass('date-selector-dates')
+            .append(
+                $('<div data-ng-repeat="week in summary">' +
+                    '<div>{{week}}</div>' +
+                    '<svg width="90" height="16" viewBox="0 0 90 18">' +
+                        '<use xlink:href="#page-button-bottom"></use>' +
+                    '</svg>' +
+                '</div>'))
             .appendTo(pages);
 
         // Create the rendered view.

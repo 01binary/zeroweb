@@ -78,14 +78,14 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
             'xmlns="http://www.w3.org/2000/svg" ' +
             'xmlns:xlink="http://www.w3.org/1999/xlink" ' +
             'style="display:none">' +
-            '<linearGradient id="background" ' +
-                'x1="0" y1="0" x2="0" y2="10">' +
-                '<stop offset="0" style="stop-color:#FFFFFF"/>' +
-                '<stop offset="1" style="stop-color:#000000"/>' +
-            '</linearGradient>' +
+            '<defs>' +
+                '<linearGradient id="mom">' +
+                    '<stop offset="0%" style="stop-color:red"/>' +
+                    '<stop offset="50%" style="stop-color:green"/>' +
+                '</linearGradient>' +
+            '</defs>' +
             '<symbol id="page-button-top">' +
-	            '<polygon fill=“url(#background)” points="0.8,17.5 9.2,0.5 40.1,0.5 47.2,17.5"/>' +
-	            '<path fill=“#C0BFBF” d="M39.7,1l6.7,16H1.6L9.5,1H39.7 M40.4,0H8.9L0,18h48L40.4,0L40.4,0z"/>' +
+	            '<polygon fill="url(#mom)" points="0.8,17.5 9.2,0.5 40.1,0.5 47.2,17.5"/>' +
             '</symbol>' +
         '</svg>').appendTo($element);
 
@@ -337,17 +337,26 @@ function loadContent($q, $http, $scope) {
     };
 
     $scope.summary = Object.keys($scope.timeline).map(function(key) {
+        // Map date label for each page.
         var month = $scope.timeline[key];
-        var weeks = Object.keys($month)
+        var weeks = Object.keys(month)
         var firstWeekMonthDay = weeks[0].split(' ');
         var lastWeekMonthDay = weeks[weeks.length - 1].split(' ');
 
-        if (firstWeekMonthDay[0] === lastWeekMonthDay) {
-            
+        if (firstWeekMonthDay[0] === lastWeekMonthDay[0]) {
+            // Use "jan 2 - 10" for example if first and last week have same month.
+            return firstWeekMonthDay[0] + ' ' +
+                firstWeekMonthDay[1] + ' - ' +
+                lastWeekMonthDay[1];
+        } else {
+            // Use "jan 29 - feb 3" for example if first and last week have different months.
+            return weeks[0] + ' ' + weeks[weeks.length - 1];
         }
     });
 
     $scope.loading = false;
+
+    console.log($scope.summary);
 
     return $q.when();
 }

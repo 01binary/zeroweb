@@ -143,6 +143,7 @@ nav:after {
 main {
   float: left;
   position: relative;
+  width: calc(100% - 22px);
   margin-left: 22px;
   font-family: $normal-font;
   font-size: $normal-font-size;

@@ -168,10 +168,14 @@
 .date-selector-page-numbers div {
     position: relative;
     float: left;
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
     text-align: center;
+    line-height: 16px;
     cursor: pointer;
+}
+
+.date-selector-page-numbers div > div {
+    padding-left: 4px;
 }
 
 .date-selector-page-numbers div > svg {
@@ -205,10 +209,14 @@
 .date-selector-dates div {
     position: relative;
     float: left;
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
     text-align: center;
+    line-height: 16px;
     cursor: pointer;
+}
+
+.date-selector-dates div > div {
+    padding-left: 4px;
 }
 
 .date-selector-dates div > svg {

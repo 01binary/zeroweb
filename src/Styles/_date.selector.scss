@@ -191,10 +191,6 @@
     visibility: hidden;
 }
 
-.date-selector-page-numbers div:nth-child(odd):hover {
-
-}
-
 .date-selector-page-numbers div:nth-child(odd).selected {
 
 }
@@ -230,10 +226,6 @@
 /* bordered facing down */
 .date-selector-dates div:nth-child(even) > svg {
     visibility: hidden;
-}
-
-.date-selector-dates div:nth-child(even):hover {
-
 }
 
 .date-selector-dates div:nth-child(even).selected {

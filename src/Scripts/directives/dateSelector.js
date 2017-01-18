@@ -379,8 +379,6 @@ function loadContent($q, $http, $scope) {
 
     $scope.loading = false;
 
-    console.log($scope.summary);
-
     return $q.when();
 }
 

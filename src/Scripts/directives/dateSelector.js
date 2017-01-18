@@ -73,7 +73,7 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
 
     // Load content and create the rest of the elements when loaded.
     loadContent($q, $http, $scope).then(function() {
-        // Page button backgrounds.
+        // Create graphic resources.
         $('<svg version="1.1" ' +
             'xmlns="http://www.w3.org/2000/svg" ' +
             'xmlns:xlink="http://www.w3.org/1999/xlink" ' +
@@ -89,17 +89,31 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
             '<symbol id="page-button-bottom">' +
                 '<polygon fill="url(#background)" points="0,0.5 8.9,17.5 82.4,17.5 90,0.5"/>' +
             '</symbol>' +
+            '<symbol id="arrow-left">' +
+                '<path d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
+            '</symbol>' +
+            '<symbol id="arrow-right">' +
+                '<path d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
+            '</symbol>' +
         '</svg>').appendTo($element);
 
         // Create left scroll button.
-        $('<button data-primary></button>')
+        $('<button data-primary>' +
+            '<svg width="11" height="7" viewBox="0 0 11 7">' +
+                '<use xlink:href="#arrow-left"></use>' +
+            '</svg>' +
+        '</button>')
             .addClass('date-selector-scroll')
             .addClass('date-selector-scroll-left')
             .click(prevPage.bind($element, $scope))
             .appendTo($element);
 
         // Create right scroll button.
-        $('<button data-primary></button>')
+        $('<button data-primary>' +
+            '<svg width="11" height="7" viewBox="0 0 11 7">' +
+                '<use xlink:href="#arrow-right"></use>' +
+            '</svg>' +
+        '</button>')
             .addClass('date-selector-scroll')
             .addClass('date-selector-scroll-right')
             .click(nextPage.bind($element, $scope))

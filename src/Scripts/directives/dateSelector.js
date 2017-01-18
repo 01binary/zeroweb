@@ -76,8 +76,10 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
         // Page button backgrounds.
         $('<svg version="1.1" ' +
             'xmlns="http://www.w3.org/2000/svg" ' +
-            'xmlns:xlink="http://www.w3.org/1999/xlink">' +
-            '<linearGradient id="background" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="13">' +
+            'xmlns:xlink="http://www.w3.org/1999/xlink" ' +
+            'width="0" ' +
+            'height="0">' +
+            '<linearGradient id="background" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="13">' +
                 '<stop offset="0" style="stop-color:rgb(248, 248, 248)"/>' +
                 '<stop offset="1" style="stop-color:rgb(235, 235, 235)"/>' +
             '</linearGradient>' +

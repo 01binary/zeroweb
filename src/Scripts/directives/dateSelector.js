@@ -65,7 +65,7 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
         .appendTo($element);
 
     // Create expand/collapse heading.
-    $('<button>date</button>')
+    $('<button>by date</button>')
         .addClass('date-selector-heading')
         .addClass('button-inline')
         .click(expandCollapse.bind($element, $scope))

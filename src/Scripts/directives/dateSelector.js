@@ -74,20 +74,18 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
     // Load content and create the rest of the elements when loaded.
     loadContent($q, $http, $scope).then(function() {
         // Create graphic resources.
-        $('<svg version="1.1" ' +
-            'xmlns="http://www.w3.org/2000/svg" ' +
-            'xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-            'width="0" ' +
-            'height="0">' +
-            '<linearGradient id="background" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="13">' +
-                '<stop offset="0" style="stop-color:rgb(248, 248, 248)"/>' +
-                '<stop offset="1" style="stop-color:rgb(235, 235, 235)"/>' +
+        $('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
+            '<linearGradient id="page-button-gradient" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
+                '<stop offset="0" style="stop-color:rgb(250,250,250)"/>' +
+                '<stop offset="1" style="stop-color:rgb(235,235,235)"/>' +
             '</linearGradient>' +
-            '<symbol id="page-button-top">' +
-                '<polygon fill="url(#background)" points="0,17.5 8.9,0.5 82.4,0.5 90,17.5"/>' +
+            '<symbol id="page-button-border">' +
+                '<polyline fill="none" class="page-button-highlight" points="2.9,30.5 8.5,24.9 8.5,1.5 29.5,1.5"/>' +
+                '<polyline fill="none" class="page-button-shadow" points="29.5,2 29.5,24.1 23.1,30.5 1.8,30.5"/>' +
+                '<polygon fill="none" points="23.5,31.5 30.5,24.5 30.5,0.5 7.5,0.5 7.5,24.5 0.5,31.5"/>' +
             '</symbol>' +
-            '<symbol id="page-button-bottom">' +
-                '<polygon fill="url(#background)" points="0,0.5 8.9,17.5 82.4,17.5 90,0.5"/>' +
+            '<symbol id="page-button-background">' +
+                '<polygon fill="url(#page-button-gradient)" stroke="none" points="23.5,31.5 30.5,24.5 30.5,0.5 7.5,0.5 7.5,24.5 0.5,31.5"/>' +
             '</symbol>' +
             '<symbol id="arrow-left">' +
                 '<path d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
@@ -120,38 +118,32 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
             .appendTo($element);
 
         // Create paging containers.
-        var pages = $('<div></div>')
+        $('<div></div>')
             .addClass('date-selector-pages')
+            .append(
+                $('<div class="date-selector-page" data-ng-repeat="(page, weeks) in timeline">' +
+                    '<div class="date-selector-page-label">{{page}}</div>' +
+                    '<svg class="date-selector-page-border" width="31" height="32" viewBox="0 0 31 32">' +
+                        '<use xlink:href="#page-button-border"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-hover" width="31" height="32" viewBox="0 0 31 32">' +
+                        '<use xlink:href="#page-button-hover"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-pushed" width="31" height="32" viewBox="0 0 31 32">' +
+                        '<use xlink:href="#page-button-pushed"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-background" width="31" height="32" viewBox="0 0 31 32">' +
+                        '<use xlink:href="#page-button-background"></use>' +
+                    '</svg>' +
+                '</div>'))
             .appendTo($element);
 
-        $('<div></div>')
-            .addClass('date-selector-page-numbers')
-            .append(
-                $('<div data-ng-repeat="(page, weeks) in timeline">' +
-                    '<div>{{page}}</div>' +
-                    '<svg width="90" height="16" viewBox="0 0 90 18">' +
-                        '<use xlink:href="#page-button-top"></use>' +
-                    '</svg>' +
-                '</div>'))
-            .appendTo(pages);
-
-        $('<div></div>')
-            .addClass('date-selector-dates')
-            .append(
-                $('<div data-ng-repeat="week in summary">' +
-                    '<div>{{week}}</div>' +
-                    '<svg width="90" height="16" viewBox="0 0 90 18">' +
-                        '<use xlink:href="#page-button-bottom"></use>' +
-                    '</svg>' +
-                '</div>'))
-            .appendTo(pages);
-
         // Create the rendered view.
-        $scope.view = $render2d.createCanvas(
+        /*$scope.view = $render2d.createCanvas(
             pages,
             'date-selector-view',
             $element.width() - 10,
-            $element.height() - 10);
+            $element.height() - 10);*/
 
         // Register handlers.
         $element.onresize =

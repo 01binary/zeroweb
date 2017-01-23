@@ -123,12 +123,7 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
         $('<div></div>')
             .addClass('date-selector-pages')
             .append(
-                $('<div class="date-selector-page noselect" ' +
-                    'data-ng-repeat="(page, weeks) in timeline" ' +
-                    'data-ng-mouseover="pageMouseOver($event)" ' +
-                    'data-ng-mouseout="pageMouseOut($event)" ' +
-                    'data-ng-mousedown="pageMouseDown($event)" ' +
-                    'data-ng-mouseup="pageMouseUp($event)">' +
+                $('<div class="date-selector-page noselect" data-ng-repeat="(page, weeks) in timeline">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
@@ -144,14 +139,18 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
                     '<svg class="date-selector-page-background" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-background"></use>' +
                     '</svg>' +
-                    '<div class="date-selector-page-label">{{page}}</div>' +
+                    '<div class="date-selector-page-overlay" ' +
+                        'data-ng-mouseover="pageMouseOver($event)" ' +
+                        'data-ng-mouseout="pageMouseOut($event)" ' +
+                        'data-ng-mousedown="pageMouseDown($event)" ' +
+                        'data-ng-mouseup="pageMouseUp($event)">' +
+                        '<div class="date-selector-page-label">' +
+                            '{{page}}' +
+                        '</div>' +
+                    '</div>' +
                 '</div>'))
             .append(
-                $('<div class="date-selector-scroll-right" ' +
-                    'data-ng-mouseover="pageMouseOver($event)" ' +
-                    'data-ng-mouseout="pageMouseOut($event)" ' +
-                    'data-ng-mousedown="pageMouseDown($event)" ' +
-                    'data-ng-mouseup="pageMouseUp($event)">' +
+                $('<div class="date-selector-scroll-right noselect">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
@@ -167,9 +166,17 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
                     '<svg class="date-selector-page-background" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-background"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-label date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +
-                        '<use xlink:href="#arrow-right"></use>' +
-                    '</svg>' +
+                    '<div class="date-selector-page-overlay" ' +
+                        'data-ng-mouseover="pageMouseOver($event)" ' +
+                        'data-ng-mouseout="pageMouseOut($event)" ' +
+                        'data-ng-mousedown="pageMouseDown($event)" ' +
+                        'data-ng-mouseup="pageMouseUp($event)">' +
+                        '<div class="date-selector-page-label">' +
+                            '<svg class="date-selector-page-label date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +
+                                '<use xlink:href="#arrow-right"></use>' +
+                            '</svg>' +
+                        '</div>' +
+                    '</div>' +
                 '</div>')
                 .click(nextPage.bind($element, $scope)))
                 .appendTo($element);

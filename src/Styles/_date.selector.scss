@@ -1,6 +1,6 @@
 .date-selector {
     position: relative;
-    height: 85px;
+    height: 90px;
 }
 
 .date-selector-background {
@@ -33,17 +33,43 @@
     bottom: 0;
 }
 
+.date-selector-caption {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.date-selector-pages {
+    position: absolute;
+    left: 28px;
+    right: 25px;
+    bottom: 10px;
+    height: 27px;
+    font-family: $small-font;
+    font-size: $small-font-size;
+    z-index: 200;
+}
+
 .date-selector-collapsed {
     height: 34px;
-    width: 100%;
+    margin-top: -2px;
+    margin-bottom: -7px;
+    margin-left: 11px;
 
-    .date-selector-heading:before {
-        content: '+ ';
-        left: -13px;
+    .date-selector-background {
+        background: $background-color;
     }
 
-    .date-selector-scroll {
-        display: none;
+    .date-selector-scroll .button-primary-leftcorner {
+        border-top: $corner-small solid $background-color;
+    }
+
+    .date-selector-scroll .button-primary-rightcorner {
+        border-bottom: $corner-small solid $background-color;
+    }
+
+    .date-selector-scroll-left {
+        bottom: 3px;
     }
 
     .date-selector-view {
@@ -51,20 +77,14 @@
     }
 
     .date-selector-pages {
-        display: none;
+        bottom: 3px;
     }
-}
 
-.date-selector-heading {
-    position: absolute;
-    left: 20px;
-    top: 10px;
-}
-
-.date-selector-heading:before {
-    content: '- ';
-    position: absolute;
-    left: -10px;
+    .date-selector-caption {
+        position: absolute;
+        left: -7px;
+        top: calc(50% - 10px);
+    }
 }
 
 .date-selector-scroll {
@@ -74,10 +94,40 @@
     background: $accent-light-color;
     border: $border-thickness solid $secondary-text-color;
     box-shadow: $border-thickness $border-thickness 0 $background-color inset;
-    position: absolute;
     width: 23px;
-    height: 32px;
+    height: 27px;
+}
+
+.date-selector-scroll-left {
+    position: absolute;
+    left: 10px;
     bottom: 10px;
+}
+
+.date-selector-scroll-right {
+    position: relative;
+    float: left;
+    width: 31px;
+    height: 27px;
+    cursor: pointer;
+}
+
+.date-selector-scroll-right:before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    right: 9px;
+    bottom: 1px;
+    height: 1px;
+    box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+    z-index: -2;
+}
+
+.date-selector-scroll-label {
+    position: absolute;
+    left: 13px;
+    top: 10px;
+    text-align: center;
 }
 
 .date-selector-scroll.pushed {
@@ -138,26 +188,6 @@
   border-bottom: $border-thickness solid $drop-shadow-light-color;
 }
 
-.date-selector-scroll-left {
-    left: 10px;
-}
-
-.date-selector-scroll-right {
-    right: 10px;
-}
-
-.date-selector-pages {
-    position: absolute;
-    left: 28px;
-    right: 25px;
-    bottom: 10px;
-    height: 32px;
-    font-family: $small-font;
-    font-size: $small-font-size;
-    z-index: 200;
-    overflow: hidden;
-}
-
 .os-win .date-selector-pages {
   font-size: $small-font-size-win;
 }
@@ -166,30 +196,54 @@
     position: relative;
     float: left;
     width: 31px;
-    height: 32px;
+    height: 27px;
     padding-left: 3px;
-    padding-top: 8px;
+    padding-top: 5px;
     margin-right: -8px;
     cursor: pointer;
 }
 
+.date-selector-page:before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    right: 9px;
+    bottom: 6px;
+    height: 1px;
+    box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+    z-index: -2;
+}
+
 .page-button-highlight {
     stroke: $background-color;
+
+    &-pushed {
+        stroke: $shadow-dark-color;
+    }
 }
 
 .page-button-shadow {
     stroke: $shadow-color;
+
+    &-pushed {
+        stroke: $drop-shadow-light-color;
+    }
 }
 
 .date-selector-page-label {
     text-align: center;
 }
 
-.date-selector-page-border {
+.date-selector-page-border,
+.date-selector-page-border-pushed {
     position: absolute;
     stroke: $secondary-text-color;
     left: 0;
     top: 0;
+}
+
+.date-selector-page-border-pushed {
+    display: none;
 }
 
 .date-selector-page-background,
@@ -202,24 +256,11 @@
 }
 
 .date-selector-page-background {
-    z-index: -1;
+    z-index: -2;
 }
 
-.date-selector-page-background:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: red;
-    box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
-}
-
-.date-selector-page-hover {
-
-}
-
+.date-selector-page-hover,
 .date-selector-page-pushed {
-
+    z-index: -1;
+    display: none;
 }

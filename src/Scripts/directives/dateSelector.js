@@ -53,45 +53,58 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
     $scope.loading = true;
     $scope.expanded = true;
     $scope.scrolling = false;
+    $scope.expandCollapse = expandCollapse.bind($element, $scope);
+    $scope.pageMouseOver = pageMouseOver;
+    $scope.pageMouseOut = pageMouseOut;
+    $scope.pageMouseDown = pageMouseDown;
+    $scope.pageMouseUp = pageMouseUp;
     $scope.timeline = {};
 
-    // Create initial elements.
-    $element.addClass('date-selector');
-    $element.addClass('loading');
-
-    // Create background rectangle.
-    $('<div></div>')
-        .addClass('date-selector-background')
-        .appendTo($element);
-
-    // Create expand/collapse heading.
-    $('<button>by date</button>')
-        .addClass('date-selector-heading')
-        .addClass('button-inline')
-        .click(expandCollapse.bind($element, $scope))
-        .appendTo($element);
-
-    // Load content and create the rest of the elements when loaded.
+    // Load content and create children.
     loadContent($q, $http, $scope).then(function() {
+        // Create background rectangle.
+        $('<div></div>')
+            .addClass('date-selector-background')
+            .appendTo($element);
+
         // Create graphic resources.
         $('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
             '<linearGradient id="page-button-gradient" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
-                '<stop offset="0" style="stop-color:rgb(250,250,250)"/>' +
+                '<stop offset="0" style="stop-color:rgb(249,249,249)"/>' +
                 '<stop offset="1" style="stop-color:rgb(235,235,235)"/>' +
             '</linearGradient>' +
+            '<linearGradient id="page-button-gradient-hover" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="50">' +
+                '<stop offset="0" style="stop-color:rgb(255,255,255)"/>' +
+                '<stop offset="1" style="stop-color:rgb(249,249,249)"/>' +
+            '</linearGradient>' +
+            '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
+                '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
+                '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
+            '</linearGradient>' +
             '<symbol id="page-button-border">' +
-                '<polyline fill="none" class="page-button-highlight" points="2.9,30.5 8.5,24.9 8.5,1.5 29.5,1.5"/>' +
-                '<polyline fill="none" class="page-button-shadow" points="29.5,2 29.5,24.1 23.1,30.5 1.8,30.5"/>' +
-                '<polygon fill="none" points="23.5,31.5 30.5,24.5 30.5,0.5 7.5,0.5 7.5,24.5 0.5,31.5"/>' +
+                '<polyline fill="none" class="page-button-highlight" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
+                '<polyline fill="none" class="page-button-shadow" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
+                '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+            '</symbol>' +
+            '<symbol id="page-button-border-pushed">' +
+                '<polyline fill="none" class="page-button-highlight-pushed" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
+                '<polyline fill="none" class="page-button-shadow-pushed" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
+                '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
             '</symbol>' +
             '<symbol id="page-button-background">' +
-                '<polygon fill="url(#page-button-gradient)" stroke="none" points="23.5,31.5 30.5,24.5 30.5,0.5 7.5,0.5 7.5,24.5 0.5,31.5"/>' +
+                '<polygon fill="url(#page-button-gradient)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+            '</symbol>' +
+            '<symbol id="page-button-hover">' +
+                '<polygon fill="url(#page-button-gradient-hover)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+            '</symbol>' +
+            '<symbol id="page-button-pushed">' +
+                '<polygon fill="url(#page-button-gradient-pushed)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
             '</symbol>' +
             '<symbol id="arrow-left">' +
-                '<path d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
+                '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
             '</symbol>' +
             '<symbol id="arrow-right">' +
-                '<path d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
+                '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
             '</symbol>' +
         '</svg>').appendTo($element);
 
@@ -106,36 +119,70 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
             .click(prevPage.bind($element, $scope))
             .appendTo($element);
 
-        // Create right scroll button.
-        $('<button data-primary>' +
-            '<svg width="11" height="7" viewBox="0 0 11 7">' +
-                '<use xlink:href="#arrow-right"></use>' +
-            '</svg>' +
-        '</button>')
-            .addClass('date-selector-scroll')
-            .addClass('date-selector-scroll-right')
-            .click(nextPage.bind($element, $scope))
-            .appendTo($element);
-
         // Create paging containers.
         $('<div></div>')
             .addClass('date-selector-pages')
             .append(
-                $('<div class="date-selector-page" data-ng-repeat="(page, weeks) in timeline">' +
-                    '<div class="date-selector-page-label">{{page}}</div>' +
-                    '<svg class="date-selector-page-border" width="31" height="32" viewBox="0 0 31 32">' +
-                        '<use xlink:href="#page-button-border"></use>' +
-                    '</svg>' +
-                    '<svg class="date-selector-page-hover" width="31" height="32" viewBox="0 0 31 32">' +
+                $('<div class="date-selector-page noselect" ' +
+                    'data-ng-repeat="(page, weeks) in timeline" ' +
+                    'data-ng-mouseover="pageMouseOver($event)" ' +
+                    'data-ng-mouseout="pageMouseOut($event)" ' +
+                    'data-ng-mousedown="pageMouseDown($event)" ' +
+                    'data-ng-mouseup="pageMouseUp($event)">' +
+                    '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-pushed" width="31" height="32" viewBox="0 0 31 32">' +
+                    '<svg class="date-selector-page-pushed" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-pushed"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-background" width="31" height="32" viewBox="0 0 31 32">' +
+                    '<svg class="date-selector-page-border" width="31" height="27" viewBox="0 0 31 27">' +
+                        '<use xlink:href="#page-button-border"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-border-pushed" width="31" height="27" viewBox="0 0 31 27">' +
+                        '<use xlink:href="#page-button-border-pushed"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-background" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-background"></use>' +
                     '</svg>' +
+                    '<div class="date-selector-page-label">{{page}}</div>' +
                 '</div>'))
+            .append(
+                $('<div class="date-selector-scroll-right" ' +
+                    'data-ng-mouseover="pageMouseOver($event)" ' +
+                    'data-ng-mouseout="pageMouseOut($event)" ' +
+                    'data-ng-mousedown="pageMouseDown($event)" ' +
+                    'data-ng-mouseup="pageMouseUp($event)">' +
+                    '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
+                        '<use xlink:href="#page-button-hover"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-pushed" width="31" height="27" viewBox="0 0 31 27">' +
+                        '<use xlink:href="#page-button-pushed"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-border" width="31" height="27" viewBox="0 0 31 27">' +
+                        '<use xlink:href="#page-button-border"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-border-pushed" width="31" height="27" viewBox="0 0 31 27">' +
+                        '<use xlink:href="#page-button-border-pushed"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-background" width="31" height="27" viewBox="0 0 31 27">' +
+                        '<use xlink:href="#page-button-background"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-label date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +
+                        '<use xlink:href="#arrow-right"></use>' +
+                    '</svg>' +
+                '</div>')
+                .click(nextPage.bind($element, $scope)))
+                .appendTo($element);
+
+        $element.addClass('date-selector');
+        $element.addClass('loading');
+
+        // Create expand/collapse heading.
+        $('<button data-ng-click="expandCollapse()">' +
+            '{{expanded === true ? "- by date" : "+"}}' +
+        '</button>')
+            .addClass('date-selector-caption')
+            .addClass('button-inline')
             .appendTo($element);
 
         // Create the rendered view.
@@ -218,6 +265,76 @@ function doScroll($scope) {
  */
 function endScroll($scope) {
     $scope.scrolling = false;
+}
+
+/**
+ * Get page button from Angular event arguments.
+ * @param {object} event - The Angular event arguments.
+ */
+function getPageButton(event) {
+    var $button = $(event.target).parent();
+    return $button.hasClass('date-selector-page') ||
+        $button.hasClass('date-selector-scroll-right') ? $button : null;
+}
+
+/**
+ * Page button normal to hover transition.
+ * @param {object} event - The Angular event arguments.
+ */
+function pageMouseOver(event) {
+    var $button = getPageButton(event);
+    
+    if ($button) {
+        $button.find('.date-selector-page-hover').stop().fadeIn('fast');
+    }
+}
+
+/**
+ * Page button hover to normal transition.
+ * @param {object} event - The Angular event arguments.
+ */
+function pageMouseOut(event) {
+    var $button = getPageButton(event);
+
+    if ($button) {
+        $button.find('.date-selector-page-hover').stop().fadeOut('fast');
+        $button.find('.date-selector-page-pushed').hide();
+        $button.find('.date-selector-page-label').css('color', '#3b4a51');
+        $button.find('.date-selector-page-border').show();
+        $button.find('.date-selector-page-border-pushed').hide();
+    }
+}
+
+/**
+ * Page button hover to pushed transition.
+ * @param {object} event - The Angular event arguments.
+ */
+function pageMouseDown(event) {
+    var $button = getPageButton(event);
+
+    if ($button) {
+        $button.find('.date-selector-page-hover').stop().hide();
+        $button.find('.date-selector-page-pushed').show();
+        $button.find('.date-selector-page-label').css('color', '#ffffff');
+        $button.find('.date-selector-page-border').hide();
+        $button.find('.date-selector-page-border-pushed').show();
+    }
+}
+
+/**
+ * Page button hover or pushed to normal transition.
+ * @param {object} event - The Angular event arguments.
+ */
+function pageMouseUp(event) {
+    var $button = getPageButton(event);
+
+    if ($button) {
+        $button.find('.date-selector-page-hover').show();
+        $button.find('.date-selector-page-pushed').hide();
+        $button.find('.date-selector-page-label').css('color', '#3b4a51');
+        $button.find('.date-selector-page-border').show();
+        $button.find('.date-selector-page-border-pushed').hide();
+    }
 }
 
 /**

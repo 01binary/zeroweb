@@ -39,11 +39,12 @@
     &-pages {
         position: absolute;
         left: 28px;
-        right: 25px;
-        bottom: 10px;
-        height: 27px;
+        right: 10px;
+        bottom: 5px;
+        height: 32px;
         font-family: $small-font;
         font-size: $small-font-size;
+        overflow: hidden;
         z-index: 200;
     }
 
@@ -61,6 +62,7 @@
         padding-left: 3px;
         padding-top: 5px;
         margin-right: -8px;
+        margin-bottom: 10px;
 
         /* Bottom shadow */
         &:before {
@@ -95,7 +97,8 @@
             position: absolute;
             text-align: center;
             top: 5px;
-            left: 10px;
+            left: 2px;
+            right: -2px;
             pointer-events: none;
         }
 

@@ -138,7 +138,7 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
                     '<svg class="date-selector-page-background" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-background"></use>' +
                     '</svg>' +
-                    '<div class="date-selector-page-overlay" ' +
+                    '<div class="date-selector-page-overlay" role="button" ' +
                         'data-ng-mouseover="pageMouseOver($event)" ' +
                         'data-ng-mouseout="pageMouseOut($event)" ' +
                         'data-ng-mousedown="pageMouseDown($event)" ' +
@@ -480,24 +480,71 @@ function loadContent($q, $http, $scope) {
                 "web": 1,
                 "mechanical": 2
             }
-        }
+        },
+
+        "7": {},
+        "8": {},
+        "9": {},
+        "10": {},
+        "11": {},
+        "12": {},
+        "13": {},
+        "14": {},
+        "15": {},
+        "16": {},
+        "17": {},
+        "18": {},
+        "19": {},
+        "20": {},
+        "21": {},
+        "22": {},
+        "23": {},
+        "24": {},
+        "25": {},
+        "26": {},
+        "27": {},
+        "28": {},
+        "29": {},
+        "30": {},
+        "31": {},
+        "32": {},
+        "33": {},
+        "34": {},
+        "35": {},
+        "36": {},
+        "37": {},
+        "38": {},
+        "39": {},
+        "40": {},
+        "41": {},
+        "42": {},
+        "43": {},
+        "44": {},
+        "45": {},
+        "46": {},
+        "47": {},
+        "48": {},
+        "49": {},
     };
 
     $scope.summary = Object.keys($scope.timeline).map(function(key) {
         // Map date label for each page.
         var month = $scope.timeline[key];
-        var weeks = Object.keys(month)
-        var firstWeekMonthDay = weeks[0].split(' ');
-        var lastWeekMonthDay = weeks[weeks.length - 1].split(' ');
+        var weeks = Object.keys(month);
 
-        if (firstWeekMonthDay[0] === lastWeekMonthDay[0]) {
-            // Use "jan 2 - 10" for example if first and last week have same month.
-            return firstWeekMonthDay[0] + ' ' +
-                firstWeekMonthDay[1] + ' - ' +
-                lastWeekMonthDay[1];
-        } else {
-            // Use "jan 29 - feb 3" for example if first and last week have different months.
-            return weeks[0] + ' ' + weeks[weeks.length - 1];
+        if (weeks.length) {
+            var firstWeekMonthDay = weeks[0].split(' ');
+            var lastWeekMonthDay = weeks[weeks.length - 1].split(' ');
+
+            if (firstWeekMonthDay[0] === lastWeekMonthDay[0]) {
+                // Use "jan 2 - 10" for example if first and last week have same month.
+                return firstWeekMonthDay[0] + ' ' +
+                    firstWeekMonthDay[1] + ' - ' +
+                    lastWeekMonthDay[1];
+            } else {
+                // Use "jan 29 - feb 3" for example if first and last week have different months.
+                return weeks[0] + ' ' + weeks[weeks.length - 1];
+            }
         }
     });
 

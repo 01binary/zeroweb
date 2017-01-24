@@ -180,7 +180,7 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
             '</div>' +
 
             // Expand/collapse heading.
-            '<button class="date-selector-caption button-inline" data-ng-click="expandCollapse()">' +
+            '<button class="date-selector-caption button-inline" data-ng-click="expandCollapse()" data-tooltip="// Expand or Collapse">' +
                 '{{isExpanded === true ? "- by date" : "+"}}' +
             '</button>'
         ));

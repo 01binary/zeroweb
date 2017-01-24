@@ -50,7 +50,7 @@
     z-index: 200;
 }
 
-.date-selector-collapsed {
+.date-selector.collapsed {
     height: 34px;
     margin-top: -2px;
     margin-bottom: -7px;
@@ -83,7 +83,7 @@
     .date-selector-caption {
         position: absolute;
         left: -7px;
-        top: calc(50% - 10px);
+        top: 10px;
     }
 }
 

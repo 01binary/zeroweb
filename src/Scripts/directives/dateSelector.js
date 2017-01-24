@@ -14,13 +14,13 @@
 'use strict';
     
 /**
- * Register dateselector directive.
+ * Register date selector directive.
  */
 angular.module('zeroApp')
     .directive('dateselector', [ '$q', '$http', '$compile', 'render2d', dateSelectorDirective ]);
 
 /**
- * Implement dateselector directive.
+ * Implement date selector directive.
  * @param {object} $q - The Angular promise service.
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
@@ -31,7 +31,7 @@ function dateSelectorDirective($q, $http, $compile, $render2d) {
         restrict: 'E',
         replace: true,
         transclude: true,
-        template: '<div></div>',
+        template: '<div class="date-selector" data-ng-class="{loading:isLoading, collapsed:!isExpanded}"></div>',
         scope: {},
         link: function($scope, $element, attributes) {
             initialize($q, $http, $compile, $render2d, $scope, $element);
@@ -40,7 +40,7 @@ function dateSelectorDirective($q, $http, $compile, $render2d) {
 }
 
 /**
- * Initialize custom control.
+ * Initialize date selector.
  * @param {object} $q - The Angular promise service.
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
@@ -50,80 +50,77 @@ function dateSelectorDirective($q, $http, $compile, $render2d) {
  */
 function initialize($q, $http, $compile, $render2d, $scope, $element) {
     // Set initial state.
-    $scope.loading = true;
-    $scope.expanded = true;
-    $scope.scrolling = false;
+    $scope.isLoading = true;
+    $scope.isExpanded = true;
+    $scope.isScrolling = false;
     $scope.expandCollapse = expandCollapse.bind($element, $scope);
+    $scope.nextPage = nextPage.bind($element, $scope);
+    $scope.prevPage = prevPage.bind($element, $scope);
     $scope.pageMouseOver = pageMouseOver;
     $scope.pageMouseOut = pageMouseOut;
     $scope.pageMouseDown = pageMouseDown;
     $scope.pageMouseUp = pageMouseUp;
     $scope.timeline = {};
 
-    // Load content and create children.
+    // Load content.
     loadContent($q, $http, $scope).then(function() {
-        // Create background rectangle.
-        $('<div></div>')
-            .addClass('date-selector-background')
-            .appendTo($element);
+        // Create child elements.
+        $element.append($(
+            // Background rectangle.
+            '<div class="date-selector-background"></div>' +
 
-        // Create graphic resources.
-        $('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
-            '<linearGradient id="page-button-gradient" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
-                '<stop offset="0" style="stop-color:rgb(249,249,249)"/>' +
-                '<stop offset="1" style="stop-color:rgb(235,235,235)"/>' +
-            '</linearGradient>' +
-            '<linearGradient id="page-button-gradient-hover" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="50">' +
-                '<stop offset="0" style="stop-color:rgb(255,255,255)"/>' +
-                '<stop offset="1" style="stop-color:rgb(249,249,249)"/>' +
-            '</linearGradient>' +
-            '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
-                '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
-                '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
-            '</linearGradient>' +
-            '<symbol id="page-button-border">' +
-                '<polyline fill="none" class="page-button-highlight" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
-                '<polyline fill="none" class="page-button-shadow" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
-                '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-            '</symbol>' +
-            '<symbol id="page-button-border-pushed">' +
-                '<polyline fill="none" class="page-button-highlight-pushed" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
-                '<polyline fill="none" class="page-button-shadow-pushed" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
-                '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-            '</symbol>' +
-            '<symbol id="page-button-background">' +
-                '<polygon fill="url(#page-button-gradient)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-            '</symbol>' +
-            '<symbol id="page-button-hover">' +
-                '<polygon fill="url(#page-button-gradient-hover)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-            '</symbol>' +
-            '<symbol id="page-button-pushed">' +
-                '<polygon fill="url(#page-button-gradient-pushed)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-            '</symbol>' +
-            '<symbol id="arrow-left">' +
-                '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
-            '</symbol>' +
-            '<symbol id="arrow-right">' +
-                '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
-            '</symbol>' +
-        '</svg>').appendTo($element);
-
-        // Create left scroll button.
-        $('<button data-primary>' +
-            '<svg width="11" height="7" viewBox="0 0 11 7">' +
-                '<use xlink:href="#arrow-left"></use>' +
+            // Embedded resources.
+            '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
+                '<linearGradient id="page-button-gradient" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
+                    '<stop offset="0" style="stop-color:rgb(249,249,249)"/>' +
+                    '<stop offset="1" style="stop-color:rgb(235,235,235)"/>' +
+                '</linearGradient>' +
+                '<linearGradient id="page-button-gradient-hover" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="50">' +
+                    '<stop offset="0" style="stop-color:rgb(255,255,255)"/>' +
+                    '<stop offset="1" style="stop-color:rgb(249,249,249)"/>' +
+                '</linearGradient>' +
+                '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
+                    '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
+                    '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
+                '</linearGradient>' +
+                '<symbol id="page-button-border">' +
+                    '<polyline fill="none" class="page-button-highlight" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
+                    '<polyline fill="none" class="page-button-shadow" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
+                    '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                '</symbol>' +
+                '<symbol id="page-button-border-pushed">' +
+                    '<polyline fill="none" class="page-button-highlight-pushed" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
+                    '<polyline fill="none" class="page-button-shadow-pushed" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
+                    '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                '</symbol>' +
+                '<symbol id="page-button-background">' +
+                    '<polygon fill="url(#page-button-gradient)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                '</symbol>' +
+                '<symbol id="page-button-hover">' +
+                    '<polygon fill="url(#page-button-gradient-hover)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                '</symbol>' +
+                '<symbol id="page-button-pushed">' +
+                    '<polygon fill="url(#page-button-gradient-pushed)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                '</symbol>' +
+                '<symbol id="arrow-left">' +
+                    '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
+                '</symbol>' +
+                '<symbol id="arrow-right">' +
+                    '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
+                '</symbol>' +
             '</svg>' +
-        '</button>')
-            .addClass('date-selector-scroll')
-            .addClass('date-selector-scroll-left')
-            .click(prevPage.bind($element, $scope))
-            .appendTo($element);
 
-        // Create paging containers.
-        $('<div></div>')
-            .addClass('date-selector-pages')
-            .append(
-                $('<div class="date-selector-page noselect" data-ng-repeat="(page, weeks) in timeline">' +
+            // Previous page button.
+            '<button class="date-selector-scroll date-selector-scroll-left" data-primary data-ng-click="prevPage()">' +
+                '<svg width="11" height="7" viewBox="0 0 11 7">' +
+                    '<use xlink:href="#arrow-left"></use>' +
+                '</svg>' +
+            '</button>' +
+
+            // Pages strip.
+            '<div class="date-selector-pages">' + 
+                // Page button.
+                '<div class="date-selector-page noselect" data-ng-repeat="(page, weeks) in timeline">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
@@ -148,9 +145,11 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
                             '{{page}}' +
                         '</div>' +
                     '</div>' +
-                '</div>'))
-            .append(
-                $('<div class="date-selector-scroll-right noselect">' +
+                '</div>' +
+
+                // Next page button.
+                // (has to be inside pages container to follow last page button).
+                '<div class="date-selector-scroll-right noselect">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
@@ -177,20 +176,14 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
                             '</svg>' +
                         '</div>' +
                     '</div>' +
-                '</div>')
-                .click(nextPage.bind($element, $scope)))
-                .appendTo($element);
+                '</div>' +
+            '</div>' +
 
-        $element.addClass('date-selector');
-        $element.addClass('loading');
-
-        // Create expand/collapse heading.
-        $('<button data-ng-click="expandCollapse()">' +
-            '{{expanded === true ? "- by date" : "+"}}' +
-        '</button>')
-            .addClass('date-selector-caption')
-            .addClass('button-inline')
-            .appendTo($element);
+            // Expand/collapse heading.
+            '<button class="date-selector-caption button-inline" data-ng-click="expandCollapse()">' +
+                '{{isExpanded === true ? "- by date" : "+"}}' +
+            '</button>'
+        ));
 
         // Create the rendered view.
         /*$scope.view = $render2d.createCanvas(
@@ -204,7 +197,6 @@ function initialize($q, $http, $compile, $render2d, $scope, $element) {
             resize.bind($element, $render2d, $scope);
 
         // Render for the first time.
-        $element.removeClass('loading');
         $compile($element)($scope);
         render.apply($element, $scope);
     });
@@ -225,13 +217,7 @@ function resize($render2d, $scope) {
  * @param {object} $scope - The directive scope.
  */
 function expandCollapse($scope) {
-    $scope.expanded = !$scope.expanded;
-
-    if ($scope.expanded) {
-        this.removeClass('date-selector-collapsed');
-    } else {
-        this.addClass('date-selector-collapsed');
-    }
+    $scope.isExpanded = !$scope.isExpanded;
 }
 
 /**
@@ -493,7 +479,7 @@ function loadContent($q, $http, $scope) {
         }
     });
 
-    $scope.loading = false;
+    $scope.isLoading = false;
 
     return $q.when();
 }

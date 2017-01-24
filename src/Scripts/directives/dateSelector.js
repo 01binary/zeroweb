@@ -228,7 +228,10 @@ function expandCollapse($scope, $safeApply) {
 
     this.find('.date-selector-background')
         .stop()
-        .fadeTo('fast', $scope.isExpanded ? 0 : 1, function() {
+        .animate({
+            height: $scope.isExpanded ? 0 : 100,
+            opacity: $scope.isExpanded ? 0 : 1
+        }, 'fast', function() {
             $safeApply($scope, function() {
                 $scope.isExpanded = !$scope.isExpanded;
 

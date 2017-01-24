@@ -77,12 +77,17 @@
         /* Invisible overlay for mouse interaction */
         &-overlay {
             position: absolute;
-            left: 7px;
-            right: 3px;
+            left: 4px;
+            right: 4px;
             top: 0px;
             bottom: 0px;
             z-index: 2;
             cursor: pointer;
+        }
+
+        .date-selector-scroll-right &-overlay {
+            left: 5px;
+            right: 0px;
         }
 
         /* Page number label */
@@ -90,7 +95,7 @@
             position: absolute;
             text-align: center;
             top: 5px;
-            left: 7px;
+            left: 10px;
             pointer-events: none;
         }
 
@@ -258,7 +263,7 @@
             /* Right arrow icon */
             .date-selector-page-label {
                 top: 5px;
-                left: 3px;
+                left: 4px;
             }
         }
 

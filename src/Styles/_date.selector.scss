@@ -279,7 +279,7 @@
     }
 
     /* Overrides for collapsed state */
-    .collapsed {
+    &.collapsed {
         height: 34px;
         margin-top: -2px;
         margin-bottom: -7px;
@@ -310,8 +310,6 @@
 
             /* Left scroll button */
             &-scroll .button-primary {
-                bottom: 3px;
-
                 &-leftcorner {
                     border-top: $corner-small solid $background-color;
                 }
@@ -319,6 +317,10 @@
                 &-rightcorner {
                     border-bottom: $corner-small solid $background-color;
                 }
+            }
+
+            &-scroll.button-primary {
+                bottom: 3px;
             }
         }
     }

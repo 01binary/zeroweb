@@ -1,288 +1,325 @@
 .date-selector {
     position: relative;
     height: 90px;
-}
 
-.date-selector-background {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: $accent-light-color;
-    z-index: -1;
-}
-
-.date-selector-background:before {
-    content: '';
-    position: absolute;
-    border-width: 8px;
-    border-style: solid;
-    border-color: $background-color transparent transparent $background-color;
-    left: 0;
-    top: 0%;
-}
-
-.date-selector-background:after {
-    content: '';
-    position: absolute;
-    border-width: 8px;
-    border-style: solid;
-    border-color: transparent $background-color $background-color transparent;
-    right: 0;
-    bottom: 0;
-}
-
-.date-selector-caption {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-}
-
-.date-selector-pages {
-    position: absolute;
-    left: 28px;
-    right: 25px;
-    bottom: 10px;
-    height: 27px;
-    font-family: $small-font;
-    font-size: $small-font-size;
-    z-index: 200;
-}
-
-.date-selector.collapsed {
-    height: 34px;
-    margin-top: -2px;
-    margin-bottom: -7px;
-    margin-left: 11px;
-
-    .date-selector-background {
-        background: $background-color;
-    }
-
-    .date-selector-scroll .button-primary-leftcorner {
-        border-top: $corner-small solid $background-color;
-    }
-
-    .date-selector-scroll .button-primary-rightcorner {
-        border-bottom: $corner-small solid $background-color;
-    }
-
-    .date-selector-scroll-left {
-        bottom: 3px;
-    }
-
-    .date-selector-view {
-        display: none;
-    }
-
-    .date-selector-pages {
-        bottom: 3px;
-    }
-
-    .date-selector-caption {
+    /* Background rectangle */
+    &-background {
         position: absolute;
-        left: -7px;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: $accent-light-color;
+        z-index: -1;
+
+        /* Top left corner cut-off */
+        &:before {
+            content: '';
+            position: absolute;
+            border-width: 8px;
+            border-style: solid;
+            border-color: $background-color transparent transparent $background-color;
+            left: 0;
+            top: 0%;
+        }
+
+        /* Bottom right corner cut-off */
+        &:after {
+            content: '';
+            position: absolute;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent $background-color $background-color transparent;
+            right: 0;
+            bottom: 0;
+        }
+    }
+
+    /* Page numbers strip */
+    &-pages {
+        position: absolute;
+        left: 28px;
+        right: 25px;
+        bottom: 10px;
+        height: 27px;
+        font-family: $small-font;
+        font-size: $small-font-size;
+        z-index: 200;
+    }
+
+    /* Page numbers strip overrides for PC */
+    .os-win &-pages {
+        font-size: $small-font-size-win;
+    }
+
+    /* Page number button */
+    &-page {
+        position: relative;
+        float: left;
+        width: 31px;
+        height: 22px;
+        padding-left: 3px;
+        padding-top: 5px;
+        margin-right: -8px;
+
+        /* Bottom shadow */
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0px;
+            right: 9px;
+            bottom: 1px;
+            height: 1px;
+            box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+            z-index: -3;
+        }
+
+        /* Invisible overlay for mouse interaction */
+        &-overlay {
+            position: absolute;
+            left: 7px;
+            right: 3px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        /* Page number label */
+        &-label {
+            position: absolute;
+            text-align: center;
+            top: 5px;
+            left: 7px;
+            pointer-events: none;
+        }
+
+        /* Page number sub-elements */
+        &-border,
+        &-border-pushed {
+            position: absolute;
+            stroke: $secondary-text-color;
+            left: 0;
+            top: 0;
+        }
+
+        &-border-pushed {
+            display: none;
+        }
+
+        &-background,
+        &-hover,
+        &-pushed
+        {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        &-background {
+            z-index: -3;
+        }
+
+        &-hover,
+        &-pushed {
+            z-index: -2;
+            display: none;
+        }
+
+        &-border {
+            z-index: -1;
+        }
+    }
+
+    /* Embedded SVG resource styles */
+    .page-button {
+        &-highlight {
+            stroke: $background-color;
+
+            &-pushed {
+                stroke: $shadow-dark-color;
+            }
+        }
+
+        &-shadow {
+            stroke: $shadow-color;
+
+            &-pushed {
+                stroke: $drop-shadow-light-color;
+            }
+        }
+    }
+
+    /* Scroll button */
+    &-scroll {
+        font-family: 'Wingdings 3';
+        color: $foreground-color;
+        text-shadow: none;
+        background: $accent-light-color;
+        border: $border-thickness solid $secondary-text-color;
+        box-shadow: $border-thickness $border-thickness 0 $background-color inset;
+        width: 23px;
+        height: 27px;
+
+        /* Overrides for pushed state */
+        &.pushed {
+            color: $background-color;
+            box-shadow: $border-thickness $border-thickness 0 $shadow-dark-color inset;
+        }
+
+        /* Left scroll button (uses primary button markup) */
+        &-left {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+        }
+
+        /* Overrides for primary button (left scroll button) */
+        .button-primary {
+            &-content {
+                padding-left: 2px;
+                padding-right: 1px;
+            }
+
+            &-leftcorner {
+                border-top: $corner-small solid $accent-light-color;
+            }
+
+            &-rightcorner {
+                border-bottom: $corner-small solid $accent-light-color;
+            }
+
+            &-leftcornerborder {
+                border-top: $corner-small solid $secondary-text-color;
+            }
+
+            &-leftcornerhighlight {
+                border-top: $corner-small solid $background-color;
+            }
+            
+            &-rightcornerborder {
+                border-bottom: ($corner-small + $border-thickness) solid $secondary-text-color;
+            }
+
+            &-rightcornershadow {
+                border-bottom: ($corner-small + $border-thickness) solid $shadow-color;
+            }
+
+            &-rightshadow {
+                border-right: $border-thickness solid $shadow-color;
+            }
+
+            &-bottomshadow {
+                border-bottom: $border-thickness solid $shadow-color;
+            }
+        }
+        
+        /* Overrides for primary button (left scroll button) pushed state */
+        &.pushed {
+            .button-primary {
+                &-leftcornerhighlight {
+                    border-top: $corner-small solid $shadow-dark-color;
+                }
+
+                &-rightcornershadow {
+                    border-bottom: ($corner-small + $border-thickness) solid $drop-shadow-light-color;
+                }
+
+                &-rightshadow {
+                    border-right: $border-thickness solid $drop-shadow-light-color;
+                }
+
+                &-bottomshadow {
+                    border-bottom: $border-thickness solid $drop-shadow-light-color;
+                }
+            }
+        }
+
+        /* Right scroll button (uses page button markup) */
+        &-right {
+            position: relative;
+            float: left;
+            width: 31px;
+            height: 27px;
+            cursor: pointer;
+
+            /* Bottom shadow */
+            &:before {
+                content: '';
+                position: absolute;
+                left: 0px;
+                right: 9px;
+                bottom: 1px;
+                height: 1px;
+                box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+                z-index: -3;
+            }
+
+            /* Right arrow icon */
+            .date-selector-page-label {
+                top: 5px;
+                left: 3px;
+            }
+        }
+
+        /* Page number label */
+        &-label {
+            position: absolute;
+            left: 13px;
+            top: 10px;
+            text-align: center;
+        }
+    }
+
+    /* Expand/collapse caption button */
+    &-caption {
+        position: absolute;
+        left: 10px;
         top: 10px;
     }
-}
 
-.date-selector-scroll {
-    font-family: 'Wingdings 3';
-    color: $foreground-color;
-    text-shadow: none;
-    background: $accent-light-color;
-    border: $border-thickness solid $secondary-text-color;
-    box-shadow: $border-thickness $border-thickness 0 $background-color inset;
-    width: 23px;
-    height: 27px;
-}
+    /* Overrides for collapsed state */
+    .collapsed {
+        height: 34px;
+        margin-top: -2px;
+        margin-bottom: -7px;
+        margin-left: 11px;
 
-.date-selector-scroll-left {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-}
+        .date-selector {
+            /* Expand/collapse caption button */
+            &-caption {
+                position: absolute;
+                left: -7px;
+                top: 10px;
+            }
 
-.date-selector-scroll-right {
-    position: relative;
-    float: left;
-    width: 31px;
-    height: 27px;
-    cursor: pointer;
-}
+            /* Background rectangle */
+            &-background {
+                background: $background-color;
+            }
 
-.date-selector-scroll-right:before {
-    content: '';
-    position: absolute;
-    left: 0px;
-    right: 9px;
-    bottom: 1px;
-    height: 1px;
-    box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
-    z-index: -3;
-}
+            /* Graph view */
+            &-view {
+                display: none;
+            }
 
-.date-selector-scroll-label {
-    position: absolute;
-    left: 13px;
-    top: 10px;
-    text-align: center;
-}
+            /* Pages strip */
+            &-pages {
+                bottom: 3px;
+            }
 
-.date-selector-scroll.pushed {
-    color: $background-color;
-    box-shadow: $border-thickness $border-thickness 0 $shadow-dark-color inset;
-}
+            /* Left scroll button */
+            &-scroll .button-primary {
+                bottom: 3px;
 
-.date-selector-scroll .button-primary-content {
-    padding-left: 2px;
-    padding-right: 1px;
-}
+                &-leftcorner {
+                    border-top: $corner-small solid $background-color;
+                }
 
-.date-selector-scroll .button-primary-leftcorner {
-  border-top: $corner-small solid $accent-light-color;
-}
-
-.date-selector-scroll .button-primary-rightcorner {
-    border-bottom: $corner-small solid $accent-light-color;
-}
-
-.date-selector-scroll .button-primary-leftcornerborder {
-    border-top: $corner-small solid $secondary-text-color;
-}
-
-.date-selector-scroll .button-primary-leftcornerhighlight {
-    border-top: $corner-small solid $background-color;
-}
-
-.date-selector-scroll.pushed .button-primary-leftcornerhighlight {
-    border-top: $corner-small solid $shadow-dark-color;
-}
-
-.date-selector-scroll .button-primary-rightcornerborder {
-  border-bottom: ($corner-small + $border-thickness) solid $secondary-text-color;
-}
-
-.date-selector-scroll .button-primary-rightcornershadow {
-  border-bottom: ($corner-small + $border-thickness) solid $shadow-color;
-}
-
-.date-selector-scroll.pushed .button-primary-rightcornershadow {
-  border-bottom: ($corner-small + $border-thickness) solid $drop-shadow-light-color;
-}
-
-.date-selector-scroll .button-primary-rightshadow {
-  border-right: $border-thickness solid $shadow-color;
-}
-
-.date-selector-scroll.pushed .button-primary-rightshadow {
-  border-right: $border-thickness solid $drop-shadow-light-color;
-}
-
-.date-selector-scroll .button-primary-bottomshadow {
-  border-bottom: $border-thickness solid $shadow-color;
-}
-
-.date-selector-scroll.pushed .button-primary-bottomshadow {
-  border-bottom: $border-thickness solid $drop-shadow-light-color;
-}
-
-.os-win .date-selector-pages {
-  font-size: $small-font-size-win;
-}
-
-.date-selector-page {
-    position: relative;
-    float: left;
-    width: 31px;
-    height: 22px;
-    padding-left: 3px;
-    padding-top: 5px;
-    margin-right: -8px;
-}
-
-.date-selector-page:before {
-    content: '';
-    position: absolute;
-    left: 0px;
-    right: 9px;
-    bottom: 1px;
-    height: 1px;
-    box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
-    z-index: -3;
-}
-
-.page-button-highlight {
-    stroke: $background-color;
-
-    &-pushed {
-        stroke: $shadow-dark-color;
+                &-rightcorner {
+                    border-bottom: $corner-small solid $background-color;
+                }
+            }
+        }
     }
-}
-
-.page-button-shadow {
-    stroke: $shadow-color;
-
-    &-pushed {
-        stroke: $drop-shadow-light-color;
-    }
-}
-
-.date-selector-page-overlay {
-    position: absolute;
-    left: 7px;
-    right: 3px;
-    top: 0px;
-    bottom: 0px;
-    z-index: 2;
-    cursor: pointer;
-}
-
-.date-selector-page-label {
-    position: absolute;
-    text-align: center;
-    top: 5px;
-    left: 7px;
-    pointer-events: none;
-}
-
-.date-selector-scroll-right .date-selector-page-label {
-    top: 5px;
-    left: 3px;
-}
-
-.date-selector-page-border,
-.date-selector-page-border-pushed {
-    position: absolute;
-    stroke: $secondary-text-color;
-    left: 0;
-    top: 0;
-}
-
-.date-selector-page-border-pushed {
-    display: none;
-}
-
-.date-selector-page-background,
-.date-selector-page-hover,
-.date-selector-page-pushed
- {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-.date-selector-page-background {
-    z-index: -3;
-}
-
-.date-selector-page-hover,
-.date-selector-page-pushed {
-    z-index: -2;
-    display: none;
-}
-
-.date-selector-page-border {
-    z-index: -1;
 }

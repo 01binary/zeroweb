@@ -17,7 +17,7 @@
  * Register date selector directive.
  */
 angular.module('zeroApp')
-    .directive('dateselector', [ '$q', '$http', '$compile', 'render2d', dateSelectorDirective ]);
+    .directive('dateselector', [ '$q', '$http', '$compile', 'render2d', 'safeApply', dateSelectorDirective ]);
 
 /**
  * Implement date selector directive.
@@ -25,16 +25,17 @@ angular.module('zeroApp')
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
  * @param {object} $render2d - The rendering service.
+ * @param {object} $safeApply - The safe apply service.
  */
-function dateSelectorDirective($q, $http, $compile, $render2d) {
+function dateSelectorDirective($q, $http, $compile, $render2d, $safeApply) {
     return {
         restrict: 'E',
         replace: true,
         transclude: true,
-        template: '<div class="date-selector" data-ng-class="{loading:isLoading, collapsed:!isExpanded}"></div>',
+        template: '<div class="date-selector" data-ng-class="{loading:isLoading}"></div>',
         scope: {},
         link: function($scope, $element, attributes) {
-            initialize($q, $http, $compile, $render2d, $scope, $element);
+            initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element);
         }
     };
 }
@@ -45,15 +46,16 @@ function dateSelectorDirective($q, $http, $compile, $render2d) {
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
  * @param {object} $render2d - The 2D rendering service.
+ * @param {object} $safeApply - The safe apply service.
  * @param {object} $scope - The directive scope.
  * @param {object} $element - The directive element.
  */
-function initialize($q, $http, $compile, $render2d, $scope, $element) {
+function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element) {
     // Set initial state.
     $scope.isLoading = true;
     $scope.isExpanded = true;
     $scope.isScrolling = false;
-    $scope.expandCollapse = expandCollapse.bind($element, $scope);
+    $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
     $scope.nextPage = nextPage.bind($element, $scope);
     $scope.prevPage = prevPage.bind($element, $scope);
     $scope.pageMouseOver = pageMouseOver;
@@ -215,9 +217,26 @@ function resize($render2d, $scope) {
 /**
  * Expand or collapse the custom control.
  * @param {object} $scope - The directive scope.
+ * @param {object} $safeApply - The safe apply service.
  */
-function expandCollapse($scope) {
-    $scope.isExpanded = !$scope.isExpanded;
+function expandCollapse($scope, $safeApply) {
+    var $element = this;
+
+    if (!$scope.isExpanded) {
+        $element.removeClass('collapsed');
+    }
+
+    this.find('.date-selector-background')
+        .stop()
+        .fadeTo('fast', $scope.isExpanded ? 0 : 1, function() {
+            $safeApply($scope, function() {
+                $scope.isExpanded = !$scope.isExpanded;
+
+                if (!$scope.isExpanded) {
+                    $element.addClass('collapsed');
+                }
+            });
+        });
 }
 
 /**

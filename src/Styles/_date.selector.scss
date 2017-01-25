@@ -102,6 +102,24 @@
             pointer-events: none;
         }
 
+        /* Group separator for large number of pages */
+        &-separator {
+            color: $secondary-text-color;
+
+            .date-selector-page-overlay {
+                cursor: default;
+            }
+
+            .date-selector-page-border,
+            .date-selector-page-background {
+                display: none;
+            }
+        }
+
+        &-separator:before {
+            display: none;
+        }
+
         /* Page number sub-elements */
         &-border,
         &-border-pushed {

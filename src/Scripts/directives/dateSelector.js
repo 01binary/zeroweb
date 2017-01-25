@@ -122,7 +122,7 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<div class="date-selector-page noselect" data-ng-repeat="page in visiblePages">' +
+                '<div class="date-selector-page noselect" data-ng-repeat="page in visiblePages" data-ng-class="{ \'date-selector-page-separator\': page === \'...\' }">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
@@ -294,8 +294,10 @@ function endScroll($scope) {
  */
 function getPageButton(event) {
     var $button = $(event.target).parent();
-    return $button.hasClass('date-selector-page') ||
-        $button.hasClass('date-selector-scroll-right') ? $button : null;
+    return (
+        $button.hasClass('date-selector-page') ||
+        $button.hasClass('date-selector-scroll-right')) &&
+        !$button.hasClass('date-selector-page-separator') ? $button : null;
 }
 
 /**

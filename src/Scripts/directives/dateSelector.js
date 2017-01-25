@@ -122,7 +122,7 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<div class="date-selector-page noselect" data-ng-repeat="(page, weeks) in timeline">' +
+                '<div class="date-selector-page noselect" data-ng-repeat="page in visiblePages">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
@@ -187,6 +187,9 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
             '</button>'
         ));
 
+        // Update visible pages.
+        $scope.visiblePages = getVisiblePages($element, $scope);
+
         // Create the rendered view.
         /*$scope.view = $render2d.createCanvas(
             pages,
@@ -210,6 +213,9 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
  * @param {object} $scope - The directive scope.
  */
 function resize($render2d, $scope) {
+    // TODO: recalculate page buttons
+    $scope.pages = getPages(this, $scope);
+
     // TODO: resize canvas
     render.apply(this, $scope);
 }
@@ -551,6 +557,31 @@ function loadContent($q, $http, $scope) {
     $scope.isLoading = false;
 
     return $q.when();
+}
+
+/**
+ * Get the visible pages to render.
+ * @param {object} $element - jQuery of the directive element.
+ * @param {object} $scope - The directive scope.
+ * @returns - The array of visible pages to render.
+ */
+function getVisiblePages($element, $scope) {
+    var buttonWidth = 35;
+    var stripWidth = $element.width() - 20;
+    var totalPages = Math.round(stripWidth / buttonWidth);
+    var maxPages = 8;
+    var visiblePages = Math.min(maxPages, totalPages);
+    var halfVisiblePages = Math.round(visiblePages / 2);
+    var pageNumbersArray = new Array(visiblePages + 1);
+
+    for (var n = 0; n < halfVisiblePages; n++) {
+        pageNumbersArray[n] = n + 1;
+        pageNumbersArray[n + halfVisiblePages + 1] = totalPages - halfVisiblePages + n;
+    }
+
+    pageNumbersArray[halfVisiblePages] = '...';
+
+    return pageNumbersArray;
 }
 
 /**

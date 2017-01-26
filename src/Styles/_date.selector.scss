@@ -76,7 +76,32 @@
             z-index: -3;
         }
 
-        /* Invisible overlay for mouse interaction */
+        /* Pushed state */
+        &.pushed {
+            .date-selector-page {
+                &-hover {
+                    display: none;
+                }
+
+                &-pushed {
+                    display: block;
+                }
+
+                &-label {
+                    color: $background-color;
+                }
+
+                &-border {
+                    display: none;
+                }
+
+                &-border-pushed {
+                    display: block;
+                }
+            }
+        }
+
+        /* Muse interaction overlay */
         &-overlay {
             position: absolute;
             left: 4px;
@@ -85,11 +110,6 @@
             bottom: 0px;
             z-index: 2;
             cursor: pointer;
-        }
-
-        .date-selector-scroll-right &-overlay {
-            left: 5px;
-            right: 0px;
         }
 
         /* Page number label */
@@ -106,18 +126,21 @@
         &-separator {
             color: $secondary-text-color;
 
-            .date-selector-page-overlay {
-                cursor: default;
-            }
-
-            .date-selector-page-border,
-            .date-selector-page-background {
+            /* Overrides for page button */
+            &:before {
                 display: none;
             }
-        }
 
-        &-separator:before {
-            display: none;
+            /* Overrides for children of page button */
+            .date-selector-page {
+                &-overlay {
+                    cursor: default;
+                }
+
+                &-border, &-background {
+                    display: none;
+                }
+            }
         }
 
         /* Page number sub-elements */
@@ -285,6 +308,37 @@
             .date-selector-page-label {
                 top: 5px;
                 left: 4px;
+            }
+
+            /* Mouse interaction overlay */
+            .date-selector-page-overlay {
+                left: 5px;
+                right: 0px;
+            }
+
+            /* Pushed state */
+            &.pushed {
+                .date-selector-page {
+                    &-hover {
+                        display: none;
+                    }
+
+                    &-pushed {
+                        display: block;
+                    }
+
+                    &-label {
+                        color: $background-color;
+                    }
+
+                    &-border {
+                        display: none;
+                    }
+
+                    &-border-pushed {
+                        display: block;
+                    }
+                }
             }
         }
 

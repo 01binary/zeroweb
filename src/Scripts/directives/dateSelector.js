@@ -55,6 +55,11 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
     $scope.isLoading = true;
     $scope.isExpanded = true;
     $scope.isScrolling = false;
+    $scope.timeline = {};
+    $scope.summary = {};
+    $scope.visiblePages = [];
+    $scope.currentPage = "1";
+
     $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
     $scope.nextPage = nextPage.bind($element, $scope);
     $scope.prevPage = prevPage.bind($element, $scope);
@@ -62,7 +67,6 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
     $scope.pageMouseOut = pageMouseOut;
     $scope.pageMouseDown = pageMouseDown;
     $scope.pageMouseUp = pageMouseUp;
-    $scope.timeline = {};
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -122,7 +126,12 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<div class="date-selector-page noselect" data-ng-repeat="page in visiblePages" data-ng-class="{ \'date-selector-page-separator\': page === \'...\' }">' +
+                '<div class="date-selector-page noselect" ' +
+                    'data-ng-repeat="page in visiblePages" ' +
+                    'data-ng-class="{' +
+                        '\'date-selector-page-separator\': page === \'...\', ' +
+                        '\'pushed\': page === currentPage ' +
+                    '}">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
@@ -214,7 +223,7 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
  */
 function resize($render2d, $scope) {
     // TODO: recalculate page buttons
-    $scope.pages = getPages(this, $scope);
+    $scope.visiblePages = getVisiblePages(this, $scope);
 
     // TODO: resize canvas
     render.apply(this, $scope);
@@ -295,9 +304,9 @@ function endScroll($scope) {
 function getPageButton(event) {
     var $button = $(event.target).parent();
     return (
-        $button.hasClass('date-selector-page') ||
-        $button.hasClass('date-selector-scroll-right')) &&
-        !$button.hasClass('date-selector-page-separator') ? $button : null;
+        ($button.hasClass('date-selector-page') || $button.hasClass('date-selector-scroll-right'))
+        && !$button.hasClass('date-selector-page-separator')) ?
+        $button : null;
 }
 
 /**
@@ -321,42 +330,34 @@ function pageMouseOut(event) {
 
     if ($button) {
         $button.find('.date-selector-page-hover').stop().fadeOut('fast');
-        $button.find('.date-selector-page-pushed').hide();
-        $button.find('.date-selector-page-label').css('color', '#3b4a51');
-        $button.find('.date-selector-page-border').show();
-        $button.find('.date-selector-page-border-pushed').hide();
     }
 }
 
 /**
- * Page button hover to pushed transition.
+ * Page or scroll button hover to pushed transition.
  * @param {object} event - The Angular event arguments.
  */
 function pageMouseDown(event) {
     var $button = getPageButton(event);
 
     if ($button) {
-        $button.find('.date-selector-page-hover').stop().hide();
-        $button.find('.date-selector-page-pushed').show();
-        $button.find('.date-selector-page-label').css('color', '#ffffff');
-        $button.find('.date-selector-page-border').hide();
-        $button.find('.date-selector-page-border-pushed').show();
+        if ($button.hasClass('date-selector-scroll-right')) {
+            $button.addClass('pushed');
+        } else {
+            this.$parent.currentPage = $button.find('.date-selector-page-label').text();
+        }
     }
 }
 
 /**
- * Page button hover or pushed to normal transition.
+ * Page or scroll button hover to pushed transition.
  * @param {object} event - The Angular event arguments.
  */
 function pageMouseUp(event) {
     var $button = getPageButton(event);
 
-    if ($button) {
-        $button.find('.date-selector-page-hover').show();
-        $button.find('.date-selector-page-pushed').hide();
-        $button.find('.date-selector-page-label').css('color', '#3b4a51');
-        $button.find('.date-selector-page-border').show();
-        $button.find('.date-selector-page-border-pushed').hide();
+    if ($button && $button.hasClass('date-selector-scroll-right')) {
+        $button.removeClass('pushed');
     }
 }
 
@@ -577,8 +578,8 @@ function getVisiblePages($element, $scope) {
     var pageNumbersArray = new Array(visiblePages + 1);
 
     for (var n = 0; n < halfVisiblePages; n++) {
-        pageNumbersArray[n] = n + 1;
-        pageNumbersArray[n + halfVisiblePages + 1] = totalPages - halfVisiblePages + n;
+        pageNumbersArray[n] = (n + 1).toString();
+        pageNumbersArray[n + halfVisiblePages + 1] = (totalPages - halfVisiblePages + n).toString();
     }
 
     pageNumbersArray[halfVisiblePages] = '...';

@@ -12,7 +12,7 @@
 \*---------------------------------------------------------*/
 
 'use strict';
-    
+ 
 /**
  * Register date selector directive.
  */
@@ -58,15 +58,17 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
     $scope.timeline = {};
     $scope.summary = {};
     $scope.visiblePages = [];
+    $scope.maxVisiblePages = 8;
     $scope.currentPage = "1";
 
     $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
+    $scope.isSeparator = isSeparator;
     $scope.nextPage = nextPage.bind($element, $scope);
     $scope.prevPage = prevPage.bind($element, $scope);
-    $scope.pageMouseOver = pageMouseOver;
-    $scope.pageMouseOut = pageMouseOut;
-    $scope.pageMouseDown = pageMouseDown;
-    $scope.pageMouseUp = pageMouseUp;
+    $scope.pageMouseOver = pageMouseOver.bind($element, $scope);
+    $scope.pageMouseOut = pageMouseOut.bind($element, $scope);
+    $scope.pageMouseDown = pageMouseDown.bind($element, $scope);
+    $scope.pageMouseUp = pageMouseUp.bind($element, $scope);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -129,7 +131,7 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
                 '<div class="date-selector-page noselect" ' +
                     'data-ng-repeat="page in visiblePages" ' +
                     'data-ng-class="{' +
-                        '\'date-selector-page-separator\': page === \'...\', ' +
+                        '\'date-selector-page-separator\': isSeparator(page), ' +
                         '\'pushed\': page === currentPage ' +
                     '}">' +
                     '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
@@ -303,16 +305,18 @@ function endScroll($scope) {
 function getPageButton(event) {
     var $button = $(event.target).parent();
     return (
-        ($button.hasClass('date-selector-page') || $button.hasClass('date-selector-scroll-right'))
-        && !$button.hasClass('date-selector-page-separator')) ?
+        ($button.hasClass('date-selector-page') ||
+        $button.hasClass('date-selector-scroll-right')) &&
+        !$button.hasClass('date-selector-page-separator')) ?
         $button : null;
 }
 
 /**
  * Page button normal to hover transition.
+ * @param {object} $scope - The directive scope.
  * @param {object} event - The Angular event arguments.
  */
-function pageMouseOver(event) {
+function pageMouseOver($scope, event) {
     var $button = getPageButton(event);
     
     if ($button) {
@@ -322,9 +326,10 @@ function pageMouseOver(event) {
 
 /**
  * Page button hover to normal transition.
+ * @param {object} $scope - The directive scope.
  * @param {object} event - The Angular event arguments.
  */
-function pageMouseOut(event) {
+function pageMouseOut($scope, event) {
     var $button = getPageButton(event);
 
     if ($button) {
@@ -334,25 +339,28 @@ function pageMouseOut(event) {
 
 /**
  * Page or scroll button hover to pushed transition.
+ * @param {object} $scope - The directive scope.
  * @param {object} event - The Angular event arguments.
  */
-function pageMouseDown(event) {
+function pageMouseDown($scope, event) {
     var $button = getPageButton(event);
 
     if ($button) {
         if ($button.hasClass('date-selector-scroll-right')) {
             $button.addClass('pushed');
         } else {
-            this.$parent.currentPage = $button.find('.date-selector-page-label').text();
+            $scope.currentPage = $button.find('.date-selector-page-label').text();
+            $scope.visiblePages = getVisiblePages(this, $scope);
         }
     }
 }
 
 /**
  * Page or scroll button hover to pushed transition.
+ * @param {object} $scope - The directive scope.
  * @param {object} event - The Angular event arguments.
  */
-function pageMouseUp(event) {
+function pageMouseUp($scope, event) {
     var $button = getPageButton(event);
 
     if ($button && $button.hasClass('date-selector-scroll-right')) {
@@ -562,28 +570,77 @@ function loadContent($q, $http, $scope) {
 }
 
 /**
- * Get the visible pages to render.
+ * Get the captions for visible page buttons.
  * @param {object} $element - jQuery of the directive element.
  * @param {object} $scope - The directive scope.
  * @returns - The array of visible pages to render.
  */
 function getVisiblePages($element, $scope) {
-    var buttonWidth = 35;
-    var stripWidth = $element.width() - 20;
-    var totalPages = Math.round(stripWidth / buttonWidth);
-    var maxPages = 8;
-    var visiblePages = Math.min(maxPages, totalPages);
-    var halfVisiblePages = Math.round(visiblePages / 2);
-    var pageNumbersArray = new Array(visiblePages + 1);
+    // Calculate page element sizes.
+    var buttonWidth = 33;
+    var stripWidth = $element.width() - 40;
 
-    for (var n = 0; n < halfVisiblePages; n++) {
-        pageNumbersArray[n] = (n + 1).toString();
-        pageNumbersArray[n + halfVisiblePages + 1] = (totalPages - halfVisiblePages + n).toString();
+    // Total number of reserved page button slots in 2-break view.
+    var reservedPageCount = 4;
+
+    // Calculate visible pages for 1- and 2-break views.
+    var totalPages = Object.keys($scope.timeline).length;
+    var totalVisiblePages = Math.round(stripWidth / buttonWidth);
+    var maxVisiblePages = Math.min(totalPages, $scope.maxVisiblePages);
+    var visiblePages = Math.min(maxVisiblePages, totalVisiblePages);
+    var halfVisiblePages = Math.round(visiblePages / 2);
+    var currentPage = parseInt($scope.currentPage);
+
+    // Calculate visible pages for a 1-break view.
+    var pagesBeforeBreak = halfVisiblePages;
+    var pagesAfterBreak = maxVisiblePages - halfVisiblePages - 1;
+
+    // Calculate visible pages for a 2-break view.
+    var sectionPages = Math.max(1, visiblePages - reservedPageCount);
+    var halfSectionPages = Math.round(sectionPages / 2);
+    var firstPage = Math.floor((currentPage - sectionPages) / halfSectionPages) * halfSectionPages + pagesBeforeBreak - 1;
+    
+    // Allocate the visible page slots (including breaks).
+    var pageNumbersArray = new Array(visiblePages);
+
+    if (currentPage >= sectionPages && currentPage - 1 <= totalPages - pagesAfterBreak) {
+        // Calculate page slots for a 2-break view.
+        // <- 1 ... X X X X ... n ->
+        pageNumbersArray[0] = "1";
+        pageNumbersArray[1] = '...';
+
+        for (var n = 0; n < sectionPages; n++) {
+            pageNumbersArray[n + 2] = (n + firstPage).toString();
+        }
+
+        pageNumbersArray[visiblePages - 2] = '... ';
+        pageNumbersArray[visiblePages - 1] = totalPages.toString();
+    } else {
+        // Calculate page slots for a 1-break view.
+        // <- 1 2 3 4 ... n-2 n-1 n ->
+        var pagesBeforeBreak = halfVisiblePages;
+        var pagesAfterBreak = maxVisiblePages - halfVisiblePages - 1;
+
+        pageNumbersArray[pagesBeforeBreak] = '...';
+
+        for (var n = 0; n < pagesBeforeBreak; n++) {
+            pageNumbersArray[n] = (n + 1).toString();
+
+            if (n < pagesAfterBreak) {
+                pageNumbersArray[n + pagesBeforeBreak + 1] = (totalPages - pagesAfterBreak + n + 1).toString();
+            }
+        }
     }
 
-    pageNumbersArray[halfVisiblePages] = '...';
-
     return pageNumbersArray;
+}
+
+/**
+ * Determine whether the page is a separator by its caption.
+ * @param {string} page - The page caption.
+ */
+function isSeparator(page) {
+    return page.indexOf('.') !== -1;
 }
 
 /**

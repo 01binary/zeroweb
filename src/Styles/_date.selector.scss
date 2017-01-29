@@ -134,7 +134,7 @@
                     cursor: default;
                 }
 
-                &-border, &-background {
+                &-border, &-background, &-outline {
                     display: none;
                 }
             }
@@ -142,8 +142,10 @@
 
         /* Page number sub-elements */
         &-border,
-        &-border-pushed {
+        &-border-pushed,
+        &-outline {
             position: absolute;
+            fill: none;
             stroke: $secondary-text-color;
             left: 0;
             top: 0;

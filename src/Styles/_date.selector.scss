@@ -38,7 +38,7 @@
     /* Page numbers strip */
     &-pages {
         position: absolute;
-        left: 30px;
+        left: 35px;
         right: 10px;
         bottom: 5px;
         height: 32px;
@@ -57,9 +57,9 @@
     &-page {
         position: relative;
         float: left;
-        width: 31px;
+        width: 35px;
         height: 22px;
-        padding-left: 3px;
+        padding-left: 4px;
         padding-top: 5px;
         margin-right: -8px;
         margin-bottom: 10px;
@@ -69,7 +69,7 @@
             content: '';
             position: absolute;
             left: 0px;
-            right: 9px;
+            right: 10px;
             bottom: 1px;
             height: 1px;
             box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
@@ -79,8 +79,13 @@
         /* Pushed state */
         &.pushed {
             .date-selector-page {
-                &-hover {
+                &-hover,
+                &-border {
                     display: none;
+                }
+
+                &-border-pushed {
+                    display: block;
                 }
 
                 &-pushed {
@@ -89,14 +94,6 @@
 
                 &-label {
                     color: $background-color;
-                }
-
-                &-border {
-                    display: none;
-                }
-
-                &-border-pushed {
-                    display: block;
                 }
             }
         }
@@ -165,23 +162,31 @@
             top: 0;
         }
 
+        &-border {
+            z-index: -1;
+        }
+
         &-background {
+            fill: url(#page-button-gradient);
+            stroke: none;
             z-index: -3;
         }
 
-        &-hover,
-        &-pushed {
+        &-hover {
+            fill: url(#page-button-gradient-hover);
+            stroke: none;
             z-index: -2;
             display: none;
         }
 
-        &-border {
-            z-index: -1;
+        &-pushed {
+            fill: url(#page-button-gradient-pushed);
+            stroke: none;
+            z-index: -2;
+            display: none;
         }
-    }
 
-    /* Embedded SVG resource styles */
-    .page-button {
+        /* Embedded SVG resource styles */
         &-highlight {
             stroke: $background-color;
 
@@ -207,7 +212,7 @@
         background: $accent-light-color;
         border: $border-thickness solid $secondary-text-color;
         box-shadow: $border-thickness $border-thickness 0 $background-color inset;
-        width: 25px;
+        width: 29px;
         height: 27px;
 
         /* Left scroll button pushed state overrides */
@@ -226,7 +231,7 @@
         /* Left scroll button - primary button overrides */
         .button-primary {
             &-content {
-                padding-left: 2px;
+                padding-left: 1px;
                 padding-right: 1px;
             }
 
@@ -297,7 +302,7 @@
                 content: '';
                 position: absolute;
                 left: 0px;
-                right: 9px;
+                right: 5px;
                 bottom: 1px;
                 height: 1px;
                 box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
@@ -307,7 +312,7 @@
             /* Right arrow icon */
             .date-selector-page-label {
                 top: 5px;
-                left: 4px;
+                left: 5px;
             }
 
             /* Mouse interaction overlay */

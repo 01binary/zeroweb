@@ -92,23 +92,17 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
                     '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
                 '</linearGradient>' +
                 '<symbol id="page-button-border">' +
-                    '<polyline fill="none" class="page-button-highlight" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
-                    '<polyline fill="none" class="page-button-shadow" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
-                    '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                    '<polyline fill="none" class="date-selector-page-highlight" points="2.9,25.5 8.5,19.9 8.5,1.5 33.5,1.5"/>' +
+                    '<polyline fill="none" class="date-selector-page-shadow" points="33.5,2 33.5,19.1 27.1,25.5 1.8,25.5"/>' +
+                    '<polygon fill="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
                 '</symbol>' +
                 '<symbol id="page-button-border-pushed">' +
-                    '<polyline fill="none" class="page-button-highlight-pushed" points="2.9,25.5 8.5,19.9 8.5,1.5 29.5,1.5"/>' +
-                    '<polyline fill="none" class="page-button-shadow-pushed" points="29.5,2 29.5,19.1 23.1,25.5 1.8,25.5"/>' +
-                    '<polygon fill="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                    '<polyline fill="none" class="date-selector-page-highlight-pushed" points="2.9,25.5 8.5,19.9 8.5,1.5 33.5,1.5"/>' +
+                    '<polyline fill="none" class="date-selector-page-shadow-pushed" points="33.5,2 33.5,19.1 27.1,25.5 1.8,25.5"/>' +
+                    '<polygon fill="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
                 '</symbol>' +
-                '<symbol id="page-button-background">' +
-                    '<polygon fill="url(#page-button-gradient)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-                '</symbol>' +
-                '<symbol id="page-button-hover">' +
-                    '<polygon fill="url(#page-button-gradient-hover)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-                '</symbol>' +
-                '<symbol id="page-button-pushed">' +
-                    '<polygon fill="url(#page-button-gradient-pushed)" stroke="none" points="23.5,26.5 30.5,19.5 30.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
+                '<symbol id="page-button-outline">' +
+                    '<polygon points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
                 '</symbol>' +
                 '<symbol id="arrow-left">' +
                     '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
@@ -134,20 +128,20 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
                         '\'date-selector-page-separator\': isSeparator(page), ' +
                         '\'pushed\': page === currentPage ' +
                     '}">' +
-                    '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
-                        '<use xlink:href="#page-button-hover"></use>' +
+                    '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-pushed" width="31" height="27" viewBox="0 0 31 27">' +
-                        '<use xlink:href="#page-button-pushed"></use>' +
+                    '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-border" width="31" height="27" viewBox="0 0 31 27">' +
+                    '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-border"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-border-pushed" width="31" height="27" viewBox="0 0 31 27">' +
+                    '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-border-pushed"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-background" width="31" height="27" viewBox="0 0 31 27">' +
-                        '<use xlink:href="#page-button-background"></use>' +
+                    '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-overlay" role="button" ' +
                         'data-ng-mouseover="pageMouseOver($event)" ' +
@@ -163,19 +157,19 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
                 '<div class="date-selector-scroll-right noselect">' +
-                    '<svg class="date-selector-page-hover" width="31" height="27" viewBox="0 0 31 27">' +
+                    '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-hover"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-pushed" width="31" height="27" viewBox="0 0 31 27">' +
+                    '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-pushed"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-border" width="31" height="27" viewBox="0 0 31 27">' +
+                    '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-border"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-border-pushed" width="31" height="27" viewBox="0 0 31 27">' +
+                    '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-border-pushed"></use>' +
                     '</svg>' +
-                    '<svg class="date-selector-page-background" width="31" height="27" viewBox="0 0 31 27">' +
+                    '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-background"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-overlay" ' +
@@ -334,6 +328,10 @@ function pageMouseOut($scope, event) {
 
     if ($button) {
         $button.find('.date-selector-page-hover').stop().fadeOut('fast');
+
+        if ($button.hasClass('date-selector-scroll-right')) {
+            $button.removeClass('pushed');
+        }
     }
 }
 
@@ -577,7 +575,7 @@ function loadContent($q, $http, $scope) {
  */
 function getVisiblePages($element, $scope) {
     // Calculate page element sizes.
-    var buttonWidth = 33;
+    var buttonWidth = 37;
     var stripWidth = $element.width() - 40;
 
     // Total number of reserved page button slots in 2-break view.

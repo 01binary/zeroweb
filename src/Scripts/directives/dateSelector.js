@@ -17,17 +17,18 @@
  * Register date selector directive.
  */
 angular.module('zeroApp')
-    .directive('dateselector', [ '$q', '$http', '$compile', 'render2d', 'safeApply', dateSelectorDirective ]);
+    .directive('dateselector', [ '$q', '$http', '$compile', '$window', 'render2d', 'safeApply', dateSelectorDirective ]);
 
 /**
  * Implement date selector directive.
  * @param {object} $q - The Angular promise service.
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
+ * @param {object} $window - The Angular window service.
  * @param {object} $render2d - The rendering service.
  * @param {object} $safeApply - The safe apply service.
  */
-function dateSelectorDirective($q, $http, $compile, $render2d, $safeApply) {
+function dateSelectorDirective($q, $http, $compile, $window, $render2d, $safeApply) {
     return {
         restrict: 'E',
         replace: true,
@@ -35,7 +36,15 @@ function dateSelectorDirective($q, $http, $compile, $render2d, $safeApply) {
         template: '<div class="date-selector" data-ng-class="{loading:isLoading}" data-ng-resize="resize()"></div>',
         scope: {},
         link: function($scope, $element, attributes) {
-            initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element);
+            initialize(
+                $q,
+                $http,
+                $compile,
+                $window,
+                $render2d,
+                $safeApply,
+                $scope,
+                $element);
         }
     };
 }
@@ -45,12 +54,13 @@ function dateSelectorDirective($q, $http, $compile, $render2d, $safeApply) {
  * @param {object} $q - The Angular promise service.
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
+ * @param {object} $window - The Angular window service.
  * @param {object} $render2d - The 2D rendering service.
  * @param {object} $safeApply - The safe apply service.
  * @param {object} $scope - The directive scope.
  * @param {object} $element - The directive element.
  */
-function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element) {
+function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope, $element) {
     // Set initial state.
     $scope.isLoading = true;
     $scope.isExpanded = true;
@@ -60,7 +70,8 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
     $scope.visiblePages = [];
     $scope.maxVisiblePages = 8;
     $scope.margin = 10;
-    $scope.pagesHeight = 32;
+    $scope.pagesHeight = 27;
+    $scope.headingHeight = 24;
     $scope.currentPage = "1";
 
     $scope.isSeparator = isSeparator;
@@ -73,6 +84,8 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
     $scope.pageMouseUp = pageMouseUp.bind($element, $scope);
     $scope.resize = resize.bind($element, $scope, $render2d);
     $scope.render = render.bind($element, $scope);
+
+    $window.addEventListener('resize', $scope.resize);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -198,7 +211,7 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
             $element.find('.date-selector-pages'),
             'date-selector-view',
             $element.width() - $scope.margin * 2,
-            $element.height() - $scope.margin * 2 - $scope.pagesHeight);
+            $element.height() - $scope.margin * 2 - $scope.pagesHeight - $scope.headingHeight);
 
         // Compile the template.
         $compile($element)($scope);
@@ -214,14 +227,15 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
  * @param {object} $render2d - The 2D rendering service.
  */
 function resize($scope, $render2d) {
+    console.log('resize called');
     // Recalculate the page buttons.
     $scope.visiblePages = getVisiblePages(this, $scope);
 
     // Resize the canvas.
     $render2d.resizeCanvas(
         this.find('.date-selector-view'),
-        this.width() - $scope.margin() * 2,
-        this.height() - $scope.margin() * 2 - $scope.pagesHeight);
+        this.width() - $scope.margin * 2,
+        this.height() - $scope.margin * 2 - $scope.pagesHeight - $scope.headingHeight);
 
     // Re-render the canvas view.
     $scope.render();

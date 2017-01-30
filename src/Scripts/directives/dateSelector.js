@@ -109,8 +109,8 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                     '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
                 '</linearGradient>' +
                 '<symbol id="page-button-border">' +
-                    '<polyline class="date-selector-page-highlight" points="2.9,25.5 8.5,19.9 8.5,1.5 33.5,1.5"/>' +
-                    '<polyline class="date-selector-page-shadow" points="33.5,2 33.5,19.1 27.1,25.5 1.8,25.5"/>' +
+                    '<polyline stroke="currentColor" points="2.9,25.5 8.5,19.9 8.5,1.5 33.5,1.5"/>' +
+                    '<polyline points="33.5,2 33.5,19.1 27.1,25.5 1.8,25.5"/>' +
                 '</symbol>' +
                 '<symbol id="page-button-outline">' +
                     '<polygon points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
@@ -151,6 +151,9 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                     '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-border"></use>' +
                     '</svg>' +
+                    '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#page-button-border"></use>' +
+                    '</svg>' +
                     '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
@@ -178,6 +181,9 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#page-button-border"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-border"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
@@ -227,7 +233,6 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
  * @param {object} $render2d - The 2D rendering service.
  */
 function resize($scope, $render2d) {
-    console.log('resize called');
     // Recalculate the page buttons.
     $scope.visiblePages = getVisiblePages(this, $scope);
 

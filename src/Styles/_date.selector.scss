@@ -159,10 +159,6 @@
             top: 0;
         }
 
-        &-border-pushed {
-            display: none;
-        }
-
         &-background,
         &-hover,
         &-pushed
@@ -172,8 +168,27 @@
             top: 0;
         }
 
+        &-pushed {
+            fill: url(#page-button-gradient-pushed);
+            stroke: none;
+            z-index: -2;
+            display: none;
+        }
+
+        &-border-pushed {
+            display: none;
+        }
+
         &-border {
+            color: $background-color;
+            stroke: $shadow-color;
+            fill: none;
             z-index: -1;
+
+            &-pushed {
+                color: $shadow-dark-color;
+                stroke: $drop-shadow-light-color;
+            }
         }
 
         &-background {
@@ -187,30 +202,6 @@
             stroke: none;
             z-index: -2;
             display: none;
-        }
-
-        &-pushed {
-            fill: url(#page-button-gradient-pushed);
-            stroke: none;
-            z-index: -2;
-            display: none;
-        }
-
-        /* Embedded SVG resource styles */
-        &-highlight {
-            stroke: $background-color;
-
-            &-pushed {
-                stroke: $shadow-dark-color;
-            }
-        }
-
-        &-shadow {
-            stroke: $shadow-color;
-
-            &-pushed {
-                stroke: $drop-shadow-light-color;
-            }
         }
     }
 

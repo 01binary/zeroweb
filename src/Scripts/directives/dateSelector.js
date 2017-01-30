@@ -32,7 +32,7 @@ function dateSelectorDirective($q, $http, $compile, $render2d, $safeApply) {
         restrict: 'E',
         replace: true,
         transclude: true,
-        template: '<div class="date-selector" data-ng-class="{loading:isLoading}"></div>',
+        template: '<div class="date-selector" data-ng-class="{loading:isLoading}" data-ng-resize="resize()"></div>',
         scope: {},
         link: function($scope, $element, attributes) {
             initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element);
@@ -59,16 +59,20 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
     $scope.summary = {};
     $scope.visiblePages = [];
     $scope.maxVisiblePages = 8;
+    $scope.margin = 10;
+    $scope.pagesHeight = 32;
     $scope.currentPage = "1";
 
-    $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
     $scope.isSeparator = isSeparator;
+    $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
     $scope.nextPage = nextPage.bind($element, $scope);
     $scope.prevPage = prevPage.bind($element, $scope);
     $scope.pageMouseOver = pageMouseOver.bind($element, $scope);
     $scope.pageMouseOut = pageMouseOut.bind($element, $scope);
     $scope.pageMouseDown = pageMouseDown.bind($element, $scope);
     $scope.pageMouseUp = pageMouseUp.bind($element, $scope);
+    $scope.resize = resize.bind($element, $scope, $render2d);
+    $scope.render = render.bind($element, $scope);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -190,33 +194,37 @@ function initialize($q, $http, $compile, $render2d, $safeApply, $scope, $element
         $scope.visiblePages = getVisiblePages($element, $scope);
 
         // Create the rendered view.
-        /*$scope.view = $render2d.createCanvas(
-            pages,
+        $scope.view = $render2d.createCanvas(
+            $element.find('.date-selector-pages'),
             'date-selector-view',
-            $element.width() - 10,
-            $element.height() - 10);*/
+            $element.width() - $scope.margin * 2,
+            $element.height() - $scope.margin * 2 - $scope.pagesHeight);
 
-        // Register handlers.
-        $element.onresize =
-            resize.bind($element, $render2d, $scope);
+        // Compile the template.
+        $compile($element)($scope);
 
         // Render for the first time.
-        $compile($element)($scope);
-        render.apply($element, $scope);
+        $scope.render();
     });
 }
 
 /**
  * Handle custom control resize.
- * @param {object} $render2d - The 2D rendering service.
  * @param {object} $scope - The directive scope.
+ * @param {object} $render2d - The 2D rendering service.
  */
-function resize($render2d, $scope) {
-    // TODO: recalculate page buttons
+function resize($scope, $render2d) {
+    // Recalculate the page buttons.
     $scope.visiblePages = getVisiblePages(this, $scope);
 
-    // TODO: resize canvas
-    render.apply(this, $scope);
+    // Resize the canvas.
+    $render2d.resizeCanvas(
+        this.find('.date-selector-view'),
+        this.width() - $scope.margin() * 2,
+        this.height() - $scope.margin() * 2 - $scope.pagesHeight);
+
+    // Re-render the canvas view.
+    $scope.render();
 }
 
 /**

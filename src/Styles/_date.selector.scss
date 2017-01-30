@@ -35,6 +35,15 @@
         }
     }
 
+    /* Graph view */
+    &-view {
+        background: yellow;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 16px;
+        margin-bottom: 32px;
+    }
+
     /* Page numbers strip */
     &-pages {
         position: absolute;

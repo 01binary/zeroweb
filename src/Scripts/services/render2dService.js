@@ -28,6 +28,12 @@ function render2dService() {
      * @type {function}
      */
     this.createCanvas = createCanvas;
+
+    /**
+     * Resize canvas.
+     * @type {function}
+     */
+    this.resizeCanvas = resizeCanvas;
     
     /**
      * Draw themed bullet.
@@ -84,12 +90,28 @@ function render2dService() {
             .css('width', width)
             .css('height', height)
             .insertBefore($before).get(0);
-
+            
         // Apply scale transform to render larger on hi-dpi screens.
         var context = this.getContext(canvas);
         context.scale(pixelRatio, pixelRatio);
 
         return canvas;
+    }
+
+    /**
+     * Resize canvas for dpi-correct rendering.
+     * @param {object} $canvas - The canvas to resize.
+     * @param {number} width - The canvas width to set.
+     * @param {number} height - The canvas height to set.
+     */
+    function resizeCanvas($canvas, width, height) {
+        var pixelRatio = this.getPixelRatio();
+
+        $canvas
+            .attr('width', width * pixelRatio)
+            .attr('height', height * pixelRatio)
+            .css('width', width)
+            .css('height', height);
     }
     
     /**

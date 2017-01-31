@@ -124,7 +124,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
             '</svg>' +
 
             // Previous page button.
-            '<button class="date-selector-scroll date-selector-scroll-left" data-primary data-ng-click="prevPage()">' +
+            '<button role="button" class="date-selector-scroll date-selector-scroll-left" data-primary data-ng-click="prevPage()">' +
                 '<svg width="11" height="7" viewBox="0 0 11 7">' +
                     '<use xlink:href="#arrow-left"></use>' +
                 '</svg>' +
@@ -133,7 +133,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<div class="date-selector-page noselect" ' +
+                '<button role="button" class="date-selector-page noselect" ' +
                     'data-ng-repeat="page in visiblePages" ' +
                     'data-ng-class="{' +
                         '\'date-selector-page-separator\': isSeparator(page), ' +
@@ -157,20 +157,21 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                     '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
-                    '<div class="date-selector-page-overlay" role="button" ' +
+                    '<div class="date-selector-page-overlay" ' +
                         'data-ng-mouseover="pageMouseOver($event)" ' +
                         'data-ng-mouseout="pageMouseOut($event)" ' +
                         'data-ng-mousedown="pageMouseDown($event)" ' +
                         'data-ng-mouseup="pageMouseUp($event)">' +
+                        '<span class="date-selector-page-fallback">page</span>' +
                         '<div class="date-selector-page-label">' +
                             '{{page}}' +
                         '</div>' +
                     '</div>' +
-                '</div>' +
+                '</button>' +
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<div class="date-selector-scroll-right noselect">' +
+                '<button role="button" class="date-selector-scroll-right noselect">' +
                     '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
@@ -200,7 +201,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                             '</svg>' +
                         '</div>' +
                     '</div>' +
-                '</div>' +
+                '</button>' +
             '</div>' +
 
             // Expand/collapse heading.

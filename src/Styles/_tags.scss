@@ -1,3 +1,213 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Tag styles and layout.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+$electrical:  #12c0e1;
+$mechanical:  #fcd116;
+$software:    #a71d5d;
+$robotics:    #ec008c;
+$graphic:     #ff260f;
+$web:         #795da3;
+$frontend:    #0086b3;
+$cad:         #ffb40f;
+$industrial:  #ba141a;
+$database:    #aebdce;
+$sql:         #43a39f;
+$music:       #6fac45;
+$painting:    #ee4a4e;
+$sculpture:   #ff840f;
+$crafts:      #67d5e9;
+
+.tag {
+  &-engineering {
+    &-electrical {
+      background: $electrical;
+
+      &:hover {
+        background: lighten($electrical, 5%);
+      }
+    }
+
+    &-mechanical {
+      background: $mechanical;
+
+      &:hover {
+        background: lighten($mechanical, 5%);
+      }
+    }
+
+    &-software {
+      background: $software;
+
+      &:hover {
+        background: lighten($software, 5%);
+      }
+    }
+
+    &-robotics {
+      background: $robotics;
+
+      &:hover {
+        background: lighten($robotics, 5%);
+      }
+    }
+  }
+
+  &-design {
+    &-graphic {
+      background: $graphic;
+
+      &:hover {
+        background: lighten($graphic, 5%);
+      }
+    }
+
+    &-web {
+      background: $web;
+
+      &:hover {
+        background: lighten($web, 5%);
+      }
+    }
+
+    &-frontend {
+      background: $frontend;
+
+      &:hover {
+        background: lighten($frontend, 5%);
+      }
+    }
+
+    &-cad {
+      background: $cad;
+
+      &:hover {
+        background: lighten($cad, 5%);
+      }
+    }
+
+    &-industrial {
+      background: $industrial;
+
+      &:hover {
+        background: lighten($industrial, 5%);
+      }
+    }
+
+    &-database {
+      background: $database;
+
+      &:hover {
+        background: lighten($database, 5%);
+      }
+    }
+  }
+
+  &-it {
+    &-sql {
+      background: $sql;
+
+      &:hover {
+        background: lighten($sql, 5%);
+      }
+    }
+  }
+
+  &-art {
+    &-music {
+      background: $music;
+
+      &:hover {
+        background: lighten($music, 5%);
+      }
+    }
+
+    &-painting {
+      background: $painting;
+
+      &:hover {
+        background: lighten($painting, 5%);
+      }
+    }
+
+    &-sculpture {
+      background: $sculpture;
+
+      &:hover {
+        background: lighten($sculpture, 5%);
+      }
+    }
+
+    &-crafts {
+      background: $crafts;
+
+      &:hover {
+        background: lighten($crafts, 5%);
+      }
+    }
+  }
+}
+
+.tag-bar {
+  position: absolute;
+  top: 5px;
+  bottom: 16px;
+  min-width: 22px;
+  cursor: pointer;
+}
+
+.tag-block {
+  position: absolute;
+  width: 16px;
+  min-height: 2px;
+  border: 2px solid $accent-light-color;
+  border-top: 1px solid $accent-light-color;
+  border-bottom: 1px solid $accent-light-color;
+
+  &:last-child {
+    border-top: 2px solid $accent-light-color;
+  }
+
+  &:first-child {
+    border-bottom: 2px solid $accent-light-color;
+  }
+}
+
+.tag-bar:hover {
+  .tag-block {
+    border: 2px solid $background-color;
+    border-top: 1px solid $background-color;
+    border-bottom: 1px solid $background-color;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      box-shadow: 0px 0px 0px 2px $accent-hover-color;
+      z-index: -1;
+    }
+
+    &:last-child {
+      border-top: 2px solid $background-color;
+    }
+
+    &:first-child {
+      border-bottom: 2px solid $background-color;
+    }
+  }
+}
+
 .tags {
   font-size: 0;
 }

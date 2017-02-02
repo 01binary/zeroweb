@@ -50,7 +50,7 @@ function dateSelectorDirective($q, $http, $compile, $window, $render2d, $safeApp
 }
 
 /**
- * Initialize date selector.
+ * Initialize the date selector.
  * @param {object} $q - The Angular promise service.
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
@@ -69,9 +69,6 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
     $scope.summary = {};
     $scope.visiblePages = [];
     $scope.maxVisiblePages = 8;
-    $scope.margin = 10;
-    $scope.pagesHeight = 27;
-    $scope.headingHeight = 24;
     $scope.currentPage = "1";
 
     $scope.isSeparator = isSeparator;
@@ -82,10 +79,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
     $scope.pageMouseOut = pageMouseOut.bind($element, $scope);
     $scope.pageMouseDown = pageMouseDown.bind($element, $scope);
     $scope.pageMouseUp = pageMouseUp.bind($element, $scope);
-    $scope.resize = resize.bind($element, $scope, $render2d);
     $scope.render = render.bind($element, $scope);
-
-    $window.addEventListener('resize', $scope.resize);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -207,44 +201,22 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
             // Expand/collapse heading.
             '<button class="date-selector-caption button-inline" data-ng-click="expandCollapse()" data-tooltip="// expand or collapse">' +
                 '{{isExpanded === true ? "- by date" : "+"}}' +
-            '</button>'
+            '</button>' +
+
+            // Tag view.
+            '<div class="date-selector-view">' +
+            '</div>'
         ));
 
         // Update visible pages.
         $scope.visiblePages = getVisiblePages($element, $scope);
 
-        // Create the rendered view.
-        $scope.view = $render2d.createCanvas(
-            $element.find('.date-selector-pages'),
-            'date-selector-view',
-            $element.width() - $scope.margin * 2,
-            $element.height() - $scope.margin * 2 - $scope.pagesHeight - $scope.headingHeight);
+        // Render the graph.
+        $scope.render();
 
         // Compile the template.
         $compile($element)($scope);
-
-        // Render for the first time.
-        $scope.render();
     });
-}
-
-/**
- * Handle custom control resize.
- * @param {object} $scope - The directive scope.
- * @param {object} $render2d - The 2D rendering service.
- */
-function resize($scope, $render2d) {
-    // Recalculate the page buttons.
-    $scope.visiblePages = getVisiblePages(this, $scope);
-
-    // Resize the canvas.
-    $render2d.resizeCanvas(
-        this.find('.date-selector-view'),
-        this.width() - $scope.margin * 2,
-        this.height() - $scope.margin * 2 - $scope.pagesHeight - $scope.headingHeight);
-
-    // Re-render the canvas view.
-    $scope.render();
 }
 
 /**
@@ -399,50 +371,50 @@ function loadContent($q, $http, $scope) {
     $scope.timeline = {
         "1": {
             "aug 1": {
-                "robotics": 2,
-                "software": 1
+                "engineering-robotics": 2,
+                "engineering-software": 1
             },
 
             "aug 8": {
-                "web": 2,
-                "industrial": 1
+                "design-web": 2,
+                "design-industrial": 1
             },
 
             "aug 15": {
-                "web": 1,
-                "industrial": 1,
-                "cad": 1,
-                "art": 2
+                "design-web": 1,
+                "design-industrial": 1,
+                "design-cad": 1,
+                "art-painting": 2
             },
 
             "aug 22": {
-                "robotics": 1,
-                "painting": 1,
-                "mechanical": 2
+                "engineering-robotics": 1,
+                "art-crafts": 1,
+                "engineering-mechanical": 2
             },
 
             "aug 29": {
-                "web": 1
+                "design-web": 1
             }
         },
 
         "2": {
             "sep 5": {
-                "software": 1
+                "engineering-software": 1
             },
 
             "sep 12": {
-                "industrial": 1
+                "design-industrial": 1
             },
 
             "sep 19": {
-                "electrical": 3,
-                "painting": 1
+                "engineering-electrical": 3,
+                "art-painting": 1
             },
 
             "sep 26": {
-                "music": 2,
-                "electrical": 1
+                "art-music": 2,
+                "engineering-electrical": 1
             }
         },
 
@@ -450,13 +422,13 @@ function loadContent($q, $http, $scope) {
             "oct 3": {},
 
             "oct 10": {
-                "web": 1
+                "design-web": 1
             },
 
             "oct 17": {},
 
             "oct 24": {
-                "industrial": 1
+                "design-industrial": 1
             },
 
             "oct 31": {}
@@ -464,31 +436,31 @@ function loadContent($q, $http, $scope) {
 
         "4": {
             "nov 7": {
-                "painting": 1,
-                "web": 1
+                "art-painting": 1,
+                "design-web": 1
             },
 
             "nov 14": {
-                "ui": 1,
-                "robotics": 3
+                "design-frontend": 1,
+                "engineering-robotics": 3
             },
 
             "nov 21": {},
 
             "nov 28": {
-                "sql": 1
+                "it-sql": 1
             }
         },
 
         "5": {
             "dec 5": {
-                "mechanical": 2
+                "engineering-mechanical": 2
             },
 
             "dec 12": {},
 
             "dec 19": {
-                "painting": 1
+                "art-painting": 1
             },
 
             "dec 26": {}
@@ -496,25 +468,25 @@ function loadContent($q, $http, $scope) {
 
         "6": {
             "jan 2": {
-                "robotics": 2,
-                "music": 1,
-                "web": 1
+                "engineering-robotics": 2,
+                "art-music": 1,
+                "design-web": 1
             },
 
             "jan 9": {
-                "software": 2
+                "engineering-software": 2
             },
 
             "jan 16": {},
 
             "jan 23": {
-                "software": 1
+                "engineering-software": 1
             },
 
             "jan 30": {
-                "robotics": 3,
-                "web": 1,
-                "mechanical": 2
+                "engineering-robotics": 3,
+                "design-web": 1,
+                "engineering-mechanical": 2
             }
         },
 
@@ -563,25 +535,53 @@ function loadContent($q, $http, $scope) {
         "49": {},
     };
 
+    $scope.max = 0;
     $scope.summary = Object.keys($scope.timeline).map(function(key) {
-        // Map date label for each page.
         var month = $scope.timeline[key];
         var weeks = Object.keys(month);
+        var monthSummary = { tags: {}, weeks: {}, total: 0 };
 
         if (weeks.length) {
+            // Calculate the month and week totals.
+            for (var weekIndex in month) {
+                var week = month[weekIndex];
+                var weekSummary = monthSummary.weeks[weekIndex] = { tags: {}, total: 0};
+
+                for (var tag in week) {
+                    if (monthSummary.tags[tag])
+                        monthSummary.tags[tag] += week[tag];
+                    else
+                        monthSummary.tags[tag] = week[tag];
+
+                    if (weekSummary.tags[tag])
+                        weekSummary.tags[tag] += week[tag];
+                    else
+                        weekSummary.tags[tag] = week[tag];
+
+                    weekSummary.total += week[tag];
+                    monthSummary.total += week[tag];
+
+                    if (weekSummary.total > $scope.max)
+                        $scope.max = weekSummary.total;
+                }
+            }
+
+            // Calculate the month date range.
             var firstWeekMonthDay = weeks[0].split(' ');
             var lastWeekMonthDay = weeks[weeks.length - 1].split(' ');
 
             if (firstWeekMonthDay[0] === lastWeekMonthDay[0]) {
                 // Use "jan 2 - 10" for example if first and last week have same month.
-                return firstWeekMonthDay[0] + ' ' +
+                monthSummary.range = firstWeekMonthDay[0] + ' ' +
                     firstWeekMonthDay[1] + ' - ' +
                     lastWeekMonthDay[1];
             } else {
                 // Use "jan 29 - feb 3" for example if first and last week have different months.
-                return weeks[0] + ' ' + weeks[weeks.length - 1];
+                monthSummary.range = weeks[0] + ' ' + weeks[weeks.length - 1];
             }
         }
+
+        return monthSummary;
     });
 
     $scope.isLoading = false;
@@ -618,7 +618,8 @@ function getVisiblePages($element, $scope) {
     // Calculate visible pages for a 2-break view.
     var sectionPages = Math.max(1, visiblePages - reservedPageCount);
     var halfSectionPages = Math.round(sectionPages / 2);
-    var firstPage = Math.floor((currentPage - sectionPages) / halfSectionPages) * halfSectionPages + pagesBeforeBreak - 1;
+    var firstPage = Math.floor((currentPage - sectionPages) / halfSectionPages) *
+        halfSectionPages + pagesBeforeBreak - 1;
     
     // Allocate the visible page slots (including breaks).
     var pageNumbersArray = new Array(visiblePages);
@@ -664,11 +665,35 @@ function isSeparator(page) {
 }
 
 /**
- * Render the custom control view.
+ * Render tags.
  * @param {object} $scope - The directive scope.
  */
 function render($scope) {
-    // render bars
+    var $view = this.find('.date-selector-view');
+    var $bar = null;
+    
+    for (var month in $scope.summary) {
+        var monthSummary = $scope.summary[month];
+        
+        for (var week in monthSummary.weeks) {
+            var weekSummary = monthSummary.weeks[week];
+            var verticalOffset = 0;
 
-    // render selection
+            $bar = $('<div class="tag-bar"></div>')
+                .css('left', $bar ? $bar.position().left + $bar.width() : 2)
+                .appendTo($view);
+
+            for (var tag in weekSummary.tags) {
+                var tagCount = weekSummary.tags[tag];
+
+                verticalOffset += $('<div class="tag-block tag-' + tag + '"></div>')
+                    .css('height', (tagCount / $scope.max * 100).toString() + '%')
+                    .css('bottom', verticalOffset)
+                    .appendTo($bar)
+                    .height();
+            }
+        }
+    }
+
+    // Render selection
 }

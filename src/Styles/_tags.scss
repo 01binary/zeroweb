@@ -158,8 +158,8 @@ $crafts:      #67d5e9;
 
 .tag-page {
   position: absolute;
-  top: 0px;
-  bottom: 13px;
+  top: 1px;
+  bottom: 16px;
   width: 87px;
   border-bottom: 2px solid $accent-color;
 
@@ -171,12 +171,17 @@ $crafts:      #67d5e9;
     position: absolute;
     left: 0px;
     right: 0px;
-    padding-top: 2px;
+    padding-top: 3px;
     top: 100%;
     text-align: center;
     font-family: $small-font;
     font-size: $small-font-size - 2;
     color: $drop-shadow-light-color;
+    cursor: pointer;
+
+    &:hover {
+      color: $primary-color;
+    }
   }
 
   &-separator {
@@ -185,6 +190,7 @@ $crafts:      #67d5e9;
     bottom: 0px;
     right: -3px;
     border-right: 1px dashed $border-color;
+    outline-offset: 10px;
   }
 }
 

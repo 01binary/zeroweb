@@ -677,10 +677,10 @@ function render($scope) {
         var monthSummary = $scope.summary[month];
         var $bar = null;
 
-        // TODO: remove the 2 magic number.
+        // TODO: remove the 2 magic numbers.
 
         $wrapper = $('<div class="tag-page"></div>')
-            .css('left', $wrapper ? $wrapper.position().left + $wrapper.width() : 2)
+            .css('left', $wrapper ? $wrapper.position().left + $wrapper.width() + 6 : 2)
             .append($('<div class="tag-page-footer"></div>')
                 .text(monthSummary.month))
             .append($('<div class="tag-page-separator"></div>'))

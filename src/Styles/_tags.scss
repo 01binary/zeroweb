@@ -160,7 +160,7 @@ $crafts:      #67d5e9;
   position: absolute;
   top: 0px;
   bottom: 13px;
-  width: 89px;
+  width: 87px;
   border-bottom: 2px solid $accent-color;
 
   &:hover {
@@ -169,8 +169,8 @@ $crafts:      #67d5e9;
 
   &-footer {
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 0px;
+    right: 0px;
     padding-top: 2px;
     top: 100%;
     text-align: center;
@@ -181,9 +181,9 @@ $crafts:      #67d5e9;
 
   &-separator {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
+    top: 0px;
+    bottom: 0px;
+    right: -3px;
     border-right: 1px dashed $border-color;
   }
 }

@@ -390,10 +390,7 @@ function loadContent($q, $http, $scope) {
             "aug 22": {
                 "engineering-robotics": 1,
                 "art-crafts": 1,
-                "engineering-mechanical": 2
-            },
-
-            "aug 29": {
+                "engineering-mechanical": 2,
                 "design-web": 1
             }
         },
@@ -481,16 +478,16 @@ function loadContent($q, $http, $scope) {
 
             "jan 23": {
                 "engineering-software": 1
-            },
+            }
+        },
 
-            "jan 30": {
+        "7": {
+            "feb 1": {
                 "engineering-robotics": 3,
                 "design-web": 1,
                 "engineering-mechanical": 2
             }
         },
-
-        "7": {},
         "8": {},
         "9": {},
         "10": {},
@@ -570,6 +567,8 @@ function loadContent($q, $http, $scope) {
             var firstWeekMonthDay = weeks[0].split(' ');
             var lastWeekMonthDay = weeks[weeks.length - 1].split(' ');
 
+            monthSummary.month = firstWeekMonthDay[0];
+
             if (firstWeekMonthDay[0] === lastWeekMonthDay[0]) {
                 // Use "jan 2 - 10" for example if first and last week have same month.
                 monthSummary.range = firstWeekMonthDay[0] + ' ' +
@@ -583,6 +582,8 @@ function loadContent($q, $http, $scope) {
 
         return monthSummary;
     });
+
+    console.log($scope.summary);
 
     $scope.isLoading = false;
 
@@ -670,30 +671,38 @@ function isSeparator(page) {
  */
 function render($scope) {
     var $view = this.find('.date-selector-view');
-    var $bar = null;
+    var $wrapper = null;
     
     for (var month in $scope.summary) {
         var monthSummary = $scope.summary[month];
+        var $bar = null;
+
+        // TODO: remove the 2 magic number.
+
+        $wrapper = $('<div class="tag-page"></div>')
+            .css('left', $wrapper ? $wrapper.position().left + $wrapper.width() : 2)
+            .append($('<div class="tag-page-footer"></div>')
+                .text(monthSummary.month))
+            .append($('<div class="tag-page-separator"></div>'))
+            .appendTo($view);
         
         for (var week in monthSummary.weeks) {
             var weekSummary = monthSummary.weeks[week];
             var verticalOffset = 0;
 
             $bar = $('<div class="tag-bar"></div>')
-                .css('left', $bar ? $bar.position().left + $bar.width() : 2)
-                .appendTo($view);
+                .css('left', $bar ? $bar.position().left + $bar.width() : 0)
+                .appendTo($wrapper);
 
             for (var tag in weekSummary.tags) {
                 var tagCount = weekSummary.tags[tag];
 
                 verticalOffset += $('<div class="tag-block tag-' + tag + '"></div>')
-                    .css('height', (tagCount / $scope.max * 100).toString() + '%')
+                    .css('height', Math.round(tagCount / $scope.max * 100).toString() + '%')
                     .css('bottom', verticalOffset)
                     .appendTo($bar)
-                    .height();
+                    .height() + (verticalOffset ? 0 : 2);
             }
         }
     }
-
-    // Render selection
 }

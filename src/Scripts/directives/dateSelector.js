@@ -69,12 +69,12 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
     $scope.summary = {};
     $scope.visiblePages = [];
     $scope.maxVisiblePages = 8;
-    $scope.currentPage = "1";
 
     $scope.isSeparator = isSeparator;
     $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
     $scope.nextPage = nextPage.bind($element, $scope);
     $scope.prevPage = prevPage.bind($element, $scope);
+    $scope.selectPage = selectPage.bind($element, $scope);
     $scope.pageMouseOver = pageMouseOver.bind($element, $scope);
     $scope.pageMouseOut = pageMouseOut.bind($element, $scope);
     $scope.pageMouseDown = pageMouseDown.bind($element, $scope);
@@ -208,11 +208,15 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
             '</div>'
         ));
 
-        // Update visible pages.
-        $scope.visiblePages = getVisiblePages($element, $scope);
+        var pages = Object.keys($scope.timeline);
 
-        // Render the graph.
-        $scope.render();
+        if (pages.length) {
+            // Render tags.
+            $scope.render();
+
+            // Update the selected page.
+            $scope.selectPage(pages[0]);
+        }
 
         // Compile the template.
         $compile($element)($scope);
@@ -251,7 +255,12 @@ function expandCollapse($scope, $safeApply) {
  * @param {object} $scope - The directive scope.
  */
 function prevPage($scope) {
+    var prevPage = parseInt($scope.currentPage, 10) - 1;
 
+    if (prevPage < 1)
+        return;
+
+    $scope.selectPage(prevPage);
 }
 
 /**
@@ -259,7 +268,12 @@ function prevPage($scope) {
  * @param {object} $scope - The directive scope.
  */
 function nextPage($scope) {
+    var nextPage = parseInt($scope.currentPage, 10) + 1;
 
+    if (nextPage >= $scope.timeline.length)
+        return;
+
+    $scope.selectPage(nextPage);
 }
 
 /**
@@ -340,9 +354,9 @@ function pageMouseDown($scope, event) {
     if ($button) {
         if ($button.hasClass('date-selector-scroll-right')) {
             $button.addClass('pushed');
+            $scope.nextPage();
         } else {
-            $scope.currentPage = $button.find('.date-selector-page-label').text();
-            $scope.visiblePages = getVisiblePages(this, $scope);
+            $scope.selectPage($button.find('.date-selector-page-label').text());
         }
     }
 }
@@ -583,8 +597,6 @@ function loadContent($q, $http, $scope) {
         return monthSummary;
     });
 
-    console.log($scope.summary);
-
     $scope.isLoading = false;
 
     return $q.when();
@@ -663,6 +675,16 @@ function getVisiblePages($element, $scope) {
  */
 function isSeparator(page) {
     return page.indexOf('.') !== -1;
+}
+
+/**
+ * Update necessary markup when changing the displayed page.
+ * @param {object} $scope - The directive scope.
+ * @param {string} page - The page number or caption to change to.
+ */
+function selectPage($scope, page) {
+    $scope.currentPage = page.toString();
+    $scope.visiblePages = getVisiblePages(this, $scope);
 }
 
 /**

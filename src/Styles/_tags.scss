@@ -164,6 +164,10 @@ $crafts:      #67d5e9;
   border-bottom: 2px solid $accent-color;
 
   &:hover {
+    border-bottom: 2px solid darken($accent-color, 8%);
+  }
+
+  &.selected {
     border-bottom: 2px solid $primary-color;
   }
 

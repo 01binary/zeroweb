@@ -33,7 +33,7 @@ function dateSelectorDirective($q, $http, $compile, $window, $render2d, $safeApp
         restrict: 'E',
         replace: true,
         transclude: true,
-        template: '<div class="date-selector" data-ng-class="{loading:isLoading}" data-ng-resize="resize()"></div>',
+        template: '<div class="date-selector" data-ng-class="{loading:isLoading}"></div>',
         scope: {},
         link: function($scope, $element, attributes) {
             initialize(
@@ -69,6 +69,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
     $scope.summary = {};
     $scope.visiblePages = [];
     $scope.maxVisiblePages = 8;
+    $scope.currentPage = "1";
 
     $scope.isSeparator = isSeparator;
     $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
@@ -114,6 +115,10 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                 '</symbol>' +
                 '<symbol id="arrow-right">' +
                     '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
+                '</symbol>' +
+                '<symbol id="page-brackets">' +
+                    '<polygon points="10,4 10,0 4,0 0,0 0,51 4,51 10,51 10,47 4,47 4,4"/>' +
+                    '<polygon points="84,4 84,0 90,0 94,0 94,51 90,51 84,51 84,47 90,47 90,4"/>' +
                 '</symbol>' +
             '</svg>' +
 
@@ -208,18 +213,16 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
             '</div>'
         ));
 
-        var pages = Object.keys($scope.timeline);
+        // Compile the template.
+        $compile($element)($scope);
 
-        if (pages.length) {
+        if (Object.keys($scope.timeline).length) {
             // Render tags.
             $scope.render();
 
             // Update the selected page.
-            $scope.selectPage(pages[0]);
+            $scope.selectPage($scope.currentPage);
         }
-
-        // Compile the template.
-        $compile($element)($scope);
     });
 }
 
@@ -685,6 +688,44 @@ function isSeparator(page) {
 function selectPage($scope, page) {
     $scope.currentPage = page.toString();
     $scope.visiblePages = getVisiblePages(this, $scope);
+
+    // Update pointer graphic.
+    if (!$scope.pointer) {
+        $scope.pointer = $('<svg class="tag-page-pointer"></svg>')
+            .appendTo($('.date-selector-view'));
+    } else {
+        $scope.pointer.empty();
+    }
+
+    var pageIndex = parseInt($scope.currentPage, 10) - 1;
+    var pageWrapper$ = $(this.find('.tag-page')[pageIndex]);
+    var sourceOffset = (pageIndex + 1) * 31 + 14;
+    var targetOffset = pageWrapper$.position().left + pageWrapper$.width() / 2;
+    var pointerLeft = Math.min(sourceOffset, targetOffset);
+    var pointerWidth = Math.abs(sourceOffset - targetOffset);
+
+    this.find('.tag-page').removeClass('selected');
+    pageWrapper$.addClass('selected');
+    
+    $scope.pointer
+        .css('left', pointerLeft + 'px')
+        .css('width', pointerWidth + 'px');
+
+    var container = $scope.pointer.get(0);
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+
+    if (pointerWidth > 9) {
+        line.setAttribute('points', [
+            '1, 5',
+            '4, 2.5',
+            [pointerWidth - 3, 2.5].join(','),
+            [pointerWidth - 1, 0].join(',')
+        ].join(' '));
+    } else {
+        line.setAttribute('points', '1,5 1,0');
+    }
+
+    container.appendChild(line);
 }
 
 /**
@@ -699,13 +740,14 @@ function render($scope) {
         var monthSummary = $scope.summary[month];
         var $bar = null;
 
-        // TODO: remove the 2 magic numbers.
-
         $wrapper = $('<div class="tag-page"></div>')
-            .css('left', $wrapper ? $wrapper.position().left + $wrapper.width() + 6 : 2)
+            .css('left', $wrapper ? $wrapper.position().left + $wrapper.width() + 6 : 4)
             .append($('<div class="tag-page-footer"></div>')
                 .text(monthSummary.month))
             .append($('<div class="tag-page-separator"></div>'))
+            .append($('<svg class="tag-page-brackets" width="94" height="52" viewBox="0 0 94 52">' +
+                        '<use xlink:href="#page-brackets">' +
+                      '</svg>'))
             .appendTo($view);
         
         for (var week in monthSummary.weeks) {
@@ -723,7 +765,7 @@ function render($scope) {
                     .css('height', Math.round(tagCount / $scope.max * 100).toString() + '%')
                     .css('bottom', verticalOffset)
                     .appendTo($bar)
-                    .height() + (verticalOffset ? 0 : 2);
+                    .height() + (verticalOffset ? 0 : 1);
             }
         }
     }

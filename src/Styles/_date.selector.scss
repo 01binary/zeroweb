@@ -38,11 +38,12 @@
     /* Graph view */
     &-view {
         position: absolute;
-        left: 16px;
+        left: 10px;
         right: 10px;
         top: 26px;
-        bottom: 42px;
+        bottom: 37px;
         overflow-x: hidden;
+        cursor: ew-resize;
     }
 
     /* Page numbers strip */

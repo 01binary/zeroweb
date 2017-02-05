@@ -158,17 +158,34 @@ $crafts:      #67d5e9;
 
 .tag-page {
   position: absolute;
-  top: 1px;
-  bottom: 16px;
+  top: 0px;
+  bottom: 22px;
   width: 87px;
   border-bottom: 2px solid $accent-color;
 
   &:hover {
     border-bottom: 2px solid darken($accent-color, 8%);
+
+    .tag-page-brackets {
+      fill: $border-color;
+    }
   }
 
   &.selected {
-    border-bottom: 2px solid $primary-color;
+    border-bottom: 4px solid $primary-color;
+    bottom: 20px;
+
+    .tag-page-brackets {
+      display: block;
+    }
+
+    .tag-page-footer {
+      color: $primary-color;
+    }
+
+    .tag-page-separator {
+      display: none;
+    }
   }
 
   &-footer {
@@ -195,13 +212,32 @@ $crafts:      #67d5e9;
     right: -3px;
     border-right: 1px dashed $border-color;
     outline-offset: 10px;
+    z-index: -1;
+  }
+
+  &-brackets {
+    position: absolute;
+    left: -4px;
+    top: 0px;
+    fill: lighten($border-color, 3%);
+    display: none;
+  }
+
+  &-pointer {
+    position: absolute;
+    height: 5px;
+    left: 0px;
+    bottom: 2px;
+    stroke-width: 1px;
+    stroke: $primary-color;
+    fill: none;
   }
 }
 
 .tag-bar {
   position: absolute;
   top: 8px;
-  bottom: 2px;
+  bottom: 1px;
   min-width: 22px;
 }
 

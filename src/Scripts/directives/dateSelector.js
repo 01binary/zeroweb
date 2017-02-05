@@ -117,8 +117,8 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                     '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
                 '</symbol>' +
                 '<symbol id="page-brackets">' +
-                    '<polygon points="10,4 10,0 4,0 0,0 0,51 4,51 10,51 10,47 4,47 4,4"/>' +
-                    '<polygon points="84,4 84,0 90,0 94,0 94,51 90,51 84,51 84,47 90,47 90,4"/>' +
+                    '<polygon points="10,4 10,0 4,0 0,0 0,45 4,45 10,45 10,41 4,41 4,4"/>' +
+                    '<polygon points="84,4 84,0 90,0 94,0 94,45 90,45 84,45 84,41 90,41 90,4"/>' +
                 '</symbol>' +
             '</svg>' +
 
@@ -689,43 +689,12 @@ function selectPage($scope, page) {
     $scope.currentPage = page.toString();
     $scope.visiblePages = getVisiblePages(this, $scope);
 
-    // Update pointer graphic.
-    if (!$scope.pointer) {
-        $scope.pointer = $('<svg class="tag-page-pointer"></svg>')
-            .appendTo($('.date-selector-view'));
-    } else {
-        $scope.pointer.empty();
-    }
-
     var pageIndex = parseInt($scope.currentPage, 10) - 1;
-    var pageWrapper$ = $(this.find('.tag-page')[pageIndex]);
-    var sourceOffset = (pageIndex + 1) * 31 + 14;
-    var targetOffset = pageWrapper$.position().left + pageWrapper$.width() / 2;
-    var pointerLeft = Math.min(sourceOffset, targetOffset);
-    var pointerWidth = Math.abs(sourceOffset - targetOffset);
+    var pagesWrapper$ = this.find('.tag-page');
+    var wrapper$ = $(pagesWrapper$[pageIndex]);
 
-    this.find('.tag-page').removeClass('selected');
-    pageWrapper$.addClass('selected');
-    
-    $scope.pointer
-        .css('left', pointerLeft + 'px')
-        .css('width', pointerWidth + 'px');
-
-    var container = $scope.pointer.get(0);
-    var line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-
-    if (pointerWidth > 9) {
-        line.setAttribute('points', [
-            '1, 5',
-            '4, 2.5',
-            [pointerWidth - 3, 2.5].join(','),
-            [pointerWidth - 1, 0].join(',')
-        ].join(' '));
-    } else {
-        line.setAttribute('points', '1,5 1,0');
-    }
-
-    container.appendChild(line);
+    pagesWrapper$.removeClass('selected');
+    wrapper$.addClass('selected');
 }
 
 /**
@@ -765,7 +734,7 @@ function render($scope) {
                     .css('height', Math.round(tagCount / $scope.max * 100).toString() + '%')
                     .css('bottom', verticalOffset)
                     .appendTo($bar)
-                    .height() + (verticalOffset ? 0 : 1);
+                    .height() + (verticalOffset ? 0 : 2);
             }
         }
     }

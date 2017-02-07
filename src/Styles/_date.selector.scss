@@ -57,7 +57,7 @@
         z-index: 200;
     }
 
-    /* Page numbers strip overrides for PC */
+    /* Page number button overrides for PC */
     .os-win &-page {
         font-size: $small-font-size-win;
     }
@@ -71,9 +71,12 @@
         height: 27px;
         padding-left: 4px;
         padding-top: 5px;
-        margin-right: -4px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        margin-left: 0px;
+        margin-top: 0px;
+        margin-right: -8px;
         margin-bottom: 10px;
-        padding-bottom: 0;
         font-family: $small-font;
         font-size: $small-font-size;
         color: $foreground-color;
@@ -91,7 +94,7 @@
             position: absolute;
             left: 0px;
             right: 10px;
-            bottom: 1px;
+            bottom: 6px;
             height: 1px;
             box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
             z-index: -3;
@@ -140,8 +143,8 @@
             position: absolute;
             text-align: center;
             top: 5px;
-            left: 1px;
-            right: -2px;
+            left: 0px;
+            right: 0px;
             pointer-events: none;
         }
 

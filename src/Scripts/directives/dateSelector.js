@@ -141,7 +141,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<button role="button" class="date-selector-page noselect" ' +
+                '<a role="button" class="date-selector-page noselect" ' +
                     'data-ng-repeat="page in visiblePages" ' +
                     'data-ng-class="{' +
                         '\'date-selector-page-separator\': isSeparator(page), ' +
@@ -175,7 +175,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                             '{{page}}' +
                         '</div>' +
                     '</div>' +
-                '</button>' +
+                '</a>' +
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).

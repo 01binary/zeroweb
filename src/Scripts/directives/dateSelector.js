@@ -267,12 +267,12 @@ function expandCollapse($scope, $safeApply) {
  * @param {object} $scope - The directive scope.
  */
 function prevPage($scope) {
-    var prevPage = parseInt($scope.currentPage, 10) - 1;
+    var prev = parseInt($scope.currentPage, 10) - 1;
 
-    if (prevPage < 1)
+    if (prev < 1)
         return;
 
-    $scope.selectPage(prevPage);
+    $scope.selectPage(prev);
 }
 
 /**
@@ -280,12 +280,13 @@ function prevPage($scope) {
  * @param {object} $scope - The directive scope.
  */
 function nextPage($scope) {
-    var nextPage = parseInt($scope.currentPage, 10);
+    var next = parseInt($scope.currentPage, 10) + 1;
 
-    if (nextPage >= $scope.contributions.pages.length)
+    if (next > $scope.contributions.pages.length) {
         return;
+    }
 
-    $scope.selectPage(nextPage);
+    $scope.selectPage(next);
 }
 
 /**

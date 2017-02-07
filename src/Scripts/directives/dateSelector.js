@@ -280,7 +280,7 @@ function prevPage($scope) {
  * @param {object} $scope - The directive scope.
  */
 function nextPage($scope) {
-    var nextPage = parseInt($scope.currentPage, 10) + 1;
+    var nextPage = parseInt($scope.currentPage, 10);
 
     if (nextPage >= $scope.contributions.pages.length)
         return;
@@ -804,7 +804,7 @@ function isSeparator(page) {
 }
 
 /**
- * Update necessary markup when changing the displayed page.
+ * Update model and markup when changing the displayed page.
  * @param {object} $scope - The directive scope.
  * @param {string} page - The page number or caption to change to.
  */
@@ -828,10 +828,18 @@ function selectPage($scope, page) {
     var $startBar = $($startWrapper.find('.tag-bar').get(startWeekIndex));
     var $endBar = $($endWrapper.find('.tag-bar').get(endWeekIndex));
 
+    var selectionStart = $startWrapper.position().left +
+        $startBar.position().left - 4;
+    var selectionEnd = $endWrapper.position().left +
+        $endBar.position().left + $endBar.width() - 8;
+
     this.find('.tag-page-bracket-left')
-        .css('left', $startWrapper.position().left + $startBar.position().left - 4 + 'px');
+        .css('left', selectionStart + 'px');
     this.find('.tag-page-bracket-right')
-        .css('left', $endWrapper.position().left + $endBar.position().left + $endBar.width() - 8 + 'px');
+        .css('left', selectionEnd + 'px'); 
+    this.find('.tag-page-underline-mask')
+        .css('left', selectionStart + 9)
+        .css('width', selectionEnd - selectionStart - 8);
 }
 
 /**
@@ -869,7 +877,7 @@ function render($scope) {
                     .css('height', tagPercent.toString() + '%')
                     .css('bottom', verticalOffset)
                     .appendTo($bar)
-                    .height() + (verticalOffset ? 0 : 2);
+                    .height() + (verticalOffset ? 1 : 2);
             }
         }
     }
@@ -880,5 +888,6 @@ function render($scope) {
         '</svg>' +
         '<svg class="tag-page-bracket-right" width="41" height="52" viewBox="0 0 41 52">' +
             '<use xlink:href="#right-bracket">' +
-        '</svg>'));
+        '</svg>' +
+        '<div class="tag-page-underline-mask"></div>'));
 }

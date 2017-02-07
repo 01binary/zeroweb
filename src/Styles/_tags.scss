@@ -209,6 +209,13 @@ $crafts:      #67d5e9;
     stroke: $primary-color;
     fill: none;
   }
+
+  &-underline-mask {
+    position: absolute;
+    bottom: 18px;
+    height: 4px;
+    background: $accent-light-color;
+  }
 }
 
 .tag-bar {

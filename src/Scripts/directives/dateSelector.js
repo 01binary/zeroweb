@@ -179,7 +179,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<button role="button" class="date-selector-scroll-right noselect">' +
+                '<a role="button" class="date-selector-scroll-right noselect">' +
                     '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
@@ -209,7 +209,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                             '</svg>' +
                         '</div>' +
                     '</div>' +
-                '</button>' +
+                '</a>' +
             '</div>' +
 
             // Expand/collapse heading.

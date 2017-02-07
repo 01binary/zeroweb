@@ -85,7 +85,7 @@
         background: none;
 
         &:hover {
-            color: $foreground-color;
+            color: $secondary-text-color;
         }
 
         /* Bottom shadow */
@@ -320,6 +320,7 @@
             border: none;
             outline: none;
             background: none;
+            color: $foreground-color;
             cursor: pointer;
 
             /* Bottom shadow */
@@ -344,6 +345,11 @@
             .date-selector-page-overlay {
                 left: 5px;
                 right: 0px;
+            }
+
+            /* Hover state */
+            &:hover {
+                color: $secondary-text-color;
             }
 
             /* Pushed state */

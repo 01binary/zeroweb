@@ -17,7 +17,15 @@
  * Register date selector directive.
  */
 angular.module('zeroApp')
-    .directive('dateselector', [ '$q', '$http', '$compile', '$window', 'render2d', 'safeApply', dateSelectorDirective ]);
+    .directive('dateselector', [
+        '$q',
+        '$http',
+        '$compile',
+        '$window',
+        'render2d',
+        'safeApply',
+        dateSelectorDirective
+    ]);
 
 /**
  * Implement date selector directive.
@@ -65,11 +73,10 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
     $scope.isLoading = true;
     $scope.isExpanded = true;
     $scope.isScrolling = false;
-    $scope.timeline = {};
-    $scope.summary = {};
+    $scope.contributions = {};
     $scope.visiblePages = [];
     $scope.maxVisiblePages = 8;
-    $scope.currentPage = "1";
+    $scope.currentPage = null;
 
     $scope.isSeparator = isSeparator;
     $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
@@ -116,9 +123,11 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                 '<symbol id="arrow-right">' +
                     '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
                 '</symbol>' +
-                '<symbol id="page-brackets">' +
+                '<symbol id="left-bracket">' +
                     '<polygon points="10,4 10,0 4,0 0,0 0,45 4,45 10,45 10,41 4,41 4,4"/>' +
-                    '<polygon points="84,4 84,0 90,0 94,0 94,45 90,45 84,45 84,41 90,41 90,4"/>' +
+                '</symbol>' +
+                '<symbol id="right-bracket">' +
+                    '<polygon points="0,4 0,0 6,0 10,0 10,45 6,45 0,45 0,41 6,41 6,4"/>' +
                 '</symbol>' +
             '</svg>' +
 
@@ -216,12 +225,12 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
         // Compile the template.
         $compile($element)($scope);
 
-        if (Object.keys($scope.timeline).length) {
+        if ($scope.contributions.max) {
             // Render tags.
             $scope.render();
 
             // Update the selected page.
-            $scope.selectPage($scope.currentPage);
+            $scope.selectPage('1');
         }
     });
 }
@@ -273,7 +282,7 @@ function prevPage($scope) {
 function nextPage($scope) {
     var nextPage = parseInt($scope.currentPage, 10) + 1;
 
-    if (nextPage >= $scope.timeline.length)
+    if (nextPage >= $scope.contributions.pages.length)
         return;
 
     $scope.selectPage(nextPage);
@@ -384,221 +393,327 @@ function pageMouseUp($scope, event) {
  * @param {object} $scope - The directive scope.
  */
 function loadContent($q, $http, $scope) {
-    // TODO: need AJAX endpoint.
-    $scope.timeline = {
-        "1": {
-            "aug 1": {
-                "engineering-robotics": 2,
-                "engineering-software": 1
+    $scope.contributions = {
+        max: 6,
+        pages: [
+            {
+                start: { month: 'aug', week: 1 },
+                end: { month: 'aug', week: 2 }
             },
 
-            "aug 8": {
-                "design-web": 2,
-                "design-industrial": 1
+            {
+                start: { month: 'aug', week: 3 },
+                end: { month: 'aug', week: 3 }
             },
 
-            "aug 15": {
-                "design-web": 1,
-                "design-industrial": 1,
-                "design-cad": 1,
-                "art-painting": 2
+            {
+                start: { month: 'aug', week: 4 },
+                end: { month: 'aug', week: 4 }
             },
 
-            "aug 22": {
-                "engineering-robotics": 1,
-                "art-crafts": 1,
-                "engineering-mechanical": 2,
-                "design-web": 1
+            {
+                start: { month: 'sep', week: 1 },
+                end: { month: 'sep', week: 3 }
+            },
+
+            {
+                start: { month: 'sep', week: 4 },
+                end: { month: 'oct', week: 1 }
+            },
+
+            {
+                start: { month: 'oct', week: 2 },
+                end: { month: 'oct', week: 4 }
+            },
+
+            {
+                start: { month: 'nov', week: 1 },
+                end: { month: 'nov', week: 4 }
+            },
+
+            {
+                start: { month: 'dec', week: 1 },
+                end: { month: 'dec', week: 4 }
+            },
+
+            {
+                start: { month: 'jan', week: 1 },
+                end: { month: 'jan', week: 2 }
+            },
+
+            {
+                start: { month: 'jan', week: 3 },
+                end: { month: 'jan', week: 4 }
+            },
+
+            {
+                start: { month: 'feb', week: 1 },
+                end: { month: 'feb', week: 2 }
             }
-        },
-
-        "2": {
-            "sep 5": {
-                "engineering-software": 1
+        ],
+        months: {
+            'aug': {
+                tags: {
+                    'engineering-robotics': 3,
+                    'engineering-mechanical': 2,
+                    'engineering-software': 1,
+                    'design-industrial': 2,
+                    'design-web': 4,
+                    'art-painting': 2,
+                    'design-cad': 1,
+                    'art-crafts': 1
+                },
+                total: 16,
+                weeks: {
+                    'aug 1 - aug 7': {
+                        tags: {
+                            'engineering-robotics': 2,
+                            'engineering-software': 1
+                        },
+                        total: 3
+                    },
+                    
+                    'aug 8 - aug 14': {
+                        tags: {
+                            'design-industrial': 1,
+                            'design-web': 2
+                        },
+                        total: 3
+                    },
+                    
+                    'aug 15 - aug 21': {
+                        tags: {
+                            'art-painting': 2,
+                            'design-cad': 1,
+                            'design-industrial': 1,
+                            'design-web': 1
+                        },
+                        total: 5
+                    },
+                    
+                    'aug 22 - sep 4': {
+                        tags: {
+                            'art-crafts': 1,
+                            'design-web': 1,
+                            'engineering-mechanical': 2,
+                            'engineering-robotics': 1
+                        },
+                        total: 5
+                    }
+                }
             },
 
-            "sep 12": {
-                "design-industrial": 1
+            'sep': {
+                tags: {
+                    'engineering-software': 1,
+                    'engineering-electrical': 4,
+                    'design-industrial': 1,
+                    'art-painting': 1,
+                    'art-music': 2
+                },
+                total: 9,
+                weeks: {
+                    'sep 5 - sep 11': {
+                        tags: {
+                            'engineering-software': 1
+                        },
+                        total: 1
+                    },
+
+                    'sep 12 - sep 18': {
+                        tags: {
+                            'design-industrial': 1
+                        },
+                        total: 1
+                    },
+
+                    'sep 19 - sep 25': {
+                        tags: {
+                            'art-painting': 1,
+                            'engineering-electrical': 3
+                        },
+                        total: 4
+                    },
+
+                    'sep 26 - oct 2': {
+                        tags: {
+                            'art-music': 2,
+                            'engineering-electrical': 1
+                        },
+                        total: 3
+                    }
+                }
             },
 
-            "sep 19": {
-                "engineering-electrical": 3,
-                "art-painting": 1
+            'oct': {
+                tags: {
+                    'design-web': 1,
+                    'design-industrial': 1
+                },
+                total: 2,
+                weeks: {
+                    'oct 3 - oct 9': {
+                        tags: {},
+                        total: 0
+                    },
+
+                    'oct 10 - oct 16': {
+                        tags: {
+                            'design-web': 1
+                        },
+                        total: 1
+                    },
+
+                    'oct 17 - oct 23': {
+                        tags: {},
+                        total: 0
+                    },
+
+                    // Weird case! Weeks not aligning on month.
+                    'oct 24 - oct 30': {
+                        tags: {
+                            'design-industrial': 1
+                        },
+                        total: 1
+                    },
+                }
             },
 
-            "sep 26": {
-                "art-music": 2,
-                "engineering-electrical": 1
-            }
-        },
+            'nov': {
+                tags: {
+                    'art-painting': 1,
+                    'design-web': 1,
+                    'design-frontend': 1,
+                    'engineering-robotics': 3
+                },
+                total: 6,
+                weeks: {
+                    'oct 31 - nov 6': {
+                        tags: {},
+                        total: 0
+                    },
 
-        "3": {
-            "oct 3": {},
+                    'nov 7 - nov 13': {
+                        tags: {
+                            'art-painting': 1,
+                            'design-web': 1
+                        },
+                        total: 2
+                    },
 
-            "oct 10": {
-                "design-web": 1
+                    'nov 14 - nov 20': {
+                        tags: {
+                            'design-frontend': 1,
+                            'engineering-robotics': 3
+                        },
+                        total: 4
+                    },
+
+                    'nov 21 - nov 27': {
+                        tags: {},
+                        total: 0
+                    }
+                }
             },
 
-            "oct 17": {},
+            'dec': {
+                tags: {
+                    'engineering-mechanical': 2,
+                    'art-painting': 1
+                },
+                total: 3,
+                weeks: {
+                    'nov 28 - dec 4': {
+                        tags: {},
+                        total: 0
+                    },
 
-            "oct 24": {
-                "design-industrial": 1
+                    'dec 5 - dec 11': {
+                        tags: {
+                            'engineering-mechanical': 2
+                        },
+                        total: 2
+                    },
+
+                    'dec 12 - dec 18': {
+                        tags: {},
+                        total: 0
+                    },
+
+                    'dec 19 - dec 25': {
+                        tags: {
+                            'art-painting': 1
+                        },
+                        total: 1
+                    }
+                }
             },
 
-            "oct 31": {}
-        },
+            'jan': {
+                tags: {
+                    'art-music': 1,
+                    'design-web': 1,
+                    'engineering-robotics': 2,
+                    'engineering-software': 2
+                },
+                total: 6,
+                weeks: {
+                    'dec 26 - jan 1': {
+                        tags: {},
+                        total: 0
+                    },
 
-        "4": {
-            "nov 7": {
-                "art-painting": 1,
-                "design-web": 1
+                    'jan 2 - jan 8': {
+                        tags: {
+                            'art-music': 1,
+                            'design-web': 1,
+                            'engineering-robotics': 2
+                        },
+                        total: 4
+                    },
+
+                    'jan 9 - jan 15': {
+                        tags: {
+                            'engineering-software': 2
+                        },
+                        total: 2
+                    },
+
+                    'jan 16 - 22': {
+                        tags: {},
+                        total: 0
+                    }
+                }
             },
 
-            "nov 14": {
-                "design-frontend": 1,
-                "engineering-robotics": 3
-            },
+            'feb': {
+                tags: {
+                    'design-web': 1,
+                    'engineering-software': 1,
+                    'engineering-mechanical': 2,
+                    'engineering-robotics': 3
+                },
+                total: 7,
+                weeks: {
+                    'jan 23 - jan 29': {
+                        tags: {
+                            'engineering-software': 1
+                        },
+                        total: 1
+                    },
 
-            "nov 21": {},
-
-            "nov 28": {
-                "it-sql": 1
-            }
-        },
-
-        "5": {
-            "dec 5": {
-                "engineering-mechanical": 2
-            },
-
-            "dec 12": {},
-
-            "dec 19": {
-                "art-painting": 1
-            },
-
-            "dec 26": {}
-        },
-
-        "6": {
-            "jan 2": {
-                "engineering-robotics": 2,
-                "art-music": 1,
-                "design-web": 1
-            },
-
-            "jan 9": {
-                "engineering-software": 2
-            },
-
-            "jan 16": {},
-
-            "jan 23": {
-                "engineering-software": 1
-            }
-        },
-
-        "7": {
-            "feb 1": {
-                "engineering-robotics": 3,
-                "design-web": 1,
-                "engineering-mechanical": 2
-            }
-        },
-        "8": {},
-        "9": {},
-        "10": {},
-        "11": {},
-        "12": {},
-        "13": {},
-        "14": {},
-        "15": {},
-        "16": {},
-        "17": {},
-        "18": {},
-        "19": {},
-        "20": {},
-        "21": {},
-        "22": {},
-        "23": {},
-        "24": {},
-        "25": {},
-        "26": {},
-        "27": {},
-        "28": {},
-        "29": {},
-        "30": {},
-        "31": {},
-        "32": {},
-        "33": {},
-        "34": {},
-        "35": {},
-        "36": {},
-        "37": {},
-        "38": {},
-        "39": {},
-        "40": {},
-        "41": {},
-        "42": {},
-        "43": {},
-        "44": {},
-        "45": {},
-        "46": {},
-        "47": {},
-        "48": {},
-        "49": {},
-    };
-
-    $scope.max = 0;
-    $scope.summary = Object.keys($scope.timeline).map(function(key) {
-        var month = $scope.timeline[key];
-        var weeks = Object.keys(month);
-        var monthSummary = { tags: {}, weeks: {}, total: 0 };
-
-        if (weeks.length) {
-            // Calculate the month and week totals.
-            for (var weekIndex in month) {
-                var week = month[weekIndex];
-                var weekSummary = monthSummary.weeks[weekIndex] = { tags: {}, total: 0};
-
-                for (var tag in week) {
-                    if (monthSummary.tags[tag])
-                        monthSummary.tags[tag] += week[tag];
-                    else
-                        monthSummary.tags[tag] = week[tag];
-
-                    if (weekSummary.tags[tag])
-                        weekSummary.tags[tag] += week[tag];
-                    else
-                        weekSummary.tags[tag] = week[tag];
-
-                    weekSummary.total += week[tag];
-                    monthSummary.total += week[tag];
-
-                    if (weekSummary.total > $scope.max)
-                        $scope.max = weekSummary.total;
+                    'jan 30 - feb 5': {
+                        tags: {
+                            'design-web': 1,
+                            'engineering-mechanical': 2,
+                            'engineering-robotics': 3
+                        },
+                        total: 6
+                    }
                 }
             }
-
-            // Calculate the month date range.
-            var firstWeekMonthDay = weeks[0].split(' ');
-            var lastWeekMonthDay = weeks[weeks.length - 1].split(' ');
-
-            monthSummary.month = firstWeekMonthDay[0];
-
-            if (firstWeekMonthDay[0] === lastWeekMonthDay[0]) {
-                // Use "jan 2 - 10" for example if first and last week have same month.
-                monthSummary.range = firstWeekMonthDay[0] + ' ' +
-                    firstWeekMonthDay[1] + ' - ' +
-                    lastWeekMonthDay[1];
-            } else {
-                // Use "jan 29 - feb 3" for example if first and last week have different months.
-                monthSummary.range = weeks[0] + ' ' + weeks[weeks.length - 1];
-            }
         }
-
-        return monthSummary;
-    });
+    }
 
     $scope.isLoading = false;
 
@@ -616,11 +731,11 @@ function getVisiblePages($element, $scope) {
     var buttonWidth = 37;
     var stripWidth = $element.width() - 40;
 
-    // Total number of reserved page button slots in 2-break view.
+    // Reserved page button slots in 2-break view: 2 ellipsis and 2 arrows.
     var reservedPageCount = 4;
 
     // Calculate visible pages for 1- and 2-break views.
-    var totalPages = Object.keys($scope.timeline).length;
+    var totalPages = $scope.contributions.pages.length;
     var totalVisiblePages = Math.round(stripWidth / buttonWidth);
     var maxVisiblePages = Math.min(totalPages, $scope.maxVisiblePages);
     var visiblePages = Math.min(maxVisiblePages, totalVisiblePages);
@@ -640,10 +755,11 @@ function getVisiblePages($element, $scope) {
     // Allocate the visible page slots (including breaks).
     var pageNumbersArray = new Array(visiblePages);
 
-    if (currentPage >= sectionPages && currentPage - 1 <= totalPages - pagesAfterBreak) {
+    if (currentPage >= sectionPages &&
+        currentPage - 1 <= totalPages - pagesAfterBreak) {
         // Calculate page slots for a 2-break view.
         // <- 1 ... X X X X ... n ->
-        pageNumbersArray[0] = "1";
+        pageNumbersArray[0] = '1';
         pageNumbersArray[1] = '...';
 
         for (var n = 0; n < sectionPages; n++) {
@@ -651,7 +767,13 @@ function getVisiblePages($element, $scope) {
         }
 
         pageNumbersArray[visiblePages - 2] = '... ';
-        pageNumbersArray[visiblePages - 1] = totalPages.toString();
+
+        if (pageNumbersArray[visiblePages - 3] != totalPages.toString()) {
+            pageNumbersArray[visiblePages - 1] = totalPages.toString();
+        } else {
+            // Remove an extra item after the break.
+            pageNumbersArray = pageNumbersArray.slice(0, pageNumbersArray.length - 1);
+        }
     } else {
         // Calculate page slots for a 1-break view.
         // <- 1 2 3 4 ... n-2 n-1 n ->
@@ -664,7 +786,8 @@ function getVisiblePages($element, $scope) {
             pageNumbersArray[n] = (n + 1).toString();
 
             if (n < pagesAfterBreak) {
-                pageNumbersArray[n + pagesBeforeBreak + 1] = (totalPages - pagesAfterBreak + n + 1).toString();
+                pageNumbersArray[n + pagesBeforeBreak + 1] =
+                    (totalPages - pagesAfterBreak + n + 1).toString();
             }
         }
     }
@@ -689,12 +812,26 @@ function selectPage($scope, page) {
     $scope.currentPage = page.toString();
     $scope.visiblePages = getVisiblePages(this, $scope);
 
+    // Update the page indicator.
     var pageIndex = parseInt($scope.currentPage, 10) - 1;
-    var pagesWrapper$ = this.find('.tag-page');
-    var wrapper$ = $(pagesWrapper$[pageIndex]);
+    var page = $scope.contributions.pages[pageIndex];
+    var months = Object.keys($scope.contributions.months);
 
-    pagesWrapper$.removeClass('selected');
-    wrapper$.addClass('selected');
+    var startMonthIndex = months.indexOf(page.start.month);
+    var startWeekIndex = page.start.week - 1;
+    var endMonthIndex = months.indexOf(page.end.month);
+    var endWeekIndex = page.end.week - 1;
+
+    var $allWrappers = this.find('.tag-page');
+    var $startWrapper = $($allWrappers.get(startMonthIndex));
+    var $endWrapper = $($allWrappers.get(endMonthIndex));
+    var $startBar = $($startWrapper.find('.tag-bar').get(startWeekIndex));
+    var $endBar = $($endWrapper.find('.tag-bar').get(endWeekIndex));
+
+    this.find('.tag-page-bracket-left')
+        .css('left', $startWrapper.position().left + $startBar.position().left - 4 + 'px');
+    this.find('.tag-page-bracket-right')
+        .css('left', $endWrapper.position().left + $endBar.position().left + $endBar.width() - 8 + 'px');
 }
 
 /**
@@ -705,22 +842,19 @@ function render($scope) {
     var $view = this.find('.date-selector-view');
     var $wrapper = null;
     
-    for (var month in $scope.summary) {
-        var monthSummary = $scope.summary[month];
+    for (var monthName in $scope.contributions.months) {
+        var monthSummary = $scope.contributions.months[monthName];
         var $bar = null;
 
         $wrapper = $('<div class="tag-page"></div>')
             .css('left', $wrapper ? $wrapper.position().left + $wrapper.width() + 6 : 4)
             .append($('<div class="tag-page-footer"></div>')
-                .text(monthSummary.month))
+                .text(monthName))
             .append($('<div class="tag-page-separator"></div>'))
-            .append($('<svg class="tag-page-brackets" width="94" height="52" viewBox="0 0 94 52">' +
-                        '<use xlink:href="#page-brackets">' +
-                      '</svg>'))
             .appendTo($view);
         
-        for (var week in monthSummary.weeks) {
-            var weekSummary = monthSummary.weeks[week];
+        for (var weekDates in monthSummary.weeks) {
+            var weekSummary = monthSummary.weeks[weekDates];
             var verticalOffset = 0;
 
             $bar = $('<div class="tag-bar"></div>')
@@ -729,13 +863,22 @@ function render($scope) {
 
             for (var tag in weekSummary.tags) {
                 var tagCount = weekSummary.tags[tag];
+                var tagPercent = Math.round(tagCount / $scope.contributions.max * 100);
 
                 verticalOffset += $('<div class="tag-block tag-' + tag + '"></div>')
-                    .css('height', Math.round(tagCount / $scope.max * 100).toString() + '%')
+                    .css('height', tagPercent.toString() + '%')
                     .css('bottom', verticalOffset)
                     .appendTo($bar)
                     .height() + (verticalOffset ? 0 : 2);
             }
         }
     }
+
+    $view.append($(
+        '<svg class="tag-page-bracket-left" width="41" height="52" viewBox="0 0 41 52">' +
+            '<use xlink:href="#left-bracket">' +
+        '</svg>' +
+        '<svg class="tag-page-bracket-right" width="41" height="52" viewBox="0 0 41 52">' +
+            '<use xlink:href="#right-bracket">' +
+        '</svg>'));
 }

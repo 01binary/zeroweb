@@ -165,27 +165,6 @@ $crafts:      #67d5e9;
 
   &:hover {
     border-bottom: 2px solid darken($accent-color, 8%);
-
-    .tag-page-brackets {
-      fill: $border-color;
-    }
-  }
-
-  &.selected {
-    border-bottom: 4px solid $primary-color;
-    bottom: 18px;
-
-    .tag-page-brackets {
-      display: block;
-    }
-
-    .tag-page-footer {
-      color: $primary-color;
-    }
-
-    .tag-page-separator {
-      display: none;
-    }
   }
 
   &-footer {
@@ -215,12 +194,10 @@ $crafts:      #67d5e9;
     z-index: -1;
   }
 
-  &-brackets {
+  &-bracket-left, &-bracket-right {
     position: absolute;
-    left: -4px;
-    top: 0px;
     fill: lighten($border-color, 3%);
-    display: none;
+    pointer-events: none;
   }
 
   &-pointer {

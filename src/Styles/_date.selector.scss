@@ -49,7 +49,7 @@
     /* Page numbers strip */
     &-pages {
         position: absolute;
-        left: 35px;
+        left: 36px;
         right: 10px;
         bottom: 5px;
         height: 32px;
@@ -101,6 +101,7 @@
         }
 
         /* Pushed state */
+        // TODO: enhance with CSS using :active
         &.pushed {
             .date-selector-page {
                 &-hover,
@@ -124,7 +125,8 @@
 
         /* Primitive fallback */
         &-fallback {
-            display: none;
+            position: relative;
+            left: -999px;
         }
 
         /* Mouse interaction overlay */
@@ -192,7 +194,6 @@
         &-pushed {
             fill: url(#page-button-gradient-pushed);
             stroke: none;
-            z-index: -2;
             display: none;
         }
 
@@ -228,19 +229,71 @@
 
     /* Scroll buttons */
     &-scroll {
-        /* Left scroll button */
         color: $foreground-color;
-        text-shadow: none;
-        background: $accent-light-color;
-        border: $border-thickness solid $secondary-text-color;
-        box-shadow: $border-thickness $border-thickness 0 $background-color inset;
-        width: 29px;
         height: 27px;
+        border: none;
+        outline: none;
+        cursor: pointer;
 
-        /* Left scroll button pushed state overrides */
+        /* Page number label */
+        &-label {
+            position: absolute;
+            left: 13px;
+            top: 10px;
+            text-align: center;
+        }
+
+        /* Arrow icon */
+        .date-selector-page-label {
+            top: 5px;
+            left: 5px;
+            right: 5px;
+        }
+
+        /* Mouse interaction overlay */
+        .date-selector-page-overlay {
+            left: 5px;
+            right: 0px;
+        }
+
+        /* Hover state */
+        &:hover {
+            color: $secondary-text-color;
+        }
+
+        /* Pushed state */
         &.pushed {
-            color: $background-color;
-            box-shadow: $border-thickness $border-thickness 0 $shadow-dark-color inset;
+            .date-selector-page {
+                &-hover {
+                    display: none;
+                }
+
+                &-pushed {
+                    display: block;
+                }
+
+                &-label {
+                    color: $background-color;
+                }
+
+                &-border {
+                    display: none;
+                }
+
+                &-border-pushed {
+                    display: block;
+                }
+            }
+        }
+
+        /* Bottom shadow */
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0px;
+            bottom: 1px;
+            height: 1px;
+            box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
         }
 
         /* Left scroll button */
@@ -248,66 +301,18 @@
             position: absolute;
             left: 10px;
             bottom: 10px;
-        }
+            width: 30px;
+            z-index: 1;
 
-        /* Left scroll button - primary button overrides */
-        .button-primary {
-            &-content {
-                padding-left: 1px;
-                padding-right: 1px;
+            /* Arrow icon */
+            .date-selector-page-overlay {
+                left: 0px;
             }
 
-            &-leftcorner {
-                border-top: $corner-small solid $accent-light-color;
-            }
-
-            &-rightcorner {
-                border-bottom: $corner-small solid $accent-light-color;
-            }
-
-            &-leftcornerborder {
-                border-top: $corner-small solid $secondary-text-color;
-            }
-
-            &-leftcornerhighlight {
-                border-top: $corner-small solid $background-color;
-            }
-            
-            &-rightcornerborder {
-                border-bottom: ($corner-small + $border-thickness) solid $secondary-text-color;
-            }
-
-            &-rightcornershadow {
-                border-bottom: ($corner-small + $border-thickness) solid $shadow-color;
-            }
-
-            &-rightshadow {
-                border-right: $border-thickness solid $shadow-color;
-            }
-
-            &-bottomshadow {
-                border-bottom: $border-thickness solid $shadow-color;
-            }
-        }
-        
-        /* Left scroll button - primary button pushed overrides */
-        &.pushed {
-            .button-primary {
-                &-leftcornerhighlight {
-                    border-top: $corner-small solid $shadow-dark-color;
-                }
-
-                &-rightcornershadow {
-                    border-bottom: ($corner-small + $border-thickness) solid $drop-shadow-light-color;
-                }
-
-                &-rightshadow {
-                    border-right: $border-thickness solid $drop-shadow-light-color;
-                }
-
-                &-bottomshadow {
-                    border-bottom: $border-thickness solid $drop-shadow-light-color;
-                }
+            /* Bottom shadow */
+            &:before {
+                right: 6px;
+                z-index: -3;
             }
         }
 
@@ -317,73 +322,12 @@
             float: left;
             width: 35px;
             height: 27px;
-            border: none;
-            outline: none;
-            background: none;
-            color: $foreground-color;
-            cursor: pointer;
 
             /* Bottom shadow */
             &:before {
-                content: '';
-                position: absolute;
-                left: 0px;
                 right: 5px;
-                bottom: 1px;
-                height: 1px;
-                box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
                 z-index: -3;
             }
-
-            /* Right arrow icon */
-            .date-selector-page-label {
-                top: 5px;
-                left: 5px;
-            }
-
-            /* Mouse interaction overlay */
-            .date-selector-page-overlay {
-                left: 5px;
-                right: 0px;
-            }
-
-            /* Hover state */
-            &:hover {
-                color: $secondary-text-color;
-            }
-
-            /* Pushed state */
-            &.pushed {
-                .date-selector-page {
-                    &-hover {
-                        display: none;
-                    }
-
-                    &-pushed {
-                        display: block;
-                    }
-
-                    &-label {
-                        color: $background-color;
-                    }
-
-                    &-border {
-                        display: none;
-                    }
-
-                    &-border-pushed {
-                        display: block;
-                    }
-                }
-            }
-        }
-
-        /* Page number label */
-        &-label {
-            position: absolute;
-            left: 13px;
-            top: 10px;
-            text-align: center;
         }
     }
 

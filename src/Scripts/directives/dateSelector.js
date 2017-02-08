@@ -83,6 +83,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
     $scope.nextPage = nextPage.bind($element, $scope);
     $scope.prevPage = prevPage.bind($element, $scope);
     $scope.selectPage = selectPage.bind($element, $scope);
+    $scope.pageClick = pageClick.bind($element, $scope);
     $scope.pageMouseOver = pageMouseOver.bind($element, $scope);
     $scope.pageMouseOut = pageMouseOut.bind($element, $scope);
     $scope.pageMouseDown = pageMouseDown.bind($element, $scope);
@@ -117,6 +118,13 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                 '<symbol id="page-button-outline">' +
                     '<polygon points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
                 '</symbol>' +
+                '<symbol id="left-scroll-button-border">' +
+                    '<polyline stroke="currentColor" points="1.5,25 1.5,7.9 7.9,1.5 29,1.5"/>' +
+                    '<polyline points="28.5,2 28.5,19.1 22.1,25.5 1,25.5"/>' +
+                '</symbol>' +
+                '<symbol id="left-scroll-button-outline">' +
+                    '<polygon points="7.5,0.5 0.5,7.5 0.5,26.5 22.5,26.5 29.5,19.5 29.5,0.5">' +
+                '</symbol>' +
                 '<symbol id="arrow-left">' +
                     '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
                 '</symbol>' +
@@ -132,11 +140,38 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
             '</svg>' +
 
             // Previous page button.
-            '<button role="button" class="date-selector-scroll date-selector-scroll-left" data-primary data-ng-click="prevPage()">' +
-                '<svg width="11" height="7" viewBox="0 0 11 7">' +
-                    '<use xlink:href="#arrow-left"></use>' +
+            '<a role="button" class="date-selector-scroll date-selector-scroll-left noselect">' +
+                '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<use xlink:href="#left-scroll-button-outline"></use>' +
                 '</svg>' +
-            '</button>' +
+                '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<use xlink:href="#left-scroll-button-outline"></use>' +
+                '</svg>' +
+                '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<use xlink:href="#left-scroll-button-outline"></use>' +
+                '</svg>' +
+                '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<use xlink:href="#left-scroll-button-border"></use>' +
+                '</svg>' +
+                '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<use xlink:href="#left-scroll-button-border"></use>' +
+                '</svg>' +
+                '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<use xlink:href="#left-scroll-button-outline"></use>' +
+                '</svg>' +
+                '<div class="date-selector-page-overlay" ' +
+                    'data-ng-mouseover="pageMouseOver($event)" ' +
+                    'data-ng-mouseout="pageMouseOut($event)" ' +
+                    'data-ng-mousedown="pageMouseDown($event)" ' +
+                    'data-ng-mouseup="pageMouseUp($event)"' +
+                    'data-ng-click="prevPage()">' +
+                    '<div class="date-selector-page-label">' +
+                        '<svg class="date-selector-page-label date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +
+                            '<use xlink:href="#arrow-left"></use>' +
+                        '</svg>' +
+                    '</div>' +
+                '</div>' +
+            '</a>' +
 
             // Pages strip.
             '<div class="date-selector-pages">' + 
@@ -169,7 +204,8 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                         'data-ng-mouseover="pageMouseOver($event)" ' +
                         'data-ng-mouseout="pageMouseOut($event)" ' +
                         'data-ng-mousedown="pageMouseDown($event)" ' +
-                        'data-ng-mouseup="pageMouseUp($event)">' +
+                        'data-ng-mouseup="pageMouseUp($event)" ' +
+                        'data-ng-click="pageClick($event)">' +
                         '<span class="date-selector-page-fallback">page</span>' +
                         '<div class="date-selector-page-label">' +
                             '{{page}}' +
@@ -179,7 +215,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<a role="button" class="date-selector-scroll-right noselect">' +
+                '<a role="button" class="date-selector-scroll date-selector-scroll-right noselect">' +
                     '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
@@ -202,7 +238,8 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
                         'data-ng-mouseover="pageMouseOver($event)" ' +
                         'data-ng-mouseout="pageMouseOut($event)" ' +
                         'data-ng-mousedown="pageMouseDown($event)" ' +
-                        'data-ng-mouseup="pageMouseUp($event)">' +
+                        'data-ng-mouseup="pageMouseUp($event)" ' +
+                        'data-ng-click="nextPage()">' +
                         '<div class="date-selector-page-label">' +
                             '<svg class="date-selector-page-label date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +
                                 '<use xlink:href="#arrow-right"></use>' +
@@ -319,11 +356,24 @@ function endScroll($scope) {
  */
 function getPageButton(event) {
     var $button = $(event.target).parent();
+
     return (
         ($button.hasClass('date-selector-page') ||
-        $button.hasClass('date-selector-scroll-right')) &&
+        $button.hasClass('date-selector-scroll')) &&
         !$button.hasClass('date-selector-page-separator')) ?
         $button : null;
+}
+
+/**
+ * Page button click.
+ * @param {object} $scope - The directive scope.
+ * @param {object} event - The Angular event arguments.
+ */
+function pageClick($scope, event) {
+    var $button = getPageButton(event);
+
+    if ($button)
+        $scope.selectPage($button.find('.date-selector-page-label').text());
 }
 
 /**
@@ -364,13 +414,8 @@ function pageMouseOut($scope, event) {
 function pageMouseDown($scope, event) {
     var $button = getPageButton(event);
 
-    if ($button) {
-        if ($button.hasClass('date-selector-scroll-right')) {
-            $button.addClass('pushed');
-            $scope.nextPage();
-        } else {
-            $scope.selectPage($button.find('.date-selector-page-label').text());
-        }
+    if ($button && $button.hasClass('date-selector-scroll')) {
+        $button.addClass('pushed');
     }
 }
 
@@ -382,7 +427,7 @@ function pageMouseDown($scope, event) {
 function pageMouseUp($scope, event) {
     var $button = getPageButton(event);
 
-    if ($button && $button.hasClass('date-selector-scroll-right')) {
+    if ($button && $button.hasClass('date-selector-scroll')) {
         $button.removeClass('pushed');
     }
 }

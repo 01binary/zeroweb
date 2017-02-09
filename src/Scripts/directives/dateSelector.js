@@ -22,7 +22,6 @@ angular.module('zeroApp')
         '$http',
         '$compile',
         '$window',
-        'render2d',
         'safeApply',
         dateSelectorDirective
     ]);
@@ -33,10 +32,9 @@ angular.module('zeroApp')
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
  * @param {object} $window - The Angular window service.
- * @param {object} $render2d - The rendering service.
  * @param {object} $safeApply - The safe apply service.
  */
-function dateSelectorDirective($q, $http, $compile, $window, $render2d, $safeApply) {
+function dateSelectorDirective($q, $http, $compile, $window, $safeApply) {
     return {
         restrict: 'E',
         replace: true,
@@ -44,15 +42,7 @@ function dateSelectorDirective($q, $http, $compile, $window, $render2d, $safeApp
         template: '<div class="date-selector" data-ng-class="{loading:isLoading}"></div>',
         scope: {},
         link: function($scope, $element, attributes) {
-            initialize(
-                $q,
-                $http,
-                $compile,
-                $window,
-                $render2d,
-                $safeApply,
-                $scope,
-                $element);
+            initialize($q, $http, $compile, $window, $safeApply, $scope, $element);
         }
     };
 }
@@ -63,12 +53,11 @@ function dateSelectorDirective($q, $http, $compile, $window, $render2d, $safeApp
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
  * @param {object} $window - The Angular window service.
- * @param {object} $render2d - The 2D rendering service.
  * @param {object} $safeApply - The safe apply service.
  * @param {object} $scope - The directive scope.
  * @param {object} $element - The directive element.
  */
-function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope, $element) {
+function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) {
     // Set initial state.
     $scope.isLoading = true;
     $scope.isExpanded = true;
@@ -84,7 +73,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
     $scope.prevPage = prevPage.bind($element, $scope);
     $scope.selectPage = selectPage.bind($element, $scope);
     $scope.pageClick = pageClick.bind($element, $scope);
-    $scope.render = render.bind($element, $scope);
+    $scope.renderTags = renderTags.bind($element, $scope);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -238,11 +227,9 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $scope,
         // Compile the template.
         $compile($element)($scope);
 
+        // Initialize the view.
         if ($scope.contributions.max) {
-            // Render tags.
-            $scope.render();
-
-            // Update the selected page.
+            $scope.renderTags();
             $scope.selectPage('1');
         }
     });
@@ -801,7 +788,7 @@ function selectPage($scope, page) {
  * Render tags.
  * @param {object} $scope - The directive scope.
  */
-function render($scope) {
+function renderTags($scope) {
     var $view = this.find('.date-selector-view');
     var $wrapper = null;
     

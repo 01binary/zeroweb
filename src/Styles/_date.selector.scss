@@ -64,7 +64,6 @@
 
     /* Page number button */
     &-page {
-        display: block;
         position: relative;
         float: left;
         width: 35px;
@@ -83,27 +82,32 @@
         border: none;
         outline: none;
         background: none;
+        cursor: pointer;
 
+        /* Hover state */
         &:hover {
-            color: $secondary-text-color;
+            color: $foreground-color;
+
+            .date-selector-page-hover {
+                opacity: 1;
+            }
+
+            .date-selector-page-label {
+                opacity: 1;
+            }
+
+            /* Hover selected state */
+            &.selected {
+                .date-selector-page-label {
+                    opacity: 1;
+                }
+            }
         }
 
-        /* Bottom shadow */
-        &:before {
-            content: '';
-            position: absolute;
-            left: 0px;
-            right: 10px;
-            bottom: 6px;
-            height: 1px;
-            box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
-            z-index: -3;
-        }
-
-        /* Pushed state */
-        // TODO: enhance with CSS using :active
-        &.pushed {
+        /* Selected state */
+        &.selected {
             .date-selector-page {
+                /* Hover state */
                 &-hover,
                 &-border {
                     display: none;
@@ -119,6 +123,7 @@
 
                 &-label {
                     color: $background-color;
+                    opacity: 0.8;
                 }
             }
         }
@@ -126,45 +131,47 @@
         /* Primitive fallback */
         &-fallback {
             position: relative;
-            left: -999px;
+            left: -100vw;
         }
 
-        /* Mouse interaction overlay */
-        &-overlay {
-            position: absolute;
-            left: 4px;
-            right: 0px;
-            top: 0px;
-            bottom: 0px;
-            z-index: 2;
-            cursor: pointer;
-        }
-
-        /* Page number label */
+        /* Page number text including accessibility descriptor */
         &-label {
             position: absolute;
-            text-align: center;
             top: 5px;
-            left: 0px;
-            right: 0px;
-            pointer-events: none;
+            left: 4px;
+            right: 1px;
+            opacity: 0.8;
+            transition: opacity 0.4s $fade-function;
+        }
+
+        /* Page number text */
+        &-number {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-align: center;
         }
 
         /* Group separator for large number of pages */
         &-separator {
             color: $secondary-text-color;
+            cursor: default;
 
             /* Overrides for page button */
             &:before {
                 display: none;
             }
 
+            &:hover {
+                .date-selector-page-hover {
+                    display: none;
+                }
+            }
+
             /* Overrides for children of page button */
             .date-selector-page {
-                &-overlay {
-                    cursor: default;
-                }
-
                 &-border, &-background, &-outline {
                     display: none;
                 }
@@ -223,7 +230,20 @@
             fill: url(#page-button-gradient-hover);
             stroke: none;
             z-index: -2;
-            display: none;
+            opacity: 0;
+            transition: opacity 0.4s $fade-function;
+        }
+
+        /* Bottom shadow */
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0px;
+            right: 10px;
+            bottom: 6px;
+            height: 1px;
+            box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+            z-index: -3;
         }
     }
 
@@ -235,34 +255,13 @@
         outline: none;
         cursor: pointer;
 
-        /* Page number label */
-        &-label {
-            position: absolute;
-            left: 13px;
-            top: 10px;
-            text-align: center;
-        }
-
-        /* Arrow icon */
-        .date-selector-page-label {
-            top: 5px;
-            left: 5px;
-            right: 5px;
-        }
-
-        /* Mouse interaction overlay */
-        .date-selector-page-overlay {
-            left: 5px;
-            right: 0px;
-        }
-
         /* Hover state */
         &:hover {
             color: $secondary-text-color;
         }
 
         /* Pushed state */
-        &.pushed {
+        &:active {
             .date-selector-page {
                 &-hover {
                     display: none;
@@ -286,6 +285,22 @@
             }
         }
 
+        /* Arrow icon */
+        &-label {
+            position: absolute;
+            left: 13px;
+            top: 10px;
+            text-align: center;
+        }
+
+        /* Arrow icon wrapper */
+        .date-selector-page-label {
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            text-align: center;
+        }
+
         /* Bottom shadow */
         &:before {
             content: '';
@@ -304,9 +319,9 @@
             width: 30px;
             z-index: 1;
 
-            /* Arrow icon */
-            .date-selector-page-overlay {
-                left: 0px;
+            /* Arrow icon wrapper */
+            .date-selector-page-label {
+                left: 1px;
             }
 
             /* Bottom shadow */
@@ -322,6 +337,11 @@
             float: left;
             width: 35px;
             height: 27px;
+
+            /* Arrow icon wrapper */
+            .date-selector-page-label {
+                left: 2px;
+            }
 
             /* Bottom shadow */
             &:before {

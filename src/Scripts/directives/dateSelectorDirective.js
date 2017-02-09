@@ -145,7 +145,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                     '<use xlink:href="#left-scroll-button-outline"></use>' +
                 '</svg>' +
                 '<div class="date-selector-page-label">' +
-                    '<svg date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +
+                    '<svg width="11" height="7" viewBox="0 0 11 7">' +
                         '<use xlink:href="#arrow-left"></use>' +
                     '</svg>' +
                 '</div>' +

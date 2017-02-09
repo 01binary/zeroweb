@@ -160,6 +160,10 @@
             line-height: 26px;
             opacity: 0.8;
             transition: opacity 0.4s $fade-function;
+
+            /* Fix :active not shown on IE due to mouse events being eaten */
+            height: 0px;
+            pointer-events: none;
         }
 
         /* Page number text */
@@ -202,6 +206,16 @@
         }
 
         /* Page number sub-elements */
+        &-border,
+        &-border-pushed,
+        &-outline,
+        &-background,
+        &-hover,
+        &-pushed {
+            /* Fix :active not shown on IE due to mouse events being eaten */
+            pointer-events: none;
+        }
+        
         &-border,
         &-border-pushed,
         &-outline {
@@ -322,6 +336,7 @@
             left: 13px;
             top: 10px;
             text-align: center;
+            pointer-events: none;
         }
 
         /* Arrow icon wrapper */

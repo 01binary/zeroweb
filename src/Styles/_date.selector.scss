@@ -137,9 +137,11 @@
         /* Page number text including accessibility descriptor */
         &-label {
             position: absolute;
-            top: 5px;
+            top: 0px;
             left: 4px;
             right: 1px;
+            bottom: 5px;
+            line-height: 25px;
             opacity: 0.8;
             transition: opacity 0.4s $fade-function;
         }
@@ -204,7 +206,7 @@
         }
 
         &-pushed {
-            fill: url(#page-button-gradient-pushed);
+            fill: url(/#page-button-gradient-pushed);
             stroke: none;
             display: none;
         }
@@ -226,13 +228,13 @@
         }
 
         &-background {
-            fill: url(#page-button-gradient);
+            fill: url(/#page-button-gradient);
             stroke: none;
             z-index: -3;
         }
 
         &-hover {
-            fill: url(#page-button-gradient-hover);
+            fill: url(/#page-button-gradient-hover);
             stroke: none;
             z-index: -2;
             opacity: 0;
@@ -310,7 +312,8 @@
         .date-selector-page-label {
             top: 0px;
             right: 0px;
-            bottom: 0px;
+            bottom: 5px;
+            line-height: 25px;
             text-align: center;
         }
 

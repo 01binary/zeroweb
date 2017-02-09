@@ -168,6 +168,11 @@
                 .date-selector-page-hover {
                     display: none;
                 }
+
+                .date-selector-page-label {
+                    color: $secondary-text-color;
+                    opacity: 1;
+                }
             }
 
             /* Overrides for children of page button */

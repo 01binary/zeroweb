@@ -438,3 +438,211 @@
         }
     }
 }
+
+$electrical:  #12c0e1;
+$mechanical:  #fcd116;
+$software:    #a71d5d;
+$robotics:    #ec008c;
+$graphic:     #ff260f;
+$web:         #795da3;
+$frontend:    #0086b3;
+$cad:         #ffb40f;
+$industrial:  #ba141a;
+$database:    #aebdce;
+$sql:         #43a39f;
+$music:       #6fac45;
+$painting:    #ee4a4e;
+$sculpture:   #ff840f;
+$crafts:      #67d5e9;
+
+@mixin tagColors($color) {
+  background: $color;
+
+      &:hover {
+        background: lighten($color, 5%);
+      }
+}
+
+.tag {
+  &-engineering {
+    &-electrical {
+      @include tagColors($electrical);
+    }
+
+    &-mechanical {
+      @include tagColors($mechanical);
+    }
+
+    &-software {
+      @include tagColors($software);
+    }
+
+    &-robotics {
+      @include tagColors($robotics);
+    }
+  }
+
+  &-design {
+    &-graphic {
+      @include tagColors($graphic);
+    }
+
+    &-web {
+      @include tagColors($web);
+    }
+
+    &-frontend {
+      @include tagColors($frontend);
+    }
+
+    &-cad {
+      @include tagColors($cad);
+    }
+
+    &-industrial {
+      @include tagColors($industrial);
+    }
+
+    &-database {
+      @include tagColors($database);
+    }
+  }
+
+  &-it {
+    &-sql {
+      @include tagColors($sql);
+    }
+  }
+
+  &-art {
+    &-music {
+      @include tagColors($music);
+    }
+
+    &-painting {
+      @include tagColors($painting);
+    }
+
+    &-sculpture {
+      @include tagColors($sculpture);
+    }
+
+    &-crafts {
+      @include tagColors($crafts);
+    }
+  }
+}
+
+.tag-page {
+  position: absolute;
+  top: 0px;
+  bottom: 20px;
+  width: 87px;
+  border-bottom: 2px solid $accent-color;
+
+  &:hover {
+    border-bottom: 2px solid darken($accent-color, 8%);
+  }
+
+  &-footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    padding-top: 3px;
+    top: 100%;
+    text-align: center;
+    font-family: $small-font;
+    font-size: $small-font-size - 2;
+    color: $drop-shadow-light-color;
+    cursor: pointer;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  &-separator {
+    position: absolute;
+    top: 1px;
+    bottom: 0px;
+    right: -3px;
+    border-right: 1px dashed $border-color;
+    outline-offset: 10px;
+    z-index: -1;
+  }
+
+  &-bracket-left, &-bracket-right {
+    position: absolute;
+    fill: lighten($border-color, 3%);
+    pointer-events: none;
+  }
+
+  &-pointer {
+    position: absolute;
+    height: 5px;
+    left: 0px;
+    bottom: 2px;
+    stroke-width: 1px;
+    stroke: $primary-color;
+    fill: none;
+  }
+
+  &-underline-mask {
+    position: absolute;
+    bottom: 18px;
+    height: 4px;
+    background: $accent-light-color;
+  }
+}
+
+.tag-bar {
+  position: absolute;
+  top: 8px;
+  bottom: 1px;
+  min-width: 22px;
+}
+
+.tag-block {
+  position: absolute;
+  width: 16px;
+  min-height: 4px;
+  border: 2px solid $accent-light-color;
+  border-top: 1px solid $accent-light-color;
+  border-bottom: 1px solid $accent-light-color;
+  cursor: pointer;
+
+  &:last-child {
+    border-top: 2px solid $accent-light-color;
+  }
+
+  &:first-child {
+    border-bottom: 2px solid $accent-light-color;
+  }
+}
+
+.tag-bar:hover {
+  .tag-block {
+    border: 2px solid $background-color;
+    border-top: 1px solid $background-color;
+    border-bottom: 1px solid $background-color;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      box-shadow: 0px 0px 4px 0px $drop-shadow-light-color;
+      z-index: -1;
+    }
+
+    &:last-child {
+      border-top: 2px solid $background-color;
+    }
+
+    &:first-child {
+      border-bottom: 2px solid $background-color;
+    }
+  }
+}

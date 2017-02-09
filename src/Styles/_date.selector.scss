@@ -1,5 +1,19 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Date selector control styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 .date-selector {
     position: relative;
+
+    /* Expanded height */
     height: 130px;
 
     /* Background rectangle */
@@ -54,12 +68,15 @@
         bottom: 5px;
         height: 32px;
         overflow: hidden;
-        z-index: 200;
+        z-index: 2;
     }
 
     /* Page number button overrides for PC */
     .os-win &-page {
         font-size: $small-font-size-win;
+        &-label {
+            line-height: 26px;
+        }
     }
 
     /* Page number button */
@@ -140,7 +157,7 @@
             top: 0px;
             left: 4px;
             right: 1px;
-            line-height: 2em;
+            line-height: 26px;
             opacity: 0.8;
             transition: opacity 0.4s $fade-function;
         }

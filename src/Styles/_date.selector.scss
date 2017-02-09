@@ -257,7 +257,15 @@
 
         /* Hover state */
         &:hover {
-            color: $secondary-text-color;
+            color: $foreground-color;
+
+            .date-selector-page-hover {
+                opacity: 1;
+            }
+
+            .date-selector-page-label {
+                opacity: 1;
+            }
         }
 
         /* Pushed state */

@@ -780,8 +780,9 @@ function selectPage($scope, page) {
     this.find('.tag-page-bracket-right')
         .css('left', selectionEnd + 'px'); 
     this.find('.tag-page-underline-mask')
-        .css('left', selectionStart + 9)
-        .css('width', selectionEnd - selectionStart - 8);
+        .css('left', selectionStart - 21)
+        .css('width', selectionEnd - selectionStart +
+            50 + (endWeekIndex === 3 ? 6 : 0));
 }
 
 /**

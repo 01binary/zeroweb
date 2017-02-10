@@ -589,6 +589,7 @@ $crafts:      #67d5e9;
   &-bracket-left, &-bracket-right {
     position: absolute;
     fill: lighten($border-color, 3%);
+    z-index: 1;
     pointer-events: none;
   }
 

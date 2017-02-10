@@ -589,7 +589,7 @@ $crafts:      #67d5e9;
   &-bracket-left, &-bracket-right {
     position: absolute;
     fill: lighten($border-color, 3%);
-    z-index: 1;
+    z-index: 4;
     pointer-events: none;
   }
 
@@ -616,6 +616,7 @@ $crafts:      #67d5e9;
   top: 10px;
   bottom: 0.9px;
   min-width: 22px;
+  z-index: 1;
 }
 
 .tag-block {
@@ -626,7 +627,6 @@ $crafts:      #67d5e9;
   border-top: 1px solid $accent-light-color;
   border-bottom: 1px solid $accent-light-color;
   cursor: pointer;
-  z-index: 1;
 
   &:last-child {
     border-top: 2px solid $accent-light-color;
@@ -643,6 +643,14 @@ $crafts:      #67d5e9;
     border-top: 1px solid $background-color;
     border-bottom: 1px solid $background-color;
 
+    &:last-child {
+      border-top: 2px solid $background-color;
+    }
+
+    &:first-child {
+      border-bottom: 2px solid $background-color;
+    }
+
     &:before {
       content: '';
       position: absolute;
@@ -651,15 +659,7 @@ $crafts:      #67d5e9;
       right: -2px;
       bottom: -2px;
       box-shadow: 0px 0px 4px 0px $drop-shadow-light-color;
-      z-index: -4;
-    }
-
-    &:last-child {
-      border-top: 2px solid $background-color;
-    }
-
-    &:first-child {
-      border-bottom: 2px solid $background-color;
+      z-index: -2;
     }
   }
 }

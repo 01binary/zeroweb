@@ -806,7 +806,8 @@ function renderTags($scope) {
         
         for (var weekDates in monthSummary.weeks) {
             var weekSummary = monthSummary.weeks[weekDates];
-            var verticalOffset = 0;
+            var tagOffsetPercent = 0;
+            var tagIndex = 0;
 
             $bar = $('<div class="tag-bar"></div>')
                 .css('left', $bar ? $bar.position().left + $bar.width() : 0)
@@ -816,11 +817,13 @@ function renderTags($scope) {
                 var tagCount = weekSummary.tags[tag];
                 var tagPercent = Math.round(tagCount / $scope.contributions.max * 100);
 
-                verticalOffset += $('<div class="tag-block tag-' + tag + '"></div>')
+                $('<div class="tag-block tag-' + tag + '"></div>')
                     .css('height', tagPercent.toString() + '%')
-                    .css('bottom', verticalOffset)
-                    .appendTo($bar)
-                    .height() + (verticalOffset ? 1 : 2);
+                    .css('bottom', 'calc(' + tagOffsetPercent + '% + ' + tagIndex + 'px)')
+                    .appendTo($bar);
+
+                tagOffsetPercent += tagPercent;
+                tagIndex++;
             }
         }
     }

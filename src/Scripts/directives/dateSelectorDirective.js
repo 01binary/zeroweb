@@ -307,6 +307,7 @@ function beginScroll($scope, $event) {
 
     $scope.scrolling = true;
     $scope.scrollOffset = $event.pageX;
+    $scope.scrollInit = parseInt($scope.view.css('left'), 10);
 
     $event.preventDefault();
     $event.stopPropagation();
@@ -319,11 +320,18 @@ function beginScroll($scope, $event) {
  */
 function doScroll($scope, $event) {
     if ($scope.scrolling) {
-        var target = Math.max($scope.maxScroll, Math.min($scope.minScroll, $event.pageX - $scope.scrollOffset));
+        var target = $event.pageX - $scope.scrollOffset;
 
-        console.log(target);
+        if ($scope.scrollInit)
+            target += $scope.scrollInit;
 
-        $scope.view.css('left', target);
+        if (target < -$scope.maxScroll) {
+            target = -$scope.maxScroll
+        } else if (target > $scope.minScroll) {
+            target = $scope.minScroll;
+        }
+
+        $scope.view.css('left', target + 'px');
     }
 }
 
@@ -819,6 +827,7 @@ function selectPage($scope, page) {
  * @param {object} $scope - The directive scope.
  */
 function renderTags($scope) {
+    var viewMargin = 10;
     var monthSpacing = 6;
     var bracketWidth = 4;
     var $view = $scope.view;
@@ -870,8 +879,8 @@ function renderTags($scope) {
         '<div class="tag-page-underline-mask"></div>'));
 
     if ($wrapper) {
-        $scope.minScroll = 10;
-        $scope.maxScroll = $wrapper.position().left + $wrapper.width();
+        $scope.minScroll = viewMargin;
+        $scope.maxScroll = $wrapper.position().left + viewMargin;
 
         $scope.view.css('left', -$scope.maxScroll + 'px');
         $scope.view.animate({

@@ -73,6 +73,9 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.prevPage = prevPage.bind($element, $scope);
     $scope.selectPage = selectPage.bind($element, $scope);
     $scope.pageClick = pageClick.bind($element, $scope);
+    $scope.beginScroll = beginScroll.bind($element, $scope);
+    $scope.endScroll = endScroll.bind($element, $scope);
+    $scope.doScroll = doScroll.bind($element, $scope);
     $scope.renderTags = renderTags.bind($element, $scope);
 
     // Load content.
@@ -215,12 +218,13 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
             '</div>' +
 
             // Expand/collapse heading.
-            '<button class="date-selector-caption button-inline" data-ng-click="expandCollapse()" data-tooltip="// expand or collapse">' +
+            '<button class="date-selector-caption button-inline noselect" data-ng-click="expandCollapse()" data-tooltip="// expand or collapse">' +
                 '{{isExpanded === true ? "- by date" : "+"}}' +
             '</button>' +
 
             // Tag view.
-            '<div class="date-selector-view">' +
+            '<div class="date-selector-view" ' +
+                'data-ng-mousedown="beginScroll($event)">' +
             '</div>'
         ));
 
@@ -228,6 +232,8 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
         $compile($element)($scope);
 
         // Initialize the view.
+        $scope.view = $('.date-selector-view');
+
         if ($scope.contributions.max) {
             $scope.renderTags();
             $scope.selectPage('1');
@@ -292,25 +298,48 @@ function nextPage($scope) {
 /**
  * Begin continuous scrolling.
  * @param {object} $scope - The directive scope.
+ * @param {object} $event - The Angular mouse down event.
  */
-function beginScroll($scope) {
+function beginScroll($scope, $event) {
+    document.body.style['pointer-events'] = 'none';
+    document.addEventListener('mouseup', $scope.endScroll, { capture: true });
+    document.addEventListener('mousemove', $scope.doScroll, { capture: true });
+
     $scope.scrolling = true;
+    $scope.scrollOffset = $event.pageX;
+
+    $event.preventDefault();
+    $event.stopPropagation();
 }
 
 /**
  * Process continuous scrolling.
  * @param {object} $scope - The directive scope.
+ * @param {object} $event - The mouse move event.
  */
-function doScroll($scope) {
+function doScroll($scope, $event) {
+    if ($scope.scrolling) {
+        var target = Math.max($scope.maxScroll, Math.min($scope.minScroll, $event.pageX - $scope.scrollOffset));
 
+        console.log(target);
+
+        $scope.view.css('left', target);
+    }
 }
 
 /**
  * Complete continuous scrolling.
  * @param {object} $scope - The directive scope.
+ * @param {object} $event - The mouse up event.
  */
-function endScroll($scope) {
+function endScroll($scope, $event) {
+    document.body.style['pointer-events'] = 'auto';
+    document.removeEventListener('mouseup', $scope.endScroll);
+    document.removeEventListener('mousemove', $scope.doScroll);
+
     $scope.scrolling = false;
+
+    $event.stopPropagation();
 }
 
 /**
@@ -790,7 +819,9 @@ function selectPage($scope, page) {
  * @param {object} $scope - The directive scope.
  */
 function renderTags($scope) {
-    var $view = this.find('.date-selector-view');
+    var monthSpacing = 6;
+    var bracketWidth = 4;
+    var $view = $scope.view;
     var $wrapper = null;
     
     for (var monthName in $scope.contributions.months) {
@@ -798,8 +829,9 @@ function renderTags($scope) {
         var $bar = null;
 
         $wrapper = $('<div class="tag-page"></div>')
-            .css('left', $wrapper ? $wrapper.position().left + $wrapper.width() + 6 : 4)
-            .append($('<div class="tag-page-footer"></div>')
+            .css('left', $wrapper ?
+                $wrapper.position().left + $wrapper.width() + monthSpacing : bracketWidth)
+            .append($('<div class="tag-page-footer noselect"></div>')
                 .text(monthName))
             .append($('<div class="tag-page-separator"></div>'))
             .appendTo($view);
@@ -836,4 +868,14 @@ function renderTags($scope) {
             '<use xlink:href="#right-bracket">' +
         '</svg>' +
         '<div class="tag-page-underline-mask"></div>'));
+
+    if ($wrapper) {
+        $scope.minScroll = 10;
+        $scope.maxScroll = $wrapper.position().left + $wrapper.width();
+
+        $scope.view.css('left', -$scope.maxScroll + 'px');
+        $scope.view.animate({
+            left: $scope.minScroll
+        }, Object.keys($scope.contributions.months).length * 150);
+    }
 }

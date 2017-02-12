@@ -21,10 +21,6 @@
   margin-bottom: .4em;
 }
 
-.emphasis {
-  color: $primary-color;
-}
-
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari*/
@@ -33,3 +29,8 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
+
+ html.scrolling, html.scrolling * {
+  /* Display ew-resize cursor for entire page */
+  cursor: ew-resize !important;
+ }

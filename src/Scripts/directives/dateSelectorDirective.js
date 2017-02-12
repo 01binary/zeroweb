@@ -305,6 +305,8 @@ function beginScroll($scope, $event) {
     document.addEventListener('mouseup', $scope.endScroll, { capture: true });
     document.addEventListener('mousemove', $scope.doScroll, { capture: true });
 
+    $('html').addClass('scrolling');
+
     $scope.scrolling = true;
     $scope.scrollOffset = $event.pageX;
     $scope.scrollInit = parseInt($scope.view.css('left'), 10);
@@ -346,6 +348,8 @@ function endScroll($scope, $event) {
     document.removeEventListener('mousemove', $scope.doScroll);
 
     $scope.scrolling = false;
+
+    $('html').removeClass('scrolling');
 
     $event.stopPropagation();
 }

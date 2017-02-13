@@ -381,48 +381,8 @@ function loadContent($q, $http, $scope) {
         max: 6,
         pages: [
             {
-                start: { month: 'aug', week: 1 },
-                end: { month: 'aug', week: 2 }
-            },
-
-            {
-                start: { month: 'aug', week: 3 },
-                end: { month: 'aug', week: 3 }
-            },
-
-            {
-                start: { month: 'aug', week: 4 },
-                end: { month: 'aug', week: 4 }
-            },
-
-            {
-                start: { month: 'sep', week: 1 },
-                end: { month: 'sep', week: 3 }
-            },
-
-            {
-                start: { month: 'sep', week: 4 },
-                end: { month: 'oct', week: 1 }
-            },
-
-            {
-                start: { month: 'oct', week: 2 },
-                end: { month: 'oct', week: 4 }
-            },
-
-            {
-                start: { month: 'nov', week: 1 },
-                end: { month: 'nov', week: 4 }
-            },
-
-            {
-                start: { month: 'dec', week: 1 },
-                end: { month: 'dec', week: 4 }
-            },
-
-            {
-                start: { month: 'jan', week: 1 },
-                end: { month: 'jan', week: 2 }
+                start: { month: 'feb', week: 1 },
+                end: { month: 'feb', week: 2 }
             },
 
             {
@@ -431,8 +391,48 @@ function loadContent($q, $http, $scope) {
             },
 
             {
-                start: { month: 'feb', week: 1 },
-                end: { month: 'feb', week: 2 }
+                start: { month: 'jan', week: 1 },
+                end: { month: 'jan', week: 2 }
+            },
+
+            {
+                start: { month: 'dec', week: 1 },
+                end: { month: 'dec', week: 4 }
+            },
+
+            {
+                start: { month: 'nov', week: 1 },
+                end: { month: 'nov', week: 4 }
+            },
+
+            {
+                start: { month: 'oct', week: 2 },
+                end: { month: 'oct', week: 4 }
+            },
+
+            {
+                start: { month: 'sep', week: 4 },
+                end: { month: 'oct', week: 1 }
+            },
+
+            {
+                start: { month: 'sep', week: 1 },
+                end: { month: 'sep', week: 3 }
+            },
+
+            {
+                start: { month: 'aug', week: 4 },
+                end: { month: 'aug', week: 4 }
+            },
+
+            {
+                start: { month: 'aug', week: 3 },
+                end: { month: 'aug', week: 3 }
+            },
+
+            {
+                start: { month: 'aug', week: 1 },
+                end: { month: 'aug', week: 2 }
             }
         ],
         months: {

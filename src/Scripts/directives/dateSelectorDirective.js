@@ -77,6 +77,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.endScroll = endScroll.bind($element, $scope);
     $scope.doScroll = doScroll.bind($element, $scope);
     $scope.renderTags = renderTags.bind($element, $scope);
+    $scope.scrollTagView = scrollTagView.bind($element, $scope);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -795,7 +796,7 @@ function selectPage($scope, page) {
     $scope.currentPage = page.toString();
     $scope.visiblePages = getVisiblePages(this, $scope);
 
-    // Update the page indicator.
+    // Update the selection brackets.
     var pageIndex = parseInt($scope.currentPage, 10) - 1;
     var page = $scope.contributions.pages[pageIndex];
     var months = Object.keys($scope.contributions.months);
@@ -824,6 +825,8 @@ function selectPage($scope, page) {
         .css('left', selectionStart - 21)
         .css('width', selectionEnd - selectionStart +
             50 + (endWeekIndex === 3 ? 6 : 0));
+
+    $scope.scrollTagView(selectionStart, selectionEnd);
 }
 
 /**
@@ -837,6 +840,7 @@ function renderTags($scope) {
     var $view = $scope.view;
     var $wrapper = null;
     
+    // Render month wrappers.
     for (var monthName in $scope.contributions.months) {
         var monthSummary = $scope.contributions.months[monthName];
         var $bar = null;
@@ -849,6 +853,7 @@ function renderTags($scope) {
             .append($('<div class="tag-page-separator"></div>'))
             .appendTo($view);
         
+        // Render week bars inside of the month wrapper.
         for (var weekDates in monthSummary.weeks) {
             var weekSummary = monthSummary.weeks[weekDates];
             var tagOffsetPercent = 0;
@@ -858,6 +863,7 @@ function renderTags($scope) {
                 .css('left', $bar ? $bar.position().left + $bar.width() : 0)
                 .appendTo($wrapper);
 
+            // Render stacked tag blocks inside of bars for each week.
             for (var tag in weekSummary.tags) {
                 var tagCount = weekSummary.tags[tag];
                 var tagPercent = Math.round(tagCount / $scope.contributions.max * 100);
@@ -873,6 +879,7 @@ function renderTags($scope) {
         }
     }
 
+    // Render selection brackets and the underline mask.
     $view.append($(
         '<svg class="tag-page-bracket-left" width="41" height="52" viewBox="0 0 41 52">' +
             '<use xlink:href="#left-bracket">' +
@@ -883,12 +890,32 @@ function renderTags($scope) {
         '<div class="tag-page-underline-mask"></div>'));
 
     if ($wrapper) {
+        // Calculate range for interactive scrolling.
         $scope.minScroll = viewMargin;
         $scope.maxScroll = $wrapper.position().left + viewMargin;
 
+        // Start with tag view off-screen for a slide-in animation.
         $scope.view.css('left', -$scope.maxScroll + 'px');
-        $scope.view.animate({
-            left: $scope.minScroll
-        }, Object.keys($scope.contributions.months).length * 150);
     }
+}
+
+/**
+ * Scroll visible tag range into view.
+ * @param {object} $scope - The directive scope.
+ * @param {number} start - The starting offset of the visible range in pixels.
+ * @param {number} end - The ending offset of the visible range in pixels.
+ */
+function scrollTagView($scope, start, end) {
+    var current = parseInt($scope.view.position().left, 10);
+    var target = $scope.minScroll;
+
+    if (end > $scope.maxScroll - $scope.minScroll) {
+        target = -(end - $scope.maxScroll);
+    }
+
+    var duration = Math.max(500, Math.abs(current + target) / 4 * 10);
+
+    $scope.view.stop().animate({
+        left: target + 'px'
+    }, duration);
 }

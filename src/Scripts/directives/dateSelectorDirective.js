@@ -818,13 +818,16 @@ function selectPage($scope, page) {
         $endBar.position().left + $endBar.width() - 8;
 
     this.find('.tag-page-bracket-left')
-        .css('left', selectionStart + 'px');
+        .stop()
+        .animate({ left: selectionStart + 'px' })
     this.find('.tag-page-bracket-right')
-        .css('left', selectionEnd + 'px'); 
+        .stop()
+        .animate({ left: selectionEnd + 'px' }); 
     this.find('.tag-page-underline-mask')
-        .css('left', selectionStart - 21)
+        .stop()
         .css('width', selectionEnd - selectionStart +
-            50 + (endWeekIndex === 3 ? 6 : 0));
+            50 + (endWeekIndex === 3 ? 6 : 0))
+        .animate({ left: selectionStart - 21});
 
     $scope.scrollTagView(selectionStart, selectionEnd);
 }

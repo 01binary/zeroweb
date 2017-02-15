@@ -65,6 +65,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.scrollOffset = 0;
     $scope.scrollInit = 0;
     $scope.minScroll = 0;
+    $scope.maxScroll = 0;
     $scope.bracketWidth = 4;
     $scope.view = null;
     $scope.contributions = {};
@@ -901,6 +902,9 @@ function renderTags($scope) {
     if ($wrapper) {
         // Calculate range for interactive scrolling.
         $scope.minScroll = viewMargin;
+        $scope.maxScroll = Math.max(
+            $scope.minScroll,
+            $wrapper.position().left + $wrapper.width() - $view.width() + $scope.bracketWidth);
 
         // Start with tag view off-screen for a slide-in animation.
         $scope.view.css('left', -$view.width() + 'px');

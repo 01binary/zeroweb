@@ -84,6 +84,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.doScroll = doScroll.bind($element, $scope);
     $scope.renderTags = renderTags.bind($element, $scope);
     $scope.scrollTagView = scrollTagView.bind($element, $scope);
+    $scope.resize = resize.bind($element, $scope);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -238,12 +239,14 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
         // Compile the template.
         $compile($element)($scope);
 
-        // Initialize the view.
+        // Initialize the tag view.
         $scope.view = $('.date-selector-view');
 
         if ($scope.contributions.max) {
             $scope.renderTags();
             $scope.selectPage('1');
+
+            $($window).on('resize', $scope.resize);
         }
     });
 }
@@ -942,4 +945,12 @@ function scrollTagView($scope, start, end) {
     $scope.view.stop().animate({
         left: target + 'px'
     }, duration);
+}
+
+/**
+ * Resize the tag view.
+ * @param {object} $scope - The directive scope.
+ */
+function resize($scope) {
+    $scope.selectPage($scope.currentPage);
 }

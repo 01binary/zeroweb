@@ -62,6 +62,11 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.isLoading = true;
     $scope.isExpanded = true;
     $scope.isScrolling = false;
+    $scope.scrollOffset = 0;
+    $scope.scrollInit = 0;
+    $scope.minScroll = 0;
+    $scope.bracketWidth = 4;
+    $scope.view = null;
     $scope.contributions = {};
     $scope.visiblePages = [];
     $scope.maxVisiblePages = 8;
@@ -308,7 +313,7 @@ function beginScroll($scope, $event) {
 
     $('html').addClass('scrolling');
 
-    $scope.scrolling = true;
+    $scope.isScrolling = true;
     $scope.scrollOffset = $event.pageX;
     $scope.scrollInit = parseInt($scope.view.css('left'), 10);
 
@@ -322,7 +327,7 @@ function beginScroll($scope, $event) {
  * @param {object} $event - The mouse move event.
  */
 function doScroll($scope, $event) {
-    if ($scope.scrolling) {
+    if ($scope.isScrolling) {
         var target = $event.pageX - $scope.scrollOffset;
 
         if ($scope.scrollInit)
@@ -348,7 +353,7 @@ function endScroll($scope, $event) {
     document.removeEventListener('mouseup', $scope.endScroll);
     document.removeEventListener('mousemove', $scope.doScroll);
 
-    $scope.scrolling = false;
+    $scope.isScrolling = false;
 
     $('html').removeClass('scrolling');
 
@@ -829,7 +834,9 @@ function selectPage($scope, page) {
             50 + (endWeekIndex === 3 ? 6 : 0))
         .animate({ left: selectionStart - 21});
 
-    $scope.scrollTagView(selectionStart, selectionEnd);
+    $scope.scrollTagView(
+        $startWrapper.position().left - $scope.minScroll,
+        $endWrapper.position().left + $endWrapper.width() + $scope.minScroll + 1);
 }
 
 /**
@@ -839,7 +846,6 @@ function selectPage($scope, page) {
 function renderTags($scope) {
     var viewMargin = 10;
     var monthSpacing = 6;
-    var bracketWidth = 4;
     var $view = $scope.view;
     var $wrapper = null;
     
@@ -850,7 +856,7 @@ function renderTags($scope) {
 
         $wrapper = $('<div class="tag-page"></div>')
             .css('left', $wrapper ?
-                $wrapper.position().left + $wrapper.width() + monthSpacing : bracketWidth)
+                $wrapper.position().left + $wrapper.width() + monthSpacing : $scope.bracketWidth)
             .append($('<div class="tag-page-footer noselect"></div>')
                 .text(monthName))
             .append($('<div class="tag-page-separator"></div>'))
@@ -895,10 +901,9 @@ function renderTags($scope) {
     if ($wrapper) {
         // Calculate range for interactive scrolling.
         $scope.minScroll = viewMargin;
-        $scope.maxScroll = $wrapper.position().left + viewMargin;
 
         // Start with tag view off-screen for a slide-in animation.
-        $scope.view.css('left', -$scope.maxScroll + 'px');
+        $scope.view.css('left', -$view.width() + 'px');
     }
 }
 
@@ -909,14 +914,26 @@ function renderTags($scope) {
  * @param {number} end - The ending offset of the visible range in pixels.
  */
 function scrollTagView($scope, start, end) {
-    var current = parseInt($scope.view.position().left, 10);
+    var viewSize = $scope.view.width();
+    var viewStart = parseInt($scope.view.position().left, 10) + $scope.minScroll;
+    var viewEnd = viewStart + viewSize;
     var target = $scope.minScroll;
 
-    if (end > $scope.maxScroll - $scope.minScroll) {
-        target = -(end - $scope.maxScroll);
+    if (start < viewStart) {
+        target = -start + $scope.minScroll;
+    } else if (end > viewEnd) {
+        target = -(end - viewEnd) - $scope.bracketWidth - $scope.minScroll + 1;
     }
 
-    var duration = Math.max(500, Math.abs(current + target) / 4 * 10);
+    var delta = Math.abs(target - viewStart);
+
+    if (target > $scope.minScroll) {
+        target = $scope.minScroll;
+    } else if (delta < 10) {
+        return;
+    }
+
+    var duration = Math.max(500, delta / 4 * 10);
 
     $scope.view.stop().animate({
         left: target + 'px'

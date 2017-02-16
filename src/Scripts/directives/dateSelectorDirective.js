@@ -67,10 +67,12 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.minScroll = 0;
     $scope.maxScroll = 0;
     $scope.bracketWidth = 4;
+    $scope.buttonWidth = 0;
     $scope.view = null;
+    $scope.pages = null;
     $scope.contributions = {};
     $scope.visiblePages = [];
-    $scope.maxVisiblePages = 8;
+    $scope.maxVisibleSlots = 11;
     $scope.currentPage = null;
 
     $scope.isSeparator = isSeparator;
@@ -240,9 +242,12 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
         $compile($element)($scope);
 
         // Initialize the tag view.
-        $scope.view = $('.date-selector-view');
+        $scope.view = $element.find('.date-selector-view');
+        $scope.pages = $element.find('.date-selector-pages');
 
         if ($scope.contributions.max) {
+            $scope.buttonWidth = $scope.pages.find('.date-selector-page').first().width();
+            
             $scope.renderTags();
             $scope.selectPage('1');
 
@@ -257,25 +262,23 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
  * @param {object} $safeApply - The safe apply service.
  */
 function expandCollapse($scope, $safeApply) {
-    var $element = this;
-
     if (!$scope.isExpanded) {
-        $element.removeClass('collapsed');
+        this.removeClass('collapsed');
     }
 
-    this.find('.date-selector-background')
-        .stop()
+    this.stop()
         .animate({
-            opacity: $scope.isExpanded ? 0 : 1
+            height: $scope.isExpanded ? 32 : 130
+
         }, 'fast', function() {
             $safeApply($scope, function() {
                 $scope.isExpanded = !$scope.isExpanded;
 
                 if (!$scope.isExpanded) {
-                    $element.addClass('collapsed');
+                    this.addClass('collapsed');
                 }
-            });
-        });
+            }.bind(this));
+        }.bind(this));
 }
 
 /**
@@ -722,34 +725,48 @@ function loadContent($q, $http, $scope) {
 function getVisiblePages($element, $scope) {
     // Calculate page element sizes.
     var buttonWidth = 37;
-    var stripWidth = $element.width() - 40;
-
-    // Reserved page button slots in 2-break view: 2 ellipsis and 2 arrows.
-    var reservedPageCount = 4;
+    var stripWidth = $element.width();
 
     // Calculate visible pages for 1- and 2-break views.
+    var reservedSlots1Break = 2;
+    var reservedSlots2Break = 3;
+
     var totalPages = $scope.contributions.pages.length;
-    var totalVisiblePages = Math.round(stripWidth / buttonWidth);
-    var maxVisiblePages = Math.min(totalPages, $scope.maxVisiblePages);
-    var visiblePages = Math.min(maxVisiblePages, totalVisiblePages);
-    var halfVisiblePages = Math.round(visiblePages / 2);
+    var totalVisibleSlots = Math.round(stripWidth / buttonWidth);
+    var maxVisibleSlots = Math.min(totalPages, $scope.maxVisibleSlots);
+    var visibleSlots = Math.min(maxVisibleSlots, totalVisibleSlots);
+    var halfVisibleSlots = Math.floor((visibleSlots - reservedSlots1Break) / 2);
     var currentPage = parseInt($scope.currentPage);
 
+    console.log('totalVisibleSlots', totalVisibleSlots);
+    console.log('maxVisibleSlots', maxVisibleSlots);
+    console.log('visibleSlots', visibleSlots);
+    console.log('halfVisibleSlots', halfVisibleSlots);
+
     // Calculate visible pages for a 1-break view.
-    var pagesBeforeBreak = halfVisiblePages;
-    var pagesAfterBreak = maxVisiblePages - halfVisiblePages - 1;
+    var pagesBeforeBreak = halfVisibleSlots;
+    var pagesAfterBreak = halfVisibleSlots;
+
+    if (pagesBeforeBreak + pagesAfterBreak < visibleSlots - reservedSlots1Break) {
+        pagesBeforeBreak++;
+    }
+
+    console.log('pagesBeforeBreak', pagesBeforeBreak);
+    console.log('pagesAfterBreak', pagesAfterBreak);
 
     // Calculate visible pages for a 2-break view.
-    var sectionPages = Math.max(1, visiblePages - reservedPageCount);
+    var sectionPages = Math.max(1, visibleSlots);
     var halfSectionPages = Math.round(sectionPages / 2);
     var firstPage = Math.floor((currentPage - sectionPages) / halfSectionPages) *
         halfSectionPages + pagesBeforeBreak - 1;
-    
-    // Allocate the visible page slots (including breaks).
-    var pageNumbersArray = new Array(visiblePages);
+
+    var pageNumbersArray = null;
 
     if (currentPage >= sectionPages &&
         currentPage - 1 <= totalPages - pagesAfterBreak) {
+            // Allocate the visible page slots (including breaks).
+        pageNumbersArray = new Array(visibleSlots);
+
         // Calculate page slots for a 2-break view.
         // <- 1 ... X X X X ... n ->
         pageNumbersArray[0] = '1';
@@ -759,20 +776,20 @@ function getVisiblePages($element, $scope) {
             pageNumbersArray[n + 2] = (n + firstPage).toString();
         }
 
-        pageNumbersArray[visiblePages - 2] = '... ';
+        pageNumbersArray[visibleSlots - 2] = '... ';
 
-        if (pageNumbersArray[visiblePages - 3] != totalPages.toString()) {
-            pageNumbersArray[visiblePages - 1] = totalPages.toString();
+        if (pageNumbersArray[visibleSlots - 3] != totalPages.toString()) {
+            pageNumbersArray[visibleSlots - 1] = totalPages.toString();
         } else {
             // Remove an extra item after the break.
             pageNumbersArray = pageNumbersArray.slice(0, pageNumbersArray.length - 1);
         }
     } else {
+        // Allocate the visible page slots (including breaks).
+        pageNumbersArray = new Array(visibleSlots - 3);
+
         // Calculate page slots for a 1-break view.
         // <- 1 2 3 4 ... n-2 n-1 n ->
-        var pagesBeforeBreak = halfVisiblePages;
-        var pagesAfterBreak = maxVisiblePages - halfVisiblePages - 1;
-
         pageNumbersArray[pagesBeforeBreak] = '...';
 
         for (var n = 0; n < pagesBeforeBreak; n++) {
@@ -784,6 +801,10 @@ function getVisiblePages($element, $scope) {
             }
         }
     }
+
+    var dc = 0;
+
+    console.log(pageNumbersArray, pageNumbersArray.length);
 
     return pageNumbersArray;
 }
@@ -803,7 +824,7 @@ function isSeparator(page) {
  */
 function selectPage($scope, page) {
     $scope.currentPage = page.toString();
-    $scope.visiblePages = getVisiblePages(this, $scope);
+    $scope.visiblePages = getVisiblePages($scope.pages, $scope);
 
     // Update the selection brackets.
     var pageIndex = parseInt($scope.currentPage, 10) - 1;

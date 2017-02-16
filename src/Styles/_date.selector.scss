@@ -11,7 +11,10 @@
 \*---------------------------------------------------------*/
 
 .date-selector {
+    /* Enable absolute positioning for children relative to self */
     position: relative;
+
+    /* Clip tag view within left/right edges to simulate scrolling */
     overflow: hidden;
 
     /* Expanded height */
@@ -44,10 +47,10 @@
     /* Background rectangle */
     &-background {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
         background-color: $accent-light-color;
         z-index: -1;
 
@@ -58,8 +61,8 @@
             border-width: 8px;
             border-style: solid;
             border-color: $background-color transparent transparent $background-color;
-            left: 0;
-            top: 0;
+            left: 0px;
+            top: 0px;
         }
 
         /* Bottom right corner cut-off */
@@ -69,8 +72,8 @@
             border-width: 8px;
             border-style: solid;
             border-color: transparent $background-color $background-color transparent;
-            right: 0;
-            bottom: 0;
+            right: 0px;
+            bottom: 0px;
         }
     }
 
@@ -81,7 +84,7 @@
         right: 0px;
         top: 30px;
         bottom: 37px;
-        overflow-x: hidden;
+        overflow: hidden;
         cursor: ew-resize;
     }
 
@@ -432,10 +435,20 @@
 
     /* Collapsed state overrides */
     &.collapsed {
-        height: 34px;
         margin-top: -2px;
         margin-bottom: -7px;
         margin-left: 11px;
+        overflow: visible;
+
+        /* Min scroll fade overlay */
+        &:before {
+            display: none;
+        }
+
+        /* Max scroll fade overlay */
+        &:after {
+            display: none;
+        }
 
         .date-selector {
             /* Expand/collapse caption button */

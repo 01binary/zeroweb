@@ -86,7 +86,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.doScroll = doScroll.bind($element, $scope);
     $scope.renderTags = renderTags.bind($element, $scope);
     $scope.scrollTagView = scrollTagView.bind($element, $scope);
-    $scope.resize = resize.bind($element, $scope);
+    $scope.resize = resize.bind($element, $scope, $safeApply);
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -724,69 +724,67 @@ function loadContent($q, $http, $scope) {
  */
 function getVisiblePages($element, $scope) {
     // Calculate page element sizes.
-    var buttonWidth = 37;
+    var buttonWidth = 34;
     var stripWidth = $element.width();
 
-    // Calculate visible pages for 1- and 2-break views.
+    // Reserved slots for 1 break view - ... and ->
     var reservedSlots1Break = 2;
-    var reservedSlots2Break = 3;
 
+    // Reserved slots for 2 break view - 2x ... and ->
+    var reservedSlots2Break = 4;
+
+    // Calculate visible pages for 1- and 2-break views.
+    var currentPage = parseInt($scope.currentPage);
     var totalPages = $scope.contributions.pages.length;
     var totalVisibleSlots = Math.round(stripWidth / buttonWidth);
-    var maxVisibleSlots = Math.min(totalPages, $scope.maxVisibleSlots);
-    var visibleSlots = Math.min(maxVisibleSlots, totalVisibleSlots);
-    var halfVisibleSlots = Math.floor((visibleSlots - reservedSlots1Break) / 2);
-    var currentPage = parseInt($scope.currentPage);
 
-    console.log('totalVisibleSlots', totalVisibleSlots);
-    console.log('maxVisibleSlots', maxVisibleSlots);
-    console.log('visibleSlots', visibleSlots);
-    console.log('halfVisibleSlots', halfVisibleSlots);
+    var maxVisibleSlots1Break = Math.min(totalPages + reservedSlots1Break, $scope.maxVisibleSlots);
+    var visibleSlots1Break = Math.min(maxVisibleSlots1Break, totalVisibleSlots);
+
+    var maxVisibleSlots2Break = Math.min(totalPages + reservedSlots2Break, $scope.maxVisibleSlots);
+    var visibleSlots2Break = Math.min(maxVisibleSlots2Break, totalVisibleSlots);
 
     // Calculate visible pages for a 1-break view.
+    var halfVisibleSlots = Math.floor((visibleSlots1Break - reservedSlots1Break) / 2);
     var pagesBeforeBreak = halfVisibleSlots;
     var pagesAfterBreak = halfVisibleSlots;
 
-    if (pagesBeforeBreak + pagesAfterBreak < visibleSlots - reservedSlots1Break) {
+    if (pagesBeforeBreak + pagesAfterBreak + reservedSlots1Break < visibleSlots1Break) {
         pagesBeforeBreak++;
     }
 
-    console.log('pagesBeforeBreak', pagesBeforeBreak);
-    console.log('pagesAfterBreak', pagesAfterBreak);
-
-    // Calculate visible pages for a 2-break view.
-    var sectionPages = Math.max(1, visibleSlots);
-    var halfSectionPages = Math.round(sectionPages / 2);
-    var firstPage = Math.floor((currentPage - sectionPages) / halfSectionPages) *
-        halfSectionPages + pagesBeforeBreak - 1;
-
     var pageNumbersArray = null;
 
-    if (currentPage >= sectionPages &&
-        currentPage - 1 <= totalPages - pagesAfterBreak) {
-            // Allocate the visible page slots (including breaks).
-        pageNumbersArray = new Array(visibleSlots);
+    // Calculate the first page in the middle break.
+    var firstPage = Math.floor((currentPage - halfVisibleSlots) / halfVisibleSlots) *
+        halfVisibleSlots + pagesBeforeBreak - 1;
+
+    if (totalPages + 1 <= totalVisibleSlots) {
+        // Allocate the visible page slots.
+        pageNumbersArray = new Array(totalPages - 1);
+
+        // Display all pages with no breaks.
+        for(var n = 0; n < totalPages; n++) {
+            pageNumbersArray[n] = (n + 1).toString();
+        }
+    } else if (currentPage >= pagesBeforeBreak && currentPage < totalPages - pagesAfterBreak) {
+        // Allocate the visible page slots (including breaks but excluding -> button).
+        pageNumbersArray = new Array(visibleSlots2Break - 2);
 
         // Calculate page slots for a 2-break view.
         // <- 1 ... X X X X ... n ->
         pageNumbersArray[0] = '1';
         pageNumbersArray[1] = '...';
 
-        for (var n = 0; n < sectionPages; n++) {
-            pageNumbersArray[n + 2] = (n + firstPage).toString();
+        for (var n = 2; n < visibleSlots2Break - 3; n++) {
+            pageNumbersArray[n] = (n - 2 + firstPage).toString();
         }
 
-        pageNumbersArray[visibleSlots - 2] = '... ';
-
-        if (pageNumbersArray[visibleSlots - 3] != totalPages.toString()) {
-            pageNumbersArray[visibleSlots - 1] = totalPages.toString();
-        } else {
-            // Remove an extra item after the break.
-            pageNumbersArray = pageNumbersArray.slice(0, pageNumbersArray.length - 1);
-        }
+        pageNumbersArray[visibleSlots2Break - 3] = '... ';
+        pageNumbersArray[visibleSlots2Break - 2] = totalPages.toString();
     } else {
-        // Allocate the visible page slots (including breaks).
-        pageNumbersArray = new Array(visibleSlots - 3);
+        // Allocate the visible page slots (including breaks but excluding -> button).
+        pageNumbersArray = new Array(visibleSlots1Break - 2);
 
         // Calculate page slots for a 1-break view.
         // <- 1 2 3 4 ... n-2 n-1 n ->
@@ -800,11 +798,7 @@ function getVisiblePages($element, $scope) {
                     (totalPages - pagesAfterBreak + n + 1).toString();
             }
         }
-    }
-
-    var dc = 0;
-
-    console.log(pageNumbersArray, pageNumbersArray.length);
+   }
 
     return pageNumbersArray;
 }
@@ -825,6 +819,8 @@ function isSeparator(page) {
 function selectPage($scope, page) {
     $scope.currentPage = page.toString();
     $scope.visiblePages = getVisiblePages($scope.pages, $scope);
+
+    console.log($scope.visiblePages);
 
     // Update the selection brackets.
     var pageIndex = parseInt($scope.currentPage, 10) - 1;
@@ -970,8 +966,11 @@ function scrollTagView($scope, start, end) {
 
 /**
  * Resize the tag view.
+ * @param {object} $safeApply - The safe apply service.
  * @param {object} $scope - The directive scope.
  */
-function resize($scope) {
-    $scope.selectPage($scope.currentPage);
+function resize($scope, $safeApply) {
+    $safeApply($scope, function() {
+        $scope.selectPage($scope.currentPage);
+    });
 }

@@ -138,7 +138,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
             '</svg>' +
 
             // Previous page button.
-            '<a role="button" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="prevPage()">' +
+            '<a role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="prevPage()">' +
                 '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-outline"></use>' +
                 '</svg>' +
@@ -167,7 +167,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<a role="button" class="date-selector-page noselect" ' +
+                '<a role="button" tabindex="0" class="date-selector-page noselect" ' +
                     'data-ng-mousedown="pageClick($event)" ' +
                     'data-ng-repeat="page in visiblePages" ' +
                     'data-ng-class="{' +
@@ -200,7 +200,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<a role="button" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="nextPage()">' +
+                '<a role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="nextPage()">' +
                     '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +
@@ -398,13 +398,8 @@ function loadContent($q, $http, $scope) {
             },
 
             {
-                start: { month: 'jan', week: 3 },
-                end: { month: 'jan', week: 4 }
-            },
-
-            {
-                start: { month: 'jan', week: 1 },
-                end: { month: 'jan', week: 2 }
+                start: { month: 'jan', week: 2 },
+                end: { month: 'jan', week: 3 }
             },
 
             {
@@ -413,28 +408,28 @@ function loadContent($q, $http, $scope) {
             },
 
             {
-                start: { month: 'nov', week: 1 },
-                end: { month: 'nov', week: 4 }
+                start: { month: 'nov', week: 2 },
+                end: { month: 'nov', week: 3 }
             },
 
             {
-                start: { month: 'oct', week: 2 },
+                start: { month: 'oct', week: 1 },
                 end: { month: 'oct', week: 4 }
             },
 
             {
-                start: { month: 'sep', week: 4 },
-                end: { month: 'oct', week: 1 }
-            },
-
-            {
                 start: { month: 'sep', week: 1 },
-                end: { month: 'sep', week: 3 }
+                end: { month: 'sep', week: 2 }
             },
 
             {
-                start: { month: 'aug', week: 4 },
-                end: { month: 'aug', week: 4 }
+                start: { month: 'sep', week: 3 },
+                end: { month: 'sep', week: 4 }
+            },
+
+            {
+                start: { month: 'aug', week: 1 },
+                end: { month: 'aug', week: 2 }
             },
 
             {
@@ -443,202 +438,32 @@ function loadContent($q, $http, $scope) {
             },
 
             {
-                start: { month: 'aug', week: 1 },
-                end: { month: 'aug', week: 2 }
+                start: { month: 'aug', week: 4 },
+                end: { month: 'aug', week: 4 }
             }
         ],
         months: {
-            'aug': {
+            'feb': {
                 tags: {
-                    'engineering-robotics': 3,
+                    'design-web': 1,
+                    'engineering-software': 1,
                     'engineering-mechanical': 2,
-                    'engineering-software': 1,
-                    'design-industrial': 2,
-                    'design-web': 4,
-                    'art-painting': 2,
-                    'design-cad': 1,
-                    'art-crafts': 1
-                },
-                total: 16,
-                weeks: {
-                    'aug 1 - aug 7': {
-                        tags: {
-                            'engineering-robotics': 2,
-                            'engineering-software': 1
-                        },
-                        total: 3
-                    },
-                    
-                    'aug 8 - aug 14': {
-                        tags: {
-                            'design-industrial': 1,
-                            'design-web': 2
-                        },
-                        total: 3
-                    },
-                    
-                    'aug 15 - aug 21': {
-                        tags: {
-                            'art-painting': 2,
-                            'design-cad': 1,
-                            'design-industrial': 1,
-                            'design-web': 1
-                        },
-                        total: 5
-                    },
-                    
-                    'aug 22 - sep 4': {
-                        tags: {
-                            'art-crafts': 1,
-                            'design-web': 1,
-                            'engineering-mechanical': 2,
-                            'engineering-robotics': 1
-                        },
-                        total: 5
-                    }
-                }
-            },
-
-            'sep': {
-                tags: {
-                    'engineering-software': 1,
-                    'engineering-electrical': 4,
-                    'design-industrial': 1,
-                    'art-painting': 1,
-                    'art-music': 2
-                },
-                total: 9,
-                weeks: {
-                    'sep 5 - sep 11': {
-                        tags: {
-                            'engineering-software': 1
-                        },
-                        total: 1
-                    },
-
-                    'sep 12 - sep 18': {
-                        tags: {
-                            'design-industrial': 1
-                        },
-                        total: 1
-                    },
-
-                    'sep 19 - sep 25': {
-                        tags: {
-                            'art-painting': 1,
-                            'engineering-electrical': 3
-                        },
-                        total: 4
-                    },
-
-                    'sep 26 - oct 2': {
-                        tags: {
-                            'art-music': 2,
-                            'engineering-electrical': 1
-                        },
-                        total: 3
-                    }
-                }
-            },
-
-            'oct': {
-                tags: {
-                    'design-web': 1,
-                    'design-industrial': 1
-                },
-                total: 2,
-                weeks: {
-                    'oct 3 - oct 9': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'oct 10 - oct 16': {
-                        tags: {
-                            'design-web': 1
-                        },
-                        total: 1
-                    },
-
-                    'oct 17 - oct 23': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    // Weird case! Weeks not aligning on month.
-                    'oct 24 - oct 30': {
-                        tags: {
-                            'design-industrial': 1
-                        },
-                        total: 1
-                    },
-                }
-            },
-
-            'nov': {
-                tags: {
-                    'art-painting': 1,
-                    'design-web': 1,
-                    'design-frontend': 1,
                     'engineering-robotics': 3
                 },
-                total: 6,
+                total: 7,
                 weeks: {
-                    'oct 31 - nov 6': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'nov 7 - nov 13': {
+                    'jan 30 - feb 5': {
                         tags: {
-                            'art-painting': 1,
-                            'design-web': 1
-                        },
-                        total: 2
-                    },
-
-                    'nov 14 - nov 20': {
-                        tags: {
-                            'design-frontend': 1,
+                            'design-web': 1,
+                            'engineering-mechanical': 2,
                             'engineering-robotics': 3
                         },
-                        total: 4
+                        total: 6
                     },
 
-                    'nov 21 - nov 27': {
-                        tags: {},
-                        total: 0
-                    }
-                }
-            },
-
-            'dec': {
-                tags: {
-                    'engineering-mechanical': 2,
-                    'art-painting': 1
-                },
-                total: 3,
-                weeks: {
-                    'nov 28 - dec 4': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'dec 5 - dec 11': {
+                    'jan 23 - jan 29': {
                         tags: {
-                            'engineering-mechanical': 2
-                        },
-                        total: 2
-                    },
-
-                    'dec 12 - dec 18': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'dec 19 - dec 25': {
-                        tags: {
-                            'art-painting': 1
+                            'engineering-software': 1
                         },
                         total: 1
                     }
@@ -654,9 +479,16 @@ function loadContent($q, $http, $scope) {
                 },
                 total: 6,
                 weeks: {
-                    'dec 26 - jan 1': {
+                    'jan 16 - 22': {
                         tags: {},
                         total: 0
+                    },
+
+                    'jan 9 - jan 15': {
+                        tags: {
+                            'engineering-software': 2
+                        },
+                        total: 2
                     },
 
                     'jan 2 - jan 8': {
@@ -668,43 +500,206 @@ function loadContent($q, $http, $scope) {
                         total: 4
                     },
 
-                    'jan 9 - jan 15': {
-                        tags: {
-                            'engineering-software': 2
-                        },
-                        total: 2
-                    },
-
-                    'jan 16 - 22': {
+                    'dec 26 - jan 1': {
                         tags: {},
                         total: 0
                     }
                 }
             },
 
-            'feb': {
+            'dec': {
                 tags: {
-                    'design-web': 1,
-                    'engineering-software': 1,
                     'engineering-mechanical': 2,
-                    'engineering-robotics': 3
+                    'art-painting': 1
                 },
-                total: 7,
+                total: 3,
                 weeks: {
-                    'jan 23 - jan 29': {
+                    'dec 19 - dec 25': {
                         tags: {
-                            'engineering-software': 1
+                            'art-painting': 1
                         },
                         total: 1
                     },
 
-                    'jan 30 - feb 5': {
+                    'dec 12 - dec 18': {
+                        tags: {},
+                        total: 0
+                    },
+
+                    'dec 5 - dec 11': {
                         tags: {
-                            'design-web': 1,
-                            'engineering-mechanical': 2,
+                            'engineering-mechanical': 2
+                        },
+                        total: 2
+                    },
+
+                    'nov 28 - dec 4': {
+                        tags: {},
+                        total: 0
+                    }
+                }
+            },
+
+            'nov': {
+                tags: {
+                    'art-painting': 1,
+                    'design-web': 1,
+                    'design-frontend': 1,
+                    'engineering-robotics': 3
+                },
+                total: 6,
+                weeks: {
+                    'nov 21 - nov 27': {
+                        tags: {},
+                        total: 0
+                    },
+
+                    'nov 14 - nov 20': {
+                        tags: {
+                            'design-frontend': 1,
                             'engineering-robotics': 3
                         },
-                        total: 6
+                        total: 4
+                    },
+
+                    'nov 7 - nov 13': {
+                        tags: {
+                            'art-painting': 1,
+                            'design-web': 1
+                        },
+                        total: 2
+                    },
+
+                    'oct 31 - nov 6': {
+                        tags: {},
+                        total: 0
+                    }
+                }
+            },
+
+            'oct': {
+                tags: {
+                    'design-web': 1,
+                    'design-industrial': 1
+                },
+                total: 2,
+                weeks: {
+                    // Weird case! Weeks not aligning on month.
+                    'oct 24 - oct 30': {
+                        tags: {
+                            'design-industrial': 1
+                        },
+                        total: 1
+                    },
+
+                    'oct 17 - oct 23': {
+                        tags: {},
+                        total: 0
+                    },
+
+                    'oct 10 - oct 16': {
+                        tags: {
+                            'design-web': 1
+                        },
+                        total: 1
+                    },
+
+                    'oct 3 - oct 9': {
+                        tags: {},
+                        total: 0
+                    }
+                }
+            },
+
+            'sep': {
+                tags: {
+                    'engineering-software': 1,
+                    'engineering-electrical': 4,
+                    'design-industrial': 1,
+                    'art-painting': 1,
+                    'art-music': 2
+                },
+                total: 9,
+                weeks: {
+                    'sep 26 - oct 2': {
+                        tags: {
+                            'art-music': 2,
+                            'engineering-electrical': 1
+                        },
+                        total: 3
+                    },
+
+                    'sep 19 - sep 25': {
+                        tags: {
+                            'art-painting': 1,
+                            'engineering-electrical': 3
+                        },
+                        total: 4
+                    },
+
+                    'sep 12 - sep 18': {
+                        tags: {
+                            'design-industrial': 1
+                        },
+                        total: 1
+                    },
+
+                    'sep 5 - sep 11': {
+                        tags: {
+                            'engineering-software': 1
+                        },
+                        total: 1
+                    }
+                }
+            },
+
+            'aug': {
+                tags: {
+                    'engineering-robotics': 3,
+                    'engineering-mechanical': 2,
+                    'engineering-software': 1,
+                    'design-industrial': 2,
+                    'design-web': 4,
+                    'art-painting': 2,
+                    'design-cad': 1,
+                    'art-crafts': 1
+                },
+                total: 16,
+                weeks: {
+                    'aug 22 - sep 4': {
+                        tags: {
+                            'art-crafts': 1,
+                            'design-web': 1,
+                            'engineering-mechanical': 2,
+                            'engineering-robotics': 1
+                        },
+                        total: 5
+                    },
+
+                    'aug 15 - aug 21': {
+                        tags: {
+                            'art-painting': 2,
+                            'design-cad': 1,
+                            'design-industrial': 1,
+                            'design-web': 1
+                        },
+                        total: 5
+                    },
+                    
+                    'aug 8 - aug 14': {
+                        tags: {
+                            'design-industrial': 1,
+                            'design-web': 2
+                        },
+                        total: 3
+                    },
+                    
+                    'aug 1 - aug 7': {
+                        tags: {
+                            'engineering-robotics': 2,
+                            'engineering-software': 1
+                        },
+                        total: 3
                     }
                 }
             }
@@ -748,16 +743,23 @@ function getVisiblePages($element, $scope) {
     var halfVisibleSlots = Math.floor((visibleSlots1Break - reservedSlots1Break) / 2);
     var pagesBeforeBreak = halfVisibleSlots;
     var pagesAfterBreak = halfVisibleSlots;
+    var pageNumbersArray = null;
 
     if (pagesBeforeBreak + pagesAfterBreak + reservedSlots1Break < visibleSlots1Break) {
         pagesBeforeBreak++;
     }
+    
+    // Calculate the number of page slots in the middle break (if using a 2-break view).
+    var pagesMiddleBreak = visibleSlots2Break - reservedSlots2Break - 1;
 
-    var pageNumbersArray = null;
+    // Calculate the range of current page before middle break is scrolled by one left or right.
+    var middleBreakGroupCount = pagesMiddleBreak - 2;
 
     // Calculate the first page in the middle break.
-    var firstPage = Math.floor((currentPage - halfVisibleSlots) / halfVisibleSlots) *
-        halfVisibleSlots + pagesBeforeBreak - 1;
+    var firstPage = Math.floor((currentPage - pagesBeforeBreak) / middleBreakGroupCount) *
+        middleBreakGroupCount + pagesBeforeBreak - 1;
+
+    console.log('firstPage', firstPage, 'currentPage', currentPage);
 
     if (totalPages + 1 <= totalVisibleSlots) {
         // Allocate the visible page slots.
@@ -768,20 +770,42 @@ function getVisiblePages($element, $scope) {
             pageNumbersArray[n] = (n + 1).toString();
         }
     } else if (currentPage >= pagesBeforeBreak && currentPage < totalPages - pagesAfterBreak) {
-        // Allocate the visible page slots (including breaks but excluding -> button).
-        pageNumbersArray = new Array(visibleSlots2Break - 2);
+        // Allocate the visible page slots (-1 for -> button, -1 for last element instead of count).
+        var lastSlot = visibleSlots2Break - 2;
+        pageNumbersArray = new Array(lastSlot);
+
+        console.log('slots', lastSlot + 1);
+        console.log('middle break count', pagesMiddleBreak);
 
         // Calculate page slots for a 2-break view.
         // <- 1 ... X X X X ... n ->
         pageNumbersArray[0] = '1';
         pageNumbersArray[1] = '...';
 
-        for (var n = 2; n < visibleSlots2Break - 3; n++) {
-            pageNumbersArray[n] = (n - 2 + firstPage).toString();
+        if (pagesMiddleBreak === 1) {
+            pageNumbersArray[2] = $scope.currentPage;
+        } else {
+            for (var n = 2; n < visibleSlots2Break - 3; n++) {
+                pageNumbersArray[n] = (n - 2 + firstPage).toString();
+            }
         }
 
         pageNumbersArray[visibleSlots2Break - 3] = '... ';
         pageNumbersArray[visibleSlots2Break - 2] = totalPages.toString();
+    } else if (currentPage >= totalPages - pagesAfterBreak - 1) {
+        // Allocate the visible page slots (-1 for -> button, -1 for last element instead of count).
+        var lastSlot = visibleSlots1Break - 2;
+        var startPage = totalPages - lastSlot + 2;
+
+        pageNumbersArray = new Array(lastSlot);
+        pageNumbersArray[0] = '1';
+        pageNumbersArray[1] = '...';
+
+        // Calculate page slots for a 1-break end view.
+        // <- 1 ... n-3 n-2 n-1 n ->
+        for (var n = 2; n <= lastSlot; n++) {
+            pageNumbersArray[n] = (n - 2 + startPage).toString();
+        }
     } else {
         // Allocate the visible page slots (including breaks but excluding -> button).
         pageNumbersArray = new Array(visibleSlots1Break - 2);

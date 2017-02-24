@@ -882,8 +882,9 @@ function selectPage($scope, page) {
  * @param {object} $scope - The directive scope.
  */
 function renderTags($scope) {
-    var viewMargin = 10;
-    var monthSpacing = 6;
+    var monthMargin = null;
+    var barHeight = null;
+    var minBlockHeight = null;
     var $view = $scope.view;
     var $wrapper = null;
     
@@ -894,34 +895,44 @@ function renderTags($scope) {
 
         $wrapper = $('<div class="tag-page"></div>')
             .css('left', $wrapper ?
-                $wrapper.position().left + $wrapper.width() + monthSpacing : $scope.bracketWidth)
+                $wrapper.position().left + $wrapper.width() + monthMargin : $scope.bracketWidth)
             .append($('<div class="tag-page-footer noselect"></div>')
                 .text(monthName))
             .append($('<div class="tag-page-separator"></div>'))
             .appendTo($view);
+
+        if (!monthMargin) {
+            monthMargin = parseInt($wrapper.css('margin-right'));
+        }
         
         // Render week bars inside of the month wrapper.
         for (var weekDates in monthSummary.weeks) {
             var weekSummary = monthSummary.weeks[weekDates];
-            var tagOffsetPercent = 0;
-            var tagIndex = 0;
+            var tagOffset = 0;
 
             $bar = $('<div class="tag-bar"></div>')
                 .css('left', $bar ? $bar.position().left + $bar.width() : 0)
                 .appendTo($wrapper);
 
+            if (!barHeight) {
+                barHeight = $bar.height();
+            }
+
             // Render stacked tag blocks inside of bars for each week.
             for (var tag in weekSummary.tags) {
                 var tagCount = weekSummary.tags[tag];
-                var tagPercent = Math.round(tagCount / $scope.contributions.max * 100);
+                var tagHeight = Math.round((tagCount / $scope.contributions.max) * barHeight);
 
-                $('<div class="tag-block tag-' + tag + '"></div>')
-                    .css('height', tagPercent.toString() + '%')
-                    .css('bottom', 'calc(' + tagOffsetPercent + '% + ' + tagIndex + 'px)')
+                var $block = $('<div class="tag-block tag-' + tag + '"></div>')
+                    .css('height', tagHeight + 'px')
+                    .css('bottom', tagOffset + 'px')
                     .appendTo($bar);
 
-                tagOffsetPercent += tagPercent;
-                tagIndex++;
+                if (!minBlockHeight) {
+                    minBlockHeight = parseInt($block.css('min-height'));
+                }
+
+                tagOffset += Math.max(minBlockHeight, tagHeight) + 1;
             }
         }
     }
@@ -938,7 +949,7 @@ function renderTags($scope) {
 
     if ($wrapper) {
         // Calculate range for interactive scrolling.
-        $scope.minScroll = viewMargin;
+        $scope.minScroll = parseInt($scope.view.css('left'));
         $scope.maxScroll = Math.max(
             $scope.minScroll,
             $wrapper.position().left + $wrapper.width() - $view.width() + $scope.bracketWidth);

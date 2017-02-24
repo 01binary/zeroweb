@@ -129,6 +129,15 @@
         background: none;
         cursor: pointer;
 
+        /* Focus state - TODO */
+        &:focus {
+            color: red;
+
+            .date-selector-page:before {
+                background: green;
+            }
+        }
+
         /* Hover state */
         &:hover {
             color: $foreground-color;

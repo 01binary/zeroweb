@@ -759,8 +759,6 @@ function getVisiblePages($element, $scope) {
     var firstPage = Math.floor((currentPage - pagesBeforeBreak) / middleBreakGroupCount) *
         middleBreakGroupCount + pagesBeforeBreak - 1;
 
-    console.log('firstPage', firstPage, 'currentPage', currentPage);
-
     if (totalPages + 1 <= totalVisibleSlots) {
         // Allocate the visible page slots.
         pageNumbersArray = new Array(totalPages - 1);
@@ -773,9 +771,6 @@ function getVisiblePages($element, $scope) {
         // Allocate the visible page slots (-1 for -> button, -1 for last element instead of count).
         var lastSlot = visibleSlots2Break - 2;
         pageNumbersArray = new Array(lastSlot);
-
-        console.log('slots', lastSlot + 1);
-        console.log('middle break count', pagesMiddleBreak);
 
         // Calculate page slots for a 2-break view.
         // <- 1 ... X X X X ... n ->
@@ -843,8 +838,6 @@ function isSeparator(page) {
 function selectPage($scope, page) {
     $scope.currentPage = page.toString();
     $scope.visiblePages = getVisiblePages($scope.pages, $scope);
-
-    console.log($scope.visiblePages);
 
     // Update the selection brackets.
     var pageIndex = parseInt($scope.currentPage, 10) - 1;

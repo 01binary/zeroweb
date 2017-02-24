@@ -406,6 +406,7 @@
             /* Arrow icon wrapper */
             .date-selector-page-label {
                 left: 1px;
+                top: -1px;
             }
 
             /* Bottom shadow */
@@ -480,17 +481,6 @@
             /* Pages strip */
             &-pages {
                 bottom: -2px;
-            }
-
-            /* Left scroll button - collapsed overrides */
-            &-scroll .button-primary {
-                &-leftcorner {
-                    border-top: $corner-small solid $background-color;
-                }
-
-                &-rightcorner {
-                    border-bottom: $corner-small solid $background-color;
-                }
             }
 
             /* Left scroll button - collapsed overrides */

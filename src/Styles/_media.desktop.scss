@@ -246,10 +246,6 @@ main p {
   margin-left: 1.4em;
   margin-top: $margin;
   margin-bottom: $margin;
-  &::selection {
-    color: $background-color;
-    background: $focus-color;
-  }
 }
 
 body {
@@ -329,6 +325,11 @@ body {
   float: left;
   left: -12px;
   color: $primary-color;
+
+  &::selection {
+    color: initial;
+    background: initial;
+  }
 }
 
 #loading-bar-spinner .spinner-icon {

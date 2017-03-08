@@ -10,7 +10,7 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-/*
+/**
  * Colors
  */
 
@@ -91,7 +91,7 @@ $code-font-size-win: 12px;
 $code-font-line-height: 20px;
 $code-font-line-height-win: 20px;
 
-/*
+/**
  * Scalars
  */
 
@@ -99,8 +99,17 @@ $margin: 9pt;
 $border-thickness: 1px;
 $corner-small: 8px;
 
-/*
+/**
  * Functions
  */
 
  $fade-function: cubic-bezier(.02, .01, .47, 1);
+
+/**
+ * Styles
+ */
+
+::selection {
+  color: $background-color;
+  background: $focus-color;
+}

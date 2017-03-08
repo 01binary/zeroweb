@@ -136,10 +136,10 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                     '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +
                 '</symbol>' +
                 '<symbol id="left-bracket">' +
-                    '<polygon points="10,4 10,0 4,0 0,0 0,45 4,45 10,45 10,41 4,41 4,4"/>' +
+                    '<polygon points="10,4 10,0 4,0 0,0 0,41 4,41 10,41 10,37 4,37 4,4"/>' +
                 '</symbol>' +
                 '<symbol id="right-bracket">' +
-                    '<polygon points="0,4 0,0 6,0 10,0 10,45 6,45 0,45 0,41 6,41 6,4"/>' +
+                    '<polygon points="0,4 0,0 6,0 10,0 10,41 6,41 0,41 0,37 6,37 6,4"/>' +
                 '</symbol>' +
             '</svg>' +
 
@@ -954,10 +954,10 @@ function renderTags($scope) {
 
     // Render selection brackets and the underline mask.
     $view.append($(
-        '<svg class="tag-page-bracket-left" width="41" height="52" viewBox="0 0 41 52">' +
+        '<svg class="tag-page-bracket-left" width="41" height="52" viewBox="0 0 41 49">' +
             '<use xlink:href="#left-bracket">' +
         '</svg>' +
-        '<svg class="tag-page-bracket-right" width="41" height="52" viewBox="0 0 41 52">' +
+        '<svg class="tag-page-bracket-right" width="41" height="52" viewBox="0 0 41 49">' +
             '<use xlink:href="#right-bracket">' +
         '</svg>' +
         '<div class="tag-page-underline-mask"></div>'));

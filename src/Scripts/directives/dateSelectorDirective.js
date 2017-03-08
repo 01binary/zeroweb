@@ -116,6 +116,12 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                 '<symbol id="page-button-outline">' +
                     '<polygon points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
                 '</symbol>' +
+                '<symbol id="page-button-focus-outline">' +
+                    '<polygon points="2.5,28.5 1.8,26.8 8.5,20.1 8.5,1.5 9.5,0.5 36.5,0.5 37.5,1.5 37.5,20.9 29.9,28.5 	"/>' +
+                '</symbol>' +
+                '<symbol id="left-scroll-button-focus-outline">' +
+                    '<polyline points="0.5,28 0.5,8.1 8.1,0.5 31,0.5 31.5,1 31.5,20.9 23.9,28.5 1,28.5"/>' +
+                '</symbol>' +
                 '<symbol id="left-scroll-button-border">' +
                     '<polyline stroke="currentColor" points="1.5,25 1.5,7.9 7.9,1.5 29,1.5"/>' +
                     '<polyline points="28.5,2 28.5,19.1 22.1,25.5 1,25.5"/>' +
@@ -148,6 +154,9 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                 '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-outline"></use>' +
                 '</svg>' +
+                '<svg class="date-selector-page-focus-outline" width="38" height="30" viewBox="0 0 38 30">' +
+                    '<use xlink:href="#left-scroll-button-focus-outline"></use>' +
+                '</svg>' +
                 '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-border"></use>' +
                 '</svg>' +
@@ -167,7 +176,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<a role="button" tabindex="0" class="date-selector-page noselect" ' +
+                '<a role="button" ng-attr-tabindex="{{isSeparator(page) ? -1 : 0}}" class="date-selector-page noselect" ' +
                     'data-ng-mousedown="pageClick($event)" ' +
                     'data-ng-repeat="page in visiblePages" ' +
                     'data-ng-class="{' +
@@ -179,6 +188,9 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                     '</svg>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-focus-outline" width="38" height="29" viewBox="0 0 38 29">' +
+                        '<use xlink:href="#page-button-focus-outline"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
@@ -209,6 +221,9 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                     '</svg>' +
                     '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-focus-outline" width="38" height="29" viewBox="0 0 38 29">' +
+                        '<use xlink:href="#page-button-focus-outline"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-border"></use>' +

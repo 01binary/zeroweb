@@ -95,7 +95,6 @@
         right: 10px;
         bottom: 5px;
         height: 32px;
-        overflow: hidden;
         z-index: 2;
     }
 
@@ -118,7 +117,7 @@
         padding-right: 0px;
         padding-bottom: 0px;
         margin-left: 0px;
-        margin-top: 0px;
+        margin-top: 1px;
         margin-right: -8px;
         margin-bottom: 10px;
         font-family: $small-font;
@@ -128,15 +127,6 @@
         outline: none;
         background: none;
         cursor: pointer;
-
-        /* Focus state - TODO */
-        &:focus {
-            color: red;
-
-            .date-selector-page:before {
-                background: green;
-            }
-        }
 
         /* Hover state */
         &:hover {
@@ -155,6 +145,21 @@
                 .date-selector-page-label {
                     opacity: 1;
                 }
+            }
+        }
+
+        /* Focus state */
+        &:focus {
+            .date-selector-page-focus-outline {
+                display: block;
+            }
+        }
+
+        &:focus.selected {
+            color: $primary-color;
+
+            .date-selector-page-outline {
+                stroke: $secondary-text-color;
             }
         }
 
@@ -236,7 +241,7 @@
 
             /* Overrides for children of page button */
             .date-selector-page {
-                &-border, &-background, &-outline {
+                &-border, &-background, &-outline, &-focus-outline {
                     display: none;
                 }
             }
@@ -300,6 +305,18 @@
             z-index: -3;
         }
 
+        &-focus-outline {
+            display: none;
+            position: absolute;
+            left: -2px;
+            right: -1px;
+            top: -1px;
+            bottom: 0px;
+            stroke: #ff5ac0;
+            fill: none;
+            z-index: 3;
+        }
+
         &-hover {
             fill: url(/#page-button-gradient-hover);
             stroke: none;
@@ -339,6 +356,13 @@
 
             .date-selector-page-label {
                 opacity: 1;
+            }
+        }
+
+        /* Focus state */
+        &:focus {
+            .date-selector-page-focus-outline {
+                display: block;
             }
         }
 
@@ -399,7 +423,7 @@
         &-left {
             position: absolute;
             left: 10px;
-            bottom: 10px;
+            bottom: 9px;
             width: 30px;
             z-index: 1;
 
@@ -407,6 +431,11 @@
             .date-selector-page-label {
                 left: 1px;
                 top: -1px;
+            }
+
+            /* Focus outline */
+            .date-selector-page-focus-outline {
+                left: -1px;
             }
 
             /* Bottom shadow */
@@ -422,6 +451,7 @@
             float: left;
             width: 35px;
             height: 27px;
+            margin-top: 1px;
 
             /* Arrow icon wrapper */
             .date-selector-page-label {
@@ -555,7 +585,7 @@
 /* Weekly tag stacked bar */
 .tag-bar {
   position: absolute;
-  top: 10px;
+  top: 12px;
   bottom: 2px;
   min-width: 22px;
   z-index: 1;

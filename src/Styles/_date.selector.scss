@@ -642,11 +642,12 @@ $crafts:      #67d5e9;
 
 /* Tag blocks */
 @mixin tagColors($color) {
-  background: $color;
+    background: $color;
+    transition: background 0.2s ease-in;
 
-      &:hover {
+    &:hover {
         background: lighten($color, 5%);
-      }
+    }
 }
 
 .tag {

@@ -834,8 +834,6 @@ function getVisiblePages($element, $scope) {
         }
     }
 
-    console.log(pageNumbersArray);
-
     return pageNumbersArray;
 }
 

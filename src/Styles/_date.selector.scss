@@ -128,7 +128,7 @@
         background: none;
         cursor: pointer;
 
-        /* Hover state */
+        /* Hover */
         &:hover {
             color: $foreground-color;
 
@@ -140,7 +140,7 @@
                 opacity: 1;
             }
 
-            /* Hover selected state */
+            /* Hover selected */
             &.selected {
                 .date-selector-page-label {
                     opacity: 1;
@@ -148,13 +148,14 @@
             }
         }
 
-        /* Focus state */
+        /* Focus */
         &:focus {
             .date-selector-page-focus-outline {
                 display: block;
             }
         }
 
+        /* Focus selected */
         &:focus.selected {
             color: $primary-color;
 
@@ -163,10 +164,9 @@
             }
         }
 
-        /* Selected state */
+        /* Selected */
         &.selected {
             .date-selector-page {
-                /* Hover state */
                 &-hover,
                 &-border {
                     display: none;
@@ -346,7 +346,7 @@
         outline: none;
         cursor: pointer;
 
-        /* Hover state */
+        /* Hover */
         &:hover {
             color: $foreground-color;
 
@@ -359,14 +359,14 @@
             }
         }
 
-        /* Focus state */
+        /* Focused */
         &:focus {
             .date-selector-page-focus-outline {
                 display: block;
             }
         }
 
-        /* Pushed state */
+        /* Pushed */
         &:active {
             .date-selector-page {
                 &-hover {

@@ -239,6 +239,12 @@
                 }
             }
 
+            &:focus {
+                .date-selector-page-focus-outline {
+                    display: none;
+                }
+            }
+
             /* Overrides for children of page button */
             .date-selector-page {
                 &-border, &-background, &-outline, &-focus-outline {

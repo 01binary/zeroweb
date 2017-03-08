@@ -768,7 +768,7 @@ function getVisiblePages($element, $scope) {
     var pagesMiddleBreak = visibleSlots2Break - reservedSlots2Break - 1;
 
     // Calculate the range of current page before middle break is scrolled by one left or right.
-    var middleBreakGroupCount = pagesMiddleBreak - 2;
+    var middleBreakGroupCount = Math.max(1, pagesMiddleBreak - 2);
 
     // Calculate the first page in the middle break.
     var firstPage = Math.floor((currentPage - pagesBeforeBreak) / middleBreakGroupCount) *
@@ -832,7 +832,9 @@ function getVisiblePages($element, $scope) {
                     (totalPages - pagesAfterBreak + n + 1).toString();
             }
         }
-   }
+    }
+
+    console.log(pageNumbersArray);
 
     return pageNumbersArray;
 }

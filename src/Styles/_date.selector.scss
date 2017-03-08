@@ -312,7 +312,7 @@
             right: -1px;
             top: -1px;
             bottom: 0px;
-            stroke: #ff5ac0;
+            stroke: $focus-color;
             fill: none;
             z-index: 3;
         }
@@ -471,6 +471,10 @@
         position: absolute;
         left: 10px;
         top: 10px;
+
+        &:focus {
+            color: $focus-color;
+        }
     }
 
     /* Collapsed state overrides */
@@ -515,7 +519,7 @@
 
             /* Left scroll button - collapsed overrides */
             &-scroll-left {
-                bottom: 3px;
+                bottom: 2px;
             }
         }
     }

@@ -32,7 +32,6 @@ function focusAccessibilityDirective() {
 
             $element.keydown(function(e) {
                 if (e.key === 'Tab') {
-                    console.log('stuff happenend');
                     $('body').addClass(toggleClass);
                 }
             });

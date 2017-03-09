@@ -67,7 +67,9 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.minScroll = 0;
     $scope.maxScroll = 0;
     $scope.bracketWidth = 4;
-    $scope.buttonWidth = 0;
+    $scope.buttonWidth = $('<div class="date-selector-page"></div>')
+        .appendTo($('body'))
+        .outerWidth();
     $scope.view = null;
     $scope.pages = null;
     $scope.contributions = {};
@@ -261,8 +263,6 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
         $scope.pages = $element.find('.date-selector-pages');
 
         if ($scope.contributions.max) {
-            $scope.buttonWidth = $scope.pages.find('.date-selector-page').first().width();
-            
             $scope.renderTags();
             $scope.selectPage('1');
 
@@ -734,8 +734,9 @@ function loadContent($q, $http, $scope) {
  */
 function getVisiblePages($element, $scope) {
     // Calculate page element sizes.
-    var buttonWidth = 34;
-    var stripWidth = $element.width();
+    var stripWidth = $element.innerWidth();
+
+    console.log('stripWidth', stripWidth, 'buttonWidth', $scope.buttonWidth);
 
     // Reserved slots for 1 break view - ... and ->
     var reservedSlots1Break = 2;
@@ -746,7 +747,7 @@ function getVisiblePages($element, $scope) {
     // Calculate visible pages for 1- and 2-break views.
     var currentPage = parseInt($scope.currentPage);
     var totalPages = $scope.contributions.pages.length;
-    var totalVisibleSlots = Math.round(stripWidth / buttonWidth);
+    var totalVisibleSlots = Math.round(stripWidth / $scope.buttonWidth);
 
     var maxVisibleSlots1Break = Math.min(totalPages + reservedSlots1Break, $scope.maxVisibleSlots);
     var visibleSlots1Break = Math.min(maxVisibleSlots1Break, totalVisibleSlots);
@@ -785,6 +786,11 @@ function getVisiblePages($element, $scope) {
     } else if (currentPage >= pagesBeforeBreak && currentPage < totalPages - pagesAfterBreak) {
         // Allocate the visible page slots (-1 for -> button, -1 for last element instead of count).
         var lastSlot = visibleSlots2Break - 2;
+
+        if (lastSlot <= 0) {
+            return [];
+        }
+
         pageNumbersArray = new Array(lastSlot);
 
         // Calculate page slots for a 2-break view.
@@ -805,6 +811,11 @@ function getVisiblePages($element, $scope) {
     } else if (currentPage >= totalPages - pagesAfterBreak - 1) {
         // Allocate the visible page slots (-1 for -> button, -1 for last element instead of count).
         var lastSlot = visibleSlots1Break - 2;
+
+        if (lastSlot <= 0) {
+            return [];
+        }
+
         var startPage = totalPages - lastSlot + 2;
 
         pageNumbersArray = new Array(lastSlot);

@@ -26,7 +26,7 @@
         position: absolute;
         left: -1px;
         top: 30px;
-        bottom: 40px;
+        bottom: 44px;
         width: 1px;
         box-shadow: 0px 0px 5px 8px $accent-light-color;
         z-index: 4;
@@ -38,7 +38,7 @@
         position: absolute;
         right: -1px;
         top: 30px;
-        bottom: 40px;
+        bottom: 44px;
         width: 1px;
         box-shadow: 0px 0px 5px 8px $accent-light-color;
         z-index: 4;
@@ -92,8 +92,9 @@
     &-pages {
         position: absolute;
         left: 36px;
-        right: 10px;
+        right: 0px;
         bottom: -6px;
+        height: 43px;
         z-index: 2;
         overflow: hidden;
     }
@@ -520,7 +521,7 @@
 
             /* Pages strip */
             &-pages {
-                bottom: -2px;
+                bottom: -13px;
             }
 
             /* Left scroll button - collapsed overrides */

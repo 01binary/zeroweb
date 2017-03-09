@@ -736,8 +736,6 @@ function getVisiblePages($element, $scope) {
     // Calculate page element sizes.
     var stripWidth = $element.innerWidth();
 
-    console.log('stripWidth', stripWidth, 'buttonWidth', $scope.buttonWidth);
-
     // Reserved slots for 1 break view - ... and ->
     var reservedSlots1Break = 2;
 
@@ -747,7 +745,7 @@ function getVisiblePages($element, $scope) {
     // Calculate visible pages for 1- and 2-break views.
     var currentPage = parseInt($scope.currentPage);
     var totalPages = $scope.contributions.pages.length;
-    var totalVisibleSlots = Math.round(stripWidth / $scope.buttonWidth);
+    var totalVisibleSlots = Math.ceil(stripWidth / $scope.buttonWidth);
 
     var maxVisibleSlots1Break = Math.min(totalPages + reservedSlots1Break, $scope.maxVisibleSlots);
     var visibleSlots1Break = Math.min(maxVisibleSlots1Break, totalVisibleSlots);

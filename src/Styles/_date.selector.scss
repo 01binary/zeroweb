@@ -93,9 +93,9 @@
         position: absolute;
         left: 36px;
         right: 10px;
-        bottom: 5px;
-        height: 32px;
+        bottom: -6px;
         z-index: 2;
+        overflow: hidden;
     }
 
     /* Page number button overrides for PC */

@@ -150,18 +150,9 @@
         }
 
         /* Focus */
-        &:focus {
+        .show-focus-outlines &:focus {
             .date-selector-page-focus-outline {
                 display: block;
-            }
-        }
-
-        /* Focus selected */
-        &:focus.selected {
-            color: $primary-color;
-
-            .date-selector-page-outline {
-                stroke: $secondary-text-color;
             }
         }
 
@@ -242,7 +233,7 @@
 
             &:focus {
                 .date-selector-page-focus-outline {
-                    display: none;
+                    display: none !important;
                 }
             }
 
@@ -367,7 +358,7 @@
         }
 
         /* Focused */
-        &:focus {
+        .show-focus-outlines &:focus {
             .date-selector-page-focus-outline {
                 display: block;
             }

@@ -1,30 +1,45 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Hyperlink styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+/* Article & common hyperlinks */
 a {
   color: $accent-text-color;
+
+  &:hover {
+    color: $primary-color;
+  }
 }
 
-a:hover {
-  color: $primary-color;
-}
-
+/* Location hyperlink in article metadata */
 a.location {
   border-bottom: $border-thickness dotted $accent-text-color;
   text-decoration: none;
+
+  &:hover {
+    border-bottom: $border-thickness dotted $primary-color;
+  }
 }
 
-a.location:hover {
-  border-bottom: $border-thickness dotted $primary-color;
-}
-
+/* Author hyperlink in article metadata */
 a.author {
   border-bottom: $border-thickness dotted $accent-text-color;
   text-decoration: none;
-  cursor: pointer;
+
+  &:hover {
+    border-bottom: $border-thickness dotted $primary-color;
+  }
 }
 
-a.author:hover {
-  border-bottom: $border-thickness dotted $primary-color;
-}
-
+/* Article permalink hash */
 .permalink-anchor {
   display: inline;
   margin-left: -1em;
@@ -34,8 +49,8 @@ a.author:hover {
   transition: opacity .15s ease-in-out;
   text-decoration: none;
   cursor: pointer;
-}
 
-.permalink-anchor:hover {
-  color: $primary-color !important;
+  &:hover {
+    color: $primary-color !important;
+  }
 }

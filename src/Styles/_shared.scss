@@ -44,7 +44,6 @@ $drop-shadow-transparent-color: black;
 
 $warning-color: #E1B412;
 $error-color: #E11912;
-
 $focus-color: #ff5ac0;
 
 /*
@@ -103,7 +102,7 @@ $corner-small: 8px;
  * Functions
  */
 
- $fade-function: cubic-bezier(.02, .01, .47, 1);
+$fade-function: cubic-bezier(.02, .01, .47, 1);
 
 /**
  * Styles

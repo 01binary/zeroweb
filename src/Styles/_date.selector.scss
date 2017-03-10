@@ -276,7 +276,7 @@
         }
 
         &-pushed {
-            fill: url(/#page-button-gradient-pushed);
+            fill: url(#page-button-gradient-pushed);
             stroke: none;
             display: none;
         }
@@ -298,7 +298,7 @@
         }
 
         &-background {
-            fill: url(/#page-button-gradient);
+            fill: url(#page-button-gradient);
             stroke: none;
             z-index: -3;
         }
@@ -316,7 +316,7 @@
         }
 
         &-hover {
-            fill: url(/#page-button-gradient-hover);
+            fill: url(#page-button-gradient-hover);
             stroke: none;
             z-index: -2;
             opacity: 0;

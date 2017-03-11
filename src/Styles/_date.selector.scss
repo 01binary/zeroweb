@@ -129,11 +129,6 @@
         transition: color 0.2s $fade-function;
         cursor: pointer;
 
-        // Fix Safari moving child elements on opacity change.
-        // http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
-        -webkit-transform: translateZ(0px);
-        -webkit-backface-visibility: hidden;
-
         // Replaced browser focus outline with date-selector-page-focus-outline.
         border: none;
         outline: none;
@@ -341,11 +336,6 @@
         outline: none;
         cursor: pointer;
 
-        // Fix Safari moving child elements on opacity change.
-        // http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
-        -webkit-transform: translateZ(0px);
-        -webkit-backface-visibility: hidden;
-
         // Hover 
         &:hover {
             color: $foreground-color;
@@ -521,6 +511,19 @@
                 bottom: 2px;
             }
         }
+    }
+}
+
+// Fix Safari moving child elements on opacity change.
+// http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
+@media screen and (min-color-index:0) and (-webkit-min-develop-pixel-ratio:0) {
+    .date-selector-page,
+    .date-selector-page-scroll {
+        -webkit-transform: translateZ(0px);
+        -webkit-backface-visibility: hidden;
+
+        transform: translateZ(0px);
+        backface-visibility: hidden;
     }
 }
 

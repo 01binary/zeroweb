@@ -53,6 +53,7 @@
         bottom: 0px;
         background-color: $accent-light-color;
         z-index: -1;
+        transition: background 0.2s ease-out;
 
         // Top left corner cut-off
         &:before {
@@ -97,6 +98,7 @@
         height: 43px;
         z-index: 2;
         overflow: hidden;
+        transition: left 0.2s ease-out;
     }
 
     // Page number button overrides for PC
@@ -419,6 +421,7 @@
             bottom: 9px;
             width: 30px;
             z-index: 1;
+            transition: left 0.2s ease-out;
 
             // Arrow icon wrapper 
             .date-selector-page-label {

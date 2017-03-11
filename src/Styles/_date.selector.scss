@@ -475,8 +475,8 @@
     &.collapsed {
         margin-top: -2px;
         margin-bottom: -7px;
-        margin-left: 11px;
-        overflow: visible;
+        margin-left: 3px;
+        padding-left: 0px;
 
         // Min scroll fade overlay 
         &:before {
@@ -491,9 +491,9 @@
         .date-selector {
             // Expand/collapse caption button 
             &-caption {
-                position: absolute;
-                left: -7px;
-                top: 10px;
+                left: 0px;
+                top: 0px;
+                height: 100%;
             }
 
             // Background rectangle 
@@ -508,11 +508,13 @@
 
             // Pages strip 
             &-pages {
+                left: 43px;
                 bottom: -13px;
             }
 
             // Left scroll button - collapsed overrides 
             &-scroll-left {
+                left: 17px;
                 bottom: 2px;
             }
         }

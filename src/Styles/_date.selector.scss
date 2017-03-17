@@ -516,14 +516,11 @@
 
 // Fix Safari moving child elements on opacity change.
 // http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
-@media screen and (min-color-index:0) and (-webkit-min-device-pixel-ratio:0) {
-    @media {
-        _:-webkit-full-screen,
-        .date-selector-page,
-        .date-selector-page-scroll {
-            transform: translateZ(0px);
-            backface-visibility: hidden;
-        }
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .date-selector-page,
+    .date-selector-page-scroll {
+        transform: translateZ(0px);
+        backface-visibility: hidden;
     }
 }
 

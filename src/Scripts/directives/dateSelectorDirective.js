@@ -98,39 +98,63 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
             '<div class="date-selector-background"></div>' +
 
             // Embedded resources.
+            // Note: geometry is needlessly repeated with different fill styles to fix Firefox stylesheet URL bug.
             '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
-                '<linearGradient id="page-button-gradient" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
-                    '<stop offset="0" style="stop-color:rgb(249,249,249)"/>' +
-                    '<stop offset="1" style="stop-color:rgb(235,235,235)"/>' +
-                '</linearGradient>' +
-                '<linearGradient id="page-button-gradient-hover" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="50">' +
-                    '<stop offset="0" style="stop-color:rgb(255,255,255)"/>' +
-                    '<stop offset="1" style="stop-color:rgb(249,249,249)"/>' +
-                '</linearGradient>' +
-                '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
-                    '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
-                    '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
-                '</linearGradient>' +
+                '<defs>' +
+                    '<linearGradient id="page-button-gradient" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
+                        '<stop offset="0" style="stop-color:rgb(249,249,249)"/>' +
+                        '<stop offset="1" style="stop-color:rgb(235,235,235)"/>' +
+                    '</linearGradient>' +
+                    '<linearGradient id="page-button-gradient-hover" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="50">' +
+                        '<stop offset="0" style="stop-color:rgb(255,255,255)"/>' +
+                        '<stop offset="1" style="stop-color:rgb(249,249,249)"/>' +
+                    '</linearGradient>' +
+                    '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
+                        '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
+                        '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
+                    '</linearGradient>' +
+                '</defs>' +
+                // Page button resources.
                 '<symbol id="page-button-border">' +
                     '<polyline stroke="currentColor" points="2.9,25.5 8.5,19.9 8.5,1.5 33.5,1.5"/>' +
                     '<polyline points="33.5,2 33.5,19.1 27.1,25.5 1.8,25.5"/>' +
                 '</symbol>' +
                 '<symbol id="page-button-outline">' +
-                    '<polygon points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
+                    '<polygon fill="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
+                '</symbol>' +
+                '<symbol id="page-button-background">' +
+                    '<polygon fill="url(#page-button-gradient)" stroke="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
+                '</symbol>' +
+                '<symbol id="page-button-hover-overlay">' +
+                    '<polygon fill="url(#page-button-gradient-hover)" stroke="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
+                '</symbol>' +
+                '<symbol id="page-button-pushed-background">' +
+                    '<polygon fill="url(#page-button-gradient-pushed)" stroke="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
                 '</symbol>' +
                 '<symbol id="page-button-focus-outline">' +
                     '<polygon points="2.5,28.5 1.8,26.8 8.5,20.1 8.5,1.5 9.5,0.5 36.5,0.5 37.5,1.5 37.5,20.9 29.9,28.5 	"/>' +
                 '</symbol>' +
+                // Left scroll button resources.
                 '<symbol id="left-scroll-button-focus-outline">' +
                     '<polyline points="0.5,28 0.5,8.1 8.1,0.5 31,0.5 31.5,1 31.5,20.9 23.9,28.5 1,28.5"/>' +
+                '</symbol>' +
+                '<symbol id="left-scroll-button-outline">' +
+                    '<polygon fill="none" points="7.5,0.5 0.5,7.5 0.5,26.5 22.5,26.5 29.5,19.5 29.5,0.5">' +
                 '</symbol>' +
                 '<symbol id="left-scroll-button-border">' +
                     '<polyline stroke="currentColor" points="1.5,25 1.5,7.9 7.9,1.5 29,1.5"/>' +
                     '<polyline points="28.5,2 28.5,19.1 22.1,25.5 1,25.5"/>' +
                 '</symbol>' +
-                '<symbol id="left-scroll-button-outline">' +
-                    '<polygon points="7.5,0.5 0.5,7.5 0.5,26.5 22.5,26.5 29.5,19.5 29.5,0.5">' +
+                '<symbol id="left-scroll-button-background">' +
+                    '<polygon fill="url(#page-button-gradient)" stroke="none" points="7.5,0.5 0.5,7.5 0.5,26.5 22.5,26.5 29.5,19.5 29.5,0.5">' +
                 '</symbol>' +
+                '<symbol id="left-scroll-button-pushed-background">' +
+                    '<polygon fill="url(#page-button-gradient-pushed)" stroke="none" points="7.5,0.5 0.5,7.5 0.5,26.5 22.5,26.5 29.5,19.5 29.5,0.5">' +
+                '</symbol>' +
+                '<symbol id="left-scroll-button-hover-overlay">' +
+                    '<polygon fill="url(#page-button-gradient-hover)" stroke="none" points="7.5,0.5 0.5,7.5 0.5,26.5 22.5,26.5 29.5,19.5 29.5,0.5">' +
+                '</symbol>' +
+                // Arrows and brackets.
                 '<symbol id="arrow-left">' +
                     '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
                 '</symbol>' +
@@ -148,10 +172,10 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
             // Previous page button.
             '<a role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="prevPage()">' +
                 '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
-                    '<use xlink:href="#left-scroll-button-outline"></use>' +
+                    '<use xlink:href="#left-scroll-button-hover-overlay"></use>' +
                 '</svg>' +
                 '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
-                    '<use xlink:href="#left-scroll-button-outline"></use>' +
+                    '<use xlink:href="#left-scroll-button-pushed-background"></use>' +
                 '</svg>' +
                 '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-outline"></use>' +
@@ -166,7 +190,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                     '<use xlink:href="#left-scroll-button-border"></use>' +
                 '</svg>' +
                 '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
-                    '<use xlink:href="#left-scroll-button-outline"></use>' +
+                    '<use xlink:href="#left-scroll-button-background"></use>' +
                 '</svg>' +
                 '<div class="date-selector-page-label">' +
                     '<svg width="11" height="7" viewBox="0 0 11 7">' +
@@ -186,10 +210,10 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                         '\'selected\': page === currentPage ' +
                     '}">' +
                     '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-outline"></use>' +
+                        '<use xlink:href="#page-button-hover-overlay"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-outline"></use>' +
+                        '<use xlink:href="#page-button-pushed-background"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-focus-outline" width="38" height="29" viewBox="0 0 38 29">' +
                         '<use xlink:href="#page-button-focus-outline"></use>' +
@@ -204,7 +228,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                         '<use xlink:href="#page-button-border"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-outline"></use>' +
+                        '<use xlink:href="#page-button-background"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-label">' +
                         '<span class="date-selector-page-fallback">page</span>' +
@@ -216,10 +240,10 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                 // (has to be inside pages container to follow last page button).
                 '<a role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="nextPage()">' +
                     '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-outline"></use>' +
+                        '<use xlink:href="#page-button-hover-overlay"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-outline"></use>' +
+                        '<use xlink:href="#page-button-pushed-background"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
@@ -234,7 +258,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                         '<use xlink:href="#page-button-border"></use>' +
                     '</svg>' +
                     '<svg class="date-selector-page-background" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-outline"></use>' +
+                        '<use xlink:href="#page-button-background"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-label">' +
                         '<svg class="date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +

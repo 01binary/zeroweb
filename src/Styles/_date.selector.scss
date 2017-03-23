@@ -144,7 +144,13 @@
 
             &.selected {
                 color: $background-color;
+                transition: color 0.2s $fade-function;
             }
+        }
+
+        // Pushed
+        &:active {
+            transition: none !important;
         }
 
         // Focus (keyboard only)
@@ -268,8 +274,6 @@
         }
 
         &-pushed {
-            fill: url(#page-button-gradient-pushed);
-            stroke: none;
             display: none;
         }
 
@@ -290,8 +294,6 @@
         }
 
         &-background {
-            fill: url(#page-button-gradient);
-            stroke: none;
             z-index: -3;
         }
 
@@ -308,8 +310,6 @@
         }
 
         &-hover {
-            fill: url(#page-button-gradient-hover);
-            stroke: none;
             z-index: -2;
             opacity: 0;
             transition: opacity 0.4s $fade-function;
@@ -331,6 +331,7 @@
     // Scroll buttons
     &-scroll {
         color: lighten($foreground-color, 20%);
+        transition: color 0.2s $fade-function;
         height: 27px;
         border: none;
         outline: none;
@@ -411,7 +412,8 @@
             bottom: 9px;
             width: 30px;
             z-index: 1;
-            transition: left 0.2s ease-out;
+            color: lighten($foreground-color, 20%);
+            transition: left 0.2s ease-out, color 0.2s $fade-function;
 
             // Arrow icon wrapper 
             .date-selector-page-label {
@@ -470,6 +472,7 @@
         margin-bottom: -7px;
         margin-left: 3px;
         padding-left: 0px;
+        overflow: visible;
 
         // Min scroll fade overlay 
         &:before {
@@ -518,7 +521,7 @@
 // http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .date-selector-page,
-    .date-selector-page-scroll {
+    .date-selector-scroll-left {
         transform: translateZ(0px);
         backface-visibility: hidden;
     }

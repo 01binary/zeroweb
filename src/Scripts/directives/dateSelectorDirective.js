@@ -941,7 +941,7 @@ function renderTags($scope) {
         var monthSummary = $scope.contributions.months[monthName];
         var $bar = null;
 
-        $wrapper = $('<div class="tag-page"></div>')
+        $wrapper = $('<div class="tag-page noselect"></div>')
             .css('left', $wrapper ?
                 $wrapper.position().left + $wrapper.width() + monthMargin : $scope.bracketWidth)
             .append($('<div class="tag-page-footer noselect"></div>')
@@ -987,13 +987,13 @@ function renderTags($scope) {
 
     // Render selection brackets and the underline mask.
     $view.append($(
-        '<svg class="tag-page-bracket-left" width="41" height="52" viewBox="0 0 41 49">' +
+        '<svg class="tag-page-bracket-left noselect" width="41" height="52" viewBox="0 0 41 49">' +
             '<use xlink:href="#left-bracket">' +
         '</svg>' +
-        '<svg class="tag-page-bracket-right" width="41" height="52" viewBox="0 0 41 49">' +
+        '<svg class="tag-page-bracket-right noselect" width="41" height="52" viewBox="0 0 41 49">' +
             '<use xlink:href="#right-bracket">' +
         '</svg>' +
-        '<div class="tag-page-underline-mask"></div>'));
+        '<div class="tag-page-underline-mask noselect"></div>'));
 
     if ($wrapper) {
         // Calculate range for interactive scrolling.

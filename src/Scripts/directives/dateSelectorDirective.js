@@ -353,6 +353,10 @@ function nextPage($scope) {
  * @param {object} $event - The Angular mouse down event.
  */
 function beginScroll($scope, $event) {
+    if (!$scope.maxScroll) {
+        return;
+    }
+
     document.body.style['pointer-events'] = 'none';
     document.addEventListener('mouseup', $scope.endScroll, { capture: true });
     document.addEventListener('mousemove', $scope.doScroll, { capture: true });
@@ -997,14 +1001,25 @@ function renderTags($scope) {
 
     if ($wrapper) {
         // Calculate range for interactive scrolling.
-        $scope.minScroll = parseInt($scope.view.css('left'));
-        $scope.maxScroll = Math.max(
-            $scope.minScroll,
-            $wrapper.position().left + $wrapper.width() - $view.width() + $scope.bracketWidth);
+        $scope.minScroll = parseInt($view.css('left'));
+        $scope.maxScroll = calculateMaxScroll($scope);
 
         // Start with tag view off-screen for a slide-in animation.
-        $scope.view.css('left', -$view.width() + 'px');
+        $view.css('left', -$view.width() + 'px');
     }
+}
+
+/**
+ * Calculate maximum scroll offset when dragging with mouse.
+ * @param {Object} $scope - The directive scope.
+ */
+function calculateMaxScroll($scope) {
+    var $wrapper = $scope.view.find('.tag-page').last();
+    return Math.max(0,
+        $wrapper.position().left +
+        $wrapper.width() -
+        $scope.view.width() +
+        $scope.bracketWidth);
 }
 
 /**
@@ -1047,6 +1062,7 @@ function scrollTagView($scope, start, end) {
  */
 function resize($scope, $safeApply) {
     $safeApply($scope, function() {
+        $scope.maxScroll = calculateMaxScroll($scope);
         $scope.selectPage($scope.currentPage);
     });
 }

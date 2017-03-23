@@ -39,7 +39,7 @@ function dateSelectorDirective($q, $http, $compile, $window, $safeApply) {
         restrict: 'E',
         replace: true,
         transclude: true,
-        template: '<div class="date-selector" data-ng-class="{loading:isLoading}"></div>',
+        template: '<section class="date-selector" data-ng-class="{loading:isLoading}" aria-labelledby="dateSelectorCaption"></section>',
         scope: {},
         link: function($scope, $element, attributes) {
             initialize($q, $http, $compile, $window, $safeApply, $scope, $element);
@@ -169,6 +169,11 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                 '</symbol>' +
             '</svg>' +
 
+            // Expand/collapse heading.
+            '<button id="dateSelectorCaption" class="date-selector-caption button-inline noselect" aria-label="Articles by date (expand or collapse)" data-ng-click="expandCollapse()" data-tooltip="// expand or collapse">' +
+                '{{isExpanded === true ? "- by date" : "+"}}' +
+            '</button>' +
+
             // Previous page button.
             '<a role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="prevPage()">' +
                 '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
@@ -267,11 +272,6 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
                     '</div>' +
                 '</a>' +
             '</div>' +
-
-            // Expand/collapse heading.
-            '<button class="date-selector-caption button-inline noselect" data-ng-click="expandCollapse()" data-tooltip="// expand or collapse">' +
-                '{{isExpanded === true ? "- by date" : "+"}}' +
-            '</button>' +
 
             // Tag view.
             '<div class="date-selector-view" ' +

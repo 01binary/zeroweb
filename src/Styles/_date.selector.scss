@@ -138,8 +138,8 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-hover {
-                opacity: 1;
+            .date-selector-page-background {
+                fill: $background-color;
             }
 
             &.selected {
@@ -151,6 +151,10 @@
         // Pushed
         &:active {
             transition: none !important;
+
+            .date-selector-page-background {
+                transition: none;
+            }
         }
 
         // Focus (keyboard only)
@@ -165,7 +169,6 @@
             color: rgba($background-color, .7);
 
             .date-selector-page {
-                &-hover,
                 &-border {
                     display: none;
                 }
@@ -173,6 +176,10 @@
                 &-pushed,
                 &-border-pushed {
                     display: block;
+                }
+
+                &-background {
+                    fill: $drop-shadow-dark-color;
                 }
             }
         }
@@ -218,10 +225,6 @@
             }
 
             &:hover {
-                .date-selector-page-hover {
-                    display: none;
-                }
-
                 .date-selector-page-label {
                     color: $secondary-text-color;
                 }
@@ -235,7 +238,7 @@
 
             // Overrides for children of page button 
             .date-selector-page {
-                &-border, &-background, &-outline, &-focus-outline {
+                &-border, &-background, &-gradient-overlay, &-outline, &-focus-outline {
                     display: none;
                 }
             }
@@ -246,7 +249,7 @@
         &-border-pushed,
         &-outline,
         &-background,
-        &-hover,
+        &-gradient-overlay,
         &-pushed {
             // Fix :active not shown on IE due to mouse events being eaten 
             pointer-events: none;
@@ -263,7 +266,7 @@
         }
 
         &-background,
-        &-hover,
+        &-gradient-overlay,
         &-pushed
         {
             position: absolute;
@@ -285,7 +288,6 @@
             color: $background-color;
             stroke: $shadow-color;
             fill: none;
-            z-index: -1;
 
             &-pushed {
                 color: $shadow-dark-color;
@@ -294,7 +296,12 @@
         }
 
         &-background {
-            z-index: -3;
+            fill: $accent-light-color;
+            transition: fill 0.2s $fade-function;
+        }
+
+        &-gradient-overlay {
+            mix-blend-mode: multiply;
         }
 
         &-focus-outline {
@@ -306,13 +313,6 @@
             bottom: 0px;
             stroke: $focus-color;
             fill: none;
-            z-index: 3;
-        }
-
-        &-hover {
-            z-index: -2;
-            opacity: 0;
-            transition: opacity 0.4s $fade-function;
         }
 
         // Bottom shadow 
@@ -341,8 +341,8 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-hover {
-                opacity: 1;
+            .date-selector-page-background {
+                fill: $background-color;
             }
         }
 
@@ -358,10 +358,9 @@
             color: $background-color;
 
             .date-selector-page {
-                &-hover {
-                    display: none;
+                &-background {
+                    fill: $drop-shadow-dark-color;
                 }
-
                 &-pushed {
                     display: block;
                 }
@@ -514,16 +513,6 @@
                 bottom: 2px;
             }
         }
-    }
-}
-
-// Fix Safari moving child elements on opacity change.
-// http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    .date-selector-page,
-    .date-selector-scroll-left {
-        transform: translateZ(0px);
-        backface-visibility: hidden;
     }
 }
 

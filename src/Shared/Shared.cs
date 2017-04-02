@@ -23,6 +23,16 @@ namespace ZeroWeb
     public static class Shared
     {
         /// <summary>
+        /// Max. contributions per page by count.
+        /// </summary>
+        public const int ArticlesPerPage = 4;
+
+        /// <summary>
+        /// Max. contributions per page by days.
+        /// </summary>
+        public const int DaysPerPage = 7;
+
+        /// <summary>
         /// Format story content using GitHub Markdown Api.
         /// </summary>
         /// <param name="tagName">The content to format.</param>

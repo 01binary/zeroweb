@@ -24,16 +24,6 @@ namespace ZeroWeb
     public class SiteDataStore : IDataStore
     {
         /// <summary>
-        /// The default max. number of articles. to query.
-        /// </summary>
-        private const int DefaultCount = 4;
-
-        /// <summary>
-        /// The default max. number of days to query.
-        /// </summary>
-        private const int DefaultDays = 7;
-
-        /// <summary>
         /// The entity framework database context.
         /// </summary>
         private Context context;
@@ -216,7 +206,7 @@ namespace ZeroWeb
         /// <returns>A list of articles.</returns>
         public IQueryable<Article> GetArticles(Tags typeTag)
         {
-            return this.GetArticles(DefaultDays, DefaultCount, 0, null, true, typeTag.ToString().ToLower());
+            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, 0, null, true, typeTag.ToString().ToLower());
         }
 
         /// <summary>
@@ -228,7 +218,7 @@ namespace ZeroWeb
         /// <returns>A list of articles.</returns>
         public IQueryable<Article> GetArticles(Tags typeTag, int page, string article)
         {
-            return this.GetArticles(DefaultDays, DefaultCount, page, article, true, typeTag.ToString().ToLower());
+            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, page, article, true, typeTag.ToString().ToLower());
         }
 
         /// <summary>

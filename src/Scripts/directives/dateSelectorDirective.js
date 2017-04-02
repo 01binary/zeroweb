@@ -67,9 +67,6 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.minScroll = 0;
     $scope.maxScroll = 0;
     $scope.bracketWidth = 4;
-    $scope.buttonWidth = $('<div class="date-selector-page"></div>')
-        .appendTo($('body'))
-        .outerWidth();
     $scope.view = null;
     $scope.pages = null;
     $scope.contributions = {};
@@ -89,6 +86,10 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $scope.renderTags = renderTags.bind($element, $scope);
     $scope.scrollTagView = scrollTagView.bind($element, $scope);
     $scope.resize = resize.bind($element, $scope, $safeApply);
+
+    var $tempPage = $('<div class="date-selector-page"></div>').appendTo($('body'));
+    $scope.buttonWidth = $tempPage.outerWidth();
+    $tempPage.remove();
 
     // Load content.
     loadContent($q, $http, $scope).then(function() {
@@ -486,7 +487,7 @@ function loadContent($q, $http, $scope) {
             }
         ],
         months: {
-            'feb': {
+            feb: {
                 tags: {
                     'design-web': 1,
                     'engineering-software': 1,
@@ -513,7 +514,7 @@ function loadContent($q, $http, $scope) {
                 }
             },
 
-            'jan': {
+            jan: {
                 tags: {
                     'art-music': 1,
                     'design-web': 1,
@@ -550,7 +551,7 @@ function loadContent($q, $http, $scope) {
                 }
             },
 
-            'dec': {
+            dec: {
                 tags: {
                     'engineering-mechanical': 2,
                     'art-painting': 1
@@ -583,7 +584,7 @@ function loadContent($q, $http, $scope) {
                 }
             },
 
-            'nov': {
+            nov: {
                 tags: {
                     'art-painting': 1,
                     'design-web': 1,
@@ -620,7 +621,7 @@ function loadContent($q, $http, $scope) {
                 }
             },
 
-            'oct': {
+            oct: {
                 tags: {
                     'design-web': 1,
                     'design-industrial': 1
@@ -654,7 +655,7 @@ function loadContent($q, $http, $scope) {
                 }
             },
 
-            'sep': {
+            sep: {
                 tags: {
                     'engineering-software': 1,
                     'engineering-electrical': 4,
@@ -696,7 +697,7 @@ function loadContent($q, $http, $scope) {
                 }
             },
 
-            'aug': {
+            aug: {
                 tags: {
                     'engineering-robotics': 3,
                     'engineering-mechanical': 2,

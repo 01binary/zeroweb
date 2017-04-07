@@ -12,6 +12,7 @@
 
 namespace ZeroWeb.Api.Models
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -20,56 +21,75 @@ namespace ZeroWeb.Api.Models
     public class MonthSummary
     {
         /// <summary>
-        /// Gets or sets the tag counts.
+        /// Gets or sets the tag counts for each week (by first day of week).
         /// </summary>
-        public IDictionary<string, int> Tags { get; set; }
+        public IDictionary<DateTime, int> Tags { get; private set; }
 
         /// <summary>
-        /// Gets or sets the total tag count.
+        /// Gets or sets the week summaries (by first day of week).
         /// </summary>
-        public int Total { get; set; }
+        public IDictionary<DateTime, WeekSummary> Weeks { get; private set; }
 
         /// <summary>
-        /// Gets or sets the week summaries.
+        /// Gets or sets the tag count for the month.
         /// </summary>
-        public IDictionary<string, WeekSummary> Weeks { get; set; }
+        public int Total { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MonthSummary"/> class.
         /// </summary>
         public MonthSummary()
         {
-            this.Tags = new Dictionary<string, int>();
-            this.Weeks = new Dictionary<string, WeekSummary>();
+            this.Tags = new Dictionary<DateTime, int>();
+            this.Weeks = new Dictionary<DateTime, WeekSummary>();
         }
 
-        public int Aggregate(string weekName, string tag)
+        /// <summary>
+        /// Aggregate tags for the week with an article context.
+        /// </summary>
+        /// <param name="articleId">The article unique Id.</param>
+        /// <param name="articleTitle">The article title.</param>
+        /// <param name="date">The article date.</param>
+        /// <param name="tag">The article tag to aggregate.</param>
+        /// <returns></returns>
+        public int Aggregate(int articleId, string articleTitle, DateTime date, string tag)
         {
-            // Aggregate tags for the month.
-            if (this.Tags.ContainsKey(tag))
-            {
-                this.Tags[tag] = this.Tags[tag] + 1;
-            }
-            else
-            {
-                this.Tags[tag] = 1;
-            }
+            // Aggregate tag counts for each week.
+            int weekCount;
+            DateTime weekStart = GetStartOfWeek(date);
+            this.Tags.TryGetValue(weekStart, out weekCount);
+            this.Tags[weekStart] = weekCount + 1;
 
-            // Aggregate tags for the week.
-            this.GetOrCreateWeek(weekName).Aggregate(tag);
+            // Aggregate tag summary for the week.
+            this.GetOrCreateWeek(weekStart).Aggregate(articleId, articleTitle, tag);
 
             // Aggregate tag totals.
             return ++this.Total;
         }
 
-        private WeekSummary GetOrCreateWeek(string weekName)
+        /// <summary>
+        /// Gets or creates a week entry.
+        /// </summary>
+        /// <param name="weekStart">The date to create the week for.</param>
+        /// <returns>The existing or new week summary.</param>
+        private WeekSummary GetOrCreateWeek(DateTime weekStart)
         {
-            if (this.Weeks.ContainsKey(weekName))
+            if (this.Weeks.ContainsKey(weekStart))
             {
-                return this.Weeks[weekName];
+                return this.Weeks[weekStart];
             }
 
-            return this.Weeks[weekName] = new WeekSummary();
+            return this.Weeks[weekStart] = new WeekSummary();
+        }
+
+        /// <summary>
+        /// Gets the start of the week the specified date occurs in.
+        /// </summary>
+        /// <param name="date">The date within a week.</param>
+        /// <returns>The start of week.</returns>
+        private static DateTime GetStartOfWeek(DateTime date)
+        {
+            return date.AddDays(-(int)date.DayOfWeek + 1);
         }
     }
 }

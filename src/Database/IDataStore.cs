@@ -67,17 +67,18 @@ namespace ZeroWeb
         /// <summary>
         /// Gets the articles with the specified tag.
         /// </summary>
-        /// <param name="typeTag">The built-in tag to search for.</param>
+        /// <param name="tag">The built-in tag to search for.</param>
         /// <returns>A list of articles.</returns>
-        IQueryable<Article> GetArticles(Tags typeTag);
+        IQueryable<Article> GetArticles(string tag);
 
         /// <summary>
         /// Gets the articles with the specified tag on the specified page number or a page containing the specified article.
         /// </summary>
+        /// <param name="tag">The built-in tag to search for.</param>
         /// <param name="page">Fetch the specified page unless articleId is specified.</param>
         /// <param name="article">Fetch the page containing the specified article if non-null (id or key).</param>
         /// <returns>A list of articles.</returns>
-        IQueryable<Article> GetArticles(Tags typeTag, int page, string article);
+        IQueryable<Article> GetArticles(string tag, int page, string article);
 
         /// <summary>
         /// Gets the tags.

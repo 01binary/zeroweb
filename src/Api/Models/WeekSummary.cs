@@ -20,12 +20,17 @@ namespace ZeroWeb.Api.Models
     public class WeekSummary
     {
         /// <summary>
-        /// Gets or sets the tags aggregated for the week.
+        /// Gets or sets the count of tags aggregated for the week.
         /// </summary>
         public IDictionary<string, int> Tags { get; set; }
 
         /// <summary>
-        /// Gets or sets the total tags for the week.
+        /// Gets or sets the articles aggregated for the week by Id.
+        /// </summary>
+        public IDictionary<int, string> Articles { get; set; }
+
+        /// <summary>
+        // Gets or sets the tag count for the week.
         /// </summary>
         public int Total { get; set; }
 
@@ -35,23 +40,26 @@ namespace ZeroWeb.Api.Models
         public WeekSummary()
         {
             this.Tags = new Dictionary<string, int>();
+            this.Articles = new Dictionary<int, string>();
         }
 
         /// <summary>
-        /// Aggregate the tag for this week.
+        /// Aggregate tags for this week.
         /// </summary>
-        public void Aggregate(string tag)
+        /// <param name="articleId">The article the tag is for.</param>
+        /// <param name="articleTitle">The article title.</param>
+        /// <param name="tag">The tag to aggregate.</param>
+        public void Aggregate(int articleId, string articleTitle, string tag)
         {
-            if (this.Tags.ContainsKey(tag))
-            {
-                this.Tags[tag] = this.Tags[tag] + 1;
-            }
-            else
-            {
-                this.Tags[tag] = 1;
-            }
-
+            int tagCount;
+            this.Tags.TryGetValue(tag, out tagCount);
+            this.Tags[tag] = tagCount + 1;
             this.Total++;
+
+            if (!this.Articles.ContainsKey(articleId))
+            {
+                this.Articles.Add(articleId, articleTitle);
+            }
         }
     }
 }

@@ -202,23 +202,23 @@ namespace ZeroWeb
         /// <summary>
         /// Gets the articles with the specified tag.
         /// </summary>
-        /// <param name="typeTag">The built-in tag to search for.</param>
+        /// <param name="tag">The built-in tag to search for.</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(Tags typeTag)
+        public IQueryable<Article> GetArticles(string tag)
         {
-            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, 0, null, true, typeTag.ToString().ToLower());
+            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, 0, null, true, tag);
         }
 
         /// <summary>
         /// Gets the articles with the specified tag on the specified page number or a page containing the specified article.
         /// </summary>
-        /// <param name="typeTag">The built-in tag to search for.</param>
+        /// <param name="tag">The built-in tag to search for.</param>
         /// <param name="page">Fetch the specified page unless articleId is specified.</param>
         /// <param name="article">Fetch the page containing the specified article if non-null (id or key).</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(Tags typeTag, int page, string article)
+        public IQueryable<Article> GetArticles(string tag, int page, string article)
         {
-            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, page, article, true, typeTag.ToString().ToLower());
+            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, page, article, true, tag);
         }
 
         /// <summary>

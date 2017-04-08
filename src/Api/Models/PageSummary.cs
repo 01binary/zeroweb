@@ -20,11 +20,11 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// The first week summary to display on this page.
         /// </summary>
-        PageSummaryMapping Start { get; set; }
+        public WeekMapping Start { get; set; }
 
         /// <summary>
         /// The last week summary to display on this page.
         /// </summary>
-        PageSummaryMapping End { get; set; }
+        public WeekMapping End { get; set; }
     }
 }

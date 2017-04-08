@@ -15,8 +15,26 @@ namespace ZeroWeb.Api.Models
     /// <summary>
     /// Weekly contribution page mapping.
     /// </summary>
-    public class WeekSummaryMapping
+    public class WeekMapping
     {
+        /// <summary>
+        /// Initializes a new object of the <see cref="WeekMapping"/> class.
+        /// </summary>
+        public WeekMapping()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new object of the <see cref="WeekMapping"/> class.
+        /// </summary>
+        /// <param name="month">The month name.</param>
+        /// <param name="week">The week index int he month.</param>
+        public WeekMapping(string month, int week)
+        {
+            this.Month = month;
+            this.Week = week;
+        }
+
         /// <summary>
         /// Gets or sets the month.
         /// </summary>

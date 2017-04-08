@@ -14,6 +14,7 @@ namespace ZeroWeb.Api.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -76,25 +77,45 @@ namespace ZeroWeb.Api.Models
         public ContributionSummary Paginate(int maxArticles, int maxDays)
         {
             List<PageSummary> updatedPages = new List<PageSummary>();
-
-            // For each month from current to past
-                // how do we know the order? They are flattened to strings
-                // we are storing this wrong. Dictionaries are non-deterministic.
-                // need a better way to store.
-            // For each week
-            // Break the page.
-
+            DateTime? lastWeek = null;
+            int lastWeekIndex = -1;
+            string lastMonthName = null;
             int articleCount = 0;
-            int dayCount = 0;
 
-            foreach (DateTime month in this.Months.Keys)
+            foreach (DateTime monthStart in this.Months.Keys.ToList().OrderByDescending(key => key))
             {
-                foreach (DateTime week in this.Months[month].Weeks.Keys)
-                {
-                    WeekSummary weekSummary = this.Months[month].Weeks[week];
+                string monthName = monthStart.ToString("mmm");
+                MonthSummary monthSummary = this.Months[monthStart];
+                DateTime[] weeks = monthSummary.Weeks.Keys
+                    .OrderByDescending(key => key)
+                    .ToArray();
 
-                    //weekSummary.
+                for (int weekIndex = 0; weekIndex < weeks.Length; weekIndex++)
+                {
+                    DateTime weekStart = weeks[weekIndex];
+                    WeekSummary weekSummary = monthSummary.Weeks[weekStart];
+                    int dayCount = lastWeek.HasValue ? (int)(lastWeek.Value - weekStart).TotalDays : 0;
+
+                    articleCount += weekSummary.Articles.Count;
+
+                    if (articleCount > maxArticles || dayCount > maxDays)
+                    {
+                        PageSummary page = new PageSummary();
+                        
+                        page.Start = new WeekMapping(
+                            lastMonthName == null ? monthName : lastMonthName,
+                            lastWeekIndex == -1 ? weekIndex : lastWeekIndex);
+
+                        page.End = new WeekMapping(monthName, weekIndex);
+
+                        this.Pages.Add(page);
+
+                        articleCount = 0;
+                        lastWeek = weekStart;
+                    }
                 }
+
+                lastMonthName = monthName;
             }
 
             return this;

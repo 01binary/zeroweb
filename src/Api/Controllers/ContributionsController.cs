@@ -20,7 +20,7 @@ namespace ZeroWeb.Api
     /// <summary>
     /// The News Endpoint.
     /// </summary>
-    [Route("api/contributions")]
+    [Route("api/contrib")]
     public class ContributionsController: Controller
     {
         /// <summary>
@@ -43,6 +43,7 @@ namespace ZeroWeb.Api
         /// <param name="tag">The type of articles to retrieve.</param>
         /// <param name="articles">Limit articles per page.</param>
         /// <param name="days">Limit days per page.</param>
+        [HttpGet("{tag}/{articles}/{days}")]
         public IActionResult GetContributions(string tag, int? articles, int? days)
         {
             try

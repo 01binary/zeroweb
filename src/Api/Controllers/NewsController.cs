@@ -13,6 +13,7 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ZeroWeb;
 using ZeroWeb.Models;
 
 namespace ZeroWeb.Api
@@ -45,19 +46,21 @@ namespace ZeroWeb.Api
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-                string excludeTag = Tags.Story.ToString().ToLower();
+                string typeTag = Shared.FormatTag(TypeTags.Story);
 
                 return this.Json(
-                    store.GetArticles(Tags.Story).Select(story => new 
+                    store.GetArticles(typeTag).Select(story => new 
                     {
                         id = story.Id,
                         title = story.Title,
                         date = story.Date,
                         author = story.Author.Name,
-                        tags = story.Metadata.Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
+                        tags = story.Metadata.Where(metadata => metadata.Tag.Name.ToLower() != typeTag)
                                             .Select(metadata => metadata.Tag.Name),
                         content = story.Content
-                    }).ToArray().Select(result => new
+                    })
+                    .ToArray()
+                    .Select(result => new
                     {
                         result.id,
                         title = result.title,

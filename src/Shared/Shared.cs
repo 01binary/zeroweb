@@ -54,6 +54,16 @@ namespace ZeroWeb
         }
 
         /// <summary>
+        /// Transform a tag from enumeration to database query format.
+        /// </summary>
+        /// <param name="commonTag">The base article type tag.</param>
+        /// <returns>The formatted tag.</returns>
+        public static string FormatTag(TypeTags commonTag)
+        {
+            return commonTag.ToString().ToLower();
+        }
+
+        /// <summary>
         /// Format a date for end user display.
         /// </summary>
         /// <param name="date">The date to format</param>

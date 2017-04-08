@@ -13,6 +13,7 @@
 using System.Dynamic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ZeroWeb;
 using ZeroWeb.Models;
 
 namespace ZeroWeb.Controllers
@@ -42,11 +43,9 @@ namespace ZeroWeb.Controllers
         /// <param name="story">Display a page with the specified story.</param>
         public IActionResult Index([FromQuery]string story)
         {
-            string excludeTag = Tags.Story.ToString().ToLower();
+            string typeTag = Shared.FormatTag(TypeTags.Story);
             string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
-
-            var articles = this.store.GetArticles(
-                Tags.Story, 0, story);
+            var articles = this.store.GetArticles(typeTag, 0, story);
 
             try
             {
@@ -91,7 +90,7 @@ namespace ZeroWeb.Controllers
                     longitude = article.LocationLongitude,
                     zoom = article.LocationZoom,
                     tags = article.Metadata
-                        .Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
+                        .Where(metadata => metadata.Tag.Name.ToLower() != typeTag)
                         .Select(metadata => metadata.Tag.Name).ToArray(),
                     content = article.Content
                 })

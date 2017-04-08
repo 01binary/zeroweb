@@ -163,27 +163,27 @@ BEGIN TRANSACTION;
     VALUES (
         1,
         22,
-        'This is a story published quite some time ago. Let''s not test markdown right now, just adding comments.',
-        '08/17/2016',
+        'This is an article about arts and crafts, all artsy and craftsy.',
+        '08/22/2016',
         1,
         '',
-        'The sample news story with very long title to ensure it overlaps tags',
-        'the-sample-news-story-with-very-long-title-to-ensure-it-overlaps-tags',
-        45.4467013,
-        -122.7666811,
-        'Bavarian Sausage',
-        20,
-        98
+        'Arts and Crafts in September!',
+        'arts-and-crafts-in-september',
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0
     ),
     (
         2,
         22,
-        'This is a more recent story with some content. [3d-square-left](elysium-max-exoskeleton/spine-base)',
-        '11/06/2016',
+        'A web design article about webpack 2 or something like that.',
+        '08/24/2016',
         1,
         '',
-        'more recent',
-        'more-recent',
+        'Webpack2 and you',
+        'webpack2-and-you',
         NULL,
         NULL,
         NULL,
@@ -193,12 +193,12 @@ BEGIN TRANSACTION;
     (
         3,
         22,
-        'This is a slightly less recent story with different content.',
-        '11/05/2016',
+        'Mechanical engineering is a tough subject!',
+        '09/01/2016',
         1,
         '',
-        'little less recent',
-        'little-less-recent',
+        'Mechanical engineering is tough',
+        'mechanical-engineering-tough',
         NULL,
         NULL,
         NULL,
@@ -208,12 +208,12 @@ BEGIN TRANSACTION;
     (
         4,
         22,
-        'Just a little less recent than the other one.',
-        '11/04/2016',
+        'I want to make a robot dog',
+        '09/04/2016',
         1,
         '',
-        'little-r less recent',
-        'little-r-less-recent',
+        'My robot dog',
+        'my-robot-dog',
         NULL,
         NULL,
         NULL,
@@ -223,12 +223,12 @@ BEGIN TRANSACTION;
     (
         5,
         22,
-        'This is beginning of November story, posted just at the start of the month.',
-        '11/01/2016',
+        'Draw more happy trees.',
+        '08/15/2016',
         1,
         '',
-        'beginning of the month',
-        'beginning-of-the-month',
+        'Painting trees',
+        'painting-trees',
         NULL,
         NULL,
         NULL,
@@ -238,12 +238,12 @@ BEGIN TRANSACTION;
     (
         6,
         22,
-        'This was posted at the end of the previous month. Still not dusty yet but definitely older.',
-        '10/28/2016',
+        'Sometimes intruding is better than extruding. Just kidding.',
+        '08/17/2016',
         1,
         '',
-        'end of last month',
-        'end-of-last-month',
+        'Extruding in Inventor',
+        'extruding-in-inventor',
         NULL,
         NULL,
         NULL,
@@ -253,12 +253,12 @@ BEGIN TRANSACTION;
     (
         7,
         22,
-        'Just a little before the end of previous month.',
-        '10/25/2016',
+        'Raymond Loewy loves custom desk drawers and cars.',
+        '08/20/2016',
         1,
         '',
-        'before end of last month',
-        'before-end-of-last-month',
+        'History of industrial design',
+        'history-of-industrial-design',
         NULL,
         NULL,
         NULL,
@@ -268,12 +268,12 @@ BEGIN TRANSACTION;
     (
         8,
         22,
-        'So this was posted middle of last month. Test content here.',
-        '10/15/2016',
+        'CSS processing in Webpack 2 can be done many ways.',
+        '08/21/2016',
         1,
         '',
-        'middle of last month',
-        'middle-of-last-month',
+        'Webpack2 CSS',
+        'webpack2-css',
         NULL,
         NULL,
         NULL,
@@ -283,12 +283,12 @@ BEGIN TRANSACTION;
     (
         9,
         22,
-        'This is right around the second week of October. When all the cool stuff happens.',
-        '10/10/2016',
+        'Underpainting is a great first step to the painting process.',
+        '08/15/2016',
         1,
         '',
-        'second week of last month',
-        'second-week-of-last-month',
+        'The underpainting',
+        'the-underpainting',
         NULL,
         NULL,
         NULL,
@@ -298,12 +298,12 @@ BEGIN TRANSACTION;
     (
         10,
         22,
-        'First week of last month just around the corner. Who knows anymore what was happening back then?',
-        '10/05/2016',
+        'Bending is often not the way to go, as it generates weird geometry and mostly applies to sheet metal.',
+        '08/17/2016',
         1,
         '',
-        'first week of last month',
-        'first-week-of-last-month',
+        'Bending in Inventor',
+        'bending-in-inventor',
         NULL,
         NULL,
         NULL,
@@ -313,12 +313,12 @@ BEGIN TRANSACTION;
     (
         11,
         22,
-        'End of September. Still had some warm and sunny days back then, before all turned to shit.',
-        '9/23/2016',
+        'A CNC machine, at least for wood, is indispensable to an industrial designer.',
+        '08/19/2016',
         1,
         '',
-        'older article',
-        'older-article',
+        'Making a CNC machine',
+        'making-a-cnc-machine',
         NULL,
         NULL,
         NULL,
@@ -328,12 +328,12 @@ BEGIN TRANSACTION;
     (
         12,
         22,
-        'Middle of September. Summer still somewhat at large, I suppose',
-        '9/15/2016',
+        'Always go to UX user studies before putting in a web design feature.',
+        '08/21/2016',
         1,
         '',
-        'olderer article',
-        'olderer-article',
+        'The importance of UX',
+        'the-importance-of-ux',
         NULL,
         NULL,
         NULL,
@@ -343,12 +343,12 @@ BEGIN TRANSACTION;
     (
         13,
         22,
-        'Second week of September. Testing testing.',
-        '9/10/2016',
+        'Manufacturability should be first in any design. Otherwise the thing will be impossible to make.',
+        '08/08/2016',
         1,
         '',
-        'much older article',
-        'much-older-article',
+        'Design for Manufacturability',
+        'design-for-manufacturability',
         NULL,
         NULL,
         NULL,
@@ -358,12 +358,42 @@ BEGIN TRANSACTION;
     (
         14,
         22,
-        'First week of September. Testing testing there!',
-        '9/03/2016',
+        'We sure talk about web a lot. That''s because the long awaited conversion from native to web is finally taking hold.',
+        '08/12/2016',
         1,
         '',
-        'oldest article',
-        'oldest-article',
+        'The Native to Web transition',
+        'the-native-to-web-transition',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0
+    ),
+    (
+        15,
+        22,
+        'Custom high-torque motors are still not being sold, so in the robotics field you will often find yourself winding your own. A great coil winder is indispensable!',
+        '08/03/2016',
+        1,
+        '',
+        'Winding Coils',
+        'winding-coils',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0
+    ),
+    (
+        16,
+        22,
+        'Heap allocation structures can help with memory fragmentation in memory-intensive apps.',
+        '08/05/2016',
+        1,
+        '',
+        'Heap data structures',
+        'heap-data-structures',
         NULL,
         NULL,
         NULL,
@@ -380,85 +410,267 @@ BEGIN TRANSACTION;
         ArticleId,
         TagId
     )
+
+    -- tags --
+
     VALUES (
+        -- meta id --
         1,
+        -- article id --
         1,
+        -- tag id --
         1
     ),
     (
+        -- meta id --
         2,
-        1,
-        5
+        -- article id --
+        2,
+        -- tag id --
+        1
     ),
     (
+        -- meta id --
         3,
+        -- article id --
+        3,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        4,
+        -- article id --
+        4,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        5,
+        -- article id --
+        5,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        6,
+        -- article id --
+        6,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        7,
+        -- article id --
+        7,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        8,
+        -- article id --
+        8,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        9,
+        -- article id --
+        9,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        10,
+        -- article id --
+        10,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        11,
+        -- article id --
+        11,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        12,
+        -- article id --
+        12,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        13,
+        -- article id --
+        13,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        14,
+        -- article id --
+        14,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        15,
+        -- article id --
+        15,
+        -- tag id --
+        1
+    ),
+    (
+        -- meta id --
+        16,
+        -- article id --
+        16,
+        -- tag id --
+        1
+    ),
+
+    -- subtags
+
+    (
+        -- meta id --
+        17,
+        -- article id --
         1,
+        -- tag id --
+        19
+    ),
+    (
+        -- meta id --
+        18,
+        -- article id --
+        2,
+        -- tag id --
+        12
+    ),
+    (
+        -- meta id --
+        19,
+        -- article id --
+        3,
+        -- tag id --
+        7
+    ),
+    (
+        -- meta id --
+        20,
+        -- article id --
+        4,
+        -- tag id --
         9
     ),
     (
-        4,
-        2,
-        1
-    ),
-    (
+        -- meta id --
+        21,
+        -- article id --
         5,
-        3,
-        1
+        -- tag id --
+        21
     ),
     (
+        -- meta id --
+        22,
+        -- article id --
         6,
-        4,
-        1
+        -- tag id --
+        7
     ),
     (
+        -- meta id --
+        23,
+        -- article id --
         7,
-        5,
-        1
+        -- tag id --
+        16
     ),
     (
+        -- meta id --
+        24,
+        -- article id --
         8,
-        6,
-        1
+        -- tag id --
+        12
     ),
     (
+        -- meta id --
+        25,
+        -- article id --
         9,
-        7,
-        1
+        -- tag id --
+        21
     ),
     (
+        -- meta id --
+        26,
+        -- article id --
         10,
-        8,
-        1
+        -- tag id --
+        15
     ),
     (
+        -- meta id --
+        27,
+        -- article id --
         11,
-        9,
-        1
+        -- tag id --
+        16
     ),
     (
+        -- meta id --
+        28,
+        -- article id --
         12,
-        10,
-        1
+        -- tag id --
+        13
     ),
     (
+        -- meta id --
+        29,
+        -- article id --
         13,
-        11,
-        1
+        -- tag id --
+        7
     ),
     (
+        -- meta id --
+        30,
+        -- article id --
         14,
-        12,
-        1
+        -- tag id --
+        12
     ),
     (
+        -- meta id --
+        31,
+        -- article id --
         15,
-        13,
-        1
+        -- tag id --
+        9
     ),
     (
+        -- meta id --
+        32,
+        -- article id --
         16,
-        14,
-        1
+        -- tag id --
+        8
     );
 
 COMMIT TRANSACTION;

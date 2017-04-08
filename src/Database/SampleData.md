@@ -1,0 +1,23 @@
+story       1
+article     2
+project     3
+about       4
+engineering 5
+electrical  6
+mechanical  7
+software    8
+robotics    9
+design      10
+graphic     11
+web         12
+ui          13
+database    14
+cad         15
+industrial  16
+it          17
+sql         18
+art         19
+music       20
+painting    21
+
+zero        22

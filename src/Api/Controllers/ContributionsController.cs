@@ -43,7 +43,7 @@ namespace ZeroWeb.Api
         /// <param name="tag">The type of articles to retrieve.</param>
         /// <param name="articles">Limit articles per page.</param>
         /// <param name="days">Limit days per page.</param>
-        [HttpGet("{tag}/{articles}/{days}")]
+        [HttpGet("{tag}/{articles:int?}/{days:int?}")]
         public IActionResult GetContributions(string tag, int? articles, int? days)
         {
             try
@@ -77,9 +77,9 @@ namespace ZeroWeb.Api
                     Shared.ArticlesPerPage,
                     Shared.DaysPerPage));
             }
-            catch
+            catch(Exception error)
             {
-                return this.StatusCode(500);
+                return this.StatusCode(500, error.Message);
             }
         }
     }

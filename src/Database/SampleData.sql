@@ -671,6 +671,118 @@ BEGIN TRANSACTION;
         16,
         -- tag id --
         8
+    ),
+    (
+        -- meta id --
+        33,
+        -- article id --
+        3,
+        -- tag id --
+        5
+    ),
+    (
+        -- meta id --
+        34,
+        -- article id --
+        4,
+        -- tag id --
+        5
+    ),
+    (
+        -- meta id --
+        35,
+        -- article id --
+        5,
+        -- tag id --
+        21
+    ),
+    (
+        -- meta id --
+        36,
+        -- article id --
+        6,
+        -- tag id --
+        7
+    ),
+    (
+        -- meta id --
+        37,
+        -- article id --
+        7,
+        -- tag id --
+        10
+    ),
+    (
+        -- meta id --
+        38,
+        -- article id --
+        8,
+        -- tag id --
+        5
+    ),
+    (
+        -- meta id --
+        39,
+        -- article id --
+        9,
+        -- tag id --
+        19
+    ),
+    (
+        -- meta id --
+        40,
+        -- article id --
+        10,
+        -- tag id --
+        7
+    ),
+    (
+        -- meta id --
+        41,
+        -- article id --
+        10,
+        -- tag id --
+        5
+    ),
+    (
+        -- meta id --
+        42,
+        -- article id --
+        11,
+        -- tag id --
+        10
+    ),
+    (
+        -- meta id --
+        43,
+        -- article id --
+        12,
+        -- tag id --
+        12
+    ),
+    (
+        -- meta id --
+        44,
+        -- article id --
+        13,
+        -- tag id --
+        5
+    ),
+    (
+        -- meta id --
+        45,
+        -- article id --
+        14,
+        -- tag id --
+        5
+    ),
+    (
+        -- meta id --
+        46,
+        -- article id --
+        15,
+        -- tag id --
+        5
     );
 
 COMMIT TRANSACTION;

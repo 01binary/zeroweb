@@ -52,16 +52,22 @@ namespace ZeroWeb.Api
 
                 ContributionSummary summary = store
                     .GetArticles(tag)
+                    .Select(article => new {
+                        Id = article.Id,
+                        Title = article.Title,
+                        Date = article.Date,
+                        Tags = article.Metadata.Select(metadata => metadata.Tag.Name)
+                    })
+                    .ToList()
                     .SelectMany(
-                        article => article.Metadata, 
-                        (article, metadata) => new
+                        article => article.Tags,
+                        (article, articleTag) => new
                     {
                         Id = article.Id,
                         Title = article.Title,
                         Date = article.Date,
-                        Tag = metadata.Tag.Name
+                        Tag = articleTag
                     })
-                    .ToList()
                     .Aggregate(
                         new ContributionSummary(),
                         (accumulator, next) =>

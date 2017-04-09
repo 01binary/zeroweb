@@ -89,7 +89,18 @@ namespace ZeroWeb.Api.Models
         /// <returns>The start of week.</returns>
         private static DateTime GetStartOfWeek(DateTime date)
         {
-            return date.AddDays(-(int)date.DayOfWeek + 1);
+            if (date.DayOfWeek == DayOfWeek.Monday)
+            {
+                return date;
+            }
+            else if (date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return date.AddDays(-6);
+            }
+            else
+            {
+                return date.AddDays(-((int)date.DayOfWeek - 1));
+            }
         }
     }
 }

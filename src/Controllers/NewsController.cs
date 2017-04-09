@@ -40,11 +40,12 @@ namespace ZeroWeb.Controllers
         /// Default action.
         /// </summary>
         /// <param name="story">Display a page with the specified story.</param>
-        public IActionResult Index([FromQuery]string story)
+        /// <param name="page">Display the specified page.</param>
+        public IActionResult Index([FromQuery]string story, [FromQuery]int? page)
         {
             string typeTag = Shared.FormatTag(TypeTags.Story);
             string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
-            var articles = this.store.GetArticles(typeTag, 0, story);
+            var articles = this.store.GetArticles(typeTag, page.HasValue ? page.Value : 0, story);
 
             try
             {

@@ -21,13 +21,21 @@ namespace ZeroWeb
     public interface IDataStore
     {
         /// <summary>
+        /// Gets the articles with the specified tags without ordering or pagination.
+        /// </summary>
+        /// <param name="published">Whether to return published or un-published articles.</param>
+        /// <param name="tags">The tags to search for.</param>
+        /// <returns>A list of articles.</returns>
+        IQueryable<Article> GetArticles(bool published, params string[] tags);
+
+        /// <summary>
         /// Gets the articles on the specified page, or on a page containing the specified article.
         /// </summary>
         /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="page">The page number to return (ignored if 0 or an article is specified).</param>
         /// <param name="article">Return the page containing this article if non-null (id or key).</param>
-        /// <param name="published">Whether to return only published articles.</param>
+        /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
         IQueryable<Article> GetArticles(int days, int count, int page, string article, bool published, params string[] tags);
@@ -38,7 +46,7 @@ namespace ZeroWeb
         /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author to search for.</param>
-        /// <param name="published">Whether to return only published articles.</param>
+        /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
         IQueryable<Article> GetArticles(int days, int count, string author, bool published, params string[] tags);
@@ -63,13 +71,6 @@ namespace ZeroWeb
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
         IQueryable<Article> GetArticles(int days, int count, string author, string search, params string[] tags);
-
-        /// <summary>
-        /// Gets the articles with the specified tag.
-        /// </summary>
-        /// <param name="tag">The built-in tag to search for.</param>
-        /// <returns>A list of articles.</returns>
-        IQueryable<Article> GetArticles(string tag);
 
         /// <summary>
         /// Gets the articles with the specified tag on the specified page number or a page containing the specified article.

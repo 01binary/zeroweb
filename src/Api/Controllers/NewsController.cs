@@ -48,7 +48,7 @@ namespace ZeroWeb.Api
                 string typeTag = Shared.FormatTag(TypeTags.Story);
 
                 return this.Json(
-                    store.GetArticles(typeTag).Select(story => new 
+                    store.GetArticles(true, typeTag).Select(story => new 
                     {
                         id = story.Id,
                         title = story.Title,

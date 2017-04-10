@@ -51,7 +51,7 @@ namespace ZeroWeb.Api
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
 
                 ContributionSummary summary = store
-                    .GetArticles(tag)
+                    .GetArticles(true, tag)
                     .Select(article => new {
                         Id = article.Id,
                         Title = article.Title,

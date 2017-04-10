@@ -38,13 +38,27 @@ namespace ZeroWeb
         }
 
         /// <summary>
+        /// Gets the articles with the specified tags without ordering or pagination.
+        /// </summary>
+        /// <param name="published">Whether to return published or un-published articles.</param>
+        /// <param name="tags">The tags to search for.</param>
+        /// <returns>A list of articles.</returns>
+        public IQueryable<Article> GetArticles(bool published, params string[] tags)
+        {
+            return this.context.Articles
+                .Where(article =>
+                    article.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    article.Published == published);
+        }
+
+        /// <summary>
         /// Gets the articles on the specified page, or on a page containing the specified article.
         /// </summary>
         /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="page">The page number to return (ignored if 0 or an article is specified).</param>
         /// <param name="article">Return the page containing this article if non-null (by key or id).</param>
-        /// <param name="published">Whether to return only published articles.</param>
+        /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
         public IQueryable<Article> GetArticles(int days, int count, int page, string article, bool published, params string[] tags)
@@ -95,7 +109,7 @@ namespace ZeroWeb
         /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author name.</param>
-        /// <param name="published">Whether to return only published articles.</param>
+        /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
         public IQueryable<Article> GetArticles(int days, int count, string author, bool published, params string[] tags)
@@ -197,16 +211,6 @@ namespace ZeroWeb
                     byDate.Published))
                 .OrderByDescending(order => order.Date.Ticks)
                 .Take(count);
-        }
-
-        /// <summary>
-        /// Gets the articles with the specified tag.
-        /// </summary>
-        /// <param name="tag">The built-in tag to search for.</param>
-        /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(string tag)
-        {
-            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, 0, null, true, tag);
         }
 
         /// <summary>
@@ -358,7 +362,7 @@ namespace ZeroWeb
         /// Gets the article Id given an identification string.
         /// </summary>
         /// <param name="article">Article Key or Id.</param>
-        /// <param name="published">Whether to look for published or unpublished articles.</param>
+        /// <param name="published">Whether to look for published or un-published articles.</param>
         /// <returns>The article Id.</returns>
         private int GetArticleId(string article, bool published)
         {
@@ -384,7 +388,7 @@ namespace ZeroWeb
         /// Gets the index of article in the list.
         /// </summary>
         /// <param name="articleId">The Id of the article to get the index of.</param>
-        /// <param name="published">Published status used to retrieve the article list.</param>
+        /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags used to retrieve the article list.</param>
         /// <returns>Index of the article or -1 if not found.</returns>
         private int GetArticleIndex(int articleId, bool published, params string[] tags)

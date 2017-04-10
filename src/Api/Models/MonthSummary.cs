@@ -14,10 +14,12 @@ namespace ZeroWeb.Api.Models
 {
     using System;
     using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The monthly contribution summary.
     /// </summary>
+    [JsonConverter(typeof(WeekKeyConverter))]
     public class MonthSummary
     {
         /// <summary>

@@ -20,7 +20,7 @@ namespace ZeroWeb.Api.Models
     /// <summary>
     /// Article contribution summary.
     /// </summary>
-    [JsonConverter(typeof(MonthKeyConverter), typeof(WeekKeyConverter))]
+    [JsonConverter(typeof(MonthKeyConverter))]
     public class ContributionSummary
     {
         /// <summary>

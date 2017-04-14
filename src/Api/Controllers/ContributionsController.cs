@@ -56,7 +56,9 @@ namespace ZeroWeb.Api
                         Id = article.Id,
                         Title = article.Title,
                         Date = article.Date,
-                        Tags = article.Metadata.Select(metadata => metadata.Tag.Name)
+                        Tags = article.Metadata
+                            .Where(filter => filter.Tag.Name != tag)
+                            .Select(metadata => metadata.Tag.Name)
                     })
                     .ToList()
                     .SelectMany(

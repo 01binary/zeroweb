@@ -23,11 +23,6 @@ namespace ZeroWeb
     /// </summary>
     public class MonthKeyConverter: JsonConverter
     {
-        protected abstract IDictionary<DateTime, MonthSummary> Create(Type objectType, KObject obj)
-        {
-            throw new NotImplementedException();
-        }
-
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(IDictionary<DateTime, MonthSummary>);

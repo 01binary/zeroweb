@@ -18,7 +18,7 @@ using ZeroWeb.Api.Models;
 namespace ZeroWeb.Api
 {
     /// <summary>
-    /// The News Endpoint.
+    /// The Contributions Endpoint.
     /// </summary>
     [Route("api/contrib")]
     public class ContributionsController: Controller

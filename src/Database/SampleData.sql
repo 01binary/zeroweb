@@ -169,7 +169,7 @@ BEGIN TRANSACTION;
         -- content
         'This is a sample web design article.',
         -- date
-        '01/30/2016',
+        '01/30/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -187,7 +187,7 @@ BEGIN TRANSACTION;
         -- content
         'Sample mechanical engineering article.',
         -- date
-        '02/01/2016',
+        '02/01/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -205,7 +205,7 @@ BEGIN TRANSACTION;
         -- content
         'A sample article about robotics',
         -- date
-        '02/05/2016',
+        '02/05/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -223,7 +223,7 @@ BEGIN TRANSACTION;
         -- content
         'Software engineering article on dependency injection',
         -- date
-        '02/27/2016',
+        '02/27/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -241,7 +241,7 @@ BEGIN TRANSACTION;
         -- content
         'Another software engineering article about heap data structures.',
         -- date
-        '01/09/2016',
+        '01/09/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -259,7 +259,7 @@ BEGIN TRANSACTION;
         -- content
         'This is an article on the art of music production.',
         -- date
-        '01/02/2016',
+        '01/02/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -277,7 +277,7 @@ BEGIN TRANSACTION;
         -- content
         'More web design topics for testing',
         -- date
-        '01/06/2016',
+        '01/06/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -295,7 +295,7 @@ BEGIN TRANSACTION;
         -- content
         'Robotics again dealing with custom coil winding',
         -- date
-        '01/08/2016',
+        '01/08/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -313,7 +313,7 @@ BEGIN TRANSACTION;
         -- content
         'This is an article about underpainting while painting, you know, anything really',
         -- date
-        '12/20/2016',
+        '12/20/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -332,7 +332,7 @@ BEGIN TRANSACTION;
         -- content
         'This is one more mechanical engineering article, because it is cool and related to industrial design',
         -- date
-        '01/30/2016',
+        '01/30/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -351,7 +351,7 @@ BEGIN TRANSACTION;
         -- content
         'Another robotics article posted in feb, about ai',
         -- date
-        '02/04/2016',
+        '02/04/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -369,7 +369,7 @@ BEGIN TRANSACTION;
         -- content
         'Water based actuators are a viable alternative to magnets',
         -- date
-        '02/05/2016',
+        '02/05/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -388,7 +388,7 @@ BEGIN TRANSACTION;
         -- content
         'Article filler sample data software engineering in January',
         -- date
-        '01/15/2016',
+        '01/15/2017',
         -- pub, thumb
         1, '',
         -- title
@@ -407,7 +407,7 @@ BEGIN TRANSACTION;
         -- content
         'Locomotion is hard, especially chaining those paths together.',
         -- date
-        '01/06/2016',
+        '01/06/2017',
         -- pub, thumb
         1, '',
         -- title

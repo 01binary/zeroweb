@@ -313,7 +313,7 @@ BEGIN TRANSACTION;
         -- content
         'This is an article about underpainting while painting, you know, anything really',
         -- date
-        '12/20/2017',
+        '12/20/2016',
         -- pub, thumb
         1, '',
         -- title

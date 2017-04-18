@@ -49,17 +49,19 @@ namespace ZeroWeb.Api.Models
         /// <param name="articleKey">The unique article key used in permalinks.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <param name="tag">The tag to aggregate.</param>
-        public void Aggregate(string articleKey, string articleTitle, string tag)
+        /// <returns>The total tag count for the week.</param>
+        public int Aggregate(string articleKey, string articleTitle, string tag)
         {
-            int tagCount;
-            this.Tags.TryGetValue(tag, out tagCount);
-            this.Tags[tag] = tagCount + 1;
-            this.Total++;
-
             if (!this.Articles.ContainsKey(articleKey))
             {
                 this.Articles.Add(articleKey, articleTitle);
             }
+
+            int tagCount;
+            this.Tags.TryGetValue(tag, out tagCount);
+            this.Tags[tag] = tagCount + 1;
+            
+            return ++this.Total;
         }
     }
 }

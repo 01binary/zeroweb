@@ -56,11 +56,11 @@ namespace ZeroWeb.Api.Models
         public ContributionSummary Aggregate(string articleKey, string articleTitle, DateTime date, string tag)
         {
             MonthSummary monthSummary = this.GetOrCreateMonth(date);
-            int monthTotal = monthSummary.Aggregate(articleKey, articleTitle, date, tag);
+            int monthWeekMax = monthSummary.Aggregate(articleKey, articleTitle, date, tag);
 
-            if (this.Max < monthTotal)
+            if (this.Max < monthWeekMax)
             {
-                this.Max = monthTotal;
+                this.Max = monthWeekMax;
             }
 
             return this;

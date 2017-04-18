@@ -632,7 +632,7 @@ $software:    #a71d5d;
 $robotics:    #ec008c;
 $graphic:     #ff260f;
 $web:         #795da3;
-$frontend:    #0086b3;
+$ui:          #0086b3;
 $cad:         #ffb40f;
 $industrial:  #ba141a;
 $database:    #aebdce;
@@ -680,8 +680,8 @@ $crafts:      #67d5e9;
       @include tagColors($web);
     }
 
-    &-frontend {
-      @include tagColors($frontend);
+    &-ui {
+      @include tagColors($ui);
     }
 
     &-cad {

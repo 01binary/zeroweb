@@ -47,12 +47,12 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Aggregate tags for the week with an article context.
         /// </summary>
-        /// <param name="articleId">The article unique Id.</param>
+        /// <param name="articleKey">The article key used in permalinks.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <param name="date">The article date.</param>
         /// <param name="tag">The article tag to aggregate.</param>
-        /// <returns></returns>
-        public int Aggregate(int articleId, string articleTitle, DateTime date, string tag)
+        /// <returns>The aggregated count for the specified tag.</returns>
+        public int Aggregate(string articleKey, string articleTitle, DateTime date, string tag)
         {
             // Aggregate tag counts for each week.
             int weekCount;
@@ -61,7 +61,7 @@ namespace ZeroWeb.Api.Models
             this.Tags[weekStart] = weekCount + 1;
 
             // Aggregate tag summary for the week.
-            this.GetOrCreateWeek(weekStart).Aggregate(articleId, articleTitle, tag);
+            this.GetOrCreateWeek(weekStart).Aggregate(articleKey, articleTitle, tag);
 
             // Aggregate tag totals.
             return ++this.Total;

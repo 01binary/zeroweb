@@ -53,7 +53,7 @@ namespace ZeroWeb.Api
                 ContributionSummary summary = store
                     .GetArticles(true, tag)
                     .Select(article => new {
-                        Id = article.Id,
+                        Key = article.Key,
                         Title = article.Title,
                         Date = article.Date,
                         Tags = article.Metadata
@@ -65,7 +65,7 @@ namespace ZeroWeb.Api
                         article => article.Tags,
                         (article, articleTag) => new
                     {
-                        Id = article.Id,
+                        Key = article.Key,
                         Title = article.Title,
                         Date = article.Date,
                         Tag = articleTag
@@ -75,7 +75,7 @@ namespace ZeroWeb.Api
                         (accumulator, next) =>
                     {
                         return accumulator.Aggregate(
-                            next.Id,
+                            next.Key,
                             next.Title,
                             next.Date,
                             next.Tag);

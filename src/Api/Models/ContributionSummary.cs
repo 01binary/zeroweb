@@ -48,15 +48,15 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Aggregate count for an article tag at all summary levels.
         /// </summary>
-        /// <param name="articleId">The article database Id.</param>
+        /// <param name="articleKey">The unique article key used in permalinks.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <param name="date">The date when an article with this tag was posted.</param>
         /// <param name="tag">The article tag.</param>
         /// <returns>A self-reference for chaining.</returns>
-        public ContributionSummary Aggregate(int articleId, string articleTitle, DateTime date, string tag)
+        public ContributionSummary Aggregate(string articleKey, string articleTitle, DateTime date, string tag)
         {
             MonthSummary monthSummary = this.GetOrCreateMonth(date);
-            int monthTotal = monthSummary.Aggregate(articleId, articleTitle, date, tag);
+            int monthTotal = monthSummary.Aggregate(articleKey, articleTitle, date, tag);
 
             if (this.Max < monthTotal)
             {

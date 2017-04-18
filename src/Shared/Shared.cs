@@ -33,6 +33,15 @@ namespace ZeroWeb
         public const int DaysPerPage = 7;
 
         /// <summary>
+        /// Get the article key (used in permalink URI) from article title.
+        /// </summary>
+        /// <param name="articleTitle">The article title.</param>
+        public static string FormatArticleKey(string articleTitle)
+        {
+            
+        }
+
+        /// <summary>
         /// Format story content using GitHub Markdown Api.
         /// </summary>
         /// <param name="tagName">The content to format.</param>

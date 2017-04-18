@@ -15,12 +15,10 @@ namespace ZeroWeb.Api.Models
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Article contribution summary.
     /// </summary>
-    [JsonConverter(typeof(MonthKeyConverter))]
     public class ContributionSummary
     {
         /// <summary>
@@ -31,7 +29,7 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Gets or sets the monthly contribution summary.
         /// </summary>
-        public IDictionary<DateTime, MonthSummary> Months { get; private set; }
+        public MonthDictionary Months { get; private set; }
 
         /// <summary>
         /// Gets or sets the max. article count for any month.
@@ -44,7 +42,7 @@ namespace ZeroWeb.Api.Models
         public ContributionSummary()
         {
             this.Pages = new List<PageSummary>();
-            this.Months = new Dictionary<DateTime, MonthSummary>();
+            this.Months = new MonthDictionary();
         }
 
         /// <summary>
@@ -84,7 +82,7 @@ namespace ZeroWeb.Api.Models
 
             foreach (DateTime monthStart in this.Months.Keys.ToList().OrderByDescending(key => key))
             {
-                string monthName = monthStart.ToString("mmm");
+                string monthName = monthStart.ToString("MMM").ToLower();
                 MonthSummary monthSummary = this.Months[monthStart];
                 DateTime[] weeks = monthSummary.Weeks.Keys
                     .OrderByDescending(key => key)

@@ -20,13 +20,6 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Initializes a new object of the <see cref="WeekMapping"/> class.
         /// </summary>
-        public WeekMapping()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new object of the <see cref="WeekMapping"/> class.
-        /// </summary>
         /// <param name="month">The month name.</param>
         /// <param name="week">The week index int he month.</param>
         public WeekMapping(string month, int week)

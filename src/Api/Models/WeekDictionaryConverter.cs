@@ -21,12 +21,13 @@ namespace ZeroWeb
     /// <summary>
     /// Serialize IDictionary<DateTime, WeekSummary> to JSON.
     /// </summary>
-    public class WeekKeyConverter: JsonConverter
+    [JsonConverter(typeof(WeekDictionaryConverter))]
+    public class WeekDictionaryConverter: JsonConverter
     {
         /// <summary>
         /// Week entry format.
         /// </summary>
-        private const string WeekFormat = "mmm d";
+        private const string WeekFormat = "MMM d";
 
         public override bool CanConvert(Type objectType)
         {
@@ -40,24 +41,36 @@ namespace ZeroWeb
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            IDictionary<DateTime, WeekSummary> source = value as IDictionary<DateTime, WeekSummary>;
-
-            if (source == null)
-            {
-                serializer.Serialize(writer, null);
-                return;
-            }
-
+            var summarySource = value as WeekDictionary;
             writer.WriteStartObject();
 
-            // Sort weeks from most to least recent.
-            foreach (DateTime weekKey in source.Keys.OrderByDescending(key => key))
+            if (summarySource != null)
             {
-                // Key each week by start and end days.
-                writer.WritePropertyName(GetMonthWeekName(weekKey));
+                // Sort weeks from most to least recent.
+                foreach (DateTime weekKey in summarySource.Keys.OrderByDescending(key => key))
+                {
+                    // Key each week by start and end days.
+                    writer.WritePropertyName(GetMonthWeekName(weekKey));
 
-                // Write the week summary.
-                serializer.Serialize(writer, source[weekKey]);
+                    // Write the week summary.
+                    serializer.Serialize(writer, summarySource[weekKey]);
+                }
+            }
+            else
+            {
+                var totalsSource = value as WeekTotalsDictionary;
+
+                if (totalsSource != null)
+                {
+                    foreach (DateTime weekKey in totalsSource.Keys.OrderByDescending(key => key))
+                    {
+                        // Key each week by start and end days.
+                        writer.WritePropertyName(GetMonthWeekName(weekKey));
+
+                        // Write the week summary.
+                        writer.WriteValue(totalsSource[weekKey]);
+                    }
+                }
             }
 
             writer.WriteEndObject();
@@ -67,7 +80,8 @@ namespace ZeroWeb
         {
             return string.Format("{0} - {1}",
                 date.ToString(WeekFormat),
-                GetEndOfWeek(date).ToString(WeekFormat));
+                GetEndOfWeek(date).ToString(WeekFormat))
+                .ToLower();
         }
 
         private static DateTime GetEndOfWeek(DateTime date)

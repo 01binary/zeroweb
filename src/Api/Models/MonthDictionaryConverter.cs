@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Contribution summary month converter.
+|  Contribution summary Json converter.
 |----------------------------------------------------------
 |  Copyright(C) 2017 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -19,9 +19,10 @@ using ZeroWeb.Api.Models;
 namespace ZeroWeb
 {
     /// <summary>
-    /// Serialize IDictionary<DateTime, MonthSummary> to JSON.
+    /// Serialize MonthDictionary to Json.
     /// </summary>
-    public class MonthKeyConverter: JsonConverter
+    [JsonConverter(typeof(MonthDictionaryConverter))]
+    public class MonthDictionaryConverter: JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -35,24 +36,20 @@ namespace ZeroWeb
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            IDictionary<DateTime, MonthSummary> source = value as IDictionary<DateTime, MonthSummary>;
-
-            if (source == null)
-            {
-                serializer.Serialize(writer, null);
-                return;
-            }
-
+            var source = value as MonthDictionary;
             writer.WriteStartObject();
 
-            // Sort months from most to least recent.
-            foreach (DateTime monthKey in source.Keys.OrderByDescending(key => key))
+            if (source != null)
             {
-                // Key each month summary by month name (mmm).
-                writer.WritePropertyName(monthKey.ToString("mmm"));
+                // Sort months from most to least recent.
+                foreach (DateTime monthKey in source.Keys.OrderByDescending(key => key))
+                {
+                    // Key each month summary by month name (MMM).
+                    writer.WritePropertyName(monthKey.ToString("MMM").ToLower());
 
-                // Write the month summary.
-                serializer.Serialize(writer, source[monthKey]);
+                    // Write the month summary.
+                    serializer.Serialize(writer, source[monthKey]);
+                }
             }
 
             writer.WriteEndObject();

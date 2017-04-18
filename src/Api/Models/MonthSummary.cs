@@ -14,23 +14,21 @@ namespace ZeroWeb.Api.Models
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// The monthly contribution summary.
     /// </summary>
-    [JsonConverter(typeof(WeekKeyConverter))]
     public class MonthSummary
     {
         /// <summary>
         /// Gets or sets the tag counts for each week (by first day of week).
         /// </summary>
-        public IDictionary<DateTime, int> Tags { get; private set; }
+        public WeekTotalsDictionary Tags { get; private set; }
 
         /// <summary>
         /// Gets or sets the week summaries (by first day of week).
         /// </summary>
-        public IDictionary<DateTime, WeekSummary> Weeks { get; private set; }
+        public WeekDictionary Weeks { get; private set; }
 
         /// <summary>
         /// Gets or sets the tag count for the month.
@@ -42,8 +40,8 @@ namespace ZeroWeb.Api.Models
         /// </summary>
         public MonthSummary()
         {
-            this.Tags = new Dictionary<DateTime, int>();
-            this.Weeks = new Dictionary<DateTime, WeekSummary>();
+            this.Tags = new WeekTotalsDictionary();
+            this.Weeks = new WeekDictionary();
         }
 
         /// <summary>

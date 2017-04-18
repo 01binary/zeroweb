@@ -29,7 +29,7 @@ namespace ZeroWeb.Api
         private IServiceProvider services;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewsController"/> class.
+        /// Initializes a new instance of the <see cref="ContributionsController"/> class.
         /// </summary>
         /// <param name="services">The application container.</param>
         public ContributionsController(IServiceProvider services)

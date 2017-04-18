@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Defines a sorted WeekSummary dictionary.
+|  Defines a sorted Week Summary dictionary.
 |----------------------------------------------------------
 |  Copyright(C) 2017 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 namespace ZeroWeb.Api.Models
 {
     /// <summary>
-    /// The week summary dictionary with custom formatting.
+    /// The Week Summary dictionary with custom formatting.
     /// </summary>
     [JsonConverter(typeof(WeekDictionaryConverter))]
     public class WeekDictionary: Dictionary<DateTime, WeekSummary>

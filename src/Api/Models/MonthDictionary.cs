@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  Defines a sorted MonthSummary dictionary.
+|  Defines a sorted Month Summary dictionary.
 |----------------------------------------------------------
 |  Copyright(C) 2017 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 namespace ZeroWeb.Api.Models
 {
     /// <summary>
-    /// The week summary dictionary with custom formatting.
+    /// The Month Summary dictionary with custom formatting.
     /// </summary>
     [JsonConverter(typeof(MonthDictionaryConverter))]
     public class MonthDictionary: Dictionary<DateTime, MonthSummary>

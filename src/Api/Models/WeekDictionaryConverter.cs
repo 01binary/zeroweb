@@ -11,7 +11,6 @@
 \*---------------------------------------------------------*/
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using ZeroWeb.Api.Models;
@@ -19,7 +18,7 @@ using ZeroWeb.Api.Models;
 namespace ZeroWeb
 {
     /// <summary>
-    /// Serialize IDictionary<DateTime, WeekSummary> to JSON.
+    /// Serialize Week Summary dictionary to JSON.
     /// </summary>
     [JsonConverter(typeof(WeekDictionaryConverter))]
     public class WeekDictionaryConverter: JsonConverter
@@ -29,24 +28,44 @@ namespace ZeroWeb
         /// </summary>
         private const string WeekFormat = "MMM d";
 
+        /// <summary>
+        /// Determine whether the converter can convert an object type.
+        /// </summary>
+        /// <param name="objectType">The object type.</param>
+        /// <returns>Whether the convert can convert an object type.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(IDictionary<DateTime, WeekSummary>);
+            return objectType == typeof(WeekDictionary) || objectType == typeof(WeekTotalsDictionary);
         }
 
+        /// <summary>
+        /// Deserialize an object.
+        /// </summary>
+        /// <param name="reader">The Json reader.</param>
+        /// <param name="objectType">The object type.</param>
+        /// <param name="existingValue">The value to deserialize.</param>
+        /// <param name="serializer">The Json serializer.</param>
+        /// <returns>The deserialized object.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Serialize an object.
+        /// </summary>
+        /// <param name="reader">The Json writer.</param>
+        /// <param name="existingValue">The value to serialize.</param>
+        /// <param name="serializer">The Json serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var summarySource = value as WeekDictionary;
+            WeekDictionary summarySource = null;
+            WeekTotalsDictionary totalsSource = null;
             writer.WriteStartObject();
 
-            if (summarySource != null)
+            if ((summarySource = value as WeekDictionary) != null)
             {
-                // Sort weeks from most to least recent.
+                // Write a sorted dictionary of week summaries.
                 foreach (DateTime weekKey in summarySource.Keys.OrderByDescending(key => key))
                 {
                     // Key each week by start and end days.
@@ -56,26 +75,27 @@ namespace ZeroWeb
                     serializer.Serialize(writer, summarySource[weekKey]);
                 }
             }
-            else
+            else if ((totalsSource = value as WeekTotalsDictionary) != null)
             {
-                var totalsSource = value as WeekTotalsDictionary;
-
-                if (totalsSource != null)
+                // Write a sorted dictionary of tag summaries.
+                foreach (DateTime weekKey in totalsSource.Keys.OrderByDescending(key => key))
                 {
-                    foreach (DateTime weekKey in totalsSource.Keys.OrderByDescending(key => key))
-                    {
-                        // Key each week by start and end days.
-                        writer.WritePropertyName(GetMonthWeekName(weekKey));
+                    // Key each week by start and end days.
+                    writer.WritePropertyName(GetMonthWeekName(weekKey));
 
-                        // Write the week summary.
-                        writer.WriteValue(totalsSource[weekKey]);
-                    }
+                    // Write the week summary.
+                    writer.WriteValue(totalsSource[weekKey]);
                 }
             }
 
             writer.WriteEndObject();
         }
 
+        /// <summary>
+        /// Get the week name given first day of the week.
+        /// </summary>
+        /// <param name="date">The first day of the week.</param>
+        /// <returns>The week name.</returns>
         private static string GetMonthWeekName(DateTime date)
         {
             return string.Format("{0} - {1}",
@@ -84,9 +104,17 @@ namespace ZeroWeb
                 .ToLower();
         }
 
+        /// <summary>
+        /// Get the end of the week given the first day of the week.
+        /// </summary>
+        /// <remarks>
+        /// The site convention is to use Mon through Sun weeks.
+        /// </remarks>
+        /// <param name="date">The first day of the week.</param>
+        /// <returns>The last day of the week.</returns>
         private static DateTime GetEndOfWeek(DateTime date)
         {
-            return date.AddDays(6 - (int)date.DayOfWeek);
+            return date.AddDays(6 - ((int)date.DayOfWeek - 1));
         }
     }
 }

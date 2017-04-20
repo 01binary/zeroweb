@@ -83,6 +83,8 @@ namespace ZeroWeb.Api.Models
                 return this.Weeks[weekStart];
             }
 
+            // TODO: create empty weeks from this to first in descending
+
             return this.Weeks[weekStart] = new WeekSummary();
         }
 

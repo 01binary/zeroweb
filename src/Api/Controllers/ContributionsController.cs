@@ -57,9 +57,7 @@ namespace ZeroWeb.Api
                         Date = article.Date,
                         Tags = article.Metadata
                             .Where(filter => filter.Tag.ParentId != null)
-                            .Select(metadata => metadata.Tag.ParentId != null ?
-                                metadata.Tag.Parent.Name + "-" + metadata.Tag.Name :
-                                metadata.Tag.Name)
+                            .Select(metadata => metadata.Tag.Parent.Name + "-" + metadata.Tag.Name)
                     })
                     .ToList()
                     .SelectMany(

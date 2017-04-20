@@ -27,7 +27,7 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Gets or sets the articles aggregated for the week by Id.
         /// </summary>
-        public IDictionary<int, string> Articles { get; set; }
+        public IDictionary<string, string> Articles { get; set; }
 
         /// <summary>
         // Gets or sets the tag count for the week.
@@ -40,26 +40,28 @@ namespace ZeroWeb.Api.Models
         public WeekSummary()
         {
             this.Tags = new Dictionary<string, int>();
-            this.Articles = new Dictionary<int, string>();
+            this.Articles = new Dictionary<string, string>();
         }
 
         /// <summary>
         /// Aggregate tags for this week.
         /// </summary>
-        /// <param name="articleId">The article the tag is for.</param>
+        /// <param name="articleKey">The unique article key used in permalinks.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <param name="tag">The tag to aggregate.</param>
-        public void Aggregate(int articleId, string articleTitle, string tag)
+        /// <returns>The total tag count for the week.</param>
+        public int Aggregate(string articleKey, string articleTitle, string tag)
         {
+            if (!this.Articles.ContainsKey(articleKey))
+            {
+                this.Articles.Add(articleKey, articleTitle);
+            }
+
             int tagCount;
             this.Tags.TryGetValue(tag, out tagCount);
             this.Tags[tag] = tagCount + 1;
-            this.Total++;
-
-            if (!this.Articles.ContainsKey(articleId))
-            {
-                this.Articles.Add(articleId, articleTitle);
-            }
+            
+            return ++this.Total;
         }
     }
 }

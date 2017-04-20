@@ -49,23 +49,24 @@ namespace ZeroWeb.Api
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-
                 ContributionSummary summary = store
                     .GetArticles(true, tag)
                     .Select(article => new {
-                        Id = article.Id,
+                        Key = article.Key,
                         Title = article.Title,
                         Date = article.Date,
                         Tags = article.Metadata
-                            .Where(filter => filter.Tag.Name != tag)
-                            .Select(metadata => metadata.Tag.Name)
+                            .Where(filter => filter.Tag.ParentId != null)
+                            .Select(metadata => metadata.Tag.ParentId != null ?
+                                metadata.Tag.Parent.Name + "-" + metadata.Tag.Name :
+                                metadata.Tag.Name)
                     })
                     .ToList()
                     .SelectMany(
                         article => article.Tags,
                         (article, articleTag) => new
                     {
-                        Id = article.Id,
+                        Key = article.Key,
                         Title = article.Title,
                         Date = article.Date,
                         Tag = articleTag
@@ -75,7 +76,7 @@ namespace ZeroWeb.Api
                         (accumulator, next) =>
                     {
                         return accumulator.Aggregate(
-                            next.Id,
+                            next.Key,
                             next.Title,
                             next.Date,
                             next.Tag);

@@ -23,6 +23,7 @@ angular.module('zeroApp')
         '$compile',
         '$window',
         'safeApply',
+        'contrib',
         dateSelectorDirective
     ]);
 
@@ -33,8 +34,9 @@ angular.module('zeroApp')
  * @param {object} $compile - The Angular compile service.
  * @param {object} $window - The Angular window service.
  * @param {object} $safeApply - The safe apply service.
+ * @param {object} $contrib - The contributions factory.
  */
-function dateSelectorDirective($q, $http, $compile, $window, $safeApply) {
+function dateSelectorDirective($q, $http, $compile, $window, $safeApply, $contrib) {
     return {
         restrict: 'E',
         replace: true,
@@ -42,7 +44,7 @@ function dateSelectorDirective($q, $http, $compile, $window, $safeApply) {
         template: '<section class="date-selector" data-ng-class="{loading:isLoading}" aria-labelledby="dateSelectorCaption"></section>',
         scope: {},
         link: function($scope, $element, attributes) {
-            initialize($q, $http, $compile, $window, $safeApply, $scope, $element);
+            initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element);
         }
     };
 }
@@ -54,10 +56,11 @@ function dateSelectorDirective($q, $http, $compile, $window, $safeApply) {
  * @param {object} $compile - The Angular compile service.
  * @param {object} $window - The Angular window service.
  * @param {object} $safeApply - The safe apply service.
+ * @param {object} $contrib - The contributions factory.
  * @param {object} $scope - The directive scope.
  * @param {object} $element - The directive element.
  */
-function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) {
+function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element) {
     // Set initial state.
     $scope.isLoading = true;
     $scope.isExpanded = true;
@@ -92,7 +95,10 @@ function initialize($q, $http, $compile, $window, $safeApply, $scope, $element) 
     $tempPage.remove();
 
     // Load content.
-    loadContent($q, $http, $scope).then(function() {
+    $contrib.get({ type: 'story'}, function(result) {
+        $scope.contributions = result;
+        $scope.isLoading = false;
+
         // Create child elements.
         $element.append($(
             // Background rectangle.
@@ -427,335 +433,6 @@ function pageClick($scope, event) {
 }
 
 /**
- * Load custom control content.
- * @param {object} $q - The Angular promise service.
- * @param {object} $http - The Angular AJAX service.
- * @param {object} $scope - The directive scope.
- */
-function loadContent($q, $http, $scope) {
-    $scope.contributions = {
-        max: 6,
-        pages: [
-            {
-                start: { month: 'feb', week: 1 },
-                end: { month: 'feb', week: 2 }
-            },
-
-            {
-                start: { month: 'jan', week: 2 },
-                end: { month: 'jan', week: 3 }
-            },
-
-            {
-                start: { month: 'dec', week: 1 },
-                end: { month: 'dec', week: 4 }
-            },
-
-            {
-                start: { month: 'nov', week: 2 },
-                end: { month: 'nov', week: 3 }
-            },
-
-            {
-                start: { month: 'oct', week: 1 },
-                end: { month: 'oct', week: 4 }
-            },
-
-            {
-                start: { month: 'sep', week: 1 },
-                end: { month: 'sep', week: 2 }
-            },
-
-            {
-                start: { month: 'sep', week: 3 },
-                end: { month: 'sep', week: 4 }
-            },
-
-            {
-                start: { month: 'aug', week: 1 },
-                end: { month: 'aug', week: 2 }
-            },
-
-            {
-                start: { month: 'aug', week: 3 },
-                end: { month: 'aug', week: 3 }
-            },
-
-            {
-                start: { month: 'aug', week: 4 },
-                end: { month: 'aug', week: 4 }
-            }
-        ],
-        months: {
-            feb: {
-                tags: {
-                    'design-web': 1,
-                    'engineering-software': 1,
-                    'engineering-mechanical': 2,
-                    'engineering-robotics': 3
-                },
-                total: 7,
-                weeks: {
-                    'jan 30 - feb 5': {
-                        tags: {
-                            'design-web': 1,
-                            'engineering-mechanical': 2,
-                            'engineering-robotics': 3
-                        },
-                        total: 6
-                    },
-
-                    'jan 23 - jan 29': {
-                        tags: {
-                            'engineering-software': 1
-                        },
-                        total: 1
-                    }
-                }
-            },
-
-            jan: {
-                tags: {
-                    'art-music': 1,
-                    'design-web': 1,
-                    'engineering-robotics': 2,
-                    'engineering-software': 2
-                },
-                total: 6,
-                weeks: {
-                    'jan 16 - 22': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'jan 9 - jan 15': {
-                        tags: {
-                            'engineering-software': 2
-                        },
-                        total: 2
-                    },
-
-                    'jan 2 - jan 8': {
-                        tags: {
-                            'art-music': 1,
-                            'design-web': 1,
-                            'engineering-robotics': 2
-                        },
-                        total: 4
-                    },
-
-                    'dec 26 - jan 1': {
-                        tags: {},
-                        total: 0
-                    }
-                }
-            },
-
-            dec: {
-                tags: {
-                    'engineering-mechanical': 2,
-                    'art-painting': 1
-                },
-                total: 3,
-                weeks: {
-                    'dec 19 - dec 25': {
-                        tags: {
-                            'art-painting': 1
-                        },
-                        total: 1
-                    },
-
-                    'dec 12 - dec 18': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'dec 5 - dec 11': {
-                        tags: {
-                            'engineering-mechanical': 2
-                        },
-                        total: 2
-                    },
-
-                    'nov 28 - dec 4': {
-                        tags: {},
-                        total: 0
-                    }
-                }
-            },
-
-            nov: {
-                tags: {
-                    'art-painting': 1,
-                    'design-web': 1,
-                    'design-frontend': 1,
-                    'engineering-robotics': 3
-                },
-                total: 6,
-                weeks: {
-                    'nov 21 - nov 27': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'nov 14 - nov 20': {
-                        tags: {
-                            'design-frontend': 1,
-                            'engineering-robotics': 3
-                        },
-                        total: 4
-                    },
-
-                    'nov 7 - nov 13': {
-                        tags: {
-                            'art-painting': 1,
-                            'design-web': 1
-                        },
-                        total: 2
-                    },
-
-                    'oct 31 - nov 6': {
-                        tags: {},
-                        total: 0
-                    }
-                }
-            },
-
-            oct: {
-                tags: {
-                    'design-web': 1,
-                    'design-industrial': 1
-                },
-                total: 2,
-                weeks: {
-                    // Weird case! Weeks not aligning on month.
-                    'oct 24 - oct 30': {
-                        tags: {
-                            'design-industrial': 1
-                        },
-                        total: 1
-                    },
-
-                    'oct 17 - oct 23': {
-                        tags: {},
-                        total: 0
-                    },
-
-                    'oct 10 - oct 16': {
-                        tags: {
-                            'design-web': 1
-                        },
-                        total: 1
-                    },
-
-                    'oct 3 - oct 9': {
-                        tags: {},
-                        total: 0
-                    }
-                }
-            },
-
-            sep: {
-                tags: {
-                    'engineering-software': 1,
-                    'engineering-electrical': 4,
-                    'design-industrial': 1,
-                    'art-painting': 1,
-                    'art-music': 2
-                },
-                total: 9,
-                weeks: {
-                    'sep 26 - oct 2': {
-                        tags: {
-                            'art-music': 2,
-                            'engineering-electrical': 1
-                        },
-                        total: 3
-                    },
-
-                    'sep 19 - sep 25': {
-                        tags: {
-                            'art-painting': 1,
-                            'engineering-electrical': 3
-                        },
-                        total: 4
-                    },
-
-                    'sep 12 - sep 18': {
-                        tags: {
-                            'design-industrial': 1
-                        },
-                        total: 1
-                    },
-
-                    'sep 5 - sep 11': {
-                        tags: {
-                            'engineering-software': 1
-                        },
-                        total: 1
-                    }
-                }
-            },
-
-            aug: {
-                tags: {
-                    'engineering-robotics': 3,
-                    'engineering-mechanical': 2,
-                    'engineering-software': 1,
-                    'design-industrial': 2,
-                    'design-web': 4,
-                    'art-painting': 2,
-                    'design-cad': 1,
-                    'art-crafts': 1
-                },
-                total: 16,
-                weeks: {
-                    'aug 22 - sep 4': {
-                        tags: {
-                            'art-crafts': 1,
-                            'design-web': 1,
-                            'engineering-mechanical': 2,
-                            'engineering-robotics': 1
-                        },
-                        total: 5
-                    },
-
-                    'aug 15 - aug 21': {
-                        tags: {
-                            'art-painting': 2,
-                            'design-cad': 1,
-                            'design-industrial': 1,
-                            'design-web': 1
-                        },
-                        total: 5
-                    },
-                    
-                    'aug 8 - aug 14': {
-                        tags: {
-                            'design-industrial': 1,
-                            'design-web': 2
-                        },
-                        total: 3
-                    },
-                    
-                    'aug 1 - aug 7': {
-                        tags: {
-                            'engineering-robotics': 2,
-                            'engineering-software': 1
-                        },
-                        total: 3
-                    }
-                }
-            }
-        }
-    }
-
-    $scope.isLoading = false;
-
-    return $q.when();
-}
-
-/**
  * Get the captions for visible page buttons.
  * @param {object} $element - jQuery of the directive element.
  * @param {object} $scope - The directive scope.
@@ -975,6 +652,8 @@ function renderTags($scope) {
             for (var tag in weekSummary.tags) {
                 var tagCount = weekSummary.tags[tag];
                 var tagHeight = Math.round((tagCount / $scope.contributions.max) * barHeight);
+
+                console.log('block height', tagHeight, 'tagCount', tagCount, 'all max', $scope.contributions.max, 'barHeight', barHeight);
 
                 var $block = $('<div class="tag-block tag-' + tag + '"></div>')
                     .css('height', tagHeight + 'px')

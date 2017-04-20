@@ -48,19 +48,19 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Aggregate count for an article tag at all summary levels.
         /// </summary>
-        /// <param name="articleId">The article database Id.</param>
+        /// <param name="articleKey">The unique article key used in permalinks.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <param name="date">The date when an article with this tag was posted.</param>
         /// <param name="tag">The article tag.</param>
         /// <returns>A self-reference for chaining.</returns>
-        public ContributionSummary Aggregate(int articleId, string articleTitle, DateTime date, string tag)
+        public ContributionSummary Aggregate(string articleKey, string articleTitle, DateTime date, string tag)
         {
             MonthSummary monthSummary = this.GetOrCreateMonth(date);
-            int monthTotal = monthSummary.Aggregate(articleId, articleTitle, date, tag);
+            int monthWeekMax = monthSummary.Aggregate(articleKey, articleTitle, date, tag);
 
-            if (this.Max < monthTotal)
+            if (this.Max < monthWeekMax)
             {
-                this.Max = monthTotal;
+                this.Max = monthWeekMax;
             }
 
             return this;
@@ -75,9 +75,9 @@ namespace ZeroWeb.Api.Models
         public ContributionSummary Paginate(int maxArticles, int maxDays)
         {
             List<PageSummary> updatedPages = new List<PageSummary>();
-            DateTime? lastWeek = null;
-            int lastWeekIndex = -1;
-            string lastMonthName = null;
+            DateTime? startWeek = null;
+            string startMonthName = null;
+            int startWeekIndex = -1;
             int articleCount = 0;
 
             foreach (DateTime monthStart in this.Months.Keys.ToList().OrderByDescending(key => key))
@@ -92,28 +92,42 @@ namespace ZeroWeb.Api.Models
                 {
                     DateTime weekStart = weeks[weekIndex];
                     WeekSummary weekSummary = monthSummary.Weeks[weekStart];
-                    int dayCount = lastWeek.HasValue ? (int)(lastWeek.Value - weekStart).TotalDays : 0;
+                    int dayCount = startWeek.HasValue ? (int)(startWeek.Value - weekStart).TotalDays : 0;
+
+                    if (!startWeek.HasValue)
+                    {
+                        startWeek = weekStart;
+                        startWeekIndex = weekIndex;
+                    }
+
+                    if (string.IsNullOrEmpty(startMonthName))
+                    {
+                        startMonthName = monthName;
+                    }
 
                     articleCount += weekSummary.Articles.Count;
 
                     if (articleCount > maxArticles || dayCount > maxDays)
                     {
                         PageSummary page = new PageSummary();
-                        
-                        page.Start = new WeekMapping(
-                            lastMonthName == null ? monthName : lastMonthName,
-                            lastWeekIndex == -1 ? weekIndex : lastWeekIndex);
+                        page.Start = new WeekMapping(monthName, weekIndex);
+                        page.End = new WeekMapping(startMonthName, startWeekIndex);
 
-                        page.End = new WeekMapping(monthName, weekIndex);
+                        if (page.End.Week > page.Start.Week)
+                        {
+                            var swap = page.Start;
+                            page.Start = page.End;
+                            page.End = swap;
+                        }
 
                         this.Pages.Add(page);
 
                         articleCount = 0;
-                        lastWeek = weekStart;
+                        startWeekIndex = -1;
+                        startWeek = null;
+                        startMonthName = null;
                     }
                 }
-
-                lastMonthName = monthName;
             }
 
             return this;

@@ -13,6 +13,7 @@
 namespace ZeroWeb.Api.Models
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// The monthly contribution summary.
@@ -83,7 +84,18 @@ namespace ZeroWeb.Api.Models
                 return this.Weeks[weekStart];
             }
 
-            // TODO: create empty weeks from this to first in descending
+            if (this.Weeks.Count > 0)
+            {
+                // Create entries for weeks between the max week and the current week.
+                var maxWeekStart = this.Weeks.Keys.Max();
+                
+                for (DateTime fillWeek = weekStart;
+                    fillWeek < maxWeekStart;
+                    fillWeek = fillWeek.AddDays(7))
+                {
+                    this.Weeks[fillWeek] = new WeekSummary();
+                }
+            }
 
             return this.Weeks[weekStart] = new WeekSummary();
         }

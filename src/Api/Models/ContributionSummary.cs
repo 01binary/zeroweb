@@ -143,7 +143,18 @@ namespace ZeroWeb.Api.Models
                 return this.Months[firstOfMonth];
             }
 
-            // TODO: if creating a month, create all month from this to first in descending order.
+            if (this.Months.Count > 0)
+            {
+                // Create entries for weeks between the max week and the current week.
+                var maxMonthStart = this.Months.Keys.Max();
+                
+                for (DateTime fillMonth = firstOfMonth;
+                    fillMonth < maxMonthStart;
+                    fillMonth = fillMonth.AddDays(7))
+                {
+                    this.Months[fillMonth] = new MonthSummary();
+                }
+            }
 
             return this.Months[firstOfMonth] = new MonthSummary();
         }

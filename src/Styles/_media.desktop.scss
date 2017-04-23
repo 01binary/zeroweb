@@ -18,6 +18,7 @@ header {
   width: 100%;
   height: 200px;
   position: relative;
+  transition: margin .3s ease-out;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -260,9 +261,28 @@ main p {
 }
 
 body {
-  float: none;
-  margin: auto;
-  width: 75%;
+  transition: margin .3s ease-out;
+}
+
+@media (max-width: 2048px) {
+  body {
+    margin-left: 150px;
+    margin-right: 150px;
+  }
+}
+
+@media (max-width: 1280px) {
+  body {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+}
+
+@media (max-width: 800px) {
+  body {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
 }
 
 .overlay {

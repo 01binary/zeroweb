@@ -49,7 +49,7 @@ namespace ZeroWeb.Api
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-                ContributionSummary summary = store
+                return this.Json(store
                     .GetArticles(true, tag)
                     .Select(article => new {
                         Key = article.Key,
@@ -78,13 +78,12 @@ namespace ZeroWeb.Api
                             next.Title,
                             next.Date,
                             next.Tag);
-                    });
-
-                return this.Json(summary.Paginate(
-                    Shared.ArticlesPerPage,
-                    Shared.DaysPerPage));
+                    })
+                    .Paginate(
+                        Shared.ArticlesPerPage,
+                        Shared.DaysPerPage));
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 return this.StatusCode(500, error.Message);
             }

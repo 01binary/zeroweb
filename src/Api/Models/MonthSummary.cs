@@ -84,19 +84,6 @@ namespace ZeroWeb.Api.Models
                 return this.Weeks[weekStart];
             }
 
-            if (this.Weeks.Count > 0)
-            {
-                // Create entries for weeks between the max week and the current week.
-                var maxWeekStart = this.Weeks.Keys.Max();
-                
-                for (DateTime fillWeek = weekStart;
-                    fillWeek < maxWeekStart;
-                    fillWeek = fillWeek.AddDays(7))
-                {
-                    this.Weeks[fillWeek] = new WeekSummary();
-                }
-            }
-
             return this.Weeks[weekStart] = new WeekSummary();
         }
 

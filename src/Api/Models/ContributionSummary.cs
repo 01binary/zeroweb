@@ -74,36 +74,30 @@ namespace ZeroWeb.Api.Models
         /// <returns>A self-reference for chaining.</returns>
         public ContributionSummary Paginate(int maxArticles, int maxDays)
         {
-            List<PageSummary> updatedPages = new List<PageSummary>();
-            DateTime? startWeek = null;
+            DateTime? startWeekFirstDay = null;
             string startMonthName = null;
-            int startWeekIndex = -1;
+            int startWeekFirstDayIndex = -1;
             int articleCount = 0;
 
-            // TODO: need empty weeks for pages to work properly.
-
-            foreach (DateTime monthStart in this.Months.Keys.ToList().OrderByDescending(key => key))
+            foreach (DateTime firstDayOfMonth in this.Months.Keys.ToList().OrderByDescending(key => key))
             {
-                string monthName = monthStart.ToString("MMM").ToLower();
-                MonthSummary monthSummary = this.Months[monthStart];
+                string monthName = firstDayOfMonth.ToString("MMM").ToLower();
+                MonthSummary monthSummary = this.Months[firstDayOfMonth];
                 DateTime[] weeks = monthSummary.Weeks.Keys
-                    .OrderBy(key => key)
+                    .OrderByDescending(key => key)
                     .ToArray();
 
-                for (int weekIndex = weeks.Length - 1; weekIndex >= 0; weekIndex--)
+                for (int weekIndex = 0; weekIndex < weeks.Length; weekIndex++)
                 {
-                    DateTime weekStart = weeks[weekIndex];
-                    WeekSummary weekSummary = monthSummary.Weeks[weekStart];
-                    int dayCount = startWeek.HasValue ? (int)(startWeek.Value - weekStart).TotalDays : 0;
+                    DateTime firstDayOfWeek = weeks[weekIndex];
+                    WeekSummary weekSummary = monthSummary.Weeks[firstDayOfWeek];
+                    int dayCount = startWeekFirstDay.HasValue ?
+                        (int)(startWeekFirstDay.Value - firstDayOfWeek).TotalDays : 0;
 
-                    if (!startWeek.HasValue)
+                    if (!startWeekFirstDay.HasValue)
                     {
-                        startWeek = weekStart;
-                        startWeekIndex = weekIndex;
-                    }
-
-                    if (string.IsNullOrEmpty(startMonthName))
-                    {
+                        startWeekFirstDay = firstDayOfWeek;
+                        startWeekFirstDayIndex = weekIndex;
                         startMonthName = monthName;
                     }
 
@@ -112,15 +106,12 @@ namespace ZeroWeb.Api.Models
                     if (articleCount > maxArticles/* || dayCount > maxDays*/)
                     {
                         PageSummary page = new PageSummary();
-                        page.Start = new WeekMapping(startMonthName, startWeekIndex);
+                        page.Start = new WeekMapping(startMonthName, startWeekFirstDayIndex);
                         page.End = new WeekMapping(monthName, weekIndex);
                         this.Pages.Add(page);
 
-                        System.Diagnostics.Debug.WriteLine("reached article count " + maxArticles + " while on week " + weekIndex + " and month " + monthName + " with last week " + startWeekIndex + " and last month " + startMonthName);
-
                         articleCount = 0;
-                        startWeekIndex = -1;
-                        startWeek = null;
+                        startWeekFirstDay = null;
                         startMonthName = null;
                     }
                 }
@@ -141,19 +132,6 @@ namespace ZeroWeb.Api.Models
             if (this.Months.ContainsKey(firstOfMonth))
             {
                 return this.Months[firstOfMonth];
-            }
-
-            if (this.Months.Count > 0)
-            {
-                // Create entries for weeks between the max week and the current week.
-                var maxMonthStart = this.Months.Keys.Max();
-                
-                for (DateTime fillMonth = firstOfMonth;
-                    fillMonth < maxMonthStart;
-                    fillMonth = fillMonth.AddDays(7))
-                {
-                    this.Months[fillMonth] = new MonthSummary();
-                }
             }
 
             return this.Months[firstOfMonth] = new MonthSummary();

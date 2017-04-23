@@ -575,9 +575,9 @@ function selectPage($scope, page) {
     var months = Object.keys($scope.contributions.months);
 
     var startMonthIndex = months.indexOf(page.start.month);
-    var startWeekIndex = page.start.week - 1;
+    var startWeekIndex = page.start.week;
     var endMonthIndex = months.indexOf(page.end.month);
-    var endWeekIndex = page.end.week - 1;
+    var endWeekIndex = page.end.week;
 
     var $allWrappers = this.find('.tag-page');
     var $startWrapper = $($allWrappers.get(startMonthIndex));

@@ -76,10 +76,8 @@ namespace ZeroWeb.Api.Models
         {
             DateTime? startWeek = null;
             string startMonthName = null;
-            string lastMonthName = null;
             string monthName = null;
             int startWeekIndex = -1;
-            int lastWeekIndex = -1;
             int articleCount = 0;
             DateTime[] weeks = null;
 
@@ -109,29 +107,15 @@ namespace ZeroWeb.Api.Models
                     if (articleCount > maxArticles ||
                         (articleCount == maxArticles && dayCount > maxDays))
                     {
-                        if (!string.IsNullOrEmpty(lastMonthName))
-                        {
-                            this.Pages.Add(new PageSummary(
-                                new WeekMapping(lastMonthName, lastWeekIndex),
-                                new WeekMapping(startMonthName, startWeekIndex),
-                                articleCount));
-                        }
-                        else
-                        {
-                            this.Pages.Add(new PageSummary(
-                                new WeekMapping(startMonthName, startWeekIndex),
-                                new WeekMapping(monthName, weekIndex),
-                                articleCount));
-                        }
+                        this.Pages.Add(new PageSummary(
+                            new WeekMapping(startMonthName, startWeekIndex),
+                            new WeekMapping(monthName, weekIndex),
+                            articleCount - 1));
 
-                        articleCount = 0;
+                        articleCount = 1;
                         startWeek = null;
                     }
-
-                    lastWeekIndex = weekIndex;
                 }
-
-                lastMonthName = monthName;
             }
 
             if (startWeek.HasValue)

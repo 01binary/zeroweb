@@ -13,6 +13,9 @@
 .date-selector {
     // Enable absolute positioning for children relative to self
     position: relative;
+
+    // Fix vector mapping alias on IE.
+    top: 0.5px;
     
     // Expanded height
     height: 130px;

@@ -74,47 +74,71 @@ namespace ZeroWeb.Api.Models
         /// <returns>A self-reference for chaining.</returns>
         public ContributionSummary Paginate(int maxArticles, int maxDays)
         {
-            DateTime? startWeekFirstDay = null;
+            DateTime? startWeek = null;
             string startMonthName = null;
-            int startWeekFirstDayIndex = -1;
+            string lastMonthName = null;
+            string monthName = null;
+            int startWeekIndex = -1;
+            int lastWeekIndex = -1;
             int articleCount = 0;
+            DateTime[] weeks = null;
 
-            foreach (DateTime firstDayOfMonth in this.Months.Keys.ToList().OrderByDescending(key => key))
+            foreach (DateTime month in this.Months.Keys.ToList().OrderByDescending(key => key))
             {
-                string monthName = firstDayOfMonth.ToString("MMM").ToLower();
-                MonthSummary monthSummary = this.Months[firstDayOfMonth];
-                DateTime[] weeks = monthSummary.Weeks.Keys
-                    .OrderByDescending(key => key)
-                    .ToArray();
+                MonthSummary monthSummary = this.Months[month];
+                monthName = month.ToString("MMM").ToLower();
+                weeks = monthSummary.Weeks.Keys.OrderByDescending(key => key).ToArray();
 
                 for (int weekIndex = 0; weekIndex < weeks.Length; weekIndex++)
                 {
                     DateTime firstDayOfWeek = weeks[weekIndex];
+                    DateTime lastDayOfWeek = month.AddDays(7);
                     WeekSummary weekSummary = monthSummary.Weeks[firstDayOfWeek];
-                    int dayCount = startWeekFirstDay.HasValue ?
-                        (int)(startWeekFirstDay.Value - firstDayOfWeek).TotalDays : 0;
+                    int dayCount = startWeek.HasValue ?
+                        (int)(startWeek.Value - lastDayOfWeek).TotalDays : 0;
 
-                    if (!startWeekFirstDay.HasValue)
+                    if (!startWeek.HasValue)
                     {
-                        startWeekFirstDay = firstDayOfWeek;
-                        startWeekFirstDayIndex = weekIndex;
+                        startWeek = firstDayOfWeek;
+                        startWeekIndex = weekIndex;
                         startMonthName = monthName;
                     }
 
                     articleCount += weekSummary.Articles.Count;
 
-                    if (articleCount > maxArticles/* || dayCount > maxDays*/)
+                    if (articleCount > maxArticles ||
+                        (articleCount == maxArticles && dayCount > maxDays))
                     {
-                        PageSummary page = new PageSummary();
-                        page.Start = new WeekMapping(startMonthName, startWeekFirstDayIndex);
-                        page.End = new WeekMapping(monthName, weekIndex);
-                        this.Pages.Add(page);
+                        if (!string.IsNullOrEmpty(lastMonthName))
+                        {
+                            this.Pages.Add(new PageSummary(
+                                new WeekMapping(lastMonthName, lastWeekIndex),
+                                new WeekMapping(startMonthName, startWeekIndex),
+                                articleCount));
+                        }
+                        else
+                        {
+                            this.Pages.Add(new PageSummary(
+                                new WeekMapping(startMonthName, startWeekIndex),
+                                new WeekMapping(monthName, weekIndex),
+                                articleCount));
+                        }
 
                         articleCount = 0;
-                        startWeekFirstDay = null;
-                        startMonthName = null;
+                        startWeek = null;
                     }
+
+                    lastWeekIndex = weekIndex;
                 }
+
+                lastMonthName = monthName;
+            }
+
+            if (startWeek.HasValue)
+            {
+                this.Pages.Add(new PageSummary(
+                    new WeekMapping(startMonthName, startWeekIndex),
+                    new WeekMapping(monthName, weeks.Length - 1), 0));
             }
 
             return this;

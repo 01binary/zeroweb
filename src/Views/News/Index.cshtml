@@ -7,9 +7,9 @@
 <h1 data-pointer
     data-ng-init="news.initialize()">news</h1>
 
-<dateselector />
+<dateselector page="@this.Model.Page" />
 
-@foreach (var story in this.Model)
+@foreach (var story in this.Model.Stories)
 {
     var storyId = story.id;
     var permalinkId = "story" + storyId;

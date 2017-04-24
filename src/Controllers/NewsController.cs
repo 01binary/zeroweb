@@ -74,7 +74,7 @@ namespace ZeroWeb.Controllers
             {
             }
 
-            return View(articles
+            var stories = articles
                 .Select(article => new
                 {
                     id = article.Id,
@@ -113,7 +113,13 @@ namespace ZeroWeb.Controllers
                     article.tags = result.tags;
                     article.content = result.content;
                     return article;
-                }));
+                });
+
+            dynamic news = new ExpandoObject();
+            news.Page = page.HasValue ? page.Value : 1;
+            news.Stories = stories;
+            
+            return this.View(news);
         }
 
         /// <summary>

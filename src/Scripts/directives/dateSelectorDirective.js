@@ -44,7 +44,7 @@ function dateSelectorDirective($q, $http, $compile, $window, $safeApply, $contri
         template: '<section class="date-selector" data-ng-class="{loading:isLoading}" aria-labelledby="dateSelectorCaption"></section>',
         scope: {},
         link: function($scope, $element, attributes) {
-            initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element);
+            initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element, attributes);
         }
     };
 }
@@ -59,8 +59,9 @@ function dateSelectorDirective($q, $http, $compile, $window, $safeApply, $contri
  * @param {object} $contrib - The contributions factory.
  * @param {object} $scope - The directive scope.
  * @param {object} $element - The directive element.
+ * @param {object} attributes - The directive element attributes.
  */
-function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element) {
+function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element, attributes) {
     // Set initial state.
     $scope.isLoading = true;
     $scope.isExpanded = true;
@@ -75,8 +76,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
     $scope.contributions = {};
     $scope.visiblePages = [];
     $scope.maxVisibleSlots = 11;
-    $scope.currentPage = null;
-
+    $scope.currentPage = attributes.page || '1';
     $scope.isSeparator = isSeparator;
     $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
     $scope.nextPage = nextPage.bind($element, $scope);
@@ -295,7 +295,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
 
         if ($scope.contributions.max) {
             $scope.renderTags();
-            $scope.selectPage('1');
+            $scope.selectPage($scope.currentPage);
 
             $($window).on('resize', $scope.resize);
         }
@@ -652,9 +652,6 @@ function renderTags($scope) {
             for (var tag in weekSummary.tags) {
                 var tagCount = weekSummary.tags[tag];
                 var tagHeight = Math.round((tagCount / $scope.contributions.max) * barHeight);
-
-                console.log('block height', tagHeight, 'tagCount', tagCount, 'all max', $scope.contributions.max, 'barHeight', barHeight);
-
                 var $block = $('<div class="tag-block tag-' + tag + '"></div>')
                     .css('height', tagHeight + 'px')
                     .css('bottom', tagOffset + 'px')

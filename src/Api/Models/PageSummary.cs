@@ -22,11 +22,10 @@ namespace ZeroWeb.Api.Models
         /// </summary>
         /// <param name="start">The start of page range.</param>
         /// <param name="end">The end of page range.</param>
-        public PageSummary(WeekMapping start, WeekMapping end, int articles)
+        public PageSummary(WeekMapping start, WeekMapping end)
         {
             this.Start = start;
             this.End = end;
-            this.Articles = articles;
         }
 
         /// <summary>
@@ -38,7 +37,5 @@ namespace ZeroWeb.Api.Models
         /// The last week summary to display on this page.
         /// </summary>
         public WeekMapping End { get; set; }
-
-        public int Articles { get; set; }
     }
 }

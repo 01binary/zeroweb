@@ -70,9 +70,8 @@ namespace ZeroWeb.Api.Models
         /// Paginate the contribution summary.
         /// </summary>
         /// <param name="maxArticles">Max. articles per page.</param>
-        /// <param name="maxDays">Max. days per page.</param>
         /// <returns>A self-reference for chaining.</returns>
-        public ContributionSummary Paginate(int maxArticles, int maxDays)
+        public ContributionSummary Paginate(int maxArticles)
         {
             DateTime? startWeek = null;
             string startMonthName = null;
@@ -104,13 +103,11 @@ namespace ZeroWeb.Api.Models
 
                     articleCount += weekSummary.Articles.Count;
 
-                    if (articleCount > maxArticles ||
-                        (articleCount == maxArticles && dayCount > maxDays))
+                    if (articleCount > maxArticles)
                     {
                         this.Pages.Add(new PageSummary(
                             new WeekMapping(startMonthName, startWeekIndex),
-                            new WeekMapping(monthName, weekIndex),
-                            articleCount - 1));
+                            new WeekMapping(monthName, weekIndex)));
 
                         articleCount = 1;
                         startWeek = null;
@@ -122,7 +119,7 @@ namespace ZeroWeb.Api.Models
             {
                 this.Pages.Add(new PageSummary(
                     new WeekMapping(startMonthName, startWeekIndex),
-                    new WeekMapping(monthName, weeks.Length - 1), 0));
+                    new WeekMapping(monthName, weeks.Length - 1)));
             }
 
             return this;

@@ -79,9 +79,7 @@ namespace ZeroWeb.Api
                             next.Date,
                             next.Tag);
                     })
-                    .Paginate(
-                        Shared.ArticlesPerPage,
-                        Shared.DaysPerPage));
+                    .Paginate(Shared.ArticlesPerPage));
             }
             catch (Exception error)
             {

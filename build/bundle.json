@@ -22,5 +22,5 @@
     ],
 
     "destination": "$(source)/Content",
-    "compress": false
+    "compress": true
 }

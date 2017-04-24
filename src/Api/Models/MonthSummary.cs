@@ -73,6 +73,16 @@ namespace ZeroWeb.Api.Models
         }
 
         /// <summary>
+        /// Determines whether the specified date can be aggregated in this month's summary.
+        /// </summary>
+        /// <param name="date">The date to be aggregated.</param>
+        /// <returns>Whether aggregating the date will not overflow the 4 weeks per month limit.</param>
+        public bool CanAggregate(DateTime date)
+        {
+            return this.Weeks.ContainsKey(GetStartOfWeek(date)) || this.Weeks.Count < 4;
+        }
+
+        /// <summary>
         /// Gets or creates a week entry.
         /// </summary>
         /// <param name="weekStart">The date to create the week for.</param>

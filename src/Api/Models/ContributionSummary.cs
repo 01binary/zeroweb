@@ -136,7 +136,16 @@ namespace ZeroWeb.Api.Models
 
             if (this.Months.ContainsKey(firstOfMonth))
             {
-                return this.Months[firstOfMonth];
+                MonthSummary monthSummary = this.Months[firstOfMonth];
+
+                if (monthSummary.CanAggregate(firstOfMonth))
+                {
+                    return monthSummary;
+                }
+                else
+                {
+                    return this.GetOrCreateMonth(firstOfMonth.AddMonths(1));
+                }
             }
 
             return this.Months[firstOfMonth] = new MonthSummary();

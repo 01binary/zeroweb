@@ -227,7 +227,7 @@ BEGIN TRANSACTION;
         -- pub, thumb
         1, '',
         -- title
-        'software enginnering article',
+        'software engineering article',
         -- key
         'software-engineering-article',
         -- optional

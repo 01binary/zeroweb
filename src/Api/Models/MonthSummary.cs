@@ -13,7 +13,6 @@
 namespace ZeroWeb.Api.Models
 {
     using System;
-    using System.Linq;
 
     /// <summary>
     /// The monthly contribution summary.

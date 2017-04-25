@@ -57,43 +57,29 @@ namespace ZeroWeb
         /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="page">The page number to return (ignored if 0 or an article is specified).</param>
-        /// <param name="article">Return the page containing this article if non-null (by key or id).</param>
+        /// <param name="article">Return the page containing this article key.</param>
         /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
         public IQueryable<Article> GetArticles(int days, int count, int page, string article, bool published, params string[] tags)
         {
-            // Select max number of articles, or articles within specified number of days, whichever returns more.
-            DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
-
             var firstPage = this.context.Articles
                 .Where(byCount =>
                        byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
                        byCount.Published == published)
                 .OrderByDescending(order => order.Date.Ticks)
-                .Take(count)
-                .Union(this.context.Articles
-                .Where(byDate =>
-                       byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byDate.Date.Ticks <= oldest.Ticks &&
-                       byDate.Published == published))
-                .OrderByDescending(order => order.Date.Ticks)
                 .Take(count);
             
-            // Select items on the same page as the article if an article was specified.
-            int articleId = this.GetArticleId(article, published);
-
-            if (articleId > 0)
+            if (article != null)
             {
-                if (firstPage.Any(byId => byId.Id == articleId))
+                if (firstPage.Any(byKey => byKey.Key == article))
                 {
                     return firstPage;
                 }
-                
-                page = Math.Max(this.GetArticleIndex(articleId, published, tags) / count, 1);
+
+                page = Math.Max(this.GetArticleIndex(article, published, tags) / count, 1);
             }
             
-            // Select items on the given page.
             return this.context.Articles
                 .Where(byPage =>
                        byPage.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
@@ -359,39 +345,13 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the article Id given an identification string.
-        /// </summary>
-        /// <param name="article">Article Key or Id.</param>
-        /// <param name="published">Whether to look for published or un-published articles.</param>
-        /// <returns>The article Id.</returns>
-        private int GetArticleId(string article, bool published)
-        {
-            int articleId = 0;
-
-            if (!string.IsNullOrEmpty(article) && article.Length > 0)
-            {
-                if (!int.TryParse(article, out articleId))
-                {
-                   articleId = this.context.Articles
-                        .Where(byKey =>
-                            byKey.Key == article &&
-                            byKey.Published == published)
-                        .Select(result => result.Id)
-                        .FirstOrDefault();
-                }
-            }
-
-            return articleId;
-        }
-
-        /// <summary>
         /// Gets the index of article in the list.
         /// </summary>
-        /// <param name="articleId">The Id of the article to get the index of.</param>
+        /// <param name="article">The article key to get the index of.</param>
         /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags used to retrieve the article list.</param>
         /// <returns>Index of the article or -1 if not found.</returns>
-        private int GetArticleIndex(int articleId, bool published, params string[] tags)
+        private int GetArticleIndex(string article, bool published, params string[] tags)
         {
             var indexGroup = this.context.Articles
                 .Where(all =>
@@ -403,7 +363,7 @@ namespace ZeroWeb
                     Item = item,
                     Index = index
                 })
-                .Where(itemGroup => itemGroup.Item.Id == articleId)
+                .Where(itemGroup => itemGroup.Item.Key == article)
                 .FirstOrDefault();
 
             if (indexGroup != null)

@@ -214,7 +214,10 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
             // Pages strip.
             '<div class="date-selector-pages">' + 
                 // Page button.
-                '<a role="button" ng-attr-tabindex="{{isSeparator(page) ? -1 : 0}}" class="date-selector-page noselect" ' +
+                '<a role="button" ' +
+                    'data-ng-href="/news?page={{page}}" ' + 
+                    'ng-attr-tabindex="{{isSeparator(page) ? -1 : 0}}" ' +
+                    'class="date-selector-page noselect" ' +
                     'data-ng-mousedown="pageClick($event)" ' +
                     'data-ng-repeat="page in visiblePages" ' +
                     'data-ng-class="{' +

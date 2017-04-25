@@ -685,7 +685,9 @@ function renderTags($scope) {
         $scope.maxScroll = calculateMaxScroll($scope);
 
         // Start with tag view off-screen for a slide-in animation.
-        $view.css('left', -$view.width() + 'px');
+        if ($scope.currentPage == "1") {
+            $view.css('left', -$view.width() + 'px');
+        }
     }
 }
 

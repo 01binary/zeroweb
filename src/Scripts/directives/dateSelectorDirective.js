@@ -163,7 +163,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
                 '</symbol>' +
                 // Arrows and brackets.
                 '<symbol id="arrow-left">' +
-                    '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3h8.8V4H2.1l2.5,2.5H3.1L0,3.5z"/>' +
+                    '<path fill="currentColor" d="M0,3.5l3.1-3.1h1.5L2.1,3H11v1H2.1l2.5,2.5H3.1L0,3.5z"/>' +
                 '</symbol>' +
                 '<symbol id="arrow-right">' +
                     '<path fill="currentColor" d="M7.9,6.6H6.4L8.9,4H0.2V3h8.8L6.4,0.4h1.5L11,3.5L7.9,6.6z"/>' +

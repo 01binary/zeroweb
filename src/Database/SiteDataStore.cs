@@ -54,68 +54,43 @@ namespace ZeroWeb
         /// <summary>
         /// Gets the articles on the specified page, or on a page containing the specified article.
         /// </summary>
-        /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="page">The page number to return (ignored if 0 or an article is specified).</param>
         /// <param name="article">Return the page containing this article key.</param>
         /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(int days, int count, int page, string article, bool published, params string[] tags)
+        public IQueryable<Article> GetArticles(int count, int page, string article, bool published, params string[] tags)
         {
-            var firstPage = this.context.Articles
-                .Where(byCount =>
-                       byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byCount.Published == published)
-                .OrderByDescending(order => order.Date.Ticks)
-                .Take(count);
-            
+            var articles = this.context.Articles
+                .Where(all =>
+                       all.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                       all.Published == published)
+                .OrderByDescending(order => order.Date.Ticks);
+
             if (article != null)
             {
-                if (firstPage.Any(byKey => byKey.Key == article))
-                {
-                    return firstPage;
-                }
-
                 page = Math.Max(this.GetArticleIndex(article, published, tags) / count, 1);
             }
             
-            return this.context.Articles
-                .Where(byPage =>
-                       byPage.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byPage.Published == published)
-                .OrderByDescending(order => order.Date.Ticks)
-                .Skip(firstPage.Count() + (page - 1) * count)
-                .Take(count);
+            return articles.Skip(Shared.ArticlesPerPage * page).Take(Shared.ArticlesPerPage);
         }
 
         /// <summary>
         /// Gets the articles with the specified author.
         /// </summary>
-        /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author name.</param>
         /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(int days, int count, string author, bool published, params string[] tags)
+        public IQueryable<Article> GetArticles(int count, string author, bool published, params string[] tags)
         {
-            // Select max number of articles, or articles within specified number of days, whichever returns more.
-            DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
-
             return this.context.Articles
-                .Where(byCount =>
-                       byCount.Author.Name == author &&
-                       byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byCount.Published == published)
-                .OrderByDescending(order => order.Date.Ticks)
-                .Take(count)
-                .Union(this.context.Articles
-                .Where(byDate =>
-                       byDate.Author.Name == author &&
-                       byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                       byDate.Date.Ticks <= oldest.Ticks &&
-                       byDate.Published == published))
+                .Where(all =>
+                       all.Author.Name == author &&
+                       all.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                       all.Published == published)
                 .OrderByDescending(order => order.Date.Ticks)
                 .Take(count);
         }
@@ -123,37 +98,23 @@ namespace ZeroWeb
         /// <summary>
         /// Gets the articles maching the specified search criteria.
         /// </summary>
-        /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="search">Search titles and full text.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(int days, int count, string search, params string[] tags)
+        public IQueryable<Article> GetArticles(int count, string search, params string[] tags)
         {
-            DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
             string searchLower = search.ToLower();
 
             return this.context.Articles
-                .Where(byCount =>
+                .Where(all =>
                     (
-                        byCount.Title.ToLower().Contains(searchLower) ||
-                        searchLower.Contains(byCount.Title.ToLower()) ||
-                        byCount.Content.ToLower().Contains(searchLower)
+                        all.Title.ToLower().Contains(searchLower) ||
+                        searchLower.Contains(all.Title.ToLower()) ||
+                        all.Content.ToLower().Contains(searchLower)
                     ) &&
-                    byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                    byCount.Published)
-                .OrderByDescending(order => order.Date.Ticks)
-                .Take(count)
-                .Union(this.context.Articles
-                .Where(byDate =>
-                    (
-                        byDate.Title.ToLower().Contains(searchLower) ||
-                        searchLower.Contains(byDate.Title.ToLower()) ||
-                        byDate.Content.ToLower().Contains(searchLower)
-                    ) &&
-                    byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                    byDate.Date.Ticks <= oldest.Ticks &&
-                    byDate.Published))
+                    all.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    all.Published)
                 .OrderByDescending(order => order.Date.Ticks)
                 .Take(count);
         }
@@ -161,40 +122,25 @@ namespace ZeroWeb
         /// <summary>
         /// Gets the articles for the specified author that match the specified search criteria.
         /// </summary>
-        /// <param name="days">How many days to return.</param>
         /// <param name="count">How many articles to return at most.</param>
         /// <param name="author">The author to search for.</param>
         /// <param name="search">Search titles and full text.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(int days, int count, string author, string search, params string[] tags)
+        public IQueryable<Article> GetArticles(int count, string author, string search, params string[] tags)
         {
-            DateTime oldest = DateTime.Now - TimeSpan.FromDays(days);
             string searchLower = search.ToLower();
 
             return this.context.Articles
-                .Where(byCount =>
+                .Where(all =>
                     (
-                        byCount.Title.ToLower().Contains(searchLower) ||
-                        searchLower.Contains(byCount.Title.ToLower()) ||
-                        byCount.Content.ToLower().Contains(searchLower)
+                        all.Title.ToLower().Contains(searchLower) ||
+                        searchLower.Contains(all.Title.ToLower()) ||
+                        all.Content.ToLower().Contains(searchLower)
                     ) &&
-                    byCount.Author.Name == author &&
-                    byCount.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                    byCount.Published)
-                .OrderByDescending(order => order.Date.Ticks)
-                .Take(count)
-                .Union(this.context.Articles
-                .Where(byDate =>
-                    (
-                        byDate.Title.ToLower().Contains(searchLower) ||
-                        searchLower.Contains(byDate.Title.ToLower()) ||
-                        byDate.Content.ToLower().Contains(searchLower)
-                    ) &&
-                    byDate.Author.Name == author &&
-                    byDate.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                    byDate.Date.Ticks <= oldest.Ticks &&
-                    byDate.Published))
+                    all.Author.Name == author &&
+                    all.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    all.Published)
                 .OrderByDescending(order => order.Date.Ticks)
                 .Take(count);
         }
@@ -208,7 +154,7 @@ namespace ZeroWeb
         /// <returns>A list of articles.</returns>
         public IQueryable<Article> GetArticles(string tag, int page, string article)
         {
-            return this.GetArticles(Shared.DaysPerPage, Shared.ArticlesPerPage, page, article, true, tag);
+            return this.GetArticles(Shared.ArticlesPerPage, page, article, true, tag);
         }
 
         /// <summary>

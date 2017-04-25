@@ -42,15 +42,15 @@ namespace ZeroWeb.Api
         /// </summary>
         /// <param name="tag">The type of articles to retrieve.</param>
         /// <param name="articles">Limit articles per page.</param>
-        /// <param name="days">Limit days per page.</param>
-        [HttpGet("{tag}/{articles:int?}/{days:int?}")]
-        public IActionResult GetContributions(string tag, int? articles, int? days)
+        [HttpGet("{tag}/{articles:int?}")]
+        public IActionResult GetContributions(string tag, int? articles)
         {
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
                 return this.Json(store
                     .GetArticles(true, tag)
+                    .OrderByDescending(article => article.Date.Ticks)
                     .Select(article => new {
                         Key = article.Key,
                         Title = article.Title,

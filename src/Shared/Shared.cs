@@ -28,11 +28,6 @@ namespace ZeroWeb
         public const int ArticlesPerPage = 4;
 
         /// <summary>
-        /// Max. contributions per page by days.
-        /// </summary>
-        public const int DaysPerPage = 7;
-
-        /// <summary>
         /// Format story content using GitHub Markdown Api.
         /// </summary>
         /// <param name="tagName">The content to format.</param>

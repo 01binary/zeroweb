@@ -77,10 +77,12 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
     $scope.visiblePages = [];
     $scope.maxVisibleSlots = 11;
     $scope.currentPage = attributes.page || '1';
+    $scope.nextPage = null;
+    $scope.prevPage = null;
     $scope.isSeparator = isSeparator;
     $scope.expandCollapse = expandCollapse.bind($element, $scope, $safeApply);
-    $scope.nextPage = nextPage.bind($element, $scope);
-    $scope.prevPage = prevPage.bind($element, $scope);
+    $scope.selectNextPage = selectNextPage.bind($element, $scope);
+    $scope.selectPrevPage = selectPrevPage.bind($element, $scope);
     $scope.selectPage = selectPage.bind($element, $scope);
     $scope.pageClick = pageClick.bind($element, $scope);
     $scope.beginScroll = beginScroll.bind($element, $scope);
@@ -182,7 +184,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
             '</button>' +
 
             // Previous page button.
-            '<a role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="prevPage()">' +
+            '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
                 '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-hover-overlay"></use>' +
                 '</svg>' +
@@ -253,7 +255,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<a role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="nextPage()">' +
+                '<a data-ng-href="news/?page={{nextPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="selectNextPage()">' +
                     '<svg class="date-selector-page-hover" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-hover-overlay"></use>' +
                     '</svg>' +
@@ -334,7 +336,7 @@ function expandCollapse($scope, $safeApply) {
  * Scroll to next page.
  * @param {object} $scope - The directive scope.
  */
-function prevPage($scope) {
+function selectPrevPage($scope) {
     var prev = parseInt($scope.currentPage, 10) - 1;
 
     if (prev < 1)
@@ -347,7 +349,7 @@ function prevPage($scope) {
  * Scroll to previous page.
  * @param {object} $scope - The directive scope.
  */
-function nextPage($scope) {
+function selectNextPage($scope) {
     var next = parseInt($scope.currentPage, 10) + 1;
 
     if (next > $scope.contributions.pages.length) {
@@ -569,11 +571,15 @@ function isSeparator(page) {
  * @param {string} page - The page number or caption to change to.
  */
 function selectPage($scope, page) {
+    // Update the page numbers.
+    var pageIndex = parseInt($scope.currentPage, 10) - 1;
+
     $scope.currentPage = page.toString();
+    $scope.prevPage = Math.max(1, pageIndex).toString();
+    $scope.nextPage = Math.min($scope.contributions.pages.length, pageIndex + 2).toString();
     $scope.visiblePages = getVisiblePages($scope.pages, $scope);
 
     // Update the selection brackets.
-    var pageIndex = parseInt($scope.currentPage, 10) - 1;
     var page = $scope.contributions.pages[pageIndex];
     var months = Object.keys($scope.contributions.months);
 

@@ -144,6 +144,8 @@ namespace ZeroWeb.Api.Models
                 }
                 else
                 {
+                    // TODO: need to 'push out' an existing week to next month
+                    System.Diagnostics.Debug.WriteLine("Cannot aggregate " + firstOfMonth.ToString("MMM dd yyyy") + " instead going to " + firstOfMonth.AddMonths(1).ToString("MMM"));
                     return this.GetOrCreateMonth(firstOfMonth.AddMonths(1));
                 }
             }

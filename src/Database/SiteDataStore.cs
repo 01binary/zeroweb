@@ -70,10 +70,18 @@ namespace ZeroWeb
 
             if (article != null)
             {
+                // If an article sepcified, returning the page with the article.
                 page = Math.Max(this.GetArticleIndex(article, published, tags) / count, 1);
             }
+            else if (page == 0)
+            {
+                // If no page specified, return the first page.
+                page = 1;
+            }
             
-            return articles.Skip(Shared.ArticlesPerPage * page).Take(Shared.ArticlesPerPage);
+            return articles
+                .Skip(Shared.ArticlesPerPage * (page - 1))
+                .Take(Shared.ArticlesPerPage);
         }
 
         /// <summary>

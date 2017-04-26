@@ -2417,6 +2417,15 @@ BEGIN TRANSACTION;
         49,
         -- tag id --
         8
+    ),
+    -- article 34 > industrial
+    (
+        -- meta id --
+        146,
+        -- article id --
+        34,
+        -- tag id --
+        16
     );
 
 COMMIT TRANSACTION;

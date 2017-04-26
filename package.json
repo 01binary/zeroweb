@@ -23,7 +23,7 @@
     "postinstall": "node build/tasks/restore",
     "build": "node build/tasks/build",
     "start": "node build/tasks/run",
-    "watch": "node build/tasks/watch",
+    "watch": "npm run uglify && npm run sass && node build/tasks/watch",
     "uglify": "node build/tasks/build uglify",
     "sass": "node build/tasks/build sass",
     "uglify:watch": "node build/tasks/watch uglify",

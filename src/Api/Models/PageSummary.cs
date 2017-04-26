@@ -10,8 +10,6 @@
 |  Copyright(C) 2017 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-using System.Collections.Generic;
-
 namespace ZeroWeb.Api.Models
 {
     /// <summary>
@@ -24,12 +22,10 @@ namespace ZeroWeb.Api.Models
         /// </summary>
         /// <param name="start">The start of page range.</param>
         /// <param name="end">The end of page range.</param>
-        public PageSummary(WeekMapping start, WeekMapping end, List<string> articles)
+        public PageSummary(WeekMapping start, WeekMapping end)
         {
             this.Start = start;
             this.End = end;
-            this.Articles = new List<string>();
-            this.Articles.AddRange(articles);
         }
 
         /// <summary>
@@ -41,7 +37,5 @@ namespace ZeroWeb.Api.Models
         /// The last week summary to display on this page.
         /// </summary>
         public WeekMapping End { get; set; }
-
-        public List<string> Articles { get; set; }
     }
 }

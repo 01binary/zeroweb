@@ -80,6 +80,8 @@ namespace ZeroWeb.Api.Models
             int articleCount = 0;
             DateTime[] weeks = null;
 
+            List<string> temp = new List<string>();
+
             foreach (DateTime month in this.Months.Keys.ToList().OrderByDescending(key => key))
             {
                 MonthSummary monthSummary = this.Months[month];
@@ -102,15 +104,19 @@ namespace ZeroWeb.Api.Models
                     }
 
                     articleCount += weekSummary.Articles.Count;
+                    temp.AddRange(weekSummary.Articles.Values);
 
-                    if (articleCount > maxArticles)
+                    if (articleCount == maxArticles)
                     {
                         this.Pages.Add(new PageSummary(
                             new WeekMapping(startMonthName, startWeekIndex),
-                            new WeekMapping(monthName, weekIndex)));
+                            new WeekMapping(monthName, weekIndex),
+                            temp));
 
                         articleCount = 1;
                         startWeek = null;
+
+                        temp.Clear();
                     }
                 }
             }
@@ -119,7 +125,8 @@ namespace ZeroWeb.Api.Models
             {
                 this.Pages.Add(new PageSummary(
                     new WeekMapping(startMonthName, startWeekIndex),
-                    new WeekMapping(monthName, weeks.Length - 1)));
+                    new WeekMapping(monthName, weeks.Length - 1),
+                    temp));
             }
 
             return this;

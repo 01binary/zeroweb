@@ -651,7 +651,7 @@ function renderTags($scope) {
 
             $bar = $('<div class="tag-bar"></div>')
                 .css('left', $bar ? $bar.position().left + $bar.width() : 0)
-                .attr('title', weekDates)
+                .attr('title', weekDates + '\n' + Object.keys(weekSummary.articles).join('\n'))
                 .appendTo($wrapper);
 
             if (!barHeight) {

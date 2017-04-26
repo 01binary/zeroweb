@@ -91,32 +91,32 @@ namespace ZeroWeb.Api.Models
                 for (int weekIndex = 0; weekIndex < weeks.Length; weekIndex++)
                 {
                     DateTime firstDayOfWeek = weeks[weekIndex];
-                    DateTime lastDayOfWeek = month.AddDays(7);
                     WeekSummary weekSummary = monthSummary.Weeks[firstDayOfWeek];
-                    int dayCount = startWeek.HasValue ?
-                        (int)(startWeek.Value - lastDayOfWeek).TotalDays : 0;
 
-                    if (!startWeek.HasValue)
+                    for (int article = 0; article < weekSummary.Articles.Count; article++)
                     {
-                        startWeek = firstDayOfWeek;
-                        startWeekIndex = weekIndex;
-                        startMonthName = monthName;
-                    }
+                        if (!startWeek.HasValue)
+                        {
+                            startWeek = firstDayOfWeek;
+                            startWeekIndex = weekIndex;
+                            startMonthName = monthName;
+                        }
 
-                    articleCount += weekSummary.Articles.Count;
-                    temp.AddRange(weekSummary.Articles.Values);
+                        articleCount++;
+                        temp.AddRange(weekSummary.Articles.Values);
 
-                    if (articleCount == maxArticles)
-                    {
-                        this.Pages.Add(new PageSummary(
-                            new WeekMapping(startMonthName, startWeekIndex),
-                            new WeekMapping(monthName, weekIndex),
-                            temp));
+                        if (articleCount == maxArticles)
+                        {
+                            this.Pages.Add(new PageSummary(
+                                new WeekMapping(startMonthName, startWeekIndex),
+                                new WeekMapping(monthName, weekIndex),
+                                temp));
 
-                        articleCount = 1;
-                        startWeek = null;
+                            articleCount = 0;
+                            startWeek = null;
 
-                        temp.Clear();
+                            temp.Clear();
+                        }
                     }
                 }
             }

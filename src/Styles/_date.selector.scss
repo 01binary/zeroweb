@@ -599,6 +599,12 @@
     }
 }
 
+@-moz-document url-prefix() {
+    .date-selector-scroll-left .date-selector-page-label {
+        top: -2px;
+    }
+}
+
 // Weekly tag stacked bar 
 .tag-bar {
   position: absolute;

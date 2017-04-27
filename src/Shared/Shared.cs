@@ -99,6 +99,27 @@ namespace ZeroWeb
         }
 
         /// <summary>
+        /// Gets the start of the week the specified date occurs in.
+        /// </summary>
+        /// <param name="date">The date within a week.</param>
+        /// <returns>The start of week.</returns>
+        public static DateTime GetStartOfWeek(DateTime date)
+        {
+            if (date.DayOfWeek == DayOfWeek.Monday)
+            {
+                return date;
+            }
+            else if (date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return date.AddDays(-6);
+            }
+            else
+            {
+                return date.AddDays(-((int)date.DayOfWeek - 1));
+            }
+        }
+
+        /// <summary>
         /// Gets the request IP address.
         /// </summary>
         /// <returns>The request IP address.</returns>

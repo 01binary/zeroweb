@@ -55,7 +55,7 @@ namespace ZeroWeb.Api.Models
         {
             // Aggregate tag counts for each week.
             int weekCount;
-            DateTime weekStart = GetStartOfWeek(date);
+            DateTime weekStart = Shared.GetStartOfWeek(date);
             this.Tags.TryGetValue(weekStart, out weekCount);
             this.Tags[weekStart] = weekCount + 1;
 
@@ -78,7 +78,7 @@ namespace ZeroWeb.Api.Models
         /// <returns>Whether aggregating the date will not overflow the 4 weeks per month limit.</param>
         public bool CanAggregate(DateTime date)
         {
-            return this.Weeks.ContainsKey(GetStartOfWeek(date)) || this.Weeks.Count < 4;
+            return this.Weeks.ContainsKey(Shared.GetStartOfWeek(date)) || this.Weeks.Count < 4;
         }
 
         /// <summary>
@@ -94,27 +94,6 @@ namespace ZeroWeb.Api.Models
             }
 
             return this.Weeks[weekStart] = new WeekSummary();
-        }
-
-        /// <summary>
-        /// Gets the start of the week the specified date occurs in.
-        /// </summary>
-        /// <param name="date">The date within a week.</param>
-        /// <returns>The start of week.</returns>
-        private static DateTime GetStartOfWeek(DateTime date)
-        {
-            if (date.DayOfWeek == DayOfWeek.Monday)
-            {
-                return date;
-            }
-            else if (date.DayOfWeek == DayOfWeek.Sunday)
-            {
-                return date.AddDays(-6);
-            }
-            else
-            {
-                return date.AddDays(-((int)date.DayOfWeek - 1));
-            }
         }
     }
 }

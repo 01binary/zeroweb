@@ -57,11 +57,38 @@ namespace ZeroWeb.Api.Models
                 this.Articles.Add(articleKey, articleTitle);
             }
 
+            this.AggregateTag(tag, 1);
+
+            return this.Total;
+        }
+
+        /// <summary>
+        /// Merge with another week summary.
+        /// </summary>
+        /// <param name="merge">The week summary to merge with.</param>
+        public void Merge(WeekSummary merge)
+        {
+            foreach (var article in merge.Articles)
+            {
+                this.Articles[article.Key] = article.Value;
+            }
+
+            foreach (var tag in merge.Tags)
+            {
+                this.AggregateTag(tag.Key, tag.Value);
+            }
+        }
+
+        /// <summary>
+        /// Aggregate count for the specified tag.
+        /// </summary>
+        /// <param name="merge">The week summary to merge with.</param>
+        private void AggregateTag(string tag, int count)
+        {
             int tagCount;
             this.Tags.TryGetValue(tag, out tagCount);
-            this.Tags[tag] = tagCount + 1;
-            
-            return ++this.Total;
+            this.Tags[tag] = tagCount + count;
+            this.Total += count;
         }
     }
 }

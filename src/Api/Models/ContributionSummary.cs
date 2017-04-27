@@ -73,12 +73,10 @@ namespace ZeroWeb.Api.Models
         /// <returns>A self-reference for chaining.</returns>
         public ContributionSummary Paginate(int maxArticles)
         {
-            DateTime? startWeek = null;
-            string startMonthName = null;
             string monthName = null;
-            int startWeekIndex = -1;
             int articleCount = 0;
             DateTime[] weeks = null;
+            WeekMapping pageStart = null;
 
             foreach (DateTime month in this.Months.Keys.ToList().OrderByDescending(key => key))
             {
@@ -93,11 +91,9 @@ namespace ZeroWeb.Api.Models
 
                     for (int article = 0; article < weekSummary.Articles.Count; article++)
                     {
-                        if (!startWeek.HasValue)
+                        if (pageStart == null)
                         {
-                            startWeek = firstDayOfWeek;
-                            startWeekIndex = weekIndex;
-                            startMonthName = monthName;
+                            pageStart = new WeekMapping(monthName, weekIndex);
                         }
 
                         articleCount++;
@@ -105,20 +101,20 @@ namespace ZeroWeb.Api.Models
                         if (articleCount == maxArticles)
                         {
                             this.Pages.Add(new PageSummary(
-                                new WeekMapping(startMonthName, startWeekIndex),
+                                pageStart,
                                 new WeekMapping(monthName, weekIndex)));
 
                             articleCount = 0;
-                            startWeek = null;
+                            pageStart = null;
                         }
                     }
                 }
             }
 
-            if (startWeek.HasValue)
+            if (pageStart != null)
             {
                 this.Pages.Add(new PageSummary(
-                    new WeekMapping(startMonthName, startWeekIndex),
+                    pageStart,
                     new WeekMapping(monthName, weeks.Length - 1)));
             }
 
@@ -140,16 +136,45 @@ namespace ZeroWeb.Api.Models
 
                 if (monthSummary.CanAggregate(firstOfMonth))
                 {
+                    // Use the month of the entry.
                     return monthSummary;
                 }
                 else
                 {
-                    // TODO: need to 'push out' an existing week to next month
-                    System.Diagnostics.Debug.WriteLine("Cannot aggregate " + firstOfMonth.ToString("MMM dd yyyy") + " instead going to " + firstOfMonth.AddMonths(1).ToString("MMM"));
-                    return this.GetOrCreateMonth(firstOfMonth.AddMonths(1));
+                    DateTime nextMonth = firstOfMonth.AddMonths(1);
+                    DateTime firstDayOfWeek = Shared.GetStartOfWeek(date);
+
+                    if (nextMonth.Month - firstDayOfWeek.Month > 1)
+                    {
+                        // Move most recent entry from the current month into next month.
+                        DateTime maxWeek = monthSummary.Weeks.Keys.OrderByDescending(w => w).First();
+
+                        if (this.Months[nextMonth].Weeks.ContainsKey(maxWeek))
+                        {
+                            // Last month already has this week, merge both summaries together.
+                            this.Months[nextMonth].Weeks[maxWeek]
+                                .Merge(monthSummary.Weeks[maxWeek]);
+                        }
+                        else
+                        {
+                            // Last month has no entry for this week, add it.
+                            this.Months[nextMonth].Weeks
+                                .Add(maxWeek, monthSummary.Weeks[maxWeek]);
+                        }
+
+                        // Use the month of the entry after moving an older entry out.
+                        monthSummary.Weeks.Remove(maxWeek);
+                        return this.Months[firstOfMonth];
+                    }
+                    else
+                    {
+                        // Move this entry into next month.
+                        return this.GetOrCreateMonth(nextMonth);
+                    }
                 }
             }
 
+            // Aggregate in a new month.
             return this.Months[firstOfMonth] = new MonthSummary();
         }
     }

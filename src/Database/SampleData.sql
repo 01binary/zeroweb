@@ -2421,7 +2421,7 @@ BEGIN TRANSACTION;
     -- article 34 > industrial
     (
         -- meta id --
-        146,
+        200,
         -- article id --
         34,
         -- tag id --

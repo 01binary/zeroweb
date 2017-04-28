@@ -109,15 +109,15 @@ namespace ZeroWeb
 
             if (date.DayOfWeek == DayOfWeek.Monday)
             {
-                return date.Date;
+                ret = date.Date;
             }
             else if (date.DayOfWeek == DayOfWeek.Sunday)
             {
-                return date.AddDays(-5).Date;
+                ret = date.AddDays(-6).Date;
             }
             else
             {
-                return date.AddDays(-((int)date.DayOfWeek - 1)).Date;
+                ret = date.AddDays(-((int)date.DayOfWeek - 1)).Date;
             }
 
             return ret;

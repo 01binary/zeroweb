@@ -107,10 +107,11 @@ namespace ZeroWeb.Api.Models
         private int GetWeekOffset(DateTime firstDayOfMonth, DateTime firstDayOfWeek)
         {
             DateTime firstWeekOfMonth = Shared.GetStartOfWeek(firstDayOfMonth);
+            DateTime lastWeekOfMonth = firstWeekOfMonth.AddDays(18);
             
             System.Diagnostics.Debug.WriteLine("---- First week of month for week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] is [" + firstWeekOfMonth.ToString("MMM dd") + " - " + firstWeekOfMonth.AddDays(6).ToString("MMM dd") + "]");
 
-            for (int weekOffset = 0; weekOffset < 3; weekOffset++)
+            for (int weekOffset = 0; weekOffset < 4; weekOffset++)
             {
                 DateTime firstDayOfWeekOffset = firstWeekOfMonth.AddDays(weekOffset * 6);
 
@@ -121,13 +122,12 @@ namespace ZeroWeb.Api.Models
                 }
                 else if (firstDayOfWeek < firstDayOfWeekOffset)
                 {
-                    System.Diagnostics.Debug.WriteLine("Placing week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] at offset " + weekOffset + " because the start of that week is before Week[" + weekOffset + "] = [" + firstDayOfWeekOffset.ToString("MMM dd") + " - " + firstDayOfWeekOffset.AddDays(6).ToString("MMM dd") + "]");
+                    System.Diagnostics.Debug.WriteLine("Placing week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] at offset " + (weekOffset - 1) + " because the start of that week is before Week[" + weekOffset + "] = [" + firstDayOfWeekOffset.ToString("MMM dd") + " - " + firstDayOfWeekOffset.AddDays(6).ToString("MMM dd") + "]");
                     return weekOffset - 1;
                 }
             }
 
-            DateTime lastofw = firstWeekOfMonth.AddDays(21);
-            System.Diagnostics.Debug.WriteLine("Placing week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] at offset 3 because the start of that week is greater than Week[3] = [" + lastofw.ToString("MMM dd") + " - " + lastofw.AddDays(7).ToString("MMM dd") + "]");
+            System.Diagnostics.Debug.WriteLine("Placing week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] at offset 3 because the start of that week is greater than Week[3] = [" + lastWeekOfMonth.ToString("MMM dd") + " - " + lastWeekOfMonth.AddDays(6).ToString("MMM dd") + "]");
 
             return 3;
         }

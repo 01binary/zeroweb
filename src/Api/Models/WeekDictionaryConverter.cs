@@ -98,7 +98,7 @@ namespace ZeroWeb
         /// <returns>The week name.</returns>
         private static string GetMonthWeekName(DateTime firstDayOfWeek)
         {
-            DateTime lastDayOfWeek = firstDayOfWeek.AddDays(7);
+            DateTime lastDayOfWeek = firstDayOfWeek.AddDays(6);
             return string.Format("{0} - {1}",
                 firstDayOfWeek.ToString(WeekFormat),
                 lastDayOfWeek.ToString(WeekFormat))

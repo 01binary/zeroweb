@@ -649,7 +649,7 @@ function renderTags($scope) {
              var tagOffset = 0;
              var $bar = $('<div class="tag-bar"></div>').appendTo($wrapper);
             
-            $bar.css('left', $wrapper.width() - $bar.width() * (weekSummary.offset + 1))
+            $bar.css('left', $wrapper.width() - $bar.width() * (weekSummary.offset + 1) + 2);
 
             if (!barHeight) {
                 barHeight = $bar.height();

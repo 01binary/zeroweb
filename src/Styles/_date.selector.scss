@@ -563,7 +563,7 @@
   // Dashed month separator 
   &-separator {
     position: absolute;
-    top: 1px;
+    top: 2px;
     bottom: 0px;
     right: -3px;
     border-right: 1px dashed $border-color;
@@ -594,11 +594,13 @@
         top: 0.5px;
     }
 
+    // Left arrow offset on IE.
     .date-selector-scroll-left .date-selector-page-label {
         top: -1.7px;
     }
 }
 
+// Left arrow offset on Firefox.
 @-moz-document url-prefix() {
     .date-selector-scroll-left .date-selector-page-label {
         top: -2px;

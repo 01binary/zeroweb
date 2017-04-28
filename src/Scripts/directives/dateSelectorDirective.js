@@ -621,16 +621,15 @@ function selectPage($scope, page) {
  * @param {object} $scope - The directive scope.
  */
 function renderTags($scope) {
+    var $view = $scope.view;
     var monthMargin = null;
     var barHeight = null;
     var minBlockHeight = null;
-    var $view = $scope.view;
     var $wrapper = null;
     
     // Render month wrappers.
     for (var monthName in $scope.contributions.months) {
-        var monthSummary = $scope.contributions.months[monthName];
-        var $bar = null;
+         var monthSummary = $scope.contributions.months[monthName];
 
         $wrapper = $('<div class="tag-page noselect"></div>')
             .css('left', $wrapper ?
@@ -646,13 +645,11 @@ function renderTags($scope) {
         
         // Render week bars inside of the month wrapper.
         for (var weekDates in monthSummary.weeks) {
-            var weekSummary = monthSummary.weeks[weekDates];
-            var tagOffset = 0;
-
-            $bar = $('<div class="tag-bar"></div>')
-                .css('left', $bar ? $bar.position().left + $bar.width() : 0)
-                .attr('title', weekDates + '\noffset: ' + weekSummary.offset + '\n' + Object.keys(weekSummary.articles).join('\n'))
-                .appendTo($wrapper);
+             var weekSummary = monthSummary.weeks[weekDates];
+             var tagOffset = 0;
+             var $bar = $('<div class="tag-bar"></div>').appendTo($wrapper);
+            
+            $bar.css('left', $wrapper.width() - $bar.width() * (weekSummary.offset + 1))
 
             if (!barHeight) {
                 barHeight = $bar.height();
@@ -660,9 +657,9 @@ function renderTags($scope) {
 
             // Render stacked tag blocks inside of bars for each week.
             for (var tag in weekSummary.tags) {
-                var tagCount = weekSummary.tags[tag];
-                var tagHeight = Math.round((tagCount / $scope.contributions.max) * barHeight);
-                var $block = $('<div class="tag-block tag-' + tag + '"></div>')
+                 var tagCount = weekSummary.tags[tag];
+                 var tagHeight = Math.round((tagCount / $scope.contributions.max) * barHeight);
+                 var $block = $('<div class="tag-block tag-' + tag + '"></div>')
                     .css('height', tagHeight + 'px')
                     .css('bottom', tagOffset + 'px')
                     .appendTo($bar);

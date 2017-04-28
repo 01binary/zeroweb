@@ -48,6 +48,7 @@ namespace ZeroWeb.Api.Models
         /// </summary>
         /// <param name="articleKey">The article key used in permalinks.</param>
         /// <param name="articleTitle">The article title.</param>
+        /// <param name="firstDayOfMonth">The first day of actual month were the article is to be aggregated.</param>
         /// <param name="date">The article date.</param>
         /// <param name="tag">The article tag to aggregate.</param>
         /// <returns>The aggregated count for the specified tag.</returns>
@@ -107,9 +108,6 @@ namespace ZeroWeb.Api.Models
         private int GetWeekOffset(DateTime firstDayOfMonth, DateTime firstDayOfWeek)
         {
             DateTime firstWeekOfMonth = Shared.GetStartOfWeek(firstDayOfMonth);
-            DateTime lastWeekOfMonth = firstWeekOfMonth.AddDays(18);
-            
-            System.Diagnostics.Debug.WriteLine("---- First week of month for week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] is [" + firstWeekOfMonth.ToString("MMM dd") + " - " + firstWeekOfMonth.AddDays(6).ToString("MMM dd") + "]");
 
             for (int weekOffset = 0; weekOffset < 4; weekOffset++)
             {
@@ -117,17 +115,13 @@ namespace ZeroWeb.Api.Models
 
                 if (firstDayOfWeek == firstDayOfWeekOffset)
                 {
-                    System.Diagnostics.Debug.WriteLine("Placing week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] at offset " + weekOffset + " because the start of that week is same as Week[" + weekOffset + "] = [" + firstDayOfWeekOffset.ToString("MMM dd") + " - " + firstDayOfWeekOffset.AddDays(6).ToString("MMM dd") + "]");
                     return weekOffset;
                 }
                 else if (firstDayOfWeek < firstDayOfWeekOffset)
                 {
-                    System.Diagnostics.Debug.WriteLine("Placing week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] at offset " + (weekOffset - 1) + " because the start of that week is before Week[" + weekOffset + "] = [" + firstDayOfWeekOffset.ToString("MMM dd") + " - " + firstDayOfWeekOffset.AddDays(6).ToString("MMM dd") + "]");
                     return weekOffset - 1;
                 }
             }
-
-            System.Diagnostics.Debug.WriteLine("Placing week [" + firstDayOfWeek.ToString("MMM dd") + " - " + firstDayOfWeek.AddDays(6).ToString("MMM dd") + "] at offset 3 because the start of that week is greater than Week[3] = [" + lastWeekOfMonth.ToString("MMM dd") + " - " + lastWeekOfMonth.AddDays(6).ToString("MMM dd") + "]");
 
             return 3;
         }

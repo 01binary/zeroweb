@@ -94,27 +94,15 @@ namespace ZeroWeb
         /// <summary>
         /// Get the week name given first day of the week.
         /// </summary>
-        /// <param name="date">The first day of the week.</param>
+        /// <param name="firstDayOfWeek">The first day of the week.</param>
         /// <returns>The week name.</returns>
-        private static string GetMonthWeekName(DateTime date)
+        private static string GetMonthWeekName(DateTime firstDayOfWeek)
         {
+            DateTime lastDayOfWeek = firstDayOfWeek.AddDays(7);
             return string.Format("{0} - {1}",
-                date.ToString(WeekFormat),
-                GetEndOfWeek(date).ToString(WeekFormat))
+                firstDayOfWeek.ToString(WeekFormat),
+                lastDayOfWeek.ToString(WeekFormat))
                 .ToLower();
-        }
-
-        /// <summary>
-        /// Get the end of the week given the first day of the week.
-        /// </summary>
-        /// <remarks>
-        /// The site convention is to use Mon through Sun weeks.
-        /// </remarks>
-        /// <param name="date">The first day of the week.</param>
-        /// <returns>The last day of the week.</returns>
-        private static DateTime GetEndOfWeek(DateTime date)
-        {
-            return date.AddDays(6 - ((int)date.DayOfWeek - 1));
         }
     }
 }

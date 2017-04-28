@@ -105,18 +105,22 @@ namespace ZeroWeb
         /// <returns>The start of week.</returns>
         public static DateTime GetStartOfWeek(DateTime date)
         {
+            DateTime ret;
+
             if (date.DayOfWeek == DayOfWeek.Monday)
             {
-                return date;
+                return date.Date;
             }
             else if (date.DayOfWeek == DayOfWeek.Sunday)
             {
-                return date.AddDays(-6);
+                return date.AddDays(-5).Date;
             }
             else
             {
-                return date.AddDays(-((int)date.DayOfWeek - 1));
+                return date.AddDays(-((int)date.DayOfWeek - 1)).Date;
             }
+
+            return ret;
         }
 
         /// <summary>

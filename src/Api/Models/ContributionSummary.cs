@@ -55,8 +55,9 @@ namespace ZeroWeb.Api.Models
         /// <returns>A self-reference for chaining.</returns>
         public ContributionSummary Aggregate(string articleKey, string articleTitle, DateTime date, string tag)
         {
-            MonthSummary monthSummary = this.GetOrCreateMonth(date);
-            int monthWeekMax = monthSummary.Aggregate(articleKey, articleTitle, date, tag);
+            DateTime firstDayOfMonth = this.GetOrCreateMonth(date);
+            MonthSummary monthSummary = this.Months[firstDayOfMonth];
+            int monthWeekMax = monthSummary.Aggregate(articleKey, articleTitle, firstDayOfMonth, date, tag);
 
             if (this.Max < monthWeekMax)
             {
@@ -126,7 +127,7 @@ namespace ZeroWeb.Api.Models
         /// </summary>
         /// <param name="date">The date to create the month for.</param>
         /// <returns>The existing or new month summary.</param>
-        private MonthSummary GetOrCreateMonth(DateTime date)
+        private DateTime GetOrCreateMonth(DateTime date)
         {
             DateTime firstOfMonth = new DateTime(date.Year, date.Month, 1);
 
@@ -137,7 +138,7 @@ namespace ZeroWeb.Api.Models
                 if (monthSummary.CanAggregate(firstOfMonth))
                 {
                     // Use the month of the entry.
-                    return monthSummary;
+                    return firstOfMonth;
                 }
                 else
                 {
@@ -164,18 +165,19 @@ namespace ZeroWeb.Api.Models
 
                         // Use the month of the entry after moving an older entry out.
                         monthSummary.Weeks.Remove(maxWeek);
-                        return this.Months[firstOfMonth];
+                        return firstOfMonth;
                     }
                     else
                     {
                         // Move this entry into next month.
-                        return this.GetOrCreateMonth(nextMonth);
+                        return nextMonth;
                     }
                 }
             }
 
             // Aggregate in a new month.
-            return this.Months[firstOfMonth] = new MonthSummary();
+            this.Months[firstOfMonth] = new MonthSummary();
+            return firstOfMonth;
         }
     }
 }

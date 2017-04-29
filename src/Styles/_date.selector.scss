@@ -740,3 +740,11 @@ $crafts:      #67d5e9;
     }
   }
 }
+
+.tag-bar-tip {
+    display: none;
+}
+
+.tooltip-content .tag-bar-tip {
+    display: block;
+}

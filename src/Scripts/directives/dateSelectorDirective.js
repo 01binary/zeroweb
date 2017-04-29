@@ -12,7 +12,11 @@
 \*---------------------------------------------------------*/
 
 'use strict';
- 
+
+// TODO: tag-page-footer to have a tip with summary for the entire month
+// TODO: tag-bar to have a tip with summary for the week
+// TODO: tag-block to have a tip with summary for the tag
+
 /**
  * Register date selector directive.
  */
@@ -75,7 +79,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
     $scope.pages = null;
     $scope.contributions = {};
     $scope.visiblePages = [];
-    $scope.maxVisibleSlots = 11;
+    $scope.maxVisibleSlots = 16;
     $scope.currentPage = attributes.page || '1';
     $scope.nextPage = null;
     $scope.prevPage = null;
@@ -291,9 +295,6 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
             '</div>'
         ));
 
-        // Compile the template.
-        $compile($element)($scope);
-
         // Initialize the tag view.
         $scope.view = $element.find('.date-selector-view');
         $scope.pages = $element.find('.date-selector-pages');
@@ -304,6 +305,9 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
 
             $($window).on('resize', $scope.resize);
         }
+
+        // Compile the template.
+        $compile($element)($scope);
     });
 }
 
@@ -647,7 +651,11 @@ function renderTags($scope) {
         for (var weekDates in monthSummary.weeks) {
              var weekSummary = monthSummary.weeks[weekDates];
              var tagOffset = 0;
-             var $bar = $('<div class="tag-bar"></div>').appendTo($wrapper);
+             var weekId = 'week-' + weekDates.replace(/\s/g, '');
+             var $weekTip = $('<div id="' + weekId + '" class="tag-bar-tip">This is the tip for week ' + weekDates + '</div>')
+                .appendTo($view);
+             var $bar = $('<div class="tag-bar" data-tooltip="#' + weekId + '"></div>')
+                .appendTo($wrapper);
             
             $bar.css('left', $wrapper.width() - $bar.width() * (weekSummary.offset + 1) + 2);
 

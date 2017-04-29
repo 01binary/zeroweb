@@ -82,9 +82,17 @@ function showTooltip(show, $element) {
     var $tooltip = getTooltip();
 
     if (show) {
-        $tooltip
-            .find('.tooltip-content')
-            .text($element.attr('data-tooltip'));
+        // If the value as an element name starting with #,
+        // should set that element as a child of self.
+        var content = $element.attr('data-tooltip');
+        var $wrapper = $tooltip.find('.tooltip-content');
+        var paddingLeft = parseInt($tooltip.css('padding-left'));
+
+        if (content[0] === '#') {
+            $wrapper.empty().append($(content).clone());
+        } else {
+            $wrapper.text(content);
+        }
 
         var y = Math.max(0,
             $element.offset().top -
@@ -92,12 +100,16 @@ function showTooltip(show, $element) {
             14 -
             parseInt($element.attr('data-tooltip-offset-y') || 0));
 
+        var xMax = window.width - $tooltip.width() - 1000;
+        console.log(xMax);
         var x = Math.max(0,
             $element.offset().left +
             $element.width() / 2 -
             $tooltip.width() / 2 -
-            parseInt($tooltip.css('padding-left')) -
+            paddingLeft -
             parseInt($element.attr('data-tooltip-offset-x') || 0));
+
+        if (x > xMax) x = xMax;
 
         $tooltip.css({ left: x, top: y }).stop().fadeIn();
     } else {

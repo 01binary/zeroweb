@@ -630,12 +630,29 @@ function renderWeekTip($tip, weekName, weekSummary) {
     $tip.append($(
         '<h4>' + weekName + '</h4>' +
         '<div class="tag-days"></div>' +
-        '<div class="tag-accumulator__wrapper"></div>' +
-        '<div class="tag-accumulator__lists-wrapper">' +
-            '<div class="tag-accumulator__tag-list">Tags here</div>' +
-            '<div class="tag-accumulator__article-list">Articles here</div>' +
-        '</div>'
+        '<ul class="tag-list"></ul>' +
+        '<ul class="tag-article-list"></ul>'
     ));
+
+    var $tagsList = $tip.find('.tag-list');
+    var tags = Object.keys(weekSummary.tags);
+
+    for (var tagIndex = 0; tagIndex < tags.length; tagIndex++) {
+        var tagName = tags[tagIndex];
+        var tagCount = weekSummary.tags[tagName];
+
+        $('<li>' + tagCount + ' <span>&times;</span> ' + tagName + '</li>').appendTo($tagsList);
+    }
+
+    var $articlesList = $tip.find('.tag-article-list');
+    var articles = Object.keys(weekSummary.articles);
+
+    for (var articleIndex = 0; articleIndex < articles.length; articleIndex++) {
+        var articleKey = articles[articleIndex];
+        var articleTitle = weekSummary.articles[articleKey];
+
+        $('<li><a href="news?article=' + articleKey + '">' + articleTitle + '</a></li>').appendTo($articlesList);
+    }
 }
 
 /**

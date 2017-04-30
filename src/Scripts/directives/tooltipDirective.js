@@ -84,34 +84,41 @@ function showTooltip(show, $element) {
     if (show) {
         // If the value as an element name starting with #,
         // should set that element as a child of self.
-        var content = $element.attr('data-tooltip');
         var $wrapper = $tooltip.find('.tooltip-content');
-        var paddingLeft = parseInt($tooltip.css('padding-left'));
+        var content = $element.attr('data-tooltip');
+        var onReady = function() {
+            var tooltipWidth = $tooltip.width();
+            var paddingLeft = parseInt($tooltip.css('padding-left'));
+
+            var y = Math.max(0,
+                $element.offset().top - $tooltip.height() - 14 -
+                parseInt($element.attr('data-tooltip-offset-y') || 0));
+
+            var desiredX = $element.offset().left + $element.width() / 2 -
+                tooltipWidth / 2 - paddingLeft -
+                parseInt($element.attr('data-tooltip-offset-x') || 0)
+
+            var maxX = window.innerWidth - tooltipWidth - paddingLeft * 5;
+            var x = Math.min(maxX, Math.max(paddingLeft, desiredX));
+
+            if (x != desiredX) {
+                // If position has been limited, move tooltip point instead.
+                var pointLeft = tooltipWidth / 2 - (x - desiredX) + 1;
+                $tooltip.find('.tooltip-point').css({ left: pointLeft});
+            } else {
+                $tooltip.find('.tooltip-point').attr('style', '');
+            }
+
+            console.log('displaying tip at', x, y);
+
+            $tooltip.stop().css({ left: Math.floor(x), top: Math.floor(y) }).fadeIn();
+        };
 
         if (content[0] === '#') {
-            $wrapper.empty().append($(content).clone());
+            $wrapper.empty().append($(content).clone()).ready(onReady);
         } else {
-            $wrapper.text(content);
+            $wrapper.text(content).ready(onReady);
         }
-
-        var y = Math.max(0,
-            $element.offset().top -
-            $tooltip.height() -
-            14 -
-            parseInt($element.attr('data-tooltip-offset-y') || 0));
-
-        var xMax = window.width - $tooltip.width() - 1000;
-        console.log(xMax);
-        var x = Math.max(0,
-            $element.offset().left +
-            $element.width() / 2 -
-            $tooltip.width() / 2 -
-            paddingLeft -
-            parseInt($element.attr('data-tooltip-offset-x') || 0));
-
-        if (x > xMax) x = xMax;
-
-        $tooltip.css({ left: x, top: y }).stop().fadeIn();
     } else {
         $tooltip.stop().fadeOut();
     }

@@ -654,7 +654,7 @@ function renderTags($scope) {
              var weekId = 'week-' + weekDates.replace(/\s/g, '');
              var $weekTip = $('<div id="' + weekId + '" class="tag-bar-tip">This is the tip for week ' + weekDates + '</div>')
                 .appendTo($view);
-             var $bar = $('<div class="tag-bar" data-tooltip="#' + weekId + '"></div>')
+             var $bar = $('<div class="tag-bar"></div>')
                 .appendTo($wrapper);
             
             $bar.css('left', $wrapper.width() - $bar.width() * (weekSummary.offset + 1) + 2);
@@ -678,6 +678,10 @@ function renderTags($scope) {
 
                 tagOffset += Math.max(minBlockHeight, tagHeight) + 1;
             }
+
+            // Set week tooltip attributes.
+            $bar.attr('data-tooltip', '#' + weekId);
+            $bar.attr('data-tooltip-offset-y', Math.ceil(tagOffset - minBlockHeight * 2 + 1));
         }
     }
 

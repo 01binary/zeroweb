@@ -183,7 +183,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
             '</svg>' +
 
             // Expand/collapse heading.
-            '<button id="dateSelectorCaption" class="date-selector-caption button-inline noselect" aria-label="Articles by date (expand or collapse)" data-ng-click="expandCollapse()" data-tooltip="// expand or collapse">' +
+            '<button id="dateSelectorCaption" class="date-selector-caption button-inline noselect" aria-label="Articles by date (expand or collapse)" data-ng-click="expandCollapse()">' +
                 '{{isExpanded === true ? "- by date" : "+"}}' +
             '</button>' +
 
@@ -621,41 +621,6 @@ function selectPage($scope, page) {
 }
 
 /**
- * Renders the week bar tooltip.
- * @param {Object} $tip - The tip element jQuery, already created.
- * @param {string} weekName - The week name in 'MMM dd - MMM dd' format.
- * @param {Object} weekSummary - The week summary with tags, articles, and max tags.
- */
-function renderWeekTip($tip, weekName, weekSummary) {
-    $tip.append($(
-        '<h4>' + weekName + '</h4>' +
-        '<div class="tag-days"></div>' +
-        '<ul class="tag-list"></ul>' +
-        '<ul class="tag-article-list"></ul>'
-    ));
-
-    var $tagsList = $tip.find('.tag-list');
-    var tags = Object.keys(weekSummary.tags);
-
-    for (var tagIndex = 0; tagIndex < tags.length; tagIndex++) {
-        var tagName = tags[tagIndex];
-        var tagCount = weekSummary.tags[tagName];
-
-        $('<li>' + tagCount + ' <span>&times;</span> ' + tagName + '</li>').appendTo($tagsList);
-    }
-
-    var $articlesList = $tip.find('.tag-article-list');
-    var articles = Object.keys(weekSummary.articles);
-
-    for (var articleIndex = 0; articleIndex < articles.length; articleIndex++) {
-        var articleKey = articles[articleIndex];
-        var articleTitle = weekSummary.articles[articleKey];
-
-        $('<li><a href="news?article=' + articleKey + '">' + articleTitle + '</a></li>').appendTo($articlesList);
-    }
-}
-
-/**
  * Render tags.
  * @param {object} $scope - The directive scope.
  */
@@ -743,6 +708,47 @@ function renderTags($scope) {
         if ($scope.currentPage == "1") {
             $view.css('left', -$view.width() + 'px');
         }
+    }
+}
+
+/**
+ * Renders the week bar tooltip.
+ * @param {Object} $tip - The tip element jQuery, already created.
+ * @param {string} weekName - The week name in 'MMM dd - MMM dd' format.
+ * @param {Object} weekSummary - The week summary with tags, articles, and max tags.
+ */
+function renderWeekTip($tip, weekName, weekSummary) {
+    $tip.append($(
+        '<h4>week of <span>' + weekName + '<span></h4>' +
+        '<div class="tag-days"></div>' +
+        '<ul class="tag-list"></ul>' +
+        '<ul class="tag-article-list"></ul>'
+    ));
+
+    var $tagsList = $tip.find('.tag-list');
+    var tags = Object.keys(weekSummary.tags);
+
+    for (var tagIndex = 0; tagIndex < tags.length; tagIndex++) {
+        var tagName = tags[tagIndex];
+        var tagCount = weekSummary.tags[tagName];
+
+        $('<li>' +
+            '<div class="tag-' + tagName + '">' +
+            '</div>' +
+            tagCount + ' ' +
+            '<span>&times;</span> ' +
+            tagName.replace('-', ' <span>&raquo;</span> ') +
+        '</li>').appendTo($tagsList);
+    }
+
+    var $articlesList = $tip.find('.tag-article-list');
+    var articles = Object.keys(weekSummary.articles);
+
+    for (var articleIndex = 0; articleIndex < articles.length; articleIndex++) {
+        var articleKey = articles[articleIndex];
+        var articleTitle = weekSummary.articles[articleKey];
+
+        $('<li><span>' + articleTitle + '</span></li>').appendTo($articlesList);
     }
 }
 

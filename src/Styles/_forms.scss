@@ -44,7 +44,7 @@
 
 .form-input:focus {
   border: $border-thickness solid $accent-text-color;
-  box-shadow: 0 0 ($border-thickness * 3) 0 $primary-light-color;
+  box-shadow: 0 0 ($border-thickness * 4) 0 $primary-light-color;
 }
 
 .form-input-resizer {

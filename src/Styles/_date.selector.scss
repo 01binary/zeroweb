@@ -741,10 +741,47 @@ $crafts:      #67d5e9;
   }
 }
 
-.tag-bar-tip {
-    display: none;
-}
-
 .tooltip-content .tag-bar-tip {
     display: block;
+}
+
+.tag-bar-tip {
+    display: none;
+    min-width: 150px;
+
+    h4 {
+        font-family: $small-font;
+        font-size: 12px;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+    }
+
+    .tag-days {
+        height: 35px;
+        background-color: yellow;
+    }
+
+    .tag-accumulator__wrapper {
+        width: 32px;
+        border: 2px solid black;
+        padding: 4px;
+        float: left;
+    }
+
+    .tag-accumulator__lists-wrapper {
+        float: left;
+    }
+
+    .tag-accumulator__tag-list {
+        float: left;
+        width: 25%;
+        background-color: green;
+    }
+
+    .tag-accumulator__article-list {
+        float: left;
+        width: 75%;
+        background-color: red;
+    }
 }

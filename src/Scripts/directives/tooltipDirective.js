@@ -113,8 +113,6 @@ function showTooltip(show, $element) {
                 $tooltip.find('.tooltip-point').attr('style', '');
             }
 
-            console.log('displaying tip at', x, y, 'tip height', th);
-
             $tooltip.stop().css({ left: Math.floor(x), top: Math.floor(y) }).fadeIn();
         };
 

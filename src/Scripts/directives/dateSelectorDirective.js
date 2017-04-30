@@ -621,6 +621,24 @@ function selectPage($scope, page) {
 }
 
 /**
+ * Renders the week bar tooltip.
+ * @param {Object} $tip - The tip element jQuery, already created.
+ * @param {string} weekName - The week name in 'MMM dd - MMM dd' format.
+ * @param {Object} weekSummary - The week summary with tags, articles, and max tags.
+ */
+function renderWeekTip($tip, weekName, weekSummary) {
+    $tip.append($(
+        '<h4>' + weekName + '</h4>' +
+        '<div class="tag-days"></div>' +
+        '<div class="tag-accumulator__wrapper"></div>' +
+        '<div class="tag-accumulator__lists-wrapper">' +
+            '<div class="tag-accumulator__tag-list">Tags here</div>' +
+            '<div class="tag-accumulator__article-list">Articles here</div>' +
+        '</div>'
+    ));
+}
+
+/**
  * Render tags.
  * @param {object} $scope - The directive scope.
  */
@@ -652,8 +670,6 @@ function renderTags($scope) {
              var weekSummary = monthSummary.weeks[weekDates];
              var tagOffset = 0;
              var weekId = 'week-' + weekDates.replace(/\s/g, '');
-             var $weekTip = $('<div id="' + weekId + '" class="tag-bar-tip">This is the tip for week ' + weekDates + '</div>')
-                .appendTo($view);
              var $bar = $('<div class="tag-bar"></div>')
                 .appendTo($wrapper);
             
@@ -679,9 +695,15 @@ function renderTags($scope) {
                 tagOffset += Math.max(minBlockHeight, tagHeight) + 1;
             }
 
-            // Set week tooltip attributes.
+            // Set week tooltip attributes (resolved when view is compiled).
             $bar.attr('data-tooltip', '#' + weekId);
             $bar.attr('data-tooltip-offset-y', Math.ceil(tagOffset - minBlockHeight * 2 + 1));
+
+            // Render the week tooltip.
+            renderWeekTip(
+                 $('<div id="' + weekId + '" class="tag-bar-tip"></div>').appendTo($view),
+                weekDates,
+                weekSummary)
         }
     }
 

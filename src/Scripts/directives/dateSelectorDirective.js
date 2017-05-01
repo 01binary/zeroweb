@@ -737,7 +737,7 @@ function renderWeekTip($tip, weekName, weekSummary) {
             '</div>' +
             tagCount + ' ' +
             '<span>&times;</span> ' +
-            tagName.replace('-', ' <span>&raquo;</span> ') +
+            tagName.replace('-', ' <span>&#8594;</span> ') +
         '</li>').appendTo($tagsList);
     }
 

@@ -81,14 +81,19 @@ function createTooltip() {
 function showTooltip(show, $element) {
     var $tooltip = getTooltip();
 
-    // TODO: last tip height is getting used that's why it's so lame.
-
     if (show) {
         // If the value as an element name starting with #,
         // should set that element as a child of self.
         var $wrapper = $tooltip.find('.tooltip-content');
         var content = $element.attr('data-tooltip');
-        var onReady = function() {
+
+        if (content[0] === '#') {
+            $wrapper.empty().append($(content).clone());
+        } else {
+            $wrapper.text(content);
+        }
+
+        window.requestAnimationFrame(function() {
             var tooltipWidth = $tooltip.width();
             var paddingLeft = parseInt($tooltip.css('padding-left'));
 
@@ -113,14 +118,11 @@ function showTooltip(show, $element) {
                 $tooltip.find('.tooltip-point').attr('style', '');
             }
 
-            $tooltip.stop().css({ left: Math.floor(x), top: Math.floor(y) }).fadeIn();
-        };
-
-        if (content[0] === '#') {
-            $wrapper.empty().append($(content).clone()).ready(onReady);
-        } else {
-            $wrapper.text(content).ready(onReady);
-        }
+            $tooltip.stop().css({
+                left: Math.floor(x),
+                top: Math.floor(y)
+            }).fadeIn();
+        });
     } else {
         $tooltip.stop().fadeOut();
     }

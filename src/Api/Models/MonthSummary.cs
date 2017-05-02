@@ -13,6 +13,7 @@
 namespace ZeroWeb.Api.Models
 {
     using System;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The monthly contribution summary.
@@ -32,6 +33,7 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Gets or sets the max week tag count.
         /// </summary>
+        [JsonIgnore]
         public int Max { get; private set; }
 
         /// <summary>
@@ -46,13 +48,13 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Aggregate tags for the week with an article context.
         /// </summary>
-        /// <param name="articleKey">The article key used in permalinks.</param>
-        /// <param name="articleTitle">The article title.</param>
         /// <param name="firstDayOfMonth">The first day of actual month were the article is to be aggregated.</param>
+        /// <param name="key">The article key used in permalinks.</param>
+        /// <param name="title">The article title.</param>
         /// <param name="date">The article date.</param>
         /// <param name="tag">The article tag to aggregate.</param>
         /// <returns>The aggregated count for the specified tag.</returns>
-        public int Aggregate(string articleKey, string articleTitle, DateTime firstDayOfMonth, DateTime date, string tag)
+        public int Aggregate(DateTime firstDayOfMonth, string key, string title, DateTime date, string tag)
         {
             // Aggregate tag counts for each week.
             int weekCount;
@@ -62,7 +64,7 @@ namespace ZeroWeb.Api.Models
 
             // Aggregate tag summary for the week.
             int weekMax = this.GetOrCreateWeek(firstDayOfMonth, firstDayOfWeek)
-                .Aggregate(articleKey, articleTitle, tag);
+                .Aggregate(date, key, title, tag);
 
             // Aggregate max tags per week.
             if (this.Max < weekMax)

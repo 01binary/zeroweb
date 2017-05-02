@@ -12,7 +12,9 @@
 
 namespace ZeroWeb.Api.Models
 {
+    using System;
     using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The week contribution summary.
@@ -25,9 +27,20 @@ namespace ZeroWeb.Api.Models
         public IDictionary<string, int> Tags { get; set; }
 
         /// <summary>
+        /// Gets or sets the count of articles aggregated for each day.
+        /// </summary>
+        public IDictionary<string, int> Days { get; set; }
+
+        /// <summary>
         /// Gets or sets the articles aggregated for the week by Id.
         /// </summary>
-        public IDictionary<string, string> Articles { get; set; }
+        public IList<string> Articles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the uniq
+        /// </summary>
+        [JsonIgnore]
+        public IDictionary<string, string> UniqueArticles { get; set; }
 
         /// <summary>
         /// The display offset of this week within the month.
@@ -38,6 +51,7 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         // Gets or sets the tag count for the week.
         /// </summary>
+        [JsonIgnore]
         public int Total { get; set; }
 
         /// <summary>
@@ -47,25 +61,29 @@ namespace ZeroWeb.Api.Models
         public WeekSummary(int offset)
         {
             this.Tags = new Dictionary<string, int>();
-            this.Articles = new Dictionary<string, string>();
+            this.Days = new Dictionary<string, int>();
+            this.Articles = new List<string>();
+            this.UniqueArticles = new Dictionary<string, string>();
             this.Offset = offset;
         }
 
         /// <summary>
         /// Aggregate tags for this week.
         /// </summary>
-        /// <param name="articleKey">The unique article key used in permalinks.</param>
-        /// <param name="articleTitle">The article title.</param>
+        /// <param name="date">The article date.</param>
+        /// <param name="key">The unique article key used in permalinks.</param>
+        /// <param name="title">The article title.</param>
         /// <param name="tag">The tag to aggregate.</param>
         /// <returns>The total tag count for the week.</param>
-        public int Aggregate(string articleKey, string articleTitle, string tag)
+        public int Aggregate(DateTime date, string key, string title, string tag)
         {
-            if (!this.Articles.ContainsKey(articleKey))
+            if (!this.UniqueArticles.ContainsKey(key))
             {
-                this.Articles.Add(articleKey, articleTitle);
+                this.UniqueArticles.Add(key, title);
+                this.Articles.Add(title);
+                this.AggregateTag(tag, 1);
+                this.AggregateDay(date.ToString("ddd").ToLower(), 1);
             }
-
-            this.AggregateTag(tag, 1);
 
             return this.Total;
         }
@@ -76,14 +94,20 @@ namespace ZeroWeb.Api.Models
         /// <param name="merge">The week summary to merge with.</param>
         public void Merge(WeekSummary merge)
         {
-            foreach (var article in merge.Articles)
+            foreach (var article in merge.UniqueArticles)
             {
-                this.Articles[article.Key] = article.Value;
+                this.UniqueArticles[article.Key] = article.Value;
+                this.Articles.Add(article.Value);
             }
 
             foreach (var tag in merge.Tags)
             {
                 this.AggregateTag(tag.Key, tag.Value);
+            }
+
+            foreach (var day in merge.Days)
+            {
+                this.AggregateDay(day.Key, day.Value);
             }
         }
 
@@ -97,6 +121,18 @@ namespace ZeroWeb.Api.Models
             this.Tags.TryGetValue(tag, out tagCount);
             this.Tags[tag] = tagCount + count;
             this.Total += count;
+        }
+
+        /// <summary>
+        /// Aggregate count for the specified week day.
+        /// </summary>
+        /// <param name="weekDay">The week day to aggregate count for.</param>
+        /// <param name="count">The number of articles to aggregate on that day.</param>
+        private void AggregateDay(string weekDay, int count)
+        {
+            int dayCount = 0;
+            this.Days.TryGetValue(weekDay, out dayCount);
+            this.Days[weekDay] = dayCount + count;
         }
     }
 }

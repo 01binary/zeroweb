@@ -765,9 +765,42 @@ $crafts:      #67d5e9;
 
     .tag-days {
         height: 32px;
-        background-color: yellow;
         margin-top: 4px;
         margin-bottom: 8px;
+        font-size: 12px;
+        border: 1px solid $shadow-color;
+    }
+
+    .tag-day {
+        float: left;
+        width: 14%;
+        height: 100%;
+        text-align: center;
+        color: $secondary-text-color;
+
+        .tag-day__sample {
+            background-color: green;
+            width: 8pt;
+            margin: auto;
+
+            .tag-day__sample--label {
+                background-color: $secondary-text-color;
+                color: $background-color;
+                width: 8pt;
+                height: 8pt;
+                padding-left: 1px;
+                padding-right: 1px;
+                padding-bottom: 2px;
+                line-height: 10pt;
+                text-align: center;
+                font-size: 10px;
+                text-align: center;
+
+                &:empty {
+                    display: none;
+                }
+            }
+        }
     }
 
     .tag-list {

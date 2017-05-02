@@ -13,8 +13,9 @@
 
 'use strict';
 
+var weekDays = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
 // TODO: tag-page-footer to have a tip with summary for the entire month
-// TODO: tag-bar to have a tip with summary for the week
 // TODO: tag-block to have a tip with summary for the tag
 
 /**
@@ -725,6 +726,19 @@ function renderWeekTip($tip, weekName, weekSummary) {
         '<ul class="tag-article-list"></ul>'
     ));
 
+    var $daysList = $tip.find('.tag-days');
+
+    for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
+        var day = weekDays[dayIndex];
+        var daySummary = weekSummary.days[day];
+        var dayPercent = daySummary ? daySummary / weekSummary.articles.length * 100 : 0;
+
+        $('<div class="tag-day">' + day  + '</div>')
+            .append($('<div class="tag-day__sample" style="height:' + dayPercent + '%"></div>')
+                .append('<div class="tag-day__sample--label">' + (daySummary || '') + '</div>'))
+            .appendTo($daysList);
+    }
+
     var $tagsList = $tip.find('.tag-list');
     var tags = Object.keys(weekSummary.tags);
 
@@ -742,13 +756,12 @@ function renderWeekTip($tip, weekName, weekSummary) {
     }
 
     var $articlesList = $tip.find('.tag-article-list');
-    var articles = Object.keys(weekSummary.articles);
 
-    for (var articleIndex = 0; articleIndex < articles.length; articleIndex++) {
-        var articleKey = articles[articleIndex];
-        var articleTitle = weekSummary.articles[articleKey];
-
-        $('<li><span>' + articleTitle + '</span></li>').appendTo($articlesList);
+    for (var articleIndex = 0;
+        articleIndex < weekSummary.articles.length;
+        articleIndex++) {
+        $('<li><span>' + weekSummary.articles[articleIndex] + '</span></li>')
+            .appendTo($articlesList);
     }
 }
 

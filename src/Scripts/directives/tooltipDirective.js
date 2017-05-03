@@ -82,48 +82,57 @@ function showTooltip(show, $element) {
     var $tooltip = getTooltip();
 
     if (show) {
-        // If the value as an element name starting with #,
-        // should set that element as a child of self.
-        var $wrapper = $tooltip.find('.tooltip-content');
-        var content = $element.attr('data-tooltip');
+        // When the current tip disappears...
+        var tipAnimate = $tooltip.stop().fadeOut().promise();
 
-        if (content[0] === '#') {
-            $wrapper.empty().append($(content).clone());
-        } else {
-            $wrapper.text(content);
-        }
+        // Show the next tip.
+        tipAnimate.done(function() {
+            var $wrapper = $tooltip.find('.tooltip-content');
+            var content = $element.attr('data-tooltip');
+            var tipRender;
 
-        window.requestAnimationFrame(function() {
-            var tooltipWidth = $tooltip.width();
-            var paddingLeft = parseInt($tooltip.css('padding-left'));
-
-            var th = $tooltip.height();
-
-            var y = Math.max(0,
-                $element.offset().top - th - 14 -
-                parseInt($element.attr('data-tooltip-offset-y') || 0));
-
-            var desiredX = $element.offset().left + $element.width() / 2 -
-                tooltipWidth / 2 - paddingLeft -
-                parseInt($element.attr('data-tooltip-offset-x') || 0)
-
-            var maxX = window.innerWidth - tooltipWidth - paddingLeft * 5;
-            var x = Math.min(maxX, Math.max(paddingLeft, desiredX));
-
-            if (x != desiredX) {
-                // If position has been limited, move tooltip point instead.
-                var pointLeft = tooltipWidth / 2 - (x - desiredX) + 1;
-                $tooltip.find('.tooltip-point').css({ left: pointLeft});
+            if (content[0] === '#') {
+                // Display a copy of the specified element inside the tip.
+                tipRender = $wrapper.empty().append($(content).clone()).promise();
             } else {
-                $tooltip.find('.tooltip-point').attr('style', '');
+                // Display the specified text inside the tip.
+                tipRender = $wrapper.text(content).promise();
             }
 
-            $tooltip.stop().css({
-                left: Math.floor(x),
-                top: Math.floor(y)
-            }).fadeIn();
+            // When tip re-renders after content change...
+            tipRender.done(function() {
+                // Move the tip to the new position.
+                var tooltipWidth = $tooltip.width();
+                var paddingLeft = parseInt($tooltip.css('padding-left'));
+
+                var th = $tooltip.height();
+
+                var y = Math.max(0,
+                    $element.offset().top - th - 14 -
+                    parseInt($element.attr('data-tooltip-offset-y') || 0));
+
+                var desiredX = $element.offset().left + $element.width() / 2 -
+                    tooltipWidth / 2 - paddingLeft -
+                    parseInt($element.attr('data-tooltip-offset-x') || 0)
+
+                var maxX = window.innerWidth - tooltipWidth - paddingLeft * 5;
+                var x = Math.min(maxX, Math.max(paddingLeft, desiredX));
+
+                if (x != desiredX) {
+                    // If position has been limited, move tooltip point instead.
+                    var pointLeft = tooltipWidth / 2 - (x - desiredX) + 1;
+                    $tooltip.find('.tooltip-point').css({ left: pointLeft});
+                } else {
+                    $tooltip.find('.tooltip-point').attr('style', '');
+                }
+
+                $tooltip.css({
+                    left: Math.floor(x),
+                    top: Math.floor(y)
+                }).fadeIn();
+            });
         });
     } else {
-        $tooltip.stop().fadeOut();
+        //$tooltip.stop().fadeOut();
     }
 }

@@ -37,16 +37,20 @@ namespace ZeroWeb.Api.Models
         public IList<string> Articles { get; set; }
 
         /// <summary>
-        /// Gets or sets the uniq
+        /// Gets or sets the unique article keys.
         /// </summary>
         [JsonIgnore]
         public IDictionary<string, string> UniqueArticles { get; set; }
 
         /// <summary>
         /// The display offset of this week within the month.
-        /// (i.e. defined first but displayed second because first week had no articles).
         /// </summary>
         public int Offset { get; set; }
+
+        /// <summary>
+        // Gets or sets the max tags for a week day.
+        /// </summary>
+        public int Max { get; set; }
 
         /// <summary>
         // Gets or sets the tag count for the week.
@@ -132,7 +136,12 @@ namespace ZeroWeb.Api.Models
         {
             int dayCount = 0;
             this.Days.TryGetValue(weekDay, out dayCount);
-            this.Days[weekDay] = dayCount + count;
+            this.Days[weekDay] = dayCount += count;
+
+            if (dayCount > this.Max)
+            {
+                this.Max = dayCount;
+            }
         }
     }
 }

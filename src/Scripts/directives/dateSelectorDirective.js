@@ -720,23 +720,48 @@ function renderTags($scope) {
  */
 function renderWeekTip($tip, weekName, weekSummary) {
     $tip.append($(
-        '<h4>week of <span>' + weekName + '<span></h4>' +
+        '<h4><span>' + weekName + '</span></h4>' +
         '<div class="tag-days"></div>' +
         '<ul class="tag-list"></ul>' +
         '<ul class="tag-article-list"></ul>'
     ));
 
     var $daysList = $tip.find('.tag-days');
+    var $prevSample;
+    var prevDayPercent;
+
+    console.log(weekName);
 
     for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
         var day = weekDays[dayIndex];
         var daySummary = weekSummary.days[day];
-        var dayPercent = daySummary ? daySummary / weekSummary.articles.length * 100 : 0;
-
-        $('<div class="tag-day">' + day  + '</div>')
-            .append($('<div class="tag-day__sample" style="height:' + dayPercent + '%"></div>')
+        var dayPercent = daySummary ? daySummary / weekSummary.max * 100 : 0;
+        var additionalSampleClass = daySummary ? '' : ' tag-day__sample--empty';
+        var $sample = $('<div class="tag-day__sample' + additionalSampleClass + '" style="height:' + dayPercent + '%"></div>');
+        var $day = $('<div class="tag-day"></div>')
+            .append($('<div class="tag-day__label">' + day + '</div>'))
+            .append($sample
                 .append('<div class="tag-day__sample--label">' + (daySummary || '') + '</div>'))
             .appendTo($daysList);
+
+        if ($prevSample) {
+            var lineClass = 'tag-day__sample-line--flat';
+            var lineRise = 'calc(' + Math.max(dayPercent, prevDayPercent) + '% - 9px)';
+
+            if (dayPercent > prevDayPercent) {
+                lineClass = 'tag-day__sample-line--up';
+            } else if (dayPercent < prevDayPercent) {
+                lineClass = 'tag-day__sample-line--down';
+            }
+
+            $('<div class="tag-day__sample-line ' + lineClass +
+                '" style="height: ' + lineRise +
+                '"></div>')
+                .appendTo($day);
+        }
+
+        $prevSample = $sample;
+        prevDayPercent = dayPercent;
     }
 
     var $tagsList = $tip.find('.tag-list');

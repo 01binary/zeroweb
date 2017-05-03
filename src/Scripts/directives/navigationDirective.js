@@ -71,7 +71,6 @@ function loadNavigation($svg, $element, attributes) {
     var navSrc = attributes['src'];
             
     var buttonParts = [
-        'matte',
         'hover',
         'border',
         'highlight',
@@ -80,15 +79,6 @@ function loadNavigation($svg, $element, attributes) {
     ];
 
     $element.find('a').each(function(index) {
-        // Scripted hovers due to poor CSS support.
-        $(this).mouseenter(function() {
-            $(this).find('.navigation-hover').stop().fadeIn('fast');
-        });
-
-        $(this).mouseleave(function() {
-            $(this).find('.navigation-hover').stop().fadeOut('fast');
-        });
-
         var buttonName = $(this).text();
         $(this).text('');
 

@@ -21,6 +21,7 @@ header {
   transition: margin .3s ease-out;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, $primary-color 0%,$secondary-color 100%);
 }
 
 @media (max-width: 2048px) {

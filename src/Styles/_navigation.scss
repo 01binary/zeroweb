@@ -6,15 +6,17 @@
   height: 66px;
 }
 
-.navigation-matte {
-  fill: $primary-color;
-  z-index: 4;
+.navigation-hover {
+  fill: $background-color;
+  transition: opacity .3s ease-out;
+  opacity: 0;
+  z-index: 5;
 }
 
-.navigation-hover {
-  fill: $primary-hover-color;
-  display: none;
-  z-index: 5;
+a:hover {
+  .navigation-hover {
+    opacity: 0.20;
+  }
 }
 
 .navigation-border {

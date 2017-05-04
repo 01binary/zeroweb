@@ -727,6 +727,7 @@ function renderTags($scope, $render2d) {
 function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     var sampleSize = 3;
     var sampleLabelSize = 13;
+    var sampleLabelPointerSize = 3;
     var footerSize = 18;
     var size = $render2d.getCss('tag-days', [ 'width', 'height' ]);
     var width = parseInt(size.width);
@@ -740,7 +741,7 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     var dayOffset = startDayOffset;
     var prevOffset, prevProjection;
     var projected = new Array(7);
-    var graph = '';
+    var dayView = '';
 
     // Render week summary.
     for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
@@ -752,17 +753,17 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         projected[dayIndex] = Math.round(height - (daySample * extent) - footerSize);
 
         // Render day label.
-        graph += '<text class="tag-days__day-label" x="' +
+        dayView += '<text class="tag-days__day-label" x="' +
             dayOffset +
             '" y="' +
-            (height - halfSampleSize) +
+            (height - halfSampleSize + 1) +
             '" text-anchor="middle">' +
             day +
             '</text>';
 
         // Render line connecting day samples.
         if (dayIndex) {
-            graph += '<line x1="' +
+            dayView += '<line x1="' +
                 prevOffset +
                 '" x2="' +
                 dayOffset +
@@ -781,7 +782,7 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
 
     for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
         // Render day sample.
-        graph += '<ellipse class="tag-days__sample" cx="' +
+        dayView += '<ellipse class="tag-days__sample" cx="' +
             dayOffset +
             '" cy="' +
             projected[dayIndex] +
@@ -793,16 +794,26 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         var sampleLabel = weekSummary.days[weekDays[dayIndex]];
 
         if (sampleLabel) {
-            graph +=
+            var boxLeft = dayOffset + sampleSize + halfSampleSize;
+            var boxTop = projected[dayIndex] - sampleLabelSize - sampleSize;
+
+            dayView +=
+            // Sample label pointer.
+            '<path class="tag-days__sample-label--background" ' +
+                'd="M ' + (boxLeft - halfSampleSize - 1) + ' ' + (boxTop + sampleLabelSize) +
+                ' L ' + (boxLeft) + ' ' + (boxTop + sampleLabelSize - sampleLabelPointerSize) +
+                ' L ' + (boxLeft) + ' ' + (boxTop + sampleLabelSize) + '" />' +
+            // Sample label background rectangle.
             '<rect class="tag-days__sample-label--background" ' +
-                'x="' + (dayOffset + sampleSize + halfSampleSize) + '" ' +
-                'y="' + (projected[dayIndex] - sampleLabelSize - sampleSize) + '" ' +
+                'x="' + boxLeft + '" ' +
+                'y="' + boxTop + '" ' +
                 'width="' + sampleLabelSize + '" ' +
                 'height="' + sampleLabelSize + '" />' +
+            // Sample label text.
             '<text class="tag-days__sample-label" x="' +
                 (dayOffset + halfSampleLabelSize + 1) +
                 '" y="' +
-                (projected[dayIndex] - sampleLabelSize / 2 + 1) +
+                (projected[dayIndex] - halfSampleLabelSize + 1.5) +
                 '" text-anchor="center" alignment-baseline="top">' +
                 sampleLabel +
                 '</text>';
@@ -815,7 +826,7 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     $tip.append($(
         '<h4><span>' + weekName + '</span></h4>' +
         '<svg class="tag-days" width="' + width + '" height="' + height + '">' +
-            graph +
+            dayView +
         '</svg>' +
         '<ul class="tag-list"></ul>' +
         '<ul class="tag-article-list"></ul>'

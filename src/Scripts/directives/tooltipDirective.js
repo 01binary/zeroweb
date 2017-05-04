@@ -67,7 +67,7 @@ function createTooltip() {
         .hide()
         .appendTo($('body'));
 
-    ret.append($('<span></span>').addClass('tooltip-content'));
+    ret.append($('<div></div>').addClass('tooltip-content'));
     ret.append($(div).addClass('tooltip-point'))
 
     return ret;

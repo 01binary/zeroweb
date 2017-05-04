@@ -27,6 +27,7 @@ angular.module('zeroApp')
         '$http',
         '$compile',
         '$window',
+        'render2d',
         'safeApply',
         'contrib',
         dateSelectorDirective
@@ -38,10 +39,11 @@ angular.module('zeroApp')
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
  * @param {object} $window - The Angular window service.
+ * @param {object} $render2d - The 2d rendering service.
  * @param {object} $safeApply - The safe apply service.
  * @param {object} $contrib - The contributions factory.
  */
-function dateSelectorDirective($q, $http, $compile, $window, $safeApply, $contrib) {
+function dateSelectorDirective($q, $http, $compile, $window, $render2d, $safeApply, $contrib) {
     return {
         restrict: 'E',
         replace: true,
@@ -49,7 +51,7 @@ function dateSelectorDirective($q, $http, $compile, $window, $safeApply, $contri
         template: '<section class="date-selector" data-ng-class="{loading:isLoading}" aria-labelledby="dateSelectorCaption"></section>',
         scope: {},
         link: function($scope, $element, attributes) {
-            initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element, attributes);
+            initialize($q, $http, $compile, $window, $render2d, $safeApply, $contrib, $scope, $element, attributes);
         }
     };
 }
@@ -60,13 +62,14 @@ function dateSelectorDirective($q, $http, $compile, $window, $safeApply, $contri
  * @param {object} $http - The Angular AJAX service.
  * @param {object} $compile - The Angular compile service.
  * @param {object} $window - The Angular window service.
+ * @param {object} $render2d - The 2d rendering service.
  * @param {object} $safeApply - The safe apply service.
  * @param {object} $contrib - The contributions factory.
  * @param {object} $scope - The directive scope.
  * @param {object} $element - The directive element.
  * @param {object} attributes - The directive element attributes.
  */
-function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, $element, attributes) {
+function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contrib, $scope, $element, attributes) {
     // Set initial state.
     $scope.isLoading = true;
     $scope.isExpanded = true;
@@ -301,7 +304,7 @@ function initialize($q, $http, $compile, $window, $safeApply, $contrib, $scope, 
         $scope.pages = $element.find('.date-selector-pages');
 
         if ($scope.contributions.max) {
-            $scope.renderTags();
+            $scope.renderTags($render2d);
             $scope.selectPage($scope.currentPage);
 
             $($window).on('resize', $scope.resize);
@@ -624,8 +627,9 @@ function selectPage($scope, page) {
 /**
  * Render tags.
  * @param {object} $scope - The directive scope.
+ * @param {object} $render2d - The 2d rendering service.
  */
-function renderTags($scope) {
+function renderTags($scope, $render2d) {
     var $view = $scope.view;
     var monthMargin = null;
     var barHeight = null;
@@ -686,7 +690,8 @@ function renderTags($scope) {
             renderWeekTip(
                  $('<div id="' + weekId + '" class="tag-bar-tip"></div>').appendTo($view),
                 weekDates,
-                weekSummary)
+                weekSummary,
+                $render2d)
         }
     }
 
@@ -717,53 +722,89 @@ function renderTags($scope) {
  * @param {Object} $tip - The tip element jQuery, already created.
  * @param {string} weekName - The week name in 'MMM dd - MMM dd' format.
  * @param {Object} weekSummary - The week summary with tags, articles, and max tags.
+ * @param {Object} $render2d - The 2d rendering service.
  */
-function renderWeekTip($tip, weekName, weekSummary) {
+function renderWeekTip($tip, weekName, weekSummary, $render2d) {
+    var width = 250;
+    var height = 32;
+    var dayWidth = Math.round(width / 7);
+    var halfDayWidth = Math.round(dayWidth / 2);
+    var footerHeight = 22;
+    var sampleSize = 3;
+    var sampleLabelSize = 10;
+    var halfSampleSize = Math.round(sampleSize / 2);
+    var plotMultiplier = height - footerHeight;
+    var plotOffset = footerHeight;
+    var startDayOffset = sampleSize + halfDayWidth
+    var dayOffset = startDayOffset;
+    var prevOffset, prevProjection;
+    var graph = '';
+    var projected = new Array(7);
+
+    // Render graph.
+    for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
+        var day = weekDays[dayIndex];
+        var daySummary = weekSummary.days[day];
+        var daySample = daySummary ? daySummary / weekSummary.max : 0;
+        var dayText = daySummary || '';
+
+        projected[dayIndex] = Math.round(
+            height - daySample * plotMultiplier - plotOffset + sampleSize + 1);
+
+        // Render day label.
+        graph += '<text class="tag-days__day-label" x="' +
+            dayOffset +
+            '" y="' +
+            (height - 1) +
+            '" text-anchor="middle" alignment-baseline="bottom">' +
+            day +
+            '</text>';
+
+        // Render line connecting day samples.
+        if (dayIndex) {
+            graph += '<line x1="' +
+                prevOffset +
+                '" x2="' +
+                dayOffset +
+                '" y1="' +
+                projected[dayIndex - 1] +
+                '" y2="' +
+                projected[dayIndex]
+                + '" />';
+        }
+
+        prevOffset = dayOffset;
+        dayOffset += dayWidth;
+    }
+
+    dayOffset = startDayOffset;
+
+    for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
+        var dayProjection = projected[dayIndex];
+
+        // Render day sample.
+        graph += '<ellipse class="tag-days__sample" cx="' +
+            dayOffset +
+            '" cy="' +
+            dayProjection +
+            '" rx="' + sampleSize +
+            '" ry="' + sampleSize +
+            '" />';
+
+        prevOffset = dayOffset;
+        dayOffset += dayWidth;
+    }
+
     $tip.append($(
         '<h4><span>' + weekName + '</span></h4>' +
-        '<div class="tag-days"></div>' +
+        '<svg class="tag-days" width="' + width + '" height="' + height + '">' +
+            graph +
+        '</svg>' +
         '<ul class="tag-list"></ul>' +
         '<ul class="tag-article-list"></ul>'
     ));
 
-    var $daysList = $tip.find('.tag-days');
-    var $prevSample;
-    var prevDayPercent;
-
-    console.log(weekName);
-
-    for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
-        var day = weekDays[dayIndex];
-        var daySummary = weekSummary.days[day];
-        var dayPercent = daySummary ? daySummary / weekSummary.max * 100 : 0;
-        var additionalSampleClass = daySummary ? '' : ' tag-day__sample--empty';
-        var $sample = $('<div class="tag-day__sample' + additionalSampleClass + '" style="height:' + dayPercent + '%"></div>');
-        var $day = $('<div class="tag-day"></div>')
-            .append($('<div class="tag-day__label">' + day + '</div>'))
-            .append($sample
-                .append('<div class="tag-day__sample--label">' + (daySummary || '') + '</div>'))
-            .appendTo($daysList);
-
-        if ($prevSample) {
-            var lineClass = 'tag-day__sample-line--flat';
-            var lineRise = 'calc(' + Math.max(dayPercent, prevDayPercent) + '% - 9px)';
-
-            if (dayPercent > prevDayPercent) {
-                lineClass = 'tag-day__sample-line--up';
-            } else if (dayPercent < prevDayPercent) {
-                lineClass = 'tag-day__sample-line--down';
-            }
-
-            $('<div class="tag-day__sample-line ' + lineClass +
-                '" style="height: ' + lineRise +
-                '"></div>')
-                .appendTo($day);
-        }
-
-        $prevSample = $sample;
-        prevDayPercent = dayPercent;
-    }
-
+    // Render tags.
     var $tagsList = $tip.find('.tag-list');
     var tags = Object.keys(weekSummary.tags);
 
@@ -780,6 +821,7 @@ function renderWeekTip($tip, weekName, weekSummary) {
         '</li>').appendTo($tagsList);
     }
 
+    // Render articles.
     var $articlesList = $tip.find('.tag-article-list');
 
     for (var articleIndex = 0;

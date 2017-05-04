@@ -746,140 +746,45 @@ $crafts:      #67d5e9;
 }
 
 // Week tooltip.
-$sampleSize: 5px;
-$halfSampleSize: 2px;
-$daysBottomSpacing: 4px;
-
 .tag-bar-tip {
     display: none;
-    min-width: 150px;
     color: $foreground-color;
 
     h4 {
         color: $drop-shadow-light-color;
         font-family: $small-font;
-        font-size: 10pt;
-        font-weight: normal;
         margin: 0;
         padding: 0;
-
-        span {
-            color: $foreground-color;
-        }
+        font-weight: normal;
     }
-
-    // Day summary in week tooltip.
+    
     .tag-days {
-        height: 28px;
-        margin-top: 22px;
-        margin-bottom: $daysBottomSpacing;
+        float: left;
+        height: 32px;
+        width: 250px;
         font-size: 12px;
+        margin: 5px 0px;
+        margin-bottom: 8px;
+        stroke: $border-color;
+        fill: none;
     }
 
-    // Day wrapper.
-    .tag-day {
-        position: relative;
-        float: left;
-        width: 14%;
-        height: 100%;
-        color: $secondary-text-color;
+    .tag-days__sample {
+        stroke: $secondary-text-color;
+        fill: $background-color;
+    }
 
-        // Day label.
-        .tag-day__label {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        // Day sample label & point.
-        .tag-day__sample {
-            position: absolute;
-            bottom: 16px;
-            left: 0;
-            right: 0;
-
-            // Sample point.
-            &:after {
-                content: '';
-                position: absolute;
-                width: $sampleSize;
-                height: $sampleSize;
-                border: 1px solid $border-color;
-                border-radius: $sampleSize;
-                top: 1px;
-                left: calc(50% - 2px);
-            }
-
-            // Sample with no articles.
-            &--empty:after {
-                content: '';
-                position: absolute;
-                width: $sampleSize;
-                height: $sampleSize;
-                border: 1px solid $border-color;
-                border-radius: $sampleSize;
-                top: -$sampleSize - 2;
-                left: calc(50% - 2px);
-            }
-
-            // Sample label.
-            &--label {
-                position: absolute;
-                background-color: $secondary-text-color;
-                color: $background-color;
-                width: 8pt;
-                height: 8pt;
-                top: -2px;
-                right: 0;
-                padding-left: 1px;
-                padding-right: 1px;
-                padding-bottom: 2px;
-                line-height: 10pt;
-                font-size: 10px;
-                text-align: center;
-
-                // Hide when no text.
-                &:empty {
-                    display: none;
-                }
-            }
-
-            // Sample trend line.
-            &-line {
-                position: absolute;
-                left: calc(-50% + 1px);
-                right: calc(50% - 2px);
-                bottom: calc(50% + 5px);
-            }
-
-            // Sample trend line up.
-            &-line--up {
-                background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M0 99 L99 0 L100 1 L1 100' fill='black' /></svg>");
-                background-repeat:no-repeat;
-                background-position:center center;
-                background-size: 100% 100%, auto;
-            }
-
-            // Sample trend line down.
-            &-line--down {
-                background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M1 0 L0 1 L99 100 L100 99' fill='black' /></svg>");
-                background-repeat:no-repeat;
-                background-position:center center;
-                background-size: 100% 100%, auto;
-            }
-
-            // Sample trend line flat.
-            &-line--flat {
-                border-top: 1px solid black;
-            }
-        }
+    .tag-days__day-label {
+        stroke: none;
+        fill: $secondary-text-color;
     }
 
     .tag-list {
         float: left;
+        clear: left;
         margin: 0;
         padding: 0;
+        max-width: 250px;
         padding-right: 14px;
         margin-bottom: 6px;
         list-style: none;
@@ -901,6 +806,7 @@ $daysBottomSpacing: 4px;
 
     .tag-article-list {
         float: left;
+        max-width: 150px;
         margin: 0;
         padding: 0;
         padding-left: 26px;

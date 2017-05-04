@@ -741,10 +741,6 @@ $crafts:      #67d5e9;
   }
 }
 
-.tooltip-content .tag-bar-tip {
-    display: block;
-}
-
 // Week tooltip.
 .tag-bar-tip {
     display: none;
@@ -757,76 +753,80 @@ $crafts:      #67d5e9;
         padding: 0;
         font-weight: normal;
     }
-    
-    .tag-days {
+}
+
+.tooltip-content .tag-bar-tip {
+    display: block;
+}
+
+.tag-days {
+    float: left;
+    width: 250px;
+    height: 45px;
+    font-size: 12px;
+    margin: 3px 0px;
+    margin-bottom: 6px;
+    stroke: $border-color;
+    fill: none;
+}
+
+.tag-days__sample {
+    stroke: $secondary-text-color;
+    fill: $background-color;
+}
+
+.tag-days__sample-label {
+    stroke: none;
+    fill: $background-color;
+}
+
+.tag-days__sample-label--background {
+    stroke: none;
+    fill: $secondary-text-color;
+}
+
+.tag-days__day-label {
+    stroke: none;
+    fill: $secondary-text-color;
+}
+
+.tag-list {
+    float: left;
+    clear: left;
+    margin: 0;
+    padding: 0;
+    max-width: 250px;
+    padding-right: 14px;
+    margin-bottom: 6px;
+    list-style: none;
+
+    div {
         float: left;
-        height: 40px;
-        width: 250px;
-        font-size: 12px;
-        margin: 3px 0px;
-        margin-bottom: 8px;
-        stroke: $border-color;
-        fill: none;
+        width: 10px;
+        height: 5px;
+        border: 1px solid white;
+        margin-top: 3px;
+        margin-right: 6px;
+        box-shadow: 0 0 4px 0 $drop-shadow-light-color;
     }
 
-    .tag-days__sample {
-        stroke: $secondary-text-color;
-        fill: $background-color;
-    }
-
-    .tag-days__sample-label {
-        stroke: none;
-        fill: $background-color;
-    }
-
-    .tag-days__sample-label--background {
-        stroke: none;
-        fill: $secondary-text-color;
-    }
-
-    .tag-days__day-label {
-        stroke: none;
-        fill: $secondary-text-color;
-    }
-
-    .tag-list {
-        float: left;
-        clear: left;
-        margin: 0;
-        padding: 0;
-        max-width: 250px;
-        padding-right: 14px;
-        margin-bottom: 6px;
-        list-style: none;
-
-        div {
-            float: left;
-            width: 10px;
-            height: 5px;
-            border: 1px solid white;
-            margin-top: 3px;
-            margin-right: 6px;
-            box-shadow: 0 0 4px 0 $drop-shadow-light-color;
-        }
-
-        span {
-            color: $drop-shadow-light-color;
-        }
-    }
-
-    .tag-article-list {
-        float: left;
-        max-width: 120px;
-        margin: 0;
-        padding: 0;
-        padding-left: 26px;
-        margin-bottom: 6px;
-        border-left: 1px dotted $border-color;
-        list-style-type: square;
+    span {
         color: $drop-shadow-light-color;
-        
-        span {
-            color: $foreground-color;
-        }
+    }
+}
+
+.tag-article-list {
+    float: left;
+    max-width: 120px;
+    margin: 0;
+    padding: 0;
+    padding-left: 26px;
+    margin-bottom: 6px;
+    border-left: 1px dotted $border-color;
+    list-style-type: square;
+    color: $drop-shadow-light-color;
+    
+    span {
+        color: $foreground-color;
     }
 }

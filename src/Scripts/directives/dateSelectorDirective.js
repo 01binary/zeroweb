@@ -725,38 +725,37 @@ function renderTags($scope, $render2d) {
  * @param {Object} $render2d - The 2d rendering service.
  */
 function renderWeekTip($tip, weekName, weekSummary, $render2d) {
-    var width = 250;
-    var height = 32;
-    var footerHeight = 12;
     var sampleSize = 3;
     var sampleLabelSize = 13;
-    var halfSampleLabelSize = Math.round(sampleLabelSize / 2);
-    var dayWidth = Math.round((width - sampleLabelSize) / 7);
-    var halfDayWidth = Math.round(dayWidth / 2);
+    var footerSize = 18;
+    var size = $render2d.getCss('tag-days', [ 'width', 'height' ]);
+    var width = parseInt(size.width);
+    var height = parseInt(size.height);
     var halfSampleSize = Math.round(sampleSize / 2);
-    var plotMultiplier = height - footerHeight - sampleLabelSize;
-    var plotOffset = footerHeight;
+    var halfSampleLabelSize = Math.round(sampleLabelSize / 2);
+    var dayWidth = Math.round((width - sampleLabelSize) / weekDays.length);
+    var halfDayWidth = Math.round(dayWidth / 2);
+    var extent = height - footerSize - sampleLabelSize - sampleSize;
     var startDayOffset = sampleSize + halfDayWidth
     var dayOffset = startDayOffset;
     var prevOffset, prevProjection;
-    var graph = '';
     var projected = new Array(7);
+    var graph = '';
 
-    // Render graph.
+    // Render week summary.
     for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
+        // Project day sample.
         var day = weekDays[dayIndex];
         var daySummary = weekSummary.days[day];
         var daySample = daySummary ? daySummary / weekSummary.max : 0;
-        var dayText = daySummary || '';
 
-        projected[dayIndex] = Math.round(
-            height - daySample * plotMultiplier - plotOffset + sampleSize);
+        projected[dayIndex] = Math.round(height - (daySample * extent) - footerSize);
 
         // Render day label.
         graph += '<text class="tag-days__day-label" x="' +
             dayOffset +
             '" y="' +
-            (height + halfSampleLabelSize) +
+            (height - halfSampleSize) +
             '" text-anchor="middle">' +
             day +
             '</text>';
@@ -792,14 +791,15 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
 
         // Render day sample label.
         var sampleLabel = weekSummary.days[weekDays[dayIndex]];
+
         if (sampleLabel) {
-            graph += '<rect class="tag-days__sample-label--background" ' +
+            graph +=
+            '<rect class="tag-days__sample-label--background" ' +
                 'x="' + (dayOffset + sampleSize + halfSampleSize) + '" ' +
                 'y="' + (projected[dayIndex] - sampleLabelSize - sampleSize) + '" ' +
                 'width="' + sampleLabelSize + '" ' +
-                'height="' + sampleLabelSize + '" />'
-
-            graph += '<text class="tag-days__sample-label" x="' +
+                'height="' + sampleLabelSize + '" />' +
+            '<text class="tag-days__sample-label" x="' +
                 (dayOffset + halfSampleLabelSize + 1) +
                 '" y="' +
                 (projected[dayIndex] - sampleLabelSize / 2 + 1) +

@@ -727,13 +727,13 @@ function renderTags($scope, $render2d) {
 function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     var width = 250;
     var height = 32;
-    var dayWidth = Math.round(width / 7);
-    var halfDayWidth = Math.round(dayWidth / 2);
-    var footerHeight = 22;
+    var footerHeight = 16;
     var sampleSize = 3;
-    var sampleLabelSize = 10;
+    var sampleLabelSize = 13;
+    var dayWidth = Math.round((width - sampleLabelSize) / 7);
+    var halfDayWidth = Math.round(dayWidth / 2);
     var halfSampleSize = Math.round(sampleSize / 2);
-    var plotMultiplier = height - footerHeight;
+    var plotMultiplier = height - footerHeight - sampleLabelSize;
     var plotOffset = footerHeight;
     var startDayOffset = sampleSize + halfDayWidth
     var dayOffset = startDayOffset;
@@ -749,13 +749,13 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         var dayText = daySummary || '';
 
         projected[dayIndex] = Math.round(
-            height - daySample * plotMultiplier - plotOffset + sampleSize + 1);
+            height - daySample * plotMultiplier - plotOffset + sampleSize);
 
         // Render day label.
         graph += '<text class="tag-days__day-label" x="' +
             dayOffset +
             '" y="' +
-            (height - 1) +
+            (height + sampleSize) +
             '" text-anchor="middle" alignment-baseline="bottom">' +
             day +
             '</text>';
@@ -780,16 +780,32 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     dayOffset = startDayOffset;
 
     for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
-        var dayProjection = projected[dayIndex];
-
         // Render day sample.
         graph += '<ellipse class="tag-days__sample" cx="' +
             dayOffset +
             '" cy="' +
-            dayProjection +
+            projected[dayIndex] +
             '" rx="' + sampleSize +
             '" ry="' + sampleSize +
             '" />';
+
+        // Render day sample label.
+        var sampleLabel = weekSummary.days[weekDays[dayIndex]];
+        if (sampleLabel) {
+            graph += '<rect class="tag-days__sample-label--background" ' +
+                'x="' + (dayOffset + sampleLabelSize - sampleSize - halfSampleSize) + '" ' +
+                'y="' + (projected[dayIndex] - sampleLabelSize - sampleSize) + '" ' +
+                'width="' + sampleLabelSize + '" ' +
+                'height="' + sampleLabelSize + '" />'
+
+            graph += '<text class="tag-days__sample-label" x="' +
+                (dayOffset + sampleLabelSize - sampleSize + 1) +
+                '" y="' +
+                (projected[dayIndex] - sampleLabelSize / 2 + 1) +
+                '" text-anchor="center" alignment-baseline="top">' +
+                sampleLabel +
+                '</text>';
+        }
 
         prevOffset = dayOffset;
         dayOffset += dayWidth;

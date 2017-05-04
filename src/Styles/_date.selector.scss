@@ -760,7 +760,7 @@ $crafts:      #67d5e9;
     
     .tag-days {
         float: left;
-        height: 32px;
+        height: 38px;
         width: 250px;
         font-size: 12px;
         margin: 5px 0px;
@@ -772,6 +772,16 @@ $crafts:      #67d5e9;
     .tag-days__sample {
         stroke: $secondary-text-color;
         fill: $background-color;
+    }
+
+    .tag-days__sample-label {
+        stroke: none;
+        fill: $background-color;
+    }
+
+    .tag-days__sample-label--background {
+        stroke: none;
+        fill: $secondary-text-color;
     }
 
     .tag-days__day-label {

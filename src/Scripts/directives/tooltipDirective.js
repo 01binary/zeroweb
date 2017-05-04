@@ -133,6 +133,6 @@ function showTooltip(show, $element) {
             });
         });
     } else {
-        //$tooltip.stop().fadeOut();
+        $tooltip.stop().fadeOut();
     }
 }

@@ -15,7 +15,7 @@
 'use strict';
 
 // How long to poll for size changes until the tip can be positioned.
-var pollTimeout = 500;
+var pollTimeout = 150;
 
 // How often to poll for size changes.
 var pollInterval = 50;
@@ -112,11 +112,15 @@ function showTooltip(show, $element) {
                 $wrapper.empty().append($(content).clone())
             } else {
                 // Display the specified text inside the tip.
-                $wrapper.text(content);
+                $wrapper.empty().append(
+                    '<span class="tooltip-content__decorator">// </span>' +
+                    content);
             }
 
+            // Hide until layout update completes.
             $tooltip.css({ display: 'block', opacity: '0' });
 
+            // Poll size to detect layout update completion.
             lastWidth = null;
             lastHeight = null;
             lastPoll = null;
@@ -167,6 +171,7 @@ function updateTooltip($element, $tooltip) {
         $tooltip.css({ left: x, top: y });
 
     } else if (lastPoll && (time - lastPoll) >= pollTimeout) {
+        // Detected layout update completion.
         clearInterval(pollTimer);
         $tooltip.animate({ opacity: 1 });
     }

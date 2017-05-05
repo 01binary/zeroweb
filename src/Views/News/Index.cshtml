@@ -17,7 +17,7 @@
         (story.stars > 0 ? " metadata-icon-toggled" : string.Empty) +
         (story.starsReadOnly ? " metadata-icon-readonly" : string.Empty);
     var starRole = (story.starsReadOnly ? "" : "button");
-    var starTip = (story.starsReadOnly ? "// times starred" : "// star this story");
+    var starTip = (story.starsReadOnly ? "times starred" : "star this story");
     var starAriaDisabled = story.starsReadOnly.ToString();
 
 <div class="article">
@@ -27,7 +27,7 @@
         <a class="permalink-anchor"
             href="news?story=@story.key"
             id="@permalinkId"
-            data-tooltip="// permalink">#</a>@story.title
+            data-tooltip="permalink">#</a>@story.title
         
         <!-- Stars -->
         <span id="star-@storyId"
@@ -40,7 +40,7 @@
                 data-src="images/banner.svg#star"
                 data-width="16"
                 data-height="16"
-                data-tooltip="// star this story"
+                data-tooltip="star this story"
                 data-ng-click="news.addStar(@storyId)">
             </icon>
             <span class="metadata-indicator-content">
@@ -136,13 +136,13 @@
                     <!-- Upvote -->
                     <div class="metadata-icon-text button-vote upvote"
                         role="button"
-                        data-tooltip="// upvote"
+                        data-tooltip="upvote"
                         data-ng-click="news.upVote(@storyId, comment.id)">&#xF035;</div>
                     
                     <!-- Downvote -->
                     <div class="metadata-icon-text button-vote downvote"
                         role="button"
-                        data-tooltip="// downvote"
+                        data-tooltip="downvote"
                         data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</div>
                 </div>
 
@@ -177,7 +177,7 @@
                 <button type="submit"
                     class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
                     name="authenticationScheme"
-                    data-tooltip="// login with @loginProvider.DisplayName"
+                    data-tooltip="login with @loginProvider.DisplayName"
                     data-tooltip-offset-x="-4"
                     data-tooltip-offset-y="6"
                     data-ng-show="!news.user"

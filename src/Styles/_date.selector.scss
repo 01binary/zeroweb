@@ -746,13 +746,9 @@ $crafts:      #67d5e9;
 }
 
 // Week tooltip.
-$sampleSize: 5px;
-$halfSampleSize: 2px;
-$daysBottomSpacing: 4px;
-
 .tag-bar-tip {
     display: none;
-    min-width: 150px;
+    max-width: 300px;
     color: $foreground-color;
 
     h4 {

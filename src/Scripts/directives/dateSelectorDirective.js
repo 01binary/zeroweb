@@ -15,8 +15,9 @@
 
 var weekDays = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
+// TODO: center the day view
+// TODO: highlight samples with selected tag
 // TODO: tag-page-footer to have a tip with summary for the entire month
-// TODO: tag-block to have a tip with summary for the tag
 
 /**
  * Register date selector directive.
@@ -825,9 +826,11 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
 
     $tip.append($(
         '<h4><span>' + weekName + '</span></h4>' +
-        '<svg class="tag-days" width="' + width + '" height="' + height + '">' +
-            dayView +
-        '</svg>' +
+        '<div class="tag-days--wrapper">' +
+            '<svg class="tag-days" width="' + width + '" height="' + height + '">' +
+                dayView +
+            '</svg>' +
+        '</div>' +
         '<ul class="tag-list"></ul>' +
         '<ul class="tag-article-list"></ul>'
     ));

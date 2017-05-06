@@ -168,6 +168,7 @@
         <!-- Login providers -->
         <span data-ng-show="!news.user && news.addingComment[@storyId]">
             <span class="metadata"> | login: </span>
+            <span class="no-whitespace">
             @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
             {
             <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
@@ -191,6 +192,7 @@
                 </button>
             </form>
             }
+            </span>
         </span>
 
         <div class="comment-form" data-ng-show="news.addingComment[@storyId]">

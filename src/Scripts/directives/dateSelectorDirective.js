@@ -17,6 +17,7 @@ var weekDays = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 // TODO: highlight samples with selected tag
 // TODO: tag-page-footer to have a tip with summary for the entire month
+// TODO: animate day view to have non-zero samples rise to their positions
 
 /**
  * Register date selector directive.
@@ -99,6 +100,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.renderTags = renderTags.bind($element, $scope);
     $scope.scrollTagView = scrollTagView.bind($element, $scope);
     $scope.resize = resize.bind($element, $scope, $safeApply);
+    $scope.selectTag = selectTag.bind($scope);
 
     var $tempPage = $('<div class="date-selector-page"></div>').appendTo($('body'));
     $scope.buttonWidth = $tempPage.outerWidth();
@@ -670,7 +672,9 @@ function renderTags($scope, $render2d) {
             for (var tag in weekSummary.tags) {
                  var tagCount = weekSummary.tags[tag];
                  var tagHeight = Math.round((tagCount / $scope.contributions.max) * barHeight);
-                 var $block = $('<div class="tag-block tag-' + tag + '"></div>')
+                 var $block = $('<div class="tag-block tag-' + tag + '" ' +
+                    'data-ng-mouseover="selectTag(\'' + tag + '\', true)" ' +
+                    'data-ng-mouseout="selectTag(\'' + tag + '\', false)"></div>')
                     .css('height', tagHeight + 'px')
                     .css('bottom', tagOffset + 'px')
                     .appendTo($bar);
@@ -840,12 +844,12 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     var $tagsList = $tip.find('.tag-list');
     var tags = Object.keys(weekSummary.tags);
 
-    for (var tagIndex = 0; tagIndex < tags.length; tagIndex++) {
+    for (var tagIndex = tags.length - 1; tagIndex >= 0; tagIndex--) {
         var tagName = tags[tagIndex];
         var tagCount = weekSummary.tags[tagName];
 
         $('<li>' +
-            '<div class="tag-' + tagName + '">' +
+            '<div class="tag-' + tagName + '-legend' + ' tag-' + tagName + '">' +
             '</div>' +
             tagCount + ' ' +
             '<span>&times;</span> ' +
@@ -861,6 +865,22 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         articleIndex++) {
         $('<li><span>' + weekSummary.articles[articleIndex] + '</span></li>')
             .appendTo($articlesList);
+    }
+}
+
+/**
+ * Select a tag in week summary.
+ * @param {string} tag - The tag to select.
+ * @param {bool} select - Whether to select or de-select the tag.
+ */
+function selectTag(tag, select) {
+    var $tooltipContent = $('.tooltip-content');
+    var className = 'tag-' + tag + '-selected';
+
+    if (select) {
+        $tooltipContent.addClass(className);
+    } else {
+        $tooltipContent.removeClass(className);
     }
 }
 

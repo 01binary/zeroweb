@@ -669,6 +669,15 @@ $crafts:      #67d5e9;
     &:hover {
         background: lighten($color, 5%);
     }
+
+    &-selected &-legend{
+        border-width: 2px;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 3px;
+        margin-right: 6px;
+        background: lighten($color, 5%);
+    }
 }
 
 .tag {
@@ -748,6 +757,7 @@ $crafts:      #67d5e9;
 
     h4 {
         color: $drop-shadow-light-color;
+        background: transparent;
         font-family: $small-font;
         margin: 0;
         padding: 0;
@@ -808,13 +818,16 @@ $crafts:      #67d5e9;
     margin-bottom: 6px;
     list-style: none;
 
+    // Tag legend
     div {
         float: left;
         width: 10px;
         height: 5px;
         border: 1px solid white;
-        margin-top: 3px;
-        margin-right: 6px;
+        margin-left: 1px;
+        margin-right: 1px;
+        margin-top: 4px;
+        margin-right: 7px;
         box-shadow: 0 0 4px 0 $drop-shadow-light-color;
     }
 

@@ -15,7 +15,7 @@
 'use strict';
 
 // Tooltip opacity.
-var tipOpacity = 0.9;
+var tipOpacity = 0.95;
 
 // How long to poll for size changes until the tip can be positioned.
 var pollTimeout = 100;

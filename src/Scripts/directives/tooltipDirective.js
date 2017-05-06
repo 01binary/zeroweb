@@ -13,7 +13,28 @@
 \*---------------------------------------------------------*/
 
 'use strict';
-    
+
+// Tooltip opacity.
+var tipOpacity = 0.9;
+
+// How long to poll for size changes until the tip can be positioned.
+var pollTimeout = 100;
+
+// How often to poll for size changes.
+var pollInterval = 33;
+
+// Poll interval timer.
+var pollTimer;
+
+// Last poll time.
+var lastPoll;
+
+// Last tooltip width.
+var lastWidth;
+
+// Last tooltip height.
+var lastHeight;
+
 /**
  * Register tooltip directive.
  */
@@ -28,13 +49,12 @@ function tooltipDirective() {
         restrict: 'A',
         replace: false,
         link: function($scope, $element, attributes) {
-
             $element.mouseenter(function() {
                 showTooltip(true, $element);
             });
 
             $element.mouseleave(function() {
-                showTooltip(false);
+                showTooltip(false, $element);
             });
         }
     };
@@ -67,7 +87,7 @@ function createTooltip() {
         .hide()
         .appendTo($('body'));
 
-    ret.append($('<span></span>').addClass('tooltip-content'));
+    ret.append($('<div></div>').addClass('tooltip-content'));
     ret.append($(div).addClass('tooltip-point'))
 
     return ret;
@@ -81,58 +101,79 @@ function createTooltip() {
 function showTooltip(show, $element) {
     var $tooltip = getTooltip();
 
+    if (pollTimer) {
+        window.clearInterval(pollTimer);
+    }
+
     if (show) {
-        // When the current tip disappears...
-        var tipAnimate = $tooltip.stop().fadeOut().promise();
+        var $wrapper = $tooltip.find('.tooltip-content');
+        var content = $element.attr('data-tooltip');
 
-        // Show the next tip.
-        tipAnimate.done(function() {
-            var $wrapper = $tooltip.find('.tooltip-content');
-            var content = $element.attr('data-tooltip');
-            var tipRender;
+        if (content[0] === '#') {
+            // Display a copy of the specified element inside the tip.
+            $wrapper.empty().append($(content).clone())
+        } else {
+            // Display the specified text inside the tip.
+            $wrapper.empty().append(
+                '<span class="tooltip-content__decorator">// </span>' +
+                content);
+        }
 
-            if (content[0] === '#') {
-                // Display a copy of the specified element inside the tip.
-                tipRender = $wrapper.empty().append($(content).clone()).promise();
-            } else {
-                // Display the specified text inside the tip.
-                tipRender = $wrapper.text(content).promise();
-            }
+        // Hide until layout update completes.
+        $tooltip.css({ display: 'block', opacity: '0' });
 
-            // When tip re-renders after content change...
-            tipRender.done(function() {
-                // Move the tip to the new position.
-                var tooltipWidth = $tooltip.width();
-                var paddingLeft = parseInt($tooltip.css('padding-left'));
-
-                var th = $tooltip.height();
-
-                var y = Math.max(0,
-                    $element.offset().top - th - 14 -
-                    parseInt($element.attr('data-tooltip-offset-y') || 0));
-
-                var desiredX = $element.offset().left + $element.width() / 2 -
-                    tooltipWidth / 2 - paddingLeft -
-                    parseInt($element.attr('data-tooltip-offset-x') || 0)
-
-                var maxX = window.innerWidth - tooltipWidth - paddingLeft * 5;
-                var x = Math.min(maxX, Math.max(paddingLeft, desiredX));
-
-                if (x != desiredX) {
-                    // If position has been limited, move tooltip point instead.
-                    var pointLeft = tooltipWidth / 2 - (x - desiredX) + 1;
-                    $tooltip.find('.tooltip-point').css({ left: pointLeft});
-                } else {
-                    $tooltip.find('.tooltip-point').attr('style', '');
-                }
-
-                $tooltip.css({
-                    left: Math.floor(x),
-                    top: Math.floor(y)
-                }).fadeIn();
-            });
-        });
+        // Poll size to detect layout update completion.
+        lastWidth = null;
+        lastHeight = null;
+        lastPoll = null;
+        pollTimer = setInterval(
+            updateTooltip, pollInterval, $element, $tooltip);
     } else {
-        //$tooltip.stop().fadeOut();
+        $tooltip.hide();
+    }
+}
+
+/**
+ * Poll for tooltip placement until the layout is complete.
+ * @param {Object} $element - The target element jQuery.
+ * @param {Object} $tooltip - The tooltip jQuery.
+ */
+function updateTooltip($element, $tooltip) {
+    var time = new Date();
+    var tooltipWidth = Math.round($tooltip.width());
+    var tooltipHeight = Math.round($tooltip.height());
+    var x, y;
+
+    if (tooltipWidth != lastWidth || tooltipHeight != lastHeight) {
+        lastPoll = time;
+        lastWidth = tooltipWidth;
+        lastHeight = tooltipHeight;
+
+        var paddingLeft = parseInt($tooltip.css('padding-left'));
+        var maxX = window.innerWidth - tooltipWidth - paddingLeft * 5;
+        var desiredX = $element.offset().left + $element.width() / 2 -
+            tooltipWidth / 2 - paddingLeft -
+            parseInt($element.attr('data-tooltip-offset-x') || 0)
+        var x = Math.min(maxX, Math.max(paddingLeft, desiredX));
+        var y = Math.max(0,
+            $element.offset().top - tooltipHeight - 14 -
+            parseInt($element.attr('data-tooltip-offset-y') || 0));
+
+        if (x != desiredX) {
+            var pointLeft = Math.round(tooltipWidth / 2 - (x - desiredX) + 1);
+            $tooltip.find('.tooltip-point').css({ left: pointLeft });
+        } else {
+            $tooltip.find('.tooltip-point').attr('style', '');
+        }
+
+        x = Math.round(x);
+        y = Math.round(y);
+
+        $tooltip.css({ left: x, top: y });
+
+    } else if (lastPoll && (time - lastPoll) >= pollTimeout) {
+        // Detected layout update completion.
+        clearInterval(pollTimer);
+        $tooltip.animate({ opacity: tipOpacity });
     }
 }

@@ -15,7 +15,6 @@
 
 var weekDays = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-// TODO: center the day view
 // TODO: highlight samples with selected tag
 // TODO: tag-page-footer to have a tip with summary for the entire month
 
@@ -728,7 +727,7 @@ function renderTags($scope, $render2d) {
 function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     var sampleSize = 3;
     var sampleLabelSize = 13;
-    var sampleLabelPointerSize = 3;
+    var sampleLabelCornerSize = 3;
     var footerSize = 18;
     var size = $render2d.getCss('tag-days', [ 'width', 'height' ]);
     var width = parseInt(size.width);
@@ -796,20 +795,22 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
 
         if (sampleLabel) {
             var boxLeft = dayOffset + sampleSize + halfSampleSize;
+            var boxRight = boxLeft + sampleLabelSize;
             var boxTop = projected[dayIndex] - sampleLabelSize - sampleSize;
+            var boxBottom = boxTop + sampleLabelSize;
+            var boxPoint = boxLeft - halfSampleSize - 1;
 
             dayView +=
-            // Sample label pointer.
+            // Sample label background.
             '<path class="tag-days__sample-label--background" ' +
-                'd="M ' + (boxLeft - halfSampleSize - 1) + ' ' + (boxTop + sampleLabelSize) +
-                ' L ' + (boxLeft) + ' ' + (boxTop + sampleLabelSize - sampleLabelPointerSize) +
-                ' L ' + (boxLeft) + ' ' + (boxTop + sampleLabelSize) + '" />' +
-            // Sample label background rectangle.
-            '<rect class="tag-days__sample-label--background" ' +
-                'x="' + boxLeft + '" ' +
-                'y="' + boxTop + '" ' +
-                'width="' + sampleLabelSize + '" ' +
-                'height="' + sampleLabelSize + '" />' +
+                'd="M ' + boxPoint + ' ' + boxBottom +
+                ' L ' + boxLeft + ' ' + (boxBottom - sampleLabelCornerSize) +
+                ' L ' + boxLeft + ' ' + (boxTop + sampleLabelCornerSize) + 
+                ' L ' + (boxLeft + sampleLabelCornerSize) + ' ' + boxTop +
+                ' L ' + boxRight + ' ' + boxTop +
+                ' L ' + boxRight + ' ' + (boxBottom - sampleLabelCornerSize) +
+                ' L ' + (boxRight - sampleLabelCornerSize) + ' ' + boxBottom +
+                '" />' +
             // Sample label text.
             '<text class="tag-days__sample-label" x="' +
                 (dayOffset + halfSampleLabelSize + 1) +

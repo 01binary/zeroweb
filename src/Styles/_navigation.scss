@@ -25,7 +25,7 @@ a:hover {
 }
 
 .navigation-highlight {
-  fill: $primary-light-color;
+  fill: rgba($primary-light-color, 0.6);
   z-index: 7;
 }
 

@@ -15,10 +15,10 @@
 'use strict';
 
 // How long to poll for size changes until the tip can be positioned.
-var pollTimeout = 150;
+var pollTimeout = 100;
 
 // How often to poll for size changes.
-var pollInterval = 50;
+var pollInterval = 33;
 
 // Poll interval timer.
 var pollTimer;
@@ -103,7 +103,7 @@ function showTooltip(show, $element) {
     }
 
     if (show) {
-        $tooltip.stop().fadeOut(function() {
+        //$tooltip.stop().fadeOut(function() {
             var $wrapper = $tooltip.find('.tooltip-content');
             var content = $element.attr('data-tooltip');
 
@@ -126,9 +126,10 @@ function showTooltip(show, $element) {
             lastPoll = null;
             pollTimer = setInterval(
                 updateTooltip, pollInterval, $element, $tooltip);
-        });
+        //});
     } else {
-        $tooltip.stop().fadeOut();
+        //$tooltip.stop().fadeOut();
+        $tooltip.hide();
     }
 }
 
@@ -173,6 +174,7 @@ function updateTooltip($element, $tooltip) {
     } else if (lastPoll && (time - lastPoll) >= pollTimeout) {
         // Detected layout update completion.
         clearInterval(pollTimer);
-        $tooltip.animate({ opacity: 1 });
+        //$tooltip.animate({ opacity: 1 });
+        $tooltip.css('opacity', 1);
     }
 }

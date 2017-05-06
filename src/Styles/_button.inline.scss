@@ -8,15 +8,11 @@
   border: none;
   font-family: $small-font;
   font-size: $small-font-size;
+  transition: color .2s ease-out;
 }
 
 .os-win .button-inline {
   font-size: $small-font-size-win;
-}
-
-.button-secondary {
-  color: $accent-text-color;
-  border-bottom: $border-thickness dotted $accent-text-color;
 }
 
 .button-inline:hover {
@@ -25,6 +21,11 @@
 
 .button-inline-toggled {
   color: $accent-text-color;
+}
+
+.button-secondary {
+  color: $accent-text-color;
+  border-bottom: $border-thickness dotted $accent-text-color;
 }
 
 .button-right {

@@ -12,31 +12,26 @@
 
 /* Article & common hyperlinks */
 a {
+  position: relative;
   color: $accent-text-color;
+  transition: color .2s ease-out;
 
   &:hover {
     color: $primary-color;
   }
 }
 
-/* Location hyperlink in article metadata */
-a.location {
-  border-bottom: $border-thickness dotted $accent-text-color;
+/* Location and author hyperlinks in article metadata */
+a.location, a.author {
+  border-bottom-width: $border-thickness;
+  border-bottom-style: dotted;
+  border-bottom-color: $accent-text-color;
   text-decoration: none;
-
-  &:hover {
-    border-bottom: $border-thickness dotted $primary-color;
-  }
+  transition: color .2s ease-out, border-bottom-color .3s ease-out;
 }
 
-/* Author hyperlink in article metadata */
-a.author {
-  border-bottom: $border-thickness dotted $accent-text-color;
-  text-decoration: none;
-
-  &:hover {
-    border-bottom: $border-thickness dotted $primary-color;
-  }
+a.location:hover, a.author:hover {
+  border-bottom-color: $primary-color;
 }
 
 /* Article permalink hash */
@@ -46,7 +41,7 @@ a.author {
   margin-right: 0.4em;
   color: $secondary-text-color;
   opacity: 0.5;
-  transition: opacity .15s ease-in-out;
+  transition: opacity .2s ease-out, color .2s ease-out;
   text-decoration: none;
   cursor: pointer;
 

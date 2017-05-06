@@ -848,8 +848,8 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         var tagName = tags[tagIndex];
         var tagCount = weekSummary.tags[tagName];
 
-        $('<li>' +
-            '<div class="tag-' + tagName + '-legend' + ' tag-' + tagName + '">' +
+        $('<li class="tag-legend__label tag-' + tagName + '-legend__label">' +
+            '<div class="tag-legend tag-' + tagName + '-legend' + ' tag-' + tagName + '">' +
             '</div>' +
             tagCount + ' ' +
             '<span>&times;</span> ' +

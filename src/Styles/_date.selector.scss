@@ -527,7 +527,7 @@
     }
 }
 
-// Monthly wrapper 
+// Monthly wrapper
 .tag-page {
   position: absolute;
   top: 0px;
@@ -536,12 +536,12 @@
   margin-right: 6px;
   border-bottom: 2px solid $accent-color;
 
-  // Hover state 
+  // Hover state
   &:hover {
     border-bottom: 2px solid darken($accent-color, 8%);
   }
 
-  // Underline 
+  // Underline
   &-footer {
     position: absolute;
     left: 0px;
@@ -560,7 +560,7 @@
     }
   }
 
-  // Dashed month separator 
+  // Dashed month separator
   &-separator {
     position: absolute;
     top: 2px;
@@ -571,7 +571,7 @@
     z-index: -1;
   }
 
-  // Left and right selection brackets 
+  // Left and right selection brackets
   &-bracket-left, &-bracket-right {
     position: absolute;
     fill: lighten($border-color, 3%);
@@ -579,7 +579,7 @@
     pointer-events: none;
   }
 
-  // Mask underline before, after, and in the middle of bracket selection 
+  // Mask underline before, after, and in the middle of bracket selection
   &-underline-mask {
     position: absolute;
     bottom: 18px;
@@ -607,7 +607,7 @@
     }
 }
 
-// Weekly tag stacked bar 
+// Weekly tag stacked bar
 .tag-bar {
   position: absolute;
   top: 17px;
@@ -616,7 +616,7 @@
   z-index: 1;
 }
 
-// Weekly tag block 
+// Weekly tag block
 .tag-block {
   position: absolute;
   width: 16px;
@@ -644,24 +644,7 @@
   }
 }
 
-// Tag colors 
-$electrical:  #12c0e1;
-$mechanical:  #fcd116;
-$software:    #a71d5d;
-$robotics:    #ec008c;
-$graphic:     #ff260f;
-$web:         #795da3;
-$ui:          #0086b3;
-$cad:         #ffb40f;
-$industrial:  #ba141a;
-$database:    #aebdce;
-$sql:         #43a39f;
-$music:       #6fac45;
-$painting:    #ee4a4e;
-$sculpture:   #ff840f;
-$crafts:      #67d5e9;
-
-// Tag blocks 
+// Tag blocks
 @mixin tagColors($color) {
     background: $color;
     transition: background 0.2s ease-in;
@@ -670,13 +653,23 @@ $crafts:      #67d5e9;
         background: lighten($color, 5%);
     }
 
-    &-selected &-legend{
+    &-selected &-legend {
         border-width: 2px;
         margin-left: 0;
-        margin-right: 0;
+        margin-right: 5px;
         margin-top: 3px;
-        margin-right: 6px;
-        background: lighten($color, 5%);
+    }
+
+    &-selected &-legend__label {
+        color: $background-color;
+
+        span {
+            color: rgba($background-color, 0.5);
+        }
+
+        &:before {
+            opacity: 1;
+        }
     }
 }
 
@@ -750,11 +743,12 @@ $crafts:      #67d5e9;
   }
 }
 
-// Week tooltip.
+// Week tooltip
 .tag-bar-tip {
     display: none;
     color: $foreground-color;
 
+    // Week tooltip heading
     h4 {
         color: $drop-shadow-light-color;
         background: transparent;
@@ -765,10 +759,12 @@ $crafts:      #67d5e9;
     }
 }
 
+// Show week tooltip content only if hosted inside tooltip
 .tooltip-content .tag-bar-tip {
     display: block;
 }
 
+// Days view wrapper for horizontal centering
 .tag-days--wrapper {
     position: relative;
     float: left;
@@ -779,6 +775,7 @@ $crafts:      #67d5e9;
     margin-bottom: 6px;
 }
 
+// Days view
 .tag-days {
     width: 250px;
     height: 45px;
@@ -788,26 +785,31 @@ $crafts:      #67d5e9;
     fill: none;
 }
 
+// Days view sample point
 .tag-days__sample {
     stroke: $secondary-text-color;
     fill: $background-color;
 }
 
+// Days view sample point label
 .tag-days__sample-label {
     stroke: none;
     fill: $background-color;
 }
 
+// Days view sample point label background
 .tag-days__sample-label--background {
     stroke: none;
     fill: $secondary-color
 }
 
+// Days view day label
 .tag-days__day-label {
     stroke: none;
     fill: $secondary-text-color;
 }
 
+// Week tooltip tag summary
 .tag-list {
     float: left;
     clear: left;
@@ -818,24 +820,49 @@ $crafts:      #67d5e9;
     margin-bottom: 6px;
     list-style: none;
 
-    // Tag legend
-    div {
-        float: left;
-        width: 10px;
-        height: 5px;
-        border: 1px solid white;
-        margin-left: 1px;
-        margin-right: 1px;
-        margin-top: 4px;
-        margin-right: 7px;
-        box-shadow: 0 0 4px 0 $drop-shadow-light-color;
-    }
-
+    // Tag summary secondary text
     span {
         color: $drop-shadow-light-color;
     }
 }
 
+// Tag legend item
+.tag-legend {
+    float: left;
+    width: 10px;
+    height: 5px;
+    border-color: $background-color;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 1px;
+    margin-right: 6px;
+    margin-top: 4px;
+    box-shadow: 0 0 4px 0 $drop-shadow-light-color;
+    border-width: 1px;
+    margin-right: 6px;
+}
+
+// Tag legend item label
+.tag-legend__label {
+    position: relative;
+    z-index: 1;
+
+    // Tag legend item label background (fade in when tag is selected)
+    &:before {
+        content: '';
+        position: absolute;
+        background-color: rgba($secondary-text-color, 0.7);
+        left: -6px;
+        right: -6px;
+        top: -1px;
+        bottom: -1px;
+        opacity: 0;
+        z-index: -1;
+        transition: opacity .2s ease-out;
+    }
+}
+
+// Week tip article summary
 .tag-article-list {
     float: left;
     max-width: 120px;

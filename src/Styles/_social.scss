@@ -21,6 +21,7 @@ $yahoo-color: #630AFF;
 
 .button-social {
   background: $accent-color;
+  margin-right: $border-thickness * 4;
   padding-left: $border-thickness * 4;
   padding-right: $border-thickness * 4;
   padding-top: $border-thickness;

@@ -22,8 +22,12 @@ pre {
   line-height: $code-font-line-height-win;
 }
 
-.markdown>*:first-child {
+.markdown p:first-of-type {
     margin-top: -0.7em;
+}
+
+.markdown p:last-of-type {
+    margin-bottom: 0.1em;
 }
 
 .pl-c {

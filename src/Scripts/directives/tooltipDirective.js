@@ -103,32 +103,29 @@ function showTooltip(show, $element) {
     }
 
     if (show) {
-        //$tooltip.stop().fadeOut(function() {
-            var $wrapper = $tooltip.find('.tooltip-content');
-            var content = $element.attr('data-tooltip');
+        var $wrapper = $tooltip.find('.tooltip-content');
+        var content = $element.attr('data-tooltip');
 
-            if (content[0] === '#') {
-                // Display a copy of the specified element inside the tip.
-                $wrapper.empty().append($(content).clone())
-            } else {
-                // Display the specified text inside the tip.
-                $wrapper.empty().append(
-                    '<span class="tooltip-content__decorator">// </span>' +
-                    content);
-            }
+        if (content[0] === '#') {
+            // Display a copy of the specified element inside the tip.
+            $wrapper.empty().append($(content).clone())
+        } else {
+            // Display the specified text inside the tip.
+            $wrapper.empty().append(
+                '<span class="tooltip-content__decorator">// </span>' +
+                content);
+        }
 
-            // Hide until layout update completes.
-            $tooltip.css({ display: 'block', opacity: '0' });
+        // Hide until layout update completes.
+        $tooltip.css({ display: 'block', opacity: '0' });
 
-            // Poll size to detect layout update completion.
-            lastWidth = null;
-            lastHeight = null;
-            lastPoll = null;
-            pollTimer = setInterval(
-                updateTooltip, pollInterval, $element, $tooltip);
-        //});
+        // Poll size to detect layout update completion.
+        lastWidth = null;
+        lastHeight = null;
+        lastPoll = null;
+        pollTimer = setInterval(
+            updateTooltip, pollInterval, $element, $tooltip);
     } else {
-        //$tooltip.stop().fadeOut();
         $tooltip.hide();
     }
 }
@@ -174,7 +171,6 @@ function updateTooltip($element, $tooltip) {
     } else if (lastPoll && (time - lastPoll) >= pollTimeout) {
         // Detected layout update completion.
         clearInterval(pollTimer);
-        //$tooltip.animate({ opacity: 1 });
         $tooltip.css('opacity', 1);
     }
 }

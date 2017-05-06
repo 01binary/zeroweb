@@ -14,6 +14,9 @@
 
 'use strict';
 
+// Tooltip opacity.
+var tipOpacity = 0.9;
+
 // How long to poll for size changes until the tip can be positioned.
 var pollTimeout = 100;
 
@@ -171,6 +174,6 @@ function updateTooltip($element, $tooltip) {
     } else if (lastPoll && (time - lastPoll) >= pollTimeout) {
         // Detected layout update completion.
         clearInterval(pollTimer);
-        $tooltip.css('opacity', 1);
+        $tooltip.animate({ opacity: tipOpacity });
     }
 }

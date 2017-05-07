@@ -42,9 +42,13 @@
   font-size: $small-font-size-win;
 }
 
+.form-input:hover {
+  border: $border-thickness solid $secondary-text-color;
+}
+
 .form-input:focus {
   border: $border-thickness solid $accent-text-color;
-  box-shadow: 0 0 ($border-thickness * 4) 0 $primary-light-color;
+  box-shadow: 0 0 ($border-thickness * 4) 0 $primary-color;
 }
 
 .form-input-resizer {

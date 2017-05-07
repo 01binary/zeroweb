@@ -659,7 +659,8 @@
     }
 
     &-selected &__sample--outline {
-        visibility: visible;
+        stroke: $secondary-text-color;
+        fill: $background-color;
     }
 
     &-selected &-legend {
@@ -793,13 +794,14 @@
 .tag-days__sample {
     stroke: $secondary-text-color;
     fill: $background-color;
+    transition: stroke .2s ease-out, fill .2s ease-out;
 }
 
 // Days view sample point outline
 .tag-days__sample--outline {
-    stroke: $secondary-text-color;
-    fill: $background-color;
-    visibility: hidden;
+    stroke: none;
+    fill: none;
+    transition: stroke .5s ease-out, fill .2s ease-out;
 }
 
 // Days view sample point label

@@ -13,7 +13,7 @@
 namespace ZeroWeb.Api.Models
 {
     using System;
-    using Newtonsoft.Json;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The monthly contribution summary.
@@ -21,27 +21,31 @@ namespace ZeroWeb.Api.Models
     public class MonthSummary
     {
         /// <summary>
-        /// Gets or sets the tag counts for each week (by first day of week).
+        /// The max week tag count.
         /// </summary>
-        public WeekTotalsDictionary Tags { get; private set; }
+        private int max;
+
+        /// <summary>
+        /// Gets or sets the accumulated tag counts for the month.
+        /// </summary>
+        public IDictionary<string, int> Tags { get; set; }
 
         /// <summary>
         /// Gets or sets the week summaries (by first day of week).
         /// </summary>
-        public WeekDictionary Weeks { get; private set; }
+        public WeekDictionary Weeks { get; set; }
 
         /// <summary>
-        /// Gets or sets the max week tag count.
+        /// Gets or sets the number of articles published.
         /// </summary>
-        [JsonIgnore]
-        public int Max { get; private set; }
+        public int Articles { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MonthSummary"/> class.
         /// </summary>
         public MonthSummary()
         {
-            this.Tags = new WeekTotalsDictionary();
+            this.Tags = new Dictionary<string, int>();
             this.Weeks = new WeekDictionary();
         }
 
@@ -56,23 +60,26 @@ namespace ZeroWeb.Api.Models
         /// <returns>The aggregated count for the specified tag.</returns>
         public int Aggregate(DateTime firstDayOfMonth, string key, string title, DateTime date, string tag)
         {
-            // Aggregate tag counts for each week.
-            int weekCount;
-            DateTime firstDayOfWeek = Shared.GetStartOfWeek(date);
-            this.Tags.TryGetValue(firstDayOfWeek, out weekCount);
-            this.Tags[firstDayOfWeek] = weekCount + 1;
+            // Aggregate article count for the month.
+            this.Articles++;
+
+            // Aggregate tag counts for the month.
+            int tagCount = 0;
+            this.Tags.TryGetValue(tag, out tagCount);
+            this.Tags[tag] = tagCount + 1;
 
             // Aggregate tag summary for the week.
+            DateTime firstDayOfWeek = Shared.GetStartOfWeek(date);
             int weekMax = this.GetOrCreateWeek(firstDayOfMonth, firstDayOfWeek)
                 .Aggregate(date, key, title, tag);
 
             // Aggregate max tags per week.
-            if (this.Max < weekMax)
+            if (this.max < weekMax)
             {
-                this.Max = weekMax;
+                this.max = weekMax;
             }
             
-            return this.Max;
+            return this.max;
         }
 
         /// <summary>

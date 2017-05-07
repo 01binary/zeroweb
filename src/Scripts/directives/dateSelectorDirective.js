@@ -16,8 +16,6 @@
 var emptyArray = [];
 var weekDays = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-// TODO: tag-page-footer to have a tip with summary for the entire month
-
 /**
  * Register date selector directive.
  */
@@ -639,19 +637,26 @@ function renderTags($scope, $render2d) {
     
     // Render month wrappers.
     for (var monthName in $scope.contributions.months) {
-         var monthSummary = $scope.contributions.months[monthName];
+        // Render month wrapper.
+        var monthSummary = $scope.contributions.months[monthName];
+        var monthOffset = $wrapper ?
+            $wrapper.position().left + $wrapper.width() + monthMargin :
+            $scope.bracketWidth;
 
-        $wrapper = $('<div class="tag-page noselect"></div>')
-            .css('left', $wrapper ?
-                $wrapper.position().left + $wrapper.width() + monthMargin : $scope.bracketWidth)
-            .append($('<div class="tag-page-footer noselect"></div>')
-                .text(monthName))
-            .append($('<div class="tag-page-separator"></div>'))
-            .appendTo($view);
+        $wrapper =
+            $('<div class="tag-page noselect">' +
+                '<div class="tag-page-footer noselect">' + monthName  + '</div>' +
+                '<div class="tag-page-separator"></div>' +
+            '</div>')
+            .css('left', monthOffset).appendTo($view);
 
         if (!monthMargin) {
             monthMargin = parseInt($wrapper.css('margin-right'));
         }
+
+        // Render the month tip.
+        $wrapper.find('.tag-page-footer').attr('data-tooltip', '#' + monthName);
+        renderMonthTip($view, monthName, monthSummary, $render2d);
         
         // Render week bars inside of the month wrapper.
         for (var weekDates in monthSummary.weeks) {
@@ -690,11 +695,7 @@ function renderTags($scope, $render2d) {
             $bar.attr('data-tooltip-offset-y', Math.ceil(tagOffset - minBlockHeight * 2 + 1));
 
             // Render the week tooltip.
-            renderWeekTip(
-                 $('<div id="' + weekId + '" class="tag-bar-tip"></div>').appendTo($view),
-                weekDates,
-                weekSummary,
-                $render2d)
+            renderWeekTip($view, weekId, weekDates, weekSummary, $render2d);
         }
     }
 
@@ -721,21 +722,79 @@ function renderTags($scope, $render2d) {
 }
 
 /**
- * Renders the week bar tooltip.
- * @param {Object} $tip - The tip element jQuery, already created.
+ * Render month section tooltip.
+ * @param {Object} $parent - The container element jQuery.
+ * @param {string} monthName - The month name in 'MMM' format.
+ * @param {Object} monthSummary - The month summary.
+ * @param {Object} render2d - The 2d rendering service.
+ */
+function renderMonthTip($parent, monthName, monthSummary, $render2d) {
+    var $tagList =
+    $('<div id="' + monthName + '" class="tip__inner-content month-tip">' +
+        '<h4><span>' + monthName + '</span> [<span>' + monthSummary.articles + '</span> articles]</h4>' +
+        '<ul class="tag-list"></ul>' +
+     '</div>')
+    .appendTo($parent)
+    .find('.tag-list');
+
+    renderTagList($tagList, monthSummary.tags);
+}
+
+/**
+ * Render week bar tooltip.
+ * @param {Object} $parent - The container element jQuery.
+ * @param {Object} id - The id to use for the tooltip.
  * @param {string} weekName - The week name in 'MMM dd - MMM dd' format.
  * @param {Object} weekSummary - The week summary with tags, articles, and max tags.
  * @param {Object} $render2d - The 2d rendering service.
  */
-function renderWeekTip($tip, weekName, weekSummary, $render2d) {
+function renderWeekTip($parent, id, weekName, weekSummary, $render2d) {
+    var width, height;
+
+    if (renderWeekTip.width || renderWeekTip.height) {
+        width = renderWeekTip.width;
+        height = renderWeekTip.height;
+    } else {
+        var size = $render2d.getCss('tag-days', [ 'width', 'height' ]);
+        renderWeekTip.width = width = parseInt(size.width);
+        renderWeekTip.height = height = parseInt(size.height);
+    }
+
+    var $weekTip =
+    $('<div id="' + id + '" class="tip__inner-content">' +
+        '<h4>' +
+            '<span>' + weekName + '</span> ' + 
+            '[<span>' + weekSummary.articles.length + '</span> articles]' +
+        '</h4>' +
+        '<div class="tag-days--wrapper">' +
+            '<svg class="tag-days" width="' + width + '" height="' + height + '">' +
+                renderDayView(width, height, weekSummary) +
+            '</svg>' +
+        '</div>' +
+        '<ul class="tag-list"></ul>' +
+        '<ul class="tag-article-list"></ul>' +
+      '</div>').appendTo($parent);
+
+    // Render tags.
+    renderTagList($weekTip.find('.tag-list'), weekSummary.tags);
+
+    // Render articles.
+    renderArticleList($weekTip.find('.tag-article-list'), weekSummary.articles);
+}
+
+/**
+ * Render day summary view for week tooltip.
+ * @param {int} width - The view width.
+ * @param {int} height - The view height.
+ * @param {Object} weekSummary - The week summary.
+ * @returns - The markup rendered to string.
+ */
+function renderDayView(width, height, weekSummary) {
     var sampleSize = 3;
     var sampleOutlineSize = 5;
     var sampleLabelSize = 13;
     var sampleLabelCornerSize = 3;
     var footerSize = 18;
-    var size = $render2d.getCss('tag-days', [ 'width', 'height' ]);
-    var width = parseInt(size.width);
-    var height = parseInt(size.height);
     var halfSampleSize = Math.round(sampleSize / 2);
     var halfSampleLabelSize = Math.round(sampleLabelSize / 2);
     var dayWidth = Math.round((width - sampleLabelSize) / weekDays.length);
@@ -844,42 +903,41 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         dayOffset += dayWidth;
     }
 
-    $tip.append($(
-        '<h4><span>' + weekName + '</span> [<span>' + weekSummary.articles.length + '</span> articles]</h4>' +
-        '<div class="tag-days--wrapper">' +
-            '<svg class="tag-days" width="' + width + '" height="' + height + '">' +
-                dayView +
-            '</svg>' +
-        '</div>' +
-        '<ul class="tag-list"></ul>' +
-        '<ul class="tag-article-list"></ul>'
-    ));
+    return dayView;
+}
 
-    // Render tags.
-    var $tagsList = $tip.find('.tag-list');
-    var tags = Object.keys(weekSummary.tags);
-
+/**
+ * Renders the tag list used in week and month summary.
+ * @param {Object} $tagsList - The tag summary list jQuery.
+ * @param {Object} tagSummary - 
+ */
+function renderTagList($tagsList, tagSummary) {
+    var tags = Object.keys(tagSummary);
+    
     for (var tagIndex = tags.length - 1; tagIndex >= 0; tagIndex--) {
          var tagName = tags[tagIndex];
-         var tagCount = weekSummary.tags[tagName];
+         var tagCount = tagSummary[tagName];
 
         $('<li class="tag-legend__label tag-' + tagName + '-legend__label">' +
-            '<div class="tag-legend tag-' + tagName + '-legend' + ' tag-' + tagName + '">' +
-            '</div>' +
+            '<div class="tag-legend tag-' + tagName + '-legend' + ' tag-' + tagName + '">' + '</div>' +
             tagCount + ' ' +
             '<span>&times;</span> ' +
             tagName.replace('-', ' <span>&#8594;</span> ') +
         '</li>').appendTo($tagsList);
     }
+}
 
-    // Render articles.
-    var $articlesList = $tip.find('.tag-article-list');
-
+/**
+ * Render article list in week tooltip.
+ * @param {Object} $parent - The parent UL jQuery.
+ * @param {Object} articles - The array of articles.
+ */
+function renderArticleList($parent, articles) {
     for (var articleIndex = 0;
-        articleIndex < weekSummary.articles.length;
+        articleIndex < articles.length;
         articleIndex++) {
-        $('<li><span>' + weekSummary.articles[articleIndex] + '</span></li>')
-            .appendTo($articlesList);
+        $('<li><span>' + articles[articleIndex] + '</span></li>')
+            .appendTo($parent);
     }
 }
 

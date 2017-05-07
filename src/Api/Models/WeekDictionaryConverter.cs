@@ -35,7 +35,7 @@ namespace ZeroWeb
         /// <returns>Whether the convert can convert an object type.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(WeekDictionary) || objectType == typeof(WeekTotalsDictionary);
+            return objectType == typeof(WeekDictionary);
         }
 
         /// <summary>
@@ -60,7 +60,6 @@ namespace ZeroWeb
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             WeekDictionary summarySource = null;
-            WeekTotalsDictionary totalsSource = null;
             writer.WriteStartObject();
 
             if ((summarySource = value as WeekDictionary) != null)
@@ -73,18 +72,6 @@ namespace ZeroWeb
 
                     // Write the week summary.
                     serializer.Serialize(writer, summarySource[weekKey]);
-                }
-            }
-            else if ((totalsSource = value as WeekTotalsDictionary) != null)
-            {
-                // Write a sorted dictionary of tag summaries.
-                foreach (DateTime weekKey in totalsSource.Keys.OrderByDescending(key => key))
-                {
-                    // Key each week by start and end days.
-                    writer.WritePropertyName(GetMonthWeekName(weekKey));
-
-                    // Write the week summary.
-                    writer.WriteValue(totalsSource[weekKey]);
                 }
             }
 

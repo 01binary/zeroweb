@@ -1,3 +1,15 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Tool tip styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 .tooltip {
     position: absolute;
     background: linear-gradient(
@@ -15,6 +27,7 @@
     z-index: 2000;
 }
 
+// Tooltip shadow.
 .tooltip:before {
     content: '';
     position: absolute;
@@ -26,6 +39,7 @@
     z-index: -2000;
 }
 
+// Tooltip point shadow.
 .tooltip-point {
     position: absolute;
     border-width: 8px;
@@ -37,6 +51,7 @@
     z-index: 1;
 }
 
+// Tooltip point background.
 .tooltip-point:before {
     content: '';
     position: absolute;
@@ -49,6 +64,30 @@
     z-index: 2;
 }
 
+// Decorator for simple (text-only) tips.
 .tooltip-content__decorator {
     color: $secondary-text-color;
+}
+
+// Inner content for complex (DOM tree) tips.
+.tip__inner-content {
+    display: none;
+    color: $foreground-color;
+
+    h4 {
+        color: $drop-shadow-light-color;
+        font-family: $small-font;
+        margin: 0;
+        padding: 0;
+        font-weight: normal;
+
+        span {
+            color: $foreground-color;
+        }
+    }
+}
+
+// Show inner content only when mounted inside the tip.
+.tooltip-content .tip__inner-content {
+    display: block;
 }

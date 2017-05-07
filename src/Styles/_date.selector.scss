@@ -749,28 +749,9 @@
   }
 }
 
-// Week tooltip
-.tag-bar-tip {
-    display: none;
-    color: $foreground-color;
-
-    // Week tooltip heading
-    h4 {
-        color: $drop-shadow-light-color;
-        font-family: $small-font;
-        margin: 0;
-        padding: 0;
-        font-weight: normal;
-
-        span {
-            color: $foreground-color;
-        }
-    }
-}
-
-// Show week tooltip content only if hosted inside tooltip
-.tooltip-content .tag-bar-tip {
-    display: block;
+// Month tip heading
+.month-tip h4 {
+    margin-bottom: 8px;
 }
 
 // Days view wrapper for horizontal centering

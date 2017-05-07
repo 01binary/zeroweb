@@ -534,11 +534,14 @@
   bottom: 20px;
   width: 87px;
   margin-right: 6px;
-  border-bottom: 2px solid $accent-color;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: $accent-color;
+  transition: .2s border-bottom-color ease-out;
 
   // Hover state
   &:hover {
-    border-bottom: 2px solid darken($accent-color, 8%);
+    border-bottom-color: darken($accent-color, 8%);
   }
 
   // Underline
@@ -552,6 +555,7 @@
     font-family: $small-font;
     font-size: $small-font-size - 2;
     color: $drop-shadow-light-color;
+    transition: color .2s ease-out;
     cursor: pointer;
 
     // Hover state 

@@ -730,6 +730,7 @@ function renderTags($scope, $render2d) {
  */
 function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     var sampleSize = 3;
+    var sampleOutlineSize = 5;
     var sampleLabelSize = 13;
     var sampleLabelCornerSize = 3;
     var footerSize = 18;
@@ -752,7 +753,7 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         // Project day sample.
         var day = weekDays[dayIndex];
         var daySummary = weekSummary.days[day];
-        var daySample = daySummary ? daySummary / weekSummary.max : 0;
+        var daySample = daySummary ? daySummary.count / weekSummary.max : 0;
 
         projected[dayIndex] = Math.round(height - (daySample * extent) - footerSize);
 
@@ -786,16 +787,33 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
 
     for (var dayIndex = 0; dayIndex < weekDays.length; dayIndex++) {
         // Render day sample.
-        dayView += '<ellipse class="tag-days__sample" cx="' +
-            dayOffset +
-            '" cy="' +
-            projected[dayIndex] +
-            '" rx="' + sampleSize +
-            '" ry="' + sampleSize +
-            '" />';
+        var day = weekDays[dayIndex];
+        var daySummary = weekSummary.days[day];
+        var tagClassesOutline = daySummary ? daySummary.tags.map(function(tag) {
+            return 'tag-' + tag + '__sample--outline';
+        }) : [];
+        var tagClassesSample = daySummary ? daySummary.tags.map(function(tag) {
+            return 'tag-' + tag + '__sample';
+        }) : [];
+        
+        dayView +=
+             '<ellipse class="tag-days__sample--outline ' +
+                tagClassesOutline.join(' ') +
+                '" cx="' + dayOffset +
+                '" cy="' + projected[dayIndex] +
+                '" rx="' + sampleOutlineSize +
+                '" ry="' + sampleOutlineSize +
+            '" />' +
+            '<ellipse class="tag-days__sample ' +
+                tagClassesSample.join(' ') +
+                '" cx="' + dayOffset +
+                '" cy="' + projected[dayIndex] +
+                '" rx="' + sampleSize +
+                '" ry="' + sampleSize +
+                '" />';
 
         // Render day sample label.
-        var sampleLabel = weekSummary.days[weekDays[dayIndex]];
+        var sampleLabel = daySummary ? daySummary.count : null;
 
         if (sampleLabel) {
             var boxLeft = dayOffset + sampleSize + halfSampleSize;
@@ -805,23 +823,23 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
             var boxPoint = boxLeft - halfSampleSize - 1;
 
             dayView +=
-            // Sample label background.
-            '<path class="tag-days__sample-label--background" ' +
-                'd="M ' + boxPoint + ' ' + boxBottom +
-                ' L ' + boxLeft + ' ' + (boxBottom - sampleLabelCornerSize) +
-                ' L ' + boxLeft + ' ' + (boxTop + sampleLabelCornerSize) + 
-                ' L ' + (boxLeft + sampleLabelCornerSize) + ' ' + boxTop +
-                ' L ' + boxRight + ' ' + boxTop +
-                ' L ' + boxRight + ' ' + (boxBottom - sampleLabelCornerSize) +
-                ' L ' + (boxRight - sampleLabelCornerSize) + ' ' + boxBottom +
+                // Sample label background.
+                '<path class="tag-days__sample-label--background" ' +
+                    'd="M ' + boxPoint + ' ' + boxBottom +
+                    ' L ' + boxLeft + ' ' + (boxBottom - sampleLabelCornerSize) +
+                    ' L ' + boxLeft + ' ' + (boxTop + sampleLabelCornerSize) + 
+                    ' L ' + (boxLeft + sampleLabelCornerSize) + ' ' + boxTop +
+                    ' L ' + boxRight + ' ' + boxTop +
+                    ' L ' + boxRight + ' ' + (boxBottom - sampleLabelCornerSize) +
+                    ' L ' + (boxRight - sampleLabelCornerSize) + ' ' + boxBottom +
                 '" />' +
-            // Sample label text.
-            '<text class="tag-days__sample-label" x="' +
-                (dayOffset + halfSampleLabelSize + 1) +
-                '" y="' +
-                (projected[dayIndex] - halfSampleLabelSize + 1.5) +
-                '" text-anchor="center" alignment-baseline="top">' +
-                sampleLabel +
+                // Sample label text.
+                '<text class="tag-days__sample-label" x="' +
+                    (dayOffset + halfSampleLabelSize + 1) +
+                    '" y="' +
+                    (projected[dayIndex] - halfSampleLabelSize + 1.5) +
+                    '" text-anchor="center" alignment-baseline="top">' +
+                    sampleLabel +
                 '</text>';
         }
 
@@ -845,8 +863,8 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     var tags = Object.keys(weekSummary.tags);
 
     for (var tagIndex = tags.length - 1; tagIndex >= 0; tagIndex--) {
-        var tagName = tags[tagIndex];
-        var tagCount = weekSummary.tags[tagName];
+         var tagName = tags[tagIndex];
+         var tagCount = weekSummary.tags[tagName];
 
         $('<li class="tag-legend__label tag-' + tagName + '-legend__label">' +
             '<div class="tag-legend tag-' + tagName + '-legend' + ' tag-' + tagName + '">' +

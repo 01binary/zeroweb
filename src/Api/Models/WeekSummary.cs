@@ -27,9 +27,9 @@ namespace ZeroWeb.Api.Models
         public IDictionary<string, int> Tags { get; set; }
 
         /// <summary>
-        /// Gets or sets the count of articles aggregated for each day.
+        /// Gets or sets the week day summaries.
         /// </summary>
-        public IDictionary<string, int> Days { get; set; }
+        public IDictionary<string, DaySummary> Days { get; set; }
 
         /// <summary>
         /// Gets or sets the articles aggregated for the week by Id.
@@ -65,7 +65,7 @@ namespace ZeroWeb.Api.Models
         public WeekSummary(int offset)
         {
             this.Tags = new Dictionary<string, int>();
-            this.Days = new Dictionary<string, int>();
+            this.Days = new Dictionary<string, DaySummary>();
             this.Articles = new List<string>();
             this.UniqueArticles = new Dictionary<string, string>();
             this.Offset = offset;
@@ -86,7 +86,7 @@ namespace ZeroWeb.Api.Models
                 this.UniqueArticles.Add(key, title);
                 this.Articles.Add(title);
                 this.AggregateTag(tag, 1);
-                this.AggregateDay(date.ToString("ddd").ToLower(), 1);
+                this.AggregateDay(date.ToString("ddd").ToLower(), new string[] { tag }, 1);
             }
 
             return this.Total;
@@ -111,7 +111,7 @@ namespace ZeroWeb.Api.Models
 
             foreach (var day in merge.Days)
             {
-                this.AggregateDay(day.Key, day.Value);
+                this.AggregateDay(day.Key, day.Value.Tags, day.Value.Count);
             }
         }
 
@@ -131,16 +131,32 @@ namespace ZeroWeb.Api.Models
         /// Aggregate count for the specified week day.
         /// </summary>
         /// <param name="weekDay">The week day to aggregate count for.</param>
+        /// <param name="tags">The tags to aggregate for the day.</param>
         /// <param name="count">The number of articles to aggregate on that day.</param>
-        private void AggregateDay(string weekDay, int count)
+        private void AggregateDay(string weekDay, IEnumerable<string> tags, int count)
         {
-            int dayCount = 0;
-            this.Days.TryGetValue(weekDay, out dayCount);
-            this.Days[weekDay] = dayCount += count;
+            DaySummary daySummary;
 
-            if (dayCount > this.Max)
+            if (!this.Days.TryGetValue(weekDay, out daySummary))
             {
-                this.Max = dayCount;
+                daySummary = new DaySummary();
+            }
+
+            foreach (string tag in tags)
+            {
+                if (!daySummary.Tags.Contains(tag))
+                {
+                    daySummary.Tags.Add(tag);
+                }
+            }
+
+            daySummary.Count += count;
+
+            this.Days[weekDay] = daySummary;
+
+            if (daySummary.Count > this.Max)
+            {
+                this.Max = daySummary.Count;
             }
         }
     }

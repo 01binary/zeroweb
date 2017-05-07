@@ -14,7 +14,7 @@
 a {
   position: relative;
   color: $accent-text-color;
-  transition: color .2s ease-out;
+  transition: color $animation-fast ease-out;
 
   &:hover {
     color: $primary-color;
@@ -27,7 +27,7 @@ a.location, a.author {
   border-bottom-style: dotted;
   border-bottom-color: $accent-text-color;
   text-decoration: none;
-  transition: color .2s ease-out, border-bottom-color .3s ease-out;
+  transition: color $animation-fast ease-out, border-bottom-color .3s ease-out;
 }
 
 a.location:hover, a.author:hover {
@@ -41,7 +41,7 @@ a.location:hover, a.author:hover {
   margin-right: 0.4em;
   color: $secondary-text-color;
   opacity: 0.5;
-  transition: opacity .2s ease-out, color .2s ease-out;
+  transition: opacity $animation-fast ease-out, color $animation-fast ease-out;
   text-decoration: none;
   cursor: pointer;
 

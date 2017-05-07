@@ -53,7 +53,7 @@
         bottom: 0px;
         background-color: $accent-light-color;
         z-index: -1;
-        transition: background 0.2s ease-out;
+        transition: background $animation-fast ease-out;
 
         // Top left corner cut-off
         &:before {
@@ -98,7 +98,7 @@
         height: 43px;
         z-index: 2;
         overflow: hidden;
-        transition: left 0.2s ease-out;
+        transition: left $animation-fast ease-out;
     }
 
     // Page number button overrides for PC
@@ -126,7 +126,7 @@
         font-family: $small-font;
         font-size: $small-font-size;
         color: lighten($foreground-color, 20%);
-        transition: color 0.2s $fade-function;
+        transition: color $animation-fast $fade-function;
         cursor: pointer;
 
         // Replaced browser focus outline with date-selector-page-focus-outline.
@@ -144,7 +144,7 @@
 
             &.selected {
                 color: $background-color;
-                transition: color 0.2s $fade-function;
+                transition: color $animation-fast $fade-function;
             }
         }
 
@@ -331,7 +331,7 @@
     // Scroll buttons
     &-scroll {
         color: lighten($foreground-color, 20%);
-        transition: color 0.2s $fade-function;
+        transition: color $animation-fast $fade-function;
         height: 27px;
         border: none;
         outline: none;
@@ -413,7 +413,7 @@
             width: 30px;
             z-index: 1;
             color: lighten($foreground-color, 20%);
-            transition: left 0.2s ease-out, color 0.2s $fade-function;
+            transition: left $animation-fast ease-out, color $animation-fast $fade-function;
 
             // Arrow icon wrapper 
             .date-selector-page-label {
@@ -537,7 +537,7 @@
   border-bottom-width: 2px;
   border-bottom-style: solid;
   border-bottom-color: $accent-color;
-  transition: .2s border-bottom-color ease-out;
+  transition: $animation-fast border-bottom-color ease-out;
 
   // Hover state
   &:hover {
@@ -555,7 +555,7 @@
     font-family: $small-font;
     font-size: $small-font-size - 2;
     color: $drop-shadow-light-color;
-    transition: color .2s ease-out;
+    transition: color $animation-fast ease-out;
     cursor: pointer;
 
     // Hover state 
@@ -651,7 +651,7 @@
 // Tag blocks
 @mixin tagColors($color) {
     background: $color;
-    transition: background 0.2s ease-in;
+    transition: background $animation-fast ease-in;
 
     &:hover {
         background: lighten($color, 5%);
@@ -798,14 +798,14 @@
 .tag-days__sample {
     stroke: $secondary-text-color;
     fill: $background-color;
-    transition: stroke .2s ease-out, fill .2s ease-out;
+    transition: stroke $animation-fast ease-out, fill $animation-fast ease-out;
 }
 
 // Days view sample point outline
 .tag-days__sample--outline {
     stroke: none;
     fill: none;
-    transition: stroke .5s ease-out, fill .2s ease-out;
+    transition: stroke $animation-slow ease-out, fill $animation-fast ease-out;
 }
 
 // Days view sample point label
@@ -873,7 +873,7 @@
         top: 0;
         bottom: -1px;
         z-index: -1;
-        transition: background .2s ease-out;
+        transition: background $animation-fast ease-out;
     }
 }
 

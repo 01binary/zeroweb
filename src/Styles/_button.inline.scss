@@ -8,7 +8,7 @@
   border: none;
   font-family: $small-font;
   font-size: $small-font-size;
-  transition: color .2s ease-out;
+  transition: color $animation-fast ease-out;
 }
 
 .os-win .button-inline {

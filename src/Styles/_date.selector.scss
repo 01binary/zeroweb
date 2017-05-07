@@ -752,11 +752,14 @@
     // Week tooltip heading
     h4 {
         color: $drop-shadow-light-color;
-        background: transparent;
         font-family: $small-font;
         margin: 0;
         padding: 0;
         font-weight: normal;
+
+        span {
+            color: $foreground-color;
+        }
     }
 }
 

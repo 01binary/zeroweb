@@ -13,9 +13,9 @@
 
 'use strict';
 
+var emptyArray = [];
 var weekDays = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-// TODO: highlight samples with selected tag
 // TODO: tag-page-footer to have a tip with summary for the entire month
 // TODO: animate day view to have non-zero samples rise to their positions
 
@@ -789,12 +789,10 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         // Render day sample.
         var day = weekDays[dayIndex];
         var daySummary = weekSummary.days[day];
-        var tagClassesOutline = daySummary ? daySummary.tags.map(function(tag) {
-            return 'tag-' + tag + '__sample--outline';
-        }) : [];
-        var tagClassesSample = daySummary ? daySummary.tags.map(function(tag) {
-            return 'tag-' + tag + '__sample';
-        }) : [];
+        var tagClassesOutline = daySummary ?
+            daySummary.tags.map(mapSampleOutlineClass) : emptyArray;
+        var tagClassesSample = daySummary ?
+            daySummary.tags.map(mapSampleClass) : emptyArray;
         
         dayView +=
              '<ellipse class="tag-days__sample--outline ' +
@@ -848,7 +846,7 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
     }
 
     $tip.append($(
-        '<h4><span>' + weekName + '</span></h4>' +
+        '<h4><span>' + weekName + '</span> [<span>' + weekSummary.articles.length + '</span> articles]</h4>' +
         '<div class="tag-days--wrapper">' +
             '<svg class="tag-days" width="' + width + '" height="' + height + '">' +
                 dayView +
@@ -884,6 +882,24 @@ function renderWeekTip($tip, weekName, weekSummary, $render2d) {
         $('<li><span>' + weekSummary.articles[articleIndex] + '</span></li>')
             .appendTo($articlesList);
     }
+}
+
+/**
+ * Map tag name to day view sample class.
+ * @param {string} tag - the tag name.
+ * @returns - The day view sample class.
+ */
+function mapSampleClass(tag) {
+    return 'tag-' + tag + '__sample';
+}
+
+/**
+ * Map tag name to day view sample outline class.
+ * @param {string} tag - The tag name.
+ * @returns - The day view sample outline class.
+ */
+function mapSampleOutlineClass(tag) {
+    return 'tag-' + tag + '__sample--outline';
 }
 
 /**

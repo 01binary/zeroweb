@@ -17,7 +17,6 @@ var emptyArray = [];
 var weekDays = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 // TODO: tag-page-footer to have a tip with summary for the entire month
-// TODO: animate day view to have non-zero samples rise to their positions
 
 /**
  * Register date selector directive.

@@ -129,7 +129,7 @@ function showTooltip(show, $element) {
         pollTimer = setInterval(
             updateTooltip, pollInterval, $element, $tooltip);
     } else {
-        $tooltip.hide();
+        //$tooltip.stop().fadeOut();
     }
 }
 

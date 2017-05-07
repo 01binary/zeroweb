@@ -106,6 +106,9 @@ function showTooltip(show, $element) {
     }
 
     if (show) {
+        // Hide until layout update completes.
+        $tooltip.stop().css({ display: 'block', opacity: '0' });
+
         var $wrapper = $tooltip.find('.tooltip-content');
         var content = $element.attr('data-tooltip');
 
@@ -119,9 +122,6 @@ function showTooltip(show, $element) {
                 content);
         }
 
-        // Hide until layout update completes.
-        $tooltip.css({ display: 'block', opacity: '0' });
-
         // Poll size to detect layout update completion.
         lastWidth = null;
         lastHeight = null;
@@ -129,7 +129,7 @@ function showTooltip(show, $element) {
         pollTimer = setInterval(
             updateTooltip, pollInterval, $element, $tooltip);
     } else {
-        //$tooltip.stop().fadeOut();
+        $tooltip.stop().fadeOut();
     }
 }
 

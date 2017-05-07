@@ -10,7 +10,7 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-/*
+/**
  * Colors
  */
 
@@ -21,6 +21,7 @@ $primary-dark-color: #0E93AD;
 $primary-dark-shadow-color: #10A6C4;
 $primary-text-color: #FFFFFF;
 
+$secondary-color: #a158ba;
 $secondary-text-color: #848D95;
 
 $accent-color: #E3EBEC;
@@ -44,8 +45,7 @@ $drop-shadow-transparent-color: black;
 
 $warning-color: #E1B412;
 $error-color: #E11912;
-$highlight-color1: #E11268;
-$highlight-color2: #8B12E1;
+$focus-color: #ff5ac0;
 
 /*
  * Fonts
@@ -59,14 +59,14 @@ $title-font-weight: normal;
 
 /* Helvetica Neue is available only on Mac */
 /* Calibri is available only on PC */
-$heading-font: "Open Sans", "Helvetica Neue", Calibri, sans-serif;
+$heading-font: "Open Sans", "Helvetica Neue", Verdana, sans-serif;
 $heading-font-size-large: 13.5pt;
 $heading-font-size-medium: 13pt;
 $heading-font-size-small: 12pt;
 $heading-font-size-smaller: 11.5pt;
 
-$normal-font: "Open Sans", "-apple-system", BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-$normal-font-size: 11.5pt;
+$normal-font: "Open Sans", Verdana, Arial, sans-serif;
+$normal-font-size: 12pt;
 $navigation-font-size: 10pt;
 
 $small-font: "Segoe UI", Verdana, sans-serif;
@@ -82,7 +82,7 @@ $navigation-font-size-win: 11pt;
 $heading-font-size-large-win: 13.5pt;
 $heading-font-size-medium-win: 13pt;
 $heading-font-size-small-win: 12pt;
-$normal-font-size-win: 11pt;
+$normal-font-size-win: 12pt;
 $small-font-size-win: 10.5pt;
 $small-font-line-height-win: 20pt;
 $small-font-letter-spacing-win: 0;
@@ -91,10 +91,27 @@ $code-font-size-win: 12px;
 $code-font-line-height: 20px;
 $code-font-line-height-win: 20px;
 
-/*
+/**
  * Scalars
  */
 
 $margin: 9pt;
 $border-thickness: 1px;
 $corner-small: 8px;
+$animation-fast: .2s;
+$animation-slow: .5s;
+
+/**
+ * Functions
+ */
+
+$fade-function: cubic-bezier(.02, .01, .47, 1);
+
+/**
+ * Styles
+ */
+
+::selection {
+  color: $background-color;
+  background: $focus-color;
+}

@@ -5,8 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Directive that displays a single OBJ model
-|        with edge toggle & turn-table control.
+|  @file Renders OBJ model with edges and turn-table control.
 |  @requires ../external/three.js
 |  @requires ../external/OBJLoader.js
 |  @requires ../external/OrbitControls.js

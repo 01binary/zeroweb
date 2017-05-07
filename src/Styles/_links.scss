@@ -1,0 +1,51 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Hyperlink styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+/* Article & common hyperlinks */
+a {
+  position: relative;
+  color: $accent-text-color;
+  transition: color $animation-fast ease-out;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+/* Location and author hyperlinks in article metadata */
+a.location, a.author {
+  border-bottom-width: $border-thickness;
+  border-bottom-style: dotted;
+  border-bottom-color: $accent-text-color;
+  text-decoration: none;
+  transition: color $animation-fast ease-out, border-bottom-color .3s ease-out;
+}
+
+a.location:hover, a.author:hover {
+  border-bottom-color: $primary-color;
+}
+
+/* Article permalink hash */
+.permalink-anchor {
+  display: inline;
+  margin-left: -1em;
+  margin-right: 0.4em;
+  color: $secondary-text-color;
+  opacity: 0.5;
+  transition: opacity $animation-fast ease-out, color $animation-fast ease-out;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color !important;
+  }
+}

@@ -1,0 +1,30 @@
+.popup {
+  h2 {
+    float: left;
+    margin-top: 62pt;
+    margin-left: 65pt;
+    font-family: $heading-font;
+    font-size: $title-font-size;
+    color: $secondary-text-color;
+  }
+
+  .logo {
+    color: $primary-color;
+    fill: $background-color;
+    width: 73px;
+    height: 60px;
+    margin-left: 30pt;
+    margin-top: 20pt;
+    float: left;
+  }
+
+  p {
+    float: left;
+    margin-top: 2em;
+    margin-bottom: 1em;
+  }
+
+  font-family: $normal-font;
+  font-size: $normal-font-size;
+  overflow: hidden;
+}

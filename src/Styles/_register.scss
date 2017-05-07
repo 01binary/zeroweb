@@ -1,0 +1,25 @@
+.register-form {
+  margin-bottom: 10px;
+}
+
+.register-form:before {
+  content: '[';
+  position: absolute;
+  left: -15pt;
+  top: -35pt;
+  font-family: $background-font;
+  font-size: 220pt;
+  color: $accent-color;
+  z-index: -1;
+}
+
+.register-form:after {
+  content: ']';
+  position: absolute;
+  right: -15pt;
+  top: -35pt;
+  font-family: $background-font;
+  font-size: 220pt;
+  color: $accent-color;
+  z-index: -1;
+}

@@ -15,7 +15,7 @@ namespace ZeroWeb
     /// <summary>
     /// Built-in tags.
     /// </summary>
-    public enum Tags
+    public enum TypeTags
     {
         /// <summary>
         /// News story.

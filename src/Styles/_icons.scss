@@ -1,0 +1,28 @@
+.icon-header {
+  display: inline;
+  position: relative;
+  fill: $secondary-text-color;
+  top: 1.8pt;
+}
+
+.icon-button {
+  display: inline;
+  position: relative;
+  fill: $primary-text-color;
+  stroke: $primary-text-color;
+  top: $border-thickness * 2;
+  margin-right: $border-thickness;
+}
+
+.button-inline {
+  .icon-button {
+    margin: 0;
+    padding: 0;
+    top: $border-thickness;
+    fill: $secondary-text-color;
+  }
+}
+
+.icon-button-offset {
+  top: $border-thickness;
+}

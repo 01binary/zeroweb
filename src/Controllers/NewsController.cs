@@ -40,13 +40,12 @@ namespace ZeroWeb.Controllers
         /// Default action.
         /// </summary>
         /// <param name="story">Display a page with the specified story.</param>
-        public IActionResult Index([FromQuery]string story)
+        /// <param name="page">Display the specified page.</param>
+        public IActionResult Index([FromQuery]string story, [FromQuery]int? page)
         {
-            string excludeTag = Tags.Story.ToString().ToLower();
+            string typeTag = Shared.FormatTag(TypeTags.Story);
             string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
-
-            var articles = this.store.GetArticles(
-                Tags.Story, 0, story);
+            var articles = this.store.GetArticles(typeTag, page.HasValue ? page.Value : 0, story);
 
             try
             {
@@ -75,7 +74,7 @@ namespace ZeroWeb.Controllers
             {
             }
 
-            return View(articles
+            var stories = articles
                 .Select(article => new
                 {
                     id = article.Id,
@@ -91,7 +90,7 @@ namespace ZeroWeb.Controllers
                     longitude = article.LocationLongitude,
                     zoom = article.LocationZoom,
                     tags = article.Metadata
-                        .Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
+                        .Where(metadata => metadata.Tag.Name.ToLower() != typeTag)
                         .Select(metadata => metadata.Tag.Name).ToArray(),
                     content = article.Content
                 })
@@ -114,7 +113,13 @@ namespace ZeroWeb.Controllers
                     article.tags = result.tags;
                     article.content = result.content;
                     return article;
-                }));
+                });
+
+            dynamic news = new ExpandoObject();
+            news.Page = page.HasValue ? page.Value : 1;
+            news.Stories = stories;
+            
+            return this.View(news);
         }
 
         /// <summary>

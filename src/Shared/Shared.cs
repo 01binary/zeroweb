@@ -23,6 +23,11 @@ namespace ZeroWeb
     public static class Shared
     {
         /// <summary>
+        /// Max. contributions per page by count.
+        /// </summary>
+        public const int ArticlesPerPage = 4;
+
+        /// <summary>
         /// Format story content using GitHub Markdown Api.
         /// </summary>
         /// <param name="tagName">The content to format.</param>
@@ -41,6 +46,16 @@ namespace ZeroWeb
         public static string FormatTag(string tagName)
         {
             return tagName.ToLower();
+        }
+
+        /// <summary>
+        /// Transform a tag from enumeration to database query format.
+        /// </summary>
+        /// <param name="commonTag">The base article type tag.</param>
+        /// <returns>The formatted tag.</returns>
+        public static string FormatTag(TypeTags commonTag)
+        {
+            return commonTag.ToString().ToLower();
         }
 
         /// <summary>
@@ -80,6 +95,27 @@ namespace ZeroWeb
             {
                 // Display the full date.
                 return date.ToString("M/d/yy h:mm tt").ToLower();
+            }
+        }
+
+        /// <summary>
+        /// Gets the start of the week the specified date occurs in.
+        /// </summary>
+        /// <param name="date">The date within a week.</param>
+        /// <returns>The start of week.</returns>
+        public static DateTime GetStartOfWeek(DateTime date)
+        {
+            if (date.DayOfWeek == DayOfWeek.Monday)
+            {
+                return date.Date;
+            }
+            else if (date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return date.AddDays(-6).Date;
+            }
+            else
+            {
+                return date.AddDays(-((int)date.DayOfWeek - 1)).Date;
             }
         }
 

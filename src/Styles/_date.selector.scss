@@ -1,0 +1,876 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Date selector directive styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+.date-selector {
+    // Enable absolute positioning for children relative to self
+    position: relative;
+    
+    // Expanded height
+    height: 130px;
+
+    // Clip tag view within left/right edges to simulate scrolling
+    overflow: hidden;
+
+    // Min scroll fade overlay
+    &:before {
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: 30px;
+        bottom: 44px;
+        width: 1px;
+        box-shadow: 0px 0px 5px 8px $accent-light-color;
+        z-index: 4;
+    }
+
+    // Max scroll fade overlay
+    &:after {
+        content: '';
+        position: absolute;
+        right: -1px;
+        top: 30px;
+        bottom: 44px;
+        width: 1px;
+        box-shadow: 0px 0px 5px 8px $accent-light-color;
+        z-index: 4;
+    }
+
+    // Background rectangle
+    &-background {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        background-color: $accent-light-color;
+        z-index: -1;
+        transition: background $animation-fast ease-out;
+
+        // Top left corner cut-off
+        &:before {
+            content: '';
+            position: absolute;
+            border-width: 8px;
+            border-style: solid;
+            border-color: $background-color transparent transparent $background-color;
+            left: 0px;
+            top: 0px;
+        }
+
+        // Bottom right corner cut-off
+        &:after {
+            content: '';
+            position: absolute;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent $background-color $background-color transparent;
+            right: 0px;
+            bottom: 0px;
+        }
+    }
+
+    // Graph view
+    &-view {
+        position: absolute;
+        left: 10px;
+        right: 0px;
+        top: 30px;
+        bottom: 37px;
+        overflow: hidden;
+        cursor: ew-resize;
+    }
+
+    // Page numbers strip
+    &-pages {
+        position: absolute;
+        left: 36px;
+        right: 0px;
+        bottom: -6px;
+        height: 43px;
+        z-index: 2;
+        overflow: hidden;
+        transition: left $animation-fast ease-out;
+    }
+
+    // Page number button overrides for PC
+    .os-win &-page {
+        font-size: $small-font-size-win;
+        &-label {
+            line-height: 26px;
+        }
+    }
+
+    // Page number button
+    &-page {
+        position: relative;
+        float: left;
+        width: 35px;
+        height: 27px;
+        padding-left: 4px;
+        padding-top: 5px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        margin-left: 0px;
+        margin-top: 1px;
+        margin-right: -8px;
+        margin-bottom: 10px;
+        font-family: $small-font;
+        font-size: $small-font-size;
+        color: lighten($foreground-color, 20%);
+        transition: color $animation-fast $fade-function;
+        cursor: pointer;
+
+        // Replaced browser focus outline with date-selector-page-focus-outline.
+        border: none;
+        outline: none;
+        background: none;
+        
+        // Hover 
+        &:hover {
+            color: $foreground-color;
+
+            .date-selector-page-hover {
+                opacity: 1;
+            }
+
+            &.selected {
+                color: $background-color;
+                transition: color $animation-fast $fade-function;
+            }
+        }
+
+        // Pushed
+        &:active {
+            transition: none !important;
+        }
+
+        // Focus (keyboard only)
+        .show-focus-outlines &:focus {
+            .date-selector-page-focus-outline {
+                display: block;
+            }
+        }
+
+        // Selected 
+        &.selected {
+            color: rgba($background-color, .7);
+
+            .date-selector-page {
+                &-hover,
+                &-border {
+                    display: none;
+                }
+
+                &-pushed,
+                &-border-pushed {
+                    display: block;
+                }
+            }
+        }
+
+        // Primitive fallback 
+        &-fallback {
+            position: relative;
+            left: -100vw;
+        }
+
+        // Page number text including accessibility descriptor 
+        &-label {
+            position: absolute;
+            top: 0px;
+            left: 4px;
+            right: 3px;
+            bottom: 0px;
+            line-height: 26px;
+
+            // Fix :active not shown on IE due to mouse events being eaten 
+            height: 0px;
+            pointer-events: none;
+        }
+
+        // Page number text 
+        &-number {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-align: center;
+        }
+
+        // Group separator for large number of pages 
+        &-separator {
+            color: $secondary-text-color;
+            cursor: default;
+
+            // Overrides for page button 
+            &:before {
+                display: none;
+            }
+
+            &:hover {
+                .date-selector-page-hover {
+                    display: none;
+                }
+
+                .date-selector-page-label {
+                    color: $secondary-text-color;
+                }
+            }
+
+            &:focus {
+                .date-selector-page-focus-outline {
+                    display: none !important;
+                }
+            }
+
+            // Overrides for children of page button 
+            .date-selector-page {
+                &-border, &-background, &-outline, &-focus-outline {
+                    display: none;
+                }
+            }
+        }
+
+        // Page number sub-elements 
+        &-border,
+        &-border-pushed,
+        &-outline,
+        &-background,
+        &-hover,
+        &-pushed {
+            // Fix :active not shown on IE due to mouse events being eaten 
+            pointer-events: none;
+        }
+        
+        &-border,
+        &-border-pushed,
+        &-outline {
+            position: absolute;
+            fill: none;
+            stroke: $secondary-text-color;
+            left: 0;
+            top: 0;
+        }
+
+        &-background,
+        &-hover,
+        &-pushed
+        {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        &-pushed {
+            display: none;
+        }
+
+        &-border-pushed {
+            display: none;
+        }
+
+        &-border {
+            color: $background-color;
+            stroke: $shadow-color;
+            fill: none;
+            z-index: -1;
+
+            &-pushed {
+                color: $shadow-dark-color;
+                stroke: $drop-shadow-light-color;
+            }
+        }
+
+        &-background {
+            z-index: -3;
+        }
+
+        &-focus-outline {
+            display: none;
+            position: absolute;
+            left: -2px;
+            right: -1px;
+            top: -1px;
+            bottom: 0px;
+            stroke: $focus-color;
+            fill: none;
+            z-index: 3;
+        }
+
+        &-hover {
+            z-index: -2;
+            opacity: 0;
+            transition: opacity 0.4s $fade-function;
+        }
+
+        // Bottom shadow 
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0px;
+            right: 10px;
+            bottom: 6px;
+            height: 1px;
+            box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+            z-index: -3;
+        }
+    }
+
+    // Scroll buttons
+    &-scroll {
+        color: lighten($foreground-color, 20%);
+        transition: color $animation-fast $fade-function;
+        height: 27px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+
+        // Hover 
+        &:hover {
+            color: $foreground-color;
+
+            .date-selector-page-hover {
+                opacity: 1;
+            }
+        }
+
+        // Focused (keyboard only)
+        .show-focus-outlines &:focus {
+            .date-selector-page-focus-outline {
+                display: block;
+            }
+        }
+
+        // Pushed 
+        &:active {
+            color: $background-color;
+
+            .date-selector-page {
+                &-hover {
+                    display: none;
+                }
+
+                &-pushed {
+                    display: block;
+                }
+
+                &-border {
+                    display: none;
+                }
+
+                &-border-pushed {
+                    display: block;
+                }
+            }
+        }
+
+        // Arrow icon 
+        &-label {
+            position: absolute;
+            left: 13px;
+            top: 10px;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        // Arrow icon wrapper 
+        .date-selector-page-label {
+            top: 0px;
+            right: 0px;
+            bottom: 5px;
+            left: 0px;
+            line-height: 25px;
+            text-align: center;
+        }
+
+        // Bottom shadow 
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0px;
+            bottom: 1px;
+            height: 1px;
+            box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
+        }
+
+        // Left scroll button 
+        &-left {
+            position: absolute;
+            left: 10px;
+            bottom: 9px;
+            width: 30px;
+            z-index: 1;
+            color: lighten($foreground-color, 20%);
+            transition: left $animation-fast ease-out, color $animation-fast $fade-function;
+
+            // Arrow icon wrapper 
+            .date-selector-page-label {
+                left: 1px;
+                top: -1px;
+            }
+
+            // Focus outline
+            .date-selector-page-focus-outline {
+                left: -1px;
+            }
+
+            // Bottom shadow 
+            &:before {
+                right: 6px;
+                z-index: -3;
+            }
+        }
+
+        // Right scroll button 
+        &-right {
+            position: relative;
+            float: left;
+            width: 35px;
+            height: 27px;
+            margin-top: 1px;
+
+            // Arrow icon wrapper 
+            .date-selector-page-label {
+                left: 2px;
+            }
+
+            // Bottom shadow 
+            &:before {
+                right: 5px;
+                z-index: -3;
+            }
+        }
+    }
+
+    // Expand/collapse caption button 
+    &-caption {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+
+        // Focused (keyboard only)
+        .show-focus-outlines &:focus {
+            color: $focus-color;
+        }
+    }
+
+    // Collapsed state overrides 
+    &.collapsed {
+        margin-top: -2px;
+        margin-bottom: -7px;
+        margin-left: 3px;
+        padding-left: 0px;
+        overflow: visible;
+
+        // Min scroll fade overlay 
+        &:before {
+            display: none;
+        }
+
+        // Max scroll fade overlay 
+        &:after {
+            display: none;
+        }
+
+        .date-selector {
+            // Expand/collapse caption button 
+            &-caption {
+                left: 0px;
+                top: 0px;
+                height: 100%;
+            }
+
+            // Background rectangle 
+            &-background {
+                background: $background-color;
+            }
+
+            // Graph view 
+            &-view {
+                display: none;
+            }
+
+            // Pages strip 
+            &-pages {
+                left: 43px;
+                bottom: -13px;
+            }
+
+            // Left scroll button - collapsed overrides 
+            &-scroll-left {
+                left: 17px;
+                bottom: 2px;
+            }
+        }
+    }
+}
+
+// Fix Safari moving child elements on opacity change.
+// http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .date-selector-page,
+    .date-selector-scroll-left {
+        transform: translateZ(0px);
+        backface-visibility: hidden;
+    }
+}
+
+// Monthly wrapper
+.tag-page {
+  position: absolute;
+  top: 0px;
+  bottom: 20px;
+  width: 87px;
+  margin-right: 6px;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: $accent-color;
+  transition: $animation-fast border-bottom-color ease-out;
+
+  // Hover state
+  &:hover {
+    border-bottom-color: darken($accent-color, 8%);
+  }
+
+  // Underline
+  &-footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    padding-top: 3px;
+    top: 100%;
+    text-align: center;
+    font-family: $small-font;
+    font-size: $small-font-size - 2;
+    color: $drop-shadow-light-color;
+    transition: color $animation-fast ease-out;
+    cursor: pointer;
+
+    // Hover state 
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  // Dashed month separator
+  &-separator {
+    position: absolute;
+    top: 2px;
+    bottom: 0px;
+    right: -3px;
+    border-right: 1px dashed $border-color;
+    outline-offset: 10px;
+    z-index: -1;
+  }
+
+  // Left and right selection brackets
+  &-bracket-left, &-bracket-right {
+    position: absolute;
+    fill: lighten($border-color, 3%);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  // Mask underline before, after, and in the middle of bracket selection
+  &-underline-mask {
+    position: absolute;
+    bottom: 18px;
+    height: 4px;
+    background: $accent-light-color;
+  }
+}
+
+.ie {
+    .date-selector {
+        // Fix vector mapping alias on IE.
+        top: 0.5px;
+    }
+
+    // Left arrow offset on IE.
+    .date-selector-scroll-left .date-selector-page-label {
+        top: -1.7px;
+    }
+}
+
+// Left arrow offset on Firefox.
+@-moz-document url-prefix() {
+    .date-selector-scroll-left .date-selector-page-label {
+        top: -2px;
+    }
+}
+
+// Weekly tag stacked bar
+.tag-bar {
+  position: absolute;
+  top: 17px;
+  bottom: 4px;
+  min-width: 22px;
+  z-index: 1;
+}
+
+// Weekly tag block
+.tag-block {
+  position: absolute;
+  width: 16px;
+  min-height: 6px;
+  border-left: 2px solid $accent-light-color;
+  border-right: 2px solid $accent-light-color;
+  border-top: 1px solid $accent-light-color;
+  border-bottom: 1px solid $accent-light-color;
+  cursor: pointer;
+}
+
+// Hover state 
+.tag-bar:hover {
+  .tag-block {
+    &:before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      box-shadow: 0px 0px 4px 0px $drop-shadow-light-color;
+      z-index: -2;
+    }
+  }
+}
+
+// Tag blocks
+@mixin tagColors($color) {
+    background: $color;
+    transition: background $animation-fast ease-in;
+
+    &:hover {
+        background: lighten($color, 5%);
+    }
+
+    &-selected &__sample {
+        stroke: none;
+        fill: $color;
+    }
+
+    &-selected &__sample--outline {
+        stroke: $secondary-text-color;
+        fill: $background-color;
+    }
+
+    &-selected &-legend {
+        border-width: 2px;
+        margin-left: 0;
+        margin-right: 5px;
+        margin-top: 3px;
+    }
+
+    &-selected &-legend__label:before {
+        background-color: $accent-color;
+    }
+}
+
+.tag {
+  &-engineering {
+    &-electrical {
+      @include tagColors($electrical);
+    }
+
+    &-mechanical {
+      @include tagColors($mechanical);
+    }
+
+    &-software {
+      @include tagColors($software);
+    }
+
+    &-robotics {
+      @include tagColors($robotics);
+    }
+  }
+
+  &-design {
+    &-graphic {
+      @include tagColors($graphic);
+    }
+
+    &-web {
+      @include tagColors($web);
+    }
+
+    &-ui {
+      @include tagColors($ui);
+    }
+
+    &-cad {
+      @include tagColors($cad);
+    }
+
+    &-industrial {
+      @include tagColors($industrial);
+    }
+
+    &-database {
+      @include tagColors($database);
+    }
+  }
+
+  &-it {
+    &-sql {
+      @include tagColors($sql);
+    }
+  }
+
+  &-art {
+    &-music {
+      @include tagColors($music);
+    }
+
+    &-painting {
+      @include tagColors($painting);
+    }
+
+    &-sculpture {
+      @include tagColors($sculpture);
+    }
+
+    &-crafts {
+      @include tagColors($crafts);
+    }
+  }
+}
+
+// Month tip heading
+.month-tip h4 {
+    margin-bottom: 8px;
+}
+
+// Days view wrapper for horizontal centering
+.tag-days--wrapper {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    margin: 3px 0px;
+    margin-bottom: 6px;
+}
+
+// Days view
+.tag-days {
+    width: 250px;
+    height: 45px;
+    margin: 0 auto;
+    font-size: 12px;
+    stroke: $border-color;
+    fill: none;
+}
+
+// Days view sample point
+.tag-days__sample {
+    stroke: $secondary-text-color;
+    fill: $background-color;
+    transition: stroke $animation-fast ease-out, fill $animation-fast ease-out;
+}
+
+// Days view sample point outline
+.tag-days__sample--outline {
+    stroke: none;
+    fill: none;
+    transition: stroke $animation-slow ease-out, fill $animation-fast ease-out;
+}
+
+// Days view sample point label
+.tag-days__sample-label {
+    stroke: none;
+    fill: $background-color;
+}
+
+// Days view sample point label background
+.tag-days__sample-label--background {
+    stroke: none;
+    fill: $secondary-color
+}
+
+// Days view day label
+.tag-days__day-label {
+    stroke: none;
+    fill: $secondary-text-color;
+}
+
+// Week tooltip tag summary
+.tag-list {
+    float: left;
+    clear: left;
+    margin: 0;
+    padding: 0;
+    max-width: 250px;
+    padding-right: 14px;
+    margin-bottom: 6px;
+    list-style: none;
+
+    // Tag summary secondary text
+    span {
+        color: $drop-shadow-light-color;
+    }
+}
+
+// Tag legend item
+.tag-legend {
+    float: left;
+    width: 10px;
+    height: 5px;
+    border-color: $background-color;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 1px;
+    margin-right: 6px;
+    margin-top: 4px;
+    box-shadow: 0 0 4px 0 $drop-shadow-light-color;
+    border-width: 1px;
+    margin-right: 6px;
+}
+
+// Tag legend item label
+.tag-legend__label {
+    position: relative;
+    z-index: 1;
+
+    // Tag legend item label background (fade in when tag is selected)
+    &:before {
+        content: '';
+        position: absolute;
+        left: -6px;
+        right: -6px;
+        top: 0;
+        bottom: -1px;
+        z-index: -1;
+        transition: background $animation-fast ease-out;
+    }
+}
+
+// Week tip article summary
+.tag-article-list {
+    float: left;
+    max-width: 120px;
+    margin: 0;
+    padding: 0;
+    padding-left: 26px;
+    margin-bottom: 6px;
+    border-left: 1px dotted $border-color;
+    list-style-type: square;
+    color: $drop-shadow-light-color;
+    
+    span {
+        color: $foreground-color;
+    }
+}

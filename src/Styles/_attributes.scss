@@ -1,0 +1,40 @@
+.align-left {
+    float: left;
+}
+
+.align-right {
+    float: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.top-margin {
+  margin-top: 8px;
+}
+
+.no-whitespace {
+  font-size: 0;
+}
+
+.error {
+  color: $error-color;
+  margin-top: -.4em;
+  margin-left: 1.4em;
+  margin-bottom: .4em;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari*/
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+ html.scrolling, html.scrolling * {
+  /* Display ew-resize cursor for entire page */
+  cursor: ew-resize !important;
+ }

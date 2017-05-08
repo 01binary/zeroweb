@@ -34,7 +34,8 @@ function inputResizeFactory() {
         $element.height($resizer.height());
 
         $element.on('change keyup paste', function() {
-            $resizer.html($(this).val().replace('\n', '<br/>'));
+            var previewHtml = $(this).val().replace(/\n/g, '<br/>&nbsp;');
+            $resizer.html(previewHtml);
             $element.height($resizer.height());
         });
     }

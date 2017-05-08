@@ -192,7 +192,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
             this.user = result.name || null;
         }.bind(this));
 
-        var $articles = $('.article');
+        var $articles = $('article');
 
         $articles.each(function(index, article) {
             this.addView($(article).attr('data-id'));
@@ -221,7 +221,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
                 $anchor = $('a[href*="' + $routeParams.story + '"]');
             }
 
-            var $article = $anchor.closest('.article');
+            var $article = $anchor.closest('article');
 
             if ($article.length === 0 || $anchor.length === 0) {
                 return;

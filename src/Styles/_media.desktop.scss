@@ -276,6 +276,10 @@ body {
   }
 }
 
+article {
+  border-bottom: $border-thickness dotted $shadow-light-color;
+}
+
 .overlay {
   position: absolute;
   left: 0;
@@ -304,14 +308,6 @@ body {
 .title-popup {
   display: inline;
   color: $shadow-dark-color;
-}
-
-.article {
-  border-bottom: $border-thickness dotted $shadow-light-color;
-}
-
-.article-content {
-  margin-top: -6pt;
 }
 
 .placeholder {

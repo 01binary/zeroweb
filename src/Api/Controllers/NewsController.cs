@@ -76,6 +76,39 @@ namespace ZeroWeb.Api
         }
 
         /// <summary>
+        /// Record a news story view.
+        /// </summary>
+        /// <param name="id">The story id</param>
+        [HttpPost("view/{id}")]
+        public IActionResult ViewStory(int id)
+        {
+            try
+            {
+                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                string externalIdentity = Shared.GetRequestIpAddress(this.Request);
+                var storyViews = store.GetArticleViews(id);
+                var story = store.GetArticle(id);
+
+                if (story == null)
+                {
+                    return this.NotFound();
+                }
+
+                if (!storyViews.Any(view => view.IpAddress == externalIdentity))
+                {
+                    story.Views.Add(new View(story, externalIdentity));
+                    store.Save();
+                }
+
+                return this.Ok();
+            }
+            catch
+            {
+                return  this.StatusCode(500);
+            }
+        }
+
+        /// <summary>
         /// Star a news story.
         /// </summary>
         /// <param name="id">The story id</param>
@@ -93,14 +126,14 @@ namespace ZeroWeb.Api
                 }
                 
                 var storyStars = store.GetArticleStars(id);
-                string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
+                string externalIdentity = Shared.GetRequestIpAddress(this.Request);
                 
-                if (storyStars.Any(star => star.IpAddress == excludeIpAddress))
+                if (storyStars.Any(star => star.IpAddress == externalIdentity))
                 {
                     return this.BadRequest();
                 }
                 
-                story.Stars.Add(new Star(story, excludeIpAddress));
+                story.Stars.Add(new Star(story, externalIdentity));
                 store.Save();
                 
                 return this.Ok(new { stars = storyStars.Count() });

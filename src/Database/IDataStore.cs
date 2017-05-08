@@ -112,6 +112,13 @@ namespace ZeroWeb
         IQueryable<Star> GetArticleStars(int id);
 
         /// <summary>
+        /// Gets the article views.
+        /// </summary>
+        /// <param name="id">The article Id.</param>
+        /// <returns>The views for the article.</returns>
+        IQueryable<View> GetArticleViews(int id);
+
+        /// <summary>
         /// Gets the comment votes.
         /// </summary>
         /// <param name="id">The comment Id.</param>

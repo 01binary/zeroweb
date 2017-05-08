@@ -20,7 +20,7 @@
     var starTip = (story.starsReadOnly ? "times starred" : "star this story");
     var starAriaDisabled = story.starsReadOnly.ToString();
 
-<div class="article">
+<div class="article" data-id="@storyId">
     <!-- Story heading -->
     <h2>
         <!-- Title and Permalink -->
@@ -91,7 +91,16 @@
 
         <!-- Views -->
         <span class="metadata-group">
-            - @story.views views
+            - @story.views
+
+            @if (story.views == 1)
+            {
+                @:view
+            }
+            else if (story.views == 0 || story.views > 1)
+            {
+                @:views
+            }
         </span>
 
         <!-- Tags -->

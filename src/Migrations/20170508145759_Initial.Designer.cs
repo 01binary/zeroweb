@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using ZeroWeb.Models;
 
-namespace zeroweb.Migrations
+namespace src.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20161025020750_Initial")]
+    [Migration("20170508145759_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,11 @@ namespace zeroweb.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 128);
+
                     b.Property<double?>("LocationLatitude");
 
                     b.Property<double?>("LocationLongitude");
@@ -158,11 +163,11 @@ namespace zeroweb.Migrations
                         .HasColumnType("char")
                         .HasAnnotation("MaxLength", 64);
 
-                    b.Property<int>("Views");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("Key");
 
                     b.HasIndex("Date", "Published");
 
@@ -375,6 +380,28 @@ namespace zeroweb.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ZeroWeb.Models.View", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 16);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Views");
+                });
+
             modelBuilder.Entity("ZeroWeb.Models.Vote", b =>
                 {
                     b.Property<int>("Id")
@@ -505,6 +532,14 @@ namespace zeroweb.Migrations
                     b.HasOne("ZeroWeb.Models.Tag", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.View", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Views")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ZeroWeb.Models.Vote", b =>

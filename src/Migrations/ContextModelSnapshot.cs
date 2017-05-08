@@ -2,9 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using ZeroWeb.Models;
 
-namespace zeroweb.Migrations
+namespace src.Migrations
 {
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
@@ -160,8 +161,6 @@ namespace zeroweb.Migrations
                         .IsRequired()
                         .HasColumnType("char")
                         .HasAnnotation("MaxLength", 64);
-
-                    b.Property<int>("Views");
 
                     b.HasKey("Id");
 
@@ -380,6 +379,28 @@ namespace zeroweb.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ZeroWeb.Models.View", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 16);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Views");
+                });
+
             modelBuilder.Entity("ZeroWeb.Models.Vote", b =>
                 {
                     b.Property<int>("Id")
@@ -510,6 +531,14 @@ namespace zeroweb.Migrations
                     b.HasOne("ZeroWeb.Models.Tag", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.View", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Views")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ZeroWeb.Models.Vote", b =>

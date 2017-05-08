@@ -46,9 +46,14 @@ namespace ZeroWeb.Models
         public DbSet<Issue> Issues { get; set; }
 
         /// <summary>
-        /// Gets or sets comments.
+        /// Gets or sets article comments.
         /// </summary>
         public DbSet<Comment> Comments { get; set; }
+
+        /// <summary>
+        /// Gets or sets article views.
+        /// </summary>
+        public DbSet<View> Views { get; set; }
 
         /// <summary>
         /// Gets or sets the article stars.

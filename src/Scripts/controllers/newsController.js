@@ -138,6 +138,11 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.addStar = addStar;
 
     /**
+     * Add a story view.
+     */
+    this.addView = addView;
+
+    /**
      * Upvote a comment.
      * @type {function}
      */
@@ -156,7 +161,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.login = login;
 
     /**
-     * How many articles to load.
+     * How many articles were loaded.
      * @type {number}
      */
     this.count = 0;
@@ -187,7 +192,13 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
             this.user = result.name || null;
         }.bind(this));
 
-        this.count = $('.article').length;
+        var $articles = $('.article');
+
+        $articles.each(function(index, article) {
+            this.addView($(article).attr('data-id'));
+        }.bind(this));
+
+        this.count = $articles.length;
 
         $timeout(this.scrollToAnchor.bind(this), 100);
     }
@@ -336,6 +347,18 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
 
         this.commentError[storyId] = null;
         this.newComment[storyId] = null;
+    }
+
+    /**
+     * Add a story view.
+     * @param {int} storyId - The id of the story to increment views on.
+     */
+    function addView(storyId) {
+        this.newsStore.view(
+            {
+                id: storyId
+            }
+        );
     }
 
     /**

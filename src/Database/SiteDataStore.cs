@@ -192,6 +192,11 @@ namespace ZeroWeb
                     result.Comments = new List<Comment>();
                 }
 
+                if (result.Views == null)
+                {
+                    result.Views = new List<View>();
+                }
+
                 if (result.Stars == null)
                 {
                     result.Stars = new List<Star>();
@@ -242,6 +247,16 @@ namespace ZeroWeb
         public IQueryable<Star> GetArticleStars(int id)
         {
             return this.context.Stars.Where(star => star.Article.Id == id);
+        }
+
+        /// <summary>
+        /// Gets the article views.
+        /// </summary>
+        /// <param name="id">The article Id.</param>
+        /// <returns>The views for the article.</returns>
+        public IQueryable<View> GetArticleViews(int id)
+        {
+            return this.context.Views.Where(view => view.Article.Id == id);
         }
 
         /// <summary>

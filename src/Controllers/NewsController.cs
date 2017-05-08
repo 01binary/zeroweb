@@ -43,38 +43,10 @@ namespace ZeroWeb.Controllers
         /// <param name="page">Display the specified page.</param>
         public IActionResult Index([FromQuery]string story, [FromQuery]int? page)
         {
-            string typeTag = Shared.FormatTag(TypeTags.Story);
-            string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
-            var articles = this.store.GetArticles(typeTag, page.HasValue ? page.Value : 0, story);
-
-            try
-            {
-                bool modified = false;
-
-                foreach (Article article in articles)
-                {
-                    byte[] visit;
-
-                    if (!this.HttpContext.Session.TryGetValue(article.Id.ToString(), out visit))
-                    {
-                        this.HttpContext.Session.Set(
-                            article.Id.ToString(), new byte[] { 1 });
-                            
-                        article.Views++;
-                        modified = true;
-                    }
-                }
-
-                if (modified)
-                {
-                    this.store.Save();
-                }
-            }
-            catch
-            {
-            }
-
-            var stories = articles
+            var typeTag = Shared.FormatTag(TypeTags.Story);
+            var excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
+            var stories = this.store
+                .GetArticles(typeTag, page.HasValue ? page.Value : 0, story)
                 .Select(article => new
                 {
                     id = article.Id,
@@ -82,7 +54,7 @@ namespace ZeroWeb.Controllers
                     key = article.Key,
                     date = article.Date,
                     author = article.Author.Name,
-                    views = article.Views,
+                    views = article.Views.Count,
                     stars = article.Stars.Count,
                     starsReadOnly = article.Stars.Any(star => star.IpAddress == excludeIpAddress),
                     location = article.LocationName,

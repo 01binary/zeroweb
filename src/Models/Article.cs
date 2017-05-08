@@ -40,11 +40,6 @@ namespace ZeroWeb.Models
         public bool Published { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of views.
-        /// </summary>
-        public int Views { get; set; }
-
-        /// <summary>
         /// Gets or sets the publish geographical location name where the article was authored.
         /// </summary>
         [MaxLength(32)]
@@ -79,6 +74,11 @@ namespace ZeroWeb.Models
         /// Gets or sets the item stars.
         /// </summary>
         public ICollection<Star> Stars { get; set; }
+
+        /// <summary>
+        /// Gets or sets the item views.
+        /// </summary>
+        public ICollection<View> Views { get; set; }
 
         /// <summary>
         /// Gets or sets the project issues if this article is a project.

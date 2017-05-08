@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace zeroweb.Migrations
+namespace src.Migrations
 {
     public partial class Initial : Migration
     {
@@ -111,14 +112,14 @@ namespace zeroweb.Migrations
                     AuthorId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(type: "char", nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
+                    Key = table.Column<string>(type: "char", maxLength: 128, nullable: false),
                     LocationLatitude = table.Column<double>(nullable: true),
                     LocationLongitude = table.Column<double>(nullable: true),
                     LocationName = table.Column<string>(maxLength: 32, nullable: true),
                     LocationZoom = table.Column<double>(nullable: true),
                     Published = table.Column<bool>(nullable: false),
                     Thumbnail = table.Column<string>(type: "char", maxLength: 256, nullable: false),
-                    Title = table.Column<string>(type: "char", maxLength: 64, nullable: false),
-                    Views = table.Column<int>(nullable: false)
+                    Title = table.Column<string>(type: "char", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -307,6 +308,27 @@ namespace zeroweb.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Views",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ArticleId = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    IpAddress = table.Column<string>(type: "char", maxLength: 16, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Views", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Views_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Votes",
                 columns: table => new
                 {
@@ -389,6 +411,11 @@ namespace zeroweb.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_Key",
+                table: "Articles",
+                column: "Key");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Articles_Date_Published",
                 table: "Articles",
                 columns: new[] { "Date", "Published" });
@@ -461,6 +488,11 @@ namespace zeroweb.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Views_ArticleId",
+                table: "Views",
+                column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Votes_CommentId",
                 table: "Votes",
                 column: "CommentId");
@@ -491,6 +523,9 @@ namespace zeroweb.Migrations
 
             migrationBuilder.DropTable(
                 name: "Stars");
+
+            migrationBuilder.DropTable(
+                name: "Views");
 
             migrationBuilder.DropTable(
                 name: "Votes");

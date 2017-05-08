@@ -157,8 +157,7 @@ BEGIN TRANSACTION;
         LocationLatitude,
         LocationLongitude,
         LocationName,
-        LocationZoom,
-        Views
+        LocationZoom
     )
     VALUES
     (
@@ -177,7 +176,7 @@ BEGIN TRANSACTION;
         -- key
         'web-design-article',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -195,7 +194,7 @@ BEGIN TRANSACTION;
         -- key
         'mechanical-engineering-article',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -213,7 +212,7 @@ BEGIN TRANSACTION;
         -- key
         'robotics-article',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -231,7 +230,7 @@ BEGIN TRANSACTION;
         -- key
         'software-engineering-article',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -249,7 +248,7 @@ BEGIN TRANSACTION;
         -- key
         'another-software-engineering-article',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -267,7 +266,7 @@ BEGIN TRANSACTION;
         -- key
         'art-of-music-production',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -285,7 +284,7 @@ BEGIN TRANSACTION;
         -- key
         'more-web-design',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -303,7 +302,7 @@ BEGIN TRANSACTION;
         -- key
         'robotics-again',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -321,7 +320,7 @@ BEGIN TRANSACTION;
         -- key
         'underpainting',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- missed stuff from feb mechanical
     (
@@ -340,7 +339,7 @@ BEGIN TRANSACTION;
         -- key
         'one-more-mechanical',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- missing two robotocs from feb
     (
@@ -359,7 +358,7 @@ BEGIN TRANSACTION;
         -- key
         'robotics-ai',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -377,7 +376,7 @@ BEGIN TRANSACTION;
         -- key
         'water-based-actuators',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- missing software article from jan
     (
@@ -396,7 +395,7 @@ BEGIN TRANSACTION;
         -- key
         'filler-engineering',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- missing robotics article from jan
     (
@@ -415,7 +414,7 @@ BEGIN TRANSACTION;
         -- key
         'quadrupedal-locomotion',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- continue dec 5 - dec 11
     (
@@ -434,7 +433,7 @@ BEGIN TRANSACTION;
         -- key
         'the-tolerance-stack',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     (
         -- id
@@ -452,7 +451,7 @@ BEGIN TRANSACTION;
         -- key
         'machining-laser-cutting-investing',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- nov 14 - nov 20
     -- design-ui
@@ -472,7 +471,7 @@ BEGIN TRANSACTION;
         -- key
         'grids-in-design',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-robotics #1
     (
@@ -491,7 +490,7 @@ BEGIN TRANSACTION;
         -- key
         'controllers-and-buses',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-robotics #2
     (
@@ -510,7 +509,7 @@ BEGIN TRANSACTION;
         -- key
         'much-about-sensors',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-robotics #2
     (
@@ -529,7 +528,7 @@ BEGIN TRANSACTION;
         -- key
         'point-cloud-computer-vision',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- nov 7 - nov 13
     -- painting
@@ -549,7 +548,7 @@ BEGIN TRANSACTION;
         -- key
         'painting-addons',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- design web
     (
@@ -568,7 +567,7 @@ BEGIN TRANSACTION;
         -- key
         'web-code-and-coffee',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- oct 24 - 30
     -- design industrial
@@ -588,7 +587,7 @@ BEGIN TRANSACTION;
         -- key
         'desk-drawers-and-industrial-design',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- oct 10 - 16
     (
@@ -607,7 +606,7 @@ BEGIN TRANSACTION;
         -- key
         'optimizing-react-apps',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- sep 26 - oct 2
     -- art-music 1
@@ -627,7 +626,7 @@ BEGIN TRANSACTION;
         -- key
         'compressor-side-chain',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- art-music 2
     (
@@ -646,7 +645,7 @@ BEGIN TRANSACTION;
         -- key
         'guitar-frequencies',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-electrical
     (
@@ -665,7 +664,7 @@ BEGIN TRANSACTION;
         -- key
         'hacking-power-outlets',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- sep 19 - sep 25
     -- art-painting
@@ -685,7 +684,7 @@ BEGIN TRANSACTION;
         -- key
         'cleaning-up-after-painting',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-electrical 1
     (
@@ -704,7 +703,7 @@ BEGIN TRANSACTION;
         -- key
         'using-oscilloscopes',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-electrical 2
     (
@@ -723,7 +722,7 @@ BEGIN TRANSACTION;
         -- key
         'smoke-absorption',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-electrical 3
     (
@@ -742,7 +741,7 @@ BEGIN TRANSACTION;
         -- key
         'capacitor-safety-tips',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- sep 12 - sep 18
     (
@@ -761,7 +760,7 @@ BEGIN TRANSACTION;
         -- key
         'fillet-design',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- sep 5 - sep 11
     (
@@ -780,7 +779,7 @@ BEGIN TRANSACTION;
         -- key
         'the-big-o-notation',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- aug 22 - sep 4
     -- arts-crafts
@@ -800,7 +799,7 @@ BEGIN TRANSACTION;
         -- key
         'polishing-3d-prints',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- design-web
     (
@@ -819,7 +818,7 @@ BEGIN TRANSACTION;
         -- key
         'graph-ql-in-an-api-gateway',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-mechanical
     (
@@ -838,7 +837,7 @@ BEGIN TRANSACTION;
         -- key
         'iso-views-in-drawings',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-robotics
     (
@@ -857,7 +856,7 @@ BEGIN TRANSACTION;
         -- key
         'stability-margins',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- aug 15-21
     -- art-painting 1
@@ -877,7 +876,7 @@ BEGIN TRANSACTION;
         -- key
         'the-painting-platform',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- art-painting 2
     (
@@ -896,7 +895,7 @@ BEGIN TRANSACTION;
         -- key
         'using-palette-knives',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- design-cad
     (
@@ -915,7 +914,7 @@ BEGIN TRANSACTION;
         -- key
         'draft-large-features-first',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- design-industrial
     (
@@ -934,7 +933,7 @@ BEGIN TRANSACTION;
         -- key
         'more-on-design',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- design-web
     (
@@ -953,7 +952,7 @@ BEGIN TRANSACTION;
         -- key
         'one-more-web-design',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- aug 8 - aug 14
     -- design-industrial
@@ -973,7 +972,7 @@ BEGIN TRANSACTION;
         -- key
         'polycurves-in-design',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- design-web 1
     (
@@ -992,7 +991,7 @@ BEGIN TRANSACTION;
         -- key
         'amazon-api-gateways',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- design-web 2
     (
@@ -1011,7 +1010,7 @@ BEGIN TRANSACTION;
         -- key
         'browser-svg-handling',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- aug 1 - aug 7
     -- engineering-robotics 1
@@ -1031,7 +1030,7 @@ BEGIN TRANSACTION;
         -- key
         'first-robotics-article',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-robotics 1
     (
@@ -1050,7 +1049,7 @@ BEGIN TRANSACTION;
         -- key
         'point-cloud-detection',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-robotics 3
     (
@@ -1069,7 +1068,7 @@ BEGIN TRANSACTION;
         -- key
         'calculating-moments-of-inertia',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     ),
     -- engineering-software
     (
@@ -1088,7 +1087,7 @@ BEGIN TRANSACTION;
         -- key
         'inversion-of-control',
         -- optional
-        NULL, NULL, NULL, 0, 0
+        NULL, NULL, NULL, 0
     );
 
 COMMIT TRANSACTION;

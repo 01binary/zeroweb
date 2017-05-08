@@ -32,9 +32,14 @@ function newsFactory($resource) {
         },
         
         {
-            'star': {
+            star: {
                 method: 'POST',
                 url: '/api/news/star/:id'
+            },
+
+            view: {
+                method: 'POST',
+                url: '/api/news/view/:id'
             }
         });
 }

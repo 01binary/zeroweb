@@ -71,7 +71,7 @@ namespace ZeroWeb
             if (article != null)
             {
                 // If an article sepcified, returning the page with the article.
-                page = Math.Max(this.GetArticleIndex(article, published, tags) / count, 1);
+                page = 1 + this.GetArticleIndex(article, published, tags) / count;
             }
             else if (page == 0)
             {

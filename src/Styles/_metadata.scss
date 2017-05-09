@@ -23,18 +23,16 @@ article > .metadata {
 .metadata-icon {
   position: relative;
   display: inline-block;
-  fill: $accent-hover-color;
-  stroke: $accent-hover-color;
+  color: $accent-hover-color;
   width: 16px;
   height: 16px;
   top: 3px;
-  transition: $animation-fast ease-out;
+  transition: color $animation-fast ease-out;
   cursor: pointer;
 }
 
 .metadata-icon:hover {
-  fill: $primary-hover-color;
-  stroke: $primary-hover-color;
+  color: $primary-hover-color;
 }
 
 .metadata-icon-readonly {

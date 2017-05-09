@@ -29,11 +29,7 @@
 }
 
 .comment:hover {
-  background-color: $accent-highlight-color;
-}
-
-.os-win .comment:hover {
-  background-color: $accent-color;
+  background-color: $accent-light-color;
 }
 
 .os-win.hi-dpi .comment:hover {

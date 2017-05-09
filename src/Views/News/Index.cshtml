@@ -175,7 +175,7 @@
         </button>
 
         <!-- Login providers -->
-        <span data-ng-show="!news.user && news.addingComment[@storyId]">
+        <div class="comment-login" data-ng-class="{ 'comment-login--active': !news.user && news.addingComment[@storyId] }">
             <span class="metadata"> | login: </span>
             <span class="no-whitespace">
             @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
@@ -202,9 +202,9 @@
             </form>
             }
             </span>
-        </span>
+        </div>
 
-        <div class="comment-form" data-ng-show="news.addingComment[@storyId]">
+        <div class="comment-form" data-ng-class="{ 'comment-form--active': news.addingComment[@storyId] }">
             <!-- Comments error -->
             <error class="comment-error"
                 data-ng-show="news.commentError[@storyId]"

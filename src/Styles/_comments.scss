@@ -168,9 +168,35 @@
   }
 }
 
+.comment-login {
+  display: inline-block;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity $animation-fast ease-out;
+}
+
+.comment-login--active {
+  visibility: visible;
+  opacity: 1;
+}
+
 .comment-form {
+  visibility: none;
+  display: block;
+  opacity: 0;
+  transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
+  margin-top: -4px;
+  margin-bottom: -40px;
+  transform: translateY(40px);
+}
+
+.comment-form--active {
+  visibility: visible;
+  display: block;
+  opacity: 1;
   margin-top: -4px;
   margin-bottom: -5px;
+  transform: translate(0px);
 }
 
 .os-win .comment-form {

@@ -27,7 +27,8 @@
         <a class="permalink-anchor"
             href="news?story=@story.key"
             id="@permalinkId"
-            data-tooltip="permalink">#</a>@story.title
+            data-tooltip="permalink"
+            data-tooltip-offset-left="-1">#</a>@story.title
         
         <!-- Stars -->
         <span id="star-@storyId"
@@ -35,7 +36,7 @@
             <icon class="@starClass"
                 role="@starRole"
                 data-tooltip="@starTip"
-                data-tooltip-offset-y="5"
+                data-tooltip-offset-top="5"
                 area-disabled="@starAriaDisabled"
                 data-src="images/banner.svg#star"
                 data-width="16"
@@ -168,8 +169,8 @@
         <button class="button-inline top-margin"
             data-ng-class="{'button-inline-toggled': news.addingComment[@storyId]}"
             data-ng-click="news.addingComment['@storyId'] = !news.addingComment['@storyId']"
-            data-tooltip-offset-x="33"
-            data-tooltip-offset-y="1">
+            data-tooltip-offset-left="33"
+            data-tooltip-offset-top="1">
             + comment
         </button>
 
@@ -187,8 +188,8 @@
                     class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
                     name="authenticationScheme"
                     data-tooltip="login with @loginProvider.DisplayName"
-                    data-tooltip-offset-x="-4"
-                    data-tooltip-offset-y="6"
+                    data-tooltip-offset-left="-4"
+                    data-tooltip-offset-top="6"
                     data-ng-show="!news.user"
                     data-ng-click="news.login()"
                     data-fade>

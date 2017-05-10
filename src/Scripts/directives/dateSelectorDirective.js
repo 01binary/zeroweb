@@ -655,7 +655,10 @@ function renderTags($scope, $render2d) {
         }
 
         // Render the month tip.
-        $wrapper.find('.tag-page-footer').attr('data-tooltip', '#' + monthName);
+        $wrapper.find('.tag-page-footer')
+            .attr('data-tooltip', '#' + monthName)
+            .attr('data-tooltip-offset-bottom', 4);
+
         renderMonthTip($view, monthName, monthSummary, $render2d);
         
         // Render week bars inside of the month wrapper.
@@ -692,7 +695,8 @@ function renderTags($scope, $render2d) {
 
             // Set week tooltip attributes (resolved when view is compiled).
             $bar.attr('data-tooltip', '#' + weekId);
-            $bar.attr('data-tooltip-offset-y', Math.ceil(tagOffset - minBlockHeight * 2 + 1));
+            $bar.attr('data-tooltip-offset-top', Math.ceil(tagOffset - minBlockHeight * 2 + 1));
+            $bar.attr('data-tooltip-offset-bottom', 4);
 
             // Render the week tooltip.
             renderWeekTip($view, weekId, weekDates, weekSummary, $render2d);

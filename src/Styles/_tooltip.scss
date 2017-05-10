@@ -64,6 +64,18 @@
     z-index: 2;
 }
 
+// Tooltip point shadow - reverse direction.
+.tooltip-point--reverse {
+    top: -16px;
+    border-color: transparent transparent $shadow-color transparent;
+}
+
+// Tooltip point background - reverse direction.
+.tooltip-point--reverse:before {
+    bottom: -8px;
+    border-color: transparent transparent rgb(255, 255, 255) transparent;
+}
+
 // Decorator for simple (text-only) tips.
 .tooltip-content__decorator {
     color: $secondary-text-color;

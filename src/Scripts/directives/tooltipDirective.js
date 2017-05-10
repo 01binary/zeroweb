@@ -149,30 +149,44 @@ function updateTooltip($element, $tooltip) {
         lastWidth = tooltipWidth;
         lastHeight = tooltipHeight;
 
-        var paddingLeft = parseInt($tooltip.css('padding-left'));
-        var maxX = window.innerWidth - tooltipWidth - paddingLeft * 5;
-        var desiredX = $element.offset().left + $element.width() / 2 -
-            tooltipWidth / 2 - paddingLeft -
-            parseInt($element.attr('data-tooltip-offset-x') || 0)
-        var x = Math.min(maxX, Math.max(paddingLeft, desiredX));
-        var y = Math.max(0,
-            $element.offset().top - tooltipHeight - 14 -
-            parseInt($element.attr('data-tooltip-offset-y') || 0));
+        var $point = $tooltip.find('.tooltip-point');
+        var pointSize = parseInt($point.css('border-width'), 10);
 
-        if (x != desiredX) {
-            var pointLeft = Math.round(tooltipWidth / 2 - (x - desiredX) + 1);
-            $tooltip.find('.tooltip-point').css({ left: pointLeft });
+        var paddingLeft = parseInt($tooltip.css('padding-left'));
+        var offsetX = parseInt($element.attr('data-tooltip-offset-left') || 0);
+        var desiredX = $element.offset().left + $element.width() / 2 -
+            tooltipWidth / 2 - paddingLeft - offsetX;
+
+        var x = Math.min(window.innerWidth - tooltipWidth - pointSize / 2,
+            Math.max(paddingLeft, desiredX));
+        var y = Math.max(0,
+            $element.offset().top - tooltipHeight -
+            pointSize * 2 -
+            parseInt($element.attr('data-tooltip-offset-top') || 0));
+
+        // Display tooltip on the bottom if not enough space at the top.
+        if (y < window.scrollY) {
+            y = $element.offset().top + $element.height() + pointSize +
+                parseInt($element.attr('data-tooltip-offset-bottom') || 0);
+            $point.addClass('tooltip-point--reverse');
         } else {
-            $tooltip.find('.tooltip-point').attr('style', '');
+            $point.removeClass('tooltip-point--reverse');
         }
 
-        x = Math.round(x);
-        y = Math.round(y);
+        // Move tooltip point to target center if tooltip couldn't be centered.
+        if (x != desiredX) {
+            $point.css({ left: Math.round(tooltipWidth / 2 - (x - desiredX) + 1) + 'px' });
+        } else {
+            $point.attr('style', '');
+        }
 
-        $tooltip.css({ left: x, top: y });
+        // Ensure position is rounded to prevent artifacts on low-dpi screens.
+        $tooltip.css({
+            left: Math.round(x) + 'px',
+            top: Math.round(y) + 'px'
+        });
 
     } else if (lastPoll && (time - lastPoll) >= pollTimeout) {
-        // Detected layout update completion.
         clearInterval(pollTimer);
         $tooltip.animate({ opacity: tipOpacity });
     }

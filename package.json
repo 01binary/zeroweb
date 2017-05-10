@@ -17,7 +17,8 @@
     "karma-jasmine": "^0.3.8",
     "protractor": "^3.2.2",
     "rimraf": "^2.5.4",
-    "spawn-sync": "^1.0.15"
+    "spawn-sync": "^1.0.15",
+    "yarn": "^0.23.4"
   },
   "scripts": {
     "postinstall": "node build/tasks/restore",
@@ -39,7 +40,6 @@
     "angular-mocks": "^1.5.8",
     "angular-resource": "^1.5.8",
     "angular-route": "^1.5.8",
-    "jquery": "^3.1.1",
-    "jquery-ui": "^1.12.1"
+    "jquery": "^3.1.1"
   }
 }

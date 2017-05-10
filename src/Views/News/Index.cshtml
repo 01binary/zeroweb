@@ -168,7 +168,7 @@
         <!-- Add comment button -->
         <button class="button-inline top-margin"
             data-ng-class="{'button-inline-toggled': news.addingComment[@storyId]}"
-            data-ng-click="news.addingComment['@storyId'] = !news.addingComment['@storyId']"
+            data-ng-click="news.toggleAddComment('@storyId')"
             data-tooltip-offset-left="33"
             data-tooltip-offset-top="1">
             + comment

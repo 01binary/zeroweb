@@ -121,6 +121,12 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.loadComments = loadComments;
 
     /**
+     * Toggle article comment form.
+     * @type {function}
+     */
+    this.toggleAddComment = toggleAddComment;
+
+    /**
      * Add article comment.
      * @type {function}
      */
@@ -298,8 +304,21 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     }
 
     /**
+     * Toggle add comment form for article.
+     * @param {string} articleId - The id article for which to toggle the form.
+     */
+    function toggleAddComment(articleId) {
+        this.addingComment[articleId] = !this.addingComment[articleId];
+
+        if (this.comments[articleId].length === 0) {
+            // Set focus on the comment box when no comments.
+            $('#comment-' + articleId).focus();
+        }
+    }
+
+    /**
      * Add article comment.
-     * @param {int} articleId - The id of the article to comment on.
+     * @param {string} articleId - The id of the article to comment on.
      */
     function addComment(articleId) {
         // Validate user name.

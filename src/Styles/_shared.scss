@@ -51,25 +51,24 @@ $focus-color: #ff5ac0;
  * Fonts
  */
 
-/* Consolas is only available on Windows */
-/* Menlo is only available on Mac */
 $title-font: Consolas, Menlo, monospace;
 $title-font-size: 12pt;
 $title-font-weight: normal;
 
-/* Helvetica Neue is available only on Mac */
-/* Calibri is available only on PC */
 $heading-font: "Open Sans", "Helvetica Neue", Verdana, sans-serif;
+$heading-font-weight: 600;
 $heading-font-size-large: 13.5pt;
 $heading-font-size-medium: 13pt;
 $heading-font-size-small: 12pt;
 $heading-font-size-smaller: 11.5pt;
 
 $normal-font: "Open Sans", Verdana, Arial, sans-serif;
+$normal-font-weight: 400;
 $normal-font-size: 12pt;
 $navigation-font-size: 10pt;
 
 $small-font: "Segoe UI", Verdana, sans-serif;
+$small-font-weight: 400;
 $small-font-size: 10pt;
 $small-font-line-height: 17pt;
 

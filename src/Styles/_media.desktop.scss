@@ -159,6 +159,7 @@ main {
   width: calc(100% - 22px);
   margin-left: 22px;
   font-family: $normal-font;
+  font-weight: $normal-font-weight;
   font-size: $normal-font-size;
 }
 
@@ -231,6 +232,7 @@ main h2,
 main h3,
 main h4 {
   font-family: $heading-font;
+  font-weight: $heading-font-weight;
   margin-bottom: $margin;
   margin-top: $margin;
 }

@@ -39,7 +39,7 @@ function newsFactory($resource) {
 
             view: {
                 method: 'POST',
-                url: '/api/news/view/:id'
+                url: '/api/news/view'
             }
         });
 }

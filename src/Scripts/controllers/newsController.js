@@ -73,72 +73,67 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.loginService = $login;
 
     /**
-     * Error state for each story key.
-     * @type {object{}}
-     */
-    this.error = {};
-
-    /**
-     * Comments for each story key.
-     * @type {object{}}
-     */
-    this.comments = {};
-
-    /**
-     * Loading comments state for each story key.
-     * @type {bool{}}
-     */
-    this.loadingComments = {};
-
-    /**
-     * Adding comment state for each story key.
-     * @type {bool{}}
-     */
-    this.addingComment = {};
-
-    /**
-     * New comment text for each story key.
-     * @type {string{}}
-     */
-    this.newComment = {};
-
-    /**
-     * Comment submission or loading error for each story key.
-     * @type {object{}}
-     */
-    this.commentError = {};
-
-    /**
-     * Comment error operation for each story key.
-     */
-    this.commentOperation = {};
-
-    /**
      * The authenticated app user, if any.
      * @type {object}
      */
     this.user = null;
 
     /**
-     * Load news story comments.
+     * Comments for each article id.
+     * @type {Object}
+     */
+    this.comments = {};
+
+    /**
+     * Whether currently loading comments.
+     * @type {bool}
+     */
+    this.loadingComments = false;
+
+    /**
+     * Whether currently adding a comment for each article id.
+     * @type {bool[]}
+     */
+    this.addingComment = {};
+
+    /**
+     * New comment text for each article id.
+     * @type {string[]}
+     */
+    this.newComment = {};
+
+    /**
+     * Comment submission error for each article id.
+     * @type {object[]}
+     */
+    this.commentError = {};
+
+    /**
+     * Comment error operation for each article id.
+     * @type {string[]}
+     */
+    this.commentOperation = {};
+
+    /**
+     * Load article comments.
      * @type {function}
      */
     this.loadComments = loadComments;
 
     /**
-     * Add a story comment.
+     * Add article comment.
      * @type {function}
      */
     this.addComment = addComment;
 
     /**
-     * Add a story star (favorite).
+     * Add article star (favorite).
      * @type {function}
      */
     this.addStar = addStar;
 
     /**
-     * Add a story view.
+     * Add article views.
      */
     this.addView = addView;
 
@@ -161,18 +156,6 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.login = login;
 
     /**
-     * How many articles were loaded.
-     * @type {number}
-     */
-    this.count = 0;
-
-    /**
-     * How many articles have comments loaded.
-     * @type {number}
-     */
-    this.commentsLoaded = 0;
-
-    /**
      * Initialize controller.
      * @type {function}
      */
@@ -188,19 +171,25 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
      * Initialize controller.
      */
     function initialize() {
+        // Get logged on user if any.
         this.loginService.getUser().then(function(result) {
             this.user = result.name || null;
         }.bind(this));
 
-        var $articles = $('article');
+        // Get loaded articles.
+        var articles = [];
+        $('article').each(function(index, element) {
+            articles.push(parseInt($(element).attr('data-id'), 10));
+        });
 
-        $articles.each(function(index, article) {
-            this.addView($(article).attr('data-id'));
-        }.bind(this));
-
-        this.count = $articles.length;
-
+        // Scroll to article if specified.
         $timeout(this.scrollToAnchor.bind(this), 100);
+
+        // Get article comments.
+        this.loadComments(articles);
+
+        // Report article views.
+        this.addView(articles);
     }
 
     /**
@@ -208,7 +197,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
      */
     function scrollToAnchor() {
         if ($routeParams.story) {
-            if (this.commentsLoaded !== this.count) {
+            if (this.loadingComments) {
                 $timeout(this.scrollToAnchor.bind(this), 100);
                 return;
             }
@@ -260,74 +249,83 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
             if (result && result.success) {
                 $safeApply($scope, function() {
                     this.user = result.parameter;
-                    
                 }.bind(this));
             }
         }.bind(this));
     }
 
     /**
-     * Load news story comments.
-     * @param {int} storyId - The story Id.
+     * Load article comments.
+     * @param {int[]} articles - The article identifiers.
      */
-    function loadComments(storyId) {
+    function loadComments(articles) {
+        this.loadComments = true;
+
         this.commentsStore.query(
             {
-                id: storyId
+                id: articles
             },
 
             function(result) {
-                // Story comments finished loading.
-                this.comments[storyId] = result;
-                this.loadingComments[storyId] = false;
-                this.commentsLoaded++;
+                // Article comments finished loading.
+                this.loadingComments = false;
 
+                for (var n = 0; n < articles.length; n++) {
+                    var articleId = articles[n];
+                    this.comments[articleId] = result.filter(function(comment) {
+                        return comment.articleId === articleId;
+                    });
+                }
             }.bind(this),
 
             function(error) {
-                // Error loading story comments.
-                this.commentOperation[storyId] = 'load comments';
-                this.commentError[storyId] = error;
-                this.commentsLoaded++;
+                // Error loading article comments.
+                this.loadingComments = false;
 
+                for (var articicleId in articles) {
+                    this.commentOperation[articicleId] = 'load comments';
+                    this.commentError[articicleId] = error;
+                }
             }.bind(this)
         );
 
-        this.comments[storyId] = [];
-        this.loadingComments[storyId] = true;
-        this.addingComment[storyId] = false;
-        this.newComment[storyId] = null;
-        this.commentError[storyId] = null;
+        for (var articleId in articles) {
+            this.comments[articleId] = [];
+            this.addingComment[articleId] = false;
+            this.newComment[articleId] = false;
+            this.commentError[articleId] = null;
+        }
     }
 
     /**
-     * Add a story comment.
-     * @param {int} storyId - The id of the story to comment on.
+     * Add article comment.
+     * @param {int} articleId - The id of the article to comment on.
      */
-    function addComment(storyId) {
+    function addComment(articleId) {
         // Validate user name.
         if (!this.user) {
-            this.commentError[storyId] = 'Please login with one of the providers above to post comments.';
+            this.commentError[articleId] = 'Please login with one of the providers above to post comments.';
             return;
         }
 
         // Validate comment.
-        if (!this.newComment[storyId] || !this.newComment[storyId].length) {
-            this.commentError[storyId] = 'Please enter a comment to post.';
+        if (!this.newComment[articleId] || !this.newComment[articleId].length) {
+            this.commentError[articleId] = 'Please enter a comment to post.';
             return;
         }
 
         // Add comment.
-        var commentContent = this.newComment[storyId];
+        var commentContent = this.newComment[articleId];
 
         this.commentsStore.create(
             {
-                articleId: storyId,
+                articleId: articleId,
                 content: commentContent
             },
 
             function(result) {
-                this.comments[storyId].push({
+                this.comments[articleId].push({
+                    articleId: articleId,
                     id: result.id,
                     author: this.user,
                     date: result.date,
@@ -339,24 +337,24 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
             }.bind(this),
 
             function(error) {
-                this.commentOperation[storyId] = 'post a comment';
-                this.commentError[storyId] = error;
+                this.commentOperation[articleId] = 'post a comment';
+                this.commentError[articleId] = error;
 
             }.bind(this)
         );
 
-        this.commentError[storyId] = null;
-        this.newComment[storyId] = null;
+        this.commentError[articleId] = null;
+        this.newComment[articleId] = null;
     }
 
     /**
-     * Add a story view.
-     * @param {int} storyId - The id of the story to increment views on.
+     * Add article views.
+     * @param {int[]} articles - The article identifiers.
      */
-    function addView(storyId) {
+    function addView(articles) {
         this.newsStore.view(
             {
-                id: storyId
+                id: articles
             }
         );
     }

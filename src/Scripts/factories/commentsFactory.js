@@ -26,14 +26,18 @@ angular.module('zeroApp')
  * @param {object} $resource - AJAX service.
  */
 function commentsFactory($resource) {
-    return $resource('/api/comments/:id',
+    return $resource('/api/comments',
         {
             id: '@id'
         },
         
         {
             'create': { method: 'POST' },
-            'edit': { method: 'PUT' },
+            'edit':
+            {
+                method: 'PUT',
+                url: '/api/comments/edit/:id'
+            },
             'upVote':
             {
                 method: 'POST',

@@ -79,26 +79,28 @@ namespace ZeroWeb.Api
         /// Record a news story view.
         /// </summary>
         /// <param name="id">The story id</param>
-        [HttpPost("view/{id}")]
-        public IActionResult ViewStory(int id)
+        [HttpPost("view")]
+        public IActionResult ViewStory([FromQuery]int[] id)
         {
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-                string externalIdentity = Shared.GetRequestIpAddress(this.Request);
-                var storyViews = store.GetArticleViews(id);
-                var story = store.GetArticle(id);
+                var externalIdentity = Shared.GetRequestIpAddress(this.Request);
+                var views = store.GetArticleViews(id);
 
-                if (story == null)
+                foreach (int articleId in id)
                 {
-                    return this.NotFound();
+                    Article article = store.GetArticle(articleId);
+
+                    if (!views.Any(
+                        view => view.Article == article &&
+                        view.IpAddress == externalIdentity))
+                    {
+                        store.Add(new View(article, externalIdentity));
+                    }
                 }
 
-                if (!storyViews.Any(view => view.IpAddress == externalIdentity))
-                {
-                    story.Views.Add(new View(story, externalIdentity));
-                    store.Save();
-                }
+                store.Save();
 
                 return this.Ok();
             }

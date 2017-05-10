@@ -38,16 +38,18 @@ namespace ZeroWeb.Api
         }
 
         /// <summary>
-        /// Gets the site item comments.
+        /// Gets site item comments.
         /// </summary>
-        /// <param name="id">The site item Id.</param>
-        [HttpGet("{id}")]
-        public IActionResult GetComments(int id)
+        /// <param name="id">The site item Ids.</param>
+        [HttpGet]
+        public IActionResult GetComments([FromQuery]int[] id)
         {
-            return this.Json(this.store.GetArticleComments(id)
+            return this.Json(this.store
+                .GetArticleComments(id)
                 .Where(comment => comment.Published == true)
                 .Select(comment => new
                 {
+                    articleId = comment.Article.Id,
                     id = comment.Id,
                     formattedDate = Shared.FormatDate(comment.Date),
                     date = comment.Date,

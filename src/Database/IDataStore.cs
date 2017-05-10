@@ -98,11 +98,11 @@ namespace ZeroWeb
         Comment GetComment(int id);
 
         /// <summary>
-        /// Gets the article comments.
+        /// Gets article comments.
         /// </summary>
-        /// <param name="id">The article Id.</param>
-        /// <returns>The comments for the article.</returns>
-        IQueryable<Comment> GetArticleComments(int id);
+        /// <param name="id">The article Ids.</param>
+        /// <returns>The comments for the specified articles.</returns>
+        IQueryable<Comment> GetArticleComments(int[] id);
 
         /// <summary>
         /// Gets the article stars.
@@ -114,9 +114,9 @@ namespace ZeroWeb
         /// <summary>
         /// Gets the article views.
         /// </summary>
-        /// <param name="id">The article Id.</param>
+        /// <param name="id">The article Ids.</param>
         /// <returns>The views for the article.</returns>
-        IQueryable<View> GetArticleViews(int id);
+        IQueryable<View> GetArticleViews(int[] id);
 
         /// <summary>
         /// Gets the comment votes.
@@ -130,6 +130,12 @@ namespace ZeroWeb
         /// </summary>
         /// <param name="article">The article to add.</param>
         void Add(Article article);
+
+        /// <summary>
+        /// Adds a new article view.
+        /// </summary>
+        /// <param name="view">The view to add.</param>
+        void Add(View view);
 
         /// <summary>
         /// Removes an article.

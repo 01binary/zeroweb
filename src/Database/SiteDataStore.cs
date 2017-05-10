@@ -228,14 +228,14 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the article comments.
+        /// Gets article comments.
         /// </summary>
-        /// <param name="id">The article Id.</param>
-        /// <returns>The comments for the article.</returns>
-        public IQueryable<Comment> GetArticleComments(int id)
+        /// <param name="id">The article Ids.</param>
+        /// <returns>The comments for the articles.</returns>
+        public IQueryable<Comment> GetArticleComments(int[] id)
         {
             return this.context.Comments
-                .Where(comment => comment.Article.Id == id);
+                .Where(comment => id.Contains(comment.Article.Id));
         }
 
         /// <summary>
@@ -251,11 +251,11 @@ namespace ZeroWeb
         /// <summary>
         /// Gets the article views.
         /// </summary>
-        /// <param name="id">The article Id.</param>
+        /// <param name="id">The article Ids.</param>
         /// <returns>The views for the article.</returns>
-        public IQueryable<View> GetArticleViews(int id)
+        public IQueryable<View> GetArticleViews(int[] id)
         {
-            return this.context.Views.Where(view => view.Article.Id == id);
+            return this.context.Views.Where(view => id.Contains(view.Article.Id));
         }
 
         /// <summary>
@@ -284,6 +284,15 @@ namespace ZeroWeb
         public void Add(Article item)
         {
             this.context.Articles.Add(item);
+        }
+
+        /// <summary>
+        /// Adds a new article view.
+        /// </summary>
+        /// <param name="view">The view to add.</param>
+        public void Add(View view)
+        {
+            this.context.Views.Add(view);
         }
 
         /// <summary>

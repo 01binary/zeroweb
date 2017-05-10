@@ -29,6 +29,11 @@ article > .metadata {
   top: 3px;
   transition: color $animation-fast ease-out;
   cursor: pointer;
+
+  svg {
+    // Fix pixel-perfect hit detection on IE, we want a simple hit box.
+    pointer-events: none;
+  }
 }
 
 .metadata-icon:hover {

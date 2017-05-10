@@ -292,7 +292,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
         for (var articleId in articles) {
             this.comments[articleId] = [];
             this.addingComment[articleId] = false;
-            this.newComment[articleId] = false;
+            this.newComment[articleId] = null;
             this.commentError[articleId] = null;
         }
     }

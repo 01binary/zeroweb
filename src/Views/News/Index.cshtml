@@ -206,7 +206,7 @@
         <div class="comment-form" data-ng-class="{ 'comment-form--active': news.addingComment[@storyId] }">
             <!-- Comments error -->
             <error class="comment-error"
-                data-ng-show="news.commentError[@storyId]"
+                data-ng-class="{ 'comment-error--active': news.commentError[@storyId] }"
                 data-operation="news.commentOperation[@storyId]"
                 data-error="news.commentError[@storyId]"
                 data-code="news.commentError[@storyId].status"

@@ -178,7 +178,6 @@
 
 .comment-form {
   visibility: none;
-  display: block;
   opacity: 0;
   transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
   margin-top: -4px;
@@ -188,10 +187,26 @@
 
 .comment-form--active {
   visibility: visible;
-  display: block;
   opacity: 1;
   margin-top: -4px;
   margin-bottom: -5px;
+  transform: translate(0px);
+}
+
+.comment-error {
+  visibility: none;
+  opacity: 0;
+  transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
+  margin-left: 16px;
+  margin-top: -18px;
+  transform: translateY(40px);
+}
+
+.comment-form--active .comment-error--active {
+  visibility: visible;
+  opacity: 1;
+  margin-top: 4px;
+  margin-bottom: 8px;
   transform: translate(0px);
 }
 
@@ -203,8 +218,4 @@
   min-height: 19pt;
   height: 19pt;
   resize: vertical;
-}
-
-.comment-error {
-  margin-left: 12pt;
 }

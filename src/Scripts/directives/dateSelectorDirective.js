@@ -657,6 +657,7 @@ function renderTags($scope, $render2d) {
         // Render the month tip.
         $wrapper.find('.tag-page-footer')
             .attr('data-tooltip', '#' + monthName)
+            .attr('data-tooltip-offset-top', -2)
             .attr('data-tooltip-offset-bottom', 4);
 
         renderMonthTip($view, monthName, monthSummary, $render2d);

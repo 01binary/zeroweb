@@ -150,14 +150,14 @@ function updateTooltip($element, $tooltip) {
         lastHeight = tooltipHeight;
 
         var $point = $tooltip.find('.tooltip-point');
-        var pointSize = parseInt($point.css('border-width'), 10);
-
-        var paddingLeft = parseInt($tooltip.css('padding-left'));
-        var offsetX = parseInt($element.attr('data-tooltip-offset-left') || 0);
+        var pointSize = parseInt($point.css('border-left-width') || 0, 10);
+        var paddingLeft = parseInt($tooltip.css('padding-left'), 10);
+        var minY = window.scrollY || window.pageYOffset;
+        var offsetX = parseInt($element.attr('data-tooltip-offset-left') || 0, 10);
         var desiredX = $element.offset().left + $element.width() / 2 -
             tooltipWidth / 2 - paddingLeft - offsetX;
 
-        var x = Math.min(window.innerWidth - tooltipWidth - pointSize / 2,
+        var x = Math.min(window.innerWidth - tooltipWidth - pointSize,
             Math.max(paddingLeft, desiredX));
         var y = Math.max(0,
             $element.offset().top - tooltipHeight -
@@ -165,9 +165,9 @@ function updateTooltip($element, $tooltip) {
             parseInt($element.attr('data-tooltip-offset-top') || 0));
 
         // Display tooltip on the bottom if not enough space at the top.
-        if (y < window.scrollY) {
+        if (y < minY) {
             y = $element.offset().top + $element.height() + pointSize +
-                parseInt($element.attr('data-tooltip-offset-bottom') || 0);
+                parseInt($element.attr('data-tooltip-offset-bottom') || 0, 10);
             $point.addClass('tooltip-point--reverse');
         } else {
             $point.removeClass('tooltip-point--reverse');

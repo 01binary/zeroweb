@@ -1,3 +1,15 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Comment list and form styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 .comments {
   margin-top: 0;
   margin-left: 1.5em;
@@ -165,68 +177,53 @@
 }
 
 .comment-login {
-  display: inline-block;
+  display: inline;
   visibility: hidden;
   opacity: 0;
+  margin: -100vw;
   transition: opacity $animation-fast ease-out;
 }
 
 .comment-login--active {
   visibility: visible;
+  margin: 0;
   opacity: 1;
 }
 
 .comment-form {
-  display: none;
-  //transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
-  animation: fadeOut;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
+  transition-delay: $animation-fast;
   margin-top: -4px;
   margin-bottom: -40px;
-  transform: translateY(40px);
 }
+
 .comment-form--active {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(0px);
   margin-top: -4px;
   margin-bottom: -5px;
-  transform: translate(0px);
-  animation: fadeIn;
-}
-
-@keyframes fadeIn {
-  0% {
-    display: block;
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  99% {
-    opacity: 0;
-  }
-
-  100% {
-    display: none;
-  }
 }
 
 .comment-error {
   visibility: none;
   opacity: 0;
-  transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
+  transform: translateY(80px);
+  transition: transform $animation-fast ease-out, opacity $animation-slow ease-out, margin $animation-fast ease-out;
+  transition-delay: $animation-fast;
   margin-left: 16px;
-  margin-top: -18px;
-  transform: translateY(40px);
+  margin-top: -20px;
 }
 
 .comment-form--active .comment-error--active {
   visibility: visible;
   opacity: 1;
+  transform: translate(0px);
   margin-top: 4px;
   margin-bottom: 8px;
-  transform: translate(0px);
 }
 
 .os-win .comment-form {

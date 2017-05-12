@@ -209,20 +209,20 @@
 }
 
 .comment-error {
-  visibility: none;
+  visibility: hidden;
   opacity: 0;
   transform: translateY(80px);
   transition: transform $animation-fast ease-out, opacity $animation-slow ease-out, margin $animation-fast ease-out;
   transition-delay: $animation-fast;
   margin-left: 16px;
-  margin-top: -14pt;
+  margin-top: 4px;
+  margin-bottom: -20pt;
 }
 
 .comment-form--active .comment-error--active {
   visibility: visible;
   opacity: 1;
   transform: translate(0px);
-  margin-top: 4px;
   margin-bottom: 8px;
 }
 

@@ -310,9 +310,11 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     function toggleAddComment(articleId) {
         this.addingComment[articleId] = !this.addingComment[articleId];
 
-        if (this.comments[articleId].length === 0) {
-            // Set focus on the comment box when no comments.
-            $('#comment-' + articleId).focus();
+        if (this.addingComment[articleId] && this.comments[articleId].length === 0) {
+            window.setTimeout(function() {
+                // Set focus on the comment box when no comments.
+                $('#comment-' + articleId).focus();
+            }, 300);
         }
     }
 

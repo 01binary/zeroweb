@@ -196,16 +196,16 @@
   transform: translateY(40px);
   transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
   transition-delay: $animation-fast;
-  margin-top: -4px;
-  margin-bottom: -40px;
+  margin-top: -4pt;
+  margin-bottom: -30pt;
 }
 
 .comment-form--active {
   visibility: visible;
   opacity: 1;
   transform: translate(0px);
-  margin-top: -4px;
-  margin-bottom: -5px;
+  margin-top: -1pt;
+  margin-bottom: -2pt;
 }
 
 .comment-error {
@@ -224,10 +224,6 @@
   opacity: 1;
   transform: translate(0px);
   margin-bottom: 8px;
-}
-
-.os-win .comment-form {
-  margin-top: -4px;
 }
 
 .comment-input {

@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 .comments {
-  margin-top: 0;
+  margin-top: -.25em;
   margin-left: 1.5em;
   font-family: $small-font;
   font-size: $small-font-size;
@@ -25,7 +25,6 @@
 
 .comments-header {
   color: $secondary-text-color;
-  margin-top: 10px;
   margin-bottom: 3pt;
 }
 
@@ -50,7 +49,7 @@
 
 .comment .metadata {
   float: left;
-  margin-top: 1pt;
+  margin-top: 2pt;
   margin-right: 2pt;
   margin-bottom: 3pt;
 }
@@ -62,8 +61,8 @@
 .comment-content {
   float: left;
   white-space: pre-line;
-  margin-top: 1pt;
-  margin-bottom: 3pt;
+  margin-top: 2pt;
+  margin-bottom: 2pt;
 }
 
 .comment-vote {
@@ -176,58 +175,70 @@
   }
 }
 
-.comment-login {
-  display: inline;
-  visibility: hidden;
-  opacity: 0;
-  margin: -100vw;
-  transition: opacity $animation-fast ease-out;
+.comment-entry-toggle {
+  display: none;
 }
 
-.comment-login--active {
-  visibility: visible;
-  margin: 0;
-  opacity: 1;
+.comment-entry-toggle + label {
+  &:before {
+    font-family: monospace;
+    content: '+';
+  }
 }
 
-.comment-form {
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
-  transition-delay: $animation-fast;
-  margin-top: -4pt;
-  margin-bottom: -30pt;
+.comment-entry-toggle:checked + label {
+  color: $accent-text-color;
+
+  &:before {
+    content: '-';
+  }
+
+  &:hover {
+    color: $primary-color;
+  }
 }
 
-.comment-form--active {
-  visibility: visible;
-  opacity: 1;
-  transform: translate(0px);
-  margin-top: -1pt;
-  margin-bottom: -2pt;
+.comment-entry {
+  margin-left: 1em;
+
+  form {
+    position: relative;
+    top: 0;
+    opacity: 1;
+    transition: opacity .3s .3s ease-in-out,
+                top .3s .3s ease-in-out;
+  }
+
+  textarea {
+    width: calc(100% - 1em);
+    box-sizing: border-box;
+    margin: 1em 0;
+    resize: vertical;
+    transition: height .3s ease-in-out,
+                margin .3s ease-in-out;
+  }
+
+  /*button[type="submit"] {
+  }*/
 }
 
-.comment-error {
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(80px);
-  transition: transform $animation-fast ease-out, opacity $animation-slow ease-out, margin $animation-fast ease-out;
-  transition-delay: $animation-fast;
-  margin-left: 16px;
-  margin-top: 4px;
-  margin-bottom: -20pt;
-}
+.comment-entry-toggle:not(:checked) + label + .comment-entry {
+  form {
+    top: 3em;
+    opacity: 0;
+    transition: opacity .3s ease-in-out,
+                top .3s ease-in-out;
+  }
 
-.comment-form--active .comment-error--active {
-  visibility: visible;
-  opacity: 1;
-  transform: translate(0px);
-  margin-bottom: 8px;
-}
+  textarea {
+    height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden;
+    transition: height .3s .3s ease-in-out,
+                margin .3s .3s ease-in-out;
+  }
 
-.comment-input {
-  min-height: 19pt;
-  height: 19pt;
-  resize: vertical;
+  /*button[type="submit"] {
+    
+  }*/
 }

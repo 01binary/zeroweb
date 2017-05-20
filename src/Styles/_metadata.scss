@@ -1,18 +1,25 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Article metadata styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 .metadata {
   font-family: $small-font;
   font-size: $small-font-size;
   color: $secondary-text-color;
-  margin-top: -6pt;
-  line-height: $small-font-line-height;
-}
-
-article > .metadata {
-  margin-left: 1.4em;
+  line-height: $small-font-line-height + 2;
 }
 
 .os-win .metadata {
   font-size: $small-font-size-win;
-  line-height: $small-font-line-height-win;
+  line-height: $small-font-line-height-win + 2;
 }
 
 .metadata-group {
@@ -110,6 +117,7 @@ article > .metadata {
   margin-right: 2pt;
   padding: 6px 5pt 7px 5.5pt;
   cursor: pointer;
+  transition: background-color $animation-fast ease-in-out;
 }
 
 .tag:hover {

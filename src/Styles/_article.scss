@@ -1,0 +1,28 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Article styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+$articleIndent: 1.4em;
+
+article {
+    h2 {
+        margin-bottom: .25em;
+    }
+
+    section.metadata {
+        margin-left: $articleIndent;
+        margin-bottom: -1em;
+    }
+
+    section.markdown {
+        margin-left: $articleIndent;
+    }
+}

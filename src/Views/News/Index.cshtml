@@ -53,8 +53,7 @@
     </h2>
 
     <!-- Story metadata -->
-    <p class="metadata">
-
+    <section class="metadata">
         <!-- Clock icon -->
         <icon class="icon-header"
             data-src="images/banner.svg#clock"
@@ -113,15 +112,15 @@
             <a class="tag" data-fade>@Shared.FormatTag(tag)</a>
         }
         </span>
-    </p>
+    </section>
 
     <!-- Story content -->
-    <div class="markdown">
+    <section class="markdown">
         @Shared.FormatContent(story.content)
-    </div>
+    </section>
     
     <!-- Story comments -->
-    <div class="comments">
+    <section class="comments">
         <span class="metadata"
             data-ng-show="news.comments[@storyId].length">
             
@@ -167,17 +166,14 @@
             </div>
         </span>
 
-        <!-- Add comment button -->
-        <button class="button-inline top-margin"
-            data-ng-class="{'button-inline-toggled': news.addingComment[@storyId]}"
-            data-ng-click="news.toggleAddComment('@storyId')"
-            data-tooltip-offset-left="33"
-            data-tooltip-offset-top="1">
-            + comment
-        </button>
+        <!-- Add comment toggle -->
+        <input id="toggle-@storyId" type="checkbox" class="comment-entry-toggle">
+        <label for="toggle-@storyId" class="button-inline">
+            comment
+        </label>
 
         <!-- Login providers -->
-        <div class="comment-login" data-ng-class="{ 'comment-login--active': !news.user && news.addingComment[@storyId] }">
+        <!--<span class="comment-login" data-ng-class="{'comment-login--active': !news.user}">
             <span class="metadata"> | login: </span>
             <span class="no-whitespace">
             @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
@@ -190,8 +186,8 @@
                     class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
                     name="authenticationScheme"
                     data-tooltip="login with @loginProvider.DisplayName"
-                    data-tooltip-offset-left="-4"
-                    data-tooltip-offset-top="6"
+                    data-tooltip-offset-x="-4"
+                    data-tooltip-offset-y="6"
                     data-ng-show="!news.user"
                     data-ng-click="news.login()"
                     data-fade>
@@ -204,44 +200,41 @@
             </form>
             }
             </span>
-        </div>
+        </span>-->
 
-        <div class="comment-form" data-ng-class="{ 'comment-form--active': news.addingComment[@storyId] }">
+        <!-- Comment entry details -->
+        <section class="comment-entry">
             <!-- Comments error -->
-            <error class="comment-error"
+            <!--<error class="comment-error"
                 data-ng-class="{ 'comment-error--active': news.commentError[@storyId] }"
                 data-operation="news.commentOperation[@storyId]"
                 data-error="news.commentError[@storyId]"
                 data-code="news.commentError[@storyId].status"
                 data-message="news.commentError[@storyId].statusText">
-            </error>
+            </error>-->
 
-            <!-- Submit button -->
-            <button class="button-right"
-                data-primary
-                data-ng-click="news.addComment(@storyId)">
-                <icon class="icon-button"
-                    data-src="images/banner.svg#submit"
-                    data-width="10"
-                    data-height="10">
-                </icon>
-                submit
-            </button>
-
-            <div class="form-spacer-right"></div>
-            <div class="form-spacer-left"></div>
-
-            <!-- Comment input -->
-            <div class="form-group">
+            <!-- Comment entry form -->
+            <form>
+                <!-- Comment input -->
                 <textarea id="comment-@storyId"
-                    class="form-input comment-input full-width"
+                    class="form-input"
                     data-ng-model="news.newComment[@storyId]"
                     data-ng-init="news.inputResizeFactory('#comment-@storyId')"
                     placeholder="Leave a comment"
                     rows="1">
                 </textarea>
-            </div>
-        </div>
-    </div>
+
+                <!-- Submit button -->
+                <!--<button type="submit" data-primary data-ng-click="news.addComment(@storyId)">
+                    <icon class="icon-button"
+                        data-src="images/banner.svg#submit"
+                        data-width="10"
+                        data-height="10">
+                    </icon>
+                    submit
+                </button>-->
+            </form>
+        </section>
+    </section>
 </article>
 }

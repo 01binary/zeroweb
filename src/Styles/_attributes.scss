@@ -6,32 +6,31 @@
     float: right;
 }
 
-.full-width {
-  width: 100%;
-}
-
 .top-margin {
   margin-top: 8px;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .no-whitespace {
   font-size: 0;
 }
 
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari*/
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
 .error {
   color: $error-color;
 }
 
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari*/
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-}
-
- html.scrolling, html.scrolling * {
+html.scrolling, html.scrolling * {
   /* Display ew-resize cursor for entire page */
   cursor: ew-resize !important;
- }
+}

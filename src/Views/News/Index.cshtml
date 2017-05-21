@@ -218,6 +218,7 @@
                 <!-- Comment input -->
                 <textarea id="comment-@storyId"
                     class="form-input"
+                    style="height:26px"
                     data-ng-model="news.newComment[@storyId]"
                     data-ng-init="news.inputResizeFactory('#comment-@storyId')"
                     placeholder="Leave a comment"
@@ -225,14 +226,14 @@
                 </textarea>
 
                 <!-- Submit button -->
-                <!--<button type="submit" data-primary data-ng-click="news.addComment(@storyId)">
+                <button type="submit" data-primary data-ng-click="news.addComment(@storyId)">
                     <icon class="icon-button"
                         data-src="images/banner.svg#submit"
                         data-width="10"
                         data-height="10">
                     </icon>
                     submit
-                </button>-->
+                </button>
             </form>
         </section>
     </section>

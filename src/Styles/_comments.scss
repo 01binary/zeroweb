@@ -205,40 +205,42 @@
     position: relative;
     top: 0;
     opacity: 1;
-    transition: opacity .3s .3s ease-in-out,
-                top .3s .3s ease-in-out;
+    transition: opacity $animation-fast $animation-fast ease-in-out,
+                top $animation-fast $animation-fast ease-in-out;
   }
 
   textarea {
-    width: calc(100% - 1em);
-    box-sizing: border-box;
-    margin: 1em 0;
+    width: calc(100% - 6.75em);
+    min-height: 27px;
+    padding: 4px 6px 5px 6px;
+    margin: .75em 0;
     resize: vertical;
-    transition: height .3s ease-in-out,
-                margin .3s ease-in-out;
   }
 
-  /*button[type="submit"] {
-  }*/
+  button[type="submit"] {
+    position: absolute;
+    max-height: 27px;
+    width: 6.25em;
+    top: .75em;
+    right: 0;
+    transition: height step(1);
+  }
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-entry {
   form {
     top: 3em;
     opacity: 0;
-    transition: opacity .3s ease-in-out,
-                top .3s ease-in-out;
+    transition: opacity $animation-fast ease-in-out,
+                top $animation-fast ease-in-out;
   }
 
   textarea {
+    min-height: 0;
     height: 0 !important;
     margin: 0 !important;
     overflow: hidden;
-    transition: height .3s .3s ease-in-out,
-                margin .3s .3s ease-in-out;
+    transition: height $animation-fast $animation-fast ease-in-out,
+                margin $animation-fast $animation-fast ease-in-out;
   }
-
-  /*button[type="submit"] {
-    
-  }*/
 }

@@ -27,8 +27,8 @@ $yahoo-color: #630AFF;
   padding-top: $border-thickness;
   padding-bottom: $border-thickness;
   position: relative;
-  top: $border-thickness;
-  transition: fill .15s ease-in-out;
+  transition: fill $animation-fast ease-in-out,
+              color $animation-fast ease-in-out;
 }
 
 .button-social:before {

@@ -168,20 +168,19 @@
 
         <!-- Add comment toggle -->
         <input id="toggle-@storyId" type="checkbox" class="comment-entry-toggle">
-        <label for="toggle-@storyId" class="button-inline">
+        <label for="toggle-@storyId" class="button-inline no-select">
             comment
         </label>
 
         <!-- Login providers -->
-        <!--<span class="comment-login" data-ng-class="{'comment-login--active': !news.user}">
-            <span class="metadata"> | login: </span>
+        <section class="comment-login" data-ng-class="{'comment-login--active': !news.user}">
+            <span class="comment-login-prompt">| login:</span>
             <span class="no-whitespace">
             @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
             {
             <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
                 method="get"
-                target="login"
-                class="form-inline">
+                target="login">
                 <button type="submit"
                     class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
                     name="authenticationScheme"
@@ -200,7 +199,7 @@
             </form>
             }
             </span>
-        </span>-->
+        </section>
 
         <!-- Comment entry details -->
         <section class="comment-entry">
@@ -213,7 +212,6 @@
                 data-message="news.commentError[@storyId].statusText">
             </error>-->
 
-            <!-- Comment entry form -->
             <form>
                 <!-- Comment input -->
                 <textarea id="comment-@storyId"

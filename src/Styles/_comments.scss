@@ -19,6 +19,12 @@
   clear: both;
 }
 
+.comments:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
 .os-win .comments {
   font-size: $small-font-size-win;
 }
@@ -180,9 +186,13 @@
 }
 
 .comment-entry-toggle + label {
+  float: left;
+
   &:before {
+    float: left;
     font-family: monospace;
     content: '+';
+    margin-right: .25em;
   }
 }
 
@@ -198,8 +208,40 @@
   }
 }
 
+.comment-login {
+  opacity: 1;
+  max-height: 7em;
+  float: left;
+  transition: opacity .3s .3s ease-in-out,
+              max-height .7s ease-in-out;
+
+  &-prompt {
+    color: $secondary-text-color;
+    float: left;
+    margin: 0 .25em;
+  }
+
+  .button-social {
+    margin-top: -.1em;
+    margin-bottom: .1em;
+  }
+
+  form {
+    float: left;
+  }
+}
+
+.comment-entry-toggle:not(:checked) + label + .comment-login {
+  opacity: 0;
+  max-height: 0;
+  transition: opacity .3s ease-in-out,
+              max-height .3s .3s ease-in-out;
+}
+
 .comment-entry {
+  float: left;
   margin-left: 1em;
+  width: calc(100% - 1em);
 
   form {
     position: relative;
@@ -213,7 +255,7 @@
     width: calc(100% - 6.75em);
     min-height: 27px;
     padding: 4px 6px 5px 6px;
-    margin: .75em 0;
+    margin: .6em 0 .85em 0;
     resize: vertical;
   }
 
@@ -221,13 +263,12 @@
     position: absolute;
     max-height: 27px;
     width: 6.25em;
-    top: .75em;
+    top: .6em;
     right: 0;
-    transition: height step(1);
   }
 }
 
-.comment-entry-toggle:not(:checked) + label + .comment-entry {
+.comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {
   form {
     top: 3em;
     opacity: 0;

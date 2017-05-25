@@ -15,7 +15,7 @@
   margin-left: 1.5em;
   font-family: $small-font;
   font-size: $small-font-size;
-  padding-bottom: 0;
+  margin-bottom: -.5em;
   clear: both;
 }
 
@@ -220,11 +220,6 @@
     margin: 0 .25em;
   }
 
-  .button-social {
-    margin-top: -.1em;
-    margin-bottom: .1em;
-  }
-
   form {
     float: left;
   }
@@ -253,9 +248,10 @@
   textarea {
     width: calc(100% - 6.75em);
     min-height: 27px;
-    padding: 4px 6px 5px 6px;
-    margin: .6em 0 .85em 0;
+    margin: .6em 0 1.5em 0;
     resize: vertical;
+    overflow: hidden;
+    transition: all $animation-fast ease-in-out;
   }
 
   button[type="submit"] {
@@ -278,9 +274,7 @@
   textarea {
     min-height: 0;
     height: 0 !important;
-    margin: 0 !important;
-    overflow: hidden;
-    transition: height $animation-fast $animation-fast ease-in-out,
-                margin $animation-fast $animation-fast ease-in-out;
+    margin: 0;
+    transition: all $animation-fast $animation-fast ease-in-out;
   }
 }

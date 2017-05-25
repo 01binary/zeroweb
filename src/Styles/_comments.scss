@@ -13,13 +13,13 @@
 .comments {
   font-family: $small-font;
   font-size: $small-font-size;
-  margin: -.25em 0 0 1.5em;
+  margin: 0 0 0 1.4em;
   clear: both;
 }
 
 .os-win .comments {
   font-size: $small-font-size-win;
-  margin-bottom: -.75em; // TODO: try pixels, perhaps em is wrong unit for this?
+  //margin-bottom: -16px;
 }
 
 .comments:after {
@@ -233,7 +233,7 @@
 
 .comment-entry {
   float: left;
-  margin-left: 1em;
+  margin-left: 1.15em;
   width: calc(100% - 1em);
 
   form {
@@ -247,7 +247,7 @@
   textarea {
     width: calc(100% - 6.75em);
     min-height: 27px;
-    margin: .6em 0 .6em 0;
+    margin: 8px 0 10px 0;
     resize: vertical;
     overflow: hidden;
     transition: all $animation-fast ease-in-out;
@@ -257,14 +257,13 @@
     position: absolute;
     max-height: 27px;
     width: 6.25em;
-    top: .6em;
+    top: 8px;
     right: 0;
   }
 }
 
 .os-win .comment-entry textarea {
-  // margin: .6em 0 .6em 0; regular
-  margin: .6em 0 1.6em 0;
+  //margin: 8px 0 8px 0;
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {

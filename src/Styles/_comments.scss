@@ -19,7 +19,7 @@
 
 .os-win .comments {
   font-size: $small-font-size-win;
-  //margin-bottom: -16px;
+  margin-bottom: -8px;
 }
 
 .comments:after {
@@ -263,7 +263,7 @@
 }
 
 .os-win .comment-entry textarea {
-  //margin: 8px 0 8px 0;
+  margin: 8px 0 20px 0;
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {

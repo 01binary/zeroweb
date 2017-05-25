@@ -189,10 +189,9 @@
   float: left;
 
   &:before {
-    float: left;
     font-family: monospace;
     content: '+';
-    margin-right: .25em;
+    margin-right: .1em;
   }
 }
 

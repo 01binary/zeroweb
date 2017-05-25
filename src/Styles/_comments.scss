@@ -11,22 +11,23 @@
 \*---------------------------------------------------------*/
 
 .comments {
-  margin-top: -.25em;
   margin-left: 1.5em;
+  margin-top: -.25em;
+  margin-bottom: 0;
   font-family: $small-font;
   font-size: $small-font-size;
-  margin-bottom: -.5em;
   clear: both;
+}
+
+.os-win .comments {
+  font-size: $small-font-size-win;
+  margin-bottom: -.75em;
 }
 
 .comments:after {
   content: '';
   display: table;
   clear: both;
-}
-
-.os-win .comments {
-  font-size: $small-font-size-win;
 }
 
 .comments-header {

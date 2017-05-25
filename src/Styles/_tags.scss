@@ -42,11 +42,13 @@ $crafts:      #67d5e9;
   margin-right: 2pt;
   padding: 6px 5pt 7px 5.5pt;
   cursor: pointer;
-  transition: background $animation-fast ease-in-out;
+  transition: background $animation-fast ease-in-out,
+              color $animation-fast ease-in-out;
 }
 
 .tag:hover {
   background: $accent-hover-color;
+  color: $accent-text-color;
 }
 
 .os-win .tag {
@@ -97,8 +99,4 @@ $crafts:      #67d5e9;
   border-bottom: 10pt solid transparent;
   border-right: 10pt solid $background-color;
   margin-left: 0;
-}
-
-a.tag:hover {
-  color: $accent-text-color;
 }

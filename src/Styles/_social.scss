@@ -28,6 +28,14 @@ $yahoo-color: #630AFF;
   padding-bottom: $border-thickness;
   position: relative;
   transition: background $animation-fast ease-in-out;
+
+  .icon-button {
+    transition: color $animation-fast ease-in-out;
+
+    svg {
+      transition: fill $animation-fast ease-in-out;
+    }
+  }
 }
 
 .button-social:before {

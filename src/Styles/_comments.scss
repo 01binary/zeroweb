@@ -11,17 +11,15 @@
 \*---------------------------------------------------------*/
 
 .comments {
-  margin-left: 1.5em;
-  margin-top: -.25em;
-  margin-bottom: 0;
   font-family: $small-font;
   font-size: $small-font-size;
+  margin: -.25em 1.5em 0 0;
   clear: both;
 }
 
 .os-win .comments {
   font-size: $small-font-size-win;
-  margin-bottom: -.75em;
+  margin-bottom: -.75em; // TODO: try pixels, perhaps em is wrong unit for this?
 }
 
 .comments:after {
@@ -249,7 +247,7 @@
   textarea {
     width: calc(100% - 6.75em);
     min-height: 27px;
-    margin: .6em 0 1.5em 0;
+    margin: .6em 0 .6em 0;
     resize: vertical;
     overflow: hidden;
     transition: all $animation-fast ease-in-out;
@@ -262,6 +260,11 @@
     top: .6em;
     right: 0;
   }
+}
+
+.os-win .comment-entry textarea {
+  // margin: .6em 0 .6em 0; regular
+  margin: .6em 0 1.6em 0;
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {

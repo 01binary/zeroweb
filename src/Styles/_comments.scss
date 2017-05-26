@@ -241,6 +241,7 @@
 .comment-entry-toggle:not(:checked) + label + .comment-login {
   opacity: 0;
   max-height: 0;
+  overflow: hidden;
   transition: opacity .3s ease-in-out,
               max-height .3s .3s ease-in-out;
 }

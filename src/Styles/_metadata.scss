@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Article metadata styles.
+|  @file Article meta-data styles.
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -47,28 +47,20 @@
   color: $primary-hover-color;
 }
 
-.metadata-icon-readonly {
-  cursor: default;
+.metadata-icon--readonly {
+  cursor: default !important;
 }
 
-.metadata-icon-readonly:hover {
-  fill: $accent-hover-color;
-  stroke: $accent-hover-color;
+.metadata-icon--readonly:hover {
+  color: $accent-hover-color;
 }
 
-.metadata-icon-toggled {
-  fill: $primary-color;
-  stroke: $primary-color;
+.metadata-icon--toggled {
+  color: $primary-color;
 }
 
-.metadata-icon-readonly.metadata-icon-toggled {
-  fill: $primary-light-color;
-  stroke: $primary-light-color;
-}
-
-.metadata-icon-readonly.metadata-icon-toggled:hover {
-  fill: $primary-light-color;
-  stroke: $primary-light-color;
+.metadata-icon--toggled:hover {
+  color: $primary-color;
 }
 
 .metadata-icon-text {

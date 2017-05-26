@@ -5,7 +5,7 @@
 @inject SignInManager<ZeroWeb.Models.User> SignInManager
 
 <h1 data-pointer
-    data-ng-init="news.initialize()">news</h1>
+    data-ng-init="news.initialize()">News</h1>
 
 <dateselector page="@this.Model.Page" />
 
@@ -14,8 +14,8 @@
     var storyId = story.id;
     var permalinkId = "story" + storyId;
     var starClass = "metadata-icon" +
-        (story.stars > 0 ? " metadata-icon-toggled" : string.Empty) +
-        (story.starsReadOnly ? " metadata-icon-readonly" : string.Empty);
+        (story.stars > 0 ? " metadata-icon--toggled" : string.Empty) +
+        (story.starsReadOnly ? " metadata-icon--readonly" : string.Empty);
     var starRole = (story.starsReadOnly ? "" : "button");
     var starTip = (story.starsReadOnly ? "times starred" : "star this story");
     var starAriaDisabled = story.starsReadOnly.ToString();

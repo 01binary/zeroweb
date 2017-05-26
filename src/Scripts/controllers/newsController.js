@@ -387,7 +387,7 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     function addStar(storyId) {
         var $star = $('#star-' + storyId);
 
-        if ($star.find('metadata-icon-readonly').length > 0)
+        if ($star.find('metadata-icon--readonly').length > 0)
             return;
 
         this.newsStore.star(
@@ -397,8 +397,9 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
 
             function(result) {
                 $star.find('.metadata-icon')
-                    .addClass('metadata-icon-readonly')
-                    .addClass('metadata-icon-toggled');
+                    .addClass('metadata-icon--readonly')
+                    .addClass('metadata-icon--toggled')
+                    .attr('data-tooltip', 'times starred');
 
                 $star.find('.metadata-indicator-content').text(result.stars);
 

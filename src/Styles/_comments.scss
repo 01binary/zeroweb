@@ -22,13 +22,6 @@
   margin-bottom: -8px;
 }
 
-// TODO: refactor into clearfix
-.comments:after {
-  content: '';
-  display: table;
-  clear: both;
-}
-
 .comments-header {
   color: $secondary-text-color;
   font-family: $small-font;

@@ -65,7 +65,7 @@ header:after {
   transform: skewX(45deg);
 }
 
-header h1 {
+header > h1 {
   position: absolute;
   left: 103px;
   top: 55px;
@@ -74,7 +74,7 @@ header h1 {
   font-weight: $title-font-weight;
 }
 
-.os-win header h1 {
+.os-win header > h1 {
   font-size: $title-font-size-win;
 }
 
@@ -193,68 +193,18 @@ main:after {
   margin-bottom: -2em;
 }
 
-main h1 {
+main > h1 {
+  text-transform: lowercase;
   font-size: $heading-font-size-large;
-  text-transform: lowercase;
-  padding-top: 0;
-  margin-top: 0;
-}
-
-.os-win main h1 {
-  font-size: $heading-font-size-large-win;
-}
-
-main h2 {
-  font-size: $heading-font-size-medium;
-  text-transform: lowercase;
-}
-
-.os-win main h2 {
-  font-size: $heading-font-size-medium-win;
-}
-
-main h3 {
-  font-size: $heading-font-size-small;
-  text-transform: lowercase;
-}
-
-.os-win main h3 {
-  font-size: $heading-font-size-small-win;
-}
-
-main h4 {
-  font-size: $heading-font-size-smaller;
-  text-transform: lowercase;
-}
-
-main h1,
-main h2,
-main h3,
-main h4 {
   font-family: $heading-font;
   font-weight: $heading-font-weight;
+  padding-top: 0;
   margin-bottom: $margin;
   margin-top: $margin;
 }
 
-main h2,
-main h3,
-main h4 {
-  padding-left: 1.2em;
-  clear: left;
-}
-
-main h3,
-main h4 {
-  margin-left: 1.2em;
-}
-
-main h2:hover,
-main h3:hover,
-main h4:hover {
-  .permalink-anchor {
-    opacity: 1;
-  }
+.os-win main > h1 {
+  font-size: $heading-font-size-large-win;
 }
 
 main p {
@@ -277,10 +227,6 @@ body {
     margin-left: 50px;
     margin-right: 50px;
   }
-}
-
-article {
-  border-bottom: $border-thickness dotted $shadow-light-color;
 }
 
 .overlay {

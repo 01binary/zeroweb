@@ -121,16 +121,17 @@
     
     <!-- Story comments -->
     <section class="comments">
-        <span class="metadata"
+        <!-- TODO: fix line-height so we can have multiline comments -->
+        <section class="metadata comments-list"
             data-ng-show="news.comments[@storyId].length">
             
             <!-- Comments heading -->
-            <p class="comments-header">
+            <h3 class="comments-header">
                 [<span class="attention-inline">{{news.comments[@storyId].length}}</span>] Comments
-            </p>
+            </h3>
 
             <!-- Story comment -->
-            <div class="comment-group"
+            <article class="comment-group"
                 data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes' | orderBy:'date'">
                 
                 <!-- Comment votes -->
@@ -163,8 +164,8 @@
                     </span>
                     <span class="comment-content">{{comment.content}}</span>
                 </p>
-            </div>
-        </span>
+            </article>
+        </section>
 
         <!-- Add comment toggle -->
         <input id="toggle-@storyId" type="checkbox" class="comment-entry-toggle">

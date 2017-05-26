@@ -13,7 +13,7 @@
 .comments {
   font-family: $small-font;
   font-size: $small-font-size;
-  margin: 0 0 0 1.4em;
+  margin: 0 0 0 $article-indent;
   clear: both;
 }
 
@@ -22,6 +22,7 @@
   margin-bottom: -8px;
 }
 
+// TODO: refactor into clearfix
 .comments:after {
   content: '';
   display: table;
@@ -30,7 +31,20 @@
 
 .comments-header {
   color: $secondary-text-color;
+  font-family: $small-font;
+  font-size: $small-font-size;
+  font-weight: $small-font-weight;
+  padding-left: 0;
+  margin-left: 0;
   margin-bottom: 3pt;
+}
+
+.os-win .comments-header {
+  font-size: $small-font-size-win;
+}
+
+.comments > .metadata {
+  margin-bottom: 1em;
 }
 
 .comment {
@@ -186,6 +200,7 @@
 
 .comment-entry-toggle + label {
   float: left;
+  margin-left: .25em;
 
   &:before {
     font-family: monospace;
@@ -220,6 +235,8 @@
   }
 
   form {
+    margin-top: -2px;
+    margin-bottom: 2px;
     float: left;
   }
 }
@@ -233,7 +250,7 @@
 
 .comment-entry {
   float: left;
-  margin-left: 1.15em;
+  margin-left: $article-indent;
   width: calc(100% - 1em);
 
   form {
@@ -262,8 +279,10 @@
   }
 }
 
-.os-win .comment-entry textarea {
-  margin: 8px 0 22px 0;
+.os-win .comment-entry {
+  textarea {
+    margin-bottom: 22px;
+  }
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {

@@ -276,8 +276,10 @@
 
   textarea {
     min-height: 0;
+    // Browser and inputResizeFactory set inline style (height) this must override.
     height: 0 !important;
-    margin: 0;
+    // Browsers sets inline style (margin-top, margin-bottom) this must override.
+    margin: 0 !important;
     transition: all $animation-fast $animation-fast ease-in-out;
   }
 }

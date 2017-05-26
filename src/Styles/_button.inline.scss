@@ -25,11 +25,5 @@
 
 .button-right {
   min-width: 6.4em;
-  margin-top: 2px;
   float: right;
-}
-@-moz-document url-prefix() {
-  .button-right {
-    margin-top: 3px;
-  }
 }

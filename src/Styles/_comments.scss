@@ -215,11 +215,24 @@
 }
 
 .comment-login {
-  opacity: 1;
-  max-height: 7em;
+  position: relative;
   float: left;
-  transition: opacity .3s .3s ease-in-out,
-              max-height .7s ease-in-out;
+  max-height: 7em;
+  overflow: hidden;
+  transition: max-height .7s ease-in-out;
+
+  &:after {
+    opacity: 0;
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: $background-color;
+    transition: opacity $animation-fast $animation-fast ease-in-out;
+  }
 
   &-prompt {
     color: $secondary-text-color;
@@ -228,9 +241,12 @@
   }
 
   form {
-    margin-top: -2px;
-    margin-bottom: 2px;
     float: left;
+  }
+
+  button {
+    // Reset margin from user agent stylesheet.
+    margin-top: 0;
   }
 }
 
@@ -239,11 +255,13 @@
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login {
-  opacity: 0;
   max-height: 0;
-  overflow: hidden;
-  transition: opacity .3s ease-in-out,
-              max-height .3s .3s ease-in-out;
+  transition: max-height .3s .3s ease-in-out;
+
+  &:after {
+    opacity: 1;
+    transition: opacity $animation-fast ease-in-out;
+  }
 }
 
 .comment-entry {

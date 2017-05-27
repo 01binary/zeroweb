@@ -274,6 +274,7 @@
   float: left;
   margin-left: $article-indent;
   width: calc(100% - 1em);
+  min-height: 1.5em;
 
   form {
     position: relative;

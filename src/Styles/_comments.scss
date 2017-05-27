@@ -270,10 +270,27 @@
   }
 }
 
+.comment-error {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: opacity $animation-slow,
+              max-height $animation-slow $animation-slow ease-in-out;
+}
+
 .comment-entry {
   float: left;
   margin-left: $article-indent;
   width: calc(100% - 1em);
+
+  .comment-error--active {
+    margin: 8px 0 4px;
+    max-height: 4em;
+    transition: opacity $animation-slow $animation-fast ease-in-out,
+                max-height $animation-slow ease-in-out,
+                margin $animation-slow ease-in-out;
+    opacity: 1;
+  }
 
   form {
     position: relative;
@@ -314,6 +331,15 @@
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {
+  .comment-error--active {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    transition: opacity $animation-slow ease-in-out,
+                max-height $animation-slow $animation-fast ease-in-out,
+                margin $animation-slow $animation-slow ease-in-out;
+  }
+
   form {
     top: 3em;
     opacity: 0;

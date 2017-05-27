@@ -274,7 +274,6 @@
   float: left;
   margin-left: $article-indent;
   width: calc(100% - 1em);
-  min-height: 1.5em;
 
   form {
     position: relative;
@@ -305,6 +304,8 @@
 }
 
 .os-win .comment-entry {
+  min-height: 1.5em;
+
   textarea {
     padding-top: 2px;
     margin-bottom: 22px;

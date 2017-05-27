@@ -91,12 +91,6 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.loadingComments = false;
 
     /**
-     * Whether currently adding a comment for each article id.
-     * @type {bool[]}
-     */
-    this.addingComment = {};
-
-    /**
      * New comment text for each article id.
      * @type {string[]}
      */
@@ -121,10 +115,10 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
     this.loadComments = loadComments;
 
     /**
-     * Toggle article comment form.
+     * Focus comment box when toggled.
      * @type {function}
      */
-    this.toggleAddComment = toggleAddComment;
+    this.toggleComment = toggleComment;
 
     /**
      * Add article comment.
@@ -297,24 +291,22 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
 
         for (var articleId in articles) {
             this.comments[articleId] = [];
-            this.addingComment[articleId] = false;
             this.newComment[articleId] = null;
             this.commentError[articleId] = null;
         }
     }
 
     /**
-     * Toggle add comment form for article.
+     * Focus comment box when expanded and no comments.
      * @param {string} articleId - The id article for which to toggle the form.
      */
-    function toggleAddComment(articleId) {
-        this.addingComment[articleId] = !this.addingComment[articleId];
-
-        if (this.addingComment[articleId] && this.comments[articleId].length === 0) {
+    function toggleComment(articleId) {
+        console.log($('#toggle-' + articleId).val());
+        if ($('#toggle-' + articleId).val() && this.comments[articleId].length === 0) {
             window.setTimeout(function() {
                 // Set focus on the comment box when no comments.
                 $('#comment-' + articleId).focus();
-            }, 300);
+            }, 600);
         }
     }
 

@@ -169,7 +169,11 @@
         </section>
 
         <!-- Add comment toggle -->
-        <input id="toggle-@storyId" type="checkbox" class="comment-entry-toggle">
+        <input id="toggle-@storyId"
+            type="checkbox"
+            class="comment-entry-toggle"
+            data-ng-click="news.toggleComment(@storyId)">
+            
         <label for="toggle-@storyId" class="button-inline no-select">
             comment
         </label>

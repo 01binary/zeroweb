@@ -326,6 +326,7 @@
     height: 0 !important;
     // Browsers sets inline style (margin-top, margin-bottom) this must override.
     margin: 0 !important;
+    padding: 0;
     transition: all $animation-fast $animation-fast ease-in-out;
   }
 }

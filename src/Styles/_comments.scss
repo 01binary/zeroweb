@@ -237,7 +237,7 @@
   &-prompt {
     color: $secondary-text-color;
     float: left;
-    margin: 0 .5em 0 .25em;
+    margin: 0 .25em 0 .25em;
   }
 
   form {
@@ -250,8 +250,14 @@
   }
 }
 
-.os-win .comment-login form {
-  margin-top: 0;
+.os-win .comment-login {
+  &-prompt {
+    margin-right: .5em;
+  }
+
+  form {
+    margin-top: 0;
+  }
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login {

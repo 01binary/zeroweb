@@ -188,7 +188,7 @@ main:after {
 
   position: relative;
   top: -1.1em;
-  left: 101%;
+  left: calc(100% + .25em);
   text-align: right;
   margin-bottom: -2em;
 }

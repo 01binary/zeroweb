@@ -11,12 +11,14 @@
 \*---------------------------------------------------------*/
 
 @import "shared";
+@import "media.desktop";
 @import "links";
 @import "tags";
 @import "icons";
 @import "markdown";
 @import "tooltip";
 @import "forms";
+@import "article";
 @import "metadata";
 @import "comments";
 @import "register";
@@ -27,4 +29,3 @@
 @import "date.selector";
 @import "attributes";
 @import "popup";
-@import "media.desktop";

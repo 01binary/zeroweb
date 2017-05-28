@@ -5,7 +5,7 @@
 |  | !__! |  |  |  |
 |  !______!  !__!  |  binary : tech art
 |
-|  @file Tag layout.
+|  @file Tag layout and colors.
 |----------------------------------------------------------
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -25,3 +25,78 @@ $music:       #6fac45;
 $painting:    #ee4a4e;
 $sculpture:   #ff840f;
 $crafts:      #67d5e9;
+
+.tags {
+  /* Prevent white-space from affecting layout */
+  font-size: 0;
+}
+
+.tag {
+  display: inline-block;
+  color: $accent-text-color;
+  background: $accent-color;
+  font-size: $small-font-size;
+  text-decoration: none;
+  line-height: $small-font-size;
+  margin-left: 2pt;
+  margin-right: 2pt;
+  padding: 6px 5pt 7px 5.5pt;
+  cursor: pointer;
+  transition: background $animation-fast ease-in-out,
+              color $animation-fast ease-in-out;
+}
+
+.tag:hover {
+  background: $accent-hover-color;
+  color: $accent-text-color;
+}
+
+.os-win .tag {
+  padding: 4.5pt 7pt 6.5pt 8pt;
+  font-size: $small-font-size-win;
+  line-height: $small-font-size-win - 1;
+}
+
+.ie .tag {
+  padding-top: 4pt;
+  padding-bottom: 7pt;
+}
+
+.os-win.hi-dpi .tag {
+  padding-top: 4pt;
+  padding-bottom: 6pt;
+}
+
+.tag:before {
+  content: '';
+  position: absolute;
+  border-top: 8pt solid transparent;
+  border-left: 8pt solid $background-color;
+  margin-left: -6.5pt;
+  margin-top: 8pt;
+  cursor: default;
+}
+
+.os-win .tag:before {
+  border-top: 10pt solid transparent;
+  border-left: 10pt solid $background-color;
+  margin-top: 9pt;
+  margin-left: -8pt;
+}
+
+.tag:after {
+  content: '';
+  position: absolute;
+  float: right;
+  border-bottom: 8pt solid transparent;
+  border-right: 8pt solid $background-color;
+  margin-left: -2pt;
+  margin-top: -4.5pt;
+  cursor: default;
+}
+
+.os-win .tag:after {
+  border-bottom: 10pt solid transparent;
+  border-right: 10pt solid $background-color;
+  margin-left: 0;
+}

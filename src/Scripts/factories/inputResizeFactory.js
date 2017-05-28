@@ -27,10 +27,9 @@ function inputResizeFactory() {
     return function(name) {
         var $element = $(name);
         var $parent = $element.parent();
-        var $resizer = $('<div class="form-input-resizer"></div>')
+        var $resizer = $('<div class="form-input-resizer">&nbsp;</div>')
             .appendTo($parent);
 
-        $resizer.html('<br/>');
         $element.height($resizer.height());
 
         $element.on('change keyup paste', function() {

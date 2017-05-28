@@ -28,7 +28,7 @@ function errorDirective()
         restrict: 'E',
         replace: true,
         transclude: false,
-        template: '<div class="error">! <span ng-show="{{errorCode}}">Failed to {{operation}}: [{{errorCode}}] {{errorMessage}}.</span><span ng-show="{{!errorCode}}">{{error}}</span></div>',
+        template: '<section class="comment-entry__error error">! <span ng-show="{{errorCode}}">Failed to {{operation}}: [{{errorCode}}] {{errorMessage}}.</span><span ng-show="{{!errorCode}}">{{error}}</span></section>',
         scope: {
             operation: '=operation',
             errorCode: '=code',

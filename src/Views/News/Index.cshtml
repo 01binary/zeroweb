@@ -5,7 +5,7 @@
 @inject SignInManager<ZeroWeb.Models.User> SignInManager
 
 <h1 data-pointer
-    data-ng-init="news.initialize()">news</h1>
+    data-ng-init="news.initialize()">News</h1>
 
 <dateselector page="@this.Model.Page" />
 
@@ -14,8 +14,8 @@
     var storyId = story.id;
     var permalinkId = "story" + storyId;
     var starClass = "metadata-icon" +
-        (story.stars > 0 ? " metadata-icon-toggled" : string.Empty) +
-        (story.starsReadOnly ? " metadata-icon-readonly" : string.Empty);
+        (story.stars > 0 ? " metadata-icon--toggled" : string.Empty) +
+        (story.starsReadOnly ? " metadata-icon--readonly" : string.Empty);
     var starRole = (story.starsReadOnly ? "" : "button");
     var starTip = (story.starsReadOnly ? "times starred" : "star this story");
     var starAriaDisabled = story.starsReadOnly.ToString();
@@ -37,6 +37,7 @@
                 role="@starRole"
                 data-tooltip="@starTip"
                 data-tooltip-offset-left="-1"
+                data-tooltip-offset-top="2"
                 data-tooltip-offset-bottom="4"
                 area-disabled="@starAriaDisabled"
                 data-src="images/banner.svg#star"
@@ -52,8 +53,7 @@
     </h2>
 
     <!-- Story metadata -->
-    <p class="metadata">
-
+    <section class="metadata">
         <!-- Clock icon -->
         <icon class="icon-header"
             data-src="images/banner.svg#clock"
@@ -109,28 +109,29 @@
         <span class="tags">
         @foreach (var tag in story.tags)
         {
-            <a class="tag" data-fade>@Shared.FormatTag(tag)</a>
+            <a class="tag">@Shared.FormatTag(tag)</a>
         }
         </span>
-    </p>
+    </section>
 
     <!-- Story content -->
-    <div class="markdown">
+    <section class="markdown">
         @Shared.FormatContent(story.content)
-    </div>
+    </section>
     
     <!-- Story comments -->
-    <div class="comments">
-        <span class="metadata"
+    <section class="comments clear-fix">
+        <!-- TODO: fix line-height so we can have multiline comments -->
+        <section class="metadata comments-list"
             data-ng-show="news.comments[@storyId].length">
             
             <!-- Comments heading -->
-            <p class="comments-header">
+            <h3 class="comments-header">
                 [<span class="attention-inline">{{news.comments[@storyId].length}}</span>] Comments
-            </p>
+            </h3>
 
             <!-- Story comment -->
-            <div class="comment-group"
+            <article class="comment-group"
                 data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes' | orderBy:'date'">
                 
                 <!-- Comment votes -->
@@ -143,6 +144,7 @@
                         {{comment.votes}}
                     </div>
 
+                    <!-- TODO: these should be submits inside a form -->
                     <!-- Upvote -->
                     <div class="metadata-icon-text button-vote upvote"
                         role="button"
@@ -163,28 +165,28 @@
                     </span>
                     <span class="comment-content">{{comment.content}}</span>
                 </p>
-            </div>
-        </span>
+            </article>
+        </section>
 
-        <!-- Add comment button -->
-        <button class="button-inline top-margin"
-            data-ng-class="{'button-inline-toggled': news.addingComment[@storyId]}"
-            data-ng-click="news.toggleAddComment('@storyId')"
-            data-tooltip-offset-left="33"
-            data-tooltip-offset-top="1">
-            + comment
-        </button>
+        <!-- Add comment toggle -->
+        <input id="toggle-@storyId"
+            type="checkbox"
+            class="comment-entry-toggle"
+            data-ng-click="news.toggleComment(@storyId)">
+            
+        <label for="toggle-@storyId" class="button-inline no-select">
+            comment
+        </label>
 
         <!-- Login providers -->
-        <div class="comment-login" data-ng-class="{ 'comment-login--active': !news.user && news.addingComment[@storyId] }">
-            <span class="metadata"> | login: </span>
+        <section class="comment-login" data-ng-class="{'comment-login--active': !news.user}">
+            <span class="comment-login-prompt">| login:</span>
             <span class="no-whitespace">
             @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
             {
             <form action="~/api/users/login/@loginProvider.AuthenticationScheme"
                 method="get"
-                target="login"
-                class="form-inline">
+                target="login">
                 <button type="submit"
                     class="button-inline button-social button-social-@loginProvider.DisplayName.ToLower()"
                     name="authenticationScheme"
@@ -192,8 +194,7 @@
                     data-tooltip-offset-left="-4"
                     data-tooltip-offset-top="6"
                     data-ng-show="!news.user"
-                    data-ng-click="news.login()"
-                    data-fade>
+                    data-ng-click="news.login()">
                     <icon class="icon-button"
                         data-src="images/social.svg#@loginProvider.DisplayName.ToLower()"
                         data-width="16"
@@ -203,44 +204,41 @@
             </form>
             }
             </span>
-        </div>
+        </section>
 
-        <div class="comment-form" data-ng-class="{ 'comment-form--active': news.addingComment[@storyId] }">
+        <!-- Comment entry details -->
+        <section class="comment-entry">
             <!-- Comments error -->
-            <error class="comment-error"
-                data-ng-class="{ 'comment-error--active': news.commentError[@storyId] }"
+            <error
+                data-ng-class="{ 'comment-entry__error--active': news.commentError[@storyId] }"
                 data-operation="news.commentOperation[@storyId]"
                 data-error="news.commentError[@storyId]"
                 data-code="news.commentError[@storyId].status"
                 data-message="news.commentError[@storyId].statusText">
             </error>
 
-            <!-- Submit button -->
-            <button class="button-right"
-                data-primary
-                data-ng-click="news.addComment(@storyId)">
-                <icon class="icon-button"
-                    data-src="images/banner.svg#submit"
-                    data-width="10"
-                    data-height="10">
-                </icon>
-                submit
-            </button>
-
-            <div class="form-spacer-right"></div>
-            <div class="form-spacer-left"></div>
-
-            <!-- Comment input -->
-            <div class="form-group">
+            <form>
+                <!-- Comment input -->
                 <textarea id="comment-@storyId"
-                    class="form-input comment-input full-width"
+                    class="form-input"
+                    style="height:26px"
                     data-ng-model="news.newComment[@storyId]"
                     data-ng-init="news.inputResizeFactory('#comment-@storyId')"
                     placeholder="Leave a comment"
                     rows="1">
                 </textarea>
-            </div>
-        </div>
-    </div>
+
+                <!-- Submit button -->
+                <button type="submit" data-primary data-ng-click="news.addComment(@storyId)">
+                    <icon class="icon-button"
+                        data-src="images/banner.svg#submit"
+                        data-width="10"
+                        data-height="10">
+                    </icon>
+                    submit
+                </button>
+            </form>
+        </section>
+    </section>
 </article>
 }

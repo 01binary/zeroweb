@@ -1,20 +1,43 @@
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  @file Comment list and form styles.
+|----------------------------------------------------------
+|  @author Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 .comments {
-  margin-top: 0;
-  margin-left: 1.5em;
   font-family: $small-font;
   font-size: $small-font-size;
-  padding-bottom: 0;
+  margin: 0 0 0 $article-indent;
   clear: both;
 }
 
 .os-win .comments {
   font-size: $small-font-size-win;
+  margin-bottom: -8px;
 }
 
 .comments-header {
   color: $secondary-text-color;
-  margin-top: 10px;
+  font-family: $small-font;
+  font-size: $small-font-size;
+  font-weight: $small-font-weight;
+  padding-left: 0;
+  margin-left: 0;
   margin-bottom: 3pt;
+}
+
+.os-win .comments-header {
+  font-size: $small-font-size-win;
+}
+
+.comments > .metadata {
+  margin-bottom: 1em;
 }
 
 .comment {
@@ -38,7 +61,7 @@
 
 .comment .metadata {
   float: left;
-  margin-top: 1pt;
+  margin-top: 2pt;
   margin-right: 2pt;
   margin-bottom: 3pt;
 }
@@ -50,8 +73,8 @@
 .comment-content {
   float: left;
   white-space: pre-line;
-  margin-top: 1pt;
-  margin-bottom: 3pt;
+  margin-top: 2pt;
+  margin-bottom: 2pt;
 }
 
 .comment-vote {
@@ -164,58 +187,198 @@
   }
 }
 
+.comment-entry-toggle {
+  display: none;
+}
+
+.comment-entry-toggle + label {
+  float: left;
+  margin-left: .25em;
+
+  &:before {
+    font-family: monospace;
+    content: '+';
+    margin-right: .1em;
+  }
+}
+
+.comment-entry-toggle:checked + label {
+  color: $accent-text-color;
+
+  &:before {
+    content: '-';
+  }
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
 .comment-login {
-  display: inline-block;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity $animation-fast ease-out;
+  position: relative;
+  float: left;
+  max-height: 7em;
+  overflow: hidden;
+  transition: max-height .7s ease-in-out;
+
+  &:after {
+    // Disable GPU rendering on Safari
+    opacity: 0;
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: $background-color;
+    transition: opacity $animation-fast $animation-fast ease-in-out;
+  }
+
+  &-prompt {
+    color: $secondary-text-color;
+    float: left;
+    margin: 0 .25em 0 .25em;
+  }
+
+  form {
+    float: left;
+  }
+
+  button {
+    // Reset margin from user agent stylesheet.
+    margin-top: 0;
+  }
 }
 
-.comment-login--active {
-  visibility: visible;
+.os-win .comment-login {
+  &-prompt {
+    margin-right: .5em;
+  }
+
+  form {
+    margin-top: 0;
+  }
+}
+
+.comment-entry-toggle:not(:checked) + label + .comment-login {
+  max-height: 0;
+  transition: max-height .3s .3s ease-in-out;
+
+  &:after {
+    opacity: 1;
+    transition: opacity $animation-fast ease-in-out;
+  }
+}
+
+.comment-entry__error {
+  position: relative;
+  overflow: hidden;
+  max-height: 0;
+  margin: 0;
+  transition: max-height $animation-slow $animation-slow ease-in-out,
+              margin $animation-slow $animation-slow ease-in-out;
+}
+
+.comment-entry__error:after {
+  // Disable GPU rendering on Safari.
+  content: '';
+  position: absolute;
+  background: $background-color;
   opacity: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity $animation-slow;
 }
 
-.comment-form {
-  visibility: none;
-  opacity: 0;
-  transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
-  margin-top: -4px;
-  margin-bottom: -40px;
-  transform: translateY(40px);
+.comment-entry {
+  float: left;
+  margin-left: $article-indent;
+  width: calc(100% - 1em);
+
+  &__error--active {
+    margin: 8px 0 4px;
+    max-height: 4em;
+    transition: max-height $animation-slow ease-in-out,
+                margin $animation-slow ease-in-out;
+  }
+
+  &__error--active:after {
+    opacity: 0;
+    transition: opacity $animation-slow $animation-fast ease-in-out;
+  }
+
+  form {
+    position: relative;
+    top: 0;
+    opacity: 1;
+    transition: opacity $animation-fast $animation-fast ease-in-out,
+                top $animation-fast $animation-fast ease-in-out;
+  }
+
+  textarea {
+    width: calc(100% - 6.75em);
+    min-height: 27px;
+    padding-top: 4px;
+    margin: 8px 0 10px 0;
+    resize: vertical;
+    overflow: hidden;
+    transition: all $animation-fast ease-in-out;
+  }
+
+  button[type="submit"] {
+    position: absolute;
+    max-height: 27px;
+    margin-top: 0;
+    width: 6.25em;
+    top: 8px;
+    right: 0;
+  }
 }
 
-.comment-form--active {
-  visibility: visible;
-  opacity: 1;
-  margin-top: -4px;
-  margin-bottom: -5px;
-  transform: translate(0px);
+.os-win .comment-entry {
+  min-height: 1.5em;
+
+  textarea {
+    padding-top: 2px;
+    margin-top: 10px;
+    margin-bottom: 22px;
+  }
+
+  button[type="submit"] {
+    top: 9px;
+  }
 }
 
-.comment-error {
-  visibility: none;
-  opacity: 0;
-  transition: transform $animation-fast ease-out, opacity $animation-fast ease-out, margin $animation-fast ease-out;
-  margin-left: 16px;
-  margin-top: -18px;
-  transform: translateY(40px);
-}
+.comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {
+  .comment-entry__error--active {
+    max-height: 0;
+    margin: 0;
+    transition: max-height $animation-slow ease-out,
+                margin $animation-slow ease-out;
+  }
 
-.comment-form--active .comment-error--active {
-  visibility: visible;
-  opacity: 1;
-  margin-top: 4px;
-  margin-bottom: 8px;
-  transform: translate(0px);
-}
+  .comment-entry__error--active:after {
+    opacity: 1;
+    transition: opacity $animation-fast ease-in-out;
+  }
 
-.os-win .comment-form {
-  margin-top: -4px;
-}
+  form {
+    top: 3em;
+    opacity: 0;
+    transition: opacity $animation-fast ease-in-out,
+                top $animation-fast ease-in-out;
+  }
 
-.comment-input {
-  min-height: 19pt;
-  height: 19pt;
-  resize: vertical;
+  textarea {
+    min-height: 0;
+    // Browser and inputResizeFactory set inline style (height) this must override.
+    height: 0 !important;
+    // Browsers sets inline style (margin-top, margin-bottom) this must override.
+    margin: 0 !important;
+    padding: 0;
+    transition: all $animation-fast $animation-fast ease-in-out;
+  }
 }

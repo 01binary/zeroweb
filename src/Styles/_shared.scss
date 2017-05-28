@@ -44,8 +44,8 @@ $drop-shadow-light-color: #999999;
 $drop-shadow-transparent-color: black;
 
 $warning-color: #E1B412;
-$error-color: #E11912;
 $focus-color: #ff5ac0;
+$error-color: $focus-color;
 
 /*
  * Fonts
@@ -82,7 +82,7 @@ $heading-font-size-large-win: 13.5pt;
 $heading-font-size-medium-win: 13pt;
 $heading-font-size-small-win: 12pt;
 $normal-font-size-win: 12pt;
-$small-font-size-win: 10.5pt;
+$small-font-size-win: 11pt;
 $small-font-line-height-win: 20pt;
 $small-font-letter-spacing-win: 0;
 $code-font-size: 12px;
@@ -97,7 +97,7 @@ $code-font-line-height-win: 20px;
 $margin: 9pt;
 $border-thickness: 1px;
 $corner-small: 8px;
-$animation-fast: .2s;
+$animation-fast: .3s;
 $animation-slow: .5s;
 
 /**

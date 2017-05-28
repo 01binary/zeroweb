@@ -346,6 +346,10 @@
     margin-top: 10px;
     margin-bottom: 22px;
   }
+
+  button[type="submit"] {
+    top: 9px;
+  }
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {
@@ -358,7 +362,7 @@
 
   .comment-entry__error--active:after {
     opacity: 1;
-    transition: opacity $animation-slow ease-in-out;
+    transition: opacity $animation-fast ease-in-out;
   }
 
   form {

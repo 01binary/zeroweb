@@ -222,6 +222,7 @@
   transition: max-height .7s ease-in-out;
 
   &:after {
+    // Disable GPU rendering on Safari
     opacity: 0;
     pointer-events: none;
     content: '';
@@ -270,12 +271,26 @@
   }
 }
 
-.comment-error {
+.comment-entry__error {
+  position: relative;
   overflow: hidden;
   max-height: 0;
-  opacity: 0;
-  transition: opacity $animation-slow,
-              max-height $animation-slow $animation-slow ease-in-out;
+  margin: 0;
+  transition: max-height $animation-slow $animation-slow ease-in-out,
+              margin $animation-slow $animation-slow ease-in-out;
+}
+
+.comment-entry__error:after {
+  // Disable GPU rendering on Safari.
+  content: '';
+  position: absolute;
+  background: $background-color;
+  opacity: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity $animation-slow;
 }
 
 .comment-entry {
@@ -283,13 +298,16 @@
   margin-left: $article-indent;
   width: calc(100% - 1em);
 
-  .comment-error--active {
+  &__error--active {
     margin: 8px 0 4px;
     max-height: 4em;
-    transition: opacity $animation-slow $animation-fast ease-in-out,
-                max-height $animation-slow ease-in-out,
+    transition: max-height $animation-slow ease-in-out,
                 margin $animation-slow ease-in-out;
-    opacity: 1;
+  }
+
+  &__error--active:after {
+    opacity: 0;
+    transition: opacity $animation-slow $animation-fast ease-in-out;
   }
 
   form {
@@ -331,13 +349,16 @@
 }
 
 .comment-entry-toggle:not(:checked) + label + .comment-login + .comment-entry {
-  .comment-error--active {
+  .comment-entry__error--active {
     max-height: 0;
-    opacity: 0;
     margin: 0;
-    transition: opacity $animation-slow ease-in-out,
-                max-height $animation-slow $animation-fast ease-in-out,
-                margin $animation-slow $animation-slow ease-in-out;
+    transition: max-height $animation-slow ease-out,
+                margin $animation-slow ease-out;
+  }
+
+  .comment-entry__error--active:after {
+    opacity: 1;
+    transition: opacity $animation-slow ease-in-out;
   }
 
   form {

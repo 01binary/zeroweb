@@ -161,7 +161,7 @@ $comment-padding: .35em;
 
   &:hover {
     .comment-entry__icon {
-      fill: $primary-color;
+      color: $primary-color;
     }
   }
 }
@@ -170,7 +170,7 @@ $comment-padding: .35em;
   color: $accent-text-color;
 
   .comment-entry__icon {
-    fill: $accent-text-color;
+    color: $accent-text-color;
   }
 
   .comment-entry__icon--expand {
@@ -182,15 +182,17 @@ $comment-padding: .35em;
     color: $primary-color;
 
     .comment-entry__icon {
-      fill: $primary-color;
+      color: $primary-color;
     }
   }
 }
 
 .comment-entry__icon {
   position: absolute;
+  top: calc(100% - 16px);
   left: 0;
-  transition: fill $animation-fast ease-in-out;
+  color: $secondary-text-color;
+  transition: color $animation-fast ease-in-out;
   transform: translateZ(0);
 }
 
@@ -200,7 +202,7 @@ $comment-padding: .35em;
   opacity: 1;
   transition: transform $animation-fast ease-in-out,
               opacity $animation-fast ease-in-out,
-              fill $animation-fast ease-in-out;
+              color $animation-fast ease-in-out;
 }
 
 .comment-login {

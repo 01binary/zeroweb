@@ -21,7 +21,7 @@
     var starAriaDisabled = story.starsReadOnly.ToString();
 
 <article data-id="@storyId">
-    <!-- Story heading -->
+    <!-- Article heading -->
     <h2>
         <!-- Title and Permalink -->
         <a class="permalink-anchor"
@@ -52,8 +52,8 @@
         </span>
     </h2>
 
-    <!-- Story metadata -->
-    <section class="metadata">
+    <!-- Article metadata -->
+    <section class="article-metadata metadata">
         <!-- Clock icon -->
         <icon class="icon-header"
             data-src="images/banner.svg#clock"
@@ -114,15 +114,14 @@
         </span>
     </section>
 
-    <!-- Story content -->
-    <section class="markdown">
+    <!-- Article content -->
+    <section class="article-content markdown">
         @Shared.FormatContent(story.content)
     </section>
     
-    <!-- Story comments -->
+    <!-- Article comments -->
     <section class="comments clear-fix">
-        <!-- TODO: fix line-height so we can have multiline comments -->
-        <section class="metadata comments-list"
+        <section class="comments-list metadata"
             data-ng-show="news.comments[@storyId].length">
             
             <!-- Comments heading -->
@@ -135,12 +134,12 @@
                 data-ng-repeat="comment in news.comments[@storyId] | orderBy:'-votes' | orderBy:'date'">
                 
                 <!-- Comment votes -->
-                <div class="comment-vote"
+                <section class="comment__vote"
                     title="votes"
-                    data-ng-class="{'vote-readonly': comment.votesReadOnly || !news.user, 'vote-default': comment.votes == 0}">
+                    data-ng-class="{'vote--readonly': comment.votesReadOnly || !news.user, 'vote--default': comment.votes == 0}">
                     
                     <!-- Votes -->
-                    <div class="vote-content" title="votes">
+                    <div class="vote__content" title="votes">
                         {{comment.votes}}
                     </div>
 
@@ -156,22 +155,22 @@
                         role="button"
                         data-tooltip="downvote"
                         data-ng-click="news.downVote(@storyId, comment.id)">&#xF036;</div>
-                </div>
+                </section>
 
                 <!-- Comment body -->
-                <p class="comment" data-ng-class="{'comment-official': comment.author === 'zero'}">
+                <section class="comment" data-ng-class="{'comment--official': comment.author === 'zero'}">
                     <span class="metadata">
-                        &nbsp;// <a class="author">{{comment.author}}</a> {{comment.formattedDate}}:
+                        <a class="author">{{comment.author}}</a> {{comment.formattedDate}}:
                     </span>
-                    <span class="comment-content">{{comment.content}}</span>
-                </p>
+                    <span class="comment__content">{{comment.content}}</span>
+                </section>
             </article>
         </section>
 
         <!-- Add comment toggle -->
         <input id="toggle-@storyId"
             type="checkbox"
-            class="comment-entry-toggle"
+            class="comment-entry__toggle"
             data-ng-click="news.toggleComment(@storyId)">
             
         <label for="toggle-@storyId" class="button-inline no-select">
@@ -180,7 +179,7 @@
 
         <!-- Login providers -->
         <section class="comment-login" data-ng-class="{'comment-login--active': !news.user}">
-            <span class="comment-login-prompt">| login:</span>
+            <span class="comment-login__prompt">| login:</span>
             <span class="no-whitespace">
             @foreach (var loginProvider in SignInManager.GetExternalAuthenticationSchemes())
             {

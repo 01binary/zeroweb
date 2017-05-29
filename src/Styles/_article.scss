@@ -12,6 +12,10 @@
 
 $article-indent: 1.4em;
 
+main > article {
+  border-bottom: $border-thickness dotted $shadow-light-color;
+}
+
 article > h2 {
   font-size: $heading-font-size-medium;
 }
@@ -49,6 +53,10 @@ article > h4 {
   clear: left;
 }
 
+article > h2 {
+  margin-bottom: .3em;
+}
+
 article > h3,
 article > h4 {
   margin-left: 1.2em;
@@ -62,19 +70,16 @@ article > h4:hover {
   }
 }
 
-main > article {
-    border-bottom: $border-thickness dotted $shadow-light-color;
+.article-metadata {
+  line-height: $small-font-line-height + 2;
+  margin-left: $article-indent;
+  margin-bottom: -1em;
+}
 
-    h2 {
-        margin-bottom: .25em;
-    }
+.os-win .article-metadata {
+  line-height: $small-font-line-height-win + 2;
+}
 
-    section.metadata {
-        margin-left: $article-indent;
-        margin-bottom: -1em;
-    }
-
-    section.markdown {
-        margin-left: $article-indent;
-    }
+.article-content {
+  margin-left: $article-indent;
 }

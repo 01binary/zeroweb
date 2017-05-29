@@ -155,26 +155,52 @@ $comment-padding: .35em;
 }
 
 .comment-entry__toggle + label {
+  position: relative;
   float: left;
-  margin-left: .25em;
+  padding-left: 1.25em;
 
-  &:before {
-    font-family: monospace;
-    content: '+';
-    margin-right: .1em;
+  &:hover {
+    .comment-entry__icon {
+      fill: $primary-color;
+    }
   }
 }
 
 .comment-entry__toggle:checked + label {
   color: $accent-text-color;
 
-  &:before {
-    content: '-';
+  .comment-entry__icon {
+    fill: $accent-text-color;
+  }
+
+  .comment-entry__icon--expand {
+    transform: rotate(90deg);
+    opacity: 0;
   }
 
   &:hover {
     color: $primary-color;
+
+    .comment-entry__icon {
+      fill: $primary-color;
+    }
   }
+}
+
+.comment-entry__icon {
+  position: absolute;
+  left: 0;
+  transition: fill $animation-fast ease-in-out;
+  transform: translateZ(0);
+}
+
+.comment-entry__icon--expand {
+  transform-origin: 6px 7.5px;
+  transform: rotate(0);
+  opacity: 1;
+  transition: transform $animation-fast ease-in-out,
+              opacity $animation-fast ease-in-out,
+              fill $animation-fast ease-in-out;
 }
 
 .comment-login {

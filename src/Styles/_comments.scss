@@ -10,6 +10,9 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+$comment-line-height: 1.5em;
+$comment-padding: .35em;
+
 .comments {
   font-family: $small-font;
   font-size: $small-font-size;
@@ -44,17 +47,17 @@
   overflow: auto;
   clear: both;
   border-top: $border-thickness solid $accent-color;
-  padding-left: 1.3em;
-  padding-top: .35em;
-  padding-bottom: .35em;
-  line-height: 1.5em;
+  padding-left: 1.5em;
+  padding-top: $comment-padding;
+  padding-bottom: $comment-padding;
+  line-height: $comment-line-height;
   transition: all .15s ease-in-out;
 }
 
 .comment:before {
   content: '//';
   position: absolute;
-  left: .125em;
+  left: .3em;
 }
 
 .comment:hover {
@@ -75,8 +78,8 @@
 
 .comment__vote {
   position: absolute;
-  line-height: 1.5em;
-  margin-top: .35em;
+  line-height: $comment-line-height;
+  margin-top: $comment-padding;
   margin-left: -$small-font-size * 2;
   width: $small-font-size * 3;
   height: $small-font-size * 2;
@@ -96,11 +99,11 @@
 }
 
 .button-vote.upvote {
-  top: -2pt;
+  top: -3pt;
 }
 
 .button-vote.downvote {
-  top: 5pt;
+  top: 4pt;
 }
 
 .vote__content {

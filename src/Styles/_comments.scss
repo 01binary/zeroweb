@@ -115,7 +115,7 @@ $comment-padding: .35em;
 }
 
 .vote--default .vote__content {
-  //opacity: 0;
+  opacity: 0;
 }
 
 .vote--readonly .button-vote {
@@ -134,18 +134,18 @@ $comment-padding: .35em;
 
   .vote--readonly {
     .button-vote {
-      //opacity: 0;
+      opacity: 0;
     }
 
     .vote__content {
-      //opacity: .5;
-      //padding-right: $small-font-size * 1.5;
+      opacity: .5;
+      padding-right: $small-font-size * 1.5;
     }
   }
 
   .vote--default {
     .vote__content {
-      //opacity: 0;
+      opacity: 0;
     }
   }
 }

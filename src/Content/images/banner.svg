@@ -81,9 +81,9 @@
     </symbol>
 
     <symbol id="submit">
-        <rect width="1" height="8" stroke="none"/>
-        <rect x="1" y="8" width="6" height="1" stroke="none"/>
-        <path d="M6,7,3,4V2.87l2.6,2.6V.27h.8v5.2L9,2.87V4Z" stroke="none"/>
+        <rect x="1" width="1" height="8" stroke="none"/>
+        <rect x="2" y="8" width="6" height="1" stroke="none"/>
+        <path d="M7.5,7L4,3.9V2.7l3,2.7V0h1v5.4l3-2.7v1.2L7.5,7z" stroke="none"/>
     </symbol>
 
     <symbol id="register">

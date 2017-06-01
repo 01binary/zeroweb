@@ -139,8 +139,12 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-overlay {
-                top: 0;
+            .date-selector-page-overlay .date-selector-page-pattern {
+                transform: translateY(0) !important;
+            }
+
+            .date-selector-page-pattern {
+                transform: translateY(0);
             }
 
             &.selected {
@@ -236,7 +240,7 @@
 
             // Overrides for children of page button 
             .date-selector-page {
-                &-border, &-background, &-outline, &-focus-outline {
+                &-border, &-outline, &-focus-outline {
                     display: none;
                 }
             }
@@ -246,7 +250,6 @@
         &-border,
         &-border-pushed,
         &-outline,
-        &-background,
         &-overlay,
         &-pushed {
             // Fix :active not shown on IE due to mouse events being eaten 
@@ -263,8 +266,9 @@
             top: 0;
         }
 
-        &-background,
-        &-pushed
+        // TODO: remove this? Should be the default.
+        &-pushed,
+        &-overlay
         {
             position: absolute;
             left: 0;
@@ -273,19 +277,14 @@
             bottom: 0;
         }
 
-        &-overlay {
-            position: absolute;
-            top: -16px;
-            left: 0;
-            height: 42px;
-        }
-
         &-pushed {
             display: none;
         }
 
         &-border-pushed {
             display: none;
+            color: $shadow-dark-color;
+            stroke: $drop-shadow-light-color;
         }
 
         &-border {
@@ -293,15 +292,6 @@
             stroke: $shadow-color;
             fill: none;
             z-index: -1;
-
-            &-pushed {
-                color: $shadow-dark-color;
-                stroke: $drop-shadow-light-color;
-            }
-        }
-
-        &-background {
-            z-index: -3;
         }
 
         &-focus-outline {
@@ -318,8 +308,10 @@
 
         &-overlay {
             z-index: -2;
-            transition: top $animation-fast $fade-function,
-                        height $animation-fast $fade-function;
+        }
+
+        &-pattern {
+            transform: translateY(-16px);
         }
 
         // Bottom shadow 
@@ -348,9 +340,8 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-overlay {
-                top: 0;
-                height: 16px;
+            .date-selector-page-pattern {
+                transform: translateY(0);
             }
         }
 
@@ -498,11 +489,6 @@
                 left: 0px;
                 top: 0px;
                 height: 100%;
-            }
-
-            // Background rectangle 
-            &-background {
-                background: $background-color;
             }
 
             // Graph view 

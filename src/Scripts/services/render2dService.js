@@ -24,30 +24,6 @@ angular.module('zeroApp')
  */
 function render2dService() {
     /**
-     * Create canvas for rendering custom controls.
-     * @type {function}
-     */
-    this.createCanvas = createCanvas;
-
-    /**
-     * Resize canvas.
-     * @type {function}
-     */
-    this.resizeCanvas = resizeCanvas;
-    
-    /**
-     * Draw themed bullet.
-     * @type {function}
-     */
-    this.drawBullet = drawBullet;
-    
-    /**
-     * Get canvas drawing context.
-     * @type {function}
-     */
-    this.getContext = getContext;
-    
-    /**
      * Get device pixel ratio.
      * @type {function}
      */
@@ -72,62 +48,11 @@ function render2dService() {
     this.hslToRgb = hslToRgb;
     
     /**
-     * Create canvas for rendering custom controls.
-     * @param {object} $before - jQuery referring to DOM element to insert before.
-     * @param {string} className - Canvas class name.
-     * @param {number} width - Canvas width.
-     * @param {number} height - Canvas height.
-     */
-    function createCanvas($before, className, width, height) {
-        // Apply both element and css size to
-        // increase bitmap resolution on high-dpi screens.
-        var pixelRatio = this.getPixelRatio();
-
-        var canvas = $('<canvas></canvas>')
-            .attr('class', className)
-            .attr('width', width * pixelRatio)
-            .attr('height', height * pixelRatio)
-            .css('width', width)
-            .css('height', height)
-            .insertBefore($before).get(0);
-            
-        // Apply scale transform to render larger on hi-dpi screens.
-        var context = this.getContext(canvas);
-        context.scale(pixelRatio, pixelRatio);
-
-        return canvas;
-    }
-
-    /**
-     * Resize canvas for dpi-correct rendering.
-     * @param {object} $canvas - The canvas to resize.
-     * @param {number} width - The canvas width to set.
-     * @param {number} height - The canvas height to set.
-     */
-    function resizeCanvas($canvas, width, height) {
-        var pixelRatio = this.getPixelRatio();
-
-        $canvas
-            .attr('width', width * pixelRatio)
-            .attr('height', height * pixelRatio)
-            .css('width', width)
-            .css('height', height);
-    }
-    
-    /**
      * Get device pixel ratio.
      */
     function getPixelRatio() {
         return window.devicePixelRatio ||
             window.screen.deviceXDPI / window.screen.deviceYDPI;
-    }
-    
-    /**
-     * Get canvas drawing context.
-     * @param {object} canvas - Canvas element.
-     */
-    function getContext(canvas) {
-        return canvas.getContext('2d');
     }
     
     /**
@@ -217,28 +142,5 @@ function render2dService() {
         }
 
         return [h, s, l];
-    }
-
-    /**
-     * Draw themed bullet.
-     * @param {RenderingContext} context2d - Drawing context.
-     * @param {string} fill - Fill color in rgb(), hex, or friendly form (red, blue).
-     * @param {number} left - Horizontal offset from canvas left.
-     * @param {number} top - Vertical offset from canvas top.
-     * @param {number} width - Bullet width, default 3px.
-     * @param {number} height - Bullet height, default 13px.
-     */
-    function drawBullet(context2d, fill, left, top, width, height) {
-        if (!width) width = 3;
-        if (!height) height = 13;
-
-        context2d.fillStyle = fill;
-        context2d.beginPath();
-        context2d.moveTo(left, top);
-        context2d.lineTo(left, top + height);
-        context2d.lineTo(left + width, top + height);
-        context2d.lineTo(left + width, top + 3);
-        context2d.closePath();
-        context2d.fill();
     }
 }

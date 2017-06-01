@@ -301,7 +301,6 @@ function newsController($news, $comments, $safeApply, $inputResize, $login, $sco
      * @param {string} articleId - The id article for which to toggle the form.
      */
     function toggleComment(articleId) {
-        console.log($('#toggle-' + articleId).val());
         if ($('#toggle-' + articleId).val() && this.comments[articleId].length === 0) {
             window.setTimeout(function() {
                 // Set focus on the comment box when no comments.

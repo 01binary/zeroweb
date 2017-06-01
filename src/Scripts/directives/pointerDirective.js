@@ -39,7 +39,7 @@ function pointerDirective()
             var height = Math.ceil($element.height() * 0.7 +
                 parseInt($element.css('margin-top'), 10) * 2);
             var bulletWidth = 4;
-            var bulletHeight = 14;
+            var bulletHeight = 15;
             var bulletTop = Math.ceil(height / 2 - height * 0.1);
             var calloutTop = Math.ceil(bulletTop / 2) + 0.5;
 

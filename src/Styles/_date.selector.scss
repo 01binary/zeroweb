@@ -139,7 +139,7 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-pattern {
+            .date-selector-page-gradient {
                 transform: translateY(0);
             }
 
@@ -305,8 +305,8 @@
             z-index: -2;
         }
 
-        &-pattern {
-            transform: translateY(-16px);
+        &-gradient {
+            transform: translateY(-27px);
             transition: transform $animation-fast ease-in-out;
         }
 
@@ -336,8 +336,8 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-pattern {
-                transform: translateY(0) !important;
+            .date-selector-page-gradient {
+                transform: translateY(0);
             }
         }
 

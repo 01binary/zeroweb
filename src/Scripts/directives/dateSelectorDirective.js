@@ -116,6 +116,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
             // Embedded resources.
             // Note: geometry is needlessly repeated with different fill styles to fix Firefox stylesheet URL bug.
             '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
+                // TODO: get rid of this too
                 '<defs>' +
                     '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
                         '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
@@ -137,7 +138,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                     '<polygon points="2.5,28.5 1.8,26.8 8.5,20.1 8.5,1.5 9.5,0.5 36.5,0.5 37.5,1.5 37.5,20.9 29.9,28.5 	"/>' +
                 '</symbol>' +
                 '<symbol id="page-button-mask">' +
-                    '<polygon stroke="none" fill="red" points="6,0 5,0 4,0 4,19.5 0,23.5 0,26.3 7,19.3 7,0 "/>' +
+                    '<polygon stroke="none" points="9,0 8,0 7,0 7,19.5 -0.5,27 3.3,27 10,20.3 10,0"/>' +
                 '</symbol>' +
                 // Left scroll button resources.
                 '<symbol id="left-scroll-button-focus-outline">' +
@@ -176,6 +177,9 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
 
             // Previous page button.
             '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
+                //'<svg class="date-selector-scroll-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                //    '<use xlink:href="#page-button-mask"></use>' +
+                //'</svg>' +
                 '<div class="date-selector-page-overlay"></div>' +
                 '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-pushed-background"></use>' +
@@ -240,7 +244,10 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
                 '<a data-ng-href="news/?page={{nextPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="selectNextPage()">' +
-                    '<svg class="date-selector-page-overlay"></div>' +
+                    '<svg class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#page-button-mask"></use>' +
+                    '</svg>' +
+                    '<div class="date-selector-page-overlay"></div>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-pushed"></use>' +
                     '</svg>' +

@@ -117,21 +117,10 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
             // Note: geometry is needlessly repeated with different fill styles to fix Firefox stylesheet URL bug.
             '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
                 '<defs>' +
-                    '<linearGradient id="page-button-gradient" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="50">' +
-                        '<stop offset="0" style="stop-color:rgb(255,255,255)"/>' +
-                        '<stop offset="0.25" style="stop-color:rgb(249,249,249)"/>' +
-                        '<stop offset="1" style="stop-color:rgb(235,235,235)"/>' +
-                    '</linearGradient>' +
                     '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
                         '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
                         '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
                     '</linearGradient>' +
-                    '<clipPath id="page-button-clip">' +
-                        '<polygon points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5"/>' +
-                    '</clipPath>' +
-                    '<clipPath id="left-scroll-button-clip">' +
-                        '<polygon points="7.5,0.5 0.5,7.5 0.5,26.5 22.5,26.5 29.5,19.5 29.5,0.5"/>' +
-                    '</clipPath>' +
                 '</defs>' +
                 // Page button resources.
                 '<symbol id="page-button-border">' +
@@ -146,6 +135,9 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                 '</symbol>' +
                 '<symbol id="page-button-focus-outline">' +
                     '<polygon points="2.5,28.5 1.8,26.8 8.5,20.1 8.5,1.5 9.5,0.5 36.5,0.5 37.5,1.5 37.5,20.9 29.9,28.5 	"/>' +
+                '</symbol>' +
+                '<symbol id="page-button-mask">' +
+                    '<polygon stroke="none" fill="red" points="6,0 5,0 4,0 4,19.5 0,23.5 0,26.3 7,19.3 7,0 "/>' +
                 '</symbol>' +
                 // Left scroll button resources.
                 '<symbol id="left-scroll-button-focus-outline">' +
@@ -184,11 +176,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
 
             // Previous page button.
             '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
-                '<svg class="date-selector-page-overlay" width="35" height="27" viewBox="0 0 35 27">' +
-                    '<g clipPath="url(#left-scroll-button-clip)">' +
-                        '<rect class="date-selector-page-gradient" fill="url(#page-button-gradient)" y="27" width="35" height="54"/>' +
-                    '</g>' +
-                '</svg>' +
+                '<div class="date-selector-page-overlay"></div>' +
                 '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-pushed-background"></use>' +
                 '</svg>' +
@@ -224,11 +212,10 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                         '\'date-selector-page-separator\': isSeparator(page), ' +
                         '\'selected\': page === currentPage ' +
                     '}">' +
-                    '<svg class="date-selector-page-overlay" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<g clipPath="url(#page-button-clip)">' +
-                            '<rect class="date-selector-page-gradient" fill="url(#page-button-gradient)" y="0" x="4" width="35" height="54"/>' +
-                        '</g>' +
+                    '<svg class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#page-button-mask"></use>' +
                     '</svg>' +
+                    '<div class="date-selector-page-overlay"></div>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-pushed"></use>' +
                     '</svg>' +
@@ -253,11 +240,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
                 '<a data-ng-href="news/?page={{nextPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="selectNextPage()">' +
-                    '<svg class="date-selector-page-overlay" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<g clipPath="url(#page-button-clip)">' +
-                            '<rect class="date-selector-page-gradient" fill="url(#page-button-gradient)" y="-27" width="35" height="54"/>' +
-                        '</g>' +
-                    '</svg>' +
+                    '<svg class="date-selector-page-overlay"></div>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-pushed"></use>' +
                     '</svg>' +

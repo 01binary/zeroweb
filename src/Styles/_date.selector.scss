@@ -139,8 +139,8 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-gradient {
-                transform: translateY(0);
+            .date-selector-page-overlay {
+                // TODO: offset using position
             }
 
             &.selected {
@@ -263,13 +263,26 @@
         }
 
         &-pushed,
-        &-overlay
+        &-mask
         {
             position: absolute;
             left: 0;
             top: 0;
             right: 0;
             bottom: 0;
+        }
+
+        &-overlay {
+            position: absolute;
+            left: 0;
+            top: 27px;
+            width: 35px;
+            height: 27px;
+        }
+
+        &-mask {
+            pointer-events: none;
+            //display: none;
         }
 
         &-pushed {
@@ -302,12 +315,9 @@
         }
 
         &-overlay {
-            z-index: -2;
-        }
-
-        &-gradient {
-            transform: translateY(-27px);
-            transition: transform $animation-fast ease-in-out;
+            
+            z-index: -1;
+            background: green;
         }
 
         // Bottom shadow 
@@ -319,8 +329,23 @@
             bottom: 6px;
             height: 1px;
             box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
-            z-index: -3;
+            //z-index: -3;
         }
+
+        // TODO: attempt left clip on cascading buttons
+        /*
+        &:after {
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: 0;
+            bottom: 5px;
+            width: 10px;
+            z-index: -1;
+            border-right: 7px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid red;
+        }*/
     }
 
     // Scroll buttons
@@ -336,8 +361,8 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-gradient {
-                transform: translateY(0);
+            .date-selector-page-overlay {
+                // TODO: offset negative
             }
         }
 

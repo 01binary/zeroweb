@@ -210,7 +210,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
             '</a>' +
 
             // Pages strip.
-            '<div class="date-selector-pages">' + 
+            '<div class="date-selector-pages">' +
                 // Page button.
                 '<a role="button" ' +
                     'data-ng-href="/news?page={{page}}" ' + 
@@ -222,8 +222,11 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                         '\'date-selector-page-separator\': isSeparator(page), ' +
                         '\'selected\': page === currentPage ' +
                     '}">' +
-                    '<svg class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<svg data-ng-if="!isSeparator(page)" class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-mask"></use>' +
+                    '</svg>' +
+                    '<svg data-ng-if="isSeparator(page)" class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#scroll-right-mask"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-overlay"></div>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +

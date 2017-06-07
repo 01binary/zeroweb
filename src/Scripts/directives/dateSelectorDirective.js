@@ -138,7 +138,13 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                     '<polygon points="2.5,28.5 1.8,26.8 8.5,20.1 8.5,1.5 9.5,0.5 36.5,0.5 37.5,1.5 37.5,20.9 29.9,28.5 	"/>' +
                 '</symbol>' +
                 '<symbol id="page-button-mask">' +
-                    '<polygon stroke="none" points="9,0 8,0 7,0 7,19.5 -0.5,27 3.3,27 10,20.3 10,0"/>' +
+                    '<polygon stroke="none" points="9,0 8,0 7,0 7,19.5 -0.5,27 4.3,27 11,20.3 11,0"/>' +
+                '</symbol>' +
+                '<symbol id="scroll-right-mask">' +
+                    '<polygon stroke="none" points="7,0 7,19.5 -0.5,27 11,27 11,0"/>' +
+                '</symbol>' +
+                '<symbol id="scroll-left-mask">' +
+                    '<polygon stroke="none" points="7.5,0 0,0 0,7.5"/>' +
                 '</symbol>' +
                 // Left scroll button resources.
                 '<symbol id="left-scroll-button-focus-outline">' +
@@ -177,10 +183,10 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
 
             // Previous page button.
             '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
-                //'<svg class="date-selector-scroll-mask" width="35" height="27" viewBox="0 0 35 27">' +
-                //    '<use xlink:href="#page-button-mask"></use>' +
-                //'</svg>' +
                 '<div class="date-selector-page-overlay"></div>' +
+                '<svg class="date-selector-scroll-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                    '<use xlink:href="#scroll-left-mask"></use>' +
+                '</svg>' +
                 '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-pushed-background"></use>' +
                 '</svg>' +
@@ -246,6 +252,9 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                 '<a data-ng-href="news/?page={{nextPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="selectNextPage()">' +
                     '<svg class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-mask"></use>' +
+                    '</svg>' +
+                    '<svg class="date-selector-page-mask-right" width="35" height="27" viewBox="0 0 35 27">' +
+                        '<use xlink:href="#scroll-right-mask"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-overlay"></div>' +
                     '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +

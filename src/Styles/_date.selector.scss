@@ -128,7 +128,6 @@
         color: lighten($foreground-color, 20%);
         transition: color $animation-fast $fade-function;
         cursor: pointer;
-        overflow: hidden;
 
         // Replaced browser focus outline with date-selector-page-focus-outline.
         border: none;
@@ -140,7 +139,7 @@
             color: $foreground-color;
 
             .date-selector-page-overlay {
-                // TODO: offset using position
+                background-position: 0 0;
             }
 
             &.selected {
@@ -262,8 +261,7 @@
             top: 0;
         }
 
-        &-pushed,
-        &-mask
+        &-pushed
         {
             position: absolute;
             left: 0;
@@ -274,15 +272,23 @@
 
         &-overlay {
             position: absolute;
-            left: 0;
-            top: 27px;
-            width: 35px;
+            top: 0;
+            left: 4px;
+            right: 0;
             height: 27px;
+            background: linear-gradient($background-color 0%, $accent-light-color 30%, $accent-shadow-color 100%) 0 -27px no-repeat;
+            //background: linear-gradient(red 0%, green 25%, blue 100%) 0 -27px no-repeat;
+            background-size: 36px 54px;
+            transition: background-position $animation-fast ease-in-out;
+            z-index: -2;
         }
 
         &-mask {
+            position: absolute;
+            top: 0;
+            left: -3px;
+            fill: $accent-light-color;
             pointer-events: none;
-            //display: none;
         }
 
         &-pushed {
@@ -314,12 +320,6 @@
             z-index: 3;
         }
 
-        &-overlay {
-            
-            z-index: -1;
-            background: green;
-        }
-
         // Bottom shadow 
         &:before {
             content: '';
@@ -329,23 +329,7 @@
             bottom: 6px;
             height: 1px;
             box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
-            //z-index: -3;
         }
-
-        // TODO: attempt left clip on cascading buttons
-        /*
-        &:after {
-            content: '';
-            position: absolute;
-            right: 14px;
-            top: 0;
-            bottom: 5px;
-            width: 10px;
-            z-index: -1;
-            border-right: 7px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-left: 8px solid red;
-        }*/
     }
 
     // Scroll buttons
@@ -362,7 +346,7 @@
             color: $foreground-color;
 
             .date-selector-page-overlay {
-                // TODO: offset negative
+                background-position: 0 0;
             }
         }
 

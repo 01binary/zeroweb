@@ -97,7 +97,7 @@
         bottom: -6px;
         height: 43px;
         z-index: 2;
-        overflow: hidden;
+        //overflow: hidden; // problem with mask display, but could be solved another way
         transition: left $animation-fast ease-out;
     }
 
@@ -276,8 +276,8 @@
             left: 4px;
             right: 0;
             height: 27px;
-            background: linear-gradient($background-color 0%, $accent-light-color 30%, $accent-shadow-color 100%) 0 -27px no-repeat;
-            //background: linear-gradient(red 0%, green 25%, blue 100%) 0 -27px no-repeat;
+            //background: linear-gradient($background-color 0%, $accent-light-color 30%, $accent-shadow-color 100%) 0 -27px no-repeat;
+            background: linear-gradient(red 0%, green 25%, blue 100%) 0 -27px no-repeat;
             background-size: 36px 54px;
             transition: background-position $animation-fast ease-in-out;
             z-index: -2;
@@ -287,6 +287,14 @@
             position: absolute;
             top: 0;
             left: -3px;
+            fill: $accent-light-color;
+            pointer-events: none;
+        }
+
+        &-mask-right {
+            position: absolute;
+            top: 0;
+            right: -28px;
             fill: $accent-light-color;
             pointer-events: none;
         }
@@ -423,6 +431,16 @@
             .date-selector-page-label {
                 left: 1px;
                 top: -1px;
+            }
+
+            // Mask that covers the overlay.
+            .date-selector-scroll-mask {
+                fill: $accent-light-color;
+            }
+
+            // Hover/normal gradient overlay.
+            .date-selector-page-overlay {
+                left: 0;
             }
 
             // Focus outline

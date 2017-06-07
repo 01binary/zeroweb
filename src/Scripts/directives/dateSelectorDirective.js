@@ -114,15 +114,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
             '<div class="date-selector-background"></div>' +
 
             // Embedded resources.
-            // Note: geometry is needlessly repeated with different fill styles to fix Firefox stylesheet URL bug.
             '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">' +
-                // TODO: get rid of this too
-                '<defs>' +
-                    '<linearGradient id="page-button-gradient-pushed" style="display:block" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="30">' +
-                        '<stop offset="0" style="stop-color:rgb(102,102,102)"/>' +
-                        '<stop offset="1" style="stop-color:rgb(137,137,137)"/>' +
-                    '</linearGradient>' +
-                '</defs>' +
                 // Page button resources.
                 '<symbol id="page-button-border">' +
                     '<polyline stroke="currentColor" points="2.9,25.5 8.5,19.9 8.5,1.5 33.5,1.5"/>' +
@@ -130,9 +122,6 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                 '</symbol>' +
                 '<symbol id="page-button-outline">' +
                     '<polygon fill="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
-                '</symbol>' +
-                '<symbol id="page-button-pushed">' +
-                    '<polygon fill="url(#page-button-gradient-pushed)" stroke="none" points="27.5,26.5 34.5,19.5 34.5,0.5 7.5,0.5 7.5,19.5 0.5,26.5">' +
                 '</symbol>' +
                 '<symbol id="page-button-focus-outline">' +
                     '<polygon points="2.5,28.5 1.8,26.8 8.5,20.1 8.5,1.5 9.5,0.5 36.5,0.5 37.5,1.5 37.5,20.9 29.9,28.5 	"/>' +
@@ -187,9 +176,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                 '<svg class="date-selector-scroll-mask" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#scroll-left-mask"></use>' +
                 '</svg>' +
-                '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
-                    '<use xlink:href="#left-scroll-button-pushed-background"></use>' +
-                '</svg>' +
+                '<div class="date-selector-page-pushed"></div>' +
                 '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#left-scroll-button-outline"></use>' +
                 '</svg>' +
@@ -229,9 +216,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                         '<use xlink:href="#scroll-right-mask"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-overlay"></div>' +
-                    '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-pushed"></use>' +
-                    '</svg>' +
+                    '<div class="date-selector-page-pushed"></div>' +
                     '<svg class="date-selector-page-focus-outline" width="38" height="29" viewBox="0 0 38 29">' +
                         '<use xlink:href="#page-button-focus-outline"></use>' +
                     '</svg>' +
@@ -260,9 +245,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                         '<use xlink:href="#scroll-right-mask"></use>' +
                     '</svg>' +
                     '<div class="date-selector-page-overlay"></div>' +
-                    '<svg class="date-selector-page-pushed" width="35" height="27" viewBox="0 0 35 27">' +
-                        '<use xlink:href="#page-button-pushed"></use>' +
-                    '</svg>' +
+                    '<div class="date-selector-page-pushed"></div>' +
                     '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-outline"></use>' +
                     '</svg>' +

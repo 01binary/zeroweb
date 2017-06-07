@@ -264,10 +264,12 @@
         &-pushed
         {
             position: absolute;
-            left: 0;
+            left: 4px;
             top: 0;
             right: 0;
-            bottom: 0;
+            height: 27px;
+            background: linear-gradient(rgb(102, 102, 102) 0%, rgb(137, 137, 137) 100%);
+            z-index: -2;
         }
 
         &-overlay {

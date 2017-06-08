@@ -12,6 +12,7 @@
 
 $comment-line-height: 1.5em;
 $comment-padding: .35em;
+$comment-recenter-win: .1em;
 
 .comments {
   font-family: $small-font;
@@ -60,6 +61,11 @@ $comment-padding: .35em;
   left: .3em;
 }
 
+// Center comment text correctly on PC
+.os-win .comment:before {
+  margin-top: -$comment-recenter-win;
+}
+
 .comment:hover {
   background-color: $accent-light-color;
 }
@@ -74,6 +80,14 @@ $comment-padding: .35em;
 
 .comment__content {
   color: $foreground-color;
+}
+
+// Center comment text correctly on PC
+.os-win .comment {
+  .metadata, &__content {
+    position: relative;
+    top: -$comment-recenter-win;
+  }
 }
 
 .comment__vote {

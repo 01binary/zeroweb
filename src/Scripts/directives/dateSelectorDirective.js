@@ -173,7 +173,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
             // Previous page button.
             '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
                 '<div class="date-selector-page-overlay"></div>' +
-                '<svg class="date-selector-scroll-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                '<svg class="date-selector-page-mask-left" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#scroll-left-mask"></use>' +
                 '</svg>' +
                 '<div class="date-selector-page-pushed"></div>' +

@@ -63,7 +63,7 @@ $comment-recenter-win: .1em;
 
 // Center comment text correctly on PC
 .os-win .comment:before {
-  margin-top: -.1em;
+  margin-top: -$comment-recenter-win;
 }
 
 .comment:hover {
@@ -86,7 +86,7 @@ $comment-recenter-win: .1em;
 .os-win .comment {
   .metadata, &__content {
     position: relative;
-    top: -.1em;
+    top: -$comment-recenter-win;
   }
 }
 

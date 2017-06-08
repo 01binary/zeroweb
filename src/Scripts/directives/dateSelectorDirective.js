@@ -409,13 +409,17 @@ function endScroll($scope, $event) {
  * @param {object} event - The Angular event arguments.
  */
 function pageClick($scope, event) {
-    var page = $(event.target)
-        .closest('.date-selector-page')
+    var $pageButton = $(event.target)
+        .closest('.date-selector-page');
+    var page = $pageButton
         .find('.date-selector-page-number')
         .text();
 
-    if (parseInt(page, 10))
+    if (parseInt(page, 10)) {
         $scope.selectPage(page);
+    }
+    
+    window.location.href = ($pageButton.attr('href'));
 }
 
 /**

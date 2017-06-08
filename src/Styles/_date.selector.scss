@@ -295,6 +295,7 @@
             left: -3px;
             fill: $accent-light-color;
             pointer-events: none;
+            z-index: -1;
         }
 
         &-mask-right {

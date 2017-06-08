@@ -434,12 +434,12 @@
                 top: -1px;
             }
 
-            // Mask that covers the overlay.
-            .date-selector-scroll-mask {
+            // Mask that covers the overlay
+            .date-selector-page-mask-left {
                 fill: $accent-light-color;
             }
 
-            // Hover/normal gradient overlay.
+            // Hover/normal gradient overlay
             .date-selector-page-overlay {
                 left: 0;
             }
@@ -464,12 +464,12 @@
             height: 27px;
             margin-top: 1px;
 
-            // Arrow icon wrapper 
+            // Arrow icon wrapper
             .date-selector-page-label {
                 left: 2px;
             }
 
-            // Bottom shadow 
+            // Bottom shadow
             &:before {
                 right: 5px;
                 z-index: -3;
@@ -489,7 +489,7 @@
         }
     }
 
-    // Collapsed state overrides 
+    // Collapsed state overrides
     &.collapsed {
         margin-top: -2px;
         margin-bottom: -7px;
@@ -497,18 +497,18 @@
         padding-left: 0px;
         overflow: visible;
 
-        // Min scroll fade overlay 
+        // Min scroll fade overlay
         &:before {
             display: none;
         }
 
-        // Max scroll fade overlay 
+        // Max scroll fade overlay
         &:after {
             display: none;
         }
 
         .date-selector {
-            // Expand/collapse caption button 
+            // Expand/collapse caption button
             &-caption {
                 left: 0px;
                 top: 0px;
@@ -520,21 +520,27 @@
                 background: $background-color;
             }
 
-            // Graph view 
+            // Graph view
             &-view {
                 display: none;
             }
 
-            // Pages strip 
+            // Pages strip
             &-pages {
                 left: 43px;
                 bottom: -13px;
             }
 
-            // Left scroll button - collapsed overrides 
+            // Left scroll button - collapsed overrides
             &-scroll-left {
                 left: 17px;
                 bottom: 2px;
+            }
+
+            &-page-mask,
+            &-page-mask-right,
+            &-page-mask-left {
+                fill: $background-color;
             }
         }
     }

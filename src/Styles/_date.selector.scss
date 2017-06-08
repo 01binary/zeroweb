@@ -261,14 +261,16 @@
             top: 0;
         }
 
-        &-pushed
-        {
+        &-pushed {
             position: absolute;
             left: 4px;
             top: 0;
             right: 0;
             height: 27px;
-            background: linear-gradient(rgb(102, 102, 102) 0%, rgb(137, 137, 137) 100%);
+            background: linear-gradient(
+                $accent-dark-shadow-color,
+                $accent-shadow-color
+            );
             z-index: -2;
         }
 
@@ -278,7 +280,11 @@
             left: 4px;
             right: 0;
             height: 27px;
-            background: linear-gradient($background-color 0%, $accent-light-color 40%, $accent-shadow-color 100%) 0 -27px no-repeat;
+            background: linear-gradient(
+                $background-color 0%,
+                $accent-light-color 40%,
+                $accent-light-shadow-color 100%
+            ) 0 -27px no-repeat;
             background-size: 36px 54px;
             transition: background-position $animation-fast ease-in-out;
             z-index: -2;

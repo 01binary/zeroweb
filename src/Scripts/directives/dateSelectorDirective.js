@@ -91,6 +91,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.selectPrevPage = selectPrevPage.bind($element, $scope);
     $scope.selectPage = selectPage.bind($element, $scope);
     $scope.pageClick = pageClick.bind($element, $scope);
+    $scope.pageTarget = pageTarget.bind($element, $scope);
     $scope.beginScroll = beginScroll.bind($element, $scope);
     $scope.endScroll = endScroll.bind($element, $scope);
     $scope.doScroll = doScroll.bind($element, $scope);
@@ -200,11 +201,11 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
             '<div class="date-selector-pages">' +
                 // Page button.
                 '<a role="button" ' +
-                    'data-ng-href="/news?page={{page}}" ' + 
-                    'ng-attr-tabindex="{{isSeparator(page) ? -1 : 0}}" ' +
                     'class="date-selector-page noselect" ' +
-                    'data-ng-mousedown="pageClick($event)" ' +
                     'data-ng-repeat="page in visiblePages" ' +
+                    'data-ng-href="{{pageTarget(page)}}" ' + 
+                    'ng-attr-tabindex="{{isSeparator(page) ? -1 : 0}}" ' +
+                    'data-ng-mousedown="pageClick($event)" ' +
                     'data-ng-class="{' +
                         '\'date-selector-page-separator\': isSeparator(page), ' +
                         '\'selected\': page === currentPage ' +
@@ -417,9 +418,22 @@ function pageClick($scope, event) {
 
     if (parseInt(page, 10)) {
         $scope.selectPage(page);
+        window.location.href = ($pageButton.attr('href'));
     }
-    
-    window.location.href = ($pageButton.attr('href'));
+}
+
+/**
+ * Get page button target.
+ * @param {object} $scope - The directive scope.
+ * @param {string} page - The page number or '...' if separator.
+ * @returns - The page target url.
+ */
+function pageTarget($scope, page) {
+    if (isSeparator(page)) {
+        return '#';
+    } else {
+        return '/news?page=' + page;
+    }
 }
 
 /**
@@ -547,7 +561,7 @@ function getVisiblePages($element, $scope) {
  * @param {string} page - The page caption.
  */
 function isSeparator(page) {
-    return page.indexOf('.') !== -1;
+    return page && page.indexOf('.') !== -1;
 }
 
 /**

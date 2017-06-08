@@ -97,7 +97,6 @@
         bottom: -6px;
         height: 43px;
         z-index: 2;
-        //overflow: hidden; // problem with mask display, but could be solved another way
         transition: left $animation-fast ease-out;
     }
 

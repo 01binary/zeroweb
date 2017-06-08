@@ -27,15 +27,18 @@ $secondary-text-color: #848D95;
 $accent-color: #E3EBEC;
 $accent-light-color: #F6F6F6;
 $accent-highlight-color: mix($accent-light-color, white, 45%);
+$accent-light-shadow-color: #EBEBEB;
+$accent-dark-shadow-color: #666666;
+$accent-shadow-color: #898989;
 $accent-hover-color: #D7DFE0;
 $accent-text-color: #127191;
 
 $foreground-color: #3b4a51;
 $background-color: #FFFFFF;
-$border-color: lightgray;
+$border-color: #D3D3D3;
 $selection-color: #C3C3C3;
 
-$shadow-color: lightgray;
+$shadow-color: #D3D3D3;
 $shadow-dark-color: #595959;
 $shadow-light-color: #B5D9E3;
 

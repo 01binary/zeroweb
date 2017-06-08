@@ -97,7 +97,6 @@
         bottom: -6px;
         height: 43px;
         z-index: 2;
-        overflow: hidden;
         transition: left $animation-fast ease-out;
     }
 
@@ -138,8 +137,8 @@
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-hover {
-                opacity: 1;
+            .date-selector-page-overlay {
+                background-position: 0 0;
             }
 
             &.selected {
@@ -165,7 +164,7 @@
             color: rgba($background-color, .7);
 
             .date-selector-page {
-                &-hover,
+                &-overlay,
                 &-border {
                     display: none;
                 }
@@ -218,7 +217,7 @@
             }
 
             &:hover {
-                .date-selector-page-hover {
+                .date-selector-page-overlay {
                     display: none;
                 }
 
@@ -233,9 +232,9 @@
                 }
             }
 
-            // Overrides for children of page button 
+            // Overrides for children of page button
             .date-selector-page {
-                &-border, &-background, &-outline, &-focus-outline {
+                &-border, &-outline, &-focus-outline, &-overlay {
                     display: none;
                 }
             }
@@ -245,8 +244,7 @@
         &-border,
         &-border-pushed,
         &-outline,
-        &-background,
-        &-hover,
+        &-overlay,
         &-pushed {
             // Fix :active not shown on IE due to mouse events being eaten 
             pointer-events: none;
@@ -262,15 +260,50 @@
             top: 0;
         }
 
-        &-background,
-        &-hover,
-        &-pushed
-        {
+        &-pushed {
             position: absolute;
-            left: 0;
+            left: 4px;
             top: 0;
+            right: 1px;
+            height: 26px;
+            background: linear-gradient(
+                $accent-dark-shadow-color,
+                $accent-shadow-color
+            );
+            z-index: -2;
+        }
+
+        &-overlay {
+            position: absolute;
+            top: 0;
+            left: 4px;
             right: 0;
-            bottom: 0;
+            height: 27px;
+            background: linear-gradient(
+                $background-color 0%,
+                $accent-light-color 40%,
+                $accent-light-shadow-color 100%
+            ) 0 -27px no-repeat;
+            background-size: 36px 54px;
+            transition: background-position $animation-fast ease-in-out;
+            z-index: -2;
+        }
+
+        &-mask {
+            position: absolute;
+            top: 0;
+            left: -3px;
+            fill: $accent-light-color;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        &-mask-right {
+            position: absolute;
+            top: 0;
+            right: -28px;
+            fill: $accent-light-color;
+            pointer-events: none;
         }
 
         &-pushed {
@@ -279,6 +312,8 @@
 
         &-border-pushed {
             display: none;
+            color: $shadow-dark-color;
+            stroke: $drop-shadow-light-color;
         }
 
         &-border {
@@ -286,15 +321,6 @@
             stroke: $shadow-color;
             fill: none;
             z-index: -1;
-
-            &-pushed {
-                color: $shadow-dark-color;
-                stroke: $drop-shadow-light-color;
-            }
-        }
-
-        &-background {
-            z-index: -3;
         }
 
         &-focus-outline {
@@ -309,12 +335,6 @@
             z-index: 3;
         }
 
-        &-hover {
-            z-index: -2;
-            opacity: 0;
-            transition: opacity 0.4s $fade-function;
-        }
-
         // Bottom shadow 
         &:before {
             content: '';
@@ -324,7 +344,6 @@
             bottom: 6px;
             height: 1px;
             box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
-            z-index: -3;
         }
     }
 
@@ -337,12 +356,12 @@
         outline: none;
         cursor: pointer;
 
-        // Hover 
+        // Hover
         &:hover {
             color: $foreground-color;
 
-            .date-selector-page-hover {
-                opacity: 1;
+            .date-selector-page-overlay {
+                background-position: 0 0;
             }
         }
 
@@ -353,12 +372,12 @@
             }
         }
 
-        // Pushed 
+        // Pushed
         &:active {
             color: $background-color;
 
             .date-selector-page {
-                &-hover {
+                &-overlay {
                     display: none;
                 }
 
@@ -376,7 +395,7 @@
             }
         }
 
-        // Arrow icon 
+        // Arrow icon
         &-label {
             position: absolute;
             left: 13px;
@@ -385,7 +404,7 @@
             pointer-events: none;
         }
 
-        // Arrow icon wrapper 
+        // Arrow icon wrapper
         .date-selector-page-label {
             top: 0px;
             right: 0px;
@@ -395,7 +414,7 @@
             text-align: center;
         }
 
-        // Bottom shadow 
+        // Bottom shadow
         &:before {
             content: '';
             position: absolute;
@@ -405,7 +424,7 @@
             box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
         }
 
-        // Left scroll button 
+        // Left scroll button
         &-left {
             position: absolute;
             left: 10px;
@@ -421,6 +440,16 @@
                 top: -1px;
             }
 
+            // Mask that covers the overlay
+            .date-selector-page-mask-left {
+                fill: $accent-light-color;
+            }
+
+            // Hover/normal gradient overlay
+            .date-selector-page-overlay {
+                left: 0;
+            }
+
             // Focus outline
             .date-selector-page-focus-outline {
                 left: -1px;
@@ -433,7 +462,7 @@
             }
         }
 
-        // Right scroll button 
+        // Right scroll button
         &-right {
             position: relative;
             float: left;
@@ -441,12 +470,12 @@
             height: 27px;
             margin-top: 1px;
 
-            // Arrow icon wrapper 
+            // Arrow icon wrapper
             .date-selector-page-label {
                 left: 2px;
             }
 
-            // Bottom shadow 
+            // Bottom shadow
             &:before {
                 right: 5px;
                 z-index: -3;
@@ -454,7 +483,7 @@
         }
     }
 
-    // Expand/collapse caption button 
+    // Expand/collapse caption button
     &-caption {
         position: absolute;
         left: 10px;
@@ -466,7 +495,7 @@
         }
     }
 
-    // Collapsed state overrides 
+    // Collapsed state overrides
     &.collapsed {
         margin-top: -2px;
         margin-bottom: -7px;
@@ -474,56 +503,52 @@
         padding-left: 0px;
         overflow: visible;
 
-        // Min scroll fade overlay 
+        // Min scroll fade overlay
         &:before {
             display: none;
         }
 
-        // Max scroll fade overlay 
+        // Max scroll fade overlay
         &:after {
             display: none;
         }
 
         .date-selector {
-            // Expand/collapse caption button 
+            // Expand/collapse caption button
             &-caption {
                 left: 0px;
                 top: 0px;
                 height: 100%;
             }
 
-            // Background rectangle 
+            // Background rectangle
             &-background {
                 background: $background-color;
             }
 
-            // Graph view 
+            // Graph view
             &-view {
                 display: none;
             }
 
-            // Pages strip 
+            // Pages strip
             &-pages {
                 left: 43px;
                 bottom: -13px;
             }
 
-            // Left scroll button - collapsed overrides 
+            // Left scroll button - collapsed overrides
             &-scroll-left {
                 left: 17px;
                 bottom: 2px;
             }
-        }
-    }
-}
 
-// Fix Safari moving child elements on opacity change.
-// http://stackoverflow.com/questions/12980153/image-moves-on-hover-chrome-opacity-issue
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    .date-selector-page,
-    .date-selector-scroll-left {
-        transform: translateZ(0px);
-        backface-visibility: hidden;
+            &-page-mask,
+            &-page-mask-right,
+            &-page-mask-left {
+                fill: $background-color;
+            }
+        }
     }
 }
 

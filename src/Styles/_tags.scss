@@ -26,6 +26,8 @@ $painting:    #ee4a4e;
 $sculpture:   #ff840f;
 $crafts:      #67d5e9;
 
+$tag-border-size: 9px;
+
 .tags {
   /* Prevent white-space from affecting layout */
   font-size: 0;
@@ -38,9 +40,9 @@ $crafts:      #67d5e9;
   font-size: $small-font-size;
   text-decoration: none;
   line-height: $small-font-size;
-  margin-left: 2pt;
-  margin-right: 2pt;
-  padding: 6px 5pt 7px 5.5pt;
+  margin: 0 2pt;
+  // Fix baseline too low on fonts by using more bottom padding
+  padding: 5px 10px 8px 10px;
   cursor: pointer;
   transition: background $animation-fast ease-in-out,
               color $animation-fast ease-in-out;
@@ -52,51 +54,29 @@ $crafts:      #67d5e9;
 }
 
 .os-win .tag {
-  padding: 4.5pt 7pt 6.5pt 8pt;
   font-size: $small-font-size-win;
-  line-height: $small-font-size-win - 1;
+  line-height: $small-font-size-win;
 }
 
-.ie .tag {
-  padding-top: 4pt;
-  padding-bottom: 7pt;
-}
-
-.os-win.hi-dpi .tag {
-  padding-top: 4pt;
-  padding-bottom: 6pt;
-}
-
+// Tag top left corner
 .tag:before {
   content: '';
   position: absolute;
-  border-top: 8pt solid transparent;
-  border-left: 8pt solid $background-color;
-  margin-left: -6.5pt;
-  margin-top: 8pt;
+  border-top: $tag-border-size solid transparent;
+  border-left: $tag-border-size solid $background-color;
+  left: 0;
+  bottom: 0;
   cursor: default;
 }
 
-.os-win .tag:before {
-  border-top: 10pt solid transparent;
-  border-left: 10pt solid $background-color;
-  margin-top: 9pt;
-  margin-left: -8pt;
-}
-
+// Tag top right corner
 .tag:after {
   content: '';
   position: absolute;
   float: right;
-  border-bottom: 8pt solid transparent;
-  border-right: 8pt solid $background-color;
-  margin-left: -2pt;
-  margin-top: -4.5pt;
+  border-bottom: $tag-border-size solid transparent;
+  border-right: $tag-border-size solid $background-color;
+  right: 0;
+  top: 0;
   cursor: default;
-}
-
-.os-win .tag:after {
-  border-bottom: 10pt solid transparent;
-  border-right: 10pt solid $background-color;
-  margin-left: 0;
 }

@@ -41,11 +41,15 @@ $tag-border-size: 9px;
   text-decoration: none;
   line-height: $small-font-size;
   margin: 0 2pt;
-  // Fix baseline too low on fonts by using more bottom padding
-  padding: 5px 10px 8px 10px;
+  padding: 7px 10px;
   cursor: pointer;
   transition: background $animation-fast ease-in-out,
               color $animation-fast ease-in-out;
+}
+
+.os-win .tag {
+  // Fix baseline too low on fonts by using more bottom padding
+  padding: 5px 10px 8px 10px;
 }
 
 .tag:hover {

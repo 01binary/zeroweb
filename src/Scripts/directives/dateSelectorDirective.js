@@ -83,6 +83,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.visiblePages = [];
     $scope.maxVisibleSlots = 16;
     $scope.currentPage = attributes.page || '1';
+    $scope.currentYear = null;
     $scope.nextPage = null;
     $scope.prevPage = null;
     $scope.isSeparator = isSeparator;
@@ -99,14 +100,33 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.scrollTagView = scrollTagView.bind($element, $scope);
     $scope.resize = resize.bind($element, $scope, $safeApply);
     $scope.selectTag = selectTag.bind($scope);
+    $scope.setContributionYear = setContributionYear.bind($scope);
+    $scope.load = load.bind($element, $scope, $contrib, $render2d, $window, $compile);
 
-    var $tempPage = $('<div class="date-selector-page"></div>').appendTo($('body'));
+    // Create a temporary element to get button width.
+    var $tempPage = $('<div class="date-selector-page"></div>')
+        .appendTo($('body'));
     $scope.buttonWidth = $tempPage.outerWidth();
     $tempPage.remove();
 
-    // Load content.
-    $contrib.get({ type: 'story'}, function(result) {
+    // Load content
+    $scope.load();
+}
+
+/**
+ * Load date selector contnet.
+ * @param {Object} $scope - The directive scope.
+ * @param {Object} $contrib - The contribution factory.
+ * @param {Object} $render2d - The 2d render factory.
+ * @param {Object} $window - The Angular window service.
+ * @param {Object} $compile - The Angular compile service.
+ */
+function load($scope, $contrib, $render2d, $window, $compile) {
+    var $element = this;
+
+    $contrib.get({ type: 'story' }, function(result) {
         $scope.contributions = result;
+        $scope.currentYear = result.years.length ? result.years[0] : 'none';
         $scope.isLoading = false;
 
         // Create child elements.
@@ -170,6 +190,18 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
             '<button id="dateSelectorCaption" class="date-selector-caption button-inline noselect" aria-label="Articles by date (expand or collapse)" data-ng-click="expandCollapse()">' +
                 '{{isExpanded === true ? "- by date" : "+"}}' +
             '</button>' +
+
+            // Current year and available years.
+            '<input id="date-selector-year" type="checkbox" class="date-selector__year">' +
+            '<label for="date-selector-year" class="no-select">' +
+                '<div class="date-selector__year__arrows"></div>' +
+                '<div class="date-selector__year__caption">{{currentYear}}</div>' +
+            '</label>' +
+            '<ul>' +
+                '<li data-ng-repeat="year in contributions.years" class="no-select">' +
+                    '<a href="#" data-ng-click="setContributionYear(year)">{{year}}</a>' +
+                '</li>' +
+            '</ul>' +
 
             // Previous page button.
             '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
@@ -303,7 +335,7 @@ function expandCollapse($scope, $safeApply) {
         .animate({
             height: $scope.isExpanded ? 32 : 130
 
-        }, 'fast', function() {
+        }, 333, function() {
             $safeApply($scope, function() {
                 $scope.isExpanded = !$scope.isExpanded;
 
@@ -970,6 +1002,14 @@ function selectTag(tag, select) {
     } else {
         $tooltipContent.removeClass(className);
     }
+}
+
+/**
+ * Filter contributions by specified year.
+ * @param {number} year - The contribution year.
+ */
+function setContributionYear(year) {
+    console.log('setting year to ', year);
 }
 
 /**

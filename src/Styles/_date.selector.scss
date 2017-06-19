@@ -10,6 +10,8 @@
 |  @author Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+$date-selector-margin: 10px;
+
 .date-selector {
     // Enable absolute positioning for children relative to self
     position: relative;
@@ -29,7 +31,7 @@
         bottom: 44px;
         width: 1px;
         box-shadow: 0px 0px 5px 8px $accent-light-color;
-        z-index: 4;
+        z-index: 1;
     }
 
     // Max scroll fade overlay
@@ -41,7 +43,7 @@
         bottom: 44px;
         width: 1px;
         box-shadow: 0px 0px 5px 8px $accent-light-color;
-        z-index: 4;
+        z-index: 1;
     }
 
     // Background rectangle
@@ -78,10 +80,169 @@
         }
     }
 
-    // Graph view
+    // Year selector
+    &__year {
+        display: none;
+
+        & + label {
+            // Year label
+            position: absolute;
+            font-family: $small-font;
+            font-size: $smallest-font-size;
+            color: $secondary-text-color;
+            background-color: rgba(255, 255, 255, .5);
+            transition: color $animation-fast ease-in-out,
+                        background $animation-fast ease-in-out;
+            right: $date-selector-margin / 2;
+            top: $date-selector-margin / 2;
+            padding: $date-selector-margin / 2;
+            line-height: 16px;
+            cursor: pointer;
+            z-index: 2;
+
+            &:before {
+                content: '';
+                position: absolute;
+                border-top: 8px solid transparent;
+                border-left: 8px solid $accent-light-color;;
+                left: 0;
+                bottom: 0;
+            }
+        }
+
+        & + label:hover {
+            color: $primary-color;
+
+            .date-selector__year__arrows:before {
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-bottom: 4px solid $primary-color;
+            }
+
+            .date-selector__year__arrows:after {
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-top: 4px solid $primary-color;
+            }
+        }
+
+        & + label + ul {
+            // Year dropdown
+            position: absolute;
+            font-size: $small-font-size;
+            font-family: $small-font;
+            list-style: none;
+            color: $foreground-color;
+            right: $date-selector-margin / 2;
+            top: calc(1em + $date-selector-margin + $date-selector-margin / 4);
+            z-index: 2;
+
+            li {
+                padding: $date-selector-margin / 2 $date-selector-margin;
+                background-color: rgba($background-color, .9);
+                transition: background $animation-fast ease-in-out;
+
+                &:hover {
+                    background-color: $secondary-color;
+                }
+            }
+
+            li a {
+                text-decoration: none;
+                color: $accent-text-color;
+
+                &:hover {
+                    color: $background-color;
+                }
+            }
+        }
+
+        &__caption {
+            float: left;
+        }
+
+        &__arrows {
+            float: left;
+            position: relative;
+            top: 1px;
+            width: 12px;
+            height: 16px;
+            margin-left: $date-selector-margin / 4;
+            margin-right: $date-selector-margin / 4;
+        }
+
+        &__arrows:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid $secondary-text-color;
+            transition: border-color $animation-fast ease-in-out;
+        }
+
+        &__arrows:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid $secondary-text-color;
+            transition: border-color $animation-fast ease-in-out;
+        }
+    }
+
+    &__year:checked + label {
+        // Year expanded
+        background-color: $secondary-color;
+        color: rgba($background-color, .8);
+
+        &:hover {
+            color: $background-color;
+
+            .date-selector__year__arrows:before {
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-bottom: 4px solid $background-color;
+            }
+
+            .date-selector__year__arrows:after {
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-top: 4px solid $background-color;
+            }
+        }
+
+        .date-selector__year__arrows:before {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid rgba($background-color, .8);
+        }
+
+        .date-selector__year__arrows:after {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid rgba($background-color, .8);
+        }
+    }
+
+    &__year:not(:checked) {
+        & + label {
+            // Year collapsed
+        }
+
+        & + label + ul {
+            // Year dropdown collapsed
+            display: none;
+        }
+    }
+
+    // Contributions
     &-view {
         position: absolute;
-        left: 10px;
+        left: $date-selector-margin;
         right: 0px;
         top: 30px;
         bottom: 37px;
@@ -121,7 +282,7 @@
         margin-left: 0px;
         margin-top: 1px;
         margin-right: -8px;
-        margin-bottom: 10px;
+        margin-bottom: $date-selector-margin;
         font-family: $small-font;
         font-size: $small-font-size;
         color: lighten($foreground-color, 20%);
@@ -340,7 +501,7 @@
             content: '';
             position: absolute;
             left: 0px;
-            right: 10px;
+            right: $date-selector-margin;
             bottom: 6px;
             height: 1px;
             box-shadow: 0 $border-thickness ($border-thickness * 2) $drop-shadow-dark-color;
@@ -399,7 +560,7 @@
         &-label {
             position: absolute;
             left: 13px;
-            top: 10px;
+            top: $date-selector-margin;
             text-align: center;
             pointer-events: none;
         }
@@ -427,7 +588,7 @@
         // Left scroll button
         &-left {
             position: absolute;
-            left: 10px;
+            left: $date-selector-margin;
             bottom: 9px;
             width: 30px;
             z-index: 1;
@@ -486,8 +647,8 @@
     // Expand/collapse caption button
     &-caption {
         position: absolute;
-        left: 10px;
-        top: 10px;
+        left: $date-selector-margin;
+        top: $date-selector-margin;
 
         // Focused (keyboard only)
         .show-focus-outlines &:focus {
@@ -548,6 +709,16 @@
             &-page-mask-left {
                 fill: $background-color;
             }
+
+            &__year {
+                & + label {
+                    display: none;
+                }
+
+                & + label + ul {
+                    display: none;
+                }
+            }
         }
     }
 }
@@ -578,7 +749,7 @@
     top: 100%;
     text-align: center;
     font-family: $small-font;
-    font-size: $small-font-size - 2;
+    font-size: $smallest-font-size;
     color: $drop-shadow-light-color;
     transition: color $animation-fast ease-out;
     cursor: pointer;
@@ -596,7 +767,7 @@
     bottom: 0px;
     right: -3px;
     border-right: 1px dashed $border-color;
-    outline-offset: 10px;
+    outline-offset: $date-selector-margin;
     z-index: -1;
   }
 
@@ -852,7 +1023,7 @@
 // Tag legend item
 .tag-legend {
     float: left;
-    width: 10px;
+    width: $date-selector-margin;
     height: 5px;
     border-color: $background-color;
     border-width: 1px;

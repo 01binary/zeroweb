@@ -41,15 +41,34 @@ namespace ZeroWeb.Api
         /// Gets the contributions.
         /// </summary>
         /// <param name="tag">The type of articles to retrieve.</param>
+        /// <param name="year">The year to retrieve contributions for, current if null.</param>
         /// <param name="articles">Limit articles per page.</param>
-        [HttpGet("{tag}/{articles:int?}")]
-        public IActionResult GetContributions(string tag, int? articles)
+        [HttpGet("{tag}/{year:int?}/{articles:int?}")]
+        public IActionResult GetContributions(string tag, int? year, int? articles)
         {
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                DateTime start = DateTime.MinValue;
+                DateTime end = DateTime.MaxValue;
+
+                if (year.HasValue)
+                {
+                    end = new DateTime(year.Value, 1, 1);
+                    start = end.AddMonths(12);
+                }
+                else
+                {
+                    var today = DateTime.Now.Date;
+                    end = new DateTime(today.Year, today.Month, 1);
+                    start = end.AddMonths(-12);
+                }
+
                 return this.Json(store
                     .GetArticles(true, tag)
+                    .Where(article =>
+                        article.Date.Date >= start &&
+                        article.Date.Date <= end)
                     .OrderByDescending(article => article.Date.Ticks)
                     .Select(article => new {
                         Key = article.Key,

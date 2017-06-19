@@ -32,6 +32,11 @@ namespace ZeroWeb.Api.Models
         public MonthDictionary Months { get; private set; }
 
         /// <summary>
+        /// Gets or sets years the contributions are available for.
+        /// </summary>
+        public IList<int> Years { get; private set; }
+
+        /// <summary>
         /// Gets or sets the max. article count for any month.
         /// </summary>
         public int Max { get; private set; }
@@ -43,6 +48,7 @@ namespace ZeroWeb.Api.Models
         {
             this.Pages = new List<PageSummary>();
             this.Months = new MonthDictionary();
+            this.Years = new List<int>();
         }
 
         /// <summary>
@@ -62,6 +68,11 @@ namespace ZeroWeb.Api.Models
             if (this.Max < monthWeekMax)
             {
                 this.Max = monthWeekMax;
+            }
+
+            if (!this.Years.Contains(date.Year))
+            {
+                this.Years.Add(date.Year);
             }
 
             return this;

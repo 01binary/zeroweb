@@ -26,5 +26,11 @@ angular.module('zeroApp')
  * @param {object} $resource - AJAX service.
  */
 function contribFactory($resource) {
-    return $resource('/api/contrib/:type', { type: '@type' });
+    return $resource(
+        '/api/contrib/:type/:year/:articles',
+        {
+            type: '@type',
+            year: '@year',
+            articles: '@articles'
+        });
 }

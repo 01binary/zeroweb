@@ -10,6 +10,7 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+using System;
 using System.Dynamic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -40,12 +41,13 @@ namespace ZeroWeb.Controllers
         /// </summary>
         /// <param name="story">Display a page with the specified story.</param>
         /// <param name="page">Display the specified page.</param>
-        public IActionResult Index([FromQuery]string story, [FromQuery]int? page)
+        /// <param name="year">Display contributions for the specified year.</param>
+        public IActionResult Index([FromQuery]string story, [FromQuery]int? page, [FromQuery]int? year)
         {
             var typeTag = Shared.FormatTag(TypeTags.Story);
             var excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
             var stories = this.store
-                .GetArticles(typeTag, page.HasValue ? page.Value : 0, story)
+                .GetArticles(typeTag, page, year, story)
                 .Select(article => new
                 {
                     id = article.Id,
@@ -88,6 +90,7 @@ namespace ZeroWeb.Controllers
 
             dynamic news = new ExpandoObject();
             news.Page = page.HasValue ? page.Value : 1;
+            news.Year = year;
             news.Stories = stories;
             
             return this.View(news);

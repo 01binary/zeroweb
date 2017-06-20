@@ -83,7 +83,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.visiblePages = [];
     $scope.maxVisibleSlots = 16;
     $scope.currentPage = attributes.page || '1';
-    $scope.currentYear = null;
+    $scope.currentYear = attributes.year;
     $scope.nextPage = null;
     $scope.prevPage = null;
     $scope.isSeparator = isSeparator;
@@ -124,9 +124,9 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
 function load($scope, $contrib, $render2d, $window, $compile) {
     var $element = this;
 
-    $contrib.get({ type: 'story' }, function(result) {
+    $contrib.get({ type: 'story', year: $scope.currentYear }, function(result) {
         $scope.contributions = result;
-        $scope.currentYear = result.years.length ? result.years[0] : 'none';
+        $scope.currentYear = $scope.contributions.year;
         $scope.isLoading = false;
 
         // Create child elements.
@@ -194,12 +194,12 @@ function load($scope, $contrib, $render2d, $window, $compile) {
             // Current year and available years.
             '<input id="date-selector-year" type="checkbox" class="date-selector__year">' +
             '<label for="date-selector-year" class="no-select">' +
-                '<div class="date-selector__year__arrows"></div>' +
+                '<div class="date-selector__year__arrow"></div>' +
                 '<div class="date-selector__year__caption">{{currentYear}}</div>' +
             '</label>' +
             '<ul>' +
                 '<li data-ng-repeat="year in contributions.years" class="no-select">' +
-                    '<a href="#" data-ng-click="setContributionYear(year)">{{year}}</a>' +
+                    '<a href="/news?year={{year}}" data-ng-click="setContributionYear(year)">{{year}}</a>' +
                 '</li>' +
             '</ul>' +
 

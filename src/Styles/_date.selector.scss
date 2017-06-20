@@ -88,7 +88,7 @@ $date-selector-margin: 10px;
             // Year label
             position: absolute;
             font-family: $small-font;
-            font-size: $smallest-font-size;
+            font-size: $small-font-size;
             color: $secondary-text-color;
             background-color: rgba(255, 255, 255, .5);
             transition: color $animation-fast ease-in-out,
@@ -96,6 +96,7 @@ $date-selector-margin: 10px;
             right: $date-selector-margin / 2;
             top: $date-selector-margin / 2;
             padding: $date-selector-margin / 2;
+            padding-right: $date-selector-margin;
             line-height: 16px;
             cursor: pointer;
             z-index: 2;
@@ -113,13 +114,7 @@ $date-selector-margin: 10px;
         & + label:hover {
             color: $primary-color;
 
-            .date-selector__year__arrows:before {
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-bottom: 4px solid $primary-color;
-            }
-
-            .date-selector__year__arrows:after {
+            .date-selector__year__arrow {
                 border-left: 4px solid transparent;
                 border-right: 4px solid transparent;
                 border-top: 4px solid $primary-color;
@@ -134,25 +129,29 @@ $date-selector-margin: 10px;
             list-style: none;
             color: $foreground-color;
             right: $date-selector-margin / 2;
-            top: calc(1em + $date-selector-margin + $date-selector-margin / 4);
+            top: calc(1em + $date-selector-margin);
             z-index: 2;
 
             li {
-                padding: $date-selector-margin / 2 $date-selector-margin;
+                padding: $date-selector-margin / 2
+                         $date-selector-margin
+                         $date-selector-margin / 2
+                         $date-selector-margin + $date-selector-margin / 4;
+
                 background-color: rgba($background-color, .9);
                 transition: background $animation-fast ease-in-out;
 
+                a {
+                    color: $accent-text-color;
+                    text-decoration: none;
+                }
+
                 &:hover {
                     background-color: $secondary-color;
-                }
-            }
-
-            li a {
-                text-decoration: none;
-                color: $accent-text-color;
-
-                &:hover {
-                    color: $background-color;
+                    
+                    a {
+                        color: $background-color;
+                    }
                 }
             }
         }
@@ -161,32 +160,12 @@ $date-selector-margin: 10px;
             float: left;
         }
 
-        &__arrows {
+        &__arrow {
             float: left;
             position: relative;
-            top: 1px;
-            width: 12px;
-            height: 16px;
+            top: 6px;
             margin-left: $date-selector-margin / 4;
-            margin-right: $date-selector-margin / 4;
-        }
-
-        &__arrows:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 2px;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-bottom: 4px solid $secondary-text-color;
-            transition: border-color $animation-fast ease-in-out;
-        }
-
-        &__arrows:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 8px;
+            margin-right: $date-selector-margin / 2;
             border-left: 4px solid transparent;
             border-right: 4px solid transparent;
             border-top: 4px solid $secondary-text-color;
@@ -202,41 +181,23 @@ $date-selector-margin: 10px;
         &:hover {
             color: $background-color;
 
-            .date-selector__year__arrows:before {
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-bottom: 4px solid $background-color;
-            }
-
-            .date-selector__year__arrows:after {
+            .date-selector__year__arrow {
                 border-left: 4px solid transparent;
                 border-right: 4px solid transparent;
                 border-top: 4px solid $background-color;
             }
         }
 
-        .date-selector__year__arrows:before {
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-bottom: 4px solid rgba($background-color, .8);
-        }
-
-        .date-selector__year__arrows:after {
+        .date-selector__year__arrow {
             border-left: 4px solid transparent;
             border-right: 4px solid transparent;
             border-top: 4px solid rgba($background-color, .8);
         }
     }
 
-    &__year:not(:checked) {
-        & + label {
-            // Year collapsed
-        }
-
-        & + label + ul {
-            // Year dropdown collapsed
-            display: none;
-        }
+    &__year:not(:checked) + label + ul {
+        // Year dropdown collapsed
+        display: none;
     }
 
     // Contributions

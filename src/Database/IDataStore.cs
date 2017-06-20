@@ -32,12 +32,12 @@ namespace ZeroWeb
         /// Gets the articles on the specified page, or on a page containing the specified article.
         /// </summary>
         /// <param name="count">How many articles to return at most.</param>
-        /// <param name="page">The page number to return (ignored if 0 or an article is specified).</param>
+        /// <param name="page">The page number to return (ignored if null or an article is specified).</param>
         /// <param name="article">Return the page containing this article if non-null (id or key).</param>
         /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
-        IQueryable<Article> GetArticles(int count, int page, string article, bool published, params string[] tags);
+        IQueryable<Article> GetArticles(int count, int? page, int? year, string article, bool published, params string[] tags);
 
         /// <summary>
         /// Gets the articles with the specified author.
@@ -72,10 +72,11 @@ namespace ZeroWeb
         /// Gets the articles with the specified tag on the specified page number or a page containing the specified article.
         /// </summary>
         /// <param name="tag">The built-in tag to search for.</param>
-        /// <param name="page">Fetch the specified page unless articleId is specified.</param>
+        /// <param name="page">Fetch the specified page unless articleId or year are specified.</param>
+        /// <param name="year">Fetch the last page for the specified year.</param>
         /// <param name="article">Fetch the page containing the specified article if non-null (id or key).</param>
         /// <returns>A list of articles.</returns>
-        IQueryable<Article> GetArticles(string tag, int page, string article);
+        IQueryable<Article> GetArticles(string tag, int? page, int? year, string article);
 
         /// <summary>
         /// Gets the tags.

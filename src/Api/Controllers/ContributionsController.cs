@@ -49,26 +49,9 @@ namespace ZeroWeb.Api
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-                DateTime start = DateTime.MinValue;
-                DateTime end = DateTime.MaxValue;
-
-                if (year.HasValue)
-                {
-                    end = new DateTime(year.Value, 1, 1);
-                    start = end.AddMonths(12);
-                }
-                else
-                {
-                    var today = DateTime.Now.Date;
-                    end = new DateTime(today.Year, today.Month, 1);
-                    start = end.AddMonths(-12);
-                }
-
+                
                 return this.Json(store
                     .GetArticles(true, tag)
-                    .Where(article =>
-                        article.Date.Date >= start &&
-                        article.Date.Date <= end)
                     .OrderByDescending(article => article.Date.Ticks)
                     .Select(article => new {
                         Key = article.Key,
@@ -89,16 +72,16 @@ namespace ZeroWeb.Api
                         Tag = articleTag
                     })
                     .Aggregate(
-                        new ContributionSummary(),
-                        (accumulator, next) =>
+                        new ContributionSummary(year),
+                        (summary, next) =>
                     {
-                        return accumulator.Aggregate(
+                        return summary.Aggregate(
                             next.Key,
                             next.Title,
                             next.Date,
                             next.Tag);
                     })
-                    .Paginate(Shared.ArticlesPerPage));
+                    .Paginate(articles ?? Shared.ArticlesPerPage));
             }
             catch (Exception error)
             {

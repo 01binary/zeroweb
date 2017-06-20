@@ -78,10 +78,11 @@ function route($routeProvider, $locationProvider) {
  * @returns The template Uri.
  */
 function newsTemplate(params) {
-    if (params.story || params.page) {
+    if (params.story || params.page || params.year) {
         return 'views/news?' +
             (params.story ? 'story=' + params.story : '') +
-            (params.page ? 'page=' + params.page : '');
+            (params.page ? 'page=' + params.page : '') +
+            (params.year ? 'year=' + params.year : '');
     } else {
         return 'views/news';
     }    

@@ -130,6 +130,7 @@ function load($scope, $contrib, $render2d, $window, $compile) {
         $scope.isLoading = false;
 
         // Create child elements.
+        $element.empty();
         $element.append($(
             // Background rectangle.
             '<div class="date-selector-background"></div>' +
@@ -199,7 +200,7 @@ function load($scope, $contrib, $render2d, $window, $compile) {
             '</label>' +
             '<ul>' +
                 '<li data-ng-repeat="year in contributions.years" class="no-select">' +
-                    '<a href="/news?year={{year}}" data-ng-click="setContributionYear(year)">{{year}}</a>' +
+                    '<a href="/news?year={{year}}" data-ng-click="setContributionYear($event, year)">{{year}}</a>' +
                 '</li>' +
             '</ul>' +
 
@@ -1006,10 +1007,15 @@ function selectTag(tag, select) {
 
 /**
  * Filter contributions by specified year.
+ * @param {Object} $event - The Angular event.
  * @param {number} year - The contribution year.
  */
-function setContributionYear(year) {
-    console.log('setting year to ', year);
+function setContributionYear($event, year) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    
+    this.currentYear = year;
+    this.load();
 }
 
 /**

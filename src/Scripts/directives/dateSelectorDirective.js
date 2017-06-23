@@ -665,6 +665,7 @@ function selectPage($scope, page) {
  */
 function renderTags($scope, $render2d) {
     var $view = $scope.view;
+    var viewExtent = 0;
     var monthMargin = null;
     var barHeight = null;
     var minBlockHeight = null;
@@ -702,10 +703,12 @@ function renderTags($scope, $render2d) {
              var weekSummary = monthSummary.weeks[weekDates];
              var tagOffset = 0;
              var weekId = 'week-' + weekDates.replace(/\s/g, '');
-             var $bar = $('<div class="tag-bar"></div>')
-                .appendTo($wrapper);
+             var $bar = $('<div class="tag-bar"></div>').appendTo($wrapper);
+             var barWidth = $bar.width();
+             var barLeft = $wrapper.width() - barWidth * (weekSummary.offset + 1) + 2;
             
-            $bar.css('left', $wrapper.width() - $bar.width() * (weekSummary.offset + 1) + 2);
+            $bar.css('left', barLeft);
+            viewExtent = monthOffset + barLeft + barWidth;
 
             if (!barHeight) {
                 barHeight = $bar.height();
@@ -755,8 +758,8 @@ function renderTags($scope, $render2d) {
         $scope.maxScroll = calculateMaxScroll($scope);
 
         // Start with tag view off-screen for a slide-in animation.
-        if ($scope.currentPage == "1") {
-            $view.css('left', -$view.width() + 'px');
+        if ($scope.currentPage.toString() === '1' && viewExtent) {
+            $view.css('left', -viewExtent + 'px');
         }
     }
 }

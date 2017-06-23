@@ -205,7 +205,11 @@ function load($scope, $contrib, $render2d, $window, $compile) {
             '</ul>' +
 
             // Previous page button.
-            '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
+            '<a data-ng-href="/news?page={{prevPage}}" ' +
+                'role="button" ' +
+                'tabindex="0" ' +
+                'class="date-selector-scroll date-selector-scroll-left noselect" ' +
+                'data-ng-click="selectPrevPage()">' +
                 '<div class="date-selector-page-overlay"></div>' +
                 '<svg class="date-selector-page-mask-left" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#scroll-left-mask"></use>' +
@@ -271,7 +275,11 @@ function load($scope, $contrib, $render2d, $window, $compile) {
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<a data-ng-href="news/?page={{nextPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="selectNextPage()">' +
+                '<a data-ng-href="news/?page={{nextPage}}" ' +
+                    'role="button" ' +
+                    'tabindex="0" ' +
+                    'class="date-selector-scroll date-selector-scroll-right noselect" ' +
+                    'data-ng-click="selectNextPage()">' +
                     '<svg class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-mask"></use>' +
                     '</svg>' +
@@ -465,7 +473,7 @@ function pageTarget($scope, page) {
     if (isSeparator(page)) {
         return '#';
     } else {
-        return '/news?page=' + page;
+        return '/news?page=' + page + '&year=' + $scope.currentYear;
     }
 }
 
@@ -1011,9 +1019,6 @@ function selectTag(tag, select) {
  * @param {number} year - The contribution year.
  */
 function setContributionYear($event, year) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    
     this.currentYear = year;
     this.load();
 }

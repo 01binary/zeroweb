@@ -622,38 +622,40 @@ function selectPage($scope, page) {
     // Update the selection brackets.
     var page = $scope.contributions.pages[pageIndex];
     var months = Object.keys($scope.contributions.months);
+    
+    if (page) {
+        var startMonthIndex = months.indexOf(page.start.month);
+        var startWeekIndex = page.start.week;
+        var endMonthIndex = months.indexOf(page.end.month);
+        var endWeekIndex = page.end.week;
 
-    var startMonthIndex = months.indexOf(page.start.month);
-    var startWeekIndex = page.start.week;
-    var endMonthIndex = months.indexOf(page.end.month);
-    var endWeekIndex = page.end.week;
+        var $allWrappers = this.find('.tag-page');
+        var $startWrapper = $($allWrappers.get(startMonthIndex));
+        var $endWrapper = $($allWrappers.get(endMonthIndex));
+        var $startBar = $($startWrapper.find('.tag-bar').get(startWeekIndex));
+        var $endBar = $($endWrapper.find('.tag-bar').get(endWeekIndex));
 
-    var $allWrappers = this.find('.tag-page');
-    var $startWrapper = $($allWrappers.get(startMonthIndex));
-    var $endWrapper = $($allWrappers.get(endMonthIndex));
-    var $startBar = $($startWrapper.find('.tag-bar').get(startWeekIndex));
-    var $endBar = $($endWrapper.find('.tag-bar').get(endWeekIndex));
+        var selectionStart = $startWrapper.position().left +
+            $startBar.position().left - 4;
+        var selectionEnd = $endWrapper.position().left +
+            $endBar.position().left + $endBar.width() - 8;
 
-    var selectionStart = $startWrapper.position().left +
-        $startBar.position().left - 4;
-    var selectionEnd = $endWrapper.position().left +
-        $endBar.position().left + $endBar.width() - 8;
+        this.find('.tag-page-bracket-left')
+            .stop()
+            .animate({ left: selectionStart + 'px' })
+        this.find('.tag-page-bracket-right')
+            .stop()
+            .animate({ left: selectionEnd + 'px' }); 
+        this.find('.tag-page-underline-mask')
+            .stop()
+            .css('width', selectionEnd - selectionStart +
+                50 + (endWeekIndex === 3 ? 6 : 0))
+            .animate({ left: selectionStart - 21});
 
-    this.find('.tag-page-bracket-left')
-        .stop()
-        .animate({ left: selectionStart + 'px' })
-    this.find('.tag-page-bracket-right')
-        .stop()
-        .animate({ left: selectionEnd + 'px' }); 
-    this.find('.tag-page-underline-mask')
-        .stop()
-        .css('width', selectionEnd - selectionStart +
-            50 + (endWeekIndex === 3 ? 6 : 0))
-        .animate({ left: selectionStart - 21});
-
-    $scope.scrollTagView(
-        $startWrapper.position().left - $scope.minScroll,
-        $endWrapper.position().left + $endWrapper.width() + $scope.minScroll + 1);
+        $scope.scrollTagView(
+            $startWrapper.position().left - $scope.minScroll,
+            $endWrapper.position().left + $endWrapper.width() + $scope.minScroll + 1);
+    }
 }
 
 /**

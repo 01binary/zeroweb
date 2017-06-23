@@ -77,7 +77,8 @@ namespace ZeroWeb
             else if (year != null)
             {
                 // If a year is specified, return the page with last article of that year.
-                page = page ?? 1 + this.GetYearIndex(year.Value, published, tags) / count;
+                // Special case for allowing selection of page within a list filtered by year.
+                page = (page ?? 1) + this.GetYearIndex(year.Value, published, tags) / count;
             }
             else if (!page.HasValue)
             {

@@ -129,8 +129,9 @@ $date-selector-margin: 10px;
             list-style: none;
             color: $foreground-color;
             right: $date-selector-margin / 2;
-            top: calc(1em + $date-selector-margin);
-            z-index: 2;
+            top: calc(1em + 5px);
+            // Above selection brackets in z-order
+            z-index: 5;
 
             li {
                 padding: $date-selector-margin / 2

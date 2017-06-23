@@ -32,6 +32,16 @@ namespace ZeroWeb.Api.Models
         public MonthDictionary Months { get; private set; }
 
         /// <summary>
+        /// Gets or sets years the contributions are available for.
+        /// </summary>
+        public IList<int> Years { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the year the contribution summary is filtered for.
+        /// </summary>
+        public int Year {get; private set; }
+
+        /// <summary>
         /// Gets or sets the max. article count for any month.
         /// </summary>
         public int Max { get; private set; }
@@ -39,10 +49,13 @@ namespace ZeroWeb.Api.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="ContributionSummary"/> class.
         /// </summary>
-        public ContributionSummary()
+        /// <param name="year">The year to limit to.</param>
+        public ContributionSummary(int? year)
         {
             this.Pages = new List<PageSummary>();
             this.Months = new MonthDictionary();
+            this.Years = new List<int>();
+            this.Year = year ?? DateTime.Now.Year;
         }
 
         /// <summary>
@@ -55,13 +68,22 @@ namespace ZeroWeb.Api.Models
         /// <returns>A self-reference for chaining.</returns>
         public ContributionSummary Aggregate(string key, string title, DateTime date, string tag)
         {
-            DateTime firstDayOfMonth = this.GetOrCreateMonth(date);
-            MonthSummary monthSummary = this.Months[firstDayOfMonth];
-            int monthWeekMax = monthSummary.Aggregate(firstDayOfMonth, key, title, date, tag);
-
-            if (this.Max < monthWeekMax)
+            if (date.Year == this.Year || (date.Year < this.Year && this.Months.Count < 12))
             {
-                this.Max = monthWeekMax;
+                // Aggregate articles in previous years only to fill up extra month slots.
+                DateTime firstDayOfMonth = this.GetOrCreateMonth(date);
+                MonthSummary monthSummary = this.Months[firstDayOfMonth];
+                int monthWeekMax = monthSummary.Aggregate(firstDayOfMonth, key, title, date, tag);
+
+                if (this.Max < monthWeekMax)
+                {
+                    this.Max = monthWeekMax;
+                }
+            }
+
+            if (!this.Years.Contains(date.Year))
+            {
+                this.Years.Add(date.Year);
             }
 
             return this;

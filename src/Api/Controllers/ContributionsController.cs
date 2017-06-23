@@ -41,13 +41,15 @@ namespace ZeroWeb.Api
         /// Gets the contributions.
         /// </summary>
         /// <param name="tag">The type of articles to retrieve.</param>
+        /// <param name="year">The year to retrieve contributions for, current if null.</param>
         /// <param name="articles">Limit articles per page.</param>
-        [HttpGet("{tag}/{articles:int?}")]
-        public IActionResult GetContributions(string tag, int? articles)
+        [HttpGet("{tag}/{year:int?}/{articles:int?}")]
+        public IActionResult GetContributions(string tag, int? year, int? articles)
         {
             try
             {
                 IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                
                 return this.Json(store
                     .GetArticles(true, tag)
                     .OrderByDescending(article => article.Date.Ticks)
@@ -70,16 +72,16 @@ namespace ZeroWeb.Api
                         Tag = articleTag
                     })
                     .Aggregate(
-                        new ContributionSummary(),
-                        (accumulator, next) =>
+                        new ContributionSummary(year),
+                        (summary, next) =>
                     {
-                        return accumulator.Aggregate(
+                        return summary.Aggregate(
                             next.Key,
                             next.Title,
                             next.Date,
                             next.Tag);
                     })
-                    .Paginate(Shared.ArticlesPerPage));
+                    .Paginate(articles ?? Shared.ArticlesPerPage));
             }
             catch (Exception error)
             {

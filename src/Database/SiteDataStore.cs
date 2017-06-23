@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using ZeroWeb.Api.Models;
 using ZeroWeb.Models;
 
 namespace ZeroWeb
@@ -54,12 +55,13 @@ namespace ZeroWeb
         /// Gets the articles on the specified page, or on a page containing the specified article.
         /// </summary>
         /// <param name="count">How many articles to return at most.</param>
-        /// <param name="page">The page number to return (ignored if 0 or an article is specified).</param>
+        /// <param name="page">The page number to return (ignored if null or an article or year is specified).</param>
+        /// <param name="year">Determine the first page number by the year.</param>
         /// <param name="article">Return the page containing this article key.</param>
         /// <param name="published">Whether to return published or un-published articles.</param>
         /// <param name="tags">The tags to search for.</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(int count, int page, string article, bool published, params string[] tags)
+        public IQueryable<Article> GetArticles(int count, int? page, int? year, string article, bool published, params string[] tags)
         {
             var articles = this.context.Articles
                 .Where(all =>
@@ -69,17 +71,23 @@ namespace ZeroWeb
 
             if (article != null)
             {
-                // If an article sepcified, returning the page with the article.
+                // If an article specified, return the page with the article.
                 page = 1 + this.GetArticleIndex(article, published, tags) / count;
             }
-            else if (page == 0)
+            else if (year != null)
+            {
+                // If a year is specified, return the page with last article of that year.
+                // Special case for allowing selection of page within a list filtered by year.
+                page = (page ?? 1) + this.GetYearIndex(year.Value, published, tags) / count;
+            }
+            else if (!page.HasValue)
             {
                 // If no page specified, return the first page.
                 page = 1;
             }
             
             return articles
-                .Skip(Shared.ArticlesPerPage * (page - 1))
+                .Skip(Shared.ArticlesPerPage * (page.Value - 1))
                 .Take(Shared.ArticlesPerPage);
         }
 
@@ -156,12 +164,13 @@ namespace ZeroWeb
         /// Gets the articles with the specified tag on the specified page number or a page containing the specified article.
         /// </summary>
         /// <param name="tag">The built-in tag to search for.</param>
-        /// <param name="page">Fetch the specified page unless articleId is specified.</param>
+        /// <param name="page">Fetch the specified page unless articleId or year are specified.</param>
+        /// <param name="year">Fetch the last page containing the specified year.</param>
         /// <param name="article">Fetch the page containing the specified article if non-null (id or key).</param>
         /// <returns>A list of articles.</returns>
-        public IQueryable<Article> GetArticles(string tag, int page, string article)
+        public IQueryable<Article> GetArticles(string tag, int? page, int? year, string article)
         {
-            return this.GetArticles(Shared.ArticlesPerPage, page, article, true, tag);
+            return this.GetArticles(Shared.ArticlesPerPage, page, year, article, true, tag);
         }
 
         /// <summary>
@@ -322,7 +331,26 @@ namespace ZeroWeb
         }
 
         /// <summary>
-        /// Gets the index of article in the list.
+        /// Gets the sorted and filtered list of articles with ordinals.
+        /// </summary>
+        /// <param name="published">Whether to return published or un-published articles.</param>
+        /// <param name="tags">The tags used to retrieve the article list.</param>
+        private IEnumerable<IndexedArticle> GetIndexedArticles(bool published, string[] tags)
+        {
+            return this.context.Articles
+                .Where(all =>
+                    all.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
+                    all.Published == published)
+                .OrderByDescending(order => order.Date.Ticks)
+                .ToList()
+                .Select((article, index) => new IndexedArticle {
+                    Article = article,
+                    Index = index
+                });
+        }
+
+        /// <summary>
+        /// Gets the index of a specific article in the list.
         /// </summary>
         /// <param name="article">The article key to get the index of.</param>
         /// <param name="published">Whether to return published or un-published articles.</param>
@@ -330,25 +358,25 @@ namespace ZeroWeb
         /// <returns>Index of the article or -1 if not found.</returns>
         private int GetArticleIndex(string article, bool published, params string[] tags)
         {
-            var indexGroup = this.context.Articles
-                .Where(all =>
-                    all.Metadata.Count(metadata => tags.Contains(metadata.Tag.Name)) > 0 &&
-                    all.Published == published)
-                .OrderByDescending(order => order.Date.Ticks)
-                .ToArray()
-                .Select((item, index) => new {
-                    Item = item,
-                    Index = index
-                })
-                .Where(itemGroup => itemGroup.Item.Key == article)
-                .FirstOrDefault();
+            return this.GetIndexedArticles(published, tags)
+                .Where(articleWithIndex => articleWithIndex.Article.Key == article)
+                .Select(articleWithIndex => (int?)articleWithIndex.Index)
+                .FirstOrDefault() ?? -1;
+        }
 
-            if (indexGroup != null)
-            {
-                return indexGroup.Index;
-            }
-
-            return -1;
+        /// <summary>
+        /// Gets the index of the first article posted on the specified year.
+        /// </summary>
+        /// <param name="year">The year to find the last page for.</param>
+        /// <param name="published">Whether to return published or un-published articles.</param>
+        /// <param name="tags">The tags used to retrieve the article list.</param>
+        /// <returns>The 1-based page index.</returns>
+        private int GetYearIndex(int year, bool published, params string[] tags)
+        {
+            return this.GetIndexedArticles(published, tags)
+                .Where(articleWithIndex => articleWithIndex.Article.Date.Year == year)
+                .Select(articleWithIndex => (int?)articleWithIndex.Index)
+                .FirstOrDefault() ?? -1;
         }
     }
 }

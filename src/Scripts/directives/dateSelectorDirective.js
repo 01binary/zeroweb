@@ -83,6 +83,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.visiblePages = [];
     $scope.maxVisibleSlots = 16;
     $scope.currentPage = attributes.page || '1';
+    $scope.currentYear = attributes.year;
     $scope.nextPage = null;
     $scope.prevPage = null;
     $scope.isSeparator = isSeparator;
@@ -99,17 +100,37 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.scrollTagView = scrollTagView.bind($element, $scope);
     $scope.resize = resize.bind($element, $scope, $safeApply);
     $scope.selectTag = selectTag.bind($scope);
+    $scope.setContributionYear = setContributionYear.bind($scope);
+    $scope.load = load.bind($element, $scope, $contrib, $render2d, $window, $compile);
 
-    var $tempPage = $('<div class="date-selector-page"></div>').appendTo($('body'));
+    // Create a temporary element to get button width.
+    var $tempPage = $('<div class="date-selector-page"></div>')
+        .appendTo($('body'));
     $scope.buttonWidth = $tempPage.outerWidth();
     $tempPage.remove();
 
-    // Load content.
-    $contrib.get({ type: 'story'}, function(result) {
+    // Load content
+    $scope.load();
+}
+
+/**
+ * Load date selector contnet.
+ * @param {Object} $scope - The directive scope.
+ * @param {Object} $contrib - The contribution factory.
+ * @param {Object} $render2d - The 2d render factory.
+ * @param {Object} $window - The Angular window service.
+ * @param {Object} $compile - The Angular compile service.
+ */
+function load($scope, $contrib, $render2d, $window, $compile) {
+    var $element = this;
+
+    $contrib.get({ type: 'story', year: $scope.currentYear }, function(result) {
         $scope.contributions = result;
+        $scope.currentYear = $scope.contributions.year;
         $scope.isLoading = false;
 
         // Create child elements.
+        $element.empty();
         $element.append($(
             // Background rectangle.
             '<div class="date-selector-background"></div>' +
@@ -171,8 +192,24 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
                 '{{isExpanded === true ? "- by date" : "+"}}' +
             '</button>' +
 
+            // Current year and available years.
+            '<input id="date-selector-year" type="checkbox" class="date-selector__year">' +
+            '<label for="date-selector-year" class="no-select">' +
+                '<div class="date-selector__year__arrow"></div>' +
+                '<div class="date-selector__year__caption">{{currentYear}}</div>' +
+            '</label>' +
+            '<ul>' +
+                '<li data-ng-repeat="year in contributions.years" class="no-select">' +
+                    '<a href="/news?year={{year}}" data-ng-click="setContributionYear($event, year)">{{year}}</a>' +
+                '</li>' +
+            '</ul>' +
+
             // Previous page button.
-            '<a data-ng-href="/news?page={{prevPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-left noselect" data-ng-click="selectPrevPage()">' +
+            '<a data-ng-href="/news?page={{prevPage}}" ' +
+                'role="button" ' +
+                'tabindex="0" ' +
+                'class="date-selector-scroll date-selector-scroll-left noselect" ' +
+                'data-ng-click="selectPrevPage()">' +
                 '<div class="date-selector-page-overlay"></div>' +
                 '<svg class="date-selector-page-mask-left" width="35" height="27" viewBox="0 0 35 27">' +
                     '<use xlink:href="#scroll-left-mask"></use>' +
@@ -238,7 +275,11 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<a data-ng-href="news/?page={{nextPage}}" role="button" tabindex="0" class="date-selector-scroll date-selector-scroll-right noselect" data-ng-click="selectNextPage()">' +
+                '<a data-ng-href="news/?page={{nextPage}}" ' +
+                    'role="button" ' +
+                    'tabindex="0" ' +
+                    'class="date-selector-scroll date-selector-scroll-right noselect" ' +
+                    'data-ng-click="selectNextPage()">' +
                     '<svg class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
                         '<use xlink:href="#page-button-mask"></use>' +
                     '</svg>' +
@@ -303,7 +344,7 @@ function expandCollapse($scope, $safeApply) {
         .animate({
             height: $scope.isExpanded ? 32 : 130
 
-        }, 'fast', function() {
+        }, 333, function() {
             $safeApply($scope, function() {
                 $scope.isExpanded = !$scope.isExpanded;
 
@@ -432,7 +473,7 @@ function pageTarget($scope, page) {
     if (isSeparator(page)) {
         return '#';
     } else {
-        return '/news?page=' + page;
+        return '/news?page=' + page + '&year=' + $scope.currentYear;
     }
 }
 
@@ -581,38 +622,40 @@ function selectPage($scope, page) {
     // Update the selection brackets.
     var page = $scope.contributions.pages[pageIndex];
     var months = Object.keys($scope.contributions.months);
+    
+    if (page) {
+        var startMonthIndex = months.indexOf(page.start.month);
+        var startWeekIndex = page.start.week;
+        var endMonthIndex = months.indexOf(page.end.month);
+        var endWeekIndex = page.end.week;
 
-    var startMonthIndex = months.indexOf(page.start.month);
-    var startWeekIndex = page.start.week;
-    var endMonthIndex = months.indexOf(page.end.month);
-    var endWeekIndex = page.end.week;
+        var $allWrappers = this.find('.tag-page');
+        var $startWrapper = $($allWrappers.get(startMonthIndex));
+        var $endWrapper = $($allWrappers.get(endMonthIndex));
+        var $startBar = $($startWrapper.find('.tag-bar').get(startWeekIndex));
+        var $endBar = $($endWrapper.find('.tag-bar').get(endWeekIndex));
 
-    var $allWrappers = this.find('.tag-page');
-    var $startWrapper = $($allWrappers.get(startMonthIndex));
-    var $endWrapper = $($allWrappers.get(endMonthIndex));
-    var $startBar = $($startWrapper.find('.tag-bar').get(startWeekIndex));
-    var $endBar = $($endWrapper.find('.tag-bar').get(endWeekIndex));
+        var selectionStart = $startWrapper.position().left +
+            $startBar.position().left - 4;
+        var selectionEnd = $endWrapper.position().left +
+            $endBar.position().left + $endBar.width() - 8;
 
-    var selectionStart = $startWrapper.position().left +
-        $startBar.position().left - 4;
-    var selectionEnd = $endWrapper.position().left +
-        $endBar.position().left + $endBar.width() - 8;
+        this.find('.tag-page-bracket-left')
+            .stop()
+            .animate({ left: selectionStart + 'px' })
+        this.find('.tag-page-bracket-right')
+            .stop()
+            .animate({ left: selectionEnd + 'px' }); 
+        this.find('.tag-page-underline-mask')
+            .stop()
+            .css('width', selectionEnd - selectionStart +
+                50 + (endWeekIndex === 3 ? 6 : 0))
+            .animate({ left: selectionStart - 21});
 
-    this.find('.tag-page-bracket-left')
-        .stop()
-        .animate({ left: selectionStart + 'px' })
-    this.find('.tag-page-bracket-right')
-        .stop()
-        .animate({ left: selectionEnd + 'px' }); 
-    this.find('.tag-page-underline-mask')
-        .stop()
-        .css('width', selectionEnd - selectionStart +
-            50 + (endWeekIndex === 3 ? 6 : 0))
-        .animate({ left: selectionStart - 21});
-
-    $scope.scrollTagView(
-        $startWrapper.position().left - $scope.minScroll,
-        $endWrapper.position().left + $endWrapper.width() + $scope.minScroll + 1);
+        $scope.scrollTagView(
+            $startWrapper.position().left - $scope.minScroll,
+            $endWrapper.position().left + $endWrapper.width() + $scope.minScroll + 1);
+    }
 }
 
 /**
@@ -622,6 +665,7 @@ function selectPage($scope, page) {
  */
 function renderTags($scope, $render2d) {
     var $view = $scope.view;
+    var viewExtent = 0;
     var monthMargin = null;
     var barHeight = null;
     var minBlockHeight = null;
@@ -659,10 +703,12 @@ function renderTags($scope, $render2d) {
              var weekSummary = monthSummary.weeks[weekDates];
              var tagOffset = 0;
              var weekId = 'week-' + weekDates.replace(/\s/g, '');
-             var $bar = $('<div class="tag-bar"></div>')
-                .appendTo($wrapper);
+             var $bar = $('<div class="tag-bar"></div>').appendTo($wrapper);
+             var barWidth = $bar.width();
+             var barLeft = $wrapper.width() - barWidth * (weekSummary.offset + 1) + 2;
             
-            $bar.css('left', $wrapper.width() - $bar.width() * (weekSummary.offset + 1) + 2);
+            $bar.css('left', barLeft);
+            viewExtent = monthOffset + barLeft + barWidth;
 
             if (!barHeight) {
                 barHeight = $bar.height();
@@ -712,8 +758,8 @@ function renderTags($scope, $render2d) {
         $scope.maxScroll = calculateMaxScroll($scope);
 
         // Start with tag view off-screen for a slide-in animation.
-        if ($scope.currentPage == "1") {
-            $view.css('left', -$view.width() + 'px');
+        if ($scope.currentPage.toString() === '1' && viewExtent) {
+            $view.css('left', -viewExtent + 'px');
         }
     }
 }
@@ -970,6 +1016,16 @@ function selectTag(tag, select) {
     } else {
         $tooltipContent.removeClass(className);
     }
+}
+
+/**
+ * Filter contributions by specified year.
+ * @param {Object} $event - The Angular event.
+ * @param {number} year - The contribution year.
+ */
+function setContributionYear($event, year) {
+    this.currentYear = year;
+    this.load();
 }
 
 /**

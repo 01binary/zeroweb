@@ -102,6 +102,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.selectTag = selectTag.bind($scope);
     $scope.setContributionYear = setContributionYear.bind($scope);
     $scope.load = load.bind($element, $scope, $contrib, $render2d, $window, $compile);
+    $scope.getFirstPageOfMonth = getFirstPageOfMonth.bind($scope);
 
     // Create a temporary element to get button width.
     var $tempPage = $('<div class="date-selector-page"></div>')
@@ -275,7 +276,7 @@ function load($scope, $contrib, $render2d, $window, $compile) {
 
                 // Next page button.
                 // (has to be inside pages container to follow last page button).
-                '<a data-ng-href="news/?page={{nextPage}}" ' +
+                '<a data-ng-href="/news?page={{nextPage}}" ' +
                     'role="button" ' +
                     'tabindex="0" ' +
                     'class="date-selector-scroll date-selector-scroll-right noselect" ' +
@@ -659,6 +660,32 @@ function selectPage($scope, page) {
 }
 
 /**
+ * Get the page closest to start of month.
+ * @param {string} monthName - The month name in the contribution model.
+ * @returns {int} - The page number.
+ */
+function getFirstPageOfMonth(monthName) {
+    var months = Object.keys(this.contributions.months);
+    var monthIndex = months.indexOf(monthName);
+
+    for (var pageIndex = 0; pageIndex < this.contributions.pages.length; pageIndex++) {
+        var page = this.contributions.pages[pageIndex];
+        var startMonthIndex = months.indexOf(page.start.month);
+        var endMonthIndex = months.indexOf(page.end.month);
+
+        if (startMonthIndex === monthIndex || endMonthIndex >= monthIndex) {
+            // Return the current page.
+            return pageIndex + 1;
+        } else if (startMonthIndex > monthIndex) {
+            // Return the previous page.
+            return pageIndex ? pageIndex : pageIndex + 1;
+        }
+    }
+
+    return 1;
+}
+
+/**
  * Render tags.
  * @param {object} $scope - The directive scope.
  * @param {object} $render2d - The 2d rendering service.
@@ -681,10 +708,15 @@ function renderTags($scope, $render2d) {
 
         $wrapper =
             $('<div class="tag-page noselect">' +
-                '<div class="tag-page-footer noselect">' + monthName  + '</div>' +
+                '<a class="tag-page-footer noselect" ' +
+                    'href="/news?year=' + $scope.currentYear +
+                    '&page=' + $scope.getFirstPageOfMonth(monthName) + '">' +
+                    monthName  +
+                '</a>' +
                 '<div class="tag-page-separator"></div>' +
             '</div>')
-            .css('left', monthOffset).appendTo($view);
+            .css('left', monthOffset)
+            .appendTo($view);
 
         if (!monthMargin) {
             monthMargin = parseInt($wrapper.css('margin-right'));

@@ -714,6 +714,7 @@ $date-selector-margin: 10px;
     font-size: $smallest-font-size;
     color: $drop-shadow-light-color;
     transition: color $animation-fast ease-out;
+    text-decoration: none;
     cursor: pointer;
 
     // Hover state 

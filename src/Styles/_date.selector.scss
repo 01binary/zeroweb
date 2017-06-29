@@ -569,7 +569,8 @@ $date-selector-margin: 10px;
             }
 
             // Hover/normal gradient overlay
-            .date-selector-page-overlay {
+            .date-selector-page-overlay,
+            .date-selector-page-pushed {
                 left: 0;
             }
 

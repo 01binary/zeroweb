@@ -103,6 +103,7 @@ function initialize($q, $http, $compile, $window, $render2d, $safeApply, $contri
     $scope.setContributionYear = setContributionYear.bind($scope);
     $scope.load = load.bind($element, $scope, $contrib, $render2d, $window, $compile);
     $scope.getFirstPageOfMonth = getFirstPageOfMonth.bind($scope);
+    $scope.getFirstPageOfWeek = getFirstPageOfWeek.bind($scope);
 
     // Create a temporary element to get button width.
     var $tempPage = $('<div class="date-selector-page"></div>')
@@ -678,11 +679,47 @@ function getFirstPageOfMonth(monthName) {
             return pageIndex + 1;
         } else if (startMonthIndex > monthIndex) {
             // Return the previous page.
-            return pageIndex ? pageIndex : pageIndex + 1;
+            return pageIndex || 1;
         }
     }
 
     return 1;
+}
+
+/**
+ * Get the page closest to the specified week in a month.
+ * @param {string} monthName - The month name in the contribution model.
+ * @param {int} weekIndex - The week index in the  month.
+ */
+function getFirstPageOfWeek(monthName, weekIndex) {
+    var months = Object.keys(this.contributions.months);
+    var monthIndex = months.indexOf(monthName);
+
+    for (var pageIndex = 0;
+        pageIndex < this.contributions.pages.length;
+        pageIndex++) {
+        var page = this.contributions.pages[pageIndex];
+        var startMonthIndex = months.indexOf(page.start.month);
+        var endMonthIndex = months.indexOf(page.end.month);
+
+        if (monthIndex === startMonthIndex) {
+            if (weekIndex === page.start.week) {
+                // Current page (exact match)
+                return pageIndex + 1;
+            } else if (weekIndex < page.start.week) {
+                // Previous page (went too far)
+                return pageIndex || 1;
+            }
+        } else if (monthIndex < startMonthIndex) {
+            // Previous page (went too far)
+            return pageIndex || 1;
+        } else if (monthIndex === endMonthIndex && weekIndex <= page.end.week) {
+            // Current page (exact match)
+            return pageIndex + 1;
+        }
+    }
+
+    return this.contributions.pages.length;
 }
 
 /**
@@ -731,11 +768,19 @@ function renderTags($scope, $render2d) {
         renderMonthTip($view, monthName, monthSummary, $render2d);
         
         // Render week bars inside of the month wrapper.
+        var weekIndex = 0;
+
         for (var weekDates in monthSummary.weeks) {
              var weekSummary = monthSummary.weeks[weekDates];
              var tagOffset = 0;
              var weekId = 'week-' + weekDates.replace(/\s/g, '');
-             var $bar = $('<div class="tag-bar"></div>').appendTo($wrapper);
+
+             var $bar =
+                $('<a class="tag-bar" ' +
+                    'href="/news?year=' + $scope.currentYear +
+                    '&page=' + $scope.getFirstPageOfWeek(monthName, weekIndex++) + '">' +
+                  '</a>')
+                .appendTo($wrapper);
              var barWidth = $bar.width();
              var barLeft = $wrapper.width() - barWidth * (weekSummary.offset + 1) + 2;
             

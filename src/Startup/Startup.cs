@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ZeroWeb.Api.Aggregators;
+using ZeroWeb.Api.Assemblers;
 using ZeroWeb.Models;
 
 namespace ZeroWeb
@@ -78,6 +80,10 @@ namespace ZeroWeb
                     .AddDefaultTokenProviders();
 
             services.AddScoped(typeof(IDataStore), typeof(SiteDataStore));
+            services.AddSingleton(typeof(IContributionAssembler), typeof(ContributionAssembler));
+            services.AddSingleton(typeof(IContributionAggregator), typeof(ContributionAggregator));
+            services.AddSingleton(typeof(IMonthContributionAggregator), typeof(MonthContributionAggregator));
+            services.AddSingleton(typeof(IWeekContributionAggregator), typeof(WeekContributionAggregator));
         }
         
         /// <summary>

@@ -13,6 +13,7 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ZeroWeb.Api.Assemblers;
 using ZeroWeb.Api.Models;
 
 namespace ZeroWeb.Api
@@ -29,12 +30,19 @@ namespace ZeroWeb.Api
         private IServiceProvider services;
 
         /// <summary>
+        /// The contribution summary assembler.
+        /// </summary>
+        private IContributionAssembler assembler;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContributionsController"/> class.
         /// </summary>
         /// <param name="services">The application container.</param>
-        public ContributionsController(IServiceProvider services)
+        /// <param name="assembler">The contribution summary assembler.</param>
+        public ContributionsController(IServiceProvider services, IContributionAssembler assembler)
         {
             this.services = services;
+            this.assembler = assembler;
         }
 
         /// <summary>
@@ -48,40 +56,14 @@ namespace ZeroWeb.Api
         {
             try
             {
-                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
-                
-                return this.Json(store
+                var store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                var contributions = store
                     .GetArticles(true, tag)
-                    .OrderByDescending(article => article.Date.Ticks)
-                    .Select(article => new {
-                        Key = article.Key,
-                        Title = article.Title,
-                        Date = article.Date,
-                        Tags = article.Metadata
-                            .Where(filter => filter.Tag.ParentId != null)
-                            .Select(metadata => metadata.Tag.Parent.Name + "-" + metadata.Tag.Name)
-                    })
-                    .ToList()
-                    .SelectMany(
-                        article => article.Tags,
-                        (article, articleTag) => new
-                    {
-                        Key = article.Key,
-                        Title = article.Title,
-                        Date = article.Date,
-                        Tag = articleTag
-                    })
-                    .Aggregate(
-                        new ContributionSummary(year),
-                        (summary, next) =>
-                    {
-                        return summary.Aggregate(
-                            next.Key,
-                            next.Title,
-                            next.Date,
-                            next.Tag);
-                    })
-                    .Paginate(articles ?? Shared.ArticlesPerPage));
+                    .OrderByDescending(article => article.Date.Ticks);
+
+                var summary = assembler.GetContributionSummary(contributions, year, articles);
+                
+                return this.Json(summary);
             }
             catch (Exception error)
             {

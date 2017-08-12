@@ -15,7 +15,7 @@ namespace ZeroWeb.Api.Models
     using System.Collections.Generic;
 
     /// <summary>
-    /// The week contribution summary.
+    /// The daily contribution summary.
     /// </summary>
     public class DaySummary
     {
@@ -28,13 +28,5 @@ namespace ZeroWeb.Api.Models
         /// Gets or sets the tags posted on this day.
         /// </summary>
         public IList<string> Tags { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DaySummary"/> class.
-        /// </summary>
-        public DaySummary()
-        {
-            this.Tags = new List<string>();
-        }
     }
 }

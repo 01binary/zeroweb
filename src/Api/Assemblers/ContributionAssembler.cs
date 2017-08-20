@@ -98,7 +98,7 @@ namespace ZeroWeb.Api.Assemblers
         /// </summary>
         /// <param name="maxArticles">Max. articles per page.</param>
         /// <returns>A self-reference for chaining.</returns>
-        private ContributionSummary Paginate(ContributionSummary summary, int maxArticles)
+        private ContributionSummary Paginate(ContributionSummary summary, int max)
         {
             string monthName = null;
             int articleCount = 0;
@@ -125,7 +125,7 @@ namespace ZeroWeb.Api.Assemblers
 
                         articleCount++;
 
-                        if (articleCount == maxArticles)
+                        if (articleCount == max)
                         {
                             summary.Pages.Add(new PageSummary
                             {

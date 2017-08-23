@@ -110,6 +110,7 @@ namespace ZeroWeb.Tests.Fixtures
                 {
                     this.article.Metadata.Add(new Metadata
                     {
+                        Article = this.article,
                         Tag = new Tag
                         {
                             Name = parentChild[1],
@@ -124,6 +125,7 @@ namespace ZeroWeb.Tests.Fixtures
                 {
                     this.article.Metadata.Add(new Metadata
                     {
+                        Article = this.article,
                         Tag = new Tag
                         {
                             Name = tag

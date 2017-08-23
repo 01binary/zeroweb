@@ -32,13 +32,18 @@ namespace ZeroWeb.Tests
         /// </summary>
         public ContributionAssemblerTests()
         {
-            this.aggregator = new Mock<IContributionAggregator>();
-            this.aggregator.Setup(a => a.Aggregate(
-                It.IsAny<ContributionSummary>(),
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<DateTime>(),
-                It.IsAny<string>()))
+            this.aggregator = new Mock<IContributionAggregator>()
+            {
+                CallBase = true
+            };
+
+            this.aggregator
+                .Setup(a => a.Aggregate(
+                    It.IsAny<ContributionSummary>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<string>()))
                 .Returns(It.IsAny<ContributionSummary>());
 
             this.assembler = new ContributionAssembler(this.aggregator.Object);
@@ -50,19 +55,31 @@ namespace ZeroWeb.Tests
         [Fact]
         public void CallsContributionAggregatorForArticleTags() 
         {
-            GivenArticles(
-                GivenArticle("")
+            GivenArticles(this
+                .GivenArticle("web design article")
                     .WithDate(DateTime.Now.AddMonths(-1))
-                    .WithTags("")
-                .GivenArticle("")
+                    .WithTags("story", "design", "web")
+                .GivenArticle("mechanical engineering article")
                     .WithSameDate()
-                    .WithTags("")
+                    .WithTags("story", "engineering", "mechanical")
+                .GivenArticle("robotics article")
+                    .WithNextDayDate()
+                    .WithTags("story", "engineering", "robotics")
+                .GivenArticle("software engineering article")
+                    .WithSameDate()
+                    .WithTags("story", "engineering", "software")
+                .GivenArticle("another software engineering article")
+                    .WithSameDate()
+                    .WithTags("story", "engineering", "software")
+                .GivenArticle("art of music production")
+                    .WithNextWeekDate()
+                    .WithTags("story", "art", "music")
                 .Build()
             );
 
             WhenGetContributionSummary();
 
-            ThenForEachArticleTag((meta) => 
+            ThenForEachArticleTag((meta) =>
                 VerifyAggregatorCalled(
                     meta.Article.Key,
                     meta.Article.Title,
@@ -76,7 +93,20 @@ namespace ZeroWeb.Tests
         [Fact]
         public void SetsContributionYearProvided()
         {
+            GivenContributionYear(DateTime.Now.Year - 1);
+            GivenArticles(this
+                .GivenArticle("underpainting")
+                    .WithDate(DateTime.Now.AddYears(-1))
+                    .WithTags("story", "art", "painting")
+                .GivenArticle("one more mechanical")
+                    .WithNextDayDate()
+                    .WithTags("story", "engineering", "mechanical")
+                .Build()
+            );
 
+            WhenGetContributionSummary();
+
+            ThenHasContributionYear(DateTime.Now.Year - 1);
         }
 
         /// <summary>
@@ -85,7 +115,20 @@ namespace ZeroWeb.Tests
         [Fact]
         public void SetsCurrentYearWhenNotProvided()
         {
+            GivenNoContributionYear();
+            GivenArticles(this
+                .GivenArticle("robotics ai")
+                    .WithDate(DateTime.Now)
+                    .WithTags("story", "engineering", "robotics")
+                .GivenArticle("water based actuators")
+                    .WithNextDayDate()
+                    .WithTags("story", "engineering", "robotics")
+                .Build()
+            );
 
+            WhenGetContributionSummary();
+
+            ThenHasContributionYear(DateTime.Now.Year);
         }
 
         /// <summary>
@@ -94,7 +137,28 @@ namespace ZeroWeb.Tests
         [Fact]
         public void UsesProvidedPageSize()
         {
+            GivenMaxArticlesPerPage(2);
+            GivenArticles(this
+                .GivenArticle("quadrupedal locomotion")
+                    .WithDate(DateTime.Parse("02/28/2017"))
+                    .WithTags("story", "engineering", "robotics")
+                .GivenArticle("the tolerance stack")
+                    .WithNextDayDate()
+                    .WithTags("story", "engineering", "mechanical")
+                .GivenArticle("machining, laser cutting, or investing")
+                    .WithNextDayDate()
+                    .WithTags("story", "engineering", "mechanical")
+                .GivenArticle("grids in design")
+                    .WithSameDate()
+                    .WithTags("story", "design", "ui")
+                .Build()
+            );
 
+            WhenGetContributionSummary();
+
+            ThenHasPages(2);
+            ThenHasPage(0, "feb", 4, "feb", 4);
+            ThenHasPage(1, "mar", 0, "mar", 0);
         }
 
         /// <summary>
@@ -103,7 +167,27 @@ namespace ZeroWeb.Tests
         [Fact]
         public void UsesDefaultPageSize()
         {
+            GivenNoMaxArticlesPerPage();
+            GivenArticles(this
+                .GivenArticle("controllers and buses")
+                    .WithDate(DateTime.Parse("04/15/2017"))
+                    .WithTags("story", "engineering", "robotics")
+                .GivenArticle("much about sensors")
+                    .WithNextWeekDate()
+                    .WithTags("story", "engineering", "robotis")
+                .GivenArticle("point cloud computer vision")
+                    .WithNextWeekDate()
+                    .WithTags("story", "engineering", "robotics")
+                .GivenArticle("painting addons")
+                    .WithNextDayDate()
+                    .WithTags("story", "art", "painting")
+                .Build()
+            );
 
+            WhenGetContributionSummary();
+
+            ThenHasPages(1);
+            ThenHasPage(0, "apr", 2, "may", 0);
         }
 
         private void GivenArticles(Article[] articles)
@@ -111,22 +195,22 @@ namespace ZeroWeb.Tests
             this.articles = articles;
         }
 
-        private void GivenYear(int year)
+        private void GivenContributionYear(int year)
         {
             this.year = year;
         }
 
-        private void GivenNoYear()
+        private void GivenNoContributionYear()
         {
             this.year = null;
         }
 
-        private void GivenMax(int max)
+        private void GivenMaxArticlesPerPage(int max)
         {
             this.max = max;
         }
 
-        private void GivenNoMax()
+        private void GivenNoMaxArticlesPerPage()
         {
             this.max = null;
         }
@@ -152,16 +236,21 @@ namespace ZeroWeb.Tests
 
         private void ThenHasContributionYear(int year)
         {
+            Assert.Equal(year, this.summary.Year);
         }
 
         private void ThenHasPages(int pages)
         {
-
+            Assert.Equal(pages, this.summary.Pages.Count);
         }
 
-        private void ThenHasPage(int page, string month, int week)
+        private void ThenHasPage(int page, string month, int week, string endMonth, int endWeek)
         {
+            Assert.Equal(month, this.summary.Pages[page].Start.Month);
+            Assert.Equal(week, this.summary.Pages[page].Start.Week);
 
+            Assert.Equal(endMonth, this.summary.Pages[page].End.Month);
+            Assert.Equal(endWeek, this.summary.Pages[page].End.Week);
         }
 
         private void ThenForEachArticleTag(Action<Metadata> action)

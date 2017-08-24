@@ -82,6 +82,7 @@ namespace ZeroWeb
             services.AddScoped(typeof(IDataStore), typeof(SiteDataStore));
             services.AddSingleton(typeof(IContributionAssembler), typeof(ContributionAssembler));
             services.AddSingleton(typeof(IContributionAggregator), typeof(ContributionAggregator));
+            services.AddSingleton(typeof(IContributionPaginator), typeof(ContributionPaginator));
             services.AddSingleton(typeof(IMonthContributionAggregator), typeof(MonthContributionAggregator));
             services.AddSingleton(typeof(IWeekContributionAggregator), typeof(WeekContributionAggregator));
         }

@@ -38,12 +38,21 @@ namespace ZeroWeb.Api.Assemblers
         private IContributionAggregator contributionAggregator;
 
         /// <summary>
+        /// The contribution summary paginator.
+        /// </summary>
+        private IContributionPaginator contributionPaginator;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContributionAssembler"/> class.
         /// </summary>
         /// <param name="contributionAggregator">The contribution aggregator.</param>
-        public ContributionAssembler(IContributionAggregator contributionAggregator)
+        /// <param name="contributionPaginator">The contribution paginator.</param>
+        public ContributionAssembler(
+            IContributionAggregator contributionAggregator,
+            IContributionPaginator contributionPaginator)
         {
             this.contributionAggregator = contributionAggregator;
+            this.contributionPaginator = contributionPaginator;
         }
 
         /// <summary>
@@ -88,68 +97,9 @@ namespace ZeroWeb.Api.Assemblers
                         next.Tag);
                 });
 
-            return this.Paginate(summary, max ?? Shared.ArticlesPerPage);
-        }
-
-        
-
-        /// <summary>
-        /// Paginate the contribution summary.
-        /// </summary>
-        /// <param name="maxArticles">Max. articles per page.</param>
-        /// <returns>A self-reference for chaining.</returns>
-        private ContributionSummary Paginate(ContributionSummary summary, int max)
-        {
-            string monthName = null;
-            int articleCount = 0;
-            DateTime[] weeks = null;
-            WeekMapping pageStart = null;
-
-            foreach (DateTime month in summary.Months.Keys.ToList().OrderByDescending(key => key))
-            {
-                MonthSummary monthSummary = summary.Months[month];
-                monthName = month.ToString("MMM").ToLower();
-                weeks = monthSummary.Weeks.Keys.OrderByDescending(key => key).ToArray();
-
-                for (int weekIndex = 0; weekIndex < weeks.Length; weekIndex++)
-                {
-                    DateTime firstDayOfWeek = weeks[weekIndex];
-                    WeekSummary weekSummary = monthSummary.Weeks[firstDayOfWeek];
-
-                    for (int article = 0; article < weekSummary.Articles.Count; article++)
-                    {
-                        if (pageStart == null)
-                        {
-                            pageStart = new WeekMapping(monthName, weekIndex);
-                        }
-
-                        articleCount++;
-
-                        if (articleCount == max)
-                        {
-                            summary.Pages.Add(new PageSummary
-                            {
-                                Start = pageStart,
-                                End = new WeekMapping(monthName, weekIndex)
-                            });
-
-                            articleCount = 0;
-                            pageStart = null;
-                        }
-                    }
-                }
-            }
-
-            if (pageStart != null)
-            {
-                summary.Pages.Add(new PageSummary
-                {
-                    Start = pageStart,
-                    End = new WeekMapping(monthName, weeks.Length - 1)
-                });
-            }
-
-            return summary;
+            return this.contributionPaginator.Paginate(
+                summary,
+                max ?? Shared.ArticlesPerPage);
         }
     }
 }

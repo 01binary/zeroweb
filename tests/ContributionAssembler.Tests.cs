@@ -32,21 +32,24 @@ namespace ZeroWeb.Tests
         /// </summary>
         public ContributionAssemblerTests()
         {
-            this.aggregator = new Mock<IContributionAggregator>()
-            {
-                CallBase = true
-            };
-
-            this.aggregator
+            this.mockAggregator = new Mock<IContributionAggregator>();
+            this.mockAggregator
                 .Setup(a => a.Aggregate(
                     It.IsAny<ContributionSummary>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<DateTime>(),
                     It.IsAny<string>()))
-                .Returns(It.IsAny<ContributionSummary>());
+                .Returns(It.IsAny<ContributionSummary>())
+                .Callback<ContributionSummary, string, string, DateTime, string>
+                    ((summary, key, title, date, tag) => {
+                    this.aggregator.Aggregate(summary, key, title, date, tag);
+                });
 
-            this.assembler = new ContributionAssembler(this.aggregator.Object);
+            this.weekAggregator = new WeekContributionAggregator();
+            this.monthAggregator = new MonthContributionAggregator(weekAggregator);
+            this.aggregator = new ContributionAggregator(this.monthAggregator, this.weekAggregator);
+            this.assembler = new ContributionAssembler(this.mockAggregator.Object);
         }
 
         /// <summary>
@@ -225,7 +228,7 @@ namespace ZeroWeb.Tests
 
         private void VerifyAggregatorCalled(string key, string title, DateTime date, string tag)
         {
-            this.aggregator.Verify(a => a.Aggregate(
+            this.mockAggregator.Verify(a => a.Aggregate(
                 It.IsAny<ContributionSummary>(),
                 It.Is<string>(passedKey => passedKey == key),
                 It.Is<string>(passedTitle => passedTitle == title),
@@ -262,7 +265,10 @@ namespace ZeroWeb.Tests
         }
 
         private IContributionAssembler assembler;
-        private Mock<IContributionAggregator> aggregator;
+        private Mock<IContributionAggregator> mockAggregator;
+        private IContributionAggregator aggregator;
+        private IMonthContributionAggregator monthAggregator;
+        private IWeekContributionAggregator weekAggregator;
         private ContributionSummary summary;
         private Article[] articles;
         private int? year;

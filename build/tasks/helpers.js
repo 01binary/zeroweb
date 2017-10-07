@@ -17,8 +17,8 @@
 
 'use strict';
 
-var spawn = require('cross-spawn').sync;
-var rimraf = require('rimraf').sync;
+var spawn = require('../../node_modules/cross-spawn').sync;
+var rimraf = require('../../node_modules/rimraf').sync;
 var spawnOptions = { stdio: 'inherit' };
 var dotNetOptions = ' -f netcoreapp1.0 -b ../build -o ../build/output';
 var gulpOptions = '--gulpfile ../build/tasks/gulpfile.js';

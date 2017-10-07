@@ -22,7 +22,6 @@
   },
   "scripts": {
     "postinstall": "node build/tasks/restore",
-    "prebuild": "npm install",
     "build": "node build/tasks/build",
     "start": "node build/tasks/run",
     "watch": "npm run uglify && npm run sass && node build/tasks/watch",

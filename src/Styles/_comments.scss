@@ -247,19 +247,6 @@ $comment-recenter-win: .1em;
 /* Safari */
 @media not all and (min-resolution:.001dpcm)
 { @supports (-webkit-appearance:none) {
-    .comment-login:after {
-        // Disable GPU rendering on Safari
-        opacity: 0;
-        pointer-events: none;
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        background: $background-color;
-        transition: opacity $animation-fast $animation-fast ease-in-out;
-    }
 }}
 
 .os-win .comment-login {

@@ -18,7 +18,7 @@
     "protractor": "^3.2.2",
     "rimraf": "^2.5.4",
     "spawn-sync": "^1.0.15",
-    "yarn": "^0.23.4"
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "postinstall": "node build/tasks/restore",

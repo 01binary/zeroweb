@@ -5,3 +5,5 @@ src/Content/*.min.*
 node_modules
 npm-debug.log
 src/project.lock.json
+.cache
+public

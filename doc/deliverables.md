@@ -30,8 +30,9 @@ Table Formatting
 Number List Formatting
 TOC
 Code
+Related by Tags
 Anchor Permalinks
-Full text search
+Full Text Search
 Static Article Metadata - Tags, Reading Time
 
 # Basic Backend

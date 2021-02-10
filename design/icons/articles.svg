@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19">
+<polygon points="13.9,1 4.1,1 2,1 2,1 2,5 4,5 4,3 14,3 14,5 16,5 16,1"/>
+<polygon points="14,14 4,14 4,12 2,12 2,16 2,16 4.1,16 13.9,16 16,16 16,12 14,12"/>
+<rect x="6" y="5" width="6" height="1"/>
+<rect x="6" y="8" width="6" height="1"/>
+<rect x="6" y="11" width="6" height="1"/>
+</svg>

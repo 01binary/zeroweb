@@ -12,10 +12,9 @@
 \*---------------------------------------------------------*/
 ```
 
-# Documentation
+# Pre-Production
 
-Document Areas - News, Articles, Projects, About
-Document Tags, Colors, Icons
+Design icons for tags
 Create Next project and fill with tasks
 
 # Basic Frontend

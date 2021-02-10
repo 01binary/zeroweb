@@ -27,11 +27,11 @@ Article Date Metadata
 Markdown
 Table Formatting
 Number List Formatting
-TOC
+TOC (open to the side mobile)
 Code
 Related by Tags
 Anchor Permalinks
-Full Text Search
+Full Text Search (open full screen)
 Static Article Metadata - Tags, Reading Time
 
 # Basic Backend
@@ -52,9 +52,9 @@ Social Share Overlays
 SEO Metadata
 Inline Comments
 Inline Highlights/Stars
-Article Selector
-Tag Selector
-Timeline Selector
+Article Selector (open to the side mobile)
+Tag Selector (open to the side mobile)
+Timeline Selector (compact mobile)
 Related Selector
 Article Infinite Scroll
 Image Zooming

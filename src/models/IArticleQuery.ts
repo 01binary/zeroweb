@@ -1,7 +1,8 @@
 import IArticleMetadata from '../models/IArticleMetadata';
 
 interface IArticleContent {
-    html: string,
+    slug: string,
+    body: string,
     frontmatter: IArticleMetadata
 }
 

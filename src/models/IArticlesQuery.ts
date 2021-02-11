@@ -1,19 +1,13 @@
-export interface IArticleMetadata {
-    title: string,
-    date: string,
-    tags: string
-}
+import IArticleMetadata from '../models/IArticleMetadata';
 
-export interface IArticle {
+interface IArticle {
     frontmatter: IArticleMetadata,
     slug: string,
     timeToRead: number
 }
 
-export interface IArticles {
-    node: IArticle
-}
-
-export interface IArticlesQuery {
-    edges: Array<IArticles>
+interface IArticlesQuery {
+    nodes: Array<IArticle>
 };
+
+export default IArticlesQuery;

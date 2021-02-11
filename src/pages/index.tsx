@@ -1,55 +1,60 @@
 import React, { FunctionComponent } from 'react';
 import { Link, graphql } from 'gatsby';
-import { ISiteQuery } from '../models/ISiteQuery';
-import { IArticlesQuery } from '../models/IArticlesQuery';
-
-interface IIndexQuery {
-  site: ISiteQuery,
-  allMdx: IArticlesQuery
-};
+import IArticleIndexQuery from '../models/IArticleIndexQuery';
 
 interface IIndexProps {
-  data: IIndexQuery
+  data: IArticleIndexQuery
 };
 
-const Index = ({
+const Index: FunctionComponent<IIndexProps> = ({
   data: {
-    site,
-    allMdx
+    allMdx: {
+      nodes
+    }
   }
-}: IIndexProps) => (
-  <div>
-    <h1>{site.siteMetadata.title}</h1>
-    List of articles
-    {allMdx.edges.map(({ node }) => (
-      <article>
-        <Link to={node.slug}>
-          <h2>{node.frontmatter.title}</h2>
-          <div>{node.timeToRead} min to read</div>
-          <div>{node.frontmatter.tags}</div>
-        </Link>
-      </article>
-    ))}
-  </div>
+}) => (
+  <>
+    <header>
+      <h1>01 Binary</h1>
+    </header>
+    
+    <main>
+      List of articles
+
+      {nodes.map(({
+        slug,
+        timeToRead,
+        frontmatter: {
+          title,
+          tags
+        }
+      }) => (
+        <article>
+          <Link to={`articles/${slug}`}>
+            <h2>{title}</h2>
+            <div>{timeToRead} min to read</div>
+            <div>{tags}</div>
+          </Link>
+        </article>
+      ))}
+    </main>
+  </>
 );
 
 export const query = graphql`
   query {
-    site {
-      siteMetadata {
-        title
-      }
-    },
-    allMdx {
-      edges {
-        node {
-          frontmatter {
-            title,
-            date(fromNow:true),
-            tags
-          }
-          slug
-          timeToRead
+    allMdx
+    (
+      sort: { fields: [frontmatter___date], order: DESC },
+      filter: { fields: { collection: { eq: "articles" } } }
+    ) {
+      nodes {
+        slug
+        timeToRead
+        frontmatter {
+          title,
+          date(fromNow:true),
+          tags
         }
       }
     }

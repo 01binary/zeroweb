@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: "zeroweb",
+    title: "01 Binary: tech art",
   },
   plugins: [
     "gatsby-plugin-sass",

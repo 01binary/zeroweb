@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-const Layout = (props: any) => (
-    <div style={{ color: 'red' }}>
-        {props.children}
+const Layout: FunctionComponent = ({ children }) => (
+    <div>
+        {children}
     </div>
 );
 

@@ -1,12 +1,57 @@
-import React from 'react';
-import Test from './test.mdx';
+import React, { FunctionComponent } from 'react';
+import { graphql } from 'gatsby';
+import { ISiteQuery } from '../models/ISiteQuery';
+import { IArticlesQuery } from '../models/IArticlesQuery';
 
-const Index = () => (
+interface IIndexQuery {
+  site: ISiteQuery,
+  allMdx: IArticlesQuery
+};
+
+interface IIndexProps {
+  data: IIndexQuery
+};
+
+const Index = ({
+  data: {
+    site,
+    allMdx
+  }
+}: IIndexProps) => (
   <div>
-    Hello, world
-
-    <Test />
+    <h1>{site.siteMetadata.title}</h1>
+    List of articles
+    {allMdx.edges.map(({ node }) => (
+      <article>
+        <h2>{node.frontmatter.title}</h2>
+        <div>{node.timeToRead} min to read</div>
+        <div>{node.frontmatter.tags}</div>
+      </article>
+    ))}
   </div>
 );
+
+export const query = graphql`
+  query {
+    site {
+      siteMetadata {
+        title
+      }
+    },
+    allMdx {
+      edges {
+        node {
+          frontmatter {
+            title,
+            date(fromNow:true),
+            tags
+          }
+          slug
+          timeToRead
+        }
+      }
+    }
+  }
+`
 
 export default Index;

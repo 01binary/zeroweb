@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { graphql } from 'gatsby';
+import { Link, graphql } from 'gatsby';
 import { ISiteQuery } from '../models/ISiteQuery';
 import { IArticlesQuery } from '../models/IArticlesQuery';
 
@@ -23,9 +23,11 @@ const Index = ({
     List of articles
     {allMdx.edges.map(({ node }) => (
       <article>
-        <h2>{node.frontmatter.title}</h2>
-        <div>{node.timeToRead} min to read</div>
-        <div>{node.frontmatter.tags}</div>
+        <Link to={node.slug}>
+          <h2>{node.frontmatter.title}</h2>
+          <div>{node.timeToRead} min to read</div>
+          <div>{node.frontmatter.tags}</div>
+        </Link>
       </article>
     ))}
   </div>

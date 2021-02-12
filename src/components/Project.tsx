@@ -3,11 +3,11 @@ import { graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import IArticleQuery from '../models/IArticleQuery'
 
-interface IArticleProps {
+interface IProjectProps {
     data: IArticleQuery
 }
 
-const Article: FunctionComponent<IArticleProps> = ({
+const Project: FunctionComponent<IProjectProps> = ({
     data: {
         mdx: {
             slug,
@@ -42,4 +42,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default Article;
+export default Project;

@@ -10,4 +10,8 @@ interface IArticlesQuery {
     nodes: Array<IArticle>
 };
 
-export default IArticlesQuery;
+interface IArticleIndexQuery {
+    allMdx: IArticlesQuery
+};
+
+export default IArticleIndexQuery;

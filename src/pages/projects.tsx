@@ -1,29 +1,27 @@
 import React, { FunctionComponent } from 'react';
 import { Link, graphql } from 'gatsby';
-import IArticlesQuery from '../models/IArticlesQuery';
+import IProjectsQuery from '../models/IProjectsQuery';
 
 interface IIndexProps {
-  data: IArticlesQuery
+  data: IProjectsQuery
 };
 
 const Index: FunctionComponent<IIndexProps> = ({
   data: { allMdx: { nodes } }
 }) => (
   <main>
-    <h1>Articles</h1>
+    <h1>Projects</h1>
 
     {nodes.map(({
       slug,
-      timeToRead,
       frontmatter: {
         title,
         tags
       }
     }) => (
       <article>
-        <Link to={`articles/${slug}`}>
+        <Link to={slug}>
           <h2>{title}</h2>
-          <section>{timeToRead} min to read</section>
           <section>{tags}</section>
         </Link>
       </article>
@@ -33,14 +31,12 @@ const Index: FunctionComponent<IIndexProps> = ({
 
 export const query = graphql`
   query {
-    allMdx
-    (
+    allMdx (
       sort: { fields: [frontmatter___date], order: DESC },
-      filter: { fields: { collection: { eq: "articles" } } }
+      filter: { fields: { collection: { eq: "projects" } } }
     ) {
       nodes {
         slug
-        timeToRead
         frontmatter {
           title,
           date(fromNow:true),

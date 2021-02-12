@@ -20,7 +20,7 @@ const Index: FunctionComponent<IIndexProps> = ({
         tags
       }
     }) => (
-      <article>
+      <article key={slug}>
         <Link to={`articles/${slug}`}>
           <h2>{title}</h2>
           <section>{timeToRead} min to read</section>

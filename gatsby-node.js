@@ -10,27 +10,30 @@ exports.createPages = async ({
         data: { allMdx: { nodes } }
     } = await graphql(`
     {
-        allMdx(
-            filter: { fields: { collection: { eq: "articles" } } }
-          ) {
+        allMdx {
             nodes {
-              slug
+                slug,
+                fields {
+                    collection
+                }
             }
           }
     }`);
 
-    // Handle errors
     if (errors) {
         reporter.panicOnBuild(`Error while running GraphQL query`);
         return;
     }
 
-    const template = require.resolve('./src/components/Article.tsx');
+    const templates = {
+        'articles': require.resolve('./src/components/Article.tsx'),
+        'projects': require.resolve('./src/components/Project.tsx'),
+    };
 
-    nodes.forEach(({ slug }) => {
+    nodes.forEach(({ slug, fields: { collection } }) => {
         createPage({
-            path: `articles/${slug}`,
-            component: template,
+            path: `${collection}/${slug}`,
+            component: templates[collection],
             context: {
                 // Template GraphQL query parameters
                 slug: slug,

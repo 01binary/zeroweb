@@ -1,13 +1,14 @@
-import IArticleMetadata from '../models/IArticleMetadata';
+import IArticleMetadata from './IArticleMetadata';
 
-interface IArticleContent {
+interface IArticle {
     slug: string,
     body: string,
+    timeToRead: number,
     frontmatter: IArticleMetadata
 }
 
 interface IArticleQuery {
-    mdx: IArticleContent
+    mdx: IArticle
 }
 
 export default IArticleQuery;

@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react"
+import SEO from '../components/SEO';
 import { graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import IArticleQuery from '../models/IArticleQuery'
@@ -12,20 +13,38 @@ const Article: FunctionComponent<IArticleProps> = ({
         mdx: {
             slug,
             body,
+            timeToRead,
             frontmatter: {
                 title,
+                description,
+                image,
                 date,
                 tags
             }
         }
     }
 }) => (
-    <article>
+    <main>
+        <SEO
+          title={title}
+          description={description}
+          image={image}
+          url={`articles/${slug}`}
+        />
+
+        <img src={image}></img>
+
         <h1>{title} ({slug})</h1>
-        <section>{date}</section>
+
+        <section>
+          <span>{date}</span>
+          <span>{timeToRead}</span>
+        </section>
+
         <section>{tags}</section>
+
         <MDXRenderer>{body}</MDXRenderer>
-    </article>
+    </main>
 );
 
 export const pageQuery = graphql`
@@ -33,8 +52,11 @@ export const pageQuery = graphql`
     mdx(slug: { eq: $slug } ) {
       slug
       body
+      timeToRead
       frontmatter {
         title
+        description
+        image
         date(fromNow:true)
         tags
       }

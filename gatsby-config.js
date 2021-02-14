@@ -1,6 +1,10 @@
 module.exports = {
   siteMetadata: {
     title: "01 Binary: tech art",
+    titleTemplate: "%s - 01 Binary",
+    description: "Engineering and robotics projects.",
+    url: "https://www.01binary.us",
+    image: "/images/icon.png"
   },
   plugins: [
     "gatsby-plugin-sass",

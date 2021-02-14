@@ -1,5 +1,7 @@
 ---
 title: Hello, world!
+description: This is a test
+image: /images/articles/test.png
 date: 2021-02-10
 tags: mechanical
 ---

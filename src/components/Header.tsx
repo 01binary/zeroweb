@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Link } from 'gatsby';
 
-const Header = () => (
+const Header: FunctionComponent = () => (
     <header>
       <h1>01 Binary</h1>
 
       <nav>
-        <Link to="/">articles</Link>
-        <Link to="/projects">projects</Link>
-        <Link to="/about">about</Link>
+        <ul>
+          <li><Link to="/">articles</Link></li>
+          <li><Link to="/projects">projects</Link></li>
+          <li><Link to="/about">about</Link></li>
+        </ul>
       </nav>
     </header>
 );

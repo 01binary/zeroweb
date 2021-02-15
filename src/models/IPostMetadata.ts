@@ -18,8 +18,7 @@ interface IPostMetadata {
     title: string,
     description: string,
     image: IPostImage,
-    date: string,
-    tags: string
+    date: string
 }
 
 export default IPostMetadata;

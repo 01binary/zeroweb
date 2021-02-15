@@ -21,11 +21,11 @@ const Post: FunctionComponent<IPostProps> = ({
                 image: {
                   childImageSharp: { fluid }
                 },
-                date,
-                tags
+                date
             },
             fields: {
-              collection
+              collection,
+              allTags
             }
         }
     }
@@ -44,12 +44,12 @@ const Post: FunctionComponent<IPostProps> = ({
 
         <section>
           <span>{date}</span>
-          <span>{timeToRead}</span>
+          <span>{timeToRead} min to read</span>
         </section>
 
-        <section>
-          {tags}
-        </section>
+        <ul>
+          {allTags.map(tag => <li>{tag}</li>)}
+        </ul>
 
         <MDXRenderer>
           {body}
@@ -77,7 +77,8 @@ export const pageQuery = graphql`
         tags
       }
       fields {
-        collection
+        collection,
+        allTags
       }
     }
   }

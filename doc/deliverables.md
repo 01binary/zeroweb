@@ -19,12 +19,10 @@ Create Next project and fill with tasks
 
 # Basic Frontend
 
-Standup Gatsby Frontend
 Basic Layout
 Title Callout
 Article
 Article Date Metadata
-Markdown
 Table Formatting
 Number List Formatting
 TOC (open to the side mobile)

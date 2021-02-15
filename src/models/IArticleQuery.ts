@@ -1,10 +1,15 @@
 import IArticleMetadata from './IArticleMetadata';
 
+interface IArticleFields {
+    collection: string
+}
+
 interface IArticle {
     slug: string,
     body: string,
     timeToRead: number,
-    frontmatter: IArticleMetadata
+    frontmatter: IArticleMetadata,
+    fields: IArticleFields
 }
 
 interface IArticleQuery {

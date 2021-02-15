@@ -57,6 +57,18 @@ module.exports = {
       __key: "projects",
     },
     {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        path: "./src/articles/images/",
+      }
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        path: "./src/projects/images/",
+      }
+    },
+    {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: [`.md`],

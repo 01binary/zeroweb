@@ -1,7 +1,7 @@
 ---
 title: Another one
 description: This is another article
-image: /images/articles/test.png
+image: ./images/test.png
 date: 2021-02-11
 tags: electrical
 ---

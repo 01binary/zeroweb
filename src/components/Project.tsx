@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react"
-import SEO from '../components/SEO';
 import { graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx";
+import Img from "gatsby-image";
+import SEO from '../components/SEO';
 import IArticleQuery from '../models/IArticleQuery'
 
 interface IProjectProps {
@@ -16,7 +17,9 @@ const Project: FunctionComponent<IProjectProps> = ({
             frontmatter: {
                 title,
                 description,
-                image,
+                image: {
+                  childImageSharp: { fluid }
+                },
                 date,
                 tags
             }
@@ -27,11 +30,10 @@ const Project: FunctionComponent<IProjectProps> = ({
         <SEO
           title={title}
           description={description}
-          image={image}
           url={`projects/${slug}`}
         />
 
-        <img src={image}></img>
+        <Img fluid={fluid} />
 
         <h1>{title} ({slug})</h1>
 
@@ -53,9 +55,18 @@ export const pageQuery = graphql`
       frontmatter {
         title
         description
-        image
+        image {
+          childImageSharp {
+            fluid(maxWidth:800) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
         date(fromNow:true)
         tags
+      }
+      fields {
+        collection
       }
     }
   }

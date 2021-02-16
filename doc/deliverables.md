@@ -55,7 +55,6 @@ Tag Selector (open to the side mobile)
 Timeline Selector (compact mobile)
 Related Selector
 Article Infinite Scroll
-Image Zooming
 TOC Thumbnails
 
 # Detail Frontend

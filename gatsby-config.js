@@ -7,7 +7,7 @@ module.exports = {
     image: "/images/icon.png"
   },
   plugins: [
-    "gatsby-plugin-sass",
+    `gatsby-plugin-styled-components`,
     {
       resolve: "gatsby-plugin-google-analytics",
       options: {

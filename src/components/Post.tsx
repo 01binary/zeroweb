@@ -33,7 +33,6 @@ const MetadataKey = styled.span`
 const Post: FunctionComponent<IPostProps> = ({
     data: {
         mdx: {
-            slug,
             body,
             timeToRead,
             frontmatter: {
@@ -45,8 +44,8 @@ const Post: FunctionComponent<IPostProps> = ({
                 date
             },
             fields: {
-              collection,
-              allTags
+              url,
+              tags
             }
         }
     }
@@ -56,7 +55,7 @@ const Post: FunctionComponent<IPostProps> = ({
           title={title}
           description={description}
           image={fluid.src}
-          url={`${collection}/${slug}`}
+          url={url}
         />
 
         <Img fluid={fluid} />
@@ -69,7 +68,7 @@ const Post: FunctionComponent<IPostProps> = ({
         </Metadata>
 
         <Tags>
-          {allTags.map(tag => <Tag>{tag}</Tag>)}
+          {tags.map(tag => <Tag>{tag}</Tag>)}
         </Tags>
 
         <MDXRenderer>
@@ -98,8 +97,9 @@ export const pageQuery = graphql`
         tags
       }
       fields {
+        url,
         collection,
-        allTags
+        tags
       }
     }
   }

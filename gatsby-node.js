@@ -52,7 +52,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 
         createNodeField({
             node,
-            name: 'slug',
+            name: 'url',
             value: `/${collection}${relativeFilePath}`
         });
 
@@ -64,7 +64,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 
         createNodeField({
             node,
-            name: 'allTags',
+            name: 'tags',
             value: node.frontmatter.tags
                 .split(',')
                 .map(t => t.trim().toLowerCase())

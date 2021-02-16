@@ -1,8 +1,9 @@
 import IPostMetadata from './IPostMetadata';
 
 interface IPostFields {
+    url: string,
     collection: string,
-    allTags: Array<string>
+    tags: Array<string>
 }
 
 interface IPost {

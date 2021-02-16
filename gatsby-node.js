@@ -25,15 +25,12 @@ exports.createPages = async ({
         return;
     }
 
-    const templates = {
-        'articles': require.resolve('./src/components/Article.tsx'),
-        'projects': require.resolve('./src/components/Project.tsx'),
-    };
+    const post = require.resolve('./src/components/Post.tsx');
 
     nodes.forEach(({ slug, fields: { collection } }) => {
         createPage({
             path: `${collection}/${slug}`,
-            component: templates[collection],
+            component: post,
             context: {
                 // Template GraphQL query parameters
                 slug: slug,

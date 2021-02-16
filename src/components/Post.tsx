@@ -2,14 +2,14 @@ import React, { FunctionComponent } from "react"
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
-import SEO from '../components/SEO';
-import IArticleQuery from '../models/IArticleQuery';
+import SEO from './SEO';
+import IPostQuery from '../models/IPost';
 
-interface IArticleProps {
-    data: IArticleQuery
+interface IPostProps {
+    data: IPostQuery
 }
 
-const Article: FunctionComponent<IArticleProps> = ({
+const Post: FunctionComponent<IPostProps> = ({
     data: {
         mdx: {
             slug,
@@ -34,21 +34,26 @@ const Article: FunctionComponent<IArticleProps> = ({
         <SEO
           title={title}
           description={description}
-          url={`articles/${slug}`}
+          image={fluid.src}
+          url={`${collection}/${slug}`}
         />
 
         <Img fluid={fluid} />
 
-        <h1>{title} ({slug}) of {collection}</h1>
+        <h1>{title}</h1>
 
         <section>
           <span>{date}</span>
           <span>{timeToRead}</span>
         </section>
 
-        <section>{tags}</section>
+        <section>
+          {tags}
+        </section>
 
-        <MDXRenderer>{body}</MDXRenderer>
+        <MDXRenderer>
+          {body}
+        </MDXRenderer>
     </main>
 );
 
@@ -78,4 +83,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default Article;
+export default Post;

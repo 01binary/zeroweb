@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react"
+import styled from 'styled-components';
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
@@ -8,6 +9,26 @@ import IPostQuery from '../models/IPost';
 interface IPostProps {
     data: IPostQuery
 }
+
+const Title = styled.h1`
+  color:gray
+`
+
+const Tags = styled.ul`
+  color: green;
+`
+
+const Tag = styled.li`
+  border: 1px solid gray;
+`
+
+const Metadata = styled.section`
+  color: darkgray;
+`
+
+const MetadataKey = styled.span`
+  margin-right: 2pt
+`
 
 const Post: FunctionComponent<IPostProps> = ({
     data: {
@@ -40,16 +61,16 @@ const Post: FunctionComponent<IPostProps> = ({
 
         <Img fluid={fluid} />
 
-        <h1>{title}</h1>
+        <Title>{title}</Title>
 
-        <section>
-          <span>{date}</span>
-          <span>{timeToRead} min to read</span>
-        </section>
+        <Metadata>
+          <MetadataKey>{date}</MetadataKey>
+          <MetadataKey>{timeToRead} min to read</MetadataKey>
+        </Metadata>
 
-        <ul>
-          {allTags.map(tag => <li>{tag}</li>)}
-        </ul>
+        <Tags>
+          {allTags.map(tag => <Tag>{tag}</Tag>)}
+        </Tags>
 
         <MDXRenderer>
           {body}

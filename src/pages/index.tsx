@@ -17,15 +17,15 @@ const Index: FunctionComponent<IIndexProps> = ({
       timeToRead,
       frontmatter: {
         title,
-        date,
-        tags
+        date
       },
       fields: {
-        collection
+        tags,
+        url
       }
     }) => (
       <article key={slug}>
-        <Link to={`${collection}/${slug}`}>
+        <Link to={url}>
           <h2>{title}</h2>
           <section>{date}</section>
           <section>{timeToRead} min to read</section>
@@ -48,11 +48,11 @@ export const query = graphql`
         timeToRead
         frontmatter {
           title,
-          date(fromNow:true),
-          tags
+          date(fromNow:true)
         }
         fields {
-          collection
+          url,
+          tags
         }
       }
     }

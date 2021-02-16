@@ -1,4 +1,3 @@
-import IPostMetadata from './IPostMetadata';
 import IPost from './IPost';
 
 interface IPosts {

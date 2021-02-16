@@ -61,5 +61,13 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
             name: 'collection',
             value: collection
         });
+
+        createNodeField({
+            node,
+            name: 'allTags',
+            value: node.frontmatter.tags
+                .split(',')
+                .map(t => t.trim().toLowerCase())
+        });
     }
 };

@@ -6,6 +6,10 @@ date: 2021-02-10
 tags: mechanical
 ---
 
+Some smarty pants
+
+> "Hello world, he said"
+
 Some inline code
 
 ```javascript

@@ -22,7 +22,7 @@ Create Next project and fill with tasks
 Basic Layout
 Title Callout
 Article
-Article Date Metadata
+Article Metadata
 Table Formatting
 Number List Formatting
 TOC (open to the side mobile)

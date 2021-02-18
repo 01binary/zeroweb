@@ -16,3 +16,11 @@ Some inline code
 const text = 'World'
 console.log(`Hello ${text}`)
 ```
+
+And of course a table
+
+|Heading One|Heading Two|Heading Three|
+|-|-|-|
+|Data One|Data Two|Data Three|
+|Data Four|Data Five|Data Six|
+|Data Seven|Data Eight|Data Nine|

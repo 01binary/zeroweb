@@ -6,10 +6,6 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import SEO from './SEO';
 import IPostQuery from '../models/IPost';
 
-interface IPostProps {
-    data: IPostQuery
-}
-
 const Title = styled.h1`
   color:gray
 `
@@ -26,9 +22,13 @@ const Metadata = styled.section`
   color: darkgray;
 `
 
-const MetadataKey = styled.span`
+const MetaProp = styled.span`
   margin-right: 2pt
 `
+
+interface IPostProps {
+  data: IPostQuery
+}
 
 const Post: FunctionComponent<IPostProps> = ({
     data: {
@@ -63,8 +63,8 @@ const Post: FunctionComponent<IPostProps> = ({
         <Title>{title}</Title>
 
         <Metadata>
-          <MetadataKey>{date}</MetadataKey>
-          <MetadataKey>{timeToRead} min to read</MetadataKey>
+          <MetaProp>{date}</MetaProp>
+          <MetaProp>{timeToRead} min to read</MetaProp>
         </Metadata>
 
         <Tags>

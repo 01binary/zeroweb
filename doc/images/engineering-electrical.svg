@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.2px"
+	 height="25.5px" viewBox="0 0 29.2 25.5" enable-background="new 0 0 29.2 25.5" xml:space="preserve">
+<g id="Border">
+	<path fill="#D0CECE" d="M21.9,25.4H7.3L0,12.7L7.3,0.1h14.6l7.3,12.6L21.9,25.4z M7.9,24.4h13.4L28,12.7L21.3,1.1H7.9L1.2,12.7
+		L7.9,24.4z"/>
+</g>
+<g id="Icon">
+	<circle fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" cx="10.1" cy="12.9" r="2.2"/>
+	<circle fill="#FFFFFF" stroke="#848484" stroke-miterlimit="10" cx="18.8" cy="12.9" r="2.2"/>
+	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="7.9" y1="12.9" x2="3.6" y2="12.9"/>
+	<line fill="#FFFFFF" stroke="#848484" stroke-miterlimit="10" x1="25.3" y1="12.9" x2="21" y2="12.9"/>
+	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="15.9" y1="7" x2="11.6" y2="11.3"/>
+</g>
+</svg>

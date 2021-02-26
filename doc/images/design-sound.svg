@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.2px"
-	 height="25.5px" viewBox="0 0 29.2 25.5" enable-background="new 0 0 29.2 25.5" xml:space="preserve">
-<g id="Border">
-	<g>
-		<path fill="#D0CECE" d="M21.3,1.1L28,12.7l-6.7,11.6H7.9L1.2,12.7L7.9,1.1H21.3 M21.9,0.1H7.3L0,12.7l7.3,12.6h14.6l7.3-12.6
-			L21.9,0.1L21.9,0.1z"/>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+	 height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g id="Border" display="none">
+	<g display="inline">
+		<path fill="#D3D3D3" d="M18.7,0.4L25.4,12l-6.7,11.6H5.3L-1.4,12L5.3,0.4H18.7 M19.3-0.6H4.7L-2.6,12l7.3,12.6h14.6L26.6,12
+			L19.3-0.6L19.3-0.6z"/>
 	</g>
 </g>
 <g id="Icon">
-	<polyline fill="none" stroke="#848484" stroke-miterlimit="10" points="14.4,8.3 6.2,8.3 6.2,18.4 15.9,18.4 	"/>
-	<line fill="none" stroke="#848484" stroke-miterlimit="10" x1="9.2" y1="18.4" x2="9.2" y2="8.2"/>
-	<line fill="none" stroke="#848484" stroke-miterlimit="10" x1="13.2" y1="18.4" x2="13.2" y2="8.2"/>
-	<rect x="8.1" y="7.8" width="2.3" height="6.3"/>
-	<rect x="12.1" y="7.8" width="2.3" height="6.3"/>
-	<path fill="none" stroke="#848484" stroke-linecap="round" stroke-miterlimit="10" stroke-dasharray="0.1,1.5" d="M15.7,11.9
+	<polyline fill="none" stroke="#898989" stroke-miterlimit="10" points="11.8,7.6 3.7,7.6 3.7,17.6 13.3,17.6 	"/>
+	<line fill="none" stroke="#898989" stroke-miterlimit="10" x1="6.6" y1="17.6" x2="6.6" y2="7.5"/>
+	<line fill="none" stroke="#898989" stroke-miterlimit="10" x1="10.7" y1="17.6" x2="10.7" y2="7.5"/>
+	<rect x="5.5" y="7.1" fill="#3B4A51" width="2.3" height="6.3"/>
+	<rect x="9.5" y="7.1" fill="#3B4A51" width="2.3" height="6.3"/>
+	<path fill="none" stroke="#898989" stroke-linecap="round" stroke-miterlimit="10" stroke-dasharray="0.1,1.5" d="M13.2,11.2
 		c2.3,0,2.3,3.4,4.6,3.4c2.3,0,2.3-3.4,4.6-3.4"/>
-	<path fill="none" stroke="#848484" stroke-linecap="round" stroke-miterlimit="10" stroke-dasharray="0.1,1.5" d="M15.7,15
+	<path fill="none" stroke="#898989" stroke-linecap="round" stroke-miterlimit="10" stroke-dasharray="0.1,1.5" d="M13.2,14.3
 		c2.3,0,2.3,3.4,4.6,3.4c2.3,0,2.3-3.4,4.6-3.4"/>
-	<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M15.4,8.3c2.4,0,2.4,3.4,4.7,3.4c2.4,0,2.4-3.4,4.7-3.4"/>
-	<path fill="none" stroke="#F20A7E" stroke-miterlimit="10" d="M25,15.3"/>
+	<path fill="none" stroke="#3B4A51" stroke-miterlimit="10" d="M12.8,7.6c2.4,0,2.4,3.4,4.7,3.4c2.4,0,2.4-3.4,4.7-3.4"/>
+	<path fill="none" stroke="#F20A7E" stroke-miterlimit="10" d="M22.4,14.5"/>
 </g>
 </svg>

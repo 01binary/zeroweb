@@ -18,7 +18,7 @@
         <td>About</td>
     </tr>
     <tr>
-        <td bgcolor="white"><img src="images/bullet.svg"/></td>
+        <td bgcolor="white"><center><img src="images/bullet.svg" height="23"/></center></td>
         <td>Bullet</td>
     </tr>
     <tr>
@@ -42,11 +42,11 @@
         <td>Copy</td>
     </tr>
     <tr>
-        <td bgcolor="white"><img src="images/plus.svg"/></td>
+        <td bgcolor="white"><img src="images/plus.svg" width="12"/></td>
         <td>Plus</td>
     </tr>
     <tr>
-        <td bgcolor="white"><img src="images/x.svg"/></td>
+        <td bgcolor="white"><img src="images/x.svg" width="10"/></td>
         <td>Close</td>
     </tr>
     <tr>

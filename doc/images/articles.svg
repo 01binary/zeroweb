@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19">
-<polygon points="13.9,1 4.1,1 2,1 2,1 2,5 4,5 4,3 14,3 14,5 16,5 16,1"/>
-<polygon points="14,14 4,14 4,12 2,12 2,16 2,16 4.1,16 13.9,16 16,16 16,12 14,12"/>
-<rect x="6" y="5" width="6" height="1"/>
-<rect x="6" y="8" width="6" height="1"/>
-<rect x="6" y="11" width="6" height="1"/>
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#3B4A51;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#898989;stroke-miterlimit:10;}
+</style>
+<path class="st0" d="M16.6,6.9H7.2c-0.6,0-1-0.5-1-1V4.5c0-0.5,0.4-1,1-1h9.4c0.5,0,1,0.4,1,1v1.4C17.6,6.5,17.1,6.9,16.6,6.9z"/>
+<path class="st0" d="M16.6,20.5H7.2c-0.6,0-1-0.5-1-1v-1.4c0-0.6,0.4-1,1-1h9.4c0.5,0,1,0.4,1,1v1.4C17.6,20,17.1,20.5,16.6,20.5z"
+	/>
+<path class="st0" d="M16.6,13.7H7.2c-0.6,0-1-0.4-1-1v-1.4c0-0.6,0.4-1,1-1h9.4c0.5,0,1,0.4,1,1v1.4C17.6,13.3,17.1,13.7,16.6,13.7z
+	"/>
+<path class="st1" d="M18.2,15.4H5.5c-0.6,0-1-0.5-1-1V9.6c0-0.5,0.4-1,1-1h12.7c0.5,0,1,0.5,1,1v4.8C19.2,15,18.8,15.4,18.2,15.4z"
+	/>
 </svg>

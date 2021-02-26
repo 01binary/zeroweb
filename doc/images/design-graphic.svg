@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.2px"
-	 height="25.5px" viewBox="0 0 29.2 25.5" enable-background="new 0 0 29.2 25.5" xml:space="preserve">
-<g id="Border">
-	<path fill="#D0CECE" d="M21.9,25.4H7.3L0,12.7L7.3,0.1h14.6l7.3,12.6L21.9,25.4z M7.9,24.4h13.4L28,12.7L21.3,1.1H7.9L1.2,12.7
-		L7.9,24.4z"/>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+	 height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g id="Border" display="none">
+	<path display="inline" fill="#D3D3D3" d="M19.3,24.6H4.7L-2.6,12L4.7-0.6h14.6L26.6,12L19.3,24.6z M5.3,23.6h13.4L25.4,12L18.7,0.4
+		H5.3L-1.4,12L5.3,23.6z"/>
 </g>
 <g id="Icon">
-	<path fill="none" stroke="#848484" stroke-miterlimit="10" d="M15.9,9.5c2.5,0.6,4.5,2.9,5,5.8"/>
-	<path fill="none" stroke="#848484" stroke-miterlimit="10" d="M8.2,15.4c0.5-2.9,2.5-5.3,5.1-5.9"/>
-	<line fill="none" stroke="#848484" stroke-miterlimit="10" x1="15.9" y1="8.7" x2="19.4" y2="8.7"/>
-	<line fill="none" stroke="#848484" stroke-miterlimit="10" x1="9.7" y1="8.7" x2="13.2" y2="8.7"/>
-	<rect x="7" y="15.4" fill="none" stroke="#000000" stroke-miterlimit="10" width="2.7" height="2.7"/>
-	<rect x="13.2" y="7.3" fill="none" stroke="#000000" stroke-miterlimit="10" width="2.7" height="2.7"/>
-	<rect x="19.4" y="15.4" fill="none" stroke="#000000" stroke-miterlimit="10" width="2.7" height="2.7"/>
-	<circle fill="none" stroke="#000000" stroke-miterlimit="10" cx="8.4" cy="8.7" r="1.4"/>
-	<circle fill="none" stroke="#000000" stroke-miterlimit="10" cx="20.8" cy="8.7" r="1.4"/>
+	<path fill="none" stroke="#898989" stroke-miterlimit="10" d="M13.4,8.8c2.5,0.6,4.5,2.9,5,5.8"/>
+	<path fill="none" stroke="#898989" stroke-miterlimit="10" d="M5.6,14.7c0.5-2.9,2.5-5.3,5.1-5.9"/>
+	<line fill="none" stroke="#848484" stroke-miterlimit="10" x1="13.4" y1="8" x2="16.8" y2="8"/>
+	<line fill="none" stroke="#898989" stroke-miterlimit="10" x1="7.2" y1="8" x2="10.6" y2="8"/>
+	<rect x="4.4" y="14.7" fill="none" stroke="#3B4A51" stroke-miterlimit="10" width="2.7" height="2.7"/>
+	<rect x="10.6" y="6.6" fill="none" stroke="#3B4A51" stroke-miterlimit="10" width="2.7" height="2.7"/>
+	<rect x="16.8" y="14.7" fill="none" stroke="#3B4A51" stroke-miterlimit="10" width="2.7" height="2.7"/>
+	<circle fill="none" stroke="#3B4A51" stroke-miterlimit="10" cx="5.8" cy="8" r="1.4"/>
+	<circle fill="none" stroke="#3B4A51" stroke-miterlimit="10" cx="18.2" cy="8" r="1.4"/>
 </g>
 </svg>

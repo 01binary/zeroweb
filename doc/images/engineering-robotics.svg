@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.2px"
-	 height="25.5px" viewBox="0 0 29.2 25.5" enable-background="new 0 0 29.2 25.5" xml:space="preserve">
-<g id="Border">
-	<path fill="#D0CECE" d="M21.9,25.4H7.3L0,12.7L7.3,0.1h14.6l7.3,12.6L21.9,25.4z M7.9,24.4h13.4L28,12.7L21.3,1.1H7.9L1.2,12.7
-		L7.9,24.4z"/>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+	 height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g id="Border" display="none">
+	<path display="inline" fill="#D3D3D3" d="M19.3,24.6H4.7L-2.6,12L4.7-0.6h14.6L26.6,12L19.3,24.6z M5.3,23.6h13.4L25.4,12L18.7,0.4
+		H5.3L-1.4,12L5.3,23.6z"/>
 </g>
 <g id="Icon">
-	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="12.4" y1="18.8" x2="7.9" y2="18.8"/>
-	<circle fill="none" stroke="#000000" stroke-miterlimit="10" cx="14.6" cy="18.8" r="2.2"/>
-	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="18.8" y1="14.6" x2="16.2" y2="17.2"/>
-	<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M21.2,9.1c0,0-0.1,0-0.1,0c-1.8,0-3.2,1.4-3.2,3.2s1.4,3.2,3.2,3.2
+	<line fill="none" stroke="#3B4A51" stroke-miterlimit="10" x1="9.9" y1="18.1" x2="5.4" y2="18.1"/>
+	<circle fill="none" stroke="#3B4A51" stroke-miterlimit="10" cx="12" cy="18.1" r="2.2"/>
+	<line fill="none" stroke="#3B4A51" stroke-miterlimit="10" x1="16.2" y1="13.9" x2="13.6" y2="16.5"/>
+	<path fill="none" stroke="#3B4A51" stroke-miterlimit="10" d="M18.6,8.4c0,0-0.1,0-0.1,0c-1.8,0-3.2,1.4-3.2,3.2s1.4,3.2,3.2,3.2
 		c1.8,0,3.2-1.4,3.2-3.2"/>
-	<path id="path34" fill="#848484" d="M9.5,12c0,0.8-0.6,1.5-1.4,1.5S6.7,12.8,6.7,12c0-0.8,0.6-1.5,1.4-1.5S9.5,11.2,9.5,12"/>
-	<path id="path36" fill="#848484" d="M9.5,6.9c0,0.8-0.6,1.5-1.4,1.5S6.7,7.8,6.7,6.9c0-0.8,0.6-1.5,1.4-1.5S9.5,6.1,9.5,6.9"/>
-	<path id="path38" fill="#848484" d="M14.6,12c0,0.8-0.6,1.5-1.4,1.5c-0.8,0-1.4-0.7-1.4-1.5c0-0.8,0.6-1.5,1.4-1.5
-		C13.9,10.5,14.6,11.2,14.6,12"/>
-	<path id="path40" fill="#848484" d="M14.6,6.9c0,0.8-0.6,1.5-1.4,1.5c-0.8,0-1.4-0.7-1.4-1.5c0-0.8,0.6-1.5,1.4-1.5
-		C13.9,5.4,14.6,6.1,14.6,6.9"/>
+	<path id="path34" fill="#898989" d="M7,11.3c0,0.8-0.6,1.5-1.4,1.5s-1.4-0.7-1.4-1.5c0-0.8,0.6-1.5,1.4-1.5S7,10.4,7,11.3"/>
+	<path id="path36" fill="#898989" d="M7,6.2C7,7,6.3,7.7,5.5,7.7S4.1,7,4.1,6.2c0-0.8,0.6-1.5,1.4-1.5S7,5.4,7,6.2"/>
+	<path id="path38" fill="#898989" d="M12,11.3c0,0.8-0.6,1.5-1.4,1.5c-0.8,0-1.4-0.7-1.4-1.5c0-0.8,0.6-1.5,1.4-1.5
+		C11.3,9.8,12,10.4,12,11.3"/>
+	<path id="path40" fill="#898989" d="M12,6.2c0,0.8-0.6,1.5-1.4,1.5C9.7,7.7,9.1,7,9.1,6.2c0-0.8,0.6-1.5,1.4-1.5
+		C11.3,4.7,12,5.4,12,6.2"/>
 </g>
 </svg>

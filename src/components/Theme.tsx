@@ -28,7 +28,7 @@ const spacing = {
 
 const typography = {
     titleFont: 'Consolas, Menlo, monospace',
-    titleFontSize: '12pt',
+    titleFontSize: '14pt',
     titleFontWeight: 'normal',
 
     headingFont: '"Open Sans", "Helvetica Neue", Arial, sans-serif',
@@ -123,9 +123,37 @@ export const Theme: FunctionComponent<IThemeProps> = (
 );
 
 export const GlobalStyle = createGlobalStyle`
+  .fill-background {
+    fill: ${props => props.theme.backgroundColor};
+  }
+
+  .fill-foreground {
+    fill: ${props => props.theme.foregroundColor};
+  }
+
+  .fill-primary {
+    fill: ${props => props.theme.primaryColor};
+  }
+
+  .fill-none {
+    fill: none;
+  }
+
+  .stroke-border {
+    stroke: ${props => props.theme.borderColor};
+  }
+
+  .stroke-none {
+    stroke: none;
+  }
+
   ::selection {
     color: ${props => props.theme.backgroundColor};
     background: ${props => props.theme.focusColor};
+  }
+
+  body {
+      background: ${props => props.theme.backgroundColor}
   }
 
   main {

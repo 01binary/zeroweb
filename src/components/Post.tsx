@@ -58,8 +58,6 @@ const Post: FunctionComponent<IPostProps> = ({
           url={url}
         />
 
-        <Img fluid={fluid} />
-
         <Title>{title}</Title>
 
         <Metadata>
@@ -67,13 +65,15 @@ const Post: FunctionComponent<IPostProps> = ({
           <MetaProp>{timeToRead} min to read</MetaProp>
         </Metadata>
 
-        <Tags>
-          {tags.map(tag => <Tag>{tag}</Tag>)}
-        </Tags>
+        <Img fluid={fluid} />
 
         <MDXRenderer>
           {body}
         </MDXRenderer>
+
+        <Tags>
+          {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+        </Tags>
     </main>
 );
 

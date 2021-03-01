@@ -1,22 +1,3 @@
-```
-/*--------------------------------------------------------*\
-|   ______    __   |
-|  |  __  |  |  |  |
-|  | |  | |  |  |  |
-|  | !__! |  |  |  |
-|  !______!  !__!  |  binary : tech art
-|
-|  Source code header
-|----------------------------------------------------------
-|  Copyright(C) 2017 Valeriy Novytskyy
-\*---------------------------------------------------------*/
-```
-
-# Pre-Production
-
-Design icons for tags
-Create Next project and fill with tasks
-
 # Basic Frontend
 
 Basic Layout

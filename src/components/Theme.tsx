@@ -20,9 +20,10 @@ const spacing = {
     spacingMin: `${unit / 12}px`,              // 2px
 
     cornerSmall: `${unit / 3}px`,              // 8px
+    margin: `9pt`,
 
-    breakpointDesktop: '650px',
-    breakpointMobile: '320px'
+    desktop: '688px',
+    mobile: '320px'
 }
 
 const typography = {
@@ -92,11 +93,11 @@ const lightTheme = {
     dropShadowTransparentColor: 'black',
 
     warningColor: '#E1B412',
-    focusColor: '#FF5AC0',
+    focusColor: '#FF008E',
     errorColor: '#BA141A',
 
     textSelectionColor: 'white',
-    textSelectionBackground: '#FF5AC0',
+    textSelectionBackground: '#FF008E',
 
     ...spacing,
     ...typography,
@@ -122,49 +123,68 @@ export const Theme: FunctionComponent<IThemeProps> = (
 );
 
 export const GlobalStyle = createGlobalStyle`
+  ::selection {
+    color: ${props => props.theme.backgroundColor};
+    background: ${props => props.theme.focusColor};
+  }
+
   main {
-    float: left;
     position: relative;
-    width: calc(100% - 22px);
-    margin-left: 22px;
-    font-family: $normal-font;
-    font-weight: $normal-font-weight;
-    font-size: $normal-font-size;
+    width: ${props => props.theme.desktop};
+    margin: auto;
+    font-family: ${props => props.theme.normalFont};
+    font-weight: ${props => props.theme.normalFontWeight};
+    font-size: ${props => props.theme.normalFontSize};
 
     &:before {
         content: '{';
-        font-family: $background-font;
+        font-family: ${props => props.theme.backgroundFont};
         font-size: 45pt;
-        color: $border-color;
+        color: ${props => props.theme.borderColor};
     
         float: left;
         position: relative;
-        left: -29px;
+        left: -${props => props.theme.spacingOneAndHalf};
         top: 26pt;
         width: 0;
     }
 
     &:after {
         content: '}';
-        font-family: $background-font;
+        font-family: ${props => props.theme.backgroundFont};
         font-size: 45pt;
-        color: $border-color;
+        color: ${props => props.theme.borderColor};
     
         position: relative;
         top: -1.1em;
-        left: calc(100% + .25em);
+        left: calc(100% + ${props => props.theme.spacingHalf});
         text-align: right;
         margin-bottom: -2em;
     }
   }
 
+  main p {
+    color: ${props => props.theme.foregroundColor};
+  }
+
+  a {
+    position: relative;
+    color: ${props => props.theme.accentTextColor};
+    text-decoration: none;
+    transition: color ${props => props.theme.animationFast} ease-out;
+  
+    &:hover {
+      color: ${props => props.theme.primaryDarkShadowColor};
+    }
+  }
+
   h1 {
     text-transform: lowercase;
-    font-size: $heading-font-size-large;
-    font-family: $heading-font;
-    font-weight: $heading-font-weight;
+    font-size: ${props => props.theme.headingFontSizeLarge};
+    font-family: ${props => props.theme.headingFont};
+    font-weight: ${props => props.theme.headingFontWeight};
     padding-top: 0;
-    margin-bottom: $margin;
-    margin-top: $margin;
+    margin-bottom: ${props => props.theme.margin};
+    margin-top: ${props => props.theme.margin};
   }
-`
+`;

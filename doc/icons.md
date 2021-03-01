@@ -42,6 +42,14 @@
         <td>Clock</td>
     </tr>
     <tr>
+        <td bgcolor="white"><img src="images/snap-still.gif" height="14"/></td>
+        <td>Snap (Static)</td>
+    </tr>
+    <tr>
+        <td bgcolor="white"><img src="images/snap.gif" height="14"/></td>
+        <td>Snap (Animated)</td>
+    </tr>
+    <tr>
         <td bgcolor="white"><img src="images/share.svg"/></td>
         <td>Share</td>
     </tr>

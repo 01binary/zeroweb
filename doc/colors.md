@@ -111,7 +111,7 @@
     </tr>
     <tr>
         <td>Focus</td>
-        <td style="background:#ff5ac0;color:black">#ff5ac0</td>
+        <td style="background:#ff008e;color:white">#ff008e</td>
     </tr>
     <tr>
         <td>Warning</td>

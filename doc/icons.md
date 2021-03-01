@@ -34,12 +34,28 @@
         <td>User</td>
     </tr>
     <tr>
+        <td bgcolor="white"><img src="images/search.svg"/></td>
+        <td>Search</td>
+    </tr>
+    <tr>
         <td bgcolor="white"><img src="images/clock.svg"/></td>
         <td>Clock</td>
     </tr>
     <tr>
+        <td bgcolor="white"><img src="images/share.svg"/></td>
+        <td>Share</td>
+    </tr>
+    <tr>
+        <td bgcolor="white"><img src="images/comment.svg"/></td>
+        <td>Comment</td>
+    </tr>
+    <tr>
         <td bgcolor="white"><img src="images/copy.svg"/></td>
         <td>Copy</td>
+    </tr>
+    <tr>
+        <td bgcolor="white"><img src="images/link.svg"/></td>
+        <td>Link</td>
     </tr>
     <tr>
         <td bgcolor="white"><img src="images/plus.svg" width="12"/></td>

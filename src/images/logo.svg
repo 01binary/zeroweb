@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="73px" height="60px" xml:space="preserve">
-    <rect class="fill-primary" x="7" y="7" width="59" height="46"/>
+    <rect class="fill-foreground" x="7" y="7" width="59" height="46"/>
     <rect class="fill-background" x="20" y="20" width="7" height="19.8"/>
     <path class="fill-background" d="M0,0v53h7V7h33v46H7v6.8h66V0H0z M66,53H53V7h13V53z"/>
 </svg>

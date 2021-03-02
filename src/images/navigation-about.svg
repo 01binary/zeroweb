@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="88px"
+	 height="66px" viewBox="0 0 88 66" style="enable-background:new 0 0 88 66;" xml:space="preserve">
+<g id="background">
+	<polygon points="87,65 87,6.4 80.7,0.1 6.4,0.1 0,6.3 0,65 	"/>
+</g>
+<g id="border">
+	<polygon points="87,7 87,65 1,65 1,10 0,10 0,66 88,66 88,7 	"/>
+</g>
+<g id="highlight">
+	<rect x="1" y="7" width="1" height="58"/>
+</g>
+<g id="selection">
+	<polygon points="13,14.1 13,10.1 1,10.1 1,66 13,66 13,62 6,62 6,14.1 	"/>
+	<polygon points="75,14.1 75,10.1 87,10.1 87,66 75,66 75,62 82,62 82,14.1 	"/>
+</g>
+</svg>

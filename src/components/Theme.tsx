@@ -131,12 +131,16 @@ export const GlobalStyle = createGlobalStyle`
     fill: ${props => props.theme.foregroundColor};
   }
 
-  .fill-primary {
-    fill: ${props => props.theme.primaryColor};
-  }
-
   .fill-none {
     fill: none;
+  }
+
+  .stroke-foreground {
+    stroke: ${props => props.theme.foregroundColor};
+  }
+
+  .stroke-background {
+    stroke: ${props => props.theme.backgroundColor};
   }
 
   .stroke-border {

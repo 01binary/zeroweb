@@ -1,7 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import HeaderLink from './HeaderLink';
 import LogoImage from '../images/Logo.svg';
+import ArticlesIcon from "../images/articles.svg"
+import ProjectsIcon from "../images/projects.svg"
+import AboutIcon from "../images/about.svg"
+import ArticlesBackground from "../images/navigation-about.svg"
+import ProjectsBackground from "../images/navigation-projects.svg"
+import AboutBackground from "../images/navigation-about.svg"
 
 const Banner = styled.header`
   font-family: ${props => props.theme.titleFont};
@@ -45,6 +51,14 @@ const Banner = styled.header`
     height: 39px;
     background: ${props => props.theme.backgroundColor};
     transform: skewX(45deg);
+  }
+
+  .fill-foreground {
+    fill: ${props => props.theme.backgroundColor}
+  }
+
+  .fill-background {
+    fill: ${props => props.theme.primaryColor}
   }
 `;
 
@@ -92,6 +106,7 @@ const Navigation = styled.nav`
   min-width: 299px;
   width: 100%;
   height: 66px;
+  display:flex;
 
   &:before {
     content: '';
@@ -125,7 +140,13 @@ const Logo = styled(LogoImage)`
   font-size: 48pt;
 `;
 
-const Header: FunctionComponent = () => (
+interface IHeaderProps {
+  path: string
+}
+
+const Header: FunctionComponent<IHeaderProps> = ({
+  path
+}) => (
     <Banner>
       <Logo />
 
@@ -134,9 +155,15 @@ const Header: FunctionComponent = () => (
       </Title>
 
       <Navigation>
-        <Link to="/">articles</Link>
-        <Link to="/projects">projects</Link>
-        <Link to="/about">about</Link>
+        <HeaderLink to="/" path={path} icon={ArticlesIcon} background={ArticlesBackground}>
+          articles
+        </HeaderLink>
+        <HeaderLink to="/projects" path={path} icon={ProjectsIcon} background={ProjectsBackground}>
+          projects
+        </HeaderLink>
+        <HeaderLink to="/about" path={path} icon={AboutIcon} background={AboutBackground}>
+          about
+        </HeaderLink>
       </Navigation>
     </Banner>
 );

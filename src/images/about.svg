@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" mlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<g>
+	<line class="fill-none strike-foreground" x1="12.6" y1="5.5" x2="12.6" y2="7.1"/>
+	<circle class="fill-none strike-foreground" cx="12.6" cy="3.2" r="2.6"/>
+</g>
+<g>
+	<line class="fill-none strike-foreground" x1="12.6" y1="18.6" x2="12.6" y2="17"/>
+	<circle class="fill-none strike-foreground" cx="12.6" cy="20.9" r="2.6"/>
+</g>
+<circle class="fill-none strike-foreground" cx="12.6" cy="12" r="2.6"/>
+<circle class="fill-none stroke-background" cx="12.6" cy="12" r="4.9"/>
+</svg>

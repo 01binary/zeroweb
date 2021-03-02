@@ -15,7 +15,7 @@ const Banner = styled.header`
   color: ${props => props.theme.primaryTextColor};
   max-width: ${props => props.theme.desktop};
   margin: auto;
-  height: 200px;
+  height: 250px;
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,12 +33,12 @@ const Banner = styled.header`
   &:before {
     content: '';
     position: absolute;
-    left: 8px;
+    left: 10px;
     bottom: .1px;
     width: 1px;
-    height: 12px;
+    height: 15px;
     transform: skewX(45deg);
-    box-shadow: 0 0 4px ${props => props.theme.dropShadowDarkColor};
+    box-shadow: 0 0 5px ${props => props.theme.dropShadowDarkColor};
     z-index: 4;
   }
 
@@ -46,9 +46,9 @@ const Banner = styled.header`
     content: '';
     position: absolute;
     left: 100%;
-    top: -6px;
-    width: 13px;
-    height: 39px;
+    top: -7.5px;
+    width: 16px;
+    height: 49px;
     background: ${props => props.theme.backgroundColor};
     transform: skewX(45deg);
   }
@@ -68,8 +68,8 @@ const Banner = styled.header`
 
 const Title = styled.h1`
   position: absolute;
-  left: 103px;
-  top: 55px;
+  left: 128px;
+  top: 68px;
   margin: 0;
   font-size: ${props => props.theme.titleFontSize};
   font-weight: ${props => props.theme.titleFontWeight};
@@ -77,10 +77,10 @@ const Title = styled.h1`
 
 const Caret = styled.div`
   position: absolute;
-  width: 11pt;
-  height: 4pt;
-  right: -12pt;
-  bottom: -3pt;
+  width: 13.75pt;
+  height: 5pt;
+  right: -15pt;
+  bottom: -3.75pt;
   background: ${props => props.theme.primaryTextColor};
   animation: blink 1.1s linear infinite;
 
@@ -107,9 +107,9 @@ const Navigation = styled.nav`
   position: absolute;
   left: 0;
   bottom: 0;
-  min-width: 299px;
+  min-width: 373px;
   width: 100%;
-  height: 66px;
+  height: 82px;
   display:flex;
 
   &:before {
@@ -119,17 +119,17 @@ const Navigation = styled.nav`
     bottom: 0;
     width: 100%;
     height: 1px;
-    box-shadow: 0 0 2px ${props => props.theme.dropShadowLightColor};
+    box-shadow: 0 0 3px ${props => props.theme.dropShadowLightColor};
     z-index: -1;
   }
   
   &:after {
     content: '';
     position: absolute;
-    left: -10px;
-    bottom: -2px;
-    width: 17px;
-    height: 17px;
+    left: -13px;
+    bottom: -3px;
+    width: 23px;
+    height: 22px;
     background: ${props => props.theme.backgroundColor};
     transform: skewX(45deg);
   }
@@ -137,11 +137,11 @@ const Navigation = styled.nav`
 
 const Logo = styled(LogoImage)`
   position: absolute;
-  left: 17px;
-  top: 17px;
-  width: 73px;
-  height: 60px;
-  font-size: 48pt;
+  left: 22px;
+  top: 22px;
+  width: 91px;
+  height: 75px;
+  font-size: 60pt;
 `;
 
 interface IHeaderProps {

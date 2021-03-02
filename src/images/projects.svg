@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" xml:space="preserve">
-<polygon class="stroke-foreground fill-none" points="19.8,10 15,10 12.5,14.3 15,18.5 19.8,18.5 22.3,14.3 	"/>
-<polygon class="stroke-foreground fill-none" points="12.5,14.3 7.7,14.3 5.3,18.5 7.7,22.7 12.5,22.7 15,18.5 	"/>
-<polygon class="stroke-background fill-none" points="12.5,1.2 5,1.2 1.2,7.7 5,14.3 12.5,14.3 16.3,7.7 "/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 30 30" xml:space="preserve">
+<polygon class="stroke-foreground fill-none" points="24.8,12.6 18.8,12.6 15.7,17.8 18.8,23.1 24.8,23.1 27.9,17.8 	"/>
+<polygon class="stroke-foreground fill-none" points="15.7,17.8 9.7,17.8 6.6,23.1 9.7,28.3 15.7,28.3 18.8,23.1 	"/>
+<polygon class="stroke-background fill-none" points="15.7,1.5 6.3,1.5 1.6,9.7 6.3,17.8 15.7,17.8 20.4,9.7 "/>
 </svg>

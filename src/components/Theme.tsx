@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
-const unit = 24;
+const unit = 30;
 
 const spacing = {
     border: '1px',
@@ -20,35 +20,35 @@ const spacing = {
     spacingMin: `${unit / 12}px`,              // 2px
 
     cornerSmall: `${unit / 3}px`,              // 8px
-    margin: `9pt`,
+    margin: `11.25pt`,
 
-    desktop: '688px',
+    desktop: '860px',
     mobile: '320px'
 }
 
 const typography = {
     titleFont: 'Consolas, Menlo, monospace',
-    titleFontSize: '14pt',
+    titleFontSize: '16pt',
     titleFontWeight: 'normal',
 
     headingFont: '"Open Sans", "Helvetica Neue", Arial, sans-serif',
     headingFontWeight: 600,
-    headingFontSizeLarge: '13.5pt',
-    headingFontSizeMedium: '13pt',
-    headingFontSizeSmall: '12pt',
-    headingFontSizeSmaller: '11.5pt',
+    headingFontSizeLarge: '16.875pt',
+    headingFontSizeMedium: '16.25pt',
+    headingFontSizeSmall: '15pt',
+    headingFontSizeSmaller: '14.375pt',
 
     normalFont: '"Open Sans", Arial, sans-serif',
     normalFontWeight: 400,
-    normalFontSize: '12pt',
-    navigationFontSize: '10pt',
+    normalFontSize: '15pt',
+    navigationFontSize: '12.5pt',
 
     smallFont: '"Segoe UI", Verdana, sans-serif',
     smallFontWeight: 400,
-    smallFontSize: '10pt',
-    smallFontLineHeight: '17pt',
+    smallFontSize: '12.5pt',
+    smallFontLineHeight: '21.25pt',
 
-    smallestFontSize: '8pt',
+    smallestFontSize: '10pt',
 
     fallbackFont: 'sans-serif',
     backgroundFont: 'Arial',

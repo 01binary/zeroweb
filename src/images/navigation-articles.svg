@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="88px" height="65.9px" viewBox="0 0 88 65.9" xml:space="preserve">
-<g id="background">
-	<polygon style="fill-background" points="81.3,0 0,0 0,52.1 12.9,65 87.5,65 87.5,6.3 	"/>
+<g class="navigation-border">
+	<polygon points="88,66.1 13.3,66.1 13.3,65.1 87,65.1 87,7.3 80.8,1 0,1 0,0 81.2,0 88,6.9 	"/>
 </g>
-<g id="border">
-	<polygon style="fill-foreground" points="88,66.1 13.3,66.1 13.3,65.1 87,65.1 87,7.3 80.8,1 0,1 0,0 81.2,0 88,6.9 	"/>
+<g class="navigation-background">
+	<polygon points="81.3,0 0,0 0,52.1 12.9,65 87.5,65 87.5,6.3 	"/>
 </g>
-<g id="selection">
-	<polygon style="fill-foreground" points="16.3,61.9 5,50.5 5,13.9 12,13.9 12,9.9 5,9.9 0,9.9 0,13.9 0,52.7 13.2,65.9 17.3,65.9 23.1,65.9 23.1,61.9 	"/>
-	<polygon style="fill-foreground" points="76,13.9 76,9.9 83,9.9 88,9.9 88,13.9 88,61.9 88,65.9 83,65.9 76,65.9 76,61.9 83,61.9 83,13.9 	"/>
+<g class="navigation-selection">
+	<polygon points="16.3,61.9 5,50.5 5,13.9 12,13.9 12,9.9 5,9.9 0,9.9 0,13.9 0,52.7 13.2,65.9 17.3,65.9 23.1,65.9 23.1,61.9 	"/>
+	<polygon points="76,13.9 76,9.9 83,9.9 88,9.9 88,13.9 88,61.9 88,65.9 83,65.9 76,65.9 76,61.9 83,61.9 83,13.9 	"/>
 </g>
 </svg>

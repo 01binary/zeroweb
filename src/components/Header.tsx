@@ -5,7 +5,7 @@ import LogoImage from '../images/Logo.svg';
 import ArticlesIcon from "../images/articles.svg"
 import ProjectsIcon from "../images/projects.svg"
 import AboutIcon from "../images/about.svg"
-import ArticlesBackground from "../images/navigation-about.svg"
+import ArticlesBackground from "../images/navigation-articles.svg"
 import ProjectsBackground from "../images/navigation-projects.svg"
 import AboutBackground from "../images/navigation-about.svg"
 

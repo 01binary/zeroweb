@@ -10,10 +10,9 @@ flex: 88px 0;
     position: absolute;
     margin-left: 1px;
     width: 88px;
-    height: 66px;
 }
 
-.navigation-hover {
+.navigation-background {
     fill: ${props => props.theme.backgroundColor};
     transition: opacity ${props => props.theme.animationFast} ease-out;
     opacity: 0;
@@ -21,7 +20,7 @@ flex: 88px 0;
 }
 
 &:hover {
-    .navigation-hover {
+    .navigation-background {
         opacity: 0.20;
     }
 }
@@ -46,16 +45,16 @@ flex: 88px 0;
   margin-left: -1px;
 }
 
-.navigation-unselected .navigation-selection {
-  display: none;
+.navigation-unselected .navigation > .navigation-selection {
+  fill: none;
 }
 
 .navigation-selected .navigation-border {
-  display: none;
+  fill: none;
 }
 
 .navigation-selected .navigation-highlight {
-  display: none;
+  fill: none;
 }
 
 .navigation-afterselected.navigation-last .navigation-highlight {
@@ -74,13 +73,6 @@ flex: 88px 0;
 }
 `;
 
-interface IHeaderLinkProps {
-  background: FunctionComponent<SVGProps<SVGSVGElement>>,
-  icon: FunctionComponent<SVGProps<SVGSVGElement>>,
-  path: string
-  to: string,
-};
-
 const Text = styled.div`
   padding-left: 12px;
   padding-top: 42px;
@@ -90,6 +82,13 @@ const Text = styled.div`
   font-size: ${props => props.theme.navigationFontSize};
   z-index: 6;
 `;
+
+interface IHeaderLinkProps {
+  background: FunctionComponent<SVGProps<SVGSVGElement>>,
+  icon: FunctionComponent<SVGProps<SVGSVGElement>>,
+  path: string
+  to: string,
+};
 
 const getLinkClassName = (path: string, to: string) => (
   path.indexOf(to) !== -1
@@ -105,7 +104,7 @@ const HeaderLink: FunctionComponent<IHeaderLinkProps> = ({
     to
 }) => (
     <StyledLink to={to} className={getLinkClassName(path, to)}>
-      <Background className="navigation navigation-background" />
+      <Background className="navigation" />
       <Icon className="navigation navigation-icon" />
       <Text className="navigation">
         {children}

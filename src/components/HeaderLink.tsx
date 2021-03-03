@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'gatsby';
 
 const StyledLink = styled(Link)`
-flex: 88px 0;
+flex: 110px 0;
 margin-left: -1px;
 &:first-child {
   margin-left: 0px;
@@ -12,7 +12,7 @@ margin-left: -1px;
 .navigation {
     display: inline;
     position: absolute;
-    width: 88px;
+    width: 110px;
 }
 
 .navigation-background {
@@ -55,25 +55,20 @@ margin-left: -1px;
   fill: none;
 }
 
-.navigation-afterselected.navigation-last .navigation-highlight {
-  top: 3px;
-  height: 62px;
-}
-
 .navigation-icon {
   z-index: 6;
 
-  width: 19px;
-  height: 18px;
+  width: 24px;
+  height: 22px;
 
-  margin-left: 11px;
-  margin-top: 20px;
+  margin-left: 14px;
+  margin-top: 25px;
 }
 `;
 
 const Text = styled.div`
-  padding-left: 12px;
-  padding-top: 42px;
+  padding-left: 15px;
+  padding-top: 53px;
   height: auto;
   width: auto;
   color: ${props => props.theme.primaryTextColor};

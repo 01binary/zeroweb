@@ -60,6 +60,10 @@ const Banner = styled.header`
   .fill-background {
     fill: ${props => props.theme.primaryColor}
   }
+
+  .stroke-foreground {
+    stroke: ${props => props.theme.accentTextColor}
+  }
 `;
 
 const Title = styled.h1`

@@ -4,11 +4,14 @@ import { Link } from 'gatsby';
 
 const StyledLink = styled(Link)`
 flex: 88px 0;
+margin-left: -1px;
+&:first-child {
+  margin-left: 0px;
+}
 
 .navigation {
     display: inline;
     position: absolute;
-    margin-left: 1px;
     width: 88px;
 }
 
@@ -26,12 +29,12 @@ flex: 88px 0;
 }
 
 .navigation-border {
-    fill: ${props => props.theme.shadowDarkColor};
+    fill: ${props => props.theme.accentTextColor};
     z-index: 6;
 }
     
 .navigation-highlight {
-    fill: rgba(${props => props.theme.primaryLightColor}, 0.6);
+    fill: ${props => props.theme.primaryLightColor};
     z-index: 7;
 }
     
@@ -40,12 +43,7 @@ flex: 88px 0;
     fill: ${props => props.theme.selectionColor};
 }
 
-.navigation-selected,
-.navigation-unselected {
-  margin-left: -1px;
-}
-
-.navigation-unselected .navigation > .navigation-selection {
+.navigation-unselected .navigation-selection {
   fill: none;
 }
 
@@ -91,7 +89,7 @@ interface IHeaderLinkProps {
 };
 
 const getLinkClassName = (path: string, to: string) => (
-  path.indexOf(to) !== -1
+  path === to
     ? "navigation-selected"
     : "navigation-unselected"
 );
@@ -104,7 +102,7 @@ const HeaderLink: FunctionComponent<IHeaderLinkProps> = ({
     to
 }) => (
     <StyledLink to={to} className={getLinkClassName(path, to)}>
-      <Background className="navigation" />
+      <Background className={"navigation " + getLinkClassName(path, to)} />
       <Icon className="navigation navigation-icon" />
       <Text className="navigation">
         {children}

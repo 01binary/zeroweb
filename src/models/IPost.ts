@@ -9,7 +9,7 @@ interface IPostFields {
 interface IPost {
     slug: string,
     body: string,
-    timeToRead: number,
+    timeToRead?: number,
     frontmatter: IPostMetadata,
     fields: IPostFields
 }

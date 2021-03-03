@@ -1,11 +1,9 @@
 import IPost from './IPost';
 
-interface IPosts {
+export interface IPosts {
     nodes: Array<Partial<IPost>>
 };
 
-interface IAllPosts {
+export interface IAllPosts {
     allMdx: IPosts
 };
-
-export default IAllPosts;

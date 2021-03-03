@@ -1,37 +1,25 @@
 import React, { FunctionComponent } from 'react';
-import { Link, graphql } from 'gatsby';
-import IProjectsQuery from '../models/IProjectsQuery';
+import { graphql } from 'gatsby';
+import PostList from '../components/PostList';
+import { IAllPosts } from '../models/IAllPosts';
 
-interface IIndexProps {
-  data: IProjectsQuery
+interface IProjectsProps {
+  data: IAllPosts
 };
 
-const Index: FunctionComponent<IIndexProps> = ({
+const Index: FunctionComponent<IProjectsProps> = ({
   data: { allMdx: { nodes } }
 }) => (
   <main>
     <h1>Projects</h1>
-
-    {nodes.map(({
-      slug,
-      frontmatter: {
-        title,
-        tags
-      }
-    }) => (
-      <article key={slug}>
-        <Link to={slug}>
-          <h2>{title}</h2>
-          <section>{tags}</section>
-        </Link>
-      </article>
-    ))}
+    <PostList nodes={nodes} />
   </main>
 );
 
 export const query = graphql`
   query {
-    allMdx (
+    allMdx
+    (
       sort: { fields: [frontmatter___date], order: DESC },
       filter: { fields: { collection: { eq: "projects" } } }
     ) {
@@ -39,7 +27,10 @@ export const query = graphql`
         slug
         frontmatter {
           title,
-          date(fromNow:true),
+          date(fromNow:true)
+        }
+        fields {
+          url,
           tags
         }
       }

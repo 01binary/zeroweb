@@ -4,7 +4,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 const unit = 30;
 
 const spacing = {
-    border: '1px',
+    border: '2px',
 
     spacingSingle: `${unit}px`,                // 24px
     spacingDouble: `${unit * 2}px`,            // 48px
@@ -33,8 +33,8 @@ const typography = {
 
     headingFont: '"Open Sans", "Helvetica Neue", Arial, sans-serif',
     headingFontWeight: 600,
-    headingFontSizeLarge: '16.875pt',
-    headingFontSizeMedium: '16.25pt',
+    headingFontSizeLarge: '20pt',
+    headingFontSizeMedium: '18pt',
     headingFontSizeSmall: '15pt',
     headingFontSizeSmaller: '14.375pt',
 

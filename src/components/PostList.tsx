@@ -4,11 +4,17 @@ import { Link } from 'gatsby';
 import { IPosts } from '../models/IAllPosts';
 
 const Article = styled.article`
-  border-bottom: ${props => props.theme.border} dotted ${props => props.theme.shadowLightColor};
+    padding-left: 16px;
+    padding-bottom: ${props => props.theme.spacingHalf};
+    border-bottom: ${props => props.theme.border} dotted ${props => props.theme.shadowLightColor};
+`;
+
+const ArticleLink = styled(Link)`
+    color: ${props => props.theme.foregroundColor};
 `;
 
 const Title = styled.h2`
-  font-size: ${props => props.theme.headingFontSizeMedium};
+    font-size: ${props => props.theme.headingFontSizeMedium};
 `;
 
 const Meta = styled.section``;
@@ -32,12 +38,12 @@ const PostList: FunctionComponent<IPosts> = ({
         }
       }) => (
         <Article key={slug}>
-          <Link to={url}>
+          <ArticleLink to={url}>
             <Title>{title}</Title>
             <Meta>{date}</Meta>
             {timeToRead && <Meta>{timeToRead} min to read</Meta>}
             <InlineTags>{tags}</InlineTags>
-          </Link>
+          </ArticleLink>
         </Article>
       ))}
     </>

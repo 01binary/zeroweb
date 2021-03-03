@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { graphql } from 'gatsby';
+import Title from '../components/Title';
 import PostList from '../components/PostList';
 import { IAllPosts } from '../models/IAllPosts';
 
@@ -11,7 +12,7 @@ const Index: FunctionComponent<IProjectsProps> = ({
   data: { allMdx: { nodes } }
 }) => (
   <main>
-    <h1>Projects</h1>
+    <Title offset={2}>Projects</Title>
     <PostList nodes={nodes} />
   </main>
 );

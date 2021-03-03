@@ -6,20 +6,19 @@ const unit = 30;
 const spacing = {
     border: '2px',
 
-    spacingSingle: `${unit}px`,                // 24px
-    spacingDouble: `${unit * 2}px`,            // 48px
-    spacingTriple: `${unit * 3}px`,            // 72px
-    spacingOneAndHalf: `${unit * 1.5}px`,      // 36px
-    spacingOneAndThird: `${unit * 4 / 3}px`,   // 32px
-    spacingFourThirds: `${unit / 4 / 3}px`,    // 18px
-    spacingThreeHalves: `${unit / 3 / 2}px`,   // 16px
-    spacingHalf: `${unit / 2}px`,              // 12px
-    spacingThird: `${unit / 3}px`,             // 8px
-    spacingQuarter: `${unit / 4}px`,           // 6px
-    spacingSmall: `${unit / 6}px`,             // 4px
-    spacingMin: `${unit / 12}px`,              // 2px
-
-    cornerSmall: `${unit / 3}px`,              // 8px
+    spacing: `${unit}px`,
+    spacingDouble: `${unit * 2}px`,
+    spacingTriple: `${unit * 3}px`,
+    spacingOneAndHalf: `${unit * 1.5}px`,
+    spacingOneAndThird: `${unit * 4 / 3}px`,
+    spacingFourThirds: `${unit / 4 / 3}px`,
+    spacingThreeHalves: `${unit / 3 / 2}px`,
+    spacingHalf: `${unit / 2}px`,
+    spacingThird: `${unit / 3}px`,
+    spacingQuarter: `${unit / 4}px`,
+    spacingSmall: `${unit / 6}px`,
+    spacingMin: `${unit / 12}px`,
+    cornerSmall: `${unit / 3}px`,
     margin: `11.25pt`,
 
     desktop: '860px',
@@ -167,6 +166,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${props => props.theme.normalFont};
     font-weight: ${props => props.theme.normalFontWeight};
     font-size: ${props => props.theme.normalFontSize};
+    color: ${props => props.theme.foregroundColor};
 
     &:before {
         content: '{';
@@ -206,7 +206,7 @@ export const GlobalStyle = createGlobalStyle`
     transition: color ${props => props.theme.animationFast} ease-out;
   
     &:hover {
-      color: ${props => props.theme.primaryDarkShadowColor};
+      color: ${props => props.theme.accentTextColor};
     }
   }
 

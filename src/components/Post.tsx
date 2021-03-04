@@ -4,6 +4,7 @@ import Img from "gatsby-image";
 import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import SEO from './SEO';
+import PermaLink from '../components/PermaLink';
 import IPostQuery from '../models/IPost';
 
 const Main = styled.main`
@@ -40,7 +41,7 @@ const Main = styled.main`
   h3:hover,
   h4:hover {
     a {
-      opacity: .6;
+      opacity: 1;
     }
   }
 `;
@@ -50,8 +51,9 @@ const Tags = styled.ul``
 const Tag = styled.li``
 
 const Metadata = styled.section`
-  font: ${props => props.theme.smallFont};
+  font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
+  color: ${props => props.theme.secondaryTextColor};
   margin-left: 1em;
   margin-bottom: ${props => props.theme.spacing};
   display: flex;
@@ -74,14 +76,6 @@ const MetaLink = styled(Link)`
   &:hover {
     border-bottom-color: ${props => props.theme.primaryColor};
   }
-`;
-
-const Permalink = styled(Link)`
-  opacity: 0;
-  color: ${props => props.theme.shadowDarkColor};
-  transition: opacity ${props => props.theme.animationFast} ease-out;
-  margin-right: .25em;
-  margin-left: -.25em;
 `;
 
 const AuthorLink = () => (
@@ -118,9 +112,6 @@ const Post: FunctionComponent<IPostProps> = ({
         }
     }
 }) => {
-  const copyLink = () => navigator.clipboard.writeText(
-    window.location.protocol + '//' + window.location.host + url);
-
   return (
     <Main>
         <SEO
@@ -131,9 +122,7 @@ const Post: FunctionComponent<IPostProps> = ({
         />
 
         <h1>
-          <Permalink to={url} onClick={copyLink}>
-            #
-          </Permalink>
+          <PermaLink url={url} />
           {title}
         </h1>
 

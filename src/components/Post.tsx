@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from "react"
 import styled from 'styled-components';
 import Img from "gatsby-image";
-import { graphql } from "gatsby";
+import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import SEO from './SEO';
 import IPostQuery from '../models/IPost';
 
 const Main = styled.main`
+
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};
     margin-bottom: .3em;
@@ -34,11 +35,12 @@ const Main = styled.main`
     margin-left: 1.2em;
   }
 
+  h1:hover,
   h2:hover,
   h3:hover,
   h4:hover {
-    .permalink-anchor {
-      opacity: 1;
+    a {
+      opacity: .6;
     }
   }
 `;
@@ -47,9 +49,50 @@ const Tags = styled.ul``
 
 const Tag = styled.li``
 
-const Metadata = styled.section``
+const Metadata = styled.section`
+  font: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  margin-left: 1em;
+  margin-bottom: ${props => props.theme.spacing};
+  display: flex;
+`
 
-const MetaProp = styled.span``
+const MetaProp = styled.div`
+  margin-right: ${props => props.theme.spacingHalf};
+`
+
+const MetaLink = styled(Link)`
+  border-bottom-width: ${props => props.theme.border};
+  border-bottom-style: dotted;
+  border-bottom-color: ${props => props.theme.accentTextColor};
+  text-decoration: none;
+
+  transition:
+    color ${props => props.theme.animationFast} ease-out,
+    border-bottom-color ${props => props.theme.animationFast} ease-out;
+
+  &:hover {
+    border-bottom-color: ${props => props.theme.primaryColor};
+  }
+`;
+
+const Permalink = styled(Link)`
+  opacity: 0;
+  color: ${props => props.theme.shadowDarkColor};
+  transition: opacity ${props => props.theme.animationFast} ease-out;
+  margin-right: .25em;
+  margin-left: -.25em;
+`;
+
+const AuthorLink = () => (
+  <MetaLink to="/about">
+    Valeriy Novytskyy
+  </MetaLink>
+);
+
+const LocationLink = () => (
+  <MetaLink to="#">Portland, OR</MetaLink>
+);
 
 interface IPostProps {
   data: IPostQuery
@@ -74,7 +117,11 @@ const Post: FunctionComponent<IPostProps> = ({
             }
         }
     }
-}) => (
+}) => {
+  const copyLink = () => navigator.clipboard.writeText(
+    window.location.protocol + '//' + window.location.host + url);
+
+  return (
     <Main>
         <SEO
           title={title}
@@ -83,10 +130,17 @@ const Post: FunctionComponent<IPostProps> = ({
           url={url}
         />
 
-        <h1>{title}</h1>
+        <h1>
+          <Permalink to={url} onClick={copyLink}>
+            #
+          </Permalink>
+          {title}
+        </h1>
 
         <Metadata>
+          <MetaProp><AuthorLink /></MetaProp>
           <MetaProp>{date}</MetaProp>
+          <MetaProp><LocationLink /></MetaProp>
           <MetaProp>{timeToRead} min to read</MetaProp>
         </Metadata>
 
@@ -100,7 +154,8 @@ const Post: FunctionComponent<IPostProps> = ({
           {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
         </Tags>
     </Main>
-);
+  );
+};
 
 export const pageQuery = graphql`
   query($slug: String!) {

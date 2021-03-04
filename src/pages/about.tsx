@@ -8,7 +8,7 @@ const Container = styled.div`
 
 const About = () => (
     <main>
-        <Title offset={3}>About</Title>
+        <Title collection={"about"}>About</Title>
         <Container>About info here</Container>
     </main>
 );

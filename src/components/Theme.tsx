@@ -122,41 +122,18 @@ export const Theme: FunctionComponent<IThemeProps> = (
 );
 
 export const GlobalStyle = createGlobalStyle`
-  .fill-background {
-    fill: ${props => props.theme.backgroundColor};
-  }
-
-  .fill-foreground {
-    fill: ${props => props.theme.foregroundColor};
-  }
-
-  .fill-none {
-    fill: none;
-  }
-
-  .stroke-foreground {
-    stroke: ${props => props.theme.foregroundColor};
-  }
-
-  .stroke-background {
-    stroke: ${props => props.theme.backgroundColor};
-  }
-
-  .stroke-border {
-    stroke: ${props => props.theme.borderColor};
-  }
-
-  .stroke-none {
-    stroke: none;
-  }
-
-  ::selection {
-    color: ${props => props.theme.backgroundColor};
-    background: ${props => props.theme.focusColor};
-  }
-
   body {
-      background: ${props => props.theme.backgroundColor}
+    background: ${props => props.theme.backgroundColor}
+  }
+
+  h1 {
+    text-transform: lowercase;
+    font-size: ${props => props.theme.headingFontSizeLarge};
+    font-family: ${props => props.theme.headingFont};
+    font-weight: ${props => props.theme.headingFontWeight};
+    padding-top: 0;
+    margin-bottom: ${props => props.theme.margin};
+    margin-top: ${props => props.theme.margin};
   }
 
   main {
@@ -210,13 +187,36 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
-  h1 {
-    text-transform: lowercase;
-    font-size: ${props => props.theme.headingFontSizeLarge};
-    font-family: ${props => props.theme.headingFont};
-    font-weight: ${props => props.theme.headingFontWeight};
-    padding-top: 0;
-    margin-bottom: ${props => props.theme.margin};
-    margin-top: ${props => props.theme.margin};
+  ::selection {
+    color: ${props => props.theme.backgroundColor};
+    background: ${props => props.theme.focusColor};
+  }
+
+  .fill-background {
+    fill: ${props => props.theme.backgroundColor};
+  }
+
+  .fill-foreground {
+    fill: ${props => props.theme.foregroundColor};
+  }
+
+  .fill-none {
+    fill: none;
+  }
+
+  .stroke-foreground {
+    stroke: ${props => props.theme.foregroundColor};
+  }
+
+  .stroke-background {
+    stroke: ${props => props.theme.backgroundColor};
+  }
+
+  .stroke-border {
+    stroke: ${props => props.theme.borderColor};
+  }
+
+  .stroke-none {
+    stroke: none;
   }
 `;

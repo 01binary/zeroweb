@@ -106,7 +106,7 @@ const Caret = styled.div`
 const Navigation = styled.nav`
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 1px;
   min-width: 373px;
   width: 100%;
   height: 82px;

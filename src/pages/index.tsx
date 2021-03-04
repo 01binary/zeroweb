@@ -12,7 +12,9 @@ const Index: FunctionComponent<IIndexProps> = ({
   data: { allMdx: { nodes } }
 }) => (
   <main>
-    <Title offset={1}>Articles</Title>
+    <Title collection={"articles"}>
+      Articles
+    </Title>
     <PostList nodes={nodes} />
   </main>
 );

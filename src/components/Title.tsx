@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 const buttonWidth = 110;
 const buttonHeight = 50;
+const bulletWidth = 5;
+const bulletHeight = 20;
+const collectionOffsets = [ "articles", "projects", "about" ];
 
 const Heading = styled.h1`
     margin-top: 0;
@@ -32,18 +35,16 @@ const getGeometry = (
     , 'M ');
 
 interface ITitleProps {
-    offset: number
+    collection: string
 };
 
 const Title: FunctionComponent<ITitleProps> = ({
-    offset,
+    collection,
     children
 }) => {
-    const bulletWidth = 5;
-    const bulletHeight = 20;
     const bulletTop = Math.ceil(buttonHeight / 2 - buttonHeight * 0.1);
     const calloutTop = Math.ceil(bulletTop / 2) + 0.5;
-    const left = buttonWidth * offset;
+    const left = buttonWidth * (collectionOffsets.indexOf(collection) + 1);
 
     return (
         <Heading>

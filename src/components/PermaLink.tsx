@@ -53,7 +53,7 @@ const PermaLinkAnchor = styled(Link)`
   color: ${props => props.theme.secondaryTextColor};
   transition: opacity ${props => props.theme.animationFast} ease-out;
   margin-right: .25em;
-  margin-left: -1em;
+  margin-left: calc(-1em + 3px);
   z-index: 6;
 
   &:hover div {

@@ -11,7 +11,6 @@ import IPost from '../models/IPost';
 const Main = styled.main`
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};
-    margin-left: .1em !important;
   }
 
   h3 {
@@ -28,7 +27,6 @@ const Main = styled.main`
     font-weight: ${props => props.theme.headingFontWeight};
     margin-bottom: ${props => props.theme.margin};
     margin-top: ${props => props.theme.margin};
-    margin-left: .2em;
     clear: left;
   }
 

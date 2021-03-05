@@ -9,7 +9,7 @@ import ArticlesBackground from "../images/navigation-articles.svg"
 import ProjectsBackground from "../images/navigation-projects.svg"
 import AboutBackground from "../images/navigation-about.svg"
 
-const Banner = styled.header`
+const Hero = styled.header`
   font-family: ${props => props.theme.titleFont};
   background: ${props => props.theme.primaryColor};
   color: ${props => props.theme.primaryTextColor};
@@ -151,7 +151,7 @@ interface IHeaderProps {
 const Header: FunctionComponent<IHeaderProps> = ({
   path
 }) => (
-    <Banner>
+    <Hero>
       <Logo />
 
       <Title>
@@ -169,7 +169,7 @@ const Header: FunctionComponent<IHeaderProps> = ({
           about
         </HeaderLink>
       </Navigation>
-    </Banner>
+    </Hero>
 );
 
 export default Header;

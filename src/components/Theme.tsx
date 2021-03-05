@@ -175,6 +175,10 @@ export const GlobalStyle = createGlobalStyle`
     margin-left: ${props => props.theme.spacingHalf};
   }
 
+  main section {
+    margin-left: ${props => props.theme.spacingHalf};
+  }
+
   a {
     position: relative;
     color: ${props => props.theme.accentTextColor};
@@ -183,6 +187,7 @@ export const GlobalStyle = createGlobalStyle`
   
     &:hover {
       color: ${props => props.theme.accentTextColor};
+      text-decoration: underline;
     }
   }
 

@@ -1,4 +1,5 @@
 import IPostMetadata from './IPostMetadata';
+import IHeading from './IHeading';
 
 interface IPostFields {
     url: string,
@@ -11,7 +12,8 @@ interface IPost {
     body: string,
     timeToRead?: number,
     frontmatter: IPostMetadata,
-    fields: IPostFields
+    fields: IPostFields,
+    headings: Array<IHeading>
 }
 
 interface IPost {

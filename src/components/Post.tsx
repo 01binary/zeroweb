@@ -4,8 +4,9 @@ import Img from "gatsby-image";
 import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import SEO from './SEO';
+import TOC from './TOC';
 import { Heading } from './Heading';
-import IPostQuery from '../models/IPost';
+import IPost from '../models/IPost';
 
 const Main = styled.main`
   h2 {
@@ -88,7 +89,7 @@ const PostImage = styled(Img)`
 `;
 
 interface IPostProps {
-  data: IPostQuery
+  data: IPost
 }
 
 const Post: FunctionComponent<IPostProps> = ({
@@ -107,7 +108,8 @@ const Post: FunctionComponent<IPostProps> = ({
             fields: {
               url,
               tags
-            }
+            },
+            headings
         }
     }
 }) => {
@@ -130,6 +132,8 @@ const Post: FunctionComponent<IPostProps> = ({
         </Metadata>
 
         <PostImage fluid={fluid} />
+
+        <TOC headings={headings} />
 
         <MDXRenderer>
           {body}
@@ -165,6 +169,10 @@ export const pageQuery = graphql`
         url,
         collection,
         tags
+      }
+      headings {
+        value
+        depth
       }
     }
   }

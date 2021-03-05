@@ -3,6 +3,13 @@ import { MDXProvider } from '@mdx-js/react';
 import Code from './src/components/Code';
 import Layout from './src/components/Layout';
 import { Theme, GlobalStyle } from './src/components/Theme';
+import BlogContext from './src/components/BlogContext';
+import {
+    Heading1,
+    Heading2,
+    Heading3,
+    Heading4
+} from './src/components/Heading';
 import {
     Table,
     TableHeading,
@@ -14,6 +21,10 @@ export const wrapRootElement = ({ element }) => (
     <Theme>
         <GlobalStyle />
         <MDXProvider components={{
+            h1: Heading1,
+            h2: Heading2,
+            h3: Heading3,
+            h4: Heading4,
             pre: Code,
             table: Table,
             th: TableHeading,
@@ -26,7 +37,12 @@ export const wrapRootElement = ({ element }) => (
 );
 
 export const wrapPageElement = ({ element, props }) => (
-    <Layout {...props}>
-        {element}
-    </Layout>
+    <BlogContext.Provider value={{
+        url: props.path,
+        collection: props.path.split('/')[1]
+    }}>
+        <Layout {...props}>
+            {element}
+        </Layout>
+    </BlogContext.Provider>
 );

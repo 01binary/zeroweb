@@ -4,11 +4,10 @@ import Img from "gatsby-image";
 import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import SEO from './SEO';
-import PermaLink from '../components/PermaLink';
+import { Heading } from './Heading';
 import IPostQuery from '../models/IPost';
 
 const Main = styled.main`
-
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};
     margin-bottom: .3em;
@@ -28,12 +27,8 @@ const Main = styled.main`
     font-weight: ${props => props.theme.headingFontWeight};
     margin-bottom: ${props => props.theme.margin};
     margin-top: ${props => props.theme.margin};
-    padding-left: 1.2em;
+    margin-left: -.65em;
     clear: left;
-  }
-
-  h3, h4 {
-    margin-left: 1.2em;
   }
 
   h1:hover,
@@ -121,10 +116,7 @@ const Post: FunctionComponent<IPostProps> = ({
           url={url}
         />
 
-        <h1>
-          <PermaLink url={url} />
-          {title}
-        </h1>
+        <Heading>{title}</Heading>
 
         <Metadata>
           <MetaProp><AuthorLink /></MetaProp>

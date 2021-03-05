@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useState } from "react"
 import styled from 'styled-components';
-import { Link } from "gatsby";
-import LinkIcon from "../images/link.svg";
+import { Link } from 'gatsby';
+import LinkIcon from '../images/link.svg';
+import MouseIcon from '../images/mouse.svg'
 
 const Tooltip = styled.div`
   font-family: ${props => props.theme.smallFont};
@@ -12,9 +13,9 @@ const Tooltip = styled.div`
   line-height: ${props => props.theme.spacing};
   background: ${props => props.theme.dropShadowTransparentColor};
   padding: ${props => props.theme.spacingQuarter} ${props => props.theme.spacingHalf};
-  left: 1em;
-  bottom: calc(100% + .5em);
-  width: 5em;
+  left: 50%;
+  bottom: calc(100% + .9em);
+  width: max-content;
   opacity: 0;
   transform: translateY(${props => props.theme.spacingThird});
   transition:
@@ -35,6 +36,14 @@ const Tooltip = styled.div`
       transparent
       transparent
       ${props => props.theme.dropShadowTransparentColor};
+  }
+
+  .stroke-foreground {
+    stroke: ${props => props.theme.backgroundColor};
+  }
+
+  .stroke-background {
+    stroke: ${props => props.theme.borderColor}
   }
 `;
 
@@ -58,6 +67,18 @@ const StyledLinkIcon = styled(LinkIcon)`
   height: 1.3em;
   position: relative;
   top: .35em;
+
+  .fill-foreground {
+    fill: ${props => props.theme.secondaryTextColor};
+  }
+`;
+
+const StyledMouseIcon = styled(MouseIcon)`
+  position: relative;
+  width: 1.3em;
+  height: 1.3em;
+  top: ${props => props.theme.spacingMin};
+  margin-right: ${props => props.theme.spacingQuarter};
 `;
 
 interface PermaLinkProps {
@@ -80,6 +101,7 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
     <PermaLinkAnchor to={url} onClick={copyLink}>
       <StyledLinkIcon />
       <Tooltip>
+        {!isCopied && <StyledMouseIcon/>}
         {isCopied ? 'copied' : 'copy link'}
       </Tooltip>
     </PermaLinkAnchor>

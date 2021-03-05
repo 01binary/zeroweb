@@ -1,12 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
-import styled from 'styled-components';
 import BlogContext from './BlogContext';
 import PermaLink from './PermaLink';
 import slugify from 'slugify';
-
-const HeadingAnchorLink = styled(AnchorLink)`
-    color: ${props => props.theme.foregroundColor};
-`;
 
 interface IHeadingProps {
     level?: number
@@ -27,15 +22,13 @@ export const Heading: FunctionComponent<IHeadingProps> = ({
             </HeadingElement>
         );
     } else {
-        const slug = slugify(children.toString().toLowerCase());
+        const slug = slugify(children.toString(), { lower: true });
         const urlWithAnchor = url + '#' + slug;
 
         return (
             <HeadingElement id={slug}>
                 <PermaLink url={urlWithAnchor} />
-                <HeadingAnchorLink to={urlWithAnchor} title={slug}>
-                    {children}
-                </HeadingAnchorLink>
+                {children}
             </HeadingElement>
         );
     }

@@ -22,11 +22,15 @@ const Hero = styled.header`
   background: linear-gradient(135deg, ${props => props.theme.primaryColor} 0%, ${props => props.theme.secondaryColor} 100%);
   transition: margin ${props => props.theme.animationFast} ease-out;
 
-  @media (max-width: 2048px) {
+  @media (max-width: ${props => props.theme.mobile}) {
+    margin-top: 0;
+  }
+
+  @media (max-width: ${props => props.theme.wide}) {
     margin-top: 100px;
   }
   
-  @media (max-width: 1024px) {
+  @media (max-width: ${props => props.theme.desktop}) {
     margin-top: 50px;
   }
 

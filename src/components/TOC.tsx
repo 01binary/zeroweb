@@ -5,11 +5,25 @@ import BlogContext from './BlogContext';
 import slugify from 'slugify';
 import IHeading from '../models/IHeading';
 
-const TocList = styled.ul`
+const Toc = styled.section`
     font-family: ${props => props.theme.smallFont};
     font-size: ${props => props.theme.smallFontSize};
     font-weight: ${props => props.theme.smallFontWeight};
     line-height: ${props => props.theme.smallFontLineHeight};
+    list-style-type: none;
+
+    position: relative;
+    padding: 0;
+
+    @media (max-width: ${props => props.theme.wide}) {
+        position: absolute;
+        max-width: 20%;
+        right: 0;
+        top: 0;
+    }
+`;
+
+const TocList = styled.ul`
     list-style-type: none;
     padding: 0;
 `;
@@ -33,7 +47,7 @@ const TOC: FunctionComponent<ITOCProps> = ({
 }) => {
     const { url } = useContext(BlogContext);
     return (
-        <section>
+        <Toc>
             <h2>Contents</h2>
             <TocList>
                 {headings.map(({ value, depth }) => {
@@ -47,7 +61,7 @@ const TOC: FunctionComponent<ITOCProps> = ({
                     );
                 })}
             </TocList>
-        </section>
+        </Toc>
     );
 };
 

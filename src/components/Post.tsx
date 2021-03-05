@@ -10,7 +10,7 @@ import IPostQuery from '../models/IPost';
 const Main = styled.main`
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};
-    margin-bottom: .3em;
+    margin-left: .1em !important;
   }
 
   h3 {
@@ -27,7 +27,7 @@ const Main = styled.main`
     font-weight: ${props => props.theme.headingFontWeight};
     margin-bottom: ${props => props.theme.margin};
     margin-top: ${props => props.theme.margin};
-    margin-left: -.65em;
+    margin-left: .2em;
     clear: left;
   }
 

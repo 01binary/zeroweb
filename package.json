@@ -21,6 +21,7 @@
     "babel-plugin-styled-components": "^1.12.0",
     "gatsby": "^2.32.3",
     "gatsby-image": "^2.11.0",
+    "gatsby-plugin-anchor-links": "^1.2.1",
     "gatsby-plugin-google-analytics": "^2.11.0",
     "gatsby-plugin-manifest": "^2.12.0",
     "gatsby-plugin-mdx": "^1.10.0",
@@ -38,6 +39,7 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
     "sass": "^1.32.7",
+    "slugify": "^1.4.7",
     "styled-components": "^5.2.1"
   }
 }

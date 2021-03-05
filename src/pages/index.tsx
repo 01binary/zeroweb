@@ -31,7 +31,8 @@ export const query = graphql`
         timeToRead
         frontmatter {
           title,
-          date(fromNow:true)
+          relativeDate: date(fromNow: true)
+          date(formatString: "MMMM DD, YYYY")
         }
         fields {
           url,

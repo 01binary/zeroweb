@@ -1,23 +1,18 @@
 # Basic Frontend
 
-Basic Layout
-Title Callout
-Article
 Article Metadata
 Table Formatting
 Number List Formatting
 TOC (open to the side mobile)
 Code
 Related by Tags
-Anchor Permalinks
 Full Text Search (open full screen)
-Static Article Metadata - Tags, Reading Time
 
 # Basic Backend
 
 Standup Node.js Backend
 API Design Specification
-Stars
+Snaps
 Views
 Registration
 Social Login - Facebook
@@ -29,8 +24,9 @@ Basic Comments
 
 Social Share Overlays
 SEO Metadata
+Comment Votes
 Inline Comments
-Inline Highlights/Stars
+Inline Highlights/Snaps
 Article Selector (open to the side mobile)
 Tag Selector (open to the side mobile)
 Timeline Selector (compact mobile)

@@ -18,6 +18,7 @@ interface IPostMetadata {
     title: string,
     description: string,
     image: IPostImage,
+    relativeDate: string,
     date: string
 }
 

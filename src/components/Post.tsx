@@ -83,6 +83,10 @@ const LocationLink = () => (
   <MetaLink to="#">Portland, OR</MetaLink>
 );
 
+const PostImage = styled(Img)`
+  margin-left: 1em;
+`;
+
 interface IPostProps {
   data: IPostQuery
 }
@@ -125,7 +129,7 @@ const Post: FunctionComponent<IPostProps> = ({
           <MetaProp>{timeToRead} min to read</MetaProp>
         </Metadata>
 
-        <Img fluid={fluid} />
+        <PostImage fluid={fluid} />
 
         <MDXRenderer>
           {body}

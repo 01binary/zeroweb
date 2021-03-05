@@ -5,7 +5,6 @@ const unit = 30;
 
 const spacing = {
     border: '2px',
-
     spacing: `${unit}px`,
     spacingDouble: `${unit * 2}px`,
     spacingTriple: `${unit * 3}px`,
@@ -20,7 +19,6 @@ const spacing = {
     spacingMin: `${unit / 12}px`,
     cornerSmall: `${unit / 3}px`,
     margin: `11.25pt`,
-
     desktop: '860px',
     mobile: '320px'
 }
@@ -174,6 +172,7 @@ export const GlobalStyle = createGlobalStyle`
 
   main p {
     color: ${props => props.theme.foregroundColor};
+    margin-left: ${props => props.theme.spacingHalf};
   }
 
   a {

@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import styled from 'styled-components';
-import BlogContext from './BlogContext';
-import slugify from 'slugify';
+import useActiveHeading from '../hooks/useActiveHeading';
 import IHeading from '../models/IHeading';
 
 const Toc = styled.section`
@@ -11,17 +10,9 @@ const Toc = styled.section`
     font-weight: ${props => props.theme.smallFontWeight};
     line-height: ${props => props.theme.smallFontLineHeight};
     list-style-type: none;
-
-    position: relative;
-    padding: 0;
-
-    @media (max-width: ${props => props.theme.wide}) {
-        position: absolute;
-        max-width: 20%;
-        right: 0;
-        top: -.25em;
-    }
 `;
+
+const TocTitle = styled.h2``;
 
 const TocList = styled.ul`
     list-style-type: none;
@@ -29,13 +20,13 @@ const TocList = styled.ul`
 `;
 
 const TocItem = styled.li`
-    .depth-1 {
-        margin-left: ${props => props.theme.spacingQuarter};
-    }
+    margin-left: ${props => props.depth * props.theme.spacingQuarter};
+`;
 
-    .depth-2 {
-        margin-left: ${props => props.theme.spacingHalf};
-    }
+const TocItemLink = styled(AnchorLink)`
+    ${props => props.active && `
+        text-decoration: underline;
+    `}
 `;
 
 interface ITOCProps {
@@ -48,21 +39,22 @@ const TOC: FunctionComponent<ITOCProps> = ({
     if (headings.length === 0)
         return null;
 
-    const { url } = useContext(BlogContext);
+    const active = useActiveHeading(headings);
+
     return (
         <Toc>
-            <h2>Contents</h2>
+            <TocTitle>Contents</TocTitle>
             <TocList>
-                {headings.map(({ value, depth }) => {
-                    const slug = slugify(value, { lower: true });
-                    return (
-                        <TocItem key={slug}>
-                            <AnchorLink to={`${url}#${slug}`} className={`depth-${depth - 2}`}>
-                                {value}
-                            </AnchorLink>
-                        </TocItem>
-                    );
-                })}
+                {headings.map(({ value, url, slug, depth }) => (
+                    <TocItem key={url} depth={depth - 2}>
+                        <TocItemLink
+                            to={url}
+                            active={slug === active}
+                        >
+                            {value}
+                        </TocItemLink>
+                    </TocItem>
+                ))}
             </TocList>
         </Toc>
     );

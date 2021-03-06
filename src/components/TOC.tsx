@@ -19,7 +19,7 @@ const Toc = styled.section`
         position: absolute;
         max-width: 20%;
         right: 0;
-        top: 0;
+        top: -.25em;
     }
 `;
 
@@ -45,6 +45,9 @@ interface ITOCProps {
 const TOC: FunctionComponent<ITOCProps> = ({
     headings
 }) => {
+    if (headings.length === 0)
+        return null;
+
     const { url } = useContext(BlogContext);
     return (
         <Toc>

@@ -137,8 +137,7 @@ export const GlobalStyle = createGlobalStyle`
 
   main {
     position: relative;
-    max-width: calc(${props => props.theme.desktop} - 15%);
-    padding-right: 15%;
+    max-width: ${props => props.theme.desktop};
     margin: auto;
     font-family: ${props => props.theme.normalFont};
     font-weight: ${props => props.theme.normalFontWeight};
@@ -174,10 +173,6 @@ export const GlobalStyle = createGlobalStyle`
 
   main p {
     color: ${props => props.theme.foregroundColor};
-    margin-left: ${props => props.theme.spacingHalf};
-  }
-
-  main section {
     margin-left: ${props => props.theme.spacingHalf};
   }
 

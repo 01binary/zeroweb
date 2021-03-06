@@ -86,6 +86,14 @@ const PostImage = styled(Img)`
   margin-left: 1em;
 `;
 
+const Content = styled.section`
+  max-width: 100%;
+
+  @media (max-width: ${props => props.theme.wide}) {
+    max-width: 75%;
+}
+`;
+
 interface IPostProps {
   data: IPost
 }
@@ -129,13 +137,15 @@ const Post: FunctionComponent<IPostProps> = ({
           <MetaProp>{timeToRead} min to read</MetaProp>
         </Metadata>
 
-        <PostImage fluid={fluid} />
+        <Content>
+          <PostImage fluid={fluid} />
 
-        <TOC headings={headings} />
+          <TOC headings={headings} />
 
-        <MDXRenderer>
-          {body}
-        </MDXRenderer>
+          <MDXRenderer>
+            {body}
+          </MDXRenderer>
+        </Content>
 
         <Tags>
           {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}

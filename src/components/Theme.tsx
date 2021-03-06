@@ -21,7 +21,7 @@ const spacing = {
     margin: `11.25pt`,
     wide: '2048px',
     desktop: '1024px',
-    mobile: '320px'
+    mobile: '540px'
 }
 
 const typography = {

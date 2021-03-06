@@ -13,7 +13,7 @@ const Hero = styled.header`
   font-family: ${props => props.theme.titleFont};
   background: ${props => props.theme.primaryColor};
   color: ${props => props.theme.primaryTextColor};
-  max-width: ${props => props.theme.desktop};
+  max-width: ${props => props.theme.column};
   margin: auto;
   height: 250px;
   position: relative;

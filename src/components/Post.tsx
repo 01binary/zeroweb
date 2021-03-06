@@ -15,12 +15,6 @@ const Main = styled.main`
     max-width: calc(75% - 1.5em);
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
-    h1 {
-      max-width: 100%;
-    }
-  }
-
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};
   }
@@ -42,12 +36,25 @@ const Main = styled.main`
     clear: left;
   }
 
+  @media(max-width: ${props => props.theme.mobile}) {
+    h1, h2, h3, h4 {
+      max-width: initial;
+      margin-left: ${props => props.theme.spacingHalf};
+    }
+  }
+
   h1:hover,
   h2:hover,
   h3:hover,
   h4:hover {
     a {
       opacity: 1;
+    }
+  }
+
+  @media(max-width: ${props => props.theme.desktop}) {
+    &:before, &:after {
+      content: '';
     }
   }
 `;

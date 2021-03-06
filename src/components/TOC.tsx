@@ -12,7 +12,12 @@ const Toc = styled.section`
     list-style-type: none;
 `;
 
-const TocTitle = styled.h2``;
+const TocTitle = styled.h2`
+    @media(max-width: ${props => props.theme.mobile}) {
+        position: relative;
+        left: -${props => props.theme.spacingHalf};
+    }
+`;
 
 const TocList = styled.ul`
     list-style-type: none;
@@ -24,9 +29,11 @@ const TocItem = styled.li`
 `;
 
 const TocItemLink = styled(AnchorLink)`
-    ${props => props.active && `
-        text-decoration: underline;
-    `}
+    @media(min-width: ${props => props.theme.mobile}) {
+        ${props => props.active && `
+            text-decoration: underline;
+        `}
+    }
 `;
 
 interface ITOCProps {

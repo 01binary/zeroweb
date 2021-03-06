@@ -60,6 +60,10 @@ const PermaLinkAnchor = styled(Link)`
     opacity: .8;
     transform: translateY(0);
   }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const StyledLinkIcon = styled(LinkIcon)`

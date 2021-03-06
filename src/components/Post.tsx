@@ -11,10 +11,8 @@ import IPost from '../models/IPost';
 import IHeading from '../models/IHeading';
 
 const Main = styled.main`
-  @media(max-width: ${props => props.theme.desktop}) {
-    h1 {
-      max-width: calc(75% - 1.5em);
-    }
+  h1 {
+    max-width: calc(75% - 1.5em);
   }
 
   @media(max-width: ${props => props.theme.mobile}) {
@@ -56,12 +54,9 @@ const Main = styled.main`
 
 const HeroImage = styled(Img)`
   max-height: 280px;
+  max-width: calc(75% - 3em);
+  margin-right: 1.5em;
   margin-left: ${props => props.theme.spacingHalf};
-
-  @media(max-width: ${props => props.theme.desktop}) {
-    max-width: calc(75% - 3em);
-    margin-right: 1.5em;
-  }
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
@@ -74,12 +69,10 @@ const Metadata = styled.section`
   font-size: ${props => props.theme.smallFontSize};
   color: ${props => props.theme.secondaryTextColor};
   display: flex;
+  flex-wrap: wrap;
+  max-width: calc(75% - 3em);
   margin-left: 1em;
   margin-bottom: ${props => props.theme.spacing};
-
-  @media(max-width: ${props => props.theme.desktop}) {
-    max-width: calc(75% - 3em);
-  }
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
@@ -102,13 +95,12 @@ const MetaLink = styled(Link)`
 
   &:hover {
     border-bottom-color: ${props => props.theme.primaryColor};
+    text-decoration: none;
   }
 `;
 
 const Content = styled.section`
-  @media(max-width: ${props => props.theme.desktop}) {
-    max-width: calc(75% - 2em);
-  }
+  max-width: calc(75% - 2em);
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
@@ -116,15 +108,13 @@ const Content = styled.section`
 `;
 
 const Sidebar = styled.section`
-  @media(max-width: ${props => props.theme.desktop}) {
-    position: sticky;
-    float: right;
-    top: 0;
-    left: 100%;
-    min-width: 25%;
-    max-width: 25%;
-    margin-top: calc(-280px + 1em);
-  }
+  position: sticky;
+  float: right;
+  top: 0;
+  left: 100%;
+  min-width: 25%;
+  max-width: 25%;
+  margin-top: calc(-280px + 1em);
 
   @media(max-width: ${props => props.theme.mobile}) {
     position: relative;

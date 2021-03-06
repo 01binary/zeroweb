@@ -21,17 +21,10 @@ const Hero = styled.header`
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(135deg, ${props => props.theme.primaryColor} 0%, ${props => props.theme.secondaryColor} 100%);
   transition: margin ${props => props.theme.animationFast} ease-out;
+  margin-top: 0;
 
-  @media (max-width: ${props => props.theme.mobile}) {
-    margin-top: 0;
-  }
-
-  @media (max-width: ${props => props.theme.wide}) {
-    margin-top: 100px;
-  }
-  
-  @media (max-width: ${props => props.theme.desktop}) {
-    margin-top: 50px;
+  @media (min-width: ${props => props.theme.desktop}) {
+    margin-top: ${props => props.theme.spacingTriple};
   }
 
   &:before {

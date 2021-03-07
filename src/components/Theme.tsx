@@ -20,8 +20,9 @@ const spacing = {
     cornerSmall: `${unit / 3}px`,
     margin: `11.25pt`,
     wide: '2048px',
-    desktop: '1024px',
-    mobile: '540px'
+    desktop: '1152px',
+    mobile: '768px',
+    column: '1024px'
 }
 
 const typography = {
@@ -137,7 +138,7 @@ export const GlobalStyle = createGlobalStyle`
 
   main {
     position: relative;
-    max-width: ${props => props.theme.desktop};
+    max-width: ${props => props.theme.column};
     margin: auto;
     font-family: ${props => props.theme.normalFont};
     font-weight: ${props => props.theme.normalFontWeight};

@@ -11,8 +11,16 @@ import IPost from '../models/IPost';
 import IHeading from '../models/IHeading';
 
 const Main = styled.main`
-  h1 {
-    max-width: calc(75% - 1.5em);
+  @media(max-width: ${props => props.theme.desktop}) {
+    h1 {
+      max-width: calc(75% - 1.5em);
+    }
+  }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    h1 {
+      max-width: 100%;
+    }
   }
 
   h2 {
@@ -48,9 +56,17 @@ const Main = styled.main`
 
 const HeroImage = styled(Img)`
   max-height: 280px;
-  max-width: calc(75% - 3em);
-  margin-left: 1em;
-  margin-right: 1.5em;
+  margin-left: ${props => props.theme.spacingHalf};
+
+  @media(max-width: ${props => props.theme.desktop}) {
+    max-width: calc(75% - 3em);
+    margin-right: 1.5em;
+  }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    max-width: 100%;
+    margin-right: 0;
+  }
 `;
 
 const Metadata = styled.section`
@@ -60,7 +76,14 @@ const Metadata = styled.section`
   display: flex;
   margin-left: 1em;
   margin-bottom: ${props => props.theme.spacing};
-  max-width: calc(75% - 3em);
+
+  @media(max-width: ${props => props.theme.desktop}) {
+    max-width: calc(75% - 3em);
+  }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    max-width: 100%;
+  }
 `
 
 const MetaProp = styled.div`
@@ -83,18 +106,33 @@ const MetaLink = styled(Link)`
 `;
 
 const Content = styled.section`
-  max-width: calc(75% - 2em);
+  @media(max-width: ${props => props.theme.desktop}) {
+    max-width: calc(75% - 2em);
+  }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    max-width: 100%;
+  }
 `;
 
 const Sidebar = styled.section`
-  @media(max-width: ${props => props.theme.wide}) {
+  @media(max-width: ${props => props.theme.desktop}) {
     position: sticky;
+    float: right;
     top: 0;
     left: 100%;
-    float: right;
     min-width: 25%;
     max-width: 25%;
     margin-top: calc(-280px + 1em);
+  }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    position: relative;
+    float: none;
+    left: 0;
+    max-width: 100%;
+    margin-top: 0;
+    margin-left: ${props => props.theme.spacingHalf};
   }
 `;
 

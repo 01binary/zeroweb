@@ -7,6 +7,7 @@ import slugify from 'slugify';
 import SEO from './SEO';
 import TOC from './TOC';
 import { Heading } from './Heading';
+import { Tags, Tag } from './Tags';
 import IPost from '../models/IPost';
 import IHeading from '../models/IHeading';
 
@@ -132,16 +133,6 @@ const Sidebar = styled.section`
     margin-left: ${props => props.theme.spacingHalf};
   }
 `;
-
-const Tags = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  margin-top: 0;
-`; 
-
-const Tag = styled.li`
-  border: 1px solid black;
-`
 
 const AuthorLink = () => (
   <MetaLink to="/about">

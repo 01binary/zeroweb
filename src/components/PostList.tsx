@@ -38,15 +38,18 @@ const PostList: FunctionComponent<IPosts> = ({
         }
       }) => (
         <Article key={slug}>
+          <Meta>{date}</Meta>
+
           <ArticleLink to={url}>
             <Title>{title}</Title>
           </ArticleLink>
-          <Meta>{date}</Meta>
+          
           {timeToRead && <Meta>{timeToRead} min to read</Meta>}
+
           <InlineTags>{tags}</InlineTags>
           
           <ArticleLink to={url}>
-            Read more ->
+            Read more...
           </ArticleLink>
         </Article>
       ))}

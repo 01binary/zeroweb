@@ -20,12 +20,10 @@ const Hero = styled.header`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(135deg, ${props => props.theme.primaryColor} 0%, ${props => props.theme.secondaryColor} 100%);
-  transition: margin ${props => props.theme.animationFast} ease-out;
+  transition:
+    margin ${props => props.theme.animationFast} ease-out,
+    height ${props => props.theme.animationFast} ease-out;
   margin-top: 0;
-
-  @media (min-width: ${props => props.theme.desktop}) {
-    margin-top: ${props => props.theme.spacingTriple};
-  }
 
   &:before {
     content: '';
@@ -61,6 +59,50 @@ const Hero = styled.header`
   .stroke-foreground {
     stroke: ${props => props.theme.accentTextColor}
   }
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    z-index: 8;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: ${props => props.theme.spacingDouble};
+    background: none;
+    color: ${props => props.theme.foregroundColor};
+
+    &:before {
+      z-index 0;
+      position: absolute;
+      background: ${props => props.theme.backgroundColor};
+      opacity: .8;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: none;
+      box-shadow: 0 0 5px ${props => props.theme.dropShadowLightColor};
+    }
+
+    &:after {
+      display: none;
+    }
+
+    .fill-foreground {
+      fill: ${props => props.theme.primaryColor}
+    }
+  
+    .fill-background {
+      fill: ${props => props.theme.backgroundColor}
+    }
+  
+    .stroke-foreground {
+      stroke: ${props => props.theme.accentTextColor}
+    }
+  }
+
+  @media (min-width: ${props => props.theme.desktop}) {
+    margin-top: ${props => props.theme.spacingTriple};
+  }
 `;
 
 const Title = styled.h1`
@@ -70,6 +112,14 @@ const Title = styled.h1`
   margin: 0;
   font-size: ${props => props.theme.titleFontSize};
   font-weight: ${props => props.theme.titleFontWeight};
+
+  span {
+    display: none;
+  }
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const Caret = styled.div`
@@ -80,6 +130,10 @@ const Caret = styled.div`
   bottom: -3.75pt;
   background: ${props => props.theme.primaryTextColor};
   animation: blink 1.1s linear infinite;
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 
   @keyframes blink {
     0% {
@@ -100,12 +154,26 @@ const Caret = styled.div`
 }
 `;
 
+const Logo = styled(LogoImage)`
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  width: 91px;
+  height: 75px;
+  font-size: 60pt;
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    top: 10px;
+    width: 45.5px;
+    height: 37.5px;
+  }
+`;
+
 const Navigation = styled.nav`
   position: absolute;
   left: 0;
   bottom: 1px;
   min-width: 373px;
-  width: 100%;
   height: 82px;
   display:flex;
 
@@ -130,15 +198,31 @@ const Navigation = styled.nav`
     background: ${props => props.theme.backgroundColor};
     transform: skewX(45deg);
   }
-`;
 
-const Logo = styled(LogoImage)`
-  position: absolute;
-  left: 22px;
-  top: 22px;
-  width: 91px;
-  height: 75px;
-  font-size: 60pt;
+  @media (max-width: ${props => props.theme.mobile}) {
+    background: ${props => props.theme.backgroundColor};
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: ${props => props.theme.spacingDouble};
+    bottom: initial;
+    height: initial;
+    padding: ${props => props.theme.spacingQuarter};
+    flex-direction: column;
+    border-bottom: 1px solid ${props => props.theme.borderColor};
+
+    &:before, &:after {
+      display: none;
+    }
+
+    .stroke-foreground {
+      stroke: ${props => props.theme.foregroundColor}
+    }
+  
+    .stroke-background {
+      stroke: ${props => props.theme.accentShadowColor}
+    }
+  }
 `;
 
 interface IHeaderProps {
@@ -152,7 +236,7 @@ const Header: FunctionComponent<IHeaderProps> = ({
       <Logo />
 
       <Title>
-        binary: tech art<Caret/>
+        <span>01</span> binary: tech art<Caret/>
       </Title>
 
       <Navigation>

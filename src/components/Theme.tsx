@@ -126,6 +126,12 @@ export const GlobalStyle = createGlobalStyle`
     background: ${props => props.theme.backgroundColor}
   }
 
+  @media (max-width: ${props => props.theme.mobile}) {
+    body {
+      margin-top: ${unit * 2.5}px;
+    }
+  }
+
   h1 {
     text-transform: lowercase;
     font-size: ${props => props.theme.headingFontSizeLarge};

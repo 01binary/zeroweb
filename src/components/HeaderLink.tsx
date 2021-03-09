@@ -3,67 +3,89 @@ import styled from 'styled-components';
 import { Link } from 'gatsby';
 
 const StyledLink = styled(Link)`
-flex: 110px 0;
-margin-left: -1px;
-&:first-child {
-  margin-left: 0px;
-}
+  flex: 110px 0;
+  margin-left: -1px;
 
-.navigation {
-    display: inline;
-    position: absolute;
-    width: 110px;
-}
+  &:first-child {
+    margin-left: 0px;
+  }
 
-.navigation-background {
-    fill: ${props => props.theme.backgroundColor};
-    transition: opacity ${props => props.theme.animationFast} ease-out;
-    opacity: 0;
-    z-index: 5;
-}
+  .navigation, .navigation-text, .navigation-icon {
+      display: inline;
+      position: absolute;
+      width: 110px;
+  }
 
-&:hover {
-    .navigation-background {
-        opacity: 0.20;
+  .navigation-background {
+      fill: ${props => props.theme.backgroundColor};
+      transition: opacity ${props => props.theme.animationFast} ease-out;
+      opacity: 0;
+      z-index: 5;
+  }
+
+  &:hover {
+      .navigation-background {
+          opacity: 0.20;
+      }
+  }
+
+  .navigation-border {
+      fill: ${props => props.theme.accentTextColor};
+      z-index: 6;
+  }
+      
+  .navigation-highlight {
+      fill: ${props => props.theme.primaryLightColor};
+      z-index: 7;
+  }
+      
+  .navigation-selection {
+      z-index: 6;
+      fill: ${props => props.theme.selectionColor};
+  }
+
+  .navigation-unselected .navigation-selection {
+    fill: none;
+  }
+
+  .navigation-selected .navigation-border {
+    fill: none;
+  }
+
+  .navigation-selected .navigation-highlight {
+    fill: none;
+  }
+
+  .navigation-icon {
+    z-index: 6;
+
+    width: 24px;
+    height: 22px;
+
+    margin-left: 14px;
+    margin-top: 25px;
+  }
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    margin-left: initial;
+    flex: 0 0;
+
+    .navigation-icon {
+      margin: 0 0 0 ${props => props.theme.spacingHalf};
+      height: 100%;
     }
-}
 
-.navigation-border {
-    fill: ${props => props.theme.accentTextColor};
-    z-index: 6;
-}
-    
-.navigation-highlight {
-    fill: ${props => props.theme.primaryLightColor};
-    z-index: 7;
-}
-    
-.navigation-selection {
-    z-index: 6;
-    fill: ${props => props.theme.selectionColor};
-}
+    .navigation-text {
+      display: block;
+      position: initial;
+    }
 
-.navigation-unselected .navigation-selection {
-  fill: none;
-}
-
-.navigation-selected .navigation-border {
-  fill: none;
-}
-
-.navigation-selected .navigation-highlight {
-  fill: none;
-}
-
-.navigation-icon {
-  z-index: 6;
-
-  width: 24px;
-  height: 22px;
-
-  margin-left: 14px;
-  margin-top: 25px;
-}
+    .navigation {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
 `;
 
 const Text = styled.div`
@@ -74,6 +96,15 @@ const Text = styled.div`
   color: ${props => props.theme.primaryTextColor};
   font-size: ${props => props.theme.navigationFontSize};
   z-index: 6;
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    color: ${props => props.theme.foregroundColor};
+    margin-left: ${props => props.theme.spacingOneAndHalf};
+    padding:
+      ${props => props.theme.spacingQuarter}
+      ${props => props.theme.spacingHalf};
+    font-size: ${props => props.theme.normalFontSize};
+  }
 `;
 
 interface IHeaderLinkProps {
@@ -98,8 +129,8 @@ const HeaderLink: FunctionComponent<IHeaderLinkProps> = ({
 }) => (
     <StyledLink to={to} className={getLinkClassName(path, to)}>
       <Background className={"navigation " + getLinkClassName(path, to)} />
-      <Icon className="navigation navigation-icon" />
-      <Text className="navigation">
+      <Icon className="navigation-icon" />
+      <Text className="navigation-text">
         {children}
       </Text>
     </StyledLink>

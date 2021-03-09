@@ -7,6 +7,12 @@ const Article = styled.article`
     padding-left: 16px;
     padding-bottom: ${props => props.theme.spacingHalf};
     border-bottom: ${props => props.theme.border} dotted ${props => props.theme.shadowLightColor};
+
+    &:first {
+      padding-top: 0;
+    }
+
+    padding-top: ${props => props.theme.spacingHalf};
 `;
 
 const ArticleLink = styled(Link)`

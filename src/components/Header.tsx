@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import HeaderLink from './HeaderLink';
 import LogoImage from '../images/Logo.svg';
+import HamburgerIcon from '../images/hamburger.svg';
 import ArticlesIcon from "../images/articles.svg"
 import ProjectsIcon from "../images/projects.svg"
 import AboutIcon from "../images/about.svg"
@@ -61,7 +62,7 @@ const Hero = styled.header`
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
-    z-index: 8;
+    z-index: 1;
     position: fixed;
     left: 0;
     top: 0;
@@ -85,6 +86,22 @@ const Hero = styled.header`
 
     &:after {
       display: none;
+    }
+
+    nav {
+      transition:
+        opacity ${props => props.theme.animationFast} ease-out,
+        height  ${props => props.theme.animationFast} ease-out;
+      height: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #hamburger:checked {
+      & ~ nav {
+        opacity: 1;
+        height: 8em;
+      }
     }
 
     .fill-foreground {
@@ -170,12 +187,12 @@ const Logo = styled(LogoImage)`
 `;
 
 const Navigation = styled.nav`
+  display: flex;
   position: absolute;
   left: 0;
   bottom: 1px;
   min-width: 373px;
   height: 82px;
-  display:flex;
 
   &:before {
     content: '';
@@ -200,7 +217,7 @@ const Navigation = styled.nav`
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
-    background: ${props => props.theme.backgroundColor};
+    background: none;
     position: fixed;
     left: 0;
     right: 0;
@@ -208,10 +225,22 @@ const Navigation = styled.nav`
     bottom: initial;
     height: initial;
     padding: ${props => props.theme.spacingQuarter};
+    padding-bottom: ${props => props.theme.spacingHalf};
     flex-direction: column;
     border-bottom: 1px solid ${props => props.theme.borderColor};
 
-    &:before, &:after {
+    &:before {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100%;
+      background: ${props => props.theme.backgroundColor};
+      opacity: .95;
+      box-shadow: initial;
+    }
+
+    &:after {
       display: none;
     }
 
@@ -224,6 +253,52 @@ const Navigation = styled.nav`
     }
   }
 `;
+
+const HamburgerButton = styled.input.attrs(
+  () => ({
+    id: 'hamburger',
+    type: 'checkbox'
+  })
+)`
+  display: none;
+`;
+
+const HamburgerLabel = styled.label.attrs(
+  () => ({
+    htmlFor: 'hamburger'
+  })
+)`
+  display: none;
+
+  .fill-foreground {
+    fill: ${props => props.theme.foregroundColor};
+  }
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: ${props => props.theme.spacingDouble};
+    height: ${props => props.theme.spacingDouble};
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+`;
+
+const StyledHamburgerIcon = styled(HamburgerIcon)`
+  flex: 24 24;
+`;
+
+const Hamburger = () => (
+  <>
+    <HamburgerButton />
+    <HamburgerLabel>
+      <StyledHamburgerIcon />
+    </HamburgerLabel>
+  </>
+);
 
 interface IHeaderProps {
   path: string
@@ -238,6 +313,8 @@ const Header: FunctionComponent<IHeaderProps> = ({
       <Title>
         <span>01</span> binary: tech art<Caret/>
       </Title>
+
+      <Hamburger />
 
       <Navigation>
         <HeaderLink to="/" path={path} icon={ArticlesIcon} background={ArticlesBackground}>

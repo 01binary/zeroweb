@@ -115,7 +115,7 @@ const Text = styled.div`
   }
 `;
 
-interface IHeaderLinkProps {
+interface INavLinkProps {
   background: FunctionComponent<SVGProps<SVGSVGElement>>,
   icon: FunctionComponent<SVGProps<SVGSVGElement>>,
   path: string
@@ -128,7 +128,7 @@ const getLinkClassName = (path: string, to: string) => (
     : "navigation-unselected"
 );
 
-const HeaderLink: FunctionComponent<IHeaderLinkProps> = ({
+const NavLink: FunctionComponent<INavLinkProps> = ({
     children,
     background: Background,
     icon: Icon,
@@ -144,4 +144,4 @@ const HeaderLink: FunctionComponent<IHeaderLinkProps> = ({
     </StyledLink>
 );
 
-export default HeaderLink;
+export default NavLink;

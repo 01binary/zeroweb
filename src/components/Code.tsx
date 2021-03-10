@@ -1,5 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
 import Highlight, { defaultProps } from 'prism-react-renderer';
+
+const Pre = styled.pre`
+    padding: 16px;
+    font-size: ${props => props.theme.smallFontSize};
+`;
 
 const Code = (props: any) => {
     const className = props.children.props.className || '';
@@ -16,7 +22,7 @@ const Code = (props: any) => {
             }
         >
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={className} style={style}>
+            <Pre className={className} style={style}>
                 {tokens.map((line, i) => (
                 <div {...getLineProps({ line, key: i })}>
                     {line.map((token, key) => (
@@ -24,7 +30,7 @@ const Code = (props: any) => {
                     ))}
                 </div>
                 ))}
-            </pre>
+            </Pre>
             )}
         </Highlight>
     );

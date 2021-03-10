@@ -85,6 +85,14 @@ const StyledLink = styled(Link)`
       width: 0;
       height: 0;
     }
+
+    .navigation-unselected {
+      color: ${props => props.theme.foregroundColor};
+    }
+
+    .navigation-selected {
+      color: ${props => props.theme.focusColor};
+    }
   }
 `;
 
@@ -98,7 +106,6 @@ const Text = styled.div`
   z-index: 6;
 
   @media (max-width: ${props => props.theme.mobile}) {
-    color: ${props => props.theme.foregroundColor};
     margin-left: ${props => props.theme.spacingOneAndHalf};
     padding:
       ${props => props.theme.spacingQuarter}
@@ -128,9 +135,9 @@ const HeaderLink: FunctionComponent<IHeaderLinkProps> = ({
     to
 }) => (
     <StyledLink to={to} className={getLinkClassName(path, to)}>
-      <Background className={"navigation " + getLinkClassName(path, to)} />
+      <Background className={`navigation ${getLinkClassName(path, to)}`} />
       <Icon className="navigation-icon" />
-      <Text className="navigation-text">
+      <Text className={`navigation-text ${getLinkClassName(path, to)}`}>
         {children}
       </Text>
     </StyledLink>

@@ -9,6 +9,10 @@ const collectionOffsets = [ "articles", "projects", "about" ];
 
 const Heading = styled.h1`
     margin-top: 0;
+
+    @media (max-width: ${props => props.theme.mobile}) {
+        margin-left: ${props => props.theme.spacingHalf};
+    }
 `;
 
 const Graphic = styled.svg`
@@ -22,6 +26,10 @@ const Graphic = styled.svg`
     .title-callout {
         fill: none;
         stroke: ${props => props.theme.primaryColor};
+    }
+
+    @media (max-width: ${props => props.theme.mobile}) {
+        display: none;
     }
 `;
 

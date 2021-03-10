@@ -4,6 +4,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 const unit = 30;
 
 const spacing = {
+    unit: unit,
     border: '2px',
     spacing: `${unit}px`,
     spacingDouble: `${unit * 2}px`,

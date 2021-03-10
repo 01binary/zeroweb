@@ -15,7 +15,7 @@ export const TableRow: FunctionComponent = styled.tr`
     height: ${props => props.theme.spacingDouble};
 
     &:hover td {
-        background: ${props => props.theme.accentColor};
+        background: ${props => props.theme.accentLightColor};
     }
 
     &:last-of-type td {
@@ -25,6 +25,6 @@ export const TableRow: FunctionComponent = styled.tr`
 
 export const TableCell: FunctionComponent = styled.td`
     padding: ${props => props.theme.spacingHalf};
-    borderBottom: ${props => props.theme.border} solid ${props => props.theme.borderColor};
+    border-bottom: 1px solid ${props => props.theme.borderColor};
     transition: background-color ${props => props.theme.animationFast} ease-in-out;
 `

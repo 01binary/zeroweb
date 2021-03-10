@@ -302,7 +302,7 @@ const Hamburger = () => (
 );
 
 const closeMenu = () => setTimeout(() => {
-  const menu = document.getElementById('hamburger');
+  const menu: any = document.getElementById('hamburger');
   if (menu) menu.checked = false;
 }, 100);
 

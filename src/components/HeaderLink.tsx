@@ -72,6 +72,7 @@ const StyledLink = styled(Link)`
 
     .navigation-icon {
       margin: 0 0 0 ${props => props.theme.spacingHalf};
+      padding-left: 1em;
       height: 100%;
     }
 
@@ -106,7 +107,7 @@ const Text = styled.div`
   z-index: 6;
 
   @media (max-width: ${props => props.theme.mobile}) {
-    margin-left: ${props => props.theme.spacingOneAndHalf};
+    margin-left: ${props => props.theme.spacingDouble};
     padding:
       ${props => props.theme.spacingQuarter}
       ${props => props.theme.spacingHalf};

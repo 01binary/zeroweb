@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { Link } from 'gatsby';
 import HeaderLink from './HeaderLink';
 import LogoImage from '../images/Logo.svg';
 import HamburgerIcon from '../images/hamburger.svg';
@@ -300,6 +301,11 @@ const Hamburger = () => (
   </>
 );
 
+const closeMenu = () => setTimeout(() => {
+  const menu = document.getElementById('hamburger');
+  if (menu) menu.checked = false;
+}, 100);
+
 interface IHeaderProps {
   path: string
 }
@@ -308,7 +314,9 @@ const Header: FunctionComponent<IHeaderProps> = ({
   path
 }) => (
     <Hero>
-      <Logo />
+      <Link to="/">
+        <Logo />
+      </Link>
 
       <Title>
         <span>01</span> binary: tech art<Caret/>
@@ -316,7 +324,7 @@ const Header: FunctionComponent<IHeaderProps> = ({
 
       <Hamburger />
 
-      <Navigation>
+      <Navigation onClick={closeMenu}>
         <HeaderLink to="/" path={path} icon={ArticlesIcon} background={ArticlesBackground}>
           articles
         </HeaderLink>

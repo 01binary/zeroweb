@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-<g class="fill-foreground">
-	<rect x="2" y="6" width="15" height="2"/>
-	<rect x="2" y="11" width="19" height="2"/>
-	<rect x="2" y="16" width="11" height="2"/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" xml:space="preserve">
+<g class="clipped">
+	<rect class="fill-foreground fr" y="2" width="24" height="2"/>
+	<rect class="fill-foreground fr" y="18" width="24" height="2"/>
+	<path class="fill-foreground wave" d="M60.6,10.2C57.5,8.1,54.3,6,48,6s-9.5,2.1-12.6,4.2c-3,2-5.7,3.8-11.4,3.8s-8.5-1.9-11.4-3.8C9.5,8.1,6.3,6,0,6v2
+		c5.7,0,8.5,1.9,11.4,3.8c3.1,2,6.3,4.2,12.6,4.2s9.5-2.1,12.6-4.2c3-2,5.7-3.8,11.4-3.8s8.5,1.9,11.4,3.8c3.1,2,6.3,4.2,12.6,4.2v-2
+		C66.3,14,63.5,12.1,60.6,10.2z"/>
+</g>
+<g>
+	<line class="stroke-foreground close-first" strokeWidth="2.5" x1="22" y1="2" x2="2" y2="22"/>
+	<line class="stroke-foreground close-second" strokeWidth="2.5" x1="2" y1="2" x2="22" y2="22"/>
 </g>
 </svg>

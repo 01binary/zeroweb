@@ -26,5 +26,5 @@ export const TableRow: FunctionComponent = styled.tr`
 export const TableCell: FunctionComponent = styled.td`
     padding: ${props => props.theme.spacingHalf};
     borderBottom: ${props => props.theme.border} solid ${props => props.theme.borderColor};
-    transition: background-color .3s ease-in-out;
+    transition: background-color ${props => props.theme.animationFast} ease-in-out;
 `

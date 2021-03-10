@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import HeaderLink from './HeaderLink';
@@ -87,22 +87,6 @@ const Hero = styled.header`
 
     &:after {
       display: none;
-    }
-
-    nav {
-      transition:
-        opacity ${props => props.theme.animationFast} ease-out,
-        height  ${props => props.theme.animationFast} ease-out;
-      height: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-
-    #hamburger:checked {
-      & ~ nav {
-        opacity: 1;
-        height: 8em;
-      }
     }
 
     .fill-foreground {
@@ -218,15 +202,17 @@ const Navigation = styled.nav`
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
+    transition:
+      opacity ${props => props.theme.animationFast} ease-out,
+      height  ${props => props.theme.animationFast} ease-out;
+    overflow: hidden;
     background: none;
     position: fixed;
     left: 0;
     right: 0;
     top: ${props => props.theme.spacingDouble};
     bottom: initial;
-    height: initial;
-    padding: ${props => props.theme.spacingQuarter};
-    padding-bottom: ${props => props.theme.spacingHalf};
+    height: ${props => props.menuOpen ? '8em' : '0'};
     flex-direction: column;
     border-bottom: 1px solid ${props => props.theme.borderColor};
 
@@ -271,11 +257,24 @@ const HamburgerLabel = styled.label.attrs(
 )`
   display: none;
 
-  .fill-foreground {
-    fill: ${props => props.theme.foregroundColor};
-  }
-
   @media (max-width: ${props => props.theme.mobile}) {
+    transition: opacity ${props => props.theme.animationFast} ease-out;
+    opacity: .6;
+
+    .fill-foreground {
+      fill: black;
+    }
+
+    &:hover {
+      opacity: 1;
+      .fill-foreground {
+        fill: ${props => props.theme.focusColor};
+      }
+      .stroke-foreground {
+        stroke: ${props => props.theme.focusColor};
+      }
+    }
+
     display: block;
     position: fixed;
     top: 0;
@@ -290,21 +289,54 @@ const HamburgerLabel = styled.label.attrs(
 
 const StyledHamburgerIcon = styled(HamburgerIcon)`
   flex: 24 24;
+
+  .clipped {
+		clip-path: inset(0px 48px 0px 0px);
+	}
+
+  .wave {
+		animation: loop 1s linear infinite;
+		
+		@keyframes loop {
+			0% {
+				transform: translateX(0);
+			}
+
+			25% {
+				transform: translateX(-8px);
+			}
+
+			50% {
+				transform: translateX(-24px);
+			}
+
+			100% {
+				transform: translateX(-48px);
+			}
+		}
+	}
+
+  .close-first, .close-second {
+    transition:
+      opacity .3s ease-out,
+      transform .3s ease-out;
+    transform-origin: center;
+    opacity: ${props => props.menuOpen ? 1 : 0};
+  }
+
+  .wave, .fr {
+    transition: opacity .3s ease-out;
+    opacity: ${props => props.menuOpen ? 0 : 1};
+  }
+
+  .close-first {
+    transform: rotateZ(${props => props.menuOpen ? '0deg' : '45deg'});
+  }
+
+  .close-second {
+    transform: rotateZ(${props => props.menuOpen ? '0deg' : '-45deg'});
+  }
 `;
-
-const Hamburger = () => (
-  <>
-    <HamburgerButton />
-    <HamburgerLabel>
-      <StyledHamburgerIcon />
-    </HamburgerLabel>
-  </>
-);
-
-const closeMenu = () => setTimeout(() => {
-  const menu: any = document.getElementById('hamburger');
-  if (menu) menu.checked = false;
-}, 100);
 
 interface IHeaderProps {
   path: string
@@ -312,7 +344,10 @@ interface IHeaderProps {
 
 const Header: FunctionComponent<IHeaderProps> = ({
   path
-}) => (
+}) => {
+  const [ menuOpen, showMenu ] = useState(false);
+
+  return (
     <Hero>
       <Link to="/">
         <Logo />
@@ -322,9 +357,12 @@ const Header: FunctionComponent<IHeaderProps> = ({
         <span>01</span> binary: tech art<Caret/>
       </Title>
 
-      <Hamburger />
+      <HamburgerButton />
+      <HamburgerLabel menuOpen={menuOpen} onClick={() => showMenu(!menuOpen)}>
+        <StyledHamburgerIcon menuOpen={menuOpen} />
+      </HamburgerLabel>
 
-      <Navigation onClick={closeMenu}>
+      <Navigation menuOpen={menuOpen} onClick={() => showMenu(false)}>
         <HeaderLink to="/" path={path} icon={ArticlesIcon} background={ArticlesBackground}>
           articles
         </HeaderLink>
@@ -336,6 +374,7 @@ const Header: FunctionComponent<IHeaderProps> = ({
         </HeaderLink>
       </Navigation>
     </Hero>
-);
+  );
+};
 
 export default Header;

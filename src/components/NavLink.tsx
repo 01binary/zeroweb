@@ -74,6 +74,17 @@ const StyledLink = styled(Link)`
       margin: 0 0 0 ${props => props.theme.spacingHalf};
       padding-left: 1em;
       height: 100%;
+
+      &.navigation-selected {
+        .stroke-foreground {
+          stroke: white;
+        }
+
+        .stroke-background {
+          stroke: white;
+          opacity: .7;
+        }
+      }
     }
 
     .navigation-text {
@@ -92,7 +103,18 @@ const StyledLink = styled(Link)`
     }
 
     .navigation-selected {
-      color: ${props => props.theme.focusColor};
+      color: ${props => props.theme.backgroundColor};
+
+      &:before {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -2px;
+        bottom: -2px;
+        background: ${props => props.theme.focusColor};
+      }
     }
   }
 `;
@@ -134,14 +156,17 @@ const NavLink: FunctionComponent<INavLinkProps> = ({
     icon: Icon,
     path,
     to
-}) => (
-    <StyledLink to={to} className={getLinkClassName(path, to)}>
-      <Background className={`navigation ${getLinkClassName(path, to)}`} />
-      <Icon className="navigation-icon" />
-      <Text className={`navigation-text ${getLinkClassName(path, to)}`}>
+}) => {
+  const selectedClass = getLinkClassName(path, to);
+  return (
+    <StyledLink to={to} className={selectedClass}>
+      <Background className={`navigation ${selectedClass}`} />
+      <Icon className={`navigation-icon ${selectedClass}`} />
+      <Text className={`navigation-text ${selectedClass}`}>
         {children}
       </Text>
     </StyledLink>
-);
+  );
+};
 
 export default NavLink;

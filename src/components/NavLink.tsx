@@ -67,8 +67,51 @@ const StyledLink = styled(Link)`
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
+    position: relative;
     margin-left: initial;
     flex: 0 0;
+
+    color: ${props => props.theme.backgroundColor};
+    transition: color .3s ease-out;
+    text-decoration: none;
+
+    .navigation-unselected {
+      color: ${props => props.theme.primaryDarkColor};
+    }
+
+    &:hover {
+      .navigation-unselected {
+        color: ${props => props.theme.primaryDarkShadowColor};
+        text-decoration: underline;
+      }
+    }
+
+    .navigation-selected {
+      color: ${props => props.theme.backgroundColor};
+
+      &:before {
+        z-index: -1;
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -2px;
+        bottom: -2px;
+        background: ${props => props.theme.focusColor};
+      }
+    }
+
+    .navigation {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    .navigation-text {
+      display: block;
+      position: initial;
+    }
 
     .navigation-icon {
       margin: 0 0 0 ${props => props.theme.spacingHalf};
@@ -86,45 +129,15 @@ const StyledLink = styled(Link)`
         }
       }
     }
-
-    .navigation-text {
-      display: block;
-      position: initial;
-    }
-
-    .navigation {
-      display: none;
-      width: 0;
-      height: 0;
-    }
-
-    .navigation-unselected {
-      color: ${props => props.theme.foregroundColor};
-    }
-
-    .navigation-selected {
-      color: ${props => props.theme.backgroundColor};
-
-      &:before {
-        z-index: -1;
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: -2px;
-        bottom: -2px;
-        background: ${props => props.theme.focusColor};
-      }
-    }
   }
 `;
 
 const Text = styled.div`
+  position: relative;
   padding-left: 15px;
   padding-top: 53px;
   height: auto;
   width: auto;
-  color: ${props => props.theme.primaryTextColor};
   font-size: ${props => props.theme.navigationFontSize};
   z-index: 6;
 

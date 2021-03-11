@@ -184,14 +184,14 @@ export const GlobalStyle = createGlobalStyle`
     margin-left: ${props => props.theme.spacingHalf};
   }
 
-  a {
+  main a {
     position: relative;
-    color: ${props => props.theme.accentTextColor};
+    color: ${props => props.theme.primaryDarkColor};
     text-decoration: none;
     transition: color ${props => props.theme.animationFast} ease-out;
   
     &:hover {
-      color: ${props => props.theme.accentTextColor};
+      color: ${props => props.theme.primaryDarkColor};
       text-decoration: underline;
     }
   }

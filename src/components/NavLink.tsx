@@ -5,6 +5,7 @@ import { Link } from 'gatsby';
 const StyledLink = styled(Link)`
   flex: 110px 0;
   margin-left: -1px;
+  color: ${props => props.theme.primaryTextColor};
 
   &:first-child {
     margin-left: 0px;

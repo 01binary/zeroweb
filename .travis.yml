@@ -1,20 +1,16 @@
 language: node_js
-
 node_js:
-  - "stable"
-
+- stable
 cache:
   directories:
   - node_modules
-
 script:
-  - yarn build
-
+- yarn build
 deploy:
   provider: s3
-  access_key_id: AKIAQZRIRXETKVMEBGLU
+  access_key_id: AKIAQZRIRXETD574TZ6N
   secret_access_key:
-    secure: FV5ykVvvQiLI2TJicRbyn/bZxAn5DWE6IK9amhFXnajU5nIwi3olIO0BnC7NeGsFsqPgeIyN6xA47wsm65Ta8L7fAgZqJp8CwIjcYrBq7GBDcmFEQoxytEWVRNk0pdetmTI/DknpRUqvqSHaTCJQVjdnsa2p8QIE30Ld3ljQj7Y6U9ykcRimS0Q5Vck2stVt7jeb5lVXXk4rxu/wnH+uNnzAUneBl7aom34DLgjIFn5MNHfSvb80Y7kNx7O5W45Vxa9OG1hEFduhpWYRMg8izfrEuyGvZ5aOkJADlsiXRyRklib7Ei+2Qfh7+nggwQn7r9FyXMwCiy/5SIpbQ/XHEKJJ516Yj6UqKw108WSv6yxH1qxOo2IO7s7GKmNUKG/iSOYImbOw/Sysx89gcPMIl+dw3b321Z6WCVskoPSJbqkX6mOIAVnsQfr6bDb44OgfqjoAJJlwdTwApt7U0bXCO5uFAte6UK8f8sKfMSphGTVR7fCjC0Tki/Vtg7RHZBqXcOYzgp10fH+3ZLpA2Pl6zjZtaJ6uFs4d0PGHUUsPF30qijoON+6uOgT0hbte2aJ9oJeMk8FsNfLfdfVwno+HXPxaJbwUmANsrKcCbDK5oqOL0k34rkMEmFoVykltLgynyXqOOq80YRbylXvlbp9jbDpMnWpjz9m2Cp4KcVHJxj0=
+    secure: Mq0AzFkGISG4D7EcTG/dkC6OwCJX07NbBbTl6+HQhaphH+8IFcUq9pmfmiqtHPntHusxDQKMjPDKdp3NRpDqhLDLPCzS6wvKyb1AK3pBrP66tm/xmROujIyay11fTXWeGwMSo25FF3HD82H5DI0fc7PveojRH9K7U09qvkwa5iryN/N7i9iBb9/g85UMC2LrgHbAbytNq/5diXdXVZ0NN7pVIklQI+/Jhk0+6Si9CBxBSFDjhaXErBpbihXFLj3MF0QuzQT0+g99k4g0FNfki9+DkuO79RsHfBBNkVkMXGywDJmfqFCwn69ot/zGZiry9pJfy6mD+qD0fB226pbuJi5jazamySK48mW4gMyAjn5SarpSHEKQUKB9usJjhuhcx0lZk0rke7OZTXNwtKJY0cdrhwBh6EqTpnfNOcR/FVNdHDXTz0uDedLCIpg+t/6/Acfqr1qlbHe8MrpVwvUlcIvKCYY/zrl0ceAJt+iCfiM8hzAEcvJUNZG4tDeZOSXe8TwRdtpW3TO/ZxQGSmJvCsKh/I9NaE9MdsdWHpEoITjLKoC4Fo0WUBVof2K+X61PVyLpLF6biwbgbPeiyV9g6/QzMuwZNdCvYWOixfU4ENKvHsJSc3TgCHkRynOTvxltWYVuS33oeUsh2CvUUuD2glnFUxZqCxMOvPaFVsS2DkI=
   bucket: zeroweb
   region: us-west-2
   acl: public_read
@@ -22,10 +18,3 @@ deploy:
   local_dir: public
   on:
     branch: master
-
-before_deploy:
-  - ls
-
-after_deploy:
-  - aws configure set preview.cloudfront true
-  - aws cloudfront create-invalidation --distribution

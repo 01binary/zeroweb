@@ -1,4 +1,4 @@
-process.env.REACT_APP_SC_DISABLE_SPEEDY = true;
+//process.env.REACT_APP_SC_DISABLE_SPEEDY = true;
 
 module.exports = {
   siteMetadata: {

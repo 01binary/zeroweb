@@ -57,7 +57,6 @@ const Title: FunctionComponent<ITitleProps> = ({
     return (
         <Heading>
             <Graphic
-                css={`margin-right:-${left - 16}px;`}
                 width={left}
                 height={buttonHeight}
             >

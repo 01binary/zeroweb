@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'gatsby';
 import NavLink from './NavLink';
 import Hamburger from './Hamburger';
-import LogoImage from '../images/Logo.svg';
+import LogoImage from '../images/logo.svg';
 import ArticlesIcon from "../images/articles.svg"
 import ProjectsIcon from "../images/projects.svg"
 import AboutIcon from "../images/about.svg"

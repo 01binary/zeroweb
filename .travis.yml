@@ -18,12 +18,13 @@ deploy:
   bucket: zeroweb
   region: us-west-2
   acl: public_read
+  skip_cleanup: true
   local_dir: public
   on:
     branch: master
 
 before_deploy:
-  - ls public
+  - ls
 
 after_deploy:
   - aws configure set preview.cloudfront true

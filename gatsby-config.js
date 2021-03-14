@@ -1,3 +1,5 @@
+process.env.REACT_APP_SC_DISABLE_SPEEDY = true;
+
 module.exports = {
   siteMetadata: {
     title: "01 Binary: tech art",

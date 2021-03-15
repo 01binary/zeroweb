@@ -1,6 +1,7 @@
-import React, { FunctionComponent, SVGProps } from 'react';
+import React, { FunctionComponent, SVGProps, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import { ThemeContext } from './ThemeContext';
 
 const StyledLink = styled(Link)`
   flex: 110px 0;
@@ -172,11 +173,12 @@ const NavLink: FunctionComponent<INavLinkProps> = ({
     to
 }) => {
   const selectedClass = getLinkClassName(path, to);
+  const { theme } = useContext(ThemeContext);
   return (
-    <StyledLink to={to} className={selectedClass}>
-      <Background className={`navigation ${selectedClass}`} />
-      <Icon className={`navigation-icon ${selectedClass}`} />
-      <Text className={`navigation-text ${selectedClass}`}>
+    <StyledLink to={to} className={selectedClass} theme={theme}>
+      <Background className={`navigation ${selectedClass}`}/>
+      <Icon className={`navigation-icon ${selectedClass}`}/>
+      <Text className={`navigation-text ${selectedClass}`} theme={theme}>
         {children}
       </Text>
     </StyledLink>

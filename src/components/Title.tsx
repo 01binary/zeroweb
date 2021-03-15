@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { ThemeContext } from './ThemeContext';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 const NAVLINK_WIDTH = 110;
@@ -84,17 +83,11 @@ interface ITitleProps {
 const Title: FunctionComponent<ITitleProps> = ({
     collection,
     children
-}) => {
-    const { theme } = useContext(ThemeContext);
-    return (
-        <Heading theme={theme}>
-            <Decorator
-                offset={NAVLINK_WIDTH * (COLLECTION_OFFSETS.indexOf(collection) + 1)}
-                theme={theme}
-        />
-            {children}
-        </Heading>
-    );
-};
+}) => (
+    <Heading>
+        <Decorator offset={NAVLINK_WIDTH * (COLLECTION_OFFSETS.indexOf(collection) + 1)} />
+        {children}
+    </Heading>
+);
 
 export default Title;

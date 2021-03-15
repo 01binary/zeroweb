@@ -2,9 +2,8 @@ import React from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import Code from './src/components/Code';
 import Layout from './src/components/Layout';
-import { GlobalStyle } from './src/components/GlobalStyle';
+import { Theme, GlobalStyle } from './src/components/Theme';
 import BlogContext from './src/components/BlogContext';
-import { ThemeProvider } from './src/components/ThemeContext';
 import {
     Heading1,
     Heading2,
@@ -18,10 +17,8 @@ import {
     TableCell
 } from './src/components/Table';
 
-export const wrapRootElement = ({
-    element
-}) => (
-    <ThemeProvider>
+export const wrapRootElement = ({ element }) => (
+    <Theme>
         <GlobalStyle />
         <MDXProvider components={{
             h1: Heading1,
@@ -36,13 +33,10 @@ export const wrapRootElement = ({
         }}>
             {element}
         </MDXProvider>
-    </ThemeProvider>
+    </Theme>
 );
 
-export const wrapPageElement = ({
-    element,
-    props
-}) => (
+export const wrapPageElement = ({ element, props }) => (
     <BlogContext.Provider value={{
         url: props.path,
         collection: props.path.split('/')[1]

@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
-import { createGlobalStyle } from 'styled-components';
-import { ThemeContext } from './ThemeContext';
+import React, { FunctionComponent } from 'react';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 const unit = 30;
 
@@ -60,7 +59,7 @@ const animations = {
     animationSlow: '.5s',
 };
 
-export const lightTheme = {
+const lightTheme = {
     primaryColor: '#12C0E1',
     primaryHoverColor: '#19C9EA',
     primaryLightColor: '#71D3DB',
@@ -105,52 +104,25 @@ export const lightTheme = {
     ...animations
 };
 
-export const darkTheme = {
-    primaryColor: '#12C0E1',
-    primaryHoverColor: '#19C9EA',
-    primaryLightColor: '#71D3DB',
-    primaryDarkColor: '#0E93AD',
-    primaryDarkShadowColor: '#10A6C4',
-    primaryTextColor: '#FFFFFF',
-
-    secondaryColor: '#A158BA',
-    secondaryTextColor: '#848D95',
-
-    accentColor: '#E3EBEC',
-    accentLightColor: '#F6F6F6',
-    accentHighlightColor: '#FBFBFB',
-    accentLightShadowColor: '#EBEBEB',
-    accentDarkShadowColor: '#666666',
-    accentShadowColor: '#898989',
-    accentHoverColor: '#D7DFE0',
-    accentTextColor: '#127191',
-
-    foregroundColor: '#FFFFFF',
-    backgroundColor: '#000000',
-    borderColor: '#D3D3D3',
-    selectionColor: '#C3C3C3',
-
-    shadowColor: '#D3D3D3',
-    shadowDarkColor: '#595959',
-    shadowLightColor: '#B5D9E3',
-
-    dropShadowDarkColor: '#777777',
-    dropShadowLightColor: '#999999',
-    dropShadowTransparentColor: 'black',
-
-    warningColor: '#E1B412',
-    focusColor: '#FF008E',
-    errorColor: '#BA141A',
-
-    textSelectionColor: 'white',
-    textSelectionBackground: '#FF008E',
-
+const darkTheme = {
     ...spacing,
     ...typography,
     ...animations
 };
 
-const GlobalStyleRaw = createGlobalStyle`
+interface IThemeProps {
+    dark: boolean
+}
+
+export const Theme: FunctionComponent<IThemeProps> = (
+    { dark, children }
+) => (
+    <ThemeProvider theme={dark ? darkTheme : lightTheme}>
+        {children}
+    </ThemeProvider>
+);
+
+export const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.backgroundColor}
   }
@@ -257,10 +229,3 @@ const GlobalStyleRaw = createGlobalStyle`
     stroke: none;
   }
 `;
-
-export const GlobalStyle = () => {
-  const { theme } = useContext(ThemeContext);
-  return (
-    <GlobalStyleRaw theme={theme} />
-  );
-};

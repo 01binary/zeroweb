@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useState, useContext } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { ThemeContext } from './ThemeContext';
 import NavLink from './NavLink';
 import Hamburger from './Hamburger';
 import LogoImage from '../images/logo.svg';
@@ -250,24 +249,20 @@ const Header: FunctionComponent<IHeaderProps> = ({
   path
 }) => {
   const [ menuOpen, showMenu ] = useState(false);
-  const { theme, setTheme } = useContext(ThemeContext);
 
   return (
-    <Hero theme={theme}>
+    <Hero>
       <Link to="/">
-        <Logo theme={theme} />
+        <Logo />
       </Link>
 
-      <Title theme={theme}>
-        <span>01</span> binary: tech art<Caret theme={theme} />
+      <Title>
+        <span>01</span> binary: tech art<Caret/>
       </Title>
 
       <Hamburger {...{ menuOpen, showMenu }} />
 
-      <button onClick={() => setTheme(false)}>Light Theme</button>
-      <button onClick={() => setTheme(true)}>Dark THeme</button>
-
-      <Navigation theme={theme} menuOpen={menuOpen} onClick={() => showMenu(false)}>
+      <Navigation menuOpen={menuOpen} onClick={() => showMenu(false)}>
         <NavLink to="/" path={path} icon={ArticlesIcon} background={ArticlesBackground}>
           articles
         </NavLink>

@@ -1,6 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import { ThemeContext } from './ThemeContext';
 import { IPosts } from '../models/IAllPosts';
 
 const Article = styled.article`
@@ -29,37 +30,40 @@ const InlineTags = styled.section``;
 
 const PostList: FunctionComponent<IPosts> = ({
     nodes
-}) => (
+}) => {
+  const { theme } = useContext(ThemeContext);
+  return (
     <>
-    {nodes.map(({
-        slug,
-        timeToRead,
-        frontmatter: {
-          title,
-          date
-        },
-        fields: {
-          tags,
-          url
-        }
-      }) => (
-        <Article key={slug}>
-          <Meta>{date}</Meta>
+      {nodes.map(({
+          slug,
+          timeToRead,
+          frontmatter: {
+            title,
+            date
+          },
+          fields: {
+            tags,
+            url
+          }
+        }) => (
+          <Article key={slug} theme={theme}>
+            <Meta theme={theme}>{date}</Meta>
 
-          <ArticleLink to={url}>
-            <Title>{title}</Title>
-          </ArticleLink>
-          
-          {timeToRead && <Meta>{timeToRead} min to read</Meta>}
+            <ArticleLink to={url} theme={theme}>
+              <Title>{title}</Title>
+            </ArticleLink>
+            
+            {timeToRead && <Meta>{timeToRead} min to read</Meta>}
 
-          <InlineTags>{tags}</InlineTags>
-          
-          <ArticleLink to={url}>
-            Read more...
-          </ArticleLink>
-        </Article>
-      ))}
-    </>
-);
+            <InlineTags theme={theme}>{tags}</InlineTags>
+            
+            <ArticleLink to={url} theme={theme}>
+              Read more...
+            </ArticleLink>
+          </Article>
+        ))}
+      </>
+  );
+};
 
 export default PostList;

@@ -1,5 +1,6 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
 import { Link } from 'gatsby';
 import NavLink from './NavLink';
 import Hamburger from './Hamburger';
@@ -73,7 +74,7 @@ const Hero = styled.header`
     color: ${props => props.theme.foregroundColor};
 
     &:before {
-      z-index 0;
+      z-index: 0;
       position: absolute;
       background: ${props => props.theme.backgroundColor};
       opacity: .8;
@@ -241,15 +242,30 @@ const Navigation = styled.nav`
   }
 `;
 
-interface IHeaderProps {
-  path: string
-}
+const Toggle = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: red;
+`;
 
-const Header: FunctionComponent<IHeaderProps> = ({
+const ThemeToggle: FC = () => {
+  const { isDark, toggleDark } = useStyledDarkMode();
+  return (
+    <Toggle isDark={isDark} onClick={() => toggleDark()} />
+  );
+};
+
+interface HeaderProps {
+  path: string
+};
+
+const Header: FC<HeaderProps> = ({
   path
 }) => {
   const [ menuOpen, showMenu ] = useState(false);
-
   return (
     <Hero>
       <Link to="/">
@@ -260,9 +276,17 @@ const Header: FunctionComponent<IHeaderProps> = ({
         <span>01</span> binary: tech art<Caret/>
       </Title>
 
-      <Hamburger {...{ menuOpen, showMenu }} />
+      <ThemeToggle />
 
-      <Navigation menuOpen={menuOpen} onClick={() => showMenu(false)}>
+      <Hamburger
+        menuOpen={menuOpen}
+        showMenu={showMenu}
+      />
+
+      <Navigation
+        menuOpen={menuOpen}
+        onClick={() => showMenu(false)}
+      >
         <NavLink to="/" path={path} icon={ArticlesIcon} background={ArticlesBackground}>
           articles
         </NavLink>

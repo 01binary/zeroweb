@@ -1,4 +1,4 @@
-process.env.REACT_APP_SC_DISABLE_SPEEDY = true;
+require("ts-node").register({ files: true });
 
 module.exports = {
   siteMetadata: {
@@ -24,6 +24,13 @@ module.exports = {
       }
     },
     `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-styled-components-dark-mode`,
+      options: {
+        light: require(`${__dirname}/src/theme.ts`).lightTheme,
+        dark: require(`${__dirname}/src/theme.ts`).darkTheme,
+      },
+    },
     {
       resolve: "gatsby-plugin-google-analytics",
       options: {

@@ -1,16 +1,23 @@
-import React, { FunctionComponent } from 'react';
-import { RouteComponentProps } from "@reach/router"
+import React, { FC, useContext } from 'react';
+import { ThemeContext } from "styled-components";
+import { RouteComponentProps } from '@reach/router';
+import { GlobalStyle } from '../theme';
 import SEO from './SEO';
 import Header from './Header';
 
-const Layout: FunctionComponent<RouteComponentProps> = ({
+const Layout: FC<RouteComponentProps> = ({
     children,
-    location }) => (
-    <>
-        <SEO />
-        <Header path={location.pathname} />
-        {children}
-    </>
-);
+    location
+}) => {
+    const theme = useContext(ThemeContext);
+    return (
+        <>
+            <SEO />
+            <GlobalStyle theme={theme} />
+            <Header path={location.pathname} />
+            {children}
+        </>
+    );
+};
 
 export default Layout;

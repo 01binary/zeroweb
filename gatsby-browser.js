@@ -2,7 +2,6 @@ import React from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import Code from './src/components/Code';
 import Layout from './src/components/Layout';
-import { Theme, GlobalStyle } from './src/components/Theme';
 import BlogContext from './src/components/BlogContext';
 import {
     Heading1,
@@ -18,22 +17,19 @@ import {
 } from './src/components/Table';
 
 export const wrapRootElement = ({ element }) => (
-    <Theme>
-        <GlobalStyle />
-        <MDXProvider components={{
-            h1: Heading1,
-            h2: Heading2,
-            h3: Heading3,
-            h4: Heading4,
-            pre: Code,
-            table: Table,
-            th: TableHeading,
-            tr: TableRow,
-            td: TableCell
-        }}>
-            {element}
-        </MDXProvider>
-    </Theme>
+    <MDXProvider components={{
+        h1: Heading1,
+        h2: Heading2,
+        h3: Heading3,
+        h4: Heading4,
+        pre: Code,
+        table: Table,
+        th: TableHeading,
+        tr: TableRow,
+        td: TableCell
+    }}>
+        {element}
+    </MDXProvider>
 );
 
 export const wrapPageElement = ({ element, props }) => (

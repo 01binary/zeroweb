@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const NAVLINK_WIDTH = 110;
@@ -9,7 +9,7 @@ const BULLET_TOP = Math.ceil(NAVLINK_HEIGHT / 2 - NAVLINK_HEIGHT * 0.1);
 const CALLOUT_TOP = Math.ceil(BULLET_TOP / 2) + 0.5;
 const COLLECTION_OFFSETS = [ "articles", "projects", "about" ];
 
-interface ICalloutProps {
+interface CalloutProps {
     offset: number,
     className?: string
 };
@@ -23,7 +23,7 @@ const getGeometry = (
             cur[0] + ' ' + cur[1]
     , 'M ');
 
-const Callout: React.FunctionComponent<ICalloutProps> = ({
+const Callout: FC<CalloutProps> = ({
     offset,
     className
 }) => (
@@ -76,11 +76,12 @@ const Heading = styled.h1`
     }
 `;
 
-interface ITitleProps {
-    collection: string
+interface TitleProps {
+    collection: string,
+    theme: any
 };
 
-const Title: FunctionComponent<ITitleProps> = ({
+const Title: FC<TitleProps> = ({
     collection,
     children
 }) => (

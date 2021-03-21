@@ -8,6 +8,8 @@ import LogoImage from '../images/logo.svg';
 import ArticlesIcon from "../images/articles.svg"
 import ProjectsIcon from "../images/projects.svg"
 import AboutIcon from "../images/about.svg"
+import LightIcon from "../images/light.svg";
+import DarkIcon from "../images/dark.svg";
 import ArticlesBackground from "../images/navigation-articles.svg"
 import ProjectsBackground from "../images/navigation-projects.svg"
 import AboutBackground from "../images/navigation-about.svg"
@@ -48,6 +50,7 @@ const Hero = styled.header`
     width: 16px;
     height: 49px;
     background: ${props => props.theme.backgroundColor};
+    transition: background ${props => props.theme.animationFast} ease-out;
     transform: skewX(45deg);
   }
 
@@ -199,6 +202,7 @@ const Navigation = styled.nav`
     width: 23px;
     height: 22px;
     background: ${props => props.theme.backgroundColor};
+    transition: background ${props => props.theme.animationFast} ease-out;
     transform: skewX(45deg);
   }
 
@@ -244,17 +248,35 @@ const Navigation = styled.nav`
 
 const Toggle = styled.button`
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
-  background: red;
+  top: ${props => props.theme.spacing};
+  right: ${props => props.theme.spacing};
+  width: ${props => props.theme.spacing};
+  height: ${props => props.theme.spacing};
+  background: none;
+  border: none;
+  appearance: none;
+  cursor: pointer;
+
+  svg {
+    position: absolute;
+    left: calc((${props => props.theme.spacing} - 24px) / 2);
+    top: calc((${props => props.theme.spacing} - 24px) / 2);
+  }
+  
+  .stroke-foreground {
+    stroke: ${props => props.theme.backgroundColor};
+  }
 `;
 
 const ThemeToggle: FC = () => {
   const { isDark, toggleDark } = useStyledDarkMode();
   return (
-    <Toggle isDark={isDark} onClick={() => toggleDark()} />
+    <Toggle onClick={() => toggleDark()}>
+      {isDark
+        ? <LightIcon />
+        : <DarkIcon />
+      }
+    </Toggle>
   );
 };
 

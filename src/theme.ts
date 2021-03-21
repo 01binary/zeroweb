@@ -108,14 +108,14 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  primaryColor: '#12C0E1',
+  primaryColor: '#52545f',
   primaryHoverColor: '#19C9EA',
   primaryLightColor: '#71D3DB',
   primaryDarkColor: '#0E93AD',
   primaryDarkShadowColor: '#10A6C4',
   primaryTextColor: '#FFFFFF',
 
-  secondaryColor: '#A158BA',
+  secondaryColor: '#3e404b',
   secondaryTextColor: '#848D95',
 
   accentColor: '#E3EBEC',
@@ -128,7 +128,7 @@ export const darkTheme = {
   accentTextColor: '#127191',
 
   foregroundColor: '#ffffff',
-  backgroundColor: '#1e1e1e',
+  backgroundColor: '#282a37',
   borderColor: '#D3D3D3',
   selectionColor: '#C3C3C3',
 

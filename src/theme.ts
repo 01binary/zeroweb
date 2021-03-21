@@ -153,6 +153,7 @@ export const darkTheme = {
 export const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.backgroundColor};
+    transition: background ${props => props.theme.animationFast} ease-out;
   }
 
   @media (max-width: ${props => props.theme.mobile}) {

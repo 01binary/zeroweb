@@ -50,7 +50,7 @@ const Hero = styled.header`
     position: absolute;
     left: 100%;
     top: -7.5px;
-    width: 16px;
+    width: 17px;
     height: 49px;
     background: ${props => props.theme.backgroundColor};
     transition: background ${props => props.theme.animationFast} ease-out;

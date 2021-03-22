@@ -24,7 +24,10 @@ const Hero = styled.header`
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, ${props => props.theme.primaryColor} 0%, ${props => props.theme.secondaryColor} 100%);
+  background: linear-gradient(
+    135deg,
+    ${props => props.theme.primaryColor} 0%,
+    ${props => props.theme.secondaryColor} 100%);
   transition:
     margin ${props => props.theme.animationFast} ease-out,
     height ${props => props.theme.animationFast} ease-out;
@@ -55,15 +58,24 @@ const Hero = styled.header`
   }
 
   .fill-foreground {
-    fill: ${props => props.theme.backgroundColor}
+    fill: ${props => props.isDark
+      ? props.theme.foregroundColor
+      : props.theme.backgroundColor};
   }
 
   .fill-background {
-    fill: ${props => props.theme.primaryColor}
+    fill: ${props => props.theme.primaryColor};
   }
 
   .stroke-foreground {
-    stroke: ${props => props.theme.accentTextColor}
+    stroke-width: 1.5px;
+    stroke: ${props => props.theme.primaryTextColor};
+  }
+
+  .stroke-background {
+    stroke-width: 1.5px;
+    stroke: ${props => props.theme.primaryTextColor};
+    opacity: .6;
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
@@ -79,7 +91,11 @@ const Hero = styled.header`
     &:before {
       z-index: 0;
       position: absolute;
-      background: ${props => props.theme.backgroundColor};
+      background: ${
+        props => props.isDark
+        ? props.theme.primaryColor
+        : props.theme.backgroundColor
+      };
       opacity: .8;
       left: 0;
       top: 0;
@@ -94,15 +110,24 @@ const Hero = styled.header`
     }
 
     .fill-foreground {
-      fill: ${props => props.theme.primaryColor}
+      fill: ${props => props.isDark
+        ? props.theme.primaryTextColor
+        : props.theme.primaryColor
+      }
     }
   
     .fill-background {
-      fill: ${props => props.theme.backgroundColor}
+      fill: ${props => props.isDark
+        ? props.theme.backgroundColor
+        : props.theme.backgroundColor
+      }
     }
   
     .stroke-foreground {
-      stroke: ${props => props.theme.accentTextColor}
+      stroke: ${props => props.isDark
+        ? props.theme.primaryTextColor
+        : props.theme.accentTextColor
+      }
     }
   }
 
@@ -256,29 +281,55 @@ const Toggle = styled.button`
   border: none;
   appearance: none;
   cursor: pointer;
+  border-radius: 4px;
 
   svg {
     position: absolute;
     left: calc((${props => props.theme.spacing} - 24px) / 2);
     top: calc((${props => props.theme.spacing} - 24px) / 2);
   }
-  
-  .stroke-foreground {
-    stroke: ${props => props.theme.backgroundColor};
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: ${props => props.theme.shadowDarkColor};
+    opacity: 0;
+    transition: opacity ${props => props.theme.animationFast} ease-out;
+    border-radius: ${props => props.theme.border};
+  }
+
+  &:hover {
+    &:before {
+      opacity: .5;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
   }
 `;
 
-const ThemeToggle: FC = () => {
-  const { isDark, toggleDark } = useStyledDarkMode();
-  return (
-    <Toggle onClick={() => toggleDark()}>
-      {isDark
-        ? <LightIcon />
-        : <DarkIcon />
-      }
-    </Toggle>
-  );
-};
+interface ThemeToggleProps {
+  isDark: boolean,
+  toggleDark: () => void
+}
+
+const ThemeToggle: FC<ThemeToggleProps> = ({
+  isDark,
+  toggleDark
+}) => (
+  <Toggle onClick={() => toggleDark()}>
+    {isDark
+      ? <LightIcon />
+      : <DarkIcon />
+    }
+  </Toggle>
+);
 
 interface HeaderProps {
   path: string
@@ -287,9 +338,10 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({
   path
 }) => {
+  const { isDark, toggleDark } = useStyledDarkMode();
   const [ menuOpen, showMenu ] = useState(false);
   return (
-    <Hero>
+    <Hero isDark={isDark}>
       <Link to="/">
         <Logo />
       </Link>
@@ -298,7 +350,7 @@ const Header: FC<HeaderProps> = ({
         <span>01</span> binary: tech art<Caret/>
       </Title>
 
-      <ThemeToggle />
+      <ThemeToggle isDark={isDark} toggleDark={toggleDark} />
 
       <Hamburger
         menuOpen={menuOpen}

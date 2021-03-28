@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36" xml:space="preserve">
+	<polyline class="stroke-background fill-none" points="17.2,11.2 5,11.2 5,26.2 19.4,26.2 "/>
+	<line class="stroke-background fill-none" x1="9.4" y1="26.2" x2="9.4" y2="11.1"/>
+	<line class="stroke-background fill-none" x1="15.5" y1="26.2" x2="15.5" y2="11.1"/>
+	<rect class="fill-foreground stroke-none" x="7.7" y="10.4" width="3.5" height="9.4"/>
+	<rect class="fill-foreground stroke-none" x="13.7" y="10.4" width="3.5" height="9.4"/>
+	<path class="stroke-background fill-none" d="M19.3,16.6c3.5,0,3.5,5.1,6.9,5.1s3.4-5.1,6.9-5.1"/>
+	<path class="stroke-background fill-none" d="M19.3,21.2c3.5,0,3.5,5.1,6.9,5.1s3.4-5.1,6.9-5.1"/>
+	<path class="stroke-foreground fill-none" d="M18.7,11.2c3.6,0,3.6,5.1,7,5.1c3.6,0,3.6-5.1,7.1-5.1"/>
+</svg>

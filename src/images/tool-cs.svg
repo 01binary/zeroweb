@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36" xml:space="preserve">
+	<polygon class="fill-border stroke-none" points="28.2,19.6 28.2,7 23,11 23,19.6 "/>
+	<polygon class="fill-border stroke-none" points="23,25.9 23,25.9 23.1,25.9 "/>
+	<polygon class="fill-border stroke-none" points="20,19.6 22.8,19.6 9.2,9.1 7.1,10.1 19.7,22.6 "/>
+	<polygon class="fill-background stroke-none" points="23,4.7 9.3,18.5 9.3,12.2 7.1,10.1 7.1,20.6 9.3,21.6 28.2,7 "/>
+	<path class="fill-foreground stroke-none" d="M15.2,23.1c-0.3-1-0.9-1.6-2-1.6c-1.5,0-2.2,1.2-2.2,3.1s0.9,3.2,2.4,3.2c0.6,0,1.2-0.3,1.5-0.8c0.2-0.3,0.3-0.6,0.3-1.1
+		l2.6,0.3c-0.3,1.1-0.5,1.6-1.1,2.2c-0.7,0.9-1.9,1.3-3.3,1.3c-1.5,0-2.7-0.4-3.6-1.3c-0.9-0.9-1.3-2.2-1.3-3.9c0-1.6,0.4-3,1.5-3.9
+		c0.9-0.8,2.1-1.2,3.4-1.2c1.5,0,2.7,0.6,3.6,1.5c0.5,0.5,0.6,0.9,0.8,1.7L15.2,23.1z"/>
+	<path class="fill-foreground stroke-none" d="M23.4,19.7L23,22.1h1.4l0.4-2.4h1.8l-0.4,2.4h1.3v1.6h-1.6l-0.3,1.8h1.3v1.7h-1.5l-0.4,2.6h-1.8l0.5-2.6h-1.4l-0.4,2.6H20
+		l0.5-2.6h-1.3v-1.7h1.6l0.3-1.8h-1.4v-1.6h1.7l0.5-2.4C21.8,19.7,23.4,19.7,23.4,19.7z M22.5,25.5h1.3l0.3-1.8h-1.4L22.5,25.5z"/>
+</svg>

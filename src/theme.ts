@@ -231,7 +231,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .fill-background {
-    fill: ${props => props.theme.backgroundColor};
+    fill: ${props => props.theme.accentShadowColor};
   }
 
   .fill-foreground {
@@ -247,11 +247,15 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .stroke-background {
-    stroke: ${props => props.theme.backgroundColor};
+    stroke: ${props => props.theme.accentShadowColor};
   }
 
   .stroke-border {
     stroke: ${props => props.theme.borderColor};
+  }
+
+  .fill-border {
+    fill: ${props => props.theme.borderColor};
   }
 
   .stroke-none {

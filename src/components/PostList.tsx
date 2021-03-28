@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import { Tags, Tag } from './Tags';
 import { IPosts } from '../models/IAllPosts';
 
 const Article = styled.article`
@@ -52,7 +53,11 @@ const PostList: FunctionComponent<IPosts> = ({
           
           {timeToRead && <Meta>{timeToRead} min to read</Meta>}
 
-          <InlineTags>{tags}</InlineTags>
+          <InlineTags>
+            <Tags>
+              {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+            </Tags>
+          </InlineTags>
           
           <ArticleLink to={url}>
             Read more...

@@ -53,7 +53,7 @@ const Hero = styled.header`
     width: 17px;
     height: 49px;
     background: ${props => props.theme.backgroundColor};
-    transition: background ${props => props.theme.animationFast} ease-out;
+    transition: background-color ${props => props.theme.animationFast} ease-out;
     transform: skewX(45deg);
   }
 
@@ -68,7 +68,6 @@ const Hero = styled.header`
   }
 
   .stroke-foreground {
-    stroke-width: 1.5px;
     stroke: ${props => props.theme.primaryTextColor};
   }
 
@@ -227,7 +226,7 @@ const Navigation = styled.nav`
     width: 23px;
     height: 22px;
     background: ${props => props.theme.backgroundColor};
-    transition: background ${props => props.theme.animationFast} ease-out;
+    transition: background-color ${props => props.theme.animationFast} ease-out;
     transform: skewX(45deg);
   }
 

@@ -131,7 +131,14 @@ const denormalizeTag: (tag: string, index: number) => Tag = (
 const TagListWrapper = styled.ul`
   position: relative;
   list-style-type: none;
-  margin-top: -${CELL_HEIGHT / 2}px;
+  padding: 0;
+  margin-top: -${
+        props => props.count > 5
+      ? CELL_HEIGHT / 2
+      : props.count == 1
+      ? CELL_HEIGHT / 4
+      : CELL_HEIGHT
+    }px;
   height: ${props => props.height}px;
   width: 140px;
 `;
@@ -169,7 +176,7 @@ const TagList: FC<TagListProps> = ({
   const height = denorm.reduce((acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
 
   return (
-    <TagListWrapper height={height}>
+    <TagListWrapper height={height} count={denorm.length}>
       {denorm.map(({ id, x, y, icon: Icon }) =>
         <TagWrapper key={id} x={x} y={y}>
           <Cell className="tag-border" />

@@ -122,7 +122,8 @@ const Sidebar = styled.section`
   left: 100%;
   min-width: 25%;
   max-width: 25%;
-  margin-top: calc(-280px + 1em);
+  margin-top: calc(-400px + 1.5em);
+  padding-top: 1em;
 
   @media(max-width: ${props => props.theme.mobile}) {
     position: relative;

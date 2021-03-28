@@ -7,7 +7,7 @@ import slugify from 'slugify';
 import SEO from './SEO';
 import TOC from './TOC';
 import { Heading } from './Heading';
-import { Tags, Tag } from './Tags';
+import TagList from './TagList';
 import IPost from '../models/IPost';
 import IHeading from '../models/IHeading';
 
@@ -202,10 +202,7 @@ const Post: FunctionComponent<IPostProps> = ({
         <HeroImage fluid={fluid} />
 
         <Sidebar>
-          <Tags>
-            {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
-          </Tags>
-
+          <TagList tags={tags} />
           <TOC headings={slugifyHeadings(url, headings)} />
         </Sidebar>
 

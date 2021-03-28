@@ -21,8 +21,8 @@ const spacing = {
     margin: `11.25pt`,
     wide: '2048px',
     desktop: '1152px',
-    mobile: '768px',
-    column: '1024px'
+    mobile: '900px',
+    column: '950px'
 }
 
 const typography = {
@@ -251,11 +251,17 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .stroke-border {
-    stroke: ${props => props.theme.borderColor};
+    stroke: ${props => props.isDark
+      ? props.theme.borderColor
+      : props.theme.accentShadowColor
+    };
   }
 
   .fill-border {
-    fill: ${props => props.theme.borderColor};
+    fill: ${props => props.isDark
+      ? props.theme.borderColor
+      : props.theme.accentShadowColor
+    };
   }
 
   .stroke-none {

@@ -62,7 +62,7 @@ const Main = styled.main`
 
 const HeroImage = styled(Img)`
   max-height: 280px;
-  max-width: calc(75% - 3em);
+  max-width: calc(80% - 3em);
   margin-right: 1.5em;
   margin-left: ${props => props.theme.spacingHalf};
 
@@ -78,7 +78,7 @@ const Metadata = styled.section`
   color: ${props => props.theme.secondaryTextColor};
   display: flex;
   flex-wrap: wrap;
-  max-width: calc(75% - 3em);
+  max-width: calc(80% - 3em);
   margin-left: 1em;
   margin-bottom: ${props => props.theme.spacing};
 
@@ -108,7 +108,7 @@ const MetaLink = styled(Link)`
 `;
 
 const Content = styled.section`
-  max-width: calc(75% - 2em);
+  max-width: calc(80% - 2em);
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
@@ -120,9 +120,9 @@ const Sidebar = styled.section`
   float: right;
   top: 0;
   left: 100%;
-  min-width: 25%;
-  max-width: 25%;
-  margin-top: calc(-400px + 1.5em);
+  min-width: 20%;
+  max-width: 20%;
+  margin-top: -6em;
   padding-top: 1em;
 
   @media(max-width: ${props => props.theme.mobile}) {
@@ -130,7 +130,7 @@ const Sidebar = styled.section`
     float: none;
     left: 0;
     max-width: 100%;
-    margin-top: 0;
+    margin-top: -1em;
     margin-left: ${props => props.theme.spacingHalf};
   }
 `;
@@ -200,12 +200,12 @@ const Post: FunctionComponent<IPostProps> = ({
           <MetaProp>{timeToRead} min to read</MetaProp>
         </Metadata>
 
-        <HeroImage fluid={fluid} />
-
         <Sidebar>
           <TagList tags={tags} />
           <TOC headings={slugifyHeadings(url, headings)} />
         </Sidebar>
+
+        <HeroImage fluid={fluid} />
 
         <Content>
           <MDXRenderer>

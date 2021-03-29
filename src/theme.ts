@@ -40,6 +40,7 @@ const typography = {
     normalFont: 'Open Sans, Arial, sans-serif',
     normalFontWeight: 400,
     normalFontSize: '15pt',
+    normalFontLineHeight: '1.52em',
     navigationFontSize: '12.5pt',
 
     smallFont: 'Segoe UI, Verdana, sans-serif',
@@ -86,7 +87,7 @@ export const lightTheme = {
 
     foregroundColor: '#3B4A51',
     backgroundColor: '#FFFFFF',
-    borderColor: '#D3D3D3',
+    borderColor: '#AAAAAA',
     selectionColor: '#C3C3C3',
 
     shadowColor: '#D3D3D3',
@@ -179,6 +180,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${props => props.theme.normalFont};
     font-weight: ${props => props.theme.normalFontWeight};
     font-size: ${props => props.theme.normalFontSize};
+    line-height: ${props => props.theme.normalFontLineHeight};
     color: ${props => props.theme.foregroundColor};
 
     &:before {
@@ -215,12 +217,12 @@ export const GlobalStyle = createGlobalStyle`
 
   main a {
     position: relative;
-    color: ${props => props.theme.primaryDarkColor};
+    color: ${props => props.isDark ? props.theme.primaryColor : props.theme.primaryDarkColor};
     text-decoration: none;
     transition: color ${props => props.theme.animationFast} ease-out;
   
     &:hover {
-      color: ${props => props.theme.primaryDarkColor};
+      color: ${props => props.isDark ? props.theme.primaryLightColor : props.theme.primaryDarkColor};
       text-decoration: underline;
     }
   }
@@ -251,10 +253,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .stroke-border {
-    stroke: ${props => props.isDark
-      ? props.theme.borderColor
-      : props.theme.accentShadowColor
-    };
+    stroke: ${props => props.theme.borderColor};
   }
 
   .fill-border {

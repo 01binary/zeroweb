@@ -10,6 +10,7 @@ import { Heading } from './Heading';
 import TagList from './TagList';
 import IPost from '../models/IPost';
 import IHeading from '../models/IHeading';
+import Clock from '../images/clock.svg';
 
 const Main = styled.main`
   h1 {
@@ -87,6 +88,12 @@ const Metadata = styled.section`
   }
 `
 
+const SidebarMetadata = styled.section`
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  color: ${props => props.theme.secondaryTextColor};
+`;
+
 const MetaProp = styled.div`
   margin-right: ${props => props.theme.spacingHalf};
 `
@@ -98,7 +105,6 @@ const MetaLink = styled(Link)`
   text-decoration: none;
 
   transition:
-    color ${props => props.theme.animationFast} ease-out,
     border-bottom-color ${props => props.theme.animationFast} ease-out;
 
   &:hover {
@@ -172,6 +178,7 @@ const Post: FunctionComponent<IPostProps> = ({
                 image: {
                   childImageSharp: { fluid }
                 },
+                relativeDate,
                 date
             },
             fields: {
@@ -194,13 +201,15 @@ const Post: FunctionComponent<IPostProps> = ({
         <Heading>{title}</Heading>
 
         <Metadata>
-          <MetaProp><AuthorLink /></MetaProp>
-          <MetaProp>{date}</MetaProp>
+          <MetaProp>By <AuthorLink /></MetaProp>
+          <MetaProp>{relativeDate}</MetaProp>
           <MetaProp><LocationLink /></MetaProp>
-          <MetaProp>{timeToRead} min to read</MetaProp>
         </Metadata>
 
         <Sidebar>
+          <SidebarMetadata>
+            <Clock /> {timeToRead} min to read
+          </SidebarMetadata>
           <TagList tags={tags} />
           <TOC headings={slugifyHeadings(url, headings)} />
         </Sidebar>
@@ -232,7 +241,8 @@ export const pageQuery = graphql`
             }
           }
         }
-        date(fromNow:true)
+        relativeDate: date(fromNow: true)
+        date(formatString: "MMM DD, YYYY")
         tags
       }
       fields {

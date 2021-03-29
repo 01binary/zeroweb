@@ -180,7 +180,6 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${props => props.theme.normalFont};
     font-weight: ${props => props.theme.normalFontWeight};
     font-size: ${props => props.theme.normalFontSize};
-    line-height: ${props => props.theme.normalFontLineHeight};
     color: ${props => props.theme.foregroundColor};
 
     &:before {
@@ -212,6 +211,7 @@ export const GlobalStyle = createGlobalStyle`
 
   main p {
     color: ${props => props.theme.foregroundColor};
+    line-height: ${props => props.theme.normalFontLineHeight};
     margin-left: ${props => props.theme.spacingHalf};
   }
 

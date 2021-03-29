@@ -77,8 +77,6 @@ const Metadata = styled.section`
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   color: ${props => props.theme.secondaryTextColor};
-  display: flex;
-  flex-wrap: wrap;
   max-width: calc(80% - 3em);
   margin-left: 1em;
   margin-bottom: ${props => props.theme.spacing};
@@ -92,11 +90,9 @@ const SidebarMetadata = styled.section`
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   color: ${props => props.theme.secondaryTextColor};
+  margin-top: 0;
+  margin-bottom: ${props => props.theme.spacingHalf};
 `;
-
-const MetaProp = styled.div`
-  margin-right: ${props => props.theme.spacingHalf};
-`
 
 const MetaLink = styled(Link)`
   border-bottom-width: ${props => props.theme.border};
@@ -139,6 +135,11 @@ const Sidebar = styled.section`
     margin-top: -1em;
     margin-left: ${props => props.theme.spacingHalf};
   }
+`;
+
+const StyledClock = styled(Clock)`
+  position: relative;
+  top: 5px;
 `;
 
 const AuthorLink = () => (
@@ -201,14 +202,14 @@ const Post: FunctionComponent<IPostProps> = ({
         <Heading>{title}</Heading>
 
         <Metadata>
-          <MetaProp>By <AuthorLink /></MetaProp>
-          <MetaProp>{relativeDate}</MetaProp>
-          <MetaProp><LocationLink /></MetaProp>
+          <span><StyledClock /> {relativeDate}</span>
+          <span> by <AuthorLink /></span>
+          <span> in <LocationLink /></span>
         </Metadata>
 
         <Sidebar>
           <SidebarMetadata>
-            <Clock /> {timeToRead} min to read
+            <StyledClock /> {timeToRead} min to read
           </SidebarMetadata>
           <TagList tags={tags} />
           <TOC headings={slugifyHeadings(url, headings)} />

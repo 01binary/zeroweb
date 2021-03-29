@@ -311,6 +311,19 @@ const Toggle = styled.button`
     outline: none;
     box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
   }
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    top: calc(${props => props.theme.spacing} / 2);
+    right: ${props => props.theme.spacingDouble};
+    width: ${props => props.theme.spacing};
+    height: ${props => props.theme.spacing};
+
+    svg {
+      position: absolute;
+      left: calc((${props => props.theme.spacing} - 24px) / 2);
+      top: calc((${props => props.theme.spacing} - 24px) / 2);
+    }
+  }
 `;
 
 interface ThemeToggleProps {

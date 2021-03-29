@@ -125,7 +125,7 @@ const Hero = styled.header`
     .stroke-foreground {
       stroke: ${props => props.isDark
         ? props.theme.primaryTextColor
-        : props.theme.accentTextColor
+        : props.theme.foregroundColor
       }
     }
   }

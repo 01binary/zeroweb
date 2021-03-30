@@ -153,14 +153,16 @@ const TagListWrapper = styled.ul`
   position: relative;
   list-style-type: none;
   padding: 0;
-  margin-top: -${
-        props => props.inline
+  margin-top: ${
+        props => props.inline && props.count > 1
       ? 0
-      : props => props.count > 5
-      ? CELL_HEIGHT / 2
       : props.count == 1
-      ? CELL_HEIGHT / 4
-      : CELL_HEIGHT
+      ? props.theme.spacingHalf
+      : props => props.count > 5
+      ? -CELL_HEIGHT / 2
+      : props.count == 1
+      ? -CELL_HEIGHT / 4
+      : -CELL_HEIGHT
     }px;
   height: ${props => props.height}px;
   width: ${props => props.inline ? '100%' : `${ROW_WIDTH}px`};

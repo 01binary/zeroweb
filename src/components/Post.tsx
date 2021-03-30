@@ -153,6 +153,10 @@ const StyledGauge = styled(Gauge)`
     transform-origin: 45.634px 47.543px;
     transition: transform .3s ease-in-out;
   }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const Indicator = styled.span`
@@ -273,6 +277,7 @@ const Post: FC<IPostProps> = ({
             <IndicatorLabel>to read</IndicatorLabel>
           </SidebarMetadata>
           <TagList tags={tags} />
+          <TagList tags={tags} inline />
           <TOC headings={slugifyHeadings(url, headings)} />
         </Sidebar>
 

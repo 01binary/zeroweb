@@ -54,7 +54,7 @@ const PostList: FunctionComponent<IPosts> = ({
           {timeToRead && <Meta>{timeToRead} min to read</Meta>}
 
           <InlineTags>
-            <TagList tags={tags} />
+            <TagList tags={tags} inline />
           </InlineTags>
           
           <ArticleLink to={url}>

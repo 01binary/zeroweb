@@ -23,6 +23,8 @@ import Cell from '../images/cell.svg';
 const ICON_SIZE = 36;
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
+const ROW_WIDTH = 140;
+const ROW_HEIGHT = 44;
 
 type CellOffset = {
   x: number,
@@ -128,19 +130,45 @@ const denormalizeTag: (tag: string, index: number) => Tag = (
   });
 };
 
+const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => Tag = (
+  tag,
+  index,
+  tags
+) => {
+  const [ category, subCategory ] = tag.trim().split('-');
+  const repeats = Math.ceil(tags.length / 4) - 1;
+  return ({
+    id: tag,
+    category,
+    subCategory,
+    description: getTagDescription(category, subCategory),
+    icon: getTagIcon(category, subCategory),
+    x: PATTERN[index % 4].x + (index > 3 ? repeats * 128 : 0),
+    y: PATTERN[index % 4].y - CELL_HEIGHT
+  });
+};
+
 const TagListWrapper = styled.ul`
+  display: ${props => props.inline ? 'none' : 'block'};
   position: relative;
   list-style-type: none;
   padding: 0;
   margin-top: -${
-        props => props.count > 5
+        props => props.inline
+      ? 0
+      : props => props.count > 5
       ? CELL_HEIGHT / 2
       : props.count == 1
       ? CELL_HEIGHT / 4
       : CELL_HEIGHT
     }px;
   height: ${props => props.height}px;
-  width: 140px;
+  width: ${props => props.inline ? '100%' : `${ROW_WIDTH}px`};
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: ${props => props.inline ? 'block' : 'none'};
+    margin-bottom: 2em;
+  }
 `;
 
 const TagWrapper = styled.li`
@@ -166,18 +194,22 @@ const TagWrapper = styled.li`
 `;
 
 interface TagListProps {
-  tags: string[]
+  tags: string[],
+  inline: boolean | undefined
 };
 
 const TagList: FC<TagListProps> = ({
-  tags
+  tags,
+  inline
 }) => {
-  const denorm = tags.map(denormalizeTag);
-  const height = denorm.reduce((acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
+  const denorm = tags.map(inline ? denormalizeInlineTag : denormalizeTag);
+  const height = inline
+    ? ROW_HEIGHT
+    : denorm.reduce((acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
 
   return (
-    <TagListWrapper height={height} count={denorm.length}>
-      {denorm.map(({ id, x, y, icon: Icon }) =>
+    <TagListWrapper height={height} count={denorm.length} inline={inline}>
+      {denorm.map(({ id, x, y, icon: Icon }, index) =>
         <TagWrapper key={id} x={x} y={y}>
           <Cell className="tag-border" />
           <Icon className="tag-icon" />

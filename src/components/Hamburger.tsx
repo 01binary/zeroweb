@@ -10,7 +10,7 @@ const HamburgerButton = styled.input.attrs(
     display: none;
 `;
 
-const HamburgerLabel = styled.label.attrs(
+const HamburgerHelper = styled.label.attrs(
     () => ({
         htmlFor: 'hamburger'
     })
@@ -91,8 +91,8 @@ const Hamburger: FunctionComponent<IHamburgerProps> = ({
     showMenu
 }) => (
     <>
-    <HamburgerButton />
-        <HamburgerLabel menuOpen={menuOpen} onClick={() => showMenu(!menuOpen)}>
+        <HamburgerButton />
+        <HamburgerHelper menuOpen={menuOpen} onClick={() => showMenu(!menuOpen)}>
         <HamburgerIcon width="24px" height="24px" viewBox="0 0 24 24" menuOpen={menuOpen}>
             <g className="clipped">
                 <path className="menu wave stroke-foreground fill-none" d="M0,7c12,0,12,8,24,8c12,0,12-8,24-8s12,8,24,8"/>
@@ -102,7 +102,7 @@ const Hamburger: FunctionComponent<IHamburgerProps> = ({
                 <line className="close-second stroke-foreground" strokeWidth="1" x1="2" y1="2" x2="22" y2="22"/>
             </g>
         </HamburgerIcon>
-        </HamburgerLabel>
+        </HamburgerHelper>
     </>
 );
 

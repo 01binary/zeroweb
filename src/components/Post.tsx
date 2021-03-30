@@ -141,6 +141,7 @@ const SidebarMetadata = styled.section`
   @media(max-width: ${props => props.theme.mobile}) {
     float: right;
     margin-right: ${props => props.theme.spacingQuarter};
+    max-width: 4em;
   }
 `;
 
@@ -192,6 +193,12 @@ const AuthorLink = () => (
 const LocationLink = () => (
   <MetaLink to="#">Portland, OR</MetaLink>
 );
+
+const Location = styled.span`
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
+`;
 
 const slugifyHeadings = (
   baseUrl: string,
@@ -266,14 +273,13 @@ const Post: FC<IPostProps> = ({
           &nbsp;
           <span>{getRelativeDateRemainder(relativeDate)}</span>
           <span> by <AuthorLink /></span>
-          <span> in <LocationLink /></span>
+          <Location> in <LocationLink /></Location>
         </Metadata>
 
         <Sidebar>
           <SidebarMetadata>
             <StyledGauge position={readPosition} />
-            <Indicator>{timeToRead}</Indicator>
-            <span> min </span>
+            <Indicator>{timeToRead}</Indicator><span> min </span>
             <IndicatorLabel>to read</IndicatorLabel>
           </SidebarMetadata>
           <TagList tags={tags} />

@@ -117,7 +117,7 @@ export const darkTheme = {
   primaryTextColor: '#FFFFFF',
 
   secondaryColor: '#3e404b',
-  secondaryTextColor: '#848D95',
+  secondaryTextColor: '#dde0df',
 
   accentColor: '#E3EBEC',
   accentLightColor: '#F6F6F6',

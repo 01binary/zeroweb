@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React, { useState, FC } from "react"
 import styled from 'styled-components';
 import Img from "gatsby-image";
 import { Link, graphql } from "gatsby";
@@ -8,9 +8,11 @@ import SEO from './SEO';
 import TOC from './TOC';
 import { Heading } from './Heading';
 import TagList from './TagList';
+import useScrollPosition from '../hooks/useScrollPosition';
 import IPost from '../models/IPost';
 import IHeading from '../models/IHeading';
 import Clock from '../images/clock.svg';
+import Gauge from '../images/gauge.svg';
 
 const Main = styled.main`
   h1 {
@@ -84,14 +86,6 @@ const Metadata = styled.section`
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
   }
-`
-
-const SidebarMetadata = styled.section`
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  color: ${props => props.theme.secondaryTextColor};
-  margin-top: 0;
-  margin-bottom: ${props => props.theme.spacingHalf};
 `;
 
 const MetaLink = styled(Link)`
@@ -137,6 +131,49 @@ const Sidebar = styled.section`
   }
 `;
 
+const SidebarMetadata = styled.section`
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  color: ${props => props.theme.secondaryTextColor};
+  margin-top: 0;
+  margin-bottom: ${props => props.theme.spacing};
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    float: right;
+    margin-right: ${props => props.theme.spacingQuarter};
+  }
+`;
+
+const StyledGauge = styled(Gauge)`
+  float: left;
+  margin: .25em .25em 0 .5em;
+
+  #arrow {
+    transform: rotate(${props => props.position * 90}deg);
+    transform-origin: 45.634px 47.543px;
+    transition: transform .3s ease-in-out;
+  }
+`;
+
+const Indicator = styled.span`
+  font-size: 20pt;
+  color: ${props => props.theme.foregroundColor};
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    font-size: ${props => props.theme.smallFontSize};
+  }
+`;
+
+const InlineIndicator = styled.span`
+  color: ${props => props.theme.foregroundColor};
+`;
+
+const IndicatorLabel = styled.div`
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: inline;
+  }
+`;
+
 const StyledClock = styled(Clock)`
   position: relative;
   top: 5px;
@@ -164,11 +201,23 @@ const slugifyHeadings = (
   };
 });
 
+const getRelativeDateEmphasis: (relativeDate: string) => string = (
+  relativeDate
+) => (
+  relativeDate.split(' ')[0]
+);
+
+const getRelativeDateRemainder: (relativeDate: string) => string = (
+  relativeDate
+) => (
+  relativeDate.split(' ').slice(1).join(' ')
+);
+
 interface IPostProps {
   data: IPost
-}
+};
 
-const Post: FunctionComponent<IPostProps> = ({
+const Post: FC<IPostProps> = ({
     data: {
         mdx: {
             body,
@@ -179,8 +228,7 @@ const Post: FunctionComponent<IPostProps> = ({
                 image: {
                   childImageSharp: { fluid }
                 },
-                relativeDate,
-                date
+                relativeDate
             },
             fields: {
               url,
@@ -190,6 +238,12 @@ const Post: FunctionComponent<IPostProps> = ({
         }
     }
 }) => {
+  const [ readPosition, setReadPosition ] = useState<number>(0);
+
+  useScrollPosition((position) => {
+    setReadPosition(position);
+  }, [readPosition]);
+
   return (
     <Main>
         <SEO
@@ -202,14 +256,21 @@ const Post: FunctionComponent<IPostProps> = ({
         <Heading>{title}</Heading>
 
         <Metadata>
-          <span><StyledClock /> {relativeDate}</span>
+          <StyledClock />
+          &nbsp;
+          <InlineIndicator>{getRelativeDateEmphasis(relativeDate)}</InlineIndicator>
+          &nbsp;
+          <span>{getRelativeDateRemainder(relativeDate)}</span>
           <span> by <AuthorLink /></span>
           <span> in <LocationLink /></span>
         </Metadata>
 
         <Sidebar>
           <SidebarMetadata>
-            <StyledClock /> {timeToRead} min to read
+            <StyledGauge position={readPosition} />
+            <Indicator>{timeToRead}</Indicator>
+            <span> min </span>
+            <IndicatorLabel>to read</IndicatorLabel>
           </SidebarMetadata>
           <TagList tags={tags} />
           <TOC headings={slugifyHeadings(url, headings)} />

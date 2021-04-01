@@ -130,7 +130,7 @@ export const darkTheme = {
 
   foregroundColor: '#ffffff',
   backgroundColor: '#282a37',
-  borderColor: '#D3D3D3',
+  borderColor: '#8E8E8E',
   selectionColor: '#C3C3C3',
 
   shadowColor: '#D3D3D3',
@@ -261,6 +261,14 @@ export const GlobalStyle = createGlobalStyle`
       ? props.theme.borderColor
       : props.theme.accentShadowColor
     };
+  }
+
+  .fill-opaque {
+    fill: ${props => props.theme.backgroundColor};
+  } 
+
+  .stroke-focus {
+    stroke: ${props => props.theme.focusColor};
   }
 
   .stroke-none {

@@ -19,9 +19,9 @@ const spacing = {
     spacingMin: `${unit / 12}px`,
     cornerSmall: `${unit / 3}px`,
     margin: `11.25pt`,
-    wide: '2048px',
-    desktop: '1152px',
-    mobile: '900px',
+    wide: '1200px',
+    desktop: '1080px',
+    mobile: '1024px',
     column: '950px'
 }
 
@@ -206,6 +206,12 @@ export const GlobalStyle = createGlobalStyle`
         left: calc(100% + ${props => props.theme.spacingHalf});
         text-align: right;
         margin-bottom: -2em;
+    }
+
+    @media(max-width: ${props => props.theme.desktop}) {
+      &:before, &:after {
+        content: '';
+      }
     }
   }
 

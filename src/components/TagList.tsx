@@ -149,26 +149,40 @@ const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => Tag 
 };
 
 const TagListWrapper = styled.ul`
-  display: ${props => props.inline ? 'none' : 'block'};
+  display: ${props =>
+    props.alwaysInline
+    ? 'block'
+    : props.inline
+    ? 'none'
+    : 'block'};
+
   position: relative;
   list-style-type: none;
   padding: 0;
-  margin-top: ${
-        props => props.inline && props.count > 1
-      ? 0
-      : props.count == 1
-      ? props.theme.spacingHalf
-      : props => props.count > 5
-      ? -CELL_HEIGHT / 2
-      : props.count == 1
-      ? -CELL_HEIGHT / 4
-      : -CELL_HEIGHT
-    }px;
+
+  margin-top: ${props =>
+      (props.inline || props.alwaysInline) && props.count > 1
+    ? -props.theme.spacingHalf
+    : props.count == 1
+    ? props.theme.spacingHalf
+    : props => props.count > 5
+    ? -CELL_HEIGHT / 2
+    : props.count == 1
+    ? -CELL_HEIGHT / 4
+    : -CELL_HEIGHT
+  }px;
+
   height: ${props => props.height}px;
   width: ${props => props.inline ? '100%' : `${ROW_WIDTH}px`};
 
   @media(max-width: ${props => props.theme.mobile}) {
-    display: ${props => props.inline ? 'block' : 'none'};
+    display: ${props =>
+        props.alwaysInline
+      ? 'block'
+      : props.inline
+      ? 'block'
+      : 'none'
+    };
     margin-bottom: 2em;
   }
 `;
@@ -195,26 +209,51 @@ const TagWrapper = styled.li`
   }
 `;
 
+const TagLink = styled.a`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  &:focus {
+    outline: none;
+
+    z-index: 1;
+
+    .stroke-border {
+        stroke: ${props => props.theme.focusColor};
+    }
+  }
+`;
+
 interface TagListProps {
   tags: string[],
-  inline: boolean | undefined
+  inline: boolean | undefined,
+  alwaysInline: boolean | undefined
 };
 
 const TagList: FC<TagListProps> = ({
   tags,
+  alwaysInline,
   inline
 }) => {
-  const denorm = tags.map(inline ? denormalizeInlineTag : denormalizeTag);
+  const denorm = tags.map(inline || alwaysInline ? denormalizeInlineTag : denormalizeTag);
   const height = inline
     ? ROW_HEIGHT
     : denorm.reduce((acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
 
   return (
-    <TagListWrapper height={height} count={denorm.length} inline={inline}>
+    <TagListWrapper
+      count={denorm.length}
+      height={height}
+      inline={inline}
+      alwaysInline={alwaysInline}
+    >
       {denorm.map(({ id, x, y, icon: Icon }, index) =>
         <TagWrapper key={id} x={x} y={y}>
-          <Cell className="tag-border" />
-          <Icon className="tag-icon" />
+          <TagLink href={`/?tag=${id}`}>
+            <Cell className="tag-border" />
+            <Icon className="tag-icon" />
+          </TagLink>
         </TagWrapper>
       )}
     </TagListWrapper>

@@ -28,25 +28,27 @@ const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
 
 const StyledSnapIcon = styled(SnapIcon)`
     position: relative;
-    left: -4px;
+    top: 1px;
+    left: -8px;
+
     #frame1 {
         opacity: 0;
-        animation: snapFrame1 .6s steps(1) infinite;
+        animation: snapFrame1 .5s steps(1) infinite;
     }
 
     #frame2 {
         opacity: 0;
-        animation: snapFrame2 .6s steps(1) infinite;
+        animation: snapFrame2 .5s steps(1) infinite;
     }
     
     #frame3 {
         opacity: 0;
-        animation: snapFrame3 .6s steps(1) infinite;
+        animation: snapFrame3 .5s steps(1) infinite;
     }
 
     #frame4 {
         opacity: 0;
-        animation: snapFrame4 .6s steps(1) infinite;
+        animation: snapFrame4 .5s steps(1) infinite;
     }
 
     @keyframes snapFrame1 {
@@ -67,6 +69,11 @@ const StyledSnapIcon = styled(SnapIcon)`
     @keyframes snapFrame4 {
         75% { opacity: 1; }
         100% { opacity: 0; }
+    }
+
+    &:before {
+        content: '';
+        
     }
 `;
 

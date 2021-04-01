@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Cell from '../images/cell.svg';
 import ShareIcon from '../images/share.svg';
 import CommentIcon from '../images/comment.svg';
 import SnapIcon from '../images/snap.svg';
 
-const WHEEL_SIZE = 76;
+export const WHEEL_SIZE = 76;
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
 const ICON_SIZE = 36;
@@ -26,29 +26,43 @@ const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
     className: 'wheel-icon'
 }))``;
 
-const StyledSnapIcon = styled(SnapIcon)`
+const StyledStaticSnapIcon = styled(SnapIcon)`
+    position: relative;
+    top: 1px;
+    left: -8px;
+
+    #frame4 {
+        opacity: 1;
+    }
+
+    #frame1, #frame2, #frame3 {
+        opacity: 0;
+    }
+`;
+
+const StyledAnimatedSnapIcon = styled(SnapIcon)`
     position: relative;
     top: 1px;
     left: -8px;
 
     #frame1 {
         opacity: 0;
-        animation: snapFrame1 .5s steps(1) infinite;
+        animation: snapFrame1 .4s steps(1) 1;
     }
 
     #frame2 {
         opacity: 0;
-        animation: snapFrame2 .5s steps(1) infinite;
+        animation: snapFrame2 .4s steps(1) 1;
     }
     
     #frame3 {
         opacity: 0;
-        animation: snapFrame3 .5s steps(1) infinite;
+        animation: snapFrame3 .4s steps(1) 1;
     }
 
     #frame4 {
         opacity: 0;
-        animation: snapFrame4 .5s steps(1) infinite;
+        animation: snapFrame4 .4s steps(1) 1;
     }
 
     @keyframes snapFrame1 {
@@ -73,7 +87,12 @@ const StyledSnapIcon = styled(SnapIcon)`
 
     &:before {
         content: '';
-        
+        background: red;
+        position: relative;
+        left: -10px;
+        top: -10px;
+        right: -10px;
+        bottom: -10px;
     }
 `;
 
@@ -125,21 +144,36 @@ const CommentButton = styled(WheelButton)`
     top: 18.5px;
 `;
 
-const Wheel: FC = () => (
-    <WheelWrapper>
-        <SnapButton>
-            <StyledCell />
-            <StyledSnapIcon />
-        </SnapButton>
-        <ShareButton>
-            <StyledCell />
-            <StyledShareIcon />
-        </ShareButton>
-        <CommentButton>
-            <StyledCell />
-            <StyledCommentIcon />
-        </CommentButton>
-    </WheelWrapper>
-);
+const Wheel: FC = () => {
+    const [ snapTimer, setSnapTimer ] = useState<number>(0);
+
+    const handleSnap = () => {
+        if (snapTimer) return;
+        setSnapTimer(window.setTimeout(() => {
+            window.clearTimeout(snapTimer);
+            setSnapTimer(0);
+        },400));
+    };
+
+    return (
+        <WheelWrapper>
+            <SnapButton onClick={handleSnap}>
+                <StyledCell />
+                { snapTimer
+                    ? <StyledAnimatedSnapIcon />
+                    : <StyledStaticSnapIcon />
+                }
+            </SnapButton>
+            <ShareButton>
+                <StyledCell />
+                <StyledShareIcon />
+            </ShareButton>
+            <CommentButton>
+                <StyledCell />
+                <StyledCommentIcon />
+            </CommentButton>
+        </WheelWrapper>
+    );
+};
 
 export default Wheel;

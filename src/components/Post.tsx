@@ -13,7 +13,7 @@ import useScrollPosition from '../hooks/useScrollPosition';
 import GaugeIcon from '../images/gauge.svg';
 import ClockIcon from '../images/clock.svg';
 import { Heading } from './Heading';
-import Wheel from './Wheel';
+import Wheel, { WHEEL_SIZE } from './Wheel';
 
 const Main = styled.main`
   h1 {
@@ -54,12 +54,6 @@ const Main = styled.main`
   h4:hover {
     a {
       opacity: 1;
-    }
-  }
-
-  @media(max-width: ${props => props.theme.desktop}) {
-    &:before, &:after {
-      content: '';
     }
   }
 `;
@@ -113,9 +107,23 @@ const Content = styled.section`
 `;
 
 const Wheelhouse = styled.section`
+  opacity: 1;
   position: sticky;
   float: left;
-  left: 0;
+  top: ${props => props.theme.spacingHalf};
+  width: ${WHEEL_SIZE};
+  height: ${WHEEL_SIZE};
+  margin-left: -${props => props.theme.unit + WHEEL_SIZE}px;
+  transform: translateY(0);
+
+  transition:
+    opacity .3s ease-out,
+    transform .5s ease-out;
+
+  @media(max-width: ${props => props.theme.wide}) {
+    opacity: 0;
+    transform: translateY(1.5em);
+  }
 `;
 
 const Sidebar = styled.section`

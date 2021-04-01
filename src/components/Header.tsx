@@ -96,9 +96,9 @@ const Hero = styled.header`
         : props.theme.backgroundColor
       };
       opacity: .8;
-      left: 0;
+      left: -100px;
       top: 0;
-      width: 100%;
+      width: calc(100% + 200px);
       height: 100%;
       transform: none;
       box-shadow: 0 0 5px ${props => props.theme.dropShadowLightColor};

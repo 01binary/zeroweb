@@ -181,7 +181,7 @@ const Caret = styled.div`
     100% {
       opacity: 0;
     }
-}
+  }
 `;
 
 const Logo = styled(LogoImage)`

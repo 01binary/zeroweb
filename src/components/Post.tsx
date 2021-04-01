@@ -6,13 +6,14 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import slugify from 'slugify';
 import SEO from './SEO';
 import TOC from './TOC';
-import { Heading } from './Heading';
 import TagList from './TagList';
-import useScrollPosition from '../hooks/useScrollPosition';
 import IPost from '../models/IPost';
 import IHeading from '../models/IHeading';
-import Clock from '../images/clock.svg';
-import Gauge from '../images/gauge.svg';
+import useScrollPosition from '../hooks/useScrollPosition';
+import GaugeIcon from '../images/gauge.svg';
+import ClockIcon from '../images/clock.svg';
+import { Heading } from './Heading';
+import Wheel from './Wheel';
 
 const Main = styled.main`
   h1 {
@@ -111,6 +112,12 @@ const Content = styled.section`
   }
 `;
 
+const Wheelhouse = styled.section`
+  position: sticky;
+  float: left;
+  left: 0;
+`;
+
 const Sidebar = styled.section`
   position: sticky;
   float: right;
@@ -145,7 +152,7 @@ const SidebarMetadata = styled.section`
   }
 `;
 
-const StyledGauge = styled(Gauge)`
+const StyledGauge = styled(GaugeIcon)`
   float: left;
   margin: .25em .25em 0 .5em;
 
@@ -179,7 +186,7 @@ const IndicatorLabel = styled.div`
   }
 `;
 
-const StyledClock = styled(Clock)`
+const StyledClock = styled(ClockIcon)`
   position: relative;
   top: 5px;
 `;
@@ -275,6 +282,10 @@ const Post: FC<IPostProps> = ({
           <span> by <AuthorLink /></span>
           <Location> in <LocationLink /></Location>
         </Metadata>
+
+        <Wheelhouse>
+          <Wheel />
+        </Wheelhouse>
 
         <Sidebar>
           <SidebarMetadata>

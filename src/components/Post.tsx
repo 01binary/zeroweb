@@ -135,8 +135,13 @@ const MobileWheelhouse = styled.section`
   float: right;
   top: -.5em;
   margin-right: 1em;
+  z-index: 1;
 
   @media(min-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
+
+  @media(max-width: 460px) {
     display: none;
   }
 `;
@@ -172,6 +177,7 @@ const SidebarMetadata = styled.section`
     float: right;
     margin-right: ${props => props.theme.spacingQuarter};
     margin-top: calc(${props => props.theme.spacingHalf} + 1px);
+    z-index: 100;
   }
 
   @media(max-width: 520px) {

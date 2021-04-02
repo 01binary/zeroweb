@@ -124,6 +124,15 @@ const Wheelhouse = styled.section`
     opacity: 0;
     transform: translateY(1.5em);
   }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    position: relative;
+    opacity: 1;
+    float: right;
+    transform: translateY(0);
+    top: -10px;
+    margin-left: 0;
+  }
 `;
 
 const Sidebar = styled.section`
@@ -140,7 +149,7 @@ const Sidebar = styled.section`
     position: relative;
     float: none;
     left: 0;
-    max-width: 100%;
+    max-width: 80%;
     margin-top: -1em;
     margin-left: ${props => props.theme.spacingHalf};
   }
@@ -156,6 +165,10 @@ const SidebarMetadata = styled.section`
   @media(max-width: ${props => props.theme.mobile}) {
     float: right;
     margin-right: ${props => props.theme.spacingQuarter};
+    margin-top: .75em;
+  }
+
+  @media(max-width: 490px) {
     max-width: 4em;
   }
 `;

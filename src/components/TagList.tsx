@@ -173,7 +173,7 @@ const TagListWrapper = styled.ul`
   }px;
 
   height: ${props => props.height}px;
-  width: ${props => props.inline ? 'initial' : `${ROW_WIDTH}px`};
+  width: ${props => props.inline ? '80%' : `${ROW_WIDTH}px`};
 
   @media(max-width: ${props => props.theme.mobile}) {
     display: ${props =>

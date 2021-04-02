@@ -126,12 +126,18 @@ const Wheelhouse = styled.section`
   }
 
   @media(max-width: ${props => props.theme.mobile}) {
-    position: relative;
-    opacity: 1;
-    float: right;
-    transform: translateY(0);
-    top: -10px;
-    margin-left: 0;
+    display: none;
+  }
+`;
+
+const MobileWheelhouse = styled.section`
+  position: relative;
+  float: right;
+  top: -.5em;
+  margin-right: 1em;
+
+  @media(min-width: ${props => props.theme.mobile}) {
+    display: none;
   }
 `;
 
@@ -149,7 +155,7 @@ const Sidebar = styled.section`
     position: relative;
     float: none;
     left: 0;
-    max-width: 80%;
+    max-width: 100%;
     margin-top: -1em;
     margin-left: ${props => props.theme.spacingHalf};
   }
@@ -165,11 +171,12 @@ const SidebarMetadata = styled.section`
   @media(max-width: ${props => props.theme.mobile}) {
     float: right;
     margin-right: ${props => props.theme.spacingQuarter};
-    margin-top: .75em;
+    margin-top: calc(${props => props.theme.spacingHalf} + 1px);
   }
 
-  @media(max-width: 490px) {
+  @media(max-width: 520px) {
     max-width: 4em;
+    margin-top: .33em;
   }
 `;
 
@@ -314,6 +321,9 @@ const Post: FC<IPostProps> = ({
             <Indicator>{timeToRead}</Indicator><span> min </span>
             <IndicatorLabel>to read</IndicatorLabel>
           </SidebarMetadata>
+          <MobileWheelhouse>
+            <Wheel />
+          </MobileWheelhouse>
           <TagList tags={tags} />
           <TagList tags={tags} inline />
           <TOC headings={slugifyHeadings(url, headings)} />

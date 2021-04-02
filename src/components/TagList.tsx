@@ -162,9 +162,9 @@ const TagListWrapper = styled.ul`
 
   margin-top: ${props =>
       (props.inline || props.alwaysInline) && props.count > 1
-    ? -props.theme.spacingHalf
+    ? 0
     : props.count == 1
-    ? props.theme.spacingHalf
+    ? props.theme.unit / 2
     : props => props.count > 5
     ? -CELL_HEIGHT / 2
     : props.count == 1
@@ -173,7 +173,7 @@ const TagListWrapper = styled.ul`
   }px;
 
   height: ${props => props.height}px;
-  width: ${props => props.inline ? '100%' : `${ROW_WIDTH}px`};
+  width: ${props => props.inline ? 'initial' : `${ROW_WIDTH}px`};
 
   @media(max-width: ${props => props.theme.mobile}) {
     display: ${props =>

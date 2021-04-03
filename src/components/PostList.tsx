@@ -26,7 +26,9 @@ const Title = styled.h2`
 
 const Meta = styled.section``;
 
-const InlineTags = styled.section``;
+const InlineTags = styled.section`
+  margin: ${props => props.theme.spacingHalf} 0px;
+`;
 
 const PostList: FunctionComponent<IPosts> = ({
     nodes

@@ -24,14 +24,20 @@ const Hero = styled.header`
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(
-    135deg,
-    ${props => props.theme.primaryColor} 0%,
-    ${props => props.theme.secondaryColor} 100%);
+
+  background: ${props => props.isDark
+    ? `linear-gradient(
+      135deg,
+      ${props.theme.primaryColor} 0%,
+      ${props.theme.secondaryColor} 100%);`
+    : props.theme.darkShadowColor
+  };
+  
   transition:
     margin ${props => props.theme.animationFast} ease-out,
     height ${props => props.theme.animationFast} ease-out;
-  margin-top: 0;
+
+  margin-top: ${props => props.theme.spacingTriple};
 
   &:before {
     content: '';
@@ -83,6 +89,7 @@ const Hero = styled.header`
     left: 0;
     top: 0;
     right: 0;
+    margin-top: 0;
     height: ${props => props.theme.spacingDouble};
     background: none;
     color: ${props => props.theme.foregroundColor};
@@ -90,11 +97,7 @@ const Hero = styled.header`
     &:before {
       z-index: 0;
       position: absolute;
-      background: ${
-        props => props.isDark
-        ? props.theme.primaryColor
-        : props.theme.backgroundColor
-      };
+      background: ${props => props.theme.backgroundColor};
       opacity: .8;
       left: -100px;
       top: 0;
@@ -128,10 +131,6 @@ const Hero = styled.header`
         : props.theme.foregroundColor
       }
     }
-  }
-
-  @media (min-width: ${props => props.theme.desktop}) {
-    margin-top: ${props => props.theme.spacingTriple};
   }
 `;
 
@@ -241,7 +240,7 @@ const Navigation = styled.nav`
     right: 0;
     top: ${props => props.theme.spacingDouble};
     bottom: initial;
-    height: ${props => props.menuOpen ? '8em' : '0'};
+    height: ${props => props.menuOpen ? '11em' : '0'};
     flex-direction: column;
     border-bottom: 1px solid ${props => props.theme.borderColor};
 

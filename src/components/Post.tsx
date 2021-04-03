@@ -17,7 +17,7 @@ import Wheel, { WHEEL_SIZE } from './Wheel';
 
 const Main = styled.main`
   h1 {
-    max-width: calc(75% - 1.5em);
+    max-width: calc(80% - 1.5em);
   }
 
   h2 {
@@ -45,6 +45,7 @@ const Main = styled.main`
     h1, h2, h3, h4 {
       max-width: initial;
       margin-left: ${props => props.theme.spacingHalf};
+      margin-right: ${props => props.theme.spacingHalf};
     }
   }
 
@@ -66,17 +67,20 @@ const HeroImage = styled(Img)`
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
-    margin-right: 0;
+    margin-top: ${props => props.theme.spacingHalf};
+    margin-right: ${props => props.theme.spacingHalf};
   }
 `;
 
 const Metadata = styled.section`
+  display: flex;
+
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   color: ${props => props.theme.secondaryTextColor};
   max-width: calc(80% - 3em);
   margin-left: 1em;
-  margin-bottom: ${props => props.theme.spacing};
+  margin-bottom: ${props => props.theme.spacingHalf};
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
@@ -88,6 +92,7 @@ const MetaLink = styled(Link)`
   border-bottom-style: dotted;
   border-bottom-color: ${props => props.theme.accentTextColor};
   text-decoration: none;
+  white-space: nowrap;
 
   transition:
     border-bottom-color ${props => props.theme.animationFast} ease-out;
@@ -132,7 +137,7 @@ const Wheelhouse = styled.section`
 
 const MobileWheelhouse = styled.section`
   position: relative;
-  float: right;
+  flex: 1 1;
   top: -.5em;
   margin-right: 1em;
   z-index: 1;
@@ -141,8 +146,19 @@ const MobileWheelhouse = styled.section`
     display: none;
   }
 
-  @media(max-width: 460px) {
+  @media(max-width: 400px) {
     display: none;
+  }
+`;
+
+const SidebarPanel = styled.section`
+  display: flex;
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: ${props => props.theme.spacing};
   }
 `;
 
@@ -161,28 +177,36 @@ const Sidebar = styled.section`
     float: none;
     left: 0;
     max-width: 100%;
-    margin-top: -1em;
+    margin-top: -0.25em;
     margin-left: ${props => props.theme.spacingHalf};
+    margin-right: ${props => props.theme.spacingHalf};
   }
 `;
 
 const SidebarMetadata = styled.section`
+  position: relative;
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   color: ${props => props.theme.secondaryTextColor};
-  margin-top: 0;
-  margin-bottom: ${props => props.theme.spacing};
+  margin-left: 1em;
 
   @media(max-width: ${props => props.theme.mobile}) {
-    float: right;
-    margin-right: ${props => props.theme.spacingQuarter};
-    margin-top: calc(${props => props.theme.spacingHalf} + 1px);
-    z-index: 100;
-  }
+    flex: 0 1 auto;
 
-  @media(max-width: 520px) {
-    max-width: 4em;
-    margin-top: .33em;
+    &:after {
+      content: '';
+      position: absolute;
+      left: -2.5em;
+      top: -1em;
+      background: linear-gradient(
+        90deg,
+        ${props => props.theme.backgroundColor + '00'} 0%,
+        ${props => props.theme.backgroundColor} 50%
+      );
+      bottom: -1em;
+      width: 2.5em;
+      z-index: 1;
+    }
   }
 `;
 
@@ -220,9 +244,9 @@ const IndicatorLabel = styled.div`
   }
 `;
 
-const StyledClock = styled(ClockIcon)`
-  position: relative;
-  top: 5px;
+const StyledClockIcon = styled(ClockIcon)`
+  margin-top: -1px;
+  margin-right: ${props => props.theme.spacingQuarter};
 `;
 
 const AuthorLink = () => (
@@ -236,7 +260,13 @@ const LocationLink = () => (
 );
 
 const Location = styled.span`
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media(max-width: 540px) {
+    display: none;
+  }
+`;
+
+const Author = styled.span`
+  @media(max-width: 380px) {
     display: none;
   }
 `;
@@ -308,13 +338,22 @@ const Post: FC<IPostProps> = ({
         <Heading>{title}</Heading>
 
         <Metadata>
-          <StyledClock />
+          <StyledClockIcon />
+          <InlineIndicator>
+            {getRelativeDateEmphasis(relativeDate)}
+          </InlineIndicator>
           &nbsp;
-          <InlineIndicator>{getRelativeDateEmphasis(relativeDate)}</InlineIndicator>
+          <IndicatorLabel>
+            {getRelativeDateRemainder(relativeDate)}
+          </IndicatorLabel>
           &nbsp;
-          <span>{getRelativeDateRemainder(relativeDate)}</span>
-          <span> by <AuthorLink /></span>
-          <Location> in <LocationLink /></Location>
+          <Author>
+            by <AuthorLink />
+          </Author>
+          &nbsp;
+          <Location>
+            in <LocationLink />
+          </Location>
         </Metadata>
 
         <Wheelhouse>
@@ -322,16 +361,16 @@ const Post: FC<IPostProps> = ({
         </Wheelhouse>
 
         <Sidebar>
-          <SidebarMetadata>
-            <StyledGauge position={readPosition} />
-            <Indicator>{timeToRead}</Indicator><span> min </span>
-            <IndicatorLabel>to read</IndicatorLabel>
-          </SidebarMetadata>
-          <MobileWheelhouse>
-            <Wheel />
-          </MobileWheelhouse>
-          <TagList tags={tags} />
-          <TagList tags={tags} inline />
+          <SidebarPanel>
+            <SidebarMetadata>
+              <StyledGauge position={readPosition} />
+              <Indicator>{timeToRead}</Indicator><span> min </span>
+              <IndicatorLabel>to read</IndicatorLabel>
+            </SidebarMetadata>
+            <TagList tags={tags} />
+            <TagList tags={tags} inline />
+          </SidebarPanel>
+
           <TOC headings={slugifyHeadings(url, headings)} />
         </Sidebar>
 

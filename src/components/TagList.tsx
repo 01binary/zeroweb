@@ -20,28 +20,37 @@ import ToolPremiere from '../images/tool-premiere.svg';
 import ToolRaspi from '../images/tool-raspi.svg';
 import Cell from '../images/cell.svg';
 
+// Expected tag icon size
 const ICON_SIZE = 36;
+
+// Honeycomb cell border width and height
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
-const ROW_WIDTH = 140;
-const ROW_HEIGHT = 44;
 
+// Width of a single weaved repeat of 4 honeycomb cells
+const ROW_WIDTH = 140;
+
+// Height of two interweaved rows of honeycomb cells
+const STRIP_HEIGHT = 56.5;
+
+// Pixel offsets in multi-row honeycomb pattern
 type CellOffset = {
   x: number,
   y: number
 };
 
 const PATTERN: CellOffset[] = [
-  { x: 0, y: 37 },
-  { x: 32, y: 55.5 },
-  { x: 64, y: 37 },
-  { x: 96, y: 55.5 },
-  { x: 0, y: 74 },
-  { x: 96, y: 18.5 },
-  { x: 32, y: 18.5 },
-  { x: 64, y: 74 },
-  { x: 0, y: 0 },
-  { x: 64, y: 0 }
+  { x: 0, y: 38 },
+  { x: 32, y: 56.5 },
+  { x: 64, y: 38 },
+  { x: 96, y: 56.5 },
+  { x: 0, y: 75 },
+  { x: 96, y: 19.5},
+  { x: 32, y: 19.5},
+  { x: 64, y: 75 },
+  { x: 0, y: 1 },
+  { x: 64, y: 1 }
+  // more than 10 tags would be visual overload for the user
 ];
 
 type Category = {
@@ -150,47 +159,50 @@ const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => Tag 
 
 const TagListWrapper = styled.ul`
   display: ${props =>
-    props.alwaysInline
+    props.AlwaysInline
     ? 'block'
-    : props.inline
+    : props.Inline
     ? 'none'
     : 'block'};
 
   position: relative;
   list-style-type: none;
-  padding: 0;
-
   margin-top: ${props =>
-      (props.inline || props.alwaysInline) && props.count > 1
+      (props.Inline || props.AlwaysInline) && props.Count > 1
     ? 0
-    : props.count == 1
-    ? props.theme.unit / 2
-    : props => props.count > 5
+    : props.Count == 1
+    ? 0
+    : props => props.Count > 5
     ? -CELL_HEIGHT / 2
-    : props.count == 1
+    : props.Count == 1
     ? -CELL_HEIGHT / 4
     : -CELL_HEIGHT
   }px;
 
-  height: ${props => props.height}px;
-  width: ${props => props.inline ? '80%' : `${ROW_WIDTH}px`};
+  margin-block-end: 0;
+  margin-right: 0;
+
+  height: ${props => props.Height}px;
+  width: ${props => props.Inline || props.AlwaysInline
+    ? `${props.Count * 32 + 12}px`
+    : `${ROW_WIDTH}px`};
+  overflow: hidden;
 
   @media(max-width: ${props => props.theme.mobile}) {
     display: ${props =>
-        props.alwaysInline
+        props.AlwaysInline
       ? 'block'
-      : props.inline
+      : props.Inline
       ? 'block'
       : 'none'
     };
-    margin-bottom: 2em;
   }
 `;
 
 const TagWrapper = styled.li`
   position: absolute;
-  left: ${props => props.x}px;
-  top: ${props => props.y}px;
+  left: ${props => props.X}px;
+  top: ${props => props.Y}px;
   width: ${CELL_WIDTH}px;
   height: ${CELL_HEIGHT}px;
 
@@ -237,19 +249,21 @@ const TagList: FC<TagListProps> = ({
   inline
 }) => {
   const denorm = tags.map(inline || alwaysInline ? denormalizeInlineTag : denormalizeTag);
-  const height = inline
-    ? ROW_HEIGHT
+  const height = tags.length === 1
+    ? CELL_HEIGHT
+    : inline || alwaysInline
+    ? STRIP_HEIGHT
     : denorm.reduce((acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
 
   return (
     <TagListWrapper
-      count={denorm.length}
-      height={height}
-      inline={inline}
-      alwaysInline={alwaysInline}
+      Count={denorm.length}
+      Height={height}
+      Inline={inline}
+      AlwaysInline={alwaysInline}
     >
       {denorm.map(({ id, x, y, icon: Icon }, index) =>
-        <TagWrapper key={id} x={x} y={y}>
+        <TagWrapper key={id} X={x} Y={y}>
           <TagLink href={`/?tag=${id}`}>
             <Cell className="tag-border" />
             <Icon className="tag-icon" />

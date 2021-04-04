@@ -17,7 +17,9 @@ const Article = styled.article`
 `;
 
 const ArticleLink = styled(Link)`
-    color: ${props => props.theme.foregroundColor};
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Title = styled.h2`

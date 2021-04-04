@@ -10,6 +10,7 @@ const Toc = styled.section`
     font-weight: ${props => props.theme.smallFontWeight};
     line-height: ${props => props.theme.smallFontLineHeight};
     list-style-type: none;
+    margin-top: ${props => props.theme.spacing};
 `;
 
 const TocTitle = styled.h2`

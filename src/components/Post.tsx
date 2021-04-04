@@ -80,10 +80,11 @@ const Metadata = styled.section`
   color: ${props => props.theme.secondaryTextColor};
   max-width: calc(80% - 3em);
   margin-left: 1em;
-  margin-bottom: ${props => props.theme.spacingHalf};
+  margin-bottom: 1.5em;
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
+    margin-bottom: ${props => props.theme.spacingHalf};
   }
 `;
 
@@ -143,9 +144,10 @@ const Wheelhouse = styled.section`
 `;
 
 const SidebarPanel = styled.section`
-  display: flex;
+  display: block;
 
   @media(max-width: ${props => props.theme.mobile}) {
+    display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-between;
@@ -179,10 +181,11 @@ const SidebarMetadata = styled.section`
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   color: ${props => props.theme.secondaryTextColor};
-  margin-left: 1em;
+  margin-bottom: ${props => props.theme.spacing};
 
   @media(max-width: ${props => props.theme.mobile}) {
     flex: 0 1 auto;
+    margin-left: 1em;
 
     &:after {
       content: '';

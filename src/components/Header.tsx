@@ -270,8 +270,8 @@ const Toggle = styled.button`
   position: absolute;
   top: ${props => props.theme.spacing};
   right: ${props => props.theme.spacing};
-  width: ${props => props.theme.spacing};
-  height: ${props => props.theme.spacing};
+  width: ${props => props.theme.spacingOneAndThird};
+  height: ${props => props.theme.spacingOneAndThird};
   background: none;
   border: none;
   appearance: none;
@@ -280,8 +280,8 @@ const Toggle = styled.button`
 
   svg {
     position: absolute;
-    left: calc((${props => props.theme.spacing} - 24px) / 2);
-    top: calc((${props => props.theme.spacing} - 24px) / 2);
+    left: calc((${props => props.theme.spacingOneAndThird} - 24px) / 2);
+    top: calc((${props => props.theme.spacingOneAndThird} - 24px) / 2);
   }
 
   &:before {
@@ -299,7 +299,7 @@ const Toggle = styled.button`
 
   &:hover {
     &:before {
-      opacity: .5;
+      opacity: ${props => props.theme.isDark ? 0.5 : 0.15};
     }
   }
 
@@ -309,15 +309,17 @@ const Toggle = styled.button`
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
-    top: calc(${props => props.theme.spacing} / 2);
+    top: ${props => props.theme.border};
     right: ${props => props.theme.spacingDouble};
-    width: ${props => props.theme.spacing};
-    height: ${props => props.theme.spacing};
+    width: ${props => props.theme.spacingDouble};
+    height: calc(
+      ${props => props.theme.spacingDouble} - ${props => props.theme.border} - ${props => props.theme.border}
+    );
 
     svg {
       position: absolute;
-      left: calc((${props => props.theme.spacing} - 24px) / 2);
-      top: calc((${props => props.theme.spacing} - 24px) / 2);
+      left: calc((${props => props.theme.spacingDouble} - 24px) / 2);
+      top: calc((${props => props.theme.spacingDouble} - 24px) / 2);
     }
   }
 `;

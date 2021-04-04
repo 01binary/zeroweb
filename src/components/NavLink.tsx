@@ -34,12 +34,12 @@ const StyledLink = styled(Link)`
       fill: ${props => props.theme.accentTextColor};
       z-index: 6;
   }
-      
+
   .navigation-highlight {
       fill: ${props => props.theme.primaryLightColor};
       z-index: 7;
   }
-      
+
   .navigation-selection {
       z-index: 6;
       fill: ${props => props.theme.selectionColor};
@@ -76,19 +76,8 @@ const StyledLink = styled(Link)`
     transition: color .3s ease-out;
     text-decoration: none;
 
-    .navigation-unselected {
-      color: ${props => props.theme.primaryDarkColor};
-    }
-
-    &:hover {
-      .navigation-unselected {
-        color: ${props => props.theme.primaryDarkShadowColor};
-        text-decoration: underline;
-      }
-    }
-
     .navigation-selected {
-      color: ${props => props.theme.backgroundColor};
+      color: ${props => props.theme.primaryTextColor};
 
       &:before {
         z-index: -1;
@@ -100,6 +89,19 @@ const StyledLink = styled(Link)`
         top: -2px;
         bottom: -2px;
         background: ${props => props.theme.focusColor};
+      }
+    }
+
+    .navigation-unselected {
+      color: ${props => props.theme.isDark
+        ? props.theme.primaryTextColor
+        : props.theme.accentTextColor};
+    }
+
+    &:hover {
+      .navigation-unselected {
+        color: ${props => props.theme.primaryDarkShadowColor};
+        text-decoration: underline;
       }
     }
 
@@ -146,9 +148,7 @@ const Text = styled.div`
     font-family: ${props => props.theme.headingFont};
     font-size: ${props => props.theme.headingFontSizeLarge};
     margin-left: ${props => props.theme.spacingDouble};
-    padding:
-      ${props => props.theme.spacingThird}
-      ${props => props.theme.spacingHalf};
+    padding: ${props => props.theme.spacingThird} ${props => props.theme.spacingHalf};
   }
 `;
 

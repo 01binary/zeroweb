@@ -15,7 +15,9 @@ export const TableRow: FunctionComponent = styled.tr`
     height: ${props => props.theme.spacingDouble};
 
     &:hover td {
-        background: ${props => props.theme.accentLightColor};
+        background: ${props => props.theme.isDark
+            ? props.theme.accentDarkShadowColor
+            : props.theme.accentLightColor};
     }
 
     &:last-of-type td {

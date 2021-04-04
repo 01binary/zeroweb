@@ -57,6 +57,43 @@ const Main = styled.main`
       opacity: 1;
     }
   }
+
+  ol {
+    list-style: none;
+    counter-reset: listCounter;
+    padding-left: ${props => props.theme.spacingHalf};
+  }
+
+  ol > li {
+    margin: 0 0 ${props => props.theme.spacingHalf} 0;
+    &:before {
+      display: inline-block;
+      content: counter(listCounter);
+      color: ${props => props.theme.foregroundColor};
+      counter-increment: listCounter;
+      line-height: ${props => props.theme.spacingOneAndThird};
+      background: ${props => props.theme.isDark
+        ? props.theme.borderColor
+        : props.theme.accentLightShadowColor};
+      width: ${props => props.theme.spacingOneAndThird};
+      height: ${props => props.theme.spacingOneAndThird};
+      border-radius: ${props => props.theme.spacingOneAndThird};
+      margin: 0 ${props => props.theme.spacingHalf} 0 0;
+      text-align: center;
+      transition:
+        color .3s ease-in-out,
+        background-color .3s ease-in-out;
+    }
+
+    &:hover:before,
+    &:focus:before {
+      color: ${props => props.theme.backgroundColor};
+      background: ${props => props.theme.isDark
+        ? props.theme.accentColor
+        : props.theme.accentShadowColor
+      };
+    }
+  }
 `;
 
 const HeroImage = styled(Img)`

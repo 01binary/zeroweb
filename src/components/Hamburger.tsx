@@ -8,6 +8,11 @@ const HamburgerButton = styled.input.attrs(
     })
 )`
     display: none;
+
+    &:focus > label {
+        outline: none;
+        box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
+    }
 `;
 
 const HamburgerHelper = styled.label.attrs(
@@ -16,15 +21,36 @@ const HamburgerHelper = styled.label.attrs(
     })
 )`
     display: none;
-  
+
     @media (max-width: ${props => props.theme.mobile}) {
-      display: block;
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: ${props => props.theme.spacingDouble};
-      height: ${props => props.theme.spacingDouble};
-      cursor: pointer;
+        display: block;
+        position: fixed;
+        top: ${props => props.theme.border};
+        right: 0;
+        width: ${props => props.theme.spacingDouble};
+        height: calc(
+            ${props => props.theme.spacingDouble} - ${props => props.theme.border} - ${props => props.theme.border}
+        );
+        cursor: pointer;
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: ${props => props.theme.shadowDarkColor};
+            opacity: 0;
+            transition: opacity ${props => props.theme.animationFast} ease-out;
+            border-radius: ${props => props.theme.border};
+        }
+
+        &:hover {
+            &:before {
+                opacity: ${props => props.theme.isDark ? 0.5 : 0.15};
+            }
+        }
     }
 `;
 

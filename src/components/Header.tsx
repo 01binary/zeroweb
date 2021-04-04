@@ -25,13 +25,10 @@ const Hero = styled.header`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background: ${props => props.isDark
-    ? `linear-gradient(
+  background: linear-gradient(
       135deg,
-      ${props.theme.primaryColor} 0%,
-      ${props.theme.secondaryColor} 100%);`
-    : props.theme.darkShadowColor
-  };
+      ${props => props.theme.primaryColor} 0%,
+      ${props => props.theme.secondaryColor} 100%);
   
   transition:
     margin ${props => props.theme.animationFast} ease-out,
@@ -64,7 +61,7 @@ const Hero = styled.header`
   }
 
   .fill-foreground {
-    fill: ${props => props.isDark
+    fill: ${props => props.theme.isDark
       ? props.theme.foregroundColor
       : props.theme.backgroundColor};
   }
@@ -112,21 +109,21 @@ const Hero = styled.header`
     }
 
     .fill-foreground {
-      fill: ${props => props.isDark
+      fill: ${props => props.theme.isDark
         ? props.theme.primaryTextColor
         : props.theme.primaryColor
       }
     }
   
     .fill-background {
-      fill: ${props => props.isDark
+      fill: ${props => props.theme.isDark
         ? props.theme.backgroundColor
         : props.theme.backgroundColor
       }
     }
   
     .stroke-foreground {
-      stroke: ${props => props.isDark
+      stroke: ${props => props.theme.isDark
         ? props.theme.primaryTextColor
         : props.theme.foregroundColor
       }

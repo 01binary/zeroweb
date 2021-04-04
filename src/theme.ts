@@ -117,7 +117,7 @@ export const darkTheme = {
   primaryTextColor: '#FFFFFF',
 
   secondaryColor: '#A158BA',
-  secondaryTextColor: '#dde0df',
+  secondaryTextColor: '#c6c6c6',
 
   accentColor: '#E3EBEC',
   accentLightColor: '#F6F6F6',
@@ -224,16 +224,18 @@ export const GlobalStyle = createGlobalStyle`
 
   main a {
     position: relative;
-    color: ${props => props.isDark
-      ? props.theme.primaryLightColor
-      : props.theme.primaryDarkColor};
+    color: ${props => props.theme.isDark
+      ? props.theme.primaryColor
+      : props.theme.accentTextColor
+    };
     text-decoration: none;
     transition: color ${props => props.theme.animationFast} ease-out;
   
     &:hover {
-      color: ${props => props.isDark
+      color: ${props => props.theme.isDark
         ? props.theme.primaryLightColor
-        : props.theme.primaryDarkColor};
+        : props.theme.primaryDarkColor
+      };
       text-decoration: underline;
     }
   }
@@ -268,7 +270,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .fill-border {
-    fill: ${props => props.isDark
+    fill: ${props => props.theme.isDark
       ? props.theme.borderColor
       : props.theme.accentShadowColor
     };

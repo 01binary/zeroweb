@@ -143,11 +143,12 @@ const Text = styled.div`
   z-index: 6;
 
   @media (max-width: ${props => props.theme.mobile}) {
+    font-family: ${props => props.theme.headingFont};
+    font-size: ${props => props.theme.headingFontSizeLarge};
     margin-left: ${props => props.theme.spacingDouble};
     padding:
-      ${props => props.theme.spacingHalf}
+      ${props => props.theme.spacingThird}
       ${props => props.theme.spacingHalf};
-    font-size: ${props => props.theme.normalFontSize};
   }
 `;
 

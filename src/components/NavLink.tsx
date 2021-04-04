@@ -145,7 +145,7 @@ const Text = styled.div`
   @media (max-width: ${props => props.theme.mobile}) {
     margin-left: ${props => props.theme.spacingDouble};
     padding:
-      ${props => props.theme.spacingQuarter}
+      ${props => props.theme.spacingHalf}
       ${props => props.theme.spacingHalf};
     font-size: ${props => props.theme.normalFontSize};
   }

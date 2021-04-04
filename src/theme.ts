@@ -109,14 +109,14 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  primaryColor: '#52545f',
+  primaryColor: '#12C0E1',
   primaryHoverColor: '#19C9EA',
   primaryLightColor: '#71D3DB',
   primaryDarkColor: '#0E93AD',
   primaryDarkShadowColor: '#10A6C4',
   primaryTextColor: '#FFFFFF',
 
-  secondaryColor: '#3e404b',
+  secondaryColor: '#A158BA',
   secondaryTextColor: '#dde0df',
 
   accentColor: '#E3EBEC',
@@ -154,7 +154,7 @@ export const darkTheme = {
 export const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.backgroundColor};
-    transition: background ${props => props.theme.animationFast} ease-out;
+    transition: background-color ${props => props.theme.animationFast} ease-out;
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
@@ -219,16 +219,21 @@ export const GlobalStyle = createGlobalStyle`
     color: ${props => props.theme.foregroundColor};
     line-height: ${props => props.theme.normalFontLineHeight};
     margin-left: ${props => props.theme.spacingHalf};
+    margin-right: ${props => props.theme.spacingHalf};
   }
 
   main a {
     position: relative;
-    color: ${props => props.isDark ? props.theme.primaryColor : props.theme.primaryDarkColor};
+    color: ${props => props.isDark
+      ? props.theme.primaryLightColor
+      : props.theme.primaryDarkColor};
     text-decoration: none;
     transition: color ${props => props.theme.animationFast} ease-out;
   
     &:hover {
-      color: ${props => props.isDark ? props.theme.primaryLightColor : props.theme.primaryDarkColor};
+      color: ${props => props.isDark
+        ? props.theme.primaryLightColor
+        : props.theme.primaryDarkColor};
       text-decoration: underline;
     }
   }

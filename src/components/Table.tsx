@@ -16,7 +16,7 @@ export const TableRow: FunctionComponent = styled.tr`
 
     &:hover td {
         background: ${props => props.theme.isDark
-            ? props.theme.accentDarkShadowColor
+            ? props.theme.foregroundColor + '20'
             : props.theme.accentLightColor};
     }
 

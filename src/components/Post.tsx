@@ -90,15 +90,22 @@ const Metadata = styled.section`
 const MetaLink = styled(Link)`
   border-bottom-width: ${props => props.theme.border};
   border-bottom-style: dotted;
-  border-bottom-color: ${props => props.theme.accentTextColor};
+  border-bottom-color: ${props => props.theme.isDark
+    ? props.theme.primaryAccentColor
+    : props.theme.accentTextColor
+  };
   text-decoration: none;
   white-space: nowrap;
 
   transition:
+    color ${props => props.theme.animationFast} ease-out,
     border-bottom-color ${props => props.theme.animationFast} ease-out;
 
   &:hover {
-    border-bottom-color: ${props => props.theme.primaryColor};
+    border-bottom-color: ${props => props.theme.isDark
+      ? props.theme.primaryColor
+      : props.theme.primaryDarkColor
+    };
     text-decoration: none;
   }
 `;
@@ -131,22 +138,6 @@ const Wheelhouse = styled.section`
   }
 
   @media(max-width: ${props => props.theme.mobile}) {
-    display: none;
-  }
-`;
-
-const MobileWheelhouse = styled.section`
-  position: relative;
-  flex: 1 1;
-  top: -.5em;
-  margin-right: 1em;
-  z-index: 1;
-
-  @media(min-width: ${props => props.theme.mobile}) {
-    display: none;
-  }
-
-  @media(max-width: 400px) {
     display: none;
   }
 `;
@@ -256,7 +247,9 @@ const AuthorLink = () => (
 );
 
 const LocationLink = () => (
-  <MetaLink to="#">Portland, OR</MetaLink>
+  <MetaLink to="#">
+    Portland, OR
+  </MetaLink>
 );
 
 const Location = styled.span`

@@ -18,6 +18,8 @@ import Wheel, { WHEEL_SIZE } from './Wheel';
 const Main = styled.main`
   h1 {
     max-width: calc(80% - 1.5em);
+    margin-left: ${props => props.theme.spacingHalf};
+    margin-right: ${props => props.theme.spacingHalf};
   }
 
   h2 {
@@ -121,7 +123,7 @@ const Metadata = styled.section`
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
-    margin-bottom: ${props => props.theme.spacingHalf};
+    margin-bottom: 0;
   }
 `;
 
@@ -188,7 +190,7 @@ const SidebarPanel = styled.section`
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: ${props => props.theme.spacing};
+    margin-bottom: 0;
   }
 `;
 
@@ -199,8 +201,8 @@ const Sidebar = styled.section`
   left: 100%;
   min-width: 20%;
   max-width: 20%;
-  margin-top: -6em;
-  padding-top: 1em;
+  margin-top: -5.25em;
+  padding-top: ${props => props.theme.spacingThird};
 
   @media(max-width: ${props => props.theme.mobile}) {
     position: relative;

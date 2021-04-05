@@ -61,7 +61,7 @@ const StyledLink = styled(Link)`
     z-index: 6;
 
     width: 24px;
-    height: 22px;
+    height: 24px;
 
     margin-left: 14px;
     margin-top: 25px;

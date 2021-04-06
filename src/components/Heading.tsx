@@ -21,6 +21,10 @@ const HeadingWrapper = styled.div`
     }
 `;
 
+const HeadingText = styled.span`
+    margin-right: 0.33em;
+`;
+
 interface IHeadingProps {
     level?: number
 };
@@ -37,7 +41,7 @@ export const Heading: FunctionComponent<IHeadingProps> = ({
             <HeadingWrapper>
                 <PermaLink url={url} level={level} />
                 <HeadingElement>
-                    {children}
+                    <HeadingText>{children}</HeadingText>
                     <PermaLink url={url} level={level} inline />
                 </HeadingElement>
             </HeadingWrapper>
@@ -50,7 +54,7 @@ export const Heading: FunctionComponent<IHeadingProps> = ({
             <HeadingWrapper>
                 <PermaLink url={urlWithAnchor} level={level} />
                 <HeadingElement id={slug}>
-                    {children}
+                    <HeadingText>{children}</HeadingText>
                     <PermaLink url={url} level={level} inline />
                 </HeadingElement>
             </HeadingWrapper>

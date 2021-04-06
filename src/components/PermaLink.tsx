@@ -7,6 +7,8 @@ import MouseIcon from '../images/mouse.svg'
 const Tooltip = styled.div.attrs(() => ({
   className: "tooltip"
 }))`
+  z-index: 6;
+  position: absolute;
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};

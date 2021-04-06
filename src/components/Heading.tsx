@@ -8,7 +8,6 @@ const HeadingWrapper = styled.div`
     position: relative;
     margin: 0;
     padding: 0;
-    z-index: 6;
 
     .permalink-icon {
         transition: opacity ${props => props.theme.animationFast} ease-out;

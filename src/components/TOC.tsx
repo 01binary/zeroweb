@@ -17,7 +17,7 @@ const TocTitle = styled.h2`
     margin-left: 0 !important;
     @media(max-width: ${props => props.theme.mobile}) {
         position: relative;
-        margin-top: 0 !important;
+        margin-top: -0.25em !important;
     }
 `;
 

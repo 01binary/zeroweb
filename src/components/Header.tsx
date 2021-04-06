@@ -81,7 +81,7 @@ const Hero = styled.header`
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
-    z-index: 1;
+    z-index: 2;
     position: fixed;
     left: 0;
     top: 0;

@@ -4,7 +4,9 @@ import { Link } from 'gatsby';
 import LinkIcon from '../images/link.svg';
 import MouseIcon from '../images/mouse.svg'
 
-const Tooltip = styled.div`
+const Tooltip = styled.div.attrs(() => ({
+  className: "tooltip"
+}))`
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
@@ -93,13 +95,17 @@ const PermaLinkAnchor = styled(Link)`
     fill: ${props => props.theme.secondaryTextColor};
   }
 
-  &:hover div {
+  &:hover .tooltip {
     opacity: .8;
     transform: translateY(0);
   }
 
   @media(max-width: ${props => props.theme.mobile}) {
-    display: none;
+    display: ${props => props.inline ? 'inline' : 'none'};
+
+    .permalink-icon {
+      display: ${props => props.inline ? 'inline' : 'none'};
+    }
   }
 `;
 
@@ -119,12 +125,14 @@ const StyledMouseIcon = styled(MouseIcon)`
 
 interface PermaLinkProps {
   url: string,
-  level: number
+  level: number,
+  inline: boolean
 }
 
 const PermaLink: FunctionComponent<PermaLinkProps> = ({
   url,
-  level
+  level,
+  inline
 }) => {
   const [ isCopied, setCopied ] = useState(false);
   const copyLink = () => {
@@ -136,7 +144,12 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
   };
 
   return (
-    <PermaLinkAnchor to={url} onClick={copyLink} level={level}>
+    <PermaLinkAnchor
+      to={url}
+      level={level}
+      inline={inline ? 1 : 0}
+      onClick={copyLink}
+    >
       <StyledLinkIcon level={level} />
       <Tooltip>
         {!isCopied && <StyledMouseIcon/>}

@@ -106,7 +106,7 @@ const HeroImage = styled(Img)`
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
-    margin-top: ${props => props.theme.spacingHalf};
+    margin-top: 1em;
     margin-right: ${props => props.theme.spacingHalf};
   }
 `;
@@ -209,7 +209,8 @@ const Sidebar = styled.section`
     float: none;
     left: 0;
     max-width: 100%;
-    margin-top: -0.25em;
+    padding-top: 0;
+    margin-top: 1em;
     margin-left: ${props => props.theme.spacingHalf};
     margin-right: ${props => props.theme.spacingHalf};
   }

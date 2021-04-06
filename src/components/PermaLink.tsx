@@ -76,7 +76,6 @@ const PermaLinkAnchorInline = styled(Link)`
   position: relative;
   display: inline;
   color: ${props => props.theme.secondaryTextColor};
-  margin-left: 0.5em;
   top: 2px;
 
   .fill-foreground {

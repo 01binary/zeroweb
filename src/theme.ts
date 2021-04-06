@@ -214,7 +214,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     @media(max-width: ${props => props.theme.desktop}) {
-      font-size: ${props => props.theme.smallFontSize};
+      font-size: ${props => props.theme.headingFontSizeSmaller};
 
       &:before, &:after {
         content: '';

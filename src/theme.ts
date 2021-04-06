@@ -33,7 +33,7 @@ const typography = {
     headingFont: 'Open Sans, Helvetica Neue, Arial, sans-serif',
     headingFontWeight: 600,
     headingFontSizeLarge: '20pt',
-    headingFontSizeMedium: '18pt',
+    headingFontSizeMedium: '16pt',
     headingFontSizeSmall: '15pt',
     headingFontSizeSmaller: '14.375pt',
 
@@ -214,6 +214,8 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     @media(max-width: ${props => props.theme.desktop}) {
+      font-size: ${props => props.theme.smallFontSize};
+
       &:before, &:after {
         content: '';
       }

@@ -30,7 +30,6 @@ const Tooltip = styled.div.attrs(() => ({
     position: absolute;
     top: 100%;
     left: 0px;
-    z-index: 9000;
     border-width: 6px;
     border-style: solid;
     border-color:
@@ -38,14 +37,6 @@ const Tooltip = styled.div.attrs(() => ({
       transparent
       transparent
       ${props => props.theme.dropShadowTransparentColor};
-  }
-
-  .stroke-foreground {
-    stroke: ${props => props.theme.backgroundColor};
-  }
-
-  .stroke-background {
-    stroke: ${props => props.theme.borderColor}
   }
 `;
 
@@ -79,6 +70,27 @@ const getLinkIconSize = ({
   );
 };
 
+const PermaLinkAnchorInline = styled(Link)`
+  position: relative;
+  display: inline;
+  color: ${props => props.theme.secondaryTextColor};
+  margin-left: 0.5em;
+  top: 2px;
+
+  .fill-foreground {
+    fill: ${props => props.theme.secondaryTextColor};
+  }
+
+  &:hover .tooltip {
+    opacity: .8;
+    transform: translateY(0);
+  }
+
+  @media(min-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
+`;
+
 const PermaLinkAnchor = styled(Link)`
   position: absolute;
   top: 0;
@@ -89,7 +101,6 @@ const PermaLinkAnchor = styled(Link)`
   transition: opacity ${props => props.theme.animationFast} ease-out;
   display: flex;
   align-items: center;
-  z-index: 6;
 
   .fill-foreground {
     fill: ${props => props.theme.secondaryTextColor};
@@ -101,16 +112,20 @@ const PermaLinkAnchor = styled(Link)`
   }
 
   @media(max-width: ${props => props.theme.mobile}) {
-    display: ${props => props.inline ? 'inline' : 'none'};
+    display: none;
 
     .permalink-icon {
-      display: ${props => props.inline ? 'inline' : 'none'};
+      display: none;
     }
   }
 `;
 
 const StyledLinkIcon = styled(LinkIcon).attrs(
-  () => ({ className: 'permalink-icon'})
+  (props) => ({
+    className: props.inline
+      ? 'permalink-icon--inline'
+      : 'permalink-icon'
+  })
 )`
   height: ${props => getLinkIconSize(props)};
 `;
@@ -121,12 +136,16 @@ const StyledMouseIcon = styled(MouseIcon)`
   height: 1.3em;
   top: ${props => props.theme.spacingMin};
   margin-right: ${props => props.theme.spacingQuarter};
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 interface PermaLinkProps {
   url: string,
   level: number,
-  inline: boolean
+  inline?: boolean
 }
 
 const PermaLink: FunctionComponent<PermaLinkProps> = ({
@@ -143,19 +162,20 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
     setTimeout(() => setCopied(false), 1000);
   };
 
+  const Anchor = inline ? PermaLinkAnchorInline : PermaLinkAnchor;
+
   return (
-    <PermaLinkAnchor
+    <Anchor
       to={url}
       level={level}
-      inline={inline ? 1 : 0}
       onClick={copyLink}
     >
-      <StyledLinkIcon level={level} />
+      <StyledLinkIcon level={level} inline={inline ? 1 : 0} />
       <Tooltip>
         {!isCopied && <StyledMouseIcon/>}
         {isCopied ? 'copied' : 'copy link'}
       </Tooltip>
-    </PermaLinkAnchor>
+    </Anchor>
   );
 };
 

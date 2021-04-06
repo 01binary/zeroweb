@@ -8,6 +8,7 @@ const HeadingWrapper = styled.div`
     position: relative;
     margin: 0;
     padding: 0;
+    z-index: 6;
 
     .permalink-icon {
         transition: opacity ${props => props.theme.animationFast} ease-out;
@@ -38,6 +39,7 @@ export const Heading: FunctionComponent<IHeadingProps> = ({
                 <PermaLink url={url} level={level} />
                 <HeadingElement>
                     {children}
+                    <PermaLink url={url} level={level} inline />
                 </HeadingElement>
             </HeadingWrapper>
         );
@@ -50,6 +52,7 @@ export const Heading: FunctionComponent<IHeadingProps> = ({
                 <PermaLink url={urlWithAnchor} level={level} />
                 <HeadingElement id={slug}>
                     {children}
+                    <PermaLink url={url} level={level} inline />
                 </HeadingElement>
             </HeadingWrapper>
         );

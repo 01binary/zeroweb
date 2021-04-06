@@ -173,6 +173,11 @@ export const GlobalStyle = createGlobalStyle`
     margin-top: ${props => props.theme.margin};
   }
 
+  h2, h3, h4 {
+    margin-left: ${props => props.theme.spacingHalf};
+    margin-right: ${props => props.theme.spacingHalf};
+  }
+
   main {
     position: relative;
     max-width: ${props => props.theme.column};

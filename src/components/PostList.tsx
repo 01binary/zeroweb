@@ -5,31 +5,36 @@ import TagList from './TagList';
 import { IPosts } from '../models/IAllPosts';
 
 const Article = styled.article`
-    padding-left: 16px;
-    padding-bottom: ${props => props.theme.spacingHalf};
-    border-bottom: ${props => props.theme.border} dotted ${props => props.theme.shadowLightColor};
+  margin-left: ${props => props.theme.spacingHalf};
+  padding-bottom: ${props => props.theme.spacingHalf};
+  border-bottom: ${props => props.theme.border} dotted ${props => props.theme.shadowLightColor};
 
-    &:first {
-      padding-top: 0;
-    }
+  &:first-of-type {
+    padding-top: 0;
+  }
 
-    padding-top: ${props => props.theme.spacingHalf};
+  padding-top: ${props => props.theme.spacingHalf};
 `;
 
 const ArticleLink = styled(Link)`
+  margin-top: ${props => props.theme.spacing};
+
   &:hover {
     text-decoration: underline;
   }
 `;
 
 const Title = styled.h2`
-    font-size: ${props => props.theme.headingFontSizeMedium};
+  font-size: ${props => props.theme.headingFontSizeMedium};
+  margin-left: 0;
 `;
 
-const Meta = styled.section``;
+const Meta = styled.section`
+  margin-bottom: ${props => props.theme.spacingHalf};
+`;
 
 const InlineTags = styled.section`
-  margin: ${props => props.theme.spacingHalf} 0px;
+  margin-bottom: ${props => props.theme.spacingHalf};
 `;
 
 const PostList: FunctionComponent<IPosts> = ({
@@ -51,9 +56,9 @@ const PostList: FunctionComponent<IPosts> = ({
         <Article key={slug}>
           <Meta>{date}</Meta>
 
-          <ArticleLink to={url}>
+          <Link to={url}>
             <Title>{title}</Title>
-          </ArticleLink>
+          </Link>
           
           {timeToRead && <Meta>{timeToRead} min to read</Meta>}
 

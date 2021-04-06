@@ -1,7 +1,25 @@
 import React, { FunctionComponent, useContext } from 'react';
+import styled from 'styled-components';
 import BlogContext from './BlogContext';
 import PermaLink from './PermaLink';
 import slugify from 'slugify';
+
+const HeadingWrapper = styled.div`
+    position: relative;
+    margin: 0;
+    padding: 0;
+
+    .permalink-icon {
+        transition: opacity ${props => props.theme.animationFast} ease-out;
+        opacity: 0;
+    }
+
+    &:hover {
+        .permalink-icon {
+            opacity: 1;
+        }
+    }
+`;
 
 interface IHeadingProps {
     level?: number
@@ -16,20 +34,24 @@ export const Heading: FunctionComponent<IHeadingProps> = ({
     
     if (level === 1) {
         return (
-            <HeadingElement>
-                <PermaLink url={url} />
-                {children}
-            </HeadingElement>
+            <HeadingWrapper>
+                <PermaLink url={url} level={level} />
+                <HeadingElement>
+                    {children}
+                </HeadingElement>
+            </HeadingWrapper>
         );
     } else {
         const slug = slugify(children.toString(), { lower: true });
         const urlWithAnchor = url + '#' + slug;
 
         return (
-            <HeadingElement id={slug}>
-                <PermaLink url={urlWithAnchor} />
-                {children}
-            </HeadingElement>
+            <HeadingWrapper>
+                <PermaLink url={urlWithAnchor} level={level} />
+                <HeadingElement id={slug}>
+                    {children}
+                </HeadingElement>
+            </HeadingWrapper>
         );
     }
 };

@@ -27,7 +27,7 @@ const ICON_SIZE = 36;
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
 
-// Width of a single weaved repeat of 4 honeycomb cells
+// Width of a single interweaved repeat of 4 honeycomb cells
 const ROW_WIDTH = 140;
 
 // Height of two interweaved rows of honeycomb cells

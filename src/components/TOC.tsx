@@ -14,9 +14,9 @@ const Toc = styled.section`
 `;
 
 const TocTitle = styled.h2`
+    margin-left: 0 !important;
     @media(max-width: ${props => props.theme.mobile}) {
         position: relative;
-        left: -${props => props.theme.spacingHalf};
         margin-top: 0 !important;
     }
 `;

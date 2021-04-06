@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const NAVLINK_WIDTH = 110;
 const NAVLINK_HEIGHT = 50;
+const BRACKET_OFFSET = 16;
 const BULLET_WIDTH = 5;
 const BULLET_HEIGHT = 20;
 const BULLET_TOP = Math.ceil(NAVLINK_HEIGHT / 2 - NAVLINK_HEIGHT * 0.1);
@@ -77,8 +78,7 @@ const Heading = styled.h1`
 `;
 
 interface TitleProps {
-    collection: string,
-    theme: any
+    collection: string
 };
 
 const Title: FC<TitleProps> = ({
@@ -86,7 +86,11 @@ const Title: FC<TitleProps> = ({
     children
 }) => (
     <Heading>
-        <Decorator offset={NAVLINK_WIDTH * (COLLECTION_OFFSETS.indexOf(collection) + 1)} />
+        <Decorator offset={
+            NAVLINK_WIDTH *
+            (COLLECTION_OFFSETS.indexOf(collection) + 1) -
+            BRACKET_OFFSET
+        } />
         {children}
     </Heading>
 );

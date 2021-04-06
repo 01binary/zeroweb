@@ -47,14 +47,51 @@ const Tooltip = styled.div`
   }
 `;
 
+interface StyledProps {
+  level: number,
+  theme: { [key: string]: string}
+};
+
+const getLinkIconSize = ({
+  level,
+  theme: {
+    headingFontSizeLarge,
+    headingFontSizeMedium,
+    headingFontSizeSmall
+  }
+}: StyledProps): string => {
+  const sizeWithUnits =
+      level === 1
+    ? headingFontSizeLarge
+    : level === 2
+    ? headingFontSizeMedium
+    : headingFontSizeSmall;
+
+  return (
+    // Extract value without units, assume pt
+    parseInt(sizeWithUnits.substring(0, sizeWithUnits.length - 2)) +
+    // Add 2 points
+    2 +
+    // Add units back
+    'pt'
+  );
+};
+
 const PermaLinkAnchor = styled(Link)`
-  position: relative;
-  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: calc(-${props => getLinkIconSize(props)} + ${props => props.theme.spacingSmall});
+  height: ${props => getLinkIconSize(props)};
+  opacity: 1;
   color: ${props => props.theme.secondaryTextColor};
   transition: opacity ${props => props.theme.animationFast} ease-out;
-  margin-right: .25em;
-  margin-left: calc(-1em + 3px);
+  display: flex;
+  align-items: center;
   z-index: 6;
+
+  .fill-foreground {
+    fill: ${props => props.theme.secondaryTextColor};
+  }
 
   &:hover div {
     opacity: .8;
@@ -66,15 +103,10 @@ const PermaLinkAnchor = styled(Link)`
   }
 `;
 
-const StyledLinkIcon = styled(LinkIcon)`
-  width: 1.3em;
-  height: 1.3em;
-  position: relative;
-  top: .35em;
-
-  .fill-foreground {
-    fill: ${props => props.theme.secondaryTextColor};
-  }
+const StyledLinkIcon = styled(LinkIcon).attrs(
+  () => ({ className: 'permalink-icon'})
+)`
+  height: ${props => getLinkIconSize(props)};
 `;
 
 const StyledMouseIcon = styled(MouseIcon)`
@@ -86,11 +118,13 @@ const StyledMouseIcon = styled(MouseIcon)`
 `;
 
 interface PermaLinkProps {
-    url: string
+  url: string,
+  level: number
 }
 
 const PermaLink: FunctionComponent<PermaLinkProps> = ({
-    url
+  url,
+  level
 }) => {
   const [ isCopied, setCopied ] = useState(false);
   const copyLink = () => {
@@ -102,8 +136,8 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
   };
 
   return (
-    <PermaLinkAnchor to={url} onClick={copyLink}>
-      <StyledLinkIcon />
+    <PermaLinkAnchor to={url} onClick={copyLink} level={level}>
+      <StyledLinkIcon level={level} />
       <Tooltip>
         {!isCopied && <StyledMouseIcon/>}
         {isCopied ? 'copied' : 'copy link'}

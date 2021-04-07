@@ -251,7 +251,7 @@ const StyledGauge = styled(GaugeIcon)`
   #arrow {
     transform: rotate(${props => props.position * 90}deg);
     transform-origin: 45.634px 47.543px;
-    transition: transform .3s ease-in-out;
+    transition: transform ${props => props.theme.animationFast} ease-in-out;
   }
 
   @media(max-width: ${props => props.theme.mobile}) {

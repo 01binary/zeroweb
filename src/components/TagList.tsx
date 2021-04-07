@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import Tooltip from './Tooltip';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -157,6 +158,38 @@ const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => Tag 
   });
 };
 
+const getOffset = (
+  count: number,
+  alwaysInline?: boolean) => {
+
+  if (alwaysInline) {
+    return 0;
+  } else {
+    if (count <= 4)
+      return -CELL_HEIGHT;
+    else if (count === 7)
+      return -19;
+    else if (count < 8)
+      return -38;
+    else
+      return -20;
+  }
+};
+
+const getWidth: (
+  count: number,
+  inline?: boolean,
+  alwaysInline?: boolean
+) => number = (
+  count,
+  inline,
+  alwaysInline
+) => (
+  inline || alwaysInline
+    ? count * 32 + 12
+    : ROW_WIDTH
+);
+
 const TagListWrapper = styled.ul`
   display: ${props =>
     props.AlwaysInline
@@ -168,25 +201,14 @@ const TagListWrapper = styled.ul`
   position: relative;
   list-style-type: none;
   margin-top: ${props =>
-      (props.Inline || props.AlwaysInline) && props.Count > 1
-    ? 0
-    : props.Count == 1
-    ? 0
-    : props => props.Count > 5
-    ? -CELL_HEIGHT / 2
-    : props.Count == 1
-    ? -CELL_HEIGHT / 4
-    : -CELL_HEIGHT
-  }px;
+    getOffset(props.Count, props.Inline || props.AlwaysInline)}px;
 
   margin-block-end: 0;
   margin-right: 0;
 
   height: ${props => props.Height}px;
-  width: ${props => props.Inline || props.AlwaysInline
-    ? `${props.Count * 32 + 12}px`
-    : `${ROW_WIDTH}px`};
-  overflow: hidden;
+  width: ${props =>
+    getWidth(props.Count, props.Inline, props.AlwaysInline)}px;
 
   @media(max-width: ${props => props.theme.mobile}) {
     display: ${props =>
@@ -225,10 +247,26 @@ const TagLink = styled.a`
   position: absolute;
   width: 100%;
   height: 100%;
+  
+  .tag-icon {
+    opacity: 0.85;
+    transition:
+      opacity ${props => props.theme.animationFast} ease-out;
+  }
+
+  &:hover {
+    .tag-icon {
+      opacity: 1;
+    }
+
+    .tooltip {
+      opacity: .8;
+      transform: translateY(0);
+    }
+  }
 
   &:focus {
     outline: none;
-
     z-index: 1;
 
     .stroke-border {
@@ -248,7 +286,10 @@ const TagList: FC<TagListProps> = ({
   alwaysInline,
   inline
 }) => {
-  const denorm = tags.map(inline || alwaysInline ? denormalizeInlineTag : denormalizeTag);
+  const denorm = tags.map(inline || alwaysInline
+    ? denormalizeInlineTag
+    : denormalizeTag);
+
   const height = tags.length === 1
     ? CELL_HEIGHT
     : inline || alwaysInline
@@ -267,6 +308,9 @@ const TagList: FC<TagListProps> = ({
           <TagLink href={`/?tag=${id}`}>
             <Cell className="tag-border" />
             <Icon className="tag-icon" />
+            <Tooltip>
+              {id}
+            </Tooltip>
           </TagLink>
         </TagWrapper>
       )}

@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Tooltip from './Tooltip';
+import { usePopperTooltip } from 'react-popper-tooltip';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -20,6 +20,7 @@ import ToolJs from '../images/tool-js.svg';
 import ToolPremiere from '../images/tool-premiere.svg';
 import ToolRaspi from '../images/tool-raspi.svg';
 import Cell from '../images/cell.svg';
+import 'react-popper-tooltip/dist/styles.css';
 
 // Expected tag icon size
 const ICON_SIZE = 36;
@@ -160,8 +161,8 @@ const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => Tag 
 
 const getOffset = (
   count: number,
-  alwaysInline?: boolean) => {
-
+  alwaysInline?: boolean
+) => {
   if (alwaysInline) {
     return 0;
   } else {
@@ -176,48 +177,48 @@ const getOffset = (
   }
 };
 
-const getWidth: (
+const getWidth = (
   count: number,
   inline?: boolean,
   alwaysInline?: boolean
-) => number = (
-  count,
-  inline,
-  alwaysInline
 ) => (
   inline || alwaysInline
     ? count * 32 + 12
     : ROW_WIDTH
 );
 
+const getDisplay = (
+  inline: boolean,
+  alwaysInline: boolean,
+  defaultNone: boolean) => {
+    if (alwaysInline) {
+      return 'block';
+    } else if (inline) {
+      return defaultNone ? 'block': 'none';
+    } else {
+      return defaultNone ? 'none': 'block';
+    }
+};
+
 const TagListWrapper = styled.ul`
-  display: ${props =>
-    props.AlwaysInline
-    ? 'block'
-    : props.Inline
-    ? 'none'
-    : 'block'};
+  display: ${({ Inline, AlwaysInline }) =>
+    getDisplay(Inline, AlwaysInline, false)};
 
   position: relative;
   list-style-type: none;
   margin-top: ${props =>
     getOffset(props.Count, props.Inline || props.AlwaysInline)}px;
-
   margin-block-end: 0;
   margin-right: 0;
+  overflow: hidden;
 
   height: ${props => props.Height}px;
   width: ${props =>
     getWidth(props.Count, props.Inline, props.AlwaysInline)}px;
 
   @media(max-width: ${props => props.theme.mobile}) {
-    display: ${props =>
-        props.AlwaysInline
-      ? 'block'
-      : props.Inline
-      ? 'block'
-      : 'none'
-    };
+    display: ${({ Inline, AlwaysInline }) =>
+      getDisplay(Inline, AlwaysInline, true)};
   }
 `;
 
@@ -258,11 +259,6 @@ const TagLink = styled.a`
     .tag-icon {
       opacity: 1;
     }
-
-    .tooltip {
-      opacity: .8;
-      transform: translateY(0);
-    }
   }
 
   &:focus {
@@ -270,7 +266,7 @@ const TagLink = styled.a`
     z-index: 1;
 
     .stroke-border {
-        stroke: ${props => props.theme.focusColor};
+      stroke: ${props => props.theme.focusColor};
     }
   }
 `;
@@ -281,40 +277,93 @@ interface TagListProps {
   alwaysInline: boolean | undefined
 };
 
+interface TagProps {
+  id: string,
+  x: number,
+  y: number,
+  icon: JSX.Element,
+  setTriggerRef: React.Dispatch<React.SetStateAction<HTMLElement>>,
+  onMouseOver: any,
+  onMouseOut: any
+};
+
+const Tag: FC<TagProps> = ({
+  id,
+  x,
+  y,
+  icon: Icon,
+  setTriggerRef,
+  onMouseOver,
+  onMouseOut
+}) => {
+  return (
+    <TagWrapper X={x} Y={y}>
+      <TagLink
+        href={`/?tag=${id}`}
+        onMouseOver={onMouseOver}
+        onMouseOut={onMouseOut}
+        ref={setTriggerRef}
+      >
+        <Cell className="tag-border" />
+        <Icon className="tag-icon" />
+      </TagLink>
+    </TagWrapper>
+  );
+};
+
 const TagList: FC<TagListProps> = ({
   tags,
   alwaysInline,
   inline
 }) => {
+  const [ selectedTag, setSelectedTag ] = useState<string>(null);
+  const {
+    getArrowProps,
+    getTooltipProps,
+    setTriggerRef,
+    visible,
+  } = usePopperTooltip();
+
   const denorm = tags.map(inline || alwaysInline
     ? denormalizeInlineTag
     : denormalizeTag);
+
+  const ids = denorm.reduce((acc, { id }, index) => {
+    acc[id] = index;
+    return acc
+  }, {});
 
   const height = tags.length === 1
     ? CELL_HEIGHT
     : inline || alwaysInline
     ? STRIP_HEIGHT
-    : denorm.reduce((acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
+    : denorm.reduce(
+      (acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
 
   return (
-    <TagListWrapper
-      Count={denorm.length}
-      Height={height}
-      Inline={inline}
-      AlwaysInline={alwaysInline}
-    >
-      {denorm.map(({ id, x, y, icon: Icon }, index) =>
-        <TagWrapper key={id} X={x} Y={y}>
-          <TagLink href={`/?tag=${id}`}>
-            <Cell className="tag-border" />
-            <Icon className="tag-icon" />
-            <Tooltip>
-              {id}
-            </Tooltip>
-          </TagLink>
-        </TagWrapper>
+    <>
+      <TagListWrapper
+        Count={denorm.length}
+        Height={height}
+        Inline={inline}
+        AlwaysInline={alwaysInline}
+      >
+        {denorm.map(tag => (
+          <Tag
+            key={tag.id} {...tag}
+            onMouseOver={() => setSelectedTag(tag.id)}
+            
+            setTriggerRef={selectedTag === tag.id ? setTriggerRef : null}
+          />
+        ))}
+      </TagListWrapper>
+      {selectedTag && (
+        <div {...getTooltipProps({ className: 'tooltip-container' })}>
+          {denorm[ids[selectedTag]].description}
+          <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+        </div>
       )}
-    </TagListWrapper>
+    </>
   );
 };
 

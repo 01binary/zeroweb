@@ -221,7 +221,7 @@ const Navigation = styled.nav`
     bottom: -3px;
     width: 23px;
     height: 22px;
-    background: ${props => props.theme.backgroundColor};
+    background-color: ${props => props.theme.backgroundColor};
     transition: background-color ${props => props.theme.animationFast} ease-out;
     transform: skewX(45deg);
   }

@@ -232,13 +232,15 @@ const SidebarMetadata = styled.section`
       position: absolute;
       left: -2.5em;
       top: -1em;
+      bottom: -1em;
+      width: 2.5em;
+      transition: background-color ${props => props.theme.animationFast} ease-out;
       background: linear-gradient(
         90deg,
         ${props => props.theme.backgroundColor + '00'} 0%,
         ${props => props.theme.backgroundColor} 50%
       );
-      bottom: -1em;
-      width: 2.5em;
+      
       z-index: 1;
     }
   }

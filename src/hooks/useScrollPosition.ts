@@ -10,7 +10,9 @@ const getScrollPercent: () => number = () => {
     const st = 'scrollTop';
     const sh = 'scrollHeight';
 
-    return (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
+    const pos = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
+
+    return isNaN(pos) ? 0 : pos;
 }
 
 const useScrollPosition = (

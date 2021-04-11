@@ -1,6 +1,7 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
-import { usePopperTooltip } from 'react-popper-tooltip';
+import Tooltip from './Tooltip';
+import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -20,7 +21,6 @@ import ToolJs from '../images/tool-js.svg';
 import ToolPremiere from '../images/tool-premiere.svg';
 import ToolRaspi from '../images/tool-raspi.svg';
 import Cell from '../images/cell.svg';
-import 'react-popper-tooltip/dist/styles.css';
 
 // Expected tag icon size
 const ICON_SIZE = 36;
@@ -102,7 +102,10 @@ interface Tag {
   category: string,
   subCategory: string,
   description: string,
-  icon: JSX.Element,
+  icon: JSX.Element
+};
+
+interface DisplayTag extends Tag {
   x: number,
   y: number
 };
@@ -125,38 +128,37 @@ const getTagDescription: (category: string, subCategory: string) => string = (
     : category
 );
 
-const denormalizeTag: (tag: string, index: number) => Tag = (
-  tag,
-  index
-) => {
+const mapTag: (tag: string) => Tag = (tag) => {
   const [ category, subCategory ] = tag.trim().split('-');
-  return ({
+  return {
     id: tag,
     category,
     subCategory,
     description: getTagDescription(category, subCategory),
     icon: getTagIcon(category, subCategory),
-    x: PATTERN[index].x,
-    y: PATTERN[index].y
-  });
+  };
 };
 
-const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => Tag = (
+const denormalizeTag: (tag: string, index: number) => DisplayTag = (
+  tag,
+  index
+) => ({
+  ...mapTag(tag),
+  x: PATTERN[index].x,
+  y: PATTERN[index].y
+});
+
+const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => DisplayTag = (
   tag,
   index,
   tags
 ) => {
-  const [ category, subCategory ] = tag.trim().split('-');
   const repeats = Math.ceil(tags.length / 4) - 1;
-  return ({
-    id: tag,
-    category,
-    subCategory,
-    description: getTagDescription(category, subCategory),
-    icon: getTagIcon(category, subCategory),
+  return {
+    ...mapTag(tag),
     x: PATTERN[index % 4].x + (index > 3 ? repeats * 128 : 0),
     y: PATTERN[index % 4].y - CELL_HEIGHT
-  });
+  };
 };
 
 const getOffset = (
@@ -187,6 +189,19 @@ const getWidth = (
     : ROW_WIDTH
 );
 
+const getHeight = (
+  inline: boolean,
+  alwaysInline: boolean,
+  denormTags: DisplayTag[]
+) => (
+  denormTags.length === 1
+    ? CELL_HEIGHT
+    : inline || alwaysInline
+    ? STRIP_HEIGHT
+    : denormTags.reduce(
+      (acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT
+);
+
 const getDisplay = (
   inline: boolean,
   alwaysInline: boolean,
@@ -213,8 +228,7 @@ const TagListWrapper = styled.ul`
   overflow: hidden;
 
   height: ${props => props.Height}px;
-  width: ${props =>
-    getWidth(props.Count, props.Inline, props.AlwaysInline)}px;
+  width: ${props => getWidth(props.Count, props.Inline, props.AlwaysInline)}px;
 
   @media(max-width: ${props => props.theme.mobile}) {
     display: ${({ Inline, AlwaysInline }) =>
@@ -277,14 +291,57 @@ interface TagListProps {
   alwaysInline: boolean | undefined
 };
 
+const TagList: FC<TagListProps> = ({
+  tags,
+  alwaysInline,
+  inline
+}) => {
+  const denorm = tags.map(inline || alwaysInline
+    ? denormalizeInlineTag
+    : denormalizeTag);
+
+  const {
+    showTip,
+    hideTip,
+    tooltipText,
+    tipProps,
+    tipRef
+   } = useTooltipController();
+
+  return (
+    <>
+      <TagListWrapper
+        Count={denorm.length}
+        Height={getHeight(inline, alwaysInline, denorm)}
+        Inline={inline}
+        AlwaysInline={alwaysInline}
+      >
+        {denorm.map(tag => (
+          <Tag
+            key={tag.id}
+            tooltipElement={tipRef.current}
+            showTip={showTip}
+            hideTip={hideTip}
+            {...tag}
+          />
+        ))}
+      </TagListWrapper>
+      <Tooltip {...tipProps} role="tooltip">
+        {tooltipText}
+      </Tooltip>
+    </>
+  );
+};
+
 interface TagProps {
   id: string,
   x: number,
   y: number,
   icon: JSX.Element,
-  setTriggerRef: React.Dispatch<React.SetStateAction<HTMLElement>>,
-  onMouseOver: any,
-  onMouseOut: any
+  description: string,
+  tooltipElement: HTMLElement,
+  showTip: (text: string) => void,
+  hideTip: () => void
 };
 
 const Tag: FC<TagProps> = ({
@@ -292,78 +349,28 @@ const Tag: FC<TagProps> = ({
   x,
   y,
   icon: Icon,
-  setTriggerRef,
-  onMouseOver,
-  onMouseOut
+  description,
+  showTip,
+  hideTip,
+  tooltipElement
 }) => {
+  const {
+    showTip: showTargetTip,
+    targetRef
+  } = useTooltipTarget(tooltipElement, showTip);
+
   return (
-    <TagWrapper X={x} Y={y}>
+    <TagWrapper X={x} Y={y}> 
       <TagLink
         href={`/?tag=${id}`}
-        onMouseOver={onMouseOver}
-        onMouseOut={onMouseOut}
-        ref={setTriggerRef}
+        ref={targetRef}
+        onMouseOver={() => showTargetTip(description)}
+        onMouseOut={hideTip}
       >
         <Cell className="tag-border" />
         <Icon className="tag-icon" />
       </TagLink>
     </TagWrapper>
-  );
-};
-
-const TagList: FC<TagListProps> = ({
-  tags,
-  alwaysInline,
-  inline
-}) => {
-  const [ selectedTag, setSelectedTag ] = useState<string>(null);
-  const {
-    getArrowProps,
-    getTooltipProps,
-    setTriggerRef,
-    visible,
-  } = usePopperTooltip();
-
-  const denorm = tags.map(inline || alwaysInline
-    ? denormalizeInlineTag
-    : denormalizeTag);
-
-  const ids = denorm.reduce((acc, { id }, index) => {
-    acc[id] = index;
-    return acc
-  }, {});
-
-  const height = tags.length === 1
-    ? CELL_HEIGHT
-    : inline || alwaysInline
-    ? STRIP_HEIGHT
-    : denorm.reduce(
-      (acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
-
-  return (
-    <>
-      <TagListWrapper
-        Count={denorm.length}
-        Height={height}
-        Inline={inline}
-        AlwaysInline={alwaysInline}
-      >
-        {denorm.map(tag => (
-          <Tag
-            key={tag.id} {...tag}
-            onMouseOver={() => setSelectedTag(tag.id)}
-            
-            setTriggerRef={selectedTag === tag.id ? setTriggerRef : null}
-          />
-        ))}
-      </TagListWrapper>
-      {selectedTag && (
-        <div {...getTooltipProps({ className: 'tooltip-container' })}>
-          {denorm[ids[selectedTag]].description}
-          <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-        </div>
-      )}
-    </>
   );
 };
 

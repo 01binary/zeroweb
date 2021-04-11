@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react"
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import { useTooltip } from '../hooks/useTooltip';
 import Tooltip from './Tooltip';
 import LinkIcon from '../images/link.svg';
 import MouseIcon from '../images/mouse.svg'
@@ -44,12 +45,7 @@ const PermaLinkAnchorInline = styled(Link)`
   .fill-foreground {
     fill: ${props => props.theme.secondaryTextColor};
   }
-
-  &:hover .tooltip {
-    opacity: .8;
-    transform: translateY(0);
-  }
-
+  
   @media(min-width: ${props => props.theme.mobile}) {
     display: none;
   }
@@ -117,25 +113,36 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
   level,
   inline
 }) => {
+  const {
+    showTip,
+    hideTip,
+    tipProps,
+    tipRef,
+    targetRef
+  } = useTooltip();
   const [ isCopied, setCopied ] = useState(false);
   const copyLink = () => {
     navigator.clipboard.writeText(
-        window.location.protocol + '//' + window.location.host + url
+      window.location.protocol + '//' + window.location.host + url
     );
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
   };
-
-  const Anchor = inline ? PermaLinkAnchorInline : PermaLinkAnchor;
+  const Anchor = inline
+    ? PermaLinkAnchorInline
+    : PermaLinkAnchor;
 
   return (
     <Anchor
       to={url}
       level={level}
+      ref={targetRef}
       onClick={copyLink}
+      onMouseOver={() => showTip(null)}
+      onMouseOut={() => hideTip()}
     >
       <StyledLinkIcon level={level} inline={inline ? 1 : 0} />
-      <Tooltip>
+      <Tooltip ref={tipRef} {...tipProps}>
         {!isCopied && <StyledMouseIcon/>}
         {isCopied ? 'copied' : 'copy link'}
       </Tooltip>

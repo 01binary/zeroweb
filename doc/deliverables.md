@@ -1,9 +1,5 @@
 # Basic Frontend
 
-Article Metadata
-Table Formatting
-Number List Formatting
-TOC (open to the side mobile)
 Code
 Related by Tags
 Full Text Search (open full screen)

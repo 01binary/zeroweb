@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import Tooltip from './Tooltip';
+import { Tooltip, Arrow } from './Tooltip';
 import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
@@ -328,6 +328,7 @@ const TagList: FC<TagListProps> = ({
       </TagListWrapper>
       <Tooltip {...tipProps} role="tooltip">
         {tooltipText}
+        <Arrow />
       </Tooltip>
     </>
   );

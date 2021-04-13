@@ -96,7 +96,7 @@ export const lightTheme = {
 
     dropShadowDarkColor: '#777777',
     dropShadowLightColor: '#999999',
-    dropShadowTransparentColor: 'black',
+    dropShadowTransparentColor: '#000000',
 
     warningColor: '#E1B412',
     focusColor: '#FF008E',

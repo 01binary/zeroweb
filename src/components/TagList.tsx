@@ -358,7 +358,7 @@ const Tag: FC<TagProps> = ({
   const {
     showTip: showTargetTip,
     targetRef
-  } = useTooltipTarget(tooltipElement, showTip);
+  } = useTooltipTarget(tooltipElement, showTip, 10, 'top');
 
   return (
     <TagWrapper X={x} Y={y}> 

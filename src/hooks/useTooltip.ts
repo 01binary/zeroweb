@@ -4,6 +4,7 @@ import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import flip from '@popperjs/core/lib/modifiers/flip.js';
 import offset from '@popperjs/core/lib/modifiers/offset.js';
 import arrow from '@popperjs/core/lib/modifiers/arrow.js';
+import { Placement } from '@popperjs/core/lib/enums';
 
 type ShowTipHandler = (text?: string) => void;
 type HideTipHandler = () => void;
@@ -17,9 +18,22 @@ interface TooltipInfo {
   targetRef: React.MutableRefObject<Element>
 };
 
-export const useTooltip: (verticalOffset?: number) => TooltipInfo = (verticalOffset) => {
-  const { showTip, hideTip, tooltipText, tipProps, tipRef } = useTooltipController();
-  const { showTip: showTargetTip, targetRef } = useTooltipTarget(tipRef.current, showTip, verticalOffset);
+export const useTooltip: (verticalOffset?: number, placement?: Placement) => TooltipInfo = (
+  verticalOffset,
+  placement
+) => {
+  const {
+    showTip,
+    hideTip,
+    tooltipText,
+    tipProps,
+    tipRef
+  } = useTooltipController();
+  const {
+    showTip: showTargetTip,
+    targetRef
+  } = useTooltipTarget(tipRef.current, showTip, verticalOffset, placement);
+
   return { showTip: showTargetTip, hideTip, tooltipText, tipProps, tipRef, targetRef };
 };
 
@@ -61,10 +75,13 @@ interface TooltipTarget {
 export const useTooltipTarget: (
   tooltipElement: HTMLElement,
   showTip: ShowTipHandler,
-  verticalOffset?: number) => TooltipTarget = (
+  verticalOffset?: number,
+  placement?: Placement
+) => TooltipTarget = (
   tooltipElement,
   showTip,
-  verticalOffset = 10
+  verticalOffset = 0,
+  placement = 'top'
 ) => {
   const targetRef = useRef<Element>(null);
   const popperRef = useRef<Instance>(null);
@@ -72,7 +89,7 @@ export const useTooltipTarget: (
   useEffect(() => {
     if (tooltipElement && targetRef.current) {
       popperRef.current = createPopper(targetRef.current, tooltipElement, {
-        placement: 'top',
+        placement,
         modifiers: [
           {
             ...offset,

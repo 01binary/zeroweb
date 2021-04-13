@@ -114,7 +114,7 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
     tipProps,
     tipRef,
     targetRef
-  } = useTooltip(2);
+  } = useTooltip(5, 'bottom');
 
   const [ isCopied, setCopied ] = useState(false);
 
@@ -142,7 +142,7 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
       <StyledLinkIcon level={level} inline={inline ? 1 : 0} />
         <Tooltip ref={tipRef} {...tipProps}>
           {!isCopied && <StyledMouseIcon/>}
-          {isCopied ? 'copied' : 'copy link'}
+          {isCopied ? 'copied' : 'copy'}
         <Arrow />
       </Tooltip>
     </Anchor>

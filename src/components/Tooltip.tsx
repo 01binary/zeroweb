@@ -1,39 +1,69 @@
 import styled from 'styled-components';
 
-const Tooltip = styled.div.attrs(() => ({
+export const Tooltip = styled.div.attrs(() => ({
   className: "tooltip"
 }))`
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
   line-height: ${props => props.theme.spacing};
-  color: ${props => props.theme.primaryTextColor};
-  background: ${props => props.theme.dropShadowTransparentColor};
-  padding: ${props => props.theme.spacingQuarter} ${props => props.theme.spacingHalf};
+  color: ${props => props.theme.isDark
+    ? props.theme.backgroundColor
+    : props.theme.primaryTextColor};
+  background: ${props => props.theme.isDark
+    ? props.theme.foregroundColor
+    : props.theme.dropShadowTransparentColor}CC;
 
   position: absolute;
+  box-sizing: border-box;
   z-index: 6;
   opacity: 0;
   transition: opacity ${props => props.theme.animationFast} ease-in-out;
+  padding: ${props => props.theme.spacingQuarter} ${props => props.theme.spacingHalf};
   pointer-events: none;
+
+  .stroke-foreground {
+    stroke: ${props => props.theme.backgroundColor};
+  }
+
+  .stroke-background {
+    stroke: ${props => props.theme.backgroundColor};
+    opacity: .7;
+  }
 
   &[data-show] {
     opacity: 1;
   }
-  
-  &:before {
-    content: '';
-    position: absolute;
+
+  &[data-popper-placement="top"] [data-popper-arrow] {
     top: 100%;
-    left: 0px;
-    border-width: 6px;
-    border-style: solid;
     border-color:
-      ${props => props.theme.dropShadowTransparentColor}
+      ${props => props.theme.isDark
+        ? props.theme.foregroundColor
+        : props.theme.dropShadowTransparentColor}CC
       transparent
       transparent
-      ${props => props.theme.dropShadowTransparentColor};
+      transparent
+    ;
+  }
+
+  &[data-popper-placement="bottom"] [data-popper-arrow] {
+    top: -16px;
+    border-color:
+      transparent
+      transparent
+      ${props => props.theme.isDark
+        ? props.theme.foregroundColor
+        : props.theme.dropShadowTransparentColor}CC
+      transparent
+    ;
   }
 `;
 
-export default Tooltip;
+export const Arrow = styled.div.attrs(() => ({
+  ['data-popper-arrow']: 1
+}))`
+  position: absolute;
+  border-width: 8px;
+  border-style: solid;
+`;

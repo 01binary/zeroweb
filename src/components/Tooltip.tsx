@@ -7,6 +7,7 @@ export const Tooltip = styled.div.attrs(() => ({
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
   line-height: ${props => props.theme.spacing};
+
   color: ${props => props.theme.isDark
     ? props.theme.backgroundColor
     : props.theme.primaryTextColor};
@@ -15,12 +16,12 @@ export const Tooltip = styled.div.attrs(() => ({
     : props.theme.dropShadowTransparentColor}CC;
 
   position: absolute;
-  box-sizing: border-box;
-  z-index: 6;
-  opacity: 0;
+  border-radius: ${props => props.theme.spacingSmall};
   transition: opacity ${props => props.theme.animationFast} ease-in-out;
   padding: ${props => props.theme.spacingQuarter} ${props => props.theme.spacingHalf};
   pointer-events: none;
+  z-index: 3;
+  opacity: 0;
 
   .stroke-foreground {
     stroke: ${props => props.theme.backgroundColor};

@@ -1,7 +1,12 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Tooltip, Arrow } from './Tooltip';
-import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
+import {
+  useTooltipController,
+  useTooltipTarget,
+  ShowTipHandler,
+  HideTipHandler
+} from '../hooks/useTooltip';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -37,8 +42,8 @@ const STRIP_HEIGHT = 56.5;
 
 // Pixel offsets in multi-row honeycomb pattern
 type CellOffset = {
-  x: number,
-  y: number
+  x: number;
+  y: number;
 };
 
 const PATTERN: CellOffset[] = [
@@ -56,11 +61,11 @@ const PATTERN: CellOffset[] = [
 ];
 
 type Category = {
-  [key: string]: JSX.Element
+  [key: string]: JSX.Element;
 };
 
 type CategoryMap = {
-  [key: string]: Category | JSX.Element
+  [key: string]: Category | JSX.Element;
 };
 
 const ICONS: CategoryMap = {
@@ -98,37 +103,37 @@ const ICONS: CategoryMap = {
 };
 
 interface Tag {
-  id: string,
-  category: string,
-  subCategory: string,
-  description: string,
-  icon: JSX.Element
+  id: string;
+  category: string;
+  subCategory: string;
+  description: string;
+  icon: JSX.Element;
 };
 
 interface DisplayTag extends Tag {
-  x: number,
-  y: number
+  x: number;
+  y: number;
 };
 
-const getTagIcon: (category: string, subCategory: string) => JSX.Element = (
-  category,
-  subCategory
-) => (
+const getTagIcon = (
+  category: string,
+  subCategory: string
+): JSX.Element => (
   subCategory
     ? ICONS[category][subCategory]
     : ICONS[category]
 );
 
-const getTagDescription: (category: string, subCategory: string) => string = (
-  category,
-  subCategory
-) => (
+const getTagDescription = (
+  category: string,
+  subCategory: string
+): string => (
   subCategory
     ? `${subCategory} ${category}`
     : category
 );
 
-const mapTag: (tag: string) => Tag = (tag) => {
+const mapTag = (tag: string): Tag => {
   const [ category, subCategory ] = tag.trim().split('-');
   return {
     id: tag,
@@ -139,20 +144,20 @@ const mapTag: (tag: string) => Tag = (tag) => {
   };
 };
 
-const denormalizeTag: (tag: string, index: number) => DisplayTag = (
-  tag,
-  index
-) => ({
+const denormalizeTag = (
+  tag: string,
+  index: number
+): DisplayTag => ({
   ...mapTag(tag),
   x: PATTERN[index].x,
   y: PATTERN[index].y
 });
 
-const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => DisplayTag = (
-  tag,
-  index,
-  tags
-) => {
+const denormalizeInlineTag = (
+  tag: string,
+  index: number,
+  tags: string[]
+): DisplayTag => {
   const repeats = Math.ceil(tags.length / 4) - 1;
   return {
     ...mapTag(tag),
@@ -164,7 +169,7 @@ const denormalizeInlineTag: (tag: string, index: number, tags: string[]) => Disp
 const getOffset = (
   count: number,
   alwaysInline?: boolean
-) => {
+): number => {
   if (alwaysInline) {
     return 0;
   } else {
@@ -183,7 +188,7 @@ const getWidth = (
   count: number,
   inline?: boolean,
   alwaysInline?: boolean
-) => (
+): number => (
   inline || alwaysInline
     ? count * 32 + 12
     : ROW_WIDTH
@@ -193,7 +198,7 @@ const getHeight = (
   inline: boolean,
   alwaysInline: boolean,
   denormTags: DisplayTag[]
-) => (
+): number => (
   denormTags.length === 1
     ? CELL_HEIGHT
     : inline || alwaysInline
@@ -205,7 +210,8 @@ const getHeight = (
 const getDisplay = (
   inline: boolean,
   alwaysInline: boolean,
-  defaultNone: boolean) => {
+  defaultNone: boolean
+): string => {
     if (alwaysInline) {
       return 'block';
     } else if (inline) {
@@ -286,9 +292,9 @@ const TagLink = styled.a`
 `;
 
 interface TagListProps {
-  tags: string[],
-  inline: boolean | undefined,
-  alwaysInline: boolean | undefined
+  tags: string[];
+  inline: boolean | undefined;
+  alwaysInline: boolean | undefined;
 };
 
 const TagList: FC<TagListProps> = ({
@@ -335,14 +341,14 @@ const TagList: FC<TagListProps> = ({
 };
 
 interface TagProps {
-  id: string,
-  x: number,
-  y: number,
-  icon: JSX.Element,
-  description: string,
-  tooltipElement: HTMLElement,
-  showTip: (text: string) => void,
-  hideTip: () => void
+  id: string;
+  x: number;
+  y: number;
+  icon: JSX.Element;
+  description: string;
+  tooltipElement: HTMLElement;
+  showTip: (text: string) => void;
+  hideTip: () => void;
 };
 
 const Tag: FC<TagProps> = ({
@@ -358,7 +364,13 @@ const Tag: FC<TagProps> = ({
   const {
     showTip: showTargetTip,
     targetRef
-  } = useTooltipTarget(tooltipElement, showTip, 10, 'top');
+  } = useTooltipTarget({
+    tooltipElement,
+    showTip,
+    verticalOffsetDesktop: 10,
+    verticalOffsetMobile: 10,
+    placement: 'top'
+  });
 
   return (
     <TagWrapper X={x} Y={y}> 

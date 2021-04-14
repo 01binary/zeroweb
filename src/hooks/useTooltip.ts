@@ -1,27 +1,35 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { createPopper, Instance, Modifier } from '@popperjs/core/lib/popper-lite.js';
+import { createPopper, Instance } from '@popperjs/core/lib/popper-lite.js';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import flip from '@popperjs/core/lib/modifiers/flip.js';
 import offset from '@popperjs/core/lib/modifiers/offset.js';
 import arrow from '@popperjs/core/lib/modifiers/arrow.js';
+import { mobile } from '../constants';
 import { Placement } from '@popperjs/core/lib/enums';
 
-type ShowTipHandler = (text?: string) => void;
-type HideTipHandler = () => void;
+export type ShowTipHandler = (text?: string) => void;
+export type HideTipHandler = () => void;
 
 interface TooltipInfo {
-  showTip: ShowTipHandler,
-  hideTip: HideTipHandler,
-  tooltipText: string,
-  tipProps: Record<string, any>,
-  tipRef: React.MutableRefObject<HTMLElement>,
-  targetRef: React.MutableRefObject<Element>
+  showTip: ShowTipHandler;
+  hideTip: HideTipHandler;
+  tooltipText: string;
+  tipProps: Record<string, any>;
+  tipRef: React.MutableRefObject<HTMLElement>;
+  targetRef: React.MutableRefObject<Element>;
 };
 
-export const useTooltip: (verticalOffset?: number, placement?: Placement) => TooltipInfo = (
-  verticalOffset,
+interface TooltipOptions {
+  verticalOffsetDesktop?: number;
+  verticalOffsetMobile?: number;
+  placement?: Placement;
+};
+
+export const useTooltip = ({
+  verticalOffsetDesktop,
+  verticalOffsetMobile,
   placement
-) => {
+}: TooltipOptions): TooltipInfo => {
   const {
     showTip,
     hideTip,
@@ -32,20 +40,33 @@ export const useTooltip: (verticalOffset?: number, placement?: Placement) => Too
   const {
     showTip: showTargetTip,
     targetRef
-  } = useTooltipTarget(tipRef.current, showTip, verticalOffset, placement);
+  } = useTooltipTarget({
+    tooltipElement: tipRef.current,
+    showTip,
+    verticalOffsetDesktop,
+    verticalOffsetMobile,
+    placement
+  });
 
-  return { showTip: showTargetTip, hideTip, tooltipText, tipProps, tipRef, targetRef };
+  return {
+    showTip: showTargetTip,
+    hideTip,
+    tooltipText,
+    tipProps,
+    tipRef,
+    targetRef
+  };
 };
 
 interface TooltipController {
-  showTip: ShowTipHandler,
-  hideTip: HideTipHandler,
-  tooltipText: string,
-  tipProps: Record<string, any>,
-  tipRef: React.MutableRefObject<HTMLElement>
+  showTip: ShowTipHandler;
+  hideTip: HideTipHandler;
+  tooltipText: string;
+  tipProps: Record<string, any>;
+  tipRef: React.MutableRefObject<HTMLElement>;
 };
 
-export const useTooltipController: () => TooltipController = () => {
+export const useTooltipController = (): TooltipController => {
   const tipRef = useRef<HTMLElement>();
   const [ tooltipText, setTooltipText ] = useState<string>(null);
   const [ tooltipVisible, setTooltipVisible ] = useState<boolean>(false);
@@ -53,9 +74,11 @@ export const useTooltipController: () => TooltipController = () => {
   const showTip = useCallback((text: string) => {
     setTooltipVisible(true);
     setTooltipText(text)
-  }, []);
+  }, [setTooltipVisible, setTooltipText]);
 
-  const hideTip = useCallback(() => setTooltipVisible(false), []);
+  const hideTip = useCallback(
+    () => setTooltipVisible(false),
+  [setTooltipVisible]);
 
   const tipProps = {
     ref: tipRef,
@@ -68,23 +91,28 @@ export const useTooltipController: () => TooltipController = () => {
 };
 
 interface TooltipTarget {
-  showTip: ShowTipHandler,
-  targetRef: React.MutableRefObject<Element>
-}
+  showTip: ShowTipHandler;
+  targetRef: React.MutableRefObject<Element>;
+};
 
-export const useTooltipTarget: (
+interface TooltipTargetOptions {
   tooltipElement: HTMLElement,
   showTip: ShowTipHandler,
-  verticalOffset?: number,
-  placement?: Placement
-) => TooltipTarget = (
+  verticalOffsetDesktop: number;
+  verticalOffsetMobile: number;
+  placement: Placement;
+};
+
+export const useTooltipTarget = ({
   tooltipElement,
   showTip,
-  verticalOffset = 0,
+  verticalOffsetDesktop = 0,
+  verticalOffsetMobile = 0,
   placement = 'top'
-) => {
+}: TooltipTargetOptions): TooltipTarget => {
   const targetRef = useRef<Element>(null);
   const popperRef = useRef<Instance>(null);
+  const isMobile = window.matchMedia(`(max-width: ${mobile})`).matches;
 
   useEffect(() => {
     if (tooltipElement && targetRef.current) {
@@ -94,7 +122,12 @@ export const useTooltipTarget: (
           {
             ...offset,
             options: {
-              offset: [0, verticalOffset]
+              offset: () => [
+                0,
+                isMobile
+                  ? verticalOffsetMobile
+                  : verticalOffsetDesktop
+              ]
             }
           },
           {
@@ -108,7 +141,7 @@ export const useTooltipTarget: (
         ],
       });
     }
-  }, [targetRef, popperRef, tooltipElement]);
+  }, [targetRef, popperRef, tooltipElement, isMobile]);
 
   const showTargetTip = useCallback((text: string) => {
     showTip(text);

@@ -347,8 +347,8 @@ interface TagProps {
   icon: JSX.Element;
   description: string;
   tooltipElement: HTMLElement;
-  showTip: (text: string) => void;
-  hideTip: () => void;
+  showTip: ShowTipHandler;
+  hideTip: HideTipHandler;
 };
 
 const Tag: FC<TagProps> = ({

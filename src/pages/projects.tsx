@@ -1,15 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { graphql } from 'gatsby';
 import Title from '../components/Title';
 import PostList from '../components/PostList';
-import { IAllPosts } from '../models/IAllPosts';
+import { AllPostsQuery } from '../models/AllPostsQuery';
 
-interface IProjectsProps {
-  data: IAllPosts
+interface ProjectsProps {
+  data: AllPostsQuery;
 };
 
-const Index: FunctionComponent<IProjectsProps> = ({
-  data: { allMdx: { nodes } }
+const Index: FC<ProjectsProps> = ({
+  data: {
+    allMdx: {
+      nodes
+    }
+  }
 }) => (
   <main>
     <Title collection={"projects"}>

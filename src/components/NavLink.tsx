@@ -152,20 +152,14 @@ const Text = styled.div`
   }
 `;
 
-interface INavLinkProps {
-  background: FunctionComponent<SVGProps<SVGSVGElement>>,
-  icon: FunctionComponent<SVGProps<SVGSVGElement>>,
-  path: string
-  to: string,
+interface NavLinkProps {
+  background: FunctionComponent<SVGProps<SVGSVGElement>>;
+  icon: FunctionComponent<SVGProps<SVGSVGElement>>;
+  path: string;
+  to: string;
 };
 
-const getLinkClassName = (path: string, to: string) => (
-  path === to
-    ? "navigation-selected"
-    : "navigation-unselected"
-);
-
-const NavLink: FunctionComponent<INavLinkProps> = ({
+const NavLink: FunctionComponent<NavLinkProps> = ({
     children,
     background: Background,
     icon: Icon,
@@ -183,5 +177,11 @@ const NavLink: FunctionComponent<INavLinkProps> = ({
     </StyledLink>
   );
 };
+
+const getLinkClassName = (path: string, to: string): string => (
+  path === to
+    ? 'navigation-selected'
+    : 'navigation-unselected'
+);
 
 export default NavLink;

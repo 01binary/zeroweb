@@ -11,8 +11,8 @@ const CALLOUT_TOP = Math.ceil(BULLET_TOP / 2) + 0.5;
 const COLLECTION_OFFSETS = [ "articles", "projects", "about" ];
 
 interface CalloutProps {
-    offset: number,
-    className?: string
+    offset: number;
+    className?: string;
 };
 
 const getGeometry = (
@@ -78,7 +78,7 @@ const Heading = styled.h1`
 `;
 
 interface TitleProps {
-    collection: string
+    collection: string;
 };
 
 const Title: FC<TitleProps> = ({

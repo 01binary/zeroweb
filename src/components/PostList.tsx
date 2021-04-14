@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import TagList from './TagList';
-import { IPosts } from '../models/IAllPosts';
+import { PostsQuery } from '../models/AllPostsQuery';
 
 const Article = styled.article`
   margin-left: ${props => props.theme.spacingHalf};
@@ -37,7 +37,7 @@ const InlineTags = styled.section`
   margin-bottom: ${props => props.theme.spacingHalf};
 `;
 
-const PostList: FunctionComponent<IPosts> = ({
+const PostList: FC<PostsQuery> = ({
     nodes
 }) => (
     <>

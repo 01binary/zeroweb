@@ -7,8 +7,8 @@ import slugify from 'slugify';
 import SEO from './SEO';
 import TOC from './TOC';
 import TagList from './TagList';
-import IPost from '../models/IPost';
-import IHeading from '../models/IHeading';
+import PostQuery from '../models/PostQuery';
+import IHeading from '../models/HeadingQuery';
 import useScrollPosition from '../hooks/useScrollPosition';
 import GaugeIcon from '../images/gauge.svg';
 import ClockIcon from '../images/clock.svg';
@@ -322,23 +322,19 @@ const slugifyHeadings = (
   };
 });
 
-const getRelativeDateEmphasis: (relativeDate: string) => string = (
-  relativeDate
-) => (
+const getRelativeDateEmphasis = (relativeDate: string): string => (
   relativeDate.split(' ')[0]
 );
 
-const getRelativeDateRemainder: (relativeDate: string) => string = (
-  relativeDate
-) => (
+const getRelativeDateRemainder = (relativeDate: string): string => (
   relativeDate.split(' ').slice(1).join(' ')
 );
 
-interface IPostProps {
-  data: IPost
+interface PostProps {
+  data: PostQuery
 };
 
-const Post: FC<IPostProps> = ({
+const Post: FC<PostProps> = ({
     data: {
         mdx: {
             body,

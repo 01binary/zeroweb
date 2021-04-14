@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
-import IHeading from '../models/IHeading';
+import HeadingQuery from '../models/HeadingQuery';
 
 const Toc = styled.section`
     font-family: ${props => props.theme.smallFont};
@@ -38,11 +38,11 @@ const TocItemLink = styled(AnchorLink)`
     }
 `;
 
-interface ITOCProps {
-    headings: Array<IHeading>
+interface TocProps {
+    headings: Array<HeadingQuery>
 };
 
-const TOC: FunctionComponent<ITOCProps> = ({
+const TOC: FC<TocProps> = ({
     headings
 }) => {
     if (headings.length === 0)
@@ -56,10 +56,7 @@ const TOC: FunctionComponent<ITOCProps> = ({
             <TocList>
                 {headings.map(({ value, url, slug, depth }) => (
                     <TocItem key={url} depth={depth - 2}>
-                        <TocItemLink
-                            to={url}
-                            active={slug === active}
-                        >
+                        <TocItemLink to={url} active={slug === active}>
                             {value}
                         </TocItemLink>
                     </TocItem>

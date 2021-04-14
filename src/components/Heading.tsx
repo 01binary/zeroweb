@@ -25,11 +25,11 @@ const HeadingText = styled.span`
     margin-right: 0.33em;
 `;
 
-interface IHeadingProps {
-    level?: number
+interface HeadingProps {
+    level?: number;
 };
 
-export const Heading: FunctionComponent<IHeadingProps> = ({
+export const Heading: FunctionComponent<HeadingProps> = ({
     level = 1,
     children
 }) => {

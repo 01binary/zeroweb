@@ -1,17 +1,17 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components'
 
-export const Table: FunctionComponent = styled.table`
+export const Table: FC = styled.table`
     font-size: ${props => props.theme.normalFontSize};
     border-spacing: 0;
 `
 
-export const TableHeading: FunctionComponent = styled.th`
+export const TableHeading: FC = styled.th`
     padding: ${props => props.theme.spacingHalf};
     text-align: left;
 `
 
-export const TableRow: FunctionComponent = styled.tr`
+export const TableRow: FC = styled.tr`
     height: ${props => props.theme.spacingDouble};
 
     &:hover td {
@@ -25,7 +25,7 @@ export const TableRow: FunctionComponent = styled.tr`
     }
 `
 
-export const TableCell: FunctionComponent = styled.td`
+export const TableCell: FC = styled.td`
     padding: ${props => props.theme.spacingHalf};
     border-bottom: 1px solid ${props => props.theme.borderColor};
     transition: background-color ${props => props.theme.animationFast} ease-in-out;

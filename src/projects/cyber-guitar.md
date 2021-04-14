@@ -6,6 +6,4 @@ date: 2021-02-11
 tags: design-industrial, engineering-electrical, engineering-software, tool-arduino, tool-inventor
 ---
 
-Custom guitar, here's the same image in markdown:
-
-![cyber guitar](./images/cyber-guitar.png)
+Custom double-neck guitar with keyboard.

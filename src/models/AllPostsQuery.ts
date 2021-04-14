@@ -4,6 +4,6 @@ export interface PostsQuery {
     nodes: Array<Partial<PostQuery>>;
 };
 
-export interface AllPosts {
+export interface AllPostsQuery {
     allMdx: PostsQuery;
 };

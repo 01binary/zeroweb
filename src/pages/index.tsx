@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { graphql } from 'gatsby';
 import Title from '../components/Title';
 import PostList from '../components/PostList';
-import { IAllPosts } from '../models/IAllPosts';
+import { AllPostsQuery } from '../models/AllPostsQuery';
 
-interface IIndexProps {
-  data: IAllPosts
+interface IndexProps {
+  data: AllPostsQuery;
 };
 
-const Index: FunctionComponent<IIndexProps> = ({
+const Index: FC<IndexProps> = ({
   data: { allMdx: { nodes } }
 }) => (
   <main>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import Title from '../components/Title';
 
@@ -10,7 +10,7 @@ const Text = styled.p`
 const Content = styled.main`
 `;
 
-const About = () => (
+const About: FC = () => (
     <Content>
         <Title collection={"about"}>About</Title>
         <Text>About info here</Text>

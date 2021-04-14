@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react"
+import React, { FC, useState } from "react"
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import { useTooltip } from '../hooks/useTooltip';
@@ -7,8 +7,8 @@ import LinkIcon from '../images/link.svg';
 import MouseIcon from '../images/mouse.svg'
 
 interface StyledProps {
-  level: number,
-  theme: { [key: string]: string}
+  level: number;
+  theme: { [key: string]: string };
 };
 
 const getLinkIconSize = ({
@@ -97,13 +97,17 @@ const StyledMouseIcon = styled(MouseIcon)`
   }
 `;
 
+const NoWrap = styled.span`
+  white-space: nowrap;
+`;
+
 interface PermaLinkProps {
-  url: string,
-  level: number,
-  inline?: boolean
+  url: string;
+  level: number;
+  inline?: boolean;
 }
 
-const PermaLink: FunctionComponent<PermaLinkProps> = ({
+const PermaLink: FC<PermaLinkProps> = ({
   url,
   level,
   inline
@@ -114,7 +118,11 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
     tipProps,
     tipRef,
     targetRef
-  } = useTooltip(5, 'bottom');
+  } = useTooltip({
+    verticalOffsetDesktop: 10,
+    verticalOffsetMobile: 5,
+    placement: 'bottom'
+  });
 
   const [ isCopied, setCopied ] = useState(false);
 
@@ -141,8 +149,10 @@ const PermaLink: FunctionComponent<PermaLinkProps> = ({
     >
       <StyledLinkIcon level={level} inline={inline ? 1 : 0} />
         <Tooltip ref={tipRef} {...tipProps}>
-          {!isCopied && <StyledMouseIcon/>}
-          {isCopied ? 'copied' : 'copy'}
+          <NoWrap>
+            {!isCopied && <StyledMouseIcon/>}
+            {isCopied ? 'copied' : 'copy link'}
+          </NoWrap>
         <Arrow />
       </Tooltip>
     </Anchor>

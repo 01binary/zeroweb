@@ -103,6 +103,7 @@ const HeroImage = styled(Img)`
   max-width: calc(80% - 3em);
   margin-right: 1.5em;
   margin-left: ${props => props.theme.spacingHalf};
+  z-index: -1;
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;

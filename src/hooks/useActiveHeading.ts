@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import IHeading from '../models/IHeading';
+import HeadingQuery from '../models/HeadingQuery';
 
-const useActiveHeading = (headings: Array<IHeading>) => {
+const useActiveHeading = (
+    headings: Array<HeadingQuery>
+): string => {
     const [activeHeadingId, setActiveHeadingId] = useState('');
 
     useEffect(() => {

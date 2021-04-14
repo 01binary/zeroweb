@@ -293,8 +293,8 @@ const TagLink = styled.a`
 
 interface TagListProps {
   tags: string[];
-  inline: boolean | undefined;
-  alwaysInline: boolean | undefined;
+  inline?: boolean;
+  alwaysInline?: boolean;
 };
 
 const TagList: FC<TagListProps> = ({

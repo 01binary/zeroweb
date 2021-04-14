@@ -105,7 +105,7 @@ interface PermaLinkProps {
   url: string;
   level: number;
   inline?: boolean;
-}
+};
 
 const PermaLink: FC<PermaLinkProps> = ({
   url,

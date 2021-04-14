@@ -1,8 +1,8 @@
-interface IHeading {
+interface HeadingQuery {
     value: string,
     url?: string,
     slug?:string,
     depth: number
 }
 
-export default IHeading;
+export default HeadingQuery;

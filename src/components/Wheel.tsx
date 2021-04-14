@@ -6,6 +6,7 @@ import CommentIcon from '../images/comment.svg';
 import SnapIcon from '../images/snap.svg';
 
 export const WHEEL_SIZE = 76;
+
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
 const ICON_SIZE = 36;
@@ -83,16 +84,6 @@ const StyledAnimatedSnapIcon = styled(SnapIcon)`
     @keyframes snapFrame4 {
         75% { opacity: 1; }
         100% { opacity: 0; }
-    }
-
-    &:before {
-        content: '';
-        background: red;
-        position: relative;
-        left: -10px;
-        top: -10px;
-        right: -10px;
-        bottom: -10px;
     }
 `;
 

@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import Helmet from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
-import ISiteMetadata from '../models/ISiteMetadata';
+import SiteMetadataQuery from '../models/SiteMetadataQuery';
 
-const SEO: FunctionComponent<Partial<ISiteMetadata>> = ({
+const SEO: FC<Partial<SiteMetadataQuery>> = ({
     title: pageTitle,
     description,
     url: pageUrl,

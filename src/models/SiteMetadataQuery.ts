@@ -1,8 +1,8 @@
-interface ISiteMetadata {
+interface SiteMetadataQuery {
     title: string,
     description: string,
     url: string,
     image: string
 };
 
-export default ISiteMetadata;
+export default SiteMetadataQuery;

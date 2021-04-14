@@ -325,8 +325,8 @@ const Toggle = styled.button`
 `;
 
 interface ThemeToggleProps {
-  isDark: boolean,
-  toggleDark: () => void
+  isDark: boolean;
+  toggleDark: () => void;
 }
 
 const ThemeToggle: FC<ThemeToggleProps> = ({
@@ -342,7 +342,7 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
 );
 
 interface HeaderProps {
-  path: string
+  path: string;
 };
 
 const Header: FC<HeaderProps> = ({

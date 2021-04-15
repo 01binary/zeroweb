@@ -3,17 +3,17 @@ import styled from 'styled-components';
 import Img from "gatsby-image";
 import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
-import slugify from 'slugify';
-import SEO from './SEO';
-import TOC from './TOC';
-import TagList from './TagList';
+import { getHeadingSlug, getHeadingUrl } from './Heading';
 import PostQuery from '../models/PostQuery';
-import IHeading from '../models/HeadingQuery';
+import HeadingQuery from '../models/HeadingQuery';
 import useScrollPosition from '../hooks/useScrollPosition';
 import GaugeIcon from '../images/gauge.svg';
 import ClockIcon from '../images/clock.svg';
 import { Heading } from './Heading';
 import Wheel, { WHEEL_SIZE } from './Wheel';
+import TagList from './TagList';
+import SEO from './SEO';
+import TOC from './TOC';
 
 const Main = styled.main`
   h1 {
@@ -247,7 +247,7 @@ const SidebarMetadata = styled.section`
   }
 `;
 
-const StyledGauge = styled(GaugeIcon)`
+const Gauge = styled(GaugeIcon)`
   float: left;
   margin: .25em .25em 0 .5em;
 
@@ -281,7 +281,7 @@ const IndicatorLabel = styled.div`
   }
 `;
 
-const StyledClockIcon = styled(ClockIcon)`
+const Clock = styled(ClockIcon)`
   margin-top: -1px;
   margin-right: ${props => props.theme.spacingQuarter};
 `;
@@ -310,23 +310,28 @@ const Author = styled.span`
   }
 `;
 
+interface SlugifiedHeading extends HeadingQuery {
+  slug: string,
+  url: string
+};
+
 const slugifyHeadings = (
   baseUrl: string,
-  headings: IHeading[]
-): IHeading[] => headings.map((heading) => {
-  const slug = slugify(heading.value, { lower: true });
+  headings: HeadingQuery[]
+): SlugifiedHeading[] => headings.map((heading) => {
+  const slug = getHeadingSlug(false, heading.value);
   return {
       ...heading,
-      url: `${baseUrl}#${slug}`,
+      url: getHeadingUrl(baseUrl, slug),
       slug
   };
 });
 
-const getRelativeDateEmphasis = (relativeDate: string): string => (
+const getDateValue = (relativeDate: string): string => (
   relativeDate.split(' ')[0]
 );
 
-const getRelativeDateRemainder = (relativeDate: string): string => (
+const getDateUnits = (relativeDate: string): string => (
   relativeDate.split(' ').slice(1).join(' ')
 );
 
@@ -373,22 +378,14 @@ const Post: FC<PostProps> = ({
         <Heading>{title}</Heading>
 
         <Metadata>
-          <StyledClockIcon />
-          <InlineIndicator>
-            {getRelativeDateEmphasis(relativeDate)}
-          </InlineIndicator>
+          <Clock />
+          <InlineIndicator>{getDateValue(relativeDate)}</InlineIndicator>
           &nbsp;
-          <IndicatorLabel>
-            {getRelativeDateRemainder(relativeDate)}
-          </IndicatorLabel>
+          <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
           &nbsp;
-          <Author>
-            by <AuthorLink />
-          </Author>
+          <Author> by <AuthorLink /></Author>
           &nbsp;
-          <Location>
-            in <LocationLink />
-          </Location>
+          <Location> in <LocationLink /></Location>
         </Metadata>
 
         <Wheelhouse>
@@ -398,7 +395,7 @@ const Post: FC<PostProps> = ({
         <Sidebar>
           <SidebarPanel>
             <SidebarMetadata>
-              <StyledGauge position={readPosition} />
+              <Gauge position={readPosition} />
               <Indicator>{timeToRead}</Indicator><span> min </span>
               <IndicatorLabel>to read</IndicatorLabel>
             </SidebarMetadata>

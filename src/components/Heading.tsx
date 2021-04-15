@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import styled from 'styled-components';
 import BlogContext from './BlogContext';
 import PermaLink from './PermaLink';
@@ -25,55 +25,56 @@ const HeadingText = styled.span`
     margin-right: 0.33em;
 `;
 
+export const getHeadingSlug = (
+    main: boolean,
+    text: string
+): string => (
+    main ? null : slugify(text, { lower: true })
+);
+
+export const getHeadingUrl = (
+    baseUrl: string,
+    slug?: string,
+): string => (
+    slug ? `${baseUrl}#${slug}` : baseUrl
+);
+
 interface HeadingProps {
     level?: number;
 };
 
-export const Heading: FunctionComponent<HeadingProps> = ({
+export const Heading: FC<HeadingProps> = ({
     level = 1,
     children
 }) => {
     const { url } = useContext(BlogContext);
+    const slug = getHeadingSlug(level === 1, children.toString());
+    const permaLinkUrl = getHeadingUrl(url, slug);
     const HeadingElement: any = `h${level}`;
     
-    if (level === 1) {
-        return (
-            <HeadingWrapper>
-                <PermaLink url={url} level={level} />
-                <HeadingElement>
-                    <HeadingText>{children}</HeadingText>
-                    <PermaLink url={url} level={level} inline />
-                </HeadingElement>
-            </HeadingWrapper>
-        );
-    } else {
-        const slug = slugify(children.toString(), { lower: true });
-        const urlWithAnchor = url + '#' + slug;
-
-        return (
-            <HeadingWrapper>
-                <PermaLink url={urlWithAnchor} level={level} />
-                <HeadingElement id={slug}>
-                    <HeadingText>{children}</HeadingText>
-                    <PermaLink url={url} level={level} inline />
-                </HeadingElement>
-            </HeadingWrapper>
-        );
-    }
+    return (
+        <HeadingWrapper>
+            <PermaLink url={permaLinkUrl} level={level} />
+            <HeadingElement id={slug}>
+                <HeadingText>{children}</HeadingText>
+                <PermaLink url={permaLinkUrl} level={level} inline />
+            </HeadingElement>
+        </HeadingWrapper>
+    );
 };
 
-export const Heading1: FunctionComponent = ({ children }) => (
+export const Heading1: FC = ({ children }) => (
     <Heading level={1}>{children}</Heading>
 );
 
-export const Heading2: FunctionComponent = ({ children }) => (
+export const Heading2: FC = ({ children }) => (
     <Heading level={2}>{children}</Heading>
 );
 
-export const Heading3: FunctionComponent = ({ children }) => (
+export const Heading3: FC = ({ children }) => (
     <Heading level={3}>{children}</Heading>
 );
 
-export const Heading4: FunctionComponent = ({ children }) => (
+export const Heading4: FC = ({ children }) => (
     <Heading level={4}>{children}</Heading>
 );

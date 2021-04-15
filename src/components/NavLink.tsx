@@ -160,11 +160,11 @@ interface NavLinkProps {
 };
 
 const NavLink: FunctionComponent<NavLinkProps> = ({
-    children,
-    background: Background,
-    icon: Icon,
-    path,
-    to
+  children,
+  background: Background,
+  icon: Icon,
+  path,
+  to
 }) => {
   const selectedClass = getLinkClassName(path, to);
   return (

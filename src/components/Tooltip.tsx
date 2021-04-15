@@ -6,7 +6,7 @@ export const Tooltip = styled.div.attrs(() => ({
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
-  line-height: ${props => props.theme.spacing};
+  text-transform: lowercase;
 
   color: ${props => props.theme.isDark
     ? props.theme.backgroundColor
@@ -18,7 +18,7 @@ export const Tooltip = styled.div.attrs(() => ({
   position: absolute;
   border-radius: ${props => props.theme.spacingSmall};
   transition: opacity ${props => props.theme.animationFast} ease-in-out;
-  padding: ${props => props.theme.spacingQuarter} ${props => props.theme.spacingHalf};
+  padding: ${props => props.theme.spacingHalf};
   pointer-events: none;
   z-index: 3;
   opacity: 0;

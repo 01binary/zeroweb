@@ -327,11 +327,11 @@ const slugifyHeadings = (
   };
 });
 
-const getDateValue = (relativeDate: string): string => (
+export const getDateValue = (relativeDate: string): string => (
   relativeDate.split(' ')[0]
 );
 
-const getDateUnits = (relativeDate: string): string => (
+export const getDateUnits = (relativeDate: string): string => (
   relativeDate.split(' ').slice(1).join(' ')
 );
 

@@ -1,19 +1,15 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { PostsQuery } from '../models/AllPostsQuery';
+import { getDateValue, getDateUnits } from './Post';
 import { Link } from 'gatsby';
 import TagList from './TagList';
-import { PostsQuery } from '../models/AllPostsQuery';
 
 const Article = styled.article`
   margin-left: ${props => props.theme.spacingHalf};
+  margin-right: ${props => props.theme.spacingHalf};
   padding-bottom: ${props => props.theme.spacingHalf};
-  border-bottom: ${props => props.theme.border} dotted ${props => props.theme.shadowLightColor};
-
-  &:first-of-type {
-    padding-top: 0;
-  }
-
-  padding-top: ${props => props.theme.spacingHalf};
+  border-bottom: ${props => props.theme.border} dotted ${props => props.theme.borderColor};
 `;
 
 const ArticleLink = styled(Link)`
@@ -25,16 +21,21 @@ const ArticleLink = styled(Link)`
 `;
 
 const Title = styled.h2`
-  font-size: ${props => props.theme.headingFontSizeMedium};
+  font-size: ${props => props.theme.headingFontSizeLarge};
   margin-left: 0;
 `;
 
 const Meta = styled.section`
-  margin-bottom: ${props => props.theme.spacingHalf};
+  color: ${props => props.theme.secondaryTextColor};
+  margin-bottom: ${props => props.theme.spacing};
+`;
+
+const MetaIndicator = styled.span`
+  color: ${props => props.theme.foregroundColor};
 `;
 
 const InlineTags = styled.section`
-  margin-bottom: ${props => props.theme.spacingHalf};
+  margin-bottom: ${props => props.theme.spacing};
 `;
 
 const PostList: FC<PostsQuery> = ({
@@ -46,7 +47,7 @@ const PostList: FC<PostsQuery> = ({
         timeToRead,
         frontmatter: {
           title,
-          date
+          relativeDate
         },
         fields: {
           tags,
@@ -54,13 +55,20 @@ const PostList: FC<PostsQuery> = ({
         }
       }) => (
         <Article key={slug}>
-          <Meta>{date}</Meta>
-
           <Link to={url}>
             <Title>{title}</Title>
           </Link>
           
-          {timeToRead && <Meta>{timeToRead} min to read</Meta>}
+          <Meta>
+            <MetaIndicator>{getDateValue(relativeDate)} </MetaIndicator>
+            {getDateUnits(relativeDate)}
+            {timeToRead &&
+              <span>
+                {' / '}
+                <MetaIndicator>{timeToRead}</MetaIndicator> min to read
+              </span>
+            }
+          </Meta>
 
           <InlineTags>
             <TagList tags={tags} alwaysInline />

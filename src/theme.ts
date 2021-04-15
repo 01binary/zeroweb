@@ -175,6 +175,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h2, h3, h4 {
+    text-transform: lowercase;
     margin-left: ${props => props.theme.spacingHalf};
     margin-right: ${props => props.theme.spacingHalf};
   }

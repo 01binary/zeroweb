@@ -105,6 +105,22 @@ const HeroImage = styled(Img)`
   margin-left: ${props => props.theme.spacingHalf};
   z-index: -1;
 
+  opacity: 0;
+  animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
+
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
     margin-top: 1em;
@@ -121,6 +137,22 @@ const Metadata = styled.section`
   max-width: calc(80% - 3em);
   margin-left: 1em;
   margin-bottom: 1.5em;
+
+  opacity: 0;
+  animation: slideIn ${props => props.theme.animationSlow} .1s ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
@@ -154,6 +186,22 @@ const MetaLink = styled(Link)`
 const Content = styled.section`
   max-width: calc(80% - 2em);
 
+  opacity: 0;
+  animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
+
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
   }
@@ -167,8 +215,24 @@ const Wheelhouse = styled.section`
   width: ${WHEEL_SIZE};
   height: ${WHEEL_SIZE};
   margin-left: -${props => props.theme.unit + WHEEL_SIZE}px;
-  transform: translateY(0);
 
+  opacity: 0;
+  animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
+
+  transform: translateY(0);
   transition:
     opacity .3s ease-out,
     transform .5s ease-out;
@@ -223,6 +287,22 @@ const SidebarMetadata = styled.section`
   font-size: ${props => props.theme.smallFontSize};
   color: ${props => props.theme.secondaryTextColor};
   margin-bottom: ${props => props.theme.spacing};
+
+  opacity: 0;
+  animation: slideIn ${props => props.theme.animationSlow} .1s ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
 
   @media(max-width: ${props => props.theme.mobile}) {
     flex: 0 1 auto;
@@ -284,6 +364,22 @@ const IndicatorLabel = styled.div`
 const Clock = styled(ClockIcon)`
   margin-top: -1px;
   margin-right: ${props => props.theme.spacingQuarter};
+`;
+
+const PostHeading = styled(Heading)`
+  animation: slideIn ${props => props.theme.animationSlow} ease-out 1;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
 `;
 
 const AuthorLink = () => (
@@ -375,7 +471,7 @@ const Post: FC<PostProps> = ({
           url={url}
         />
 
-        <Heading>{title}</Heading>
+        <PostHeading>{title}</PostHeading>
 
         <Metadata>
           <Clock />

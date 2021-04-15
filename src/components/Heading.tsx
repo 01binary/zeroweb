@@ -41,11 +41,13 @@ export const getHeadingUrl = (
 
 interface HeadingProps {
     level?: number;
+    className: string;
 };
 
 export const Heading: FC<HeadingProps> = ({
     level = 1,
-    children
+    children,
+    className
 }) => {
     const { url } = useContext(BlogContext);
     const slug = getHeadingSlug(level === 1, children.toString());
@@ -53,7 +55,7 @@ export const Heading: FC<HeadingProps> = ({
     const HeadingElement: any = `h${level}`;
     
     return (
-        <HeadingWrapper>
+        <HeadingWrapper className={className}>
             <PermaLink url={permaLinkUrl} level={level} />
             <HeadingElement id={slug}>
                 <HeadingText>{children}</HeadingText>

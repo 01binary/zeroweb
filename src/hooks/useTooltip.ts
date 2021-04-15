@@ -112,7 +112,9 @@ export const useTooltipTarget = ({
 }: TooltipTargetOptions): TooltipTarget => {
   const targetRef = useRef<Element>(null);
   const popperRef = useRef<Instance>(null);
-  const isMobile = window.matchMedia(`(max-width: ${mobile})`).matches;
+  const isMobile = typeof window !== `undefined`
+    ? window.matchMedia(`(max-width: ${mobile})`).matches
+    : false;
 
   useEffect(() => {
     if (tooltipElement && targetRef.current) {

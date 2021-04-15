@@ -254,6 +254,23 @@ const TagWrapper = styled.li`
   width: ${CELL_WIDTH}px;
   height: ${CELL_HEIGHT}px;
 
+  animation: ${props => props.Inline
+    ? 'none'
+    : `slideIn ${.3 * (props.Index % 2 + 1)}s ease-out 1`
+  };
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translate(8px, 8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(0px, 0px)
+    }
+  }
+
   .tag-border {
     position: absolute;
     left: 0;
@@ -327,12 +344,14 @@ const TagList: FC<TagListProps> = ({
         Inline={inline}
         AlwaysInline={alwaysInline}
       >
-        {denorm.map(tag => (
+        {denorm.map((tag, index) => (
           <Tag
             key={tag.id}
+            index={index}
             tooltipElement={tipRef.current}
             showTip={showTip}
             hideTip={hideTip}
+            inline={inline || alwaysInline}
             {...tag}
           />
         ))}
@@ -351,6 +370,8 @@ interface TagProps {
   y: number;
   icon: JSX.Element;
   description: string;
+  inline: boolean;
+  index: number,
   tooltipElement: HTMLElement;
   showTip: ShowTipHandler;
   hideTip: HideTipHandler;
@@ -362,9 +383,11 @@ const Tag: FC<TagProps> = ({
   y,
   icon: Icon,
   description,
+  inline,
+  index,
+  tooltipElement,
   showTip,
   hideTip,
-  tooltipElement
 }) => {
   const {
     showTip: showTargetTip,
@@ -378,7 +401,12 @@ const Tag: FC<TagProps> = ({
   });
 
   return (
-    <TagWrapper X={x} Y={y}> 
+    <TagWrapper
+      X={x}
+      Y={y}
+      Inline={inline ? 1 : 0}
+      Index={index}
+    >
       <TagLink
         href={`/?tag=${id}`}
         ref={targetRef}

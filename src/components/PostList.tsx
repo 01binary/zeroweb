@@ -22,7 +22,7 @@ const ArticleLink = styled(Link)`
 `;
 
 const Title = styled.h2`
-  font-size: ${props => props.theme.headingFontSizeLarge};
+  font-size: ${props => props.theme.headingFontSizeMedium};
   margin-left: 0;
 `;
 

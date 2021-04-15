@@ -327,7 +327,7 @@ const Toggle = styled.button`
 interface ThemeToggleProps {
   isDark: boolean;
   toggleDark: () => void;
-}
+};
 
 const ThemeToggle: FC<ThemeToggleProps> = ({
   isDark,

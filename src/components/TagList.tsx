@@ -61,44 +61,49 @@ const PATTERN: CellOffset[] = [
 ];
 
 type Category = {
-  [key: string]: JSX.Element;
+  [key: string]: CategoryInfo
+};
+
+type CategoryInfo = {
+  icon: JSX.Element,
+  description: string
 };
 
 type CategoryMap = {
-  [key: string]: Category | JSX.Element;
+  [key: string]: Category | CategoryInfo;
 };
 
 const ICONS: CategoryMap = {
   // Tag icons for design disciplines
   design: {
-    graphic: DesignGraphic,
-    industrial: DesignIndustrial,
-    sound: DesignSound
+    graphic: { icon: DesignGraphic, description: 'Graphic design' },
+    industrial: { icon: DesignIndustrial, description: 'Industrial design' },
+    sound: { icon: DesignSound, description: 'Sound design' }
   },
 
   // Tag icons for engineering disciplines
   engineering: {
-    electrical: EngineeringElectrical,
-    mechanical: EngineeringMechanical,
-    robotics: EngineeringRobotics,
-    software: EngineeringSoftware
+    electrical: { icon: EngineeringElectrical, description: 'Electrical engineering' },
+    mechanical: { icon: EngineeringMechanical, description: 'Mechanical engineering' },
+    robotics: { icon: EngineeringRobotics, description: 'Robotics' },
+    software: { icon: EngineeringSoftware, description: 'Software engineering' }
   },
 
   // Tag icon for production discipline
-  production: Production,
+  production: { icon: Production, description: 'Media production' },
 
   // Tag icons for tools
   tool: {
-    ableton: ToolAbleton,
-    aftereffects: ToolAfterEffects,
-    arduino: ToolArduino,
-    blender: ToolBlender,
-    cpp: ToolCpp,
-    cs: ToolCs,
-    js: ToolJs,
-    inventor: ToolInventor,
-    premiere: ToolPremiere,
-    raspi: ToolRaspi
+    ableton: { icon: ToolAbleton, description: 'Ableton' },
+    aftereffects: { icon: ToolAfterEffects, description: 'AfterEffects' },
+    arduino: { icon: ToolArduino, description: 'Arduino' },
+    blender: { icon: ToolBlender, description: 'Blender' },
+    cpp: { icon: ToolCpp, description: 'C++' },
+    cs: { icon: ToolCs, description: 'C#' },
+    js: { icon: ToolJs, description: 'JavaScript' },
+    inventor: { icon: ToolInventor, description: 'Autodesk Inventor' },
+    premiere: { icon: ToolPremiere, description: 'Premiere' },
+    raspi: { icon: ToolRaspi, description: 'Raspberry Pi' }
   }
 };
 
@@ -120,8 +125,8 @@ const getTagIcon = (
   subCategory: string
 ): JSX.Element => (
   subCategory
-    ? ICONS[category][subCategory]
-    : ICONS[category]
+    ? ICONS[category][subCategory].icon
+    : ICONS[category].icon
 );
 
 const getTagDescription = (
@@ -129,8 +134,8 @@ const getTagDescription = (
   subCategory: string
 ): string => (
   subCategory
-    ? `${subCategory} ${category}`
-    : category
+    ? ICONS[category][subCategory].description
+    : ICONS[category].description
 );
 
 const mapTag = (tag: string): Tag => {

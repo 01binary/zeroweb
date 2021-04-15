@@ -4,6 +4,7 @@ import { PostsQuery } from '../models/AllPostsQuery';
 import { getDateValue, getDateUnits } from './Post';
 import { Link } from 'gatsby';
 import TagList from './TagList';
+import ClockIcon from '../images/clock.svg';
 
 const Article = styled.article`
   margin-left: ${props => props.theme.spacingHalf};
@@ -38,6 +39,12 @@ const InlineTags = styled.section`
   margin-bottom: ${props => props.theme.spacing};
 `;
 
+const Clock = styled(ClockIcon)`
+  position: relative;
+  top: 0.2em;
+  margin-right: ${props => props.theme.spacingQuarter};
+`;
+
 const PostList: FC<PostsQuery> = ({
     nodes
 }) => (
@@ -60,6 +67,7 @@ const PostList: FC<PostsQuery> = ({
           </Link>
           
           <Meta>
+            <Clock />
             <MetaIndicator>{getDateValue(relativeDate)} </MetaIndicator>
             {getDateUnits(relativeDate)}
             {timeToRead &&

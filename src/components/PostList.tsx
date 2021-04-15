@@ -11,6 +11,22 @@ const Article = styled.article`
   margin-right: ${props => props.theme.spacingHalf};
   padding-bottom: ${props => props.theme.spacingHalf};
   border-bottom: ${props => props.theme.border} dotted ${props => props.theme.borderColor};
+
+  opacity: 0;
+  animation: slideIn ${props => props.theme.animationSlow} ${props => .1 * (props.Index + 1)}s ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
 `;
 
 const ArticleLink = styled(Link)`
@@ -22,13 +38,15 @@ const ArticleLink = styled(Link)`
 `;
 
 const Title = styled.h2`
-  font-size: ${props => props.theme.headingFontSizeMedium};
+  font-size: ${props => props.theme.headingFontSizeLarge};
+  font-weight: ${props => props.theme.headingFontWeight};
   margin-left: 0;
+  margin-bottom: ${props => props.theme.spacingHalf};
 `;
 
 const Meta = styled.section`
   color: ${props => props.theme.secondaryTextColor};
-  margin-bottom: ${props => props.theme.spacing};
+  margin-bottom: ${props => props.theme.spacingHalf};
 `;
 
 const MetaIndicator = styled.span`
@@ -60,8 +78,8 @@ const PostList: FC<PostsQuery> = ({
           tags,
           url
         }
-      }) => (
-        <Article key={slug}>
+      }, index) => (
+        <Article key={slug} Index={index}>
           <Link to={url}>
             <Title>{title}</Title>
           </Link>

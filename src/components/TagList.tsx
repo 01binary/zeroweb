@@ -151,11 +151,12 @@ const mapTag = (tag: string): Tag => {
 
 const denormalizeTag = (
   tag: string,
-  index: number
+  index: number,
+  tags: string[]
 ): DisplayTag => ({
   ...mapTag(tag),
-  x: PATTERN[index].x,
-  y: PATTERN[index].y
+  x: tags.length === 1 ? 0 : PATTERN[index].x,
+  y: tags.length === 1 ? 0 : PATTERN[index].y
 });
 
 const denormalizeInlineTag = (
@@ -178,7 +179,9 @@ const getOffset = (
   if (alwaysInline) {
     return 0;
   } else {
-    if (count <= 4)
+    if (count === 1)
+      return 0;
+    else if (count <= 4)
       return -CELL_HEIGHT;
     else if (count === 7)
       return -19;
@@ -254,7 +257,9 @@ const TagWrapper = styled.li`
   width: ${CELL_WIDTH}px;
   height: ${CELL_HEIGHT}px;
 
-  animation: slideIn ${props => .3 * (props.Index % 2 + 1)}s ease-out 1;
+  opacity: 0;
+  animation: slideIn 0.3s ${props => .1 * (props.Index % 2 + 1)}s ease-out 1;
+  animation-fill-mode: forwards;
 
   @keyframes slideIn {
     0% {

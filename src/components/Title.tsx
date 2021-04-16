@@ -10,6 +10,8 @@ const BULLET_TOP = Math.ceil(NAVLINK_HEIGHT / 2 - NAVLINK_HEIGHT * 0.1);
 const CALLOUT_TOP = Math.ceil(BULLET_TOP / 2) + 0.5;
 const COLLECTION_OFFSETS = [ "articles", "projects", "about" ];
 
+// TODO: could we pass route index all the way from layout page?
+
 interface CalloutProps {
     offset: number;
     className?: string;
@@ -88,6 +90,8 @@ const Heading = styled.h1`
     }
 
     @media (max-width: ${props => props.theme.mobile}) {
+        font-size: ${props => props.theme.headingFontSizeLargest} !important;
+        margin-top: 0;
         margin-left: ${props => props.theme.spacingHalf};
     }
 `;

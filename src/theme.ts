@@ -34,6 +34,7 @@ const typography = {
 
     headingFont: 'Open Sans, Helvetica Neue, Arial, sans-serif',
     headingFontWeight: 600,
+    headingFontSizeLargest: '22pt',
     headingFontSizeLarge: '20pt',
     headingFontSizeMedium: '16pt',
     headingFontSizeSmall: '15pt',

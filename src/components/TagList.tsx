@@ -254,10 +254,7 @@ const TagWrapper = styled.li`
   width: ${CELL_WIDTH}px;
   height: ${CELL_HEIGHT}px;
 
-  animation: ${props => props.Inline
-    ? 'none'
-    : `slideIn ${.3 * (props.Index % 2 + 1)}s ease-out 1`
-  };
+  animation: slideIn ${props => .3 * (props.Index % 2 + 1)}s ease-out 1;
 
   @keyframes slideIn {
     0% {

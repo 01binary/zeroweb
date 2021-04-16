@@ -6,6 +6,7 @@ const unit = 30;
 const spacing = {
     unit: unit,
     border: '2px',
+    borderRadius: '4px',
     spacing: `${unit}px`,
     spacingDouble: `${unit * 2}px`,
     spacingTriple: `${unit * 3}px`,

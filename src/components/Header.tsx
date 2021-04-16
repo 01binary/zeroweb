@@ -86,7 +86,8 @@ const Hero = styled.header`
     left: 0;
     top: 0;
     right: 0;
-    margin-top: 0;
+    margin: 0;
+    max-width: initial;
     height: ${props => props.theme.spacingDouble};
     background: none;
     color: ${props => props.theme.foregroundColor};
@@ -96,9 +97,9 @@ const Hero = styled.header`
       position: absolute;
       background: ${props => props.theme.backgroundColor};
       opacity: .8;
-      left: -100px;
+      left: 0;
       top: 0;
-      width: calc(100% + 200px);
+      width: 100%;
       height: 100%;
       transform: none;
       box-shadow: 0 0 5px ${props => props.theme.dropShadowLightColor};
@@ -266,17 +267,27 @@ const Navigation = styled.nav`
   }
 `;
 
+const Toolbar = styled.section`
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+
+  @media (min-width: ${props => props.theme.mobile}) {
+    margin-right: ${props => props.theme.spacing};
+    padding-top: ${props => props.theme.spacing};
+  }
+`;
+
 const Toggle = styled.button`
-  position: absolute;
-  top: ${props => props.theme.spacing};
-  right: ${props => props.theme.spacing};
+  position: relative;
   width: ${props => props.theme.spacingOneAndThird};
   height: ${props => props.theme.spacingOneAndThird};
   background: none;
   border: none;
   appearance: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: ${props => props.theme.borderRadius};
 
   svg {
     position: absolute;
@@ -285,16 +296,16 @@ const Toggle = styled.button`
   }
 
   &:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: ${props => props.theme.shadowDarkColor};
-    opacity: 0;
-    transition: opacity ${props => props.theme.animationFast} ease-out;
-    border-radius: ${props => props.theme.border};
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: ${props => props.theme.shadowDarkColor};
+      opacity: 0;
+      transition: opacity ${props => props.theme.animationFast} ease-out;
+      border-radius: ${props => props.theme.borderRadius};
   }
 
   &:hover {
@@ -310,7 +321,6 @@ const Toggle = styled.button`
 
   @media (max-width: ${props => props.theme.mobile}) {
     top: ${props => props.theme.border};
-    right: ${props => props.theme.spacingDouble};
     width: ${props => props.theme.spacingDouble};
     height: calc(
       ${props => props.theme.spacingDouble} - ${props => props.theme.border} - ${props => props.theme.border}
@@ -351,7 +361,7 @@ const Header: FC<HeaderProps> = ({
   const { isDark, toggleDark } = useStyledDarkMode();
   const [ menuOpen, showMenu ] = useState(false);
   return (
-    <Hero isDark={isDark}>
+    <Hero isDark={isDark} role="banner">
       <Link to="/">
         <Logo />
       </Link>
@@ -360,12 +370,10 @@ const Header: FC<HeaderProps> = ({
         <span>01</span> binary: tech art<Caret/>
       </Title>
 
-      <ThemeToggle isDark={isDark} toggleDark={toggleDark} />
-
-      <Hamburger
-        menuOpen={menuOpen}
-        showMenu={showMenu}
-      />
+      <Toolbar role="toolbar">
+        <ThemeToggle isDark={isDark} toggleDark={toggleDark} />
+        <Hamburger menuOpen={menuOpen} showMenu={showMenu} />
+      </Toolbar>
 
       <Navigation
         menuOpen={menuOpen}

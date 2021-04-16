@@ -51,7 +51,7 @@ const Callout: FC<CalloutProps> = ({
 );
 
 const Decorator = styled(Callout)`
-    margin-bottom:-8px;
+    margin-bottom: -8px;
     margin-right: -${props => props.offset - 16}px;
 
     .title-bullet {
@@ -70,7 +70,22 @@ const Decorator = styled(Callout)`
 `;
 
 const Heading = styled.h1`
-    margin-top: 0;
+    margin-top: calc(-1em - 8px);
+    margin-left: ${props => props.theme.spacingHalf};
+
+    animation: slideIn ${props => props.theme.animationSlow} ease-out 1;
+
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
 
     @media (max-width: ${props => props.theme.mobile}) {
         margin-left: ${props => props.theme.spacingHalf};
@@ -85,14 +100,14 @@ const Title: FC<TitleProps> = ({
     collection,
     children
 }) => (
-    <Heading>
+    <div>
         <Decorator offset={
             NAVLINK_WIDTH *
             (COLLECTION_OFFSETS.indexOf(collection) + 1) -
             BRACKET_OFFSET
         } />
-        {children}
-    </Heading>
+        <Heading>{children}</Heading>
+    </div>
 );
 
 export default Title;

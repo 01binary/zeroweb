@@ -7,14 +7,34 @@ const Text = styled.p`
     margin-right: ${props => props.theme.spacingHalf};
 `;
 
-const Content = styled.main`
+const Page = styled.main`
+`;
+
+const Content = styled.article`
+    opacity: 0;
+    animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
+    animation-fill-mode: forwards;
+
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateY(8px)
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0px)
+        }
+    }
 `;
 
 const About: FC = () => (
-    <Content>
+    <Page>
         <Title collection={"about"}>About</Title>
-        <Text>About info here</Text>
-    </Content>
+        <Content>
+            <Text>About info here</Text>
+        </Content>
+    </Page>
 );
 
 export default About;

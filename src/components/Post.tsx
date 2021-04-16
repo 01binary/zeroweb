@@ -217,7 +217,7 @@ const Wheelhouse = styled.section`
   margin-left: -${props => props.theme.unit + WHEEL_SIZE}px;
 
   opacity: 0;
-  animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
+  animation: slideIn ${props => props.theme.animationSlow} ease-out 1;
   animation-fill-mode: forwards;
 
   @keyframes slideIn {

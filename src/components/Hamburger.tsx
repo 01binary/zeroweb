@@ -4,12 +4,11 @@ import styled from 'styled-components';
 const HamburgerButton = styled.input.attrs(
     () => ({
         id: 'hamburger',
-        type: 'checkbox'
+        type: 'checkbox',
+        className: 'hide'
     })
 )`
-    display: none;
-
-    &:focus > label {
+    &:focus + label {
         outline: none;
         box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
     }
@@ -27,11 +26,8 @@ const HamburgerHelper = styled.label.attrs(
         display: block;
         top: ${props => props.theme.border};
         width: ${props => props.theme.spacingDouble};
-        height: calc(
-            ${props => props.theme.spacingDouble} -
-            ${props => props.theme.border} -
-            ${props => props.theme.border}
-        );
+        height: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} - ${props => props.theme.border});
+        margin-right: ${props => props.theme.border};
         border-radius: ${props => props.theme.borderRadius};
         cursor: pointer;
 
@@ -121,15 +117,15 @@ const Hamburger: FunctionComponent<IHamburgerProps> = ({
     <>
         <HamburgerButton />
         <HamburgerHelper menuOpen={menuOpen} onClick={() => showMenu(!menuOpen)}>
-        <HamburgerIcon width="24px" height="24px" viewBox="0 0 24 24" menuOpen={menuOpen}>
-            <g className="clipped">
-                <path className="menu wave stroke-foreground fill-none" d="M0,7c12,0,12,8,24,8c12,0,12-8,24-8s12,8,24,8"/>
-                <line className="menu stroke-foreground fill-none" x1="0" y1="3.5" x2="24" y2="3.5"/>
-                <line className="menu stroke-foreground fill-none" x1="0" y1="19.5" x2="24" y2="19.5"/>
-                <line className="close-first stroke-foreground" strokeWidth="1" x1="22" y1="2" x2="2" y2="22"/>
-                <line className="close-second stroke-foreground" strokeWidth="1" x1="2" y1="2" x2="22" y2="22"/>
-            </g>
-        </HamburgerIcon>
+            <HamburgerIcon width="24px" height="24px" viewBox="0 0 24 24" menuOpen={menuOpen}>
+                <g className="clipped">
+                    <path className="menu wave stroke-foreground fill-none" d="M0,7c12,0,12,8,24,8c12,0,12-8,24-8s12,8,24,8"/>
+                    <line className="menu stroke-foreground fill-none" x1="0" y1="3.5" x2="24" y2="3.5"/>
+                    <line className="menu stroke-foreground fill-none" x1="0" y1="19.5" x2="24" y2="19.5"/>
+                    <line className="close-first stroke-foreground" strokeWidth="1" x1="22" y1="2" x2="2" y2="22"/>
+                    <line className="close-second stroke-foreground" strokeWidth="1" x1="2" y1="2" x2="22" y2="22"/>
+                </g>
+            </HamburgerIcon>
         </HamburgerHelper>
     </>
 );

@@ -13,7 +13,7 @@ const Article = styled.article`
   border-bottom: ${props => props.theme.border} dotted ${props => props.theme.borderColor};
 
   opacity: 0;
-  animation: slideIn ${props => props.theme.animationSlow} ${props => .1 * (props.Index + 1)}s ease-out 1;
+  animation: slideIn ${props => props.theme.animationSlow} ${props => .12 * (props.Index + 1)}s ease-out 1;
   animation-fill-mode: forwards;
 
   @keyframes slideIn {

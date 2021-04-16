@@ -20,17 +20,19 @@ const HamburgerHelper = styled.label.attrs(
         htmlFor: 'hamburger'
     })
 )`
+    position: relative;
     display: none;
 
     @media (max-width: ${props => props.theme.mobile}) {
         display: block;
-        position: fixed;
         top: ${props => props.theme.border};
-        right: 0;
         width: ${props => props.theme.spacingDouble};
         height: calc(
-            ${props => props.theme.spacingDouble} - ${props => props.theme.border} - ${props => props.theme.border}
+            ${props => props.theme.spacingDouble} -
+            ${props => props.theme.border} -
+            ${props => props.theme.border}
         );
+        border-radius: ${props => props.theme.borderRadius};
         cursor: pointer;
 
         &:before {
@@ -43,7 +45,7 @@ const HamburgerHelper = styled.label.attrs(
             background: ${props => props.theme.shadowDarkColor};
             opacity: 0;
             transition: opacity ${props => props.theme.animationFast} ease-out;
-            border-radius: ${props => props.theme.border};
+            border-radius: ${props => props.theme.borderRadius};
         }
 
         &:hover {

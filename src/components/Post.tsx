@@ -504,7 +504,7 @@ const Post: FC<PostProps> = ({
 
         <HeroImage fluid={fluid} />
 
-        <Content>
+        <Content role="document">
           <MDXRenderer>
             {body}
           </MDXRenderer>

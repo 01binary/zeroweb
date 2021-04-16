@@ -256,6 +256,12 @@ export const GlobalStyle = createGlobalStyle`
     background: ${props => props.theme.focusColor};
   }
 
+  .hide {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+  }
+
   .fill-background {
     fill: ${props => props.theme.accentShadowColor};
   }

@@ -196,6 +196,12 @@ const Logo = styled(LogoImage)`
   }
 `;
 
+const LogoLink = styled(Link)`
+  &:focus svg {
+    box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
+  }
+`;
+
 const Navigation = styled.nav`
   display: flex;
   position: absolute;
@@ -362,9 +368,9 @@ const Header: FC<HeaderProps> = ({
   const [ menuOpen, showMenu ] = useState(false);
   return (
     <Hero isDark={isDark} role="banner">
-      <Link to="/">
+      <LogoLink to="/">
         <Logo />
-      </Link>
+      </LogoLink>
 
       <Title>
         <span>01</span> binary: tech art<Caret/>

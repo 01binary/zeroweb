@@ -212,10 +212,12 @@ const LogoLink = styled(Link)`
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
-    top: ${props => props.theme.border};
-    left: 17px;
-    width: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
-    height: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
+    &:after {
+      top: ${props => props.theme.border};
+      left: 17px;
+      width: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
+      height: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
+    }
   }
 `;
 

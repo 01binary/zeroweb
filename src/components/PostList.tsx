@@ -63,6 +63,29 @@ const Clock = styled(ClockIcon)`
   margin-right: ${props => props.theme.spacingQuarter};
 `;
 
+const ArticleTitleLink = styled(Link)`
+  &:focus {
+    outline: none;
+    box-shadow: initial;
+    border-radius: initial;
+  }
+
+  h2 {
+    position: relative;
+  }
+
+  &:focus h2:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
+    border-radius: ${props => props.theme.borderRadius};
+  }
+`;
+
 const PostList: FC<PostsQuery> = ({
     nodes
 }) => (
@@ -80,9 +103,9 @@ const PostList: FC<PostsQuery> = ({
         }
       }, index) => (
         <Article key={slug} Index={index}>
-          <Link to={url}>
+          <ArticleTitleLink to={url}>
             <Title>{title}</Title>
-          </Link>
+          </ArticleTitleLink>
           
           <Meta>
             <Clock />

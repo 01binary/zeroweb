@@ -197,7 +197,17 @@ const Logo = styled(LogoImage)`
 `;
 
 const LogoLink = styled(Link)`
-  &:focus svg {
+  &:after {
+      content: '';
+      position: absolute;
+      top: ${props => props.theme.border};
+      left: 17px;
+      width: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
+      height: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
+      border-radius: ${props => props.theme.borderRadius};
+    }
+
+  &:focus:after {
     box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
   }
 `;
@@ -328,9 +338,7 @@ const Toggle = styled.button`
   @media (max-width: ${props => props.theme.mobile}) {
     top: ${props => props.theme.border};
     width: ${props => props.theme.spacingDouble};
-    height: calc(
-      ${props => props.theme.spacingDouble} - ${props => props.theme.border} - ${props => props.theme.border}
-    );
+    height: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
 
     svg {
       position: absolute;

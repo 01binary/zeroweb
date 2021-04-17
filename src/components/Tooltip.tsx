@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+const getTooltipColor = ({
+  theme: {
+    isDark,
+    foregroundColor,
+    dropShadowTransparentColor
+  }
+}) => (
+  isDark
+  ? `${foregroundColor}EE`
+  : `${dropShadowTransparentColor}CC`
+);
+
 export const Tooltip = styled.div.attrs(() => ({
   className: "tooltip"
 }))`
@@ -11,9 +23,7 @@ export const Tooltip = styled.div.attrs(() => ({
   color: ${props => props.theme.isDark
     ? props.theme.backgroundColor
     : props.theme.primaryTextColor};
-  background: ${props => props.theme.isDark
-    ? props.theme.foregroundColor
-    : props.theme.dropShadowTransparentColor}CC;
+  background: ${props => getTooltipColor(props)};
 
   position: absolute;
   border-radius: ${props => props.theme.spacingSmall};
@@ -39,9 +49,7 @@ export const Tooltip = styled.div.attrs(() => ({
   &[data-popper-placement="top"] [data-popper-arrow] {
     top: 100%;
     border-color:
-      ${props => props.theme.isDark
-        ? props.theme.foregroundColor
-        : props.theme.dropShadowTransparentColor}CC
+      ${props => getTooltipColor(props)}
       transparent
       transparent
       transparent
@@ -53,9 +61,7 @@ export const Tooltip = styled.div.attrs(() => ({
     border-color:
       transparent
       transparent
-      ${props => props.theme.isDark
-        ? props.theme.foregroundColor
-        : props.theme.dropShadowTransparentColor}CC
+      ${props => getTooltipColor(props)}
       transparent
     ;
   }

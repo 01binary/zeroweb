@@ -26,7 +26,7 @@ const HamburgerHelper = styled.label.attrs(
         display: block;
         top: ${props => props.theme.border};
         width: ${props => props.theme.spacingDouble};
-        height: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} - ${props => props.theme.border});
+        height: calc(${props => props.theme.spacingDouble} - ${props => props.theme.border} * 2);
         margin-right: ${props => props.theme.border};
         border-radius: ${props => props.theme.borderRadius};
         cursor: pointer;

@@ -30,6 +30,12 @@ const StyledLink = styled(Link)`
       }
   }
 
+  &:focus {
+    outline: none;
+    border-radius: ${props => props.theme.borderRadius};
+    box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
+  }
+
   .navigation-border {
       fill: ${props => props.theme.accentTextColor};
       z-index: 6;

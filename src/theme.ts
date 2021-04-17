@@ -241,6 +241,12 @@ export const GlobalStyle = createGlobalStyle`
     };
     text-decoration: none;
     transition: color ${props => props.theme.animationFast} ease-out;
+
+    &:focus {
+      border-radius: ${props => props.theme.borderRadius};
+      box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
+      outline: none;
+    }
   
     &:hover {
       color: ${props => props.theme.isDark

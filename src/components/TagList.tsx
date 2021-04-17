@@ -306,8 +306,10 @@ const TagLink = styled.a`
   }
 
   &:focus {
-    outline: none;
     z-index: 1;
+    outline: none;
+    border-radius: initial;
+    box-shadow: initial;
 
     .stroke-border {
       stroke: ${props => props.theme.focusColor};

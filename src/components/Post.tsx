@@ -216,9 +216,8 @@ const Wheelhouse = styled.section`
   height: ${WHEEL_SIZE};
   margin-left: -${props => props.theme.unit + WHEEL_SIZE}px;
 
-  opacity: 0;
+  opacity: 1;
   animation: slideIn ${props => props.theme.animationSlow} ease-out 1;
-  animation-fill-mode: forwards;
 
   @keyframes slideIn {
     0% {
@@ -234,8 +233,8 @@ const Wheelhouse = styled.section`
 
   transform: translateY(0);
   transition:
-    opacity .3s ease-out,
-    transform .5s ease-out;
+    opacity ${props => props.theme.animationFast} ease-out,
+    transform ${props => props.theme.animationSlow} ease-out;
 
   @media(max-width: ${props => props.theme.wide}) {
     opacity: 0;

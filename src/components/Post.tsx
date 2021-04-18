@@ -435,25 +435,29 @@ interface PostProps {
 };
 
 const Post: FC<PostProps> = ({
-    data: {
-        mdx: {
-            body,
-            timeToRead,
-            frontmatter: {
-                title,
-                description,
-                image: {
-                  childImageSharp: { fluid }
-                },
-                relativeDate
-            },
-            fields: {
-              url,
-              tags
-            },
-            headings
-        }
+  data: {
+    mdx: {
+      body,
+      timeToRead,
+      frontmatter: {
+        title,
+        description,
+        image: {
+          childImageSharp: { fluid }
+        },
+        relativeDate
+      },
+      fields: {
+        url,
+        collection,
+        tags
+      },
+      headings
+    },
+    allMdx: {
+      group
     }
+  }
 }) => {
   const [ readPosition, setReadPosition ] = useState<number>(0);
 
@@ -494,8 +498,8 @@ const Post: FC<PostProps> = ({
               <Indicator>{timeToRead}</Indicator><span> min </span>
               <IndicatorLabel>to read</IndicatorLabel>
             </SidebarMetadata>
-            <TagList tags={tags} />
-            <TagList tags={tags} inline />
+            <TagList tags={tags} stats={group} collection={collection} />
+            <TagList tags={tags} stats={group} collection={collection} inline />
           </SidebarPanel>
 
           <TOC headings={slugifyHeadings(url, headings)} />
@@ -513,8 +517,8 @@ const Post: FC<PostProps> = ({
 };
 
 export const pageQuery = graphql`
-  query($slug: String!) {
-    mdx(slug: { eq: $slug } ) {
+  query($slug: String!, $collection: String!) {
+    mdx(slug: { eq: $slug }) {
       slug
       body
       timeToRead
@@ -540,6 +544,12 @@ export const pageQuery = graphql`
       headings {
         value
         depth
+      }
+    }
+    allMdx(filter: {fields: {collection: {eq: $collection}}}) {
+      group(field: frontmatter___tags) {
+        tag: fieldValue
+        totalCount
       }
     }
   }

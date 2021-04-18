@@ -1,5 +1,6 @@
 import PostMetadataQuery from './PostMetadataQuery';
 import HeadingQuery from './HeadingQuery';
+import TagsQuery from './TagsQuery';
 
 interface PostFieldsQuery {
     url: string;
@@ -15,6 +16,7 @@ interface PostDetailsQuery {
     fields: PostFieldsQuery;
     headings: Array<HeadingQuery>;
     mdx: PostDetailsQuery;
+    allMdx: TagsQuery;
 };
 
 export default PostDetailsQuery;

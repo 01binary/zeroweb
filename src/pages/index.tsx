@@ -9,13 +9,18 @@ interface IndexProps {
 };
 
 const Index: FC<IndexProps> = ({
-  data: { allMdx: { nodes } }
+  data: {
+    allMdx: {
+      nodes,
+      group
+    }
+  }
 }) => (
   <main>
     <Title collection={"articles"}>
       Articles
     </Title>
-    <PostList nodes={nodes} />
+    <PostList nodes={nodes} group={group} />
   </main>
 );
 
@@ -36,8 +41,13 @@ export const query = graphql`
         }
         fields {
           url,
+          collection
           tags
         }
+      }
+      group(field: frontmatter___tags) {
+        tag: fieldValue
+        totalCount
       }
     }
   }

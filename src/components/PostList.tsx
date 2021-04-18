@@ -87,7 +87,8 @@ const ArticleTitleLink = styled(Link)`
 `;
 
 const PostList: FC<PostsQuery> = ({
-    nodes
+    nodes,
+    group
 }) => (
     <>
     {nodes.map(({
@@ -99,6 +100,7 @@ const PostList: FC<PostsQuery> = ({
         },
         fields: {
           tags,
+          collection,
           url
         }
       }, index) => (
@@ -120,7 +122,12 @@ const PostList: FC<PostsQuery> = ({
           </Meta>
 
           <InlineTags>
-            <TagList tags={tags} alwaysInline />
+            <TagList
+              tags={tags}
+              stats={group}
+              collection={collection}
+              alwaysInline
+            />
           </InlineTags>
           
           <ArticleLink to={url}>

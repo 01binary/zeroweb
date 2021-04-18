@@ -3,7 +3,7 @@ title: Another one but really long title this time, yep super long
 description: This is another article
 image: ./images/test.png
 date: 2021-02-11
-tags: engineering-electrical, tool-raspi
+tags: ["engineering-electrical", "tool-raspi"]
 ---
 
 Another article here, no title needed

@@ -33,7 +33,8 @@ exports.createPages = async ({
             component: post,
             context: {
                 // Template GraphQL query parameters
-                slug: slug,
+                slug,
+                collection
             },
         })
     });
@@ -65,9 +66,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
         createNodeField({
             node,
             name: 'tags',
-            value: node.frontmatter.tags
-                .split(',')
-                .map(t => t.trim().toLowerCase())
+            value: node.frontmatter.tags.map(t => t.trim().toLowerCase())
         });
     }
 };

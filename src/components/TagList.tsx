@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { TagGroup } from '../models/TagsQuery';
 import { Tooltip, Arrow } from './Tooltip';
 import {
   useTooltipController,
@@ -319,12 +320,16 @@ const TagLink = styled.a`
 
 interface TagListProps {
   tags: string[];
+  stats: TagGroup[];
+  collection: string;
   inline?: boolean;
   alwaysInline?: boolean;
 };
 
 const TagList: FC<TagListProps> = ({
   tags,
+  stats,
+  collection,
   alwaysInline,
   inline
 }) => {
@@ -332,13 +337,20 @@ const TagList: FC<TagListProps> = ({
     ? denormalizeInlineTag
     : denormalizeTag);
 
+  const counts = stats.reduce((acc, { tag, totalCount }) => {
+    acc[tag] = totalCount;
+    return acc;
+  }, {});
+
   const {
     showTip,
     hideTip,
     tooltipText,
     tipProps,
     tipRef
-   } = useTooltipController();
+  } = useTooltipController();
+
+  const lines = tooltipText?.split('\n');
 
   return (
     <>
@@ -356,12 +368,16 @@ const TagList: FC<TagListProps> = ({
             showTip={showTip}
             hideTip={hideTip}
             inline={inline || alwaysInline}
+            group={collection}
+            groupCount={counts[tag.id]}
             {...tag}
           />
         ))}
       </TagListWrapper>
       <Tooltip {...tipProps} role="tooltip">
-        {tooltipText}
+        {lines && lines.map((line, index) =>
+          <div key={index}>{line}</div>
+        )}
         <Arrow />
       </Tooltip>
     </>
@@ -374,8 +390,10 @@ interface TagProps {
   y: number;
   icon: JSX.Element;
   description: string;
+  group: string;
+  groupCount: number;
   inline: boolean;
-  index: number,
+  index: number;
   tooltipElement: HTMLElement;
   showTip: ShowTipHandler;
   hideTip: HideTipHandler;
@@ -387,6 +405,8 @@ const Tag: FC<TagProps> = ({
   y,
   icon: Icon,
   description,
+  group,
+  groupCount,
   inline,
   index,
   tooltipElement,
@@ -414,7 +434,8 @@ const Tag: FC<TagProps> = ({
       <TagLink
         href={`/?tag=${id}`}
         ref={targetRef}
-        onMouseOver={() => showTargetTip(description)}
+        onMouseOver={() =>
+          showTargetTip(`${description}\n(${groupCount} ${groupCount === 1 ? group.substr(0, group.length - 1) : group})`)}
         onMouseOut={hideTip}
       >
         <Cell className="tag-border" />

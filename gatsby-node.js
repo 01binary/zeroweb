@@ -6,8 +6,8 @@ exports.createPages = async ({
     reporter
 }) => {
     const {
-        errors,
-        data: { allMdx: { nodes } }
+        data: { allMdx: { nodes } },
+        errprs: postErrors,
     } = await graphql(`
     {
         allMdx {
@@ -20,24 +20,61 @@ exports.createPages = async ({
           }
     }`);
 
-    if (errors) {
-        reporter.panicOnBuild(`Error while running GraphQL query`);
+    const {
+        data: { allMdx: { group: tags } },
+        errors: tagErrors,
+    } = await graphql(`
+    {
+        allMdx {
+          group(field: frontmatter___tags) {
+            tag: fieldValue
+          }
+        }
+    }`);
+
+    if (postErrors || tagErrors) {
+        reporter.panicOnBuild(`Error while running GraphQL queries`);
         return;
     }
 
+    // Generate posts
     const post = require.resolve('./src/components/Post.tsx');
 
-    nodes.forEach(({ slug, fields: { collection } }) => {
+    nodes.forEach(({
+        slug,
+        fields: {
+            collection
+        }
+    }) => {
         createPage({
             path: `${collection}/${slug}`,
             component: post,
             context: {
-                // Template GraphQL query parameters
                 slug,
                 collection
             },
-        })
+        });
     });
+
+    // Generate tags
+    const index = {
+        articles: require.resolve('./src/pages/index.tsx'),
+        projects: require.resolve('./src/pages/projects.tsx'),
+    };
+
+    Object
+        .keys(index)
+        .forEach((collection) => {
+            tags.forEach(({ tag }) => {
+                createPage({
+                    path: `${collection}/tags/${tag}`,
+                    component: index[collection],
+                    context: {
+                        tag
+                    }
+                });
+            });
+        });
 };
 
 exports.onCreateNode = ({ node, getNode, actions }) => {

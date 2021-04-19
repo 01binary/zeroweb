@@ -25,11 +25,16 @@ const Index: FC<IndexProps> = ({
 );
 
 export const query = graphql`
-  query {
+  query($tag: String) {
     allMdx
     (
       sort: { fields: [frontmatter___date], order: DESC },
-      filter: { fields: { collection: { eq: "articles" } } }
+      filter: {
+        fields: {
+          collection: { eq: "articles" },
+          tags: { eq: $tag }
+        }
+      }
     ) {
       nodes {
         slug

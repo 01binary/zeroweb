@@ -384,6 +384,17 @@ const TagList: FC<TagListProps> = ({
   );
 };
 
+const getTooltipText = (
+  description: string,
+  group: string,
+  groupCount: number
+): string => (
+  `${description}\n(${groupCount} ${
+    groupCount === 1
+    ? group.substr(0, group.length - 1)
+    : group})`
+);
+
 interface TagProps {
   id: string;
   x: number;
@@ -432,10 +443,11 @@ const Tag: FC<TagProps> = ({
       Index={index}
     >
       <TagLink
-        href={`/?tag=${id}`}
+        href={`/${group}/tags/${id}`}
         ref={targetRef}
-        onMouseOver={() =>
-          showTargetTip(`${description}\n(${groupCount} ${groupCount === 1 ? group.substr(0, group.length - 1) : group})`)}
+        onMouseOver={() => showTargetTip(
+          getTooltipText(description, group, groupCount)
+        )}
         onMouseOut={hideTip}
       >
         <Cell className="tag-border" />

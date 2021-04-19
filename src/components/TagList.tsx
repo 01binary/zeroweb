@@ -121,6 +121,25 @@ interface DisplayTag extends Tag {
   y: number;
 };
 
+export const getTagComponents = (tag: string) => (
+  tag
+    ? tag.trim().split('-')
+    : []
+);
+
+export const getTagFilter = (url: string) => (
+  url.indexOf('/tags/') === -1
+  ? null
+  : url.split('/')[3]
+);
+
+export const getTagDescriptionById = (tagId: string): string => {
+  const [ category, subCategory ] = getTagComponents(tagId);
+  return tagId
+    ? getTagDescription(category, subCategory)
+    : '';
+};
+
 const getTagIcon = (
   category: string,
   subCategory: string
@@ -140,7 +159,7 @@ const getTagDescription = (
 );
 
 const mapTag = (tag: string): Tag => {
-  const [ category, subCategory ] = tag.trim().split('-');
+  const [ category, subCategory ] = getTagComponents(tag);
   return {
     id: tag,
     category,

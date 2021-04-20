@@ -79,7 +79,7 @@ exports.createPages = async ({
     CONTENT.forEach(({ path, collection}) => {
         tags.forEach(({ tag }) => {
             createPage({
-                path: `${path}/tags/${tag}`,
+                path: `${path.substring(1)}/tags/${tag}`,
                 component: postIndex,
                 context: {
                     collection,

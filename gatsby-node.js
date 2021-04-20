@@ -1,4 +1,5 @@
-const createFilePath = require('gatsby-source-filesystem').createFilePath;
+import { paginate } from 'gatsby-awesome-pagination';
+import { createFilePath } from 'gatsby-source-filesystem';
 
 exports.createPages = async ({
     actions: { createPage },
@@ -56,25 +57,37 @@ exports.createPages = async ({
         });
     });
 
-    // Generate tags
-    const index = {
-        articles: require.resolve('./src/pages/index.tsx'),
-        projects: require.resolve('./src/pages/projects.tsx'),
-    };
+    // Generate index pages
+    const postIndex = require.resolve('./src/components/PostIndex.tsx');
+    const collections = [ 'articles', 'projects' ];
+    const collectionPaths = [ '/', '/projects' ];
 
-    Object
-        .keys(index)
-        .forEach((collection) => {
-            tags.forEach(({ tag }) => {
-                createPage({
-                    path: `${collection}/tags/${tag}`,
-                    component: index[collection],
-                    context: {
-                        tag
-                    }
-                });
+    collections.forEach((collection, index) => {
+        paginate({
+            createPage,
+            items: nodes
+                .filter(node => node.fields.collection === collection),
+            itemsPerPage: 5,
+            pathPrefix: collectionPaths[index],
+            component: postIndex,
+            context: {
+                collection
+            }
+        });
+    });
+
+    // Generate tags pages
+    collections.forEach((collection, index) => {
+        tags.forEach(({ tag }) => {
+            createPage({
+                path: `${collectionPaths[index]}/tags/${tag}`,
+                component: postIndex,
+                context: {
+                    tag
+                }
             });
         });
+    });
 };
 
 exports.onCreateNode = ({ node, getNode, actions }) => {

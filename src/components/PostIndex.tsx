@@ -21,6 +21,10 @@ interface IndexQuery {
   pageContext: IndexPageContext;
 };
 
+const getCollectionText = (collection: string) => (
+  collection[0].toUpperCase() + collection.substr(1)
+);
+
 /**
  * Index page for articles and projects
  * @param props - The index page query.
@@ -29,6 +33,8 @@ interface IndexQuery {
 const PostIndex: FC<IndexQuery> = ({
   pageContext: {
     collection,
+    pageNumber,
+    numberOfPages,
     nextPagePath,
     previousPagePath
   },
@@ -42,11 +48,13 @@ const PostIndex: FC<IndexQuery> = ({
   const { url } = useContext(BlogContext);
   const tagId = getTagFilter(url);
   const tagDescription = getTagDescriptionById(tagId);
+  const hasNext = pageNumber < numberOfPages - 1;
+  const hasPrev = pageNumber > 0;
 
   return (
     <main>
       <Title collection={collection}>
-        {collection[0].toUpperCase() + collection.substr(1)}
+        {getCollectionText(collection)}
       </Title>
 
       {tagId &&
@@ -56,8 +64,8 @@ const PostIndex: FC<IndexQuery> = ({
       <PostList nodes={nodes} group={group} />
 
       <div>
-        <Link to={previousPagePath}>Previous</Link>
-        <Link to={nextPagePath}>Next</Link>
+        {hasPrev && <Link to={previousPagePath}>Previous</Link>}
+        {hasNext && <Link to={nextPagePath}>Next</Link>}
       </div>
     </main>
   );

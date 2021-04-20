@@ -13,6 +13,19 @@ import DarkIcon from "../images/dark.svg";
 import ArticlesBackground from "../images/navigation-articles.svg"
 import ProjectsBackground from "../images/navigation-projects.svg"
 import AboutBackground from "../images/navigation-about.svg"
+import ROUTES from '../routes';
+
+const BACKGROUNDS = {
+  articles: ArticlesBackground,
+  projects: ProjectsBackground,
+  about: AboutBackground
+};
+
+const ICONS = {
+  articles: ArticlesIcon,
+  projects: ProjectsIcon,
+  about: AboutIcon
+};
 
 const Hero = styled.header`
   font-family: ${props => props.theme.titleFont};
@@ -402,15 +415,11 @@ const Header: FC<HeaderProps> = ({
         menuOpen={menuOpen}
         onClick={() => showMenu(false)}
       >
-        <NavLink to="/" path={path} icon={ArticlesIcon} background={ArticlesBackground}>
-          articles
-        </NavLink>
-        <NavLink to="/projects" path={path} icon={ProjectsIcon} background={ProjectsBackground}>
-          projects
-        </NavLink>
-        <NavLink to="/about" path={path} icon={AboutIcon} background={AboutBackground}>
-          about
-        </NavLink>
+        {ROUTES.map(({ collection, path: routePath }) => (
+          <NavLink to={routePath} path={path} icon={ICONS[collection]} background={BACKGROUNDS[collection]}>
+            {collection}
+          </NavLink>
+        ))}
       </Navigation>
     </Hero>
   );

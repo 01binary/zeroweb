@@ -27,6 +27,7 @@ import ToolJs from '../images/tool-js.svg';
 import ToolPremiere from '../images/tool-premiere.svg';
 import ToolRaspi from '../images/tool-raspi.svg';
 import Cell from '../images/cell.svg';
+import CONTENT from '../routes';
 
 // Expected tag icon size
 const ICON_SIZE = 36;
@@ -125,12 +126,6 @@ export const getTagComponents = (tag: string) => (
   tag
     ? tag.trim().split('-')
     : []
-);
-
-export const getTagFilter = (url: string) => (
-  url.indexOf('/tags/') === -1
-  ? null
-  : url.split('/')[3]
 );
 
 export const getTagDescriptionById = (tagId: string): string => {
@@ -247,6 +242,13 @@ const getDisplay = (
     } else {
       return defaultNone ? 'none': 'block';
     }
+};
+
+const getTagUrl = (collection: string, id: string) => {
+  const { path } = CONTENT.find(
+    ({ collection: routeCollection }) => routeCollection === collection
+  );
+  return `${path}${path.endsWith('/') ? '' : '/'}tags/${id}`;
 };
 
 const TagListWrapper = styled.ul`
@@ -462,7 +464,7 @@ const Tag: FC<TagProps> = ({
       Index={index}
     >
       <TagLink
-        href={`/${group}/tags/${id}`}
+        href={getTagUrl(group, id)}
         ref={targetRef}
         onMouseOver={() => showTargetTip(
           getTooltipText(description, group, groupCount)

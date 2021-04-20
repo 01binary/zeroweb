@@ -416,7 +416,13 @@ const Header: FC<HeaderProps> = ({
         onClick={() => showMenu(false)}
       >
         {ROUTES.map(({ collection, path: routePath }) => (
-          <NavLink to={routePath} path={path} icon={ICONS[collection]} background={BACKGROUNDS[collection]}>
+          <NavLink
+            key={routePath}
+            to={routePath}
+            path={path}
+            icon={ICONS[collection]}
+            background={BACKGROUNDS[collection]}
+          >
             {collection}
           </NavLink>
         ))}

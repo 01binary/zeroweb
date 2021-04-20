@@ -1,19 +1,19 @@
 import React, { FC, useContext } from 'react';
 import { graphql, Link } from 'gatsby';
-import BlogContext from '../components/BlogContext';
-import { getTagFilter, getTagDescriptionById } from '../components/TagList';
+import { getTagDescriptionById } from '../components/TagList';
 import Title from '../components/Title';
 import PostList from '../components/PostList';
 import Summary from '../components/Summary';
 import { AllPostsQuery } from '../models/AllPostsQuery';
 
 interface IndexPageContext {
-  collection: string,
-  numberOfPages: number,
-  pageNumber: number,
-  humanPageNumber: number,
-  previousPagePath: string,
-  nextPagePath: string
+  tag: string;
+  collection: string;
+  numberOfPages: number;
+  pageNumber: number;
+  humanPageNumber: number;
+  previousPagePath: string;
+  nextPagePath: string;
 };
 
 interface IndexQuery {
@@ -32,6 +32,7 @@ const getCollectionText = (collection: string) => (
  */
 const PostIndex: FC<IndexQuery> = ({
   pageContext: {
+    tag,
     collection,
     pageNumber,
     numberOfPages,
@@ -45,9 +46,6 @@ const PostIndex: FC<IndexQuery> = ({
     }
   }
 }) => {
-  const { url } = useContext(BlogContext);
-  const tagId = getTagFilter(url);
-  const tagDescription = getTagDescriptionById(tagId);
   const hasNext = pageNumber < numberOfPages - 1;
   const hasPrev = pageNumber > 0;
 
@@ -57,8 +55,8 @@ const PostIndex: FC<IndexQuery> = ({
         {getCollectionText(collection)}
       </Title>
 
-      {tagId &&
-        <Summary>All <b>{tagDescription}</b> {collection}:</Summary>
+      {tag &&
+        <Summary>All <b>{getTagDescriptionById(tag)}</b> {collection}:</Summary>
       }
 
       <PostList nodes={nodes} group={group} />

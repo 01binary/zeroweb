@@ -1,5 +1,6 @@
 import { paginate } from 'gatsby-awesome-pagination';
 import { createFilePath } from 'gatsby-source-filesystem';
+import { CONTENT } from './src/routes';
 
 exports.createPages = async ({
     actions: { createPage },
@@ -59,16 +60,14 @@ exports.createPages = async ({
 
     // Generate index pages
     const postIndex = require.resolve('./src/components/PostIndex.tsx');
-    const collections = [ 'articles', 'projects' ];
-    const collectionPaths = [ '/', '/projects' ];
 
-    collections.forEach((collection, index) => {
+    CONTENT.forEach(({ path, collection }) => {
         paginate({
             createPage,
             items: nodes
                 .filter(node => node.fields.collection === collection),
             itemsPerPage: 5,
-            pathPrefix: collectionPaths[index],
+            pathPrefix: path,
             component: postIndex,
             context: {
                 collection
@@ -77,12 +76,13 @@ exports.createPages = async ({
     });
 
     // Generate tags pages
-    collections.forEach((collection, index) => {
+    CONTENT.forEach(({ path, collection}) => {
         tags.forEach(({ tag }) => {
             createPage({
-                path: `${collectionPaths[index]}/tags/${tag}`,
+                path: `${path}/tags/${tag}`,
                 component: postIndex,
                 context: {
+                    collection,
                     tag
                 }
             });

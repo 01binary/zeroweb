@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { TagGroup } from '../models/TagsQuery';
+import { Link } from 'gatsby';
 import { Tooltip, Arrow } from './Tooltip';
 import {
   useTooltipController,
@@ -310,7 +311,7 @@ const TagWrapper = styled.li`
   }
 `;
 
-const TagLink = styled.a`
+const TagLink = styled(Link)`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -464,7 +465,7 @@ const Tag: FC<TagProps> = ({
       Index={index}
     >
       <TagLink
-        href={getTagUrl(group, id)}
+        to={getTagUrl(group, id)}
         ref={targetRef}
         onMouseOver={() => showTargetTip(
           getTooltipText(description, group, groupCount)

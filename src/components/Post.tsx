@@ -1,11 +1,22 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Post template (post details when clicking on a post).
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { useState, FC } from "react"
 import styled from 'styled-components';
 import Img from "gatsby-image";
 import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { getHeadingSlug, getHeadingUrl } from './Heading';
-import PostQuery from '../models/PostQuery';
-import HeadingQuery from '../models/HeadingQuery';
+import PostQuery from '../types/PostQuery';
+import HeadingQuery from '../types/HeadingQuery';
 import useScrollPosition from '../hooks/useScrollPosition';
 import GaugeIcon from '../images/gauge.svg';
 import ClockIcon from '../images/clock.svg';

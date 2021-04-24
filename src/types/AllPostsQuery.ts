@@ -4,23 +4,19 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Blog context used to get current page route information.
+|  GraphQL query that returns a post heading.
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { createContext } from 'react';
+import PostQuery from './PostQuery';
+import { TagGroup } from './TagsQuery';
 
-interface BlogContextProps {
-  url: string;
-  collection: string;
+export interface PostsQuery {
+  nodes: Array<Partial<PostQuery>>;
+  group: Array<TagGroup>;
 };
 
-const BlogContext = createContext<BlogContextProps>(
-  {
-    url: '',
-    collection: '' 
-  }
-);
-
-export default BlogContext;
+export interface AllPostsQuery {
+  allMdx: PostsQuery;
+};

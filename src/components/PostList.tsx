@@ -1,6 +1,17 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Component used to render a list of posts.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { PostsQuery } from '../models/AllPostsQuery';
+import { PostsQuery } from '../types/AllPostsQuery';
 import { getDateValue, getDateUnits } from './Post';
 import { Link } from 'gatsby';
 import TagList from './TagList';

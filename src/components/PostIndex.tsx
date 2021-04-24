@@ -1,10 +1,22 @@
-import React, { FC, useContext } from 'react';
-import { graphql, Link } from 'gatsby';
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Index page template (articles and projects).
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+import React, { FC } from 'react';
+import { graphql } from 'gatsby';
 import { getTagDescriptionById } from '../components/TagList';
 import Title from '../components/Title';
 import PostList from '../components/PostList';
 import Summary from '../components/Summary';
-import { AllPostsQuery } from '../models/AllPostsQuery';
+import DateSelector from '../components/DateSelector';
+import { AllPostsQuery } from '../types/AllPostsQuery';
 
 interface IndexPageContext {
   tag: string;
@@ -36,6 +48,7 @@ const PostIndex: FC<IndexQuery> = ({
     collection,
     pageNumber,
     numberOfPages,
+    humanPageNumber,
     nextPagePath,
     previousPagePath
   },
@@ -46,25 +59,26 @@ const PostIndex: FC<IndexQuery> = ({
     }
   }
 }) => {
-  const hasNext = pageNumber < numberOfPages - 1;
-  const hasPrev = pageNumber > 0;
-
   return (
     <main>
       <Title collection={collection}>
         {getCollectionText(collection)}
       </Title>
 
+      <DateSelector
+        collection={collection}
+        numberOfPages={numberOfPages}
+        pageNumber={pageNumber}
+        humanPageNumber={humanPageNumber}
+        nextPagePath={nextPagePath}
+        previousPagePath={previousPagePath}
+      />
+
       {tag &&
         <Summary>All <b>{getTagDescriptionById(tag)}</b> {collection}:</Summary>
       }
 
       <PostList nodes={nodes} group={group} />
-
-      <div>
-        {hasPrev && <Link to={previousPagePath}>Previous</Link>}
-        {hasNext && <Link to={nextPagePath}>Next</Link>}
-      </div>
     </main>
   );
 };

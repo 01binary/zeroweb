@@ -1,6 +1,17 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Tag list compomnent used to display post tags.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { TagGroup } from '../models/TagsQuery';
+import { TagGroup } from '../types/TagsQuery';
 import { Link } from 'gatsby';
 import { Tooltip, Arrow } from './Tooltip';
 import {

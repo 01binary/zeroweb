@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Tooltip hooks.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { createPopper, Instance } from '@popperjs/core/lib/popper-lite.js';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow.js';

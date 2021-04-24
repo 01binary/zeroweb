@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Header navigation link component.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FunctionComponent, SVGProps } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
@@ -98,8 +109,8 @@ const StyledLink = styled(Link)`
 
     .navigation-unselected {
       color: ${props => props.theme.isDark
-        ? props.theme.primaryTextColor
-        : props.theme.accentTextColor};
+    ? props.theme.primaryTextColor
+    : props.theme.accentTextColor};
     }
 
     &:hover {

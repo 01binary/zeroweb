@@ -4,23 +4,16 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Blog context used to get current page route information.
+|  GraphQL site SEO/metadata query.
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { createContext } from 'react';
-
-interface BlogContextProps {
-  url: string;
-  collection: string;
+interface SiteMetadataQuery {
+  title: string,
+  description: string,
+  url: string,
+  image: string
 };
 
-const BlogContext = createContext<BlogContextProps>(
-  {
-    url: '',
-    collection: '' 
-  }
-);
-
-export default BlogContext;
+export default SiteMetadataQuery;

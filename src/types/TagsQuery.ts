@@ -4,23 +4,18 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Blog context used to get current page route information.
+|  GraphQL tag summary query.
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { createContext } from 'react';
-
-interface BlogContextProps {
-  url: string;
-  collection: string;
+interface TagsQuery {
+  group: TagGroup[];
 };
 
-const BlogContext = createContext<BlogContextProps>(
-  {
-    url: '',
-    collection: '' 
-  }
-);
+export interface TagGroup {
+  tag: string,
+  totalCount: number
+};
 
-export default BlogContext;
+export default TagsQuery;

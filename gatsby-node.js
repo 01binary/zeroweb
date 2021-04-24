@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Gatsby static site building scripts.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import { paginate } from 'gatsby-awesome-pagination';
 import { createFilePath } from 'gatsby-source-filesystem';
 import { CONTENT } from './src/routes';

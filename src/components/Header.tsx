@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Blog header component with navlinks (includes mobile).
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';

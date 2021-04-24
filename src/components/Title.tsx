@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Title component used for page titles.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import ROUTES from '../routes';
@@ -11,43 +22,43 @@ const BULLET_TOP = Math.ceil(NAVLINK_HEIGHT / 2 - NAVLINK_HEIGHT * 0.1);
 const CALLOUT_TOP = Math.ceil(BULLET_TOP / 2) + 0.5;
 
 interface CalloutProps {
-    offset: number;
-    className?: string;
+  offset: number;
+  className?: string;
 };
 
 const getGeometry = (
-    points: Array<Array<number>>
+  points: Array<Array<number>>
 ): string => points
-    .reduce((acc, cur, index) => 
-        acc +
-            (index ? ' L ' : '') +
-            cur[0] + ' ' + cur[1]
+  .reduce((acc, cur, index) =>
+    acc +
+    (index ? ' L ' : '') +
+    cur[0] + ' ' + cur[1]
     , 'M ');
 
 const Callout: FC<CalloutProps> = ({
-    offset,
-    className
+  offset,
+  className
 }) => (
-    <svg
-        className={className}
-        width={offset}
-        height={NAVLINK_HEIGHT}
-    >
-        <path d={getGeometry([
-            [ 0, BULLET_TOP ],
-            [ 0, BULLET_TOP + BULLET_HEIGHT ],
-            [ BULLET_WIDTH, BULLET_TOP + BULLET_HEIGHT ],
-            [ BULLET_WIDTH, BULLET_TOP + 3 ]]) + 'z'}
-            className="title-bullet"
-        />
-        <path d={getGeometry([
-            [ 0.5, BULLET_TOP + 1 ],
-            [ 0.5, CALLOUT_TOP ],
-            [ offset - BULLET_TOP / 2, CALLOUT_TOP ],
-            [ offset - 1, 0 ]])}
-            className="title-callout"
-        />
-    </svg>
+  <svg
+    className={className}
+    width={offset}
+    height={NAVLINK_HEIGHT}
+  >
+    <path d={getGeometry([
+      [0, BULLET_TOP],
+      [0, BULLET_TOP + BULLET_HEIGHT],
+      [BULLET_WIDTH, BULLET_TOP + BULLET_HEIGHT],
+      [BULLET_WIDTH, BULLET_TOP + 3]]) + 'z'}
+      className="title-bullet"
+    />
+    <path d={getGeometry([
+      [0.5, BULLET_TOP + 1],
+      [0.5, CALLOUT_TOP],
+      [offset - BULLET_TOP / 2, CALLOUT_TOP],
+      [offset - 1, 0]])}
+      className="title-callout"
+    />
+  </svg>
 );
 
 const Decorator = styled(Callout)`
@@ -95,22 +106,22 @@ const Heading = styled.h1`
 `;
 
 interface TitleProps {
-    collection: string;
+  collection: string;
 };
 
 const Title: FC<TitleProps> = ({
-    collection,
-    children
+  collection,
+  children
 }) => (
-    <div>
-        <Decorator offset={
-            NAVLINK_WIDTH *
-            (ROUTES.findIndex(
-                ({ collection: routeCollection}) => routeCollection === collection
-            ) + 1) - BRACKET_OFFSET
-        } />
-        <Heading>{children}</Heading>
-    </div>
+  <div>
+    <Decorator offset={
+      NAVLINK_WIDTH *
+      (ROUTES.findIndex(
+        ({ collection: routeCollection }) => routeCollection === collection
+      ) + 1) - BRACKET_OFFSET
+    } />
+    <Heading>{children}</Heading>
+  </div>
 );
 
 export default Title;

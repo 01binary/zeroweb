@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  GraphQL:
+    Properties:
+      CodeUri: s3://zeroweb-api/e7344dd2f94b7f6311f4878b34abfb65
+      Events:
+        AnyRequest:
+          Properties:
+            Method: ANY
+            Path: /graphql
+          Type: Api
+      FunctionName: zeroweb-api
+      Handler: graphql.handler
+      Runtime: nodejs14.x
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

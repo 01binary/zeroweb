@@ -29,3 +29,26 @@ export const addComment = async (comment) => {
 
   return Item;
 };
+
+export const editComment = async(slug, timestamp, markdown) => {
+
+};
+
+export const voteComment = async(slug, timestamp, upVote) => {
+
+};
+
+export const deleteComment = async (comment) => {
+  const { slug, timestamp } = comment;
+  await db
+    .delete({
+      TableName: 'zeroweb-comments',
+      Key: {
+        slug,
+        timestamp
+      },
+    })
+    .promise();
+
+  return comment;
+};

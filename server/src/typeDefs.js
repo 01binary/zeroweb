@@ -1,11 +1,9 @@
 import { gql } from 'apollo-server-lambda';
 
 export const typeDefs = gql`
-  scalar Timestamp
-
   type Comment {
     slug: String!
-    timestamp: Timestamp!
+    timestamp: String!
     user: String!
     votes: Int
     markdown: String

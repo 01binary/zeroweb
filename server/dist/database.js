@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addComment = exports.getComments = undefined;
+exports.deleteComment = exports.voteComment = exports.editComment = exports.addComment = exports.getComments = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -89,5 +89,74 @@ var addComment = exports.addComment = function () {
 
   return function addComment(_x2) {
     return _ref3.apply(this, arguments);
+  };
+}();
+
+var editComment = exports.editComment = function () {
+  var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(slug, timestamp, markdown) {
+    return _regenerator2.default.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, undefined);
+  }));
+
+  return function editComment(_x3, _x4, _x5) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+var voteComment = exports.voteComment = function () {
+  var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(slug, timestamp, upVote) {
+    return _regenerator2.default.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, undefined);
+  }));
+
+  return function voteComment(_x6, _x7, _x8) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+var deleteComment = exports.deleteComment = function () {
+  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(comment) {
+    var slug, timestamp;
+    return _regenerator2.default.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            slug = comment.slug, timestamp = comment.timestamp;
+            _context5.next = 3;
+            return db.delete({
+              TableName: 'zeroweb-comments',
+              Key: {
+                slug: slug,
+                timestamp: timestamp
+              }
+            }).promise();
+
+          case 3:
+            return _context5.abrupt('return', comment);
+
+          case 4:
+          case 'end':
+            return _context5.stop();
+        }
+      }
+    }, _callee5, undefined);
+  }));
+
+  return function deleteComment(_x9) {
+    return _ref6.apply(this, arguments);
   };
 }();

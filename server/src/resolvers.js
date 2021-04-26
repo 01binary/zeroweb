@@ -1,5 +1,9 @@
 import { getCurrentUser } from './auth';
-import { getComments, addComment } from './database';
+import {
+  getComments,
+  addComment,
+  deleteComment
+} from './database';
 
 export const resolvers = {
   Query: {
@@ -10,6 +14,9 @@ export const resolvers = {
       ...comment,
       user: getCurrentUser(),
       timestamp: new Date().toISOString()
+    }),
+    deleteComment: async (root, { comment }) => deleteComment({
+      ...comment
     })
   }
 };

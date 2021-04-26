@@ -75,6 +75,29 @@ var resolvers = exports.resolvers = {
       }
 
       return addComment;
+    }(),
+    deleteComment: function () {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(root, _ref5) {
+        var comment = _ref5.comment;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                return _context3.abrupt('return', (0, _database.deleteComment)((0, _extends3.default)({}, comment)));
+
+              case 1:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, undefined);
+      }));
+
+      function deleteComment(_x5, _x6) {
+        return _ref6.apply(this, arguments);
+      }
+
+      return deleteComment;
     }()
   }
 };

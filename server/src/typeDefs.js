@@ -20,12 +20,23 @@ export const typeDefs = gql`
     rangeLength: Int
   }
 
+  input DeleteCommentInput {
+    slug: String!
+    timestamp: String!
+  }
+
+  type DeleteCommentResult {
+    slug: String
+    timestamp: String
+  }
+
   type Query {
     comments(slug: String!): [Comment!]!
   }
 
   type Mutation {
     addComment(comment: CommentInput!): Comment
+    deleteComment(comment: DeleteCommentInput!): DeleteCommentResult
   }
 
   schema {

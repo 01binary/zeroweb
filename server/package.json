@@ -6,9 +6,10 @@
   "author": "Valeriy Novytskyy",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --out-dir dist",
-    "start": "babel src --out-dir dist && node dist/playground.js",
-    "deploy": "chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh"
+    "clean": "rm -rf dist",
+    "build": "yarn clean && babel src --out-dir dist && cp -R node_modules dist/node_modules",
+    "start": "yarn build && node dist/playground.js",
+    "deploy": "yarn build && chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh"
   },
   "dependencies": {
     "apollo-server-lambda": "^2.23.0",

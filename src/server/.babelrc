@@ -1,5 +1,15 @@
 {
     "presets": ["env"],
-    "plugins": ["transform-object-rest-spread"],
+    "plugins": [
+        "transform-object-rest-spread",
+        "syntax-dynamic-import",
+        [
+            "transform-runtime",
+            {
+            "polyfill": false,
+            "regenerator": true
+            }
+        ]
+    ],
     "ignore": ["dist"]
 }

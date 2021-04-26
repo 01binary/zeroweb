@@ -37,6 +37,4 @@ interface AllCommentsQuery {
   comments: CommentQuery[]
 };
 
-export interface RootQuery {
-  data: AllCommentsQuery;
-};
+export default AllCommentsQuery;

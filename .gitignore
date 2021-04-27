@@ -8,3 +8,4 @@ src/project.lock.json
 .cache
 public/**/*
 !public/static/
+server/dist/**/*

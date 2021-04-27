@@ -14,6 +14,7 @@ import { MDXProvider } from '@mdx-js/react';
 import Code from './src/components/Code';
 import Layout from './src/components/Layout';
 import BlogContext from './src/components/BlogContext';
+import Paragraph from './src/components/Paragraph';
 import {
     Heading1,
     Heading2,
@@ -37,7 +38,8 @@ export const wrapRootElement = ({ element }) => (
         table: Table,
         th: TableHeading,
         tr: TableRow,
-        td: TableCell
+        td: TableCell,
+        p: Paragraph
     }}>
         {element}
     </MDXProvider>

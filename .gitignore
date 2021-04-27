@@ -9,3 +9,4 @@ src/project.lock.json
 public/**/*
 !public/static/
 server/dist/**/*
+server/serverless-output.yaml

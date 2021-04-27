@@ -8,6 +8,8 @@ Resources:
           Handler: graphql.handler
           Runtime: nodejs14.x
           CodeUri: ./dist
+          Policies:
+            - AmazonDynamoDBFullAccess
           Events:
             AnyRequest:
               Type: Api

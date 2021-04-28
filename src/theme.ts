@@ -244,6 +244,10 @@ export const GlobalStyle = createGlobalStyle`
     margin-right: ${props => props.theme.spacingHalf};
   }
 
+  main blockquote {
+    margin-inline-end: 0;
+  }
+
   main a {
     position: relative;
     color: ${props => props.theme.isDark

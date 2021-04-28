@@ -22,6 +22,7 @@ import GaugeIcon from '../images/gauge.svg';
 import ClockIcon from '../images/clock.svg';
 import { Heading } from './Heading';
 import Wheel, { WHEEL_SIZE } from './Wheel';
+import { Ruler, RULER_OFFSET } from './Ruler';
 import TagList from './TagList';
 import SEO from './SEO';
 import TOC from './TOC';
@@ -62,10 +63,28 @@ const Main = styled.main`
     }
   }
 
+  h1, h2, h3, h4 {
+    &:after {
+      content: '';
+      position: absolute;
+      left: calc(100% + ${props => props.theme.spacingHalf} + ${props => props.theme.border} + ${RULER_OFFSET}px);
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: ${props => props.theme.foregroundColor};
+      opacity: 0;
+      transition: opacity ${props => props.theme.animationFast} ease-out;
+    }
+  }
+
   h1:hover,
   h2:hover,
   h3:hover,
   h4:hover {
+    &:after {
+      opacity: 1;
+    }
+
     a {
       opacity: 1;
     }
@@ -484,6 +503,8 @@ const Post: FC<PostProps> = ({
           image={fluid.src}
           url={url}
         />
+
+        <Ruler />
 
         <PostHeading>{title}</PostHeading>
 

@@ -26,6 +26,8 @@ import ProjectsBackground from "../images/navigation-projects.svg"
 import AboutBackground from "../images/navigation-about.svg"
 import ROUTES from '../routes';
 
+const HEADER_HEIGHT = 250;
+
 const BACKGROUNDS = {
   articles: ArticlesBackground,
   projects: ProjectsBackground,
@@ -44,7 +46,7 @@ const Hero = styled.header`
   color: ${props => props.theme.primaryTextColor};
   max-width: ${props => props.theme.column};
   margin: auto;
-  height: 250px;
+  height: ${HEADER_HEIGHT}px;
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

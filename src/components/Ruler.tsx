@@ -18,7 +18,8 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 
-export const RULER_OFFSET = 252;
+export const RULER_SELECTION_GUTTER = 6;
+export const RULER_OFFSET = 245 + RULER_SELECTION_GUTTER;
 
 const RULER_GUTTER = 8;
 const RULER_WIDTH = 24;
@@ -35,6 +36,10 @@ const RulerTop = styled.div`
   width: ${RULER_ENDMARK_WIDTH}px;
   height: ${RULER_HEIGHT}px;
   border-top: ${props => props.theme.border} solid ${props => props.theme.shadowColor};
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const RulerBottom = styled.div`
@@ -44,6 +49,10 @@ const RulerBottom = styled.div`
   width: ${RULER_ENDMARK_WIDTH}px;
   height: ${RULER_HEIGHT}px;
   border-bottom: ${props => props.theme.border} solid ${props => props.theme.shadowColor};
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const RulerBase = styled.div`
@@ -55,6 +64,10 @@ const RulerBase = styled.div`
   display: flex;
   flex-direction: column;
   border-right: ${props => props.theme.border} solid ${props => props.theme.shadowColor};
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const RulerMark = styled.div`
@@ -86,7 +99,9 @@ export const Ruler: FC = () => {
     setPageHeight(rulerRef.current?.clientHeight || 0);
   }, [ rulerRef, setPageHeight ]);
 
-  const marks = useMemo<string[]>(() => getRulerMarks(pageHeight), [ pageHeight ]);
+  const marks = useMemo<string[]>(
+    () => getRulerMarks(pageHeight),
+    [ pageHeight ]);
 
   return (
     <>

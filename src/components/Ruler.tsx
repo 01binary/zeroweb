@@ -29,13 +29,19 @@ const RULER_ENDMARK_WIDTH = RULER_WIDTH * 2 + 5;
 const RULER_SHORTMARK_WIDTH = RULER_WIDTH;
 const RULER_LONGMARK_WIDTH = RULER_WIDTH + 10;
 
+const getLineColor = props => (
+  props.theme.isDark
+  ? props.theme.accentShadowColor
+  : props.theme.shadowColor
+);
+
 const RulerTop = styled.div`
   position: absolute;
   top: 0;
   left: calc(100% - ${RULER_WIDTH + (RULER_ENDMARK_WIDTH - RULER_WIDTH * 2) - RULER_GUTTER}px);
   width: ${RULER_ENDMARK_WIDTH}px;
   height: ${RULER_HEIGHT}px;
-  border-top: ${props => props.theme.border} solid ${props => props.theme.shadowColor};
+  border-top: ${props => props.theme.border} solid ${props => getLineColor(props)};
 
   @media (max-width: ${props => props.theme.mobile}) {
     display: none;
@@ -48,7 +54,7 @@ const RulerBottom = styled.div`
   left: calc(100% - ${RULER_WIDTH + (RULER_ENDMARK_WIDTH - RULER_WIDTH * 2) - RULER_GUTTER}px);
   width: ${RULER_ENDMARK_WIDTH}px;
   height: ${RULER_HEIGHT}px;
-  border-bottom: ${props => props.theme.border} solid ${props => props.theme.shadowColor};
+  border-bottom: ${props => props.theme.border} solid ${props => getLineColor(props)};
 
   @media (max-width: ${props => props.theme.mobile}) {
     display: none;
@@ -63,7 +69,7 @@ const RulerBase = styled.div`
   bottom: calc(${props => props.theme.spacingDouble} * 2.5 - ${props => props.theme.border});
   display: flex;
   flex-direction: column;
-  border-right: ${props => props.theme.border} solid ${props => props.theme.shadowColor};
+  border-right: ${props => props.theme.border} solid ${props => getLineColor(props)};
 
   @media (max-width: ${props => props.theme.mobile}) {
     display: none;
@@ -74,7 +80,7 @@ const RulerMark = styled.div`
   width: ${RULER_SHORTMARK_WIDTH}px;
   height: ${RULER_HEIGHT}px;
   flex: 1 1;
-  border-bottom: ${props => props.theme.border} solid ${props => props.theme.shadowColor};
+  border-bottom: ${props => props.theme.border} solid ${props => getLineColor(props)};
 
   &:nth-child(even) {
     width: ${RULER_LONGMARK_WIDTH}px;

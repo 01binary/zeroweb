@@ -11,12 +11,11 @@
 
 import React, {
   FC,
-  useLayoutEffect,
-  useRef,
   useState,
   useMemo
 } from 'react';
 import styled from 'styled-components';
+import Measure from 'react-measure';
 
 export const RULER_SELECTION_GUTTER = 6;
 export const RULER_OFFSET = 245 + RULER_SELECTION_GUTTER;
@@ -24,7 +23,7 @@ export const RULER_OFFSET = 245 + RULER_SELECTION_GUTTER;
 const RULER_GUTTER = 8;
 const RULER_WIDTH = 24;
 const RULER_HEIGHT = 24;
-const RULER_MARK_HEIGHT = 134;
+const RULER_MARK_HEIGHT = 48;
 const RULER_ENDMARK_WIDTH = RULER_WIDTH * 2 + 5;
 const RULER_SHORTMARK_WIDTH = RULER_WIDTH;
 const RULER_LONGMARK_WIDTH = RULER_WIDTH + 10;
@@ -98,24 +97,26 @@ const getRulerMarks = (height: number): string[] => {
 };
 
 export const Ruler: FC = () => {
-  const rulerRef = useRef();
-  const [ pageHeight, setPageHeight ] = useState<number>();
-
-  useLayoutEffect(() => {
-    setPageHeight(rulerRef.current?.clientHeight || 0);
-  }, [ rulerRef, setPageHeight ]);
+  const [ height, setHeight ] = useState<number>(0);
 
   const marks = useMemo<string[]>(
-    () => getRulerMarks(pageHeight),
-    [ pageHeight ]);
+    () => getRulerMarks(height),
+    [ height ]);
 
   return (
-    <>
-      <RulerTop />
-      <RulerBase ref={rulerRef}>
-        {marks.map(mark => <RulerMark key={mark} />)}
-      </RulerBase>
-      <RulerBottom />
-    </>
+    <Measure
+      bounds
+      onResize={({ bounds }) => setHeight(bounds.height)}
+    >
+      {({ measureRef }) => (
+        <>
+          <RulerTop />
+          <RulerBase ref={measureRef}>
+            {marks.map(mark => <RulerMark key={mark} />)}
+          </RulerBase>
+          <RulerBottom />
+        </>
+      )}
+    </Measure>
   );
 };

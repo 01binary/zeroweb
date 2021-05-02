@@ -1,14 +1,14 @@
-import { getCurrentUser } from './auth';
-import {
+const { getCurrentUser } = require('./auth');
+const {
   getComments,
   getComment,
   addComment,
   deleteComment,
   editComment,
   voteComment
-} from './database';
+} = require('./database');
 
-export const resolvers = {
+module.exports.resolvers = {
   Query: {
     comments: async (root, { slug }) => getComments(slug),
     comment: async (root, { slug, timestamp }) => getComment(slug, timestamp),

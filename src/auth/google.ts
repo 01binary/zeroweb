@@ -41,8 +41,12 @@ export const googleInit = (
           client_id: '574591881102-kg8frj9pqe5rdgsi8eeqe2emkseb4th0.apps.googleusercontent.com'
         })
         .then(() => {
-          const auth = gapi.auth2.getAuthInstance();
-          const user = auth.currentUser.get();
+          const user = gapi
+            .auth2
+            .getAuthInstance()
+            .currentUser
+            .get();
+
           if (user.isSignedIn()) handleLogin(setUser, user);
         });
     });
@@ -52,10 +56,21 @@ export const googleInit = (
 export const googleLogin = (
   setUser: SetUserHandler
 ) => {
-  const auth = gapi.auth2.getAuthInstance();
-  auth
+  gapi
+    .auth2
+    .getAuthInstance()
     .signIn({
       scope: 'profile'
     })
     .then(guser => handleLogin(setUser, guser));
+};
+
+export const googleLogout = (
+  setUser: SetUserHandler
+) => {
+  gapi
+    .auth2
+    .getAuthInstance()
+    .signOut()
+    .then(() => setUser(null));
 };

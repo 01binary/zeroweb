@@ -1,10 +1,10 @@
-import AWS from 'aws-sdk';
+const AWS = require('aws-sdk');
 
 AWS.config.update({ region: 'us-west-2' });
 
 const db = new AWS.DynamoDB.DocumentClient();
 
-export const getComment = async (slug, timestamp) => {
+module.exports.getComment = async (slug, timestamp) => {
   const { Item } = await db
     .get({
       TableName: 'zeroweb-comments',
@@ -18,7 +18,7 @@ export const getComment = async (slug, timestamp) => {
   return Item;
 };
 
-export const getComments = async (slug) => {
+module.exports.getComments = async (slug) => {
   const { Items } = await db
     .query({
       TableName: 'zeroweb-comments',
@@ -32,7 +32,7 @@ export const getComments = async (slug) => {
   return Items;
 };
 
-export const addComment = async (comment) => {
+module.exports.addComment = async (comment) => {
   const Item = { ...comment, votes: 0 };
   await db
     .put({
@@ -44,7 +44,7 @@ export const addComment = async (comment) => {
   return Item;
 };
 
-export const editComment = async (comment) => {
+module.exports.editComment = async (comment) => {
   const { slug, timestamp, markdown } = comment;
   await db
     .update({
@@ -63,7 +63,7 @@ export const editComment = async (comment) => {
   return await getComment(slug, timestamp);
 };
 
-export const voteComment = async (slug, timestamp, vote) => {
+module.exports.voteComment = async (slug, timestamp, vote) => {
   if (vote) {
     await db
       .update({
@@ -84,7 +84,7 @@ export const voteComment = async (slug, timestamp, vote) => {
   return { ...old, votes: old.votes + vote };
 };
 
-export const deleteComment = async (comment) => {
+module.exports.deleteComment = async (comment) => {
   const { slug, timestamp } = comment;
   await db
     .delete({

@@ -1,7 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { useBlogContext } from '../hooks/useBlogContext';
-import { facebookInit, facebookLogin } from '../auth/facebook';
-import { googleInit, googleLogin } from '../auth/google';
+import { Providers } from '../auth/types';
+import { twitterInit, twitterLogin, twitterLogout } from '../auth/twitter';
+import { facebookInit, facebookLogin, facebookLogout } from '../auth/facebook';
+import { googleInit, googleLogin, googleLogout } from '../auth/google';
 
 const Login: FC = () => {
   const { user, setUser } = useBlogContext();
@@ -17,10 +19,25 @@ const Login: FC = () => {
 
   const handleFacebookLogin = () => facebookLogin(setUser);
   const handleGoogleLogin = () => googleLogin(setUser);
+  const handleLogout = () => {
+    if (user) {
+      switch (user.provider) {
+        case Providers.Facebook:
+          facebookLogout(setUser);
+          break;
+        case Providers.Google:
+          googleLogout(setUser);
+          break;
+      }
+    }
+  };
 
   return user
     ? (
-      <div>Logged in with {user.provider}</div>
+      <div>
+        Logged in with {user.provider}
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     )
     : (
       <section>

@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "develop": "NODE_OPTIONS='-r esm' gatsby develop",
-    "start": "NODE_OPTIONS='-r esm' gatsby develop",
+    "start": "NODE_OPTIONS='-r esm' gatsby develop --https",
     "build": "NODE_OPTIONS='-r esm' gatsby build",
     "serve": "NODE_OPTIONS='-r esm' gatsby serve",
     "clean": "NODE_OPTIONS='-r esm' gatsby clean"

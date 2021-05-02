@@ -9,11 +9,11 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useContext } from 'react';
-import styled from 'styled-components';
-import BlogContext from './BlogContext';
-import PermaLink from './PermaLink';
+import React, { FC } from 'react';
 import slugify from 'slugify';
+import styled from 'styled-components';
+import { useBlogContext } from '../hooks/useBlogContext';
+import PermaLink from './PermaLink';
 
 const HeadingWrapper = styled.div`
     position: relative;
@@ -60,7 +60,7 @@ export const Heading: FC<HeadingProps> = ({
   children,
   className
 }) => {
-  const { url } = useContext(BlogContext);
+  const { url } = useBlogContext();
   const slug = getHeadingSlug(level === 1, children.toString());
   const permaLinkUrl = getHeadingUrl(url, slug);
   const HeadingElement: any = `h${level}`;

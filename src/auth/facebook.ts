@@ -1,4 +1,16 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Facebook authentication.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import dayjs from 'dayjs';
+import loadScript from './loadScript';
 import { Providers, SetUserHandler } from '../auth/types';
 
 enum LoginStatus {
@@ -49,8 +61,7 @@ const handleLogin = (
 export const facebookInit = (
   setUser: SetUserHandler
 ) => {
-  // Facebook SDK knows to call fbAsyncInit after it loads
-  window.fbAsyncInit = () => {
+  loadScript('facebookapi', 'https://connect.facebook.net/en_US/sdk.js', () => {
     FB.init({
       appId: '528437335196727',
       // Persist login in cookie
@@ -61,12 +72,14 @@ export const facebookInit = (
     });
 
     FB.getLoginStatus(res => res && handleLogin(setUser, res));
-  };
+  });
 };
 
 export const facebookLogin = (
   setUser: SetUserHandler
 ) => FB.login(
   res => res && handleLogin(setUser, res),
-  { scope: 'public_profile' }
+  {
+    scope: 'public_profile'
+  }
 );

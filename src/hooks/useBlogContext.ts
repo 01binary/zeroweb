@@ -9,18 +9,23 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
+import { User, SetUserHandler } from '../auth/types';
 
 interface BlogContextProps {
   url: string;
   collection: string;
+  user: User;
+  setUser: SetUserHandler;
 };
 
-const BlogContext = createContext<BlogContextProps>(
-  {
-    url: '',
-    collection: '' 
-  }
-);
+export const BlogContext = createContext<BlogContextProps>({
+  url: '',
+  collection: '',
+  user: null,
+  setUser: null
+});
 
-export default BlogContext;
+export const useBlogContext: () => BlogContextProps = () => (
+  useContext(BlogContext)
+);

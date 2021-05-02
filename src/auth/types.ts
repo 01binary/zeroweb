@@ -1,10 +1,21 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Authentication types.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import dayjs from 'dayjs';
 
 export enum Providers {
-  Facebook,
-  Twitter,
-  Google,
-  GitHub
+  Facebook = 'facebook',
+  Twitter = 'twitter',
+  Google = 'google',
+  GitHub = 'github',
 };
 
 export interface User {

@@ -8,7 +8,7 @@ const {
   voteComment
 } = require('./database');
 
-exports = {
+exports.resolvers = {
   Query: {
     comments: async (root, { slug }) => getComments(slug),
     comment: async (root, { slug, timestamp }) => getComment(slug, timestamp),

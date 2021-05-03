@@ -5,7 +5,7 @@ Resources:
       Type: "AWS::Serverless::Api"
       Properties:
         Name: "zeroweb-api"
-        StageName: "zeroweb-api"
+        StageName: "prod"
     ApiLambda:
         Type: AWS::Serverless::Function
         Properties:

@@ -1,1 +1,1 @@
-module.exports.getCurrentUser = () => 'admin';
+exports.getCurrentUser = () => 'admin';

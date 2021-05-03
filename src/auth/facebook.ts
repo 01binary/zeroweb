@@ -83,3 +83,9 @@ export const facebookLogin = (
     scope: 'public_profile'
   }
 );
+
+export const facebookLogout = (
+  setUser: SetUserHandler
+) => FB.logout(
+  () => setUser(null)
+);

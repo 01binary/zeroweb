@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  ApiGateway:
+    Properties:
+      Name: zeroweb-api
+      StageName: zeroweb-api
+    Type: AWS::Serverless::Api
+  ApiLambda:
+    Properties:
+      CodeUri: s3://zeroweb-api/e2d20d85633a7ab0bbcd13956fdd8b0e
+      Events:
+        AnyRequest:
+          Properties:
+            Method: any
+            Path: /graphql
+            RestApiId:
+              Ref: ApiGateway
+          Type: Api
+      FunctionName: zeroweb-api
+      Handler: graphql.handler
+      Policies:
+      - AmazonDynamoDBFullAccess
+      Runtime: nodejs14.x
+    Type: AWS::Serverless::Function
+  AuthLambda:
+    Properties:
+      CodeUri: s3://zeroweb-api/e91deb416a577da942825110febeedb1
+      Events:
+        TwitterCallback:
+          Properties:
+            Method: get
+            Path: /twitter/callback
+            RestApiId:
+              Ref: ApiGateway
+          Type: Api
+        TwitterLogin:
+          Properties:
+            Method: get
+            Path: /twitter
+            RestApiId:
+              Ref: ApiGateway
+          Type: Api
+      FunctionName: zeroweb-auth
+      Handler: app.handler
+      Runtime: nodejs14.x
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

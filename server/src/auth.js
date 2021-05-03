@@ -1,1 +1,1 @@
-export const getCurrentUser = () => 'admin';
+module.exports.getCurrentUser = () => 'admin';

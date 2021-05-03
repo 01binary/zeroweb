@@ -1,10 +1,10 @@
-import { ApolloServer } from 'apollo-server-lambda';
-import { typeDefs } from './typeDefs';
-import { resolvers } from './resolvers';
+const ApolloServer = require('apollo-server').ApolloServer;
+const typeDefs = require('./typeDefs').typeDefs;
+const resolvers = require('./resolvers').resolvers;
 
 const server = new ApolloServer({
   typeDefs,
   resolvers
 });
 
-export const handler = server.createHandler();
+module.exports.handler = server.createHandler();

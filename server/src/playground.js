@@ -1,6 +1,7 @@
-import { ApolloServer } from 'apollo-server';
-import { typeDefs } from './typeDefs';
-import { resolvers } from './resolvers';
+
+const ApolloServer = require('apollo-server').ApolloServer;
+const typeDefs = require('./typeDefs').typeDefs;
+const resolvers = require('./resolvers').resolvers;
 
 const server = new ApolloServer({
   typeDefs,
@@ -9,6 +10,8 @@ const server = new ApolloServer({
   playground: true
 });
 
-server.listen().then(({ url }) => {
-  console.log(`apollo server ready at ${url}`);
-});
+server
+  .listen()
+  .then(({ url }) => {
+    console.log(`apollo server ready at ${url}`);
+  });

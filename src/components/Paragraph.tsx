@@ -25,7 +25,7 @@ const Text = styled.p`
     width: calc(${props => props.theme.border} * 1.5);
     height: 100%;
     background: ${props => props.theme.foregroundColor};
-    opacity: 0;
+    opacity: .4;
     transition: opacity ${props => props.theme.animationFast} ease-out;
   }
 

@@ -1,27 +1,19 @@
 {
   "name": "zeroweb-api",
   "version": "1.0.0",
-  "description": "Serverless GraphQL API for Zeroweb",
+  "description": "Serverless GraphQL API for ZeroWeb",
   "main": "handler.js",
   "author": "Valeriy Novytskyy",
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "yarn clean && babel src --out-dir dist && cp -R node_modules dist/node_modules",
-    "start": "yarn build && node dist/playground.js",
-    "deploy": "yarn build && chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh"
+    "start": "node playground.js"
   },
   "dependencies": {
     "apollo-server-lambda": "^2.23.0",
     "aws-sdk": "^2.892.0",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
     "graphql": "^15.5.0"
   },
   "devDependencies": {
-    "apollo-server": "^2.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "apollo-server": "^2.23.0"
   }
 }

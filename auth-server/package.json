@@ -1,0 +1,15 @@
+{
+  "name": "auth-server",
+  "version": "1.0.0",
+  "description": "ZeroWeb Authentication Lambda",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "login-with-twitter": "^1.2.4",
+    "serverless-http": "^2.7.0"
+  },
+  "scripts": {
+    "deploy": "chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh"
+  }
+}

@@ -39,4 +39,4 @@ app.get('/twitter/callback', (req, res) => {
   });
 });
 
-module.exports.handler = serverless(app);
+exports.handler = serverless(app);

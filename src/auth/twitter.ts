@@ -10,32 +10,28 @@
 \*---------------------------------------------------------*/
 
 import dayjs from 'dayjs';
-import loadScript from './loadScript';
+import axios from 'axios';
 import { Providers, SetUserHandler } from '../auth/types';
-
-const handleLogin = (
-  setUser: SetUserHandler,
-  who: any
-) => {
-  
-};
 
 export const twitterInit = (
   setUser: SetUserHandler
 ) => {
-  loadScript('twitterapi', '?', () => {
-    // TODO
-  });
+  // TODO: check for twitter cookie
 };
 
 export const twitterLogin = (
   setUser: SetUserHandler
 ) => {
-  // TODO
+  axios
+    .get('https://mb6oojneq8.execute-api.us-west-2.amazonaws.com/Prod/twitter',
+      { headers: { 'Content-Type': 'text/html' } })
+    .then(res => {
+      console.log('twitter login res', res);
+    });
 };
 
 export const twitterLogout = (
   setUser: SetUserHandler
 ) => {
-  // TODO
+  // TODO: delete cookie
 };

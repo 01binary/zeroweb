@@ -19,6 +19,7 @@ const About: FC = () => (
         <Summary>
             Please wait while you are logging in with twitter
             {window.location.search}
+            {document.cookie}
         </Summary>
     </main>
 );

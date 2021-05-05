@@ -2,10 +2,14 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Resources:
     ApiGateway:
-      Type: "AWS::Serverless::Api"
+      Type: AWS::Serverless::Api
       Properties:
-        Name: "zeroweb-api"
-        StageName: "prod"
+        Name: zeroweb-api
+        StageName: Prod
+        Cors:
+          AllowMethods: "'POST, GET'"
+          AllowOrigin: "'*'"
+          AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
     ApiLambda:
         Type: AWS::Serverless::Function
         Properties:

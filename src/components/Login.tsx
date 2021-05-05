@@ -11,14 +11,17 @@ const Login: FC = () => {
   useEffect(() => {
     facebookInit(setUser);
     googleInit(setUser);
+    twitterInit(setUser);
   }, [
     facebookInit,
-    googleLogin,
+    googleInit,
+    twitterInit,
     setUser,
   ]);
 
   const handleFacebookLogin = () => facebookLogin(setUser);
   const handleGoogleLogin = () => googleLogin(setUser);
+  const handleTwitterLogin = () => twitterLogin(setUser);
   const handleLogout = () => {
     if (user) {
       switch (user.provider) {
@@ -27,6 +30,9 @@ const Login: FC = () => {
           break;
         case Providers.Google:
           googleLogout(setUser);
+          break;
+        case Providers.Twitter:
+          twitterLogout(setUser);
           break;
       }
     }
@@ -45,6 +51,7 @@ const Login: FC = () => {
         <ul>
           <li><button onClick={handleFacebookLogin}>Facebook</button></li>
           <li><button onClick={handleGoogleLogin}>Google</button></li>
+          <li><button onClick={handleTwitterLogin}>Twitter</button></li>
         </ul>
       </section>
     );

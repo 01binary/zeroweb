@@ -1,42 +1,165 @@
-const serverless = require('serverless-http');
-const LoginWithTwitter = require('login-with-twitter');
 const express = require('express');
+const serverless = require('serverless-http');
+const cors = require('cors');
+const oauth = require('oauth');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
+const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
+const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
+const TWITTER_CALLBACK = process.env.TWITTER_CALLBACK;
+const TWITTER_COOKIE = 'twitter';
+
+const oauthClient = new oauth.OAuth(
+  'https://api.twitter.com/oauth/request_token',
+  'https://api.twitter.com/oauth/access_token',
+  TWITTER_CONSUMER_KEY,
+  TWITTER_CONSUMER_SECRET,
+  '1.0',
+  TWITTER_CALLBACK,
+  'HMAC-SHA1'
+);
+
+const getTwitterRequestToken = () => {
+  return new Promise((resolve, reject) => {
+    oauthClient.getOAuthRequestToken((error, oauth_token, oauth_token_secret, results) => {
+      if (error)
+        reject(error);
+      else
+        resolve({ oauth_token, oauth_token_secret, results });
+    });
+  });
+};
+
+const getTwitterAccessToken = (oauth_token, oauth_token_secret, oauth_verifier) => {
+  return new Promise((resolve, reject) => {
+    oauthClient.getOAuthAccessToken(
+      oauth_token,
+      oauth_token_secret,
+      oauth_verifier,
+      (error, oauth_access_token, oauth_access_token_secret, results) => {
+        if (error)
+          reject(error);
+        else
+          resolve({ oauth_access_token, oauth_access_token_secret, results });
+      }
+    );
+  });
+};
+
+const getTwitterResource = (url, method, oauth_access_token, oauth_access_token_secret) => {
+  return new Promise((resolve, reject) => {
+    oauthClient.getProtectedResource(
+      url,
+      method,
+      oauth_access_token,
+      oauth_access_token_secret),
+      (error, data, response) => {
+        if (error)
+          reject(error);
+        else
+          resolve({ data, response });
+      }
+    });
+};
+
 const app = express();
 
-const tw = new LoginWithTwitter({
-  consumerKey: process.env.TWITTER_CONSUMER_KEY,
-  consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-  callbackUrl: `${process.env.LAMBDA_URL}/twitter/callback`
+let tokens = {};
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.json({ healthy: true });
 });
 
-app.get('/twitter', (req, res) => {
-  tw.login((err, tokenSecret, url) => {
-    if (err) return;
+router.post('/twitter/oauth/request_token', async (req, res) => {
+  const { oauth_token, oauth_token_secret } = await getTwitterRequestToken();
 
-    // Save token secret for use in /twitter/callback route
-    req.session.tokenSecret = tokenSecret;
-
-    // Redirect to /twitter/callback route with OAuth responses as query params
-    res.redirect(url);
+  res.cookie(TWITTER_COOKIE, oauth_token, {
+    // 15 minutes
+    maxAge: 15 * 60 * 1000,
+    secure: true,
+    httpOnly: true,
+    sameSite: true,
   });
+
+  tokens[oauth_token] = { oauth_token_secret };
+  
+  res.json({ oauth_token });
 });
 
-app.get('/twitter/callback', (req, res) => {
-  tw.callback({
-    oauth_token: req.query.oauth_token,
-    oauth_verifier: req.query.oauth_verifier
-  }, req.session.tokenSecret, (err, user) => {
-    if (err) return;
+router.post('/twitter/oauth/access_token', async (req, res) => {
+  try {
+    const { oauth_token: req_oauth_token, oauth_verifier } = req.body;
+    const oauth_token = req.cookies[TWITTER_COOKIE];
+    const oauth_token_secret = tokens[oauth_token].oauth_token_secret;
 
-    // Delete tokenSecret securely
-    delete req.session.tokenSecret;
+    if (oauth_token !== req_oauth_token) {
+      res.status(403).json({ message: "Request tokens do not match "});
+      return;
+    }
 
-    // The user object returns userId, userName, userToken, userTokenSecret
-    req.session.user = user;
+    const {
+      oauth_access_token,
+      oauth_access_token_secret
+    } = await getTwitterAccessToken(
+      oauth_token,
+      oauth_token_secret,
+      oauth_verifier
+    );
 
-    // Redirect to route that can handle twitter login details
-    res.redirect(process.env.TWITTER_REDIRECT_URL);
-  });
+    tokens[oauth_token] = {
+      ...tokens[oauth_token],
+      oauth_access_token,
+      oauth_access_token_secret
+    };
+
+    res.json({ success: true });
+  } catch (error) {
+    res.status(403).json({ message: "Missing access token "});
+  }
+});
+
+router.get('/twitter/user', async (req, res) => {
+  try {
+    const oauth_token = req.cookies[TWITTER_COOKIE];
+    const {
+      oauth_access_token,
+      oauth_access_token_secret
+    } = tokens[oauth_token];
+
+    const response = await getTwitterResource(
+      'https://api.twitter.com/1.1/account/verify_credentials.json',
+      'GET',
+      oauth_access_token,
+      oauth_access_token_secret
+    );
+
+    res.status(200).send(response.data);
+  } catch (error) {
+    res.status(403).json({
+      message: "Missing, invalid, or expired tokens"
+    });
+  }
+});
+
+router.post('/twitter/logout', async (req, res) => {
+  try {
+    const oauth_token = req.cookies(TWITTER_COOKIE);
+    delete tokens[oauth_token];
+
+    res.cookie(TWITTER_COOKIE, {}, { maxAge: -1 });
+    res.json({ success: true });
+  } catch(error) {
+    res.status(403).json({
+      message: "Missing, invalid, or expired tokens"
+    });
+  }
 });
 
 exports.handler = serverless(app);

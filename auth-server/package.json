@@ -5,9 +5,16 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "login-with-twitter": "^1.2.4",
-    "serverless-http": "^2.7.0"
+    "express-session": "^1.17.1",
+    "oauth": "^0.9.15",
+    "querystring": "^0.2.1",
+    "serverless-http": "^2.7.0",
+    "util": "^0.12.3"
   },
   "scripts": {
     "deploy": "chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh"

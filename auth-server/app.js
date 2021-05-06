@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 
 const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
 const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
-const TWITTER_CALLBACK = process.env.TWITTER_CALLBACK;
+const TWITTER_REDIRECT_URL = process.env.TWITTER_REDIRECT_URL;
 const TWITTER_COOKIE = 'twitter';
 
 const oauthClient = new oauth.OAuth(
@@ -16,7 +16,7 @@ const oauthClient = new oauth.OAuth(
   TWITTER_CONSUMER_KEY,
   TWITTER_CONSUMER_SECRET,
   '1.0',
-  TWITTER_CALLBACK,
+  TWITTER_REDIRECT_URL,
   'HMAC-SHA1'
 );
 
@@ -161,5 +161,7 @@ router.post('/twitter/logout', async (req, res) => {
     });
   }
 });
+
+app.use(router);
 
 exports.handler = serverless(app);

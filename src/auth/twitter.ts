@@ -12,6 +12,7 @@
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { Providers, SetUserHandler } from '../auth/types';
+import { AUTH_BASE_URL } from '../constants';
 
 export const twitterInit = (
   setUser: SetUserHandler
@@ -23,15 +24,18 @@ export const twitterLogin = (
   setUser: SetUserHandler
 ) => {
   axios
-    .get('https://mb6oojneq8.execute-api.us-west-2.amazonaws.com/Prod/twitter',
-      { headers: { 'Content-Type': 'text/html' } })
-    .then(res => {
-      console.log('twitter login res', res);
-    });
+    .post(`${AUTH_BASE_URL}/twitter/oauth/request_token`)
+    .then(({ data: { oauth_token } }) => {
+      window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oauth_token}`;
+    })
+    .catch((error) => console.error(error));
 };
 
 export const twitterLogout = (
   setUser: SetUserHandler
 ) => {
-  // TODO: delete cookie
+  axios
+    .post(`${AUTH_BASE_URL}/twitter/logout`)
+    .then(() => setUser(null))
+    .catch((error) => console.error(error));
 };

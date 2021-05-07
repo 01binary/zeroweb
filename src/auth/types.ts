@@ -23,7 +23,8 @@ export interface User {
   name: string;
   provider: Providers;
   token: string;
-  expires: dayjs.Dayjs;
+  expires?: dayjs.Dayjs;
+  imageUrl?: string;
 };
 
 export type SetUserHandler = (user: User) => void;

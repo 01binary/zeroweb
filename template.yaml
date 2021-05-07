@@ -60,6 +60,6 @@ Resources:
               Type: Api
               Properties:
                 Path: /twitter/user
-                Method: get
+                Method: post
                 RestApiId:
                   Ref: ApiGateway

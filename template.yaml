@@ -34,6 +34,9 @@ Resources:
           Handler: app.handler
           Runtime: nodejs14.x
           CodeUri: ./auth-server
+          Policies:
+            - AmazonCognitoDeveloperAuthenticatedIdentities
+            - AmazonCognitoPowerUser
           Events:
             TwitterRequestToken:
               Type: Api
@@ -46,13 +49,6 @@ Resources:
               Type: Api
               Properties:
                 Path: /twitter/oauth/access_token
-                Method: post
-                RestApiId:
-                  Ref: ApiGateway
-            TwitterLogout:
-              Type: Api
-              Properties:
-                Path: /twitter/logout
                 Method: post
                 RestApiId:
                   Ref: ApiGateway

@@ -10,27 +10,37 @@
 \*---------------------------------------------------------*/
 
 import React, { FC, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
 import { twitterReturn } from '../auth/twitter';
 import Title from '../components/Title';
 import Summary from '../components/Summary';
 
-// TODO: make this a dialog?
+const Error = styled.span`
+  color: ${props => props.theme.errorColor};
+`;
+
 const TwitterRedirect: FC = () => {
   const [ once, setOnce ] = useState<boolean>(false);
-  const { user, setUser } = useBlogContext();
+  const [ error, setError ] = useState<string>(null);
+  const { setUser } = useBlogContext();
 
   useEffect(() => {
     if (once) return;
-    twitterReturn(setUser);
+    twitterReturn(setUser, setError);
     setOnce(true);
-  }, [ twitterReturn, setUser, once, setOnce ]);
+  }, [ twitterReturn, setUser, setError, setOnce, once ]);
 
   return (
     <main>
-      <Title collection="about">Logging you in</Title>
+      <Title collection="about">
+        {error ? 'Twitter Login Failed' : 'Logging you in with Twitter'}
+      </Title>
       <Summary>
-        Please wait while you are logging in with twitter
+        {error
+          ? <Error>{error}</Error>
+          : <span>Please wait while you are logging in with twitter</span>
+        }
       </Summary>
     </main>
   );

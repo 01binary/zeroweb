@@ -18,6 +18,13 @@ export enum Providers {
   GitHub = 'github',
 };
 
+export type AWSSignature = {
+  identityId: string;
+  accessKey?: string;
+  secretKey?: string;
+  sessionToken?: string;
+};
+
 export interface User {
   id: string;
   name: string;
@@ -28,3 +35,4 @@ export interface User {
 };
 
 export type SetUserHandler = (user: User) => void;
+export type SetErrorHandler = (message: string) => void;

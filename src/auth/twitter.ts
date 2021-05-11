@@ -11,7 +11,7 @@
 
 import axios from 'axios';
 import queryString from 'query-string';
-import { Providers, SetUserHandler } from '../auth/types';
+import { Providers, SetUserHandler, SetErrorHandler } from '../auth/types';
 
 const AUTH_URL = 'https://v485ud71q9.execute-api.us-west-2.amazonaws.com/Prod';
 const TWITTER_COOKIE = 'tw';
@@ -39,18 +39,19 @@ const getTwitterCookie = (): TwitterCookie => (
 
 const setTwitterCookie = (twitterCookie: TwitterCookie) => {
   const value = encodeURIComponent(JSON.stringify(twitterCookie));
+  console.log('setting cookie');
   document.cookie = `${TWITTER_COOKIE}=${value}`;
 };
 
 const deleteTwitterCookie = () => {
-  debugger;
   document.cookie = `${TWITTER_COOKIE}=;expires=${new Date(0).toUTCString()}`;
 };
 
 const setTwitterUser = (
   oauth_access_token: string,
   oauth_access_token_secret: string,
-  setUser: SetUserHandler
+  setUser: SetUserHandler,
+  setError: SetErrorHandler,
 ) => {
   axios
     .post(`${AUTH_URL}/twitter/user`, {
@@ -71,47 +72,40 @@ const setTwitterUser = (
         imageUrl: profile_image_url_https,
       });
     })
-    .catch((error) => console.error(error));
-};
-
-const errorAndGoBack = (message: string) => {
-  // TODO
+    .catch((error) => {
+      console.error(error);
+      setError('Unable to retrieve your user information from Twitter');
+    });
 };
 
 export const twitterReturn = (
-  setUser: SetUserHandler
+  setUser: SetUserHandler,
+  setError: SetErrorHandler,
 ) => {
   const {
     oauth_token,
     oauth_verifier
   } = queryString.parse(window.location.search);
 
+  if (!oauth_token || !oauth_verifier) {
+    setError('Received invalid information from Twitter');
+    return;
+  }
+
   const twitterCookie = getTwitterCookie();
 
   if (!twitterCookie) {
-    errorAndGoBack('Twitter cookie not found');
+    setError('Could not find Twitter login information');
     return;
   }
 
   const {
     oauth_token_secret,
     oauth_token: expected_oauth_token,
-    access_token: existing_access_token,
-    access_token_secret: existing_access_token_secret,
   } = twitterCookie;
 
-  if (existing_access_token) {
-    setTwitterUser(existing_access_token, existing_access_token_secret, setUser);
-    return;
-  }
-
-  if (!oauth_token || !oauth_verifier) {
-    errorAndGoBack('Invalid Twitter cookie');
-    return;
-  }
-
   if (oauth_token !== expected_oauth_token) {
-    errorAndGoBack('Twitter cookie mismatch');
+    setError('Received unexpected information from Twitter');
     return;
   }
 
@@ -127,14 +121,18 @@ export const twitterReturn = (
         oauth_access_token_secret: access_token_secret,
       }
     }) => {
-      setTwitterCookie({ ...twitterCookie, access_token, access_token_secret });
-      setTwitterUser(access_token, access_token_secret, setUser);
+      setTwitterCookie({ access_token, access_token_secret });
+      setTwitterUser(access_token, access_token_secret, setUser, setError);
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      console.error(error);
+      setError('Unable to receive your login details from Twitter');
+    });
 };
 
 export const twitterInit = (
-  setUser: SetUserHandler
+  setUser: SetUserHandler,
+  setError: SetErrorHandler,
 ) => {
   const twitterCookie = getTwitterCookie();
   if (!twitterCookie) return;
@@ -146,20 +144,20 @@ export const twitterInit = (
   } = twitterCookie;
 
   if (access_token) {
-    setTwitterUser(access_token, access_token_secret, setUser);
+    setTwitterUser(access_token, access_token_secret, setUser, setError);
   } else if (oauth_token) {
     deleteTwitterCookie();
   }
 };
 
-export const twitterLogin = (
-  setUser: SetUserHandler
-) => {
+export const twitterLogin = () => {
   axios
     .post(`${AUTH_URL}/twitter/oauth/request_token`)
     .then(({ data: { oauth_token, oauth_token_secret } }) => {
-      setTimeout(() => setTwitterCookie({ oauth_token, oauth_token_secret }), 0);
-      window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oauth_token}`;
+      setTwitterCookie({ oauth_token, oauth_token_secret });
+      setTimeout(() => {
+        window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oauth_token}`;
+      }, 100);
     })
     .catch((error) => console.error(error));
 };
@@ -168,8 +166,5 @@ export const twitterLogout = (
   setUser: SetUserHandler
 ) => {
   deleteTwitterCookie();
-  /*axios
-    .post(`${AUTH_URL}/twitter/logout`)
-    .then(() => setUser(null))
-    .catch((error) => console.error(error));*/
+  setUser(null);
 };

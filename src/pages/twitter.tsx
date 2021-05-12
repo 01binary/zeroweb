@@ -36,7 +36,7 @@ const TwitterRedirect: FC = () => {
     if (once) return;
     twitterReturn(setUser, setError, setReturnUrl, to => navigate(to));
     setOnce(true);
-  }, [ twitterReturn, setUser, setError, setOnce, once ]);
+  }, [ twitterReturn, setUser, setError, setOnce, navigate, once ]);
 
   return (
     <main>
@@ -46,15 +46,15 @@ const TwitterRedirect: FC = () => {
       <Summary>
         {error
           ? (
-            <section>
+            <>
               <Error>{error}</Error>
               <BackLink to={returnUrl}>← Go back</BackLink>
-            </section>
+            </>
           )
           : (
-            <section>
+            <>
               <span>Please wait while you are logging in with twitter...</span>
-            </section>
+            </>
           )
         }
       </Summary>

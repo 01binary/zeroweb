@@ -90,29 +90,23 @@ export const twitterReturn = (
   } = queryString.parse(window.location.search);
 
   if (!oauth_token || !oauth_verifier) {
-    setError('Received invalid information from Twitter');
+    setError('Did not receive the information expected from Twitter!');
     return;
   }
 
   const twitterCookie = getTwitterCookie();
 
   if (!twitterCookie) {
-    setError('Could not find Twitter login information');
+    setError('Misplaced Twitter login information!');
     return;
   }
 
   const {
     oauth_token_secret,
-    oauth_token: expected_oauth_token,
     return_url,
   } = twitterCookie;
 
   setReturnUrl(return_url);
-
-  if (oauth_token !== expected_oauth_token) {
-    setError('Received unexpected information from Twitter');
-    return;
-  }
 
   axios
     .post(`${AUTH_URL}/twitter/oauth/access_token`, {
@@ -129,14 +123,11 @@ export const twitterReturn = (
       setTwitterCookie({ return_url, access_token, access_token_secret });
       setTwitterUser(access_token, access_token_secret, setUser, setError);
 
-      window.setTimeout(() => {
-        console.log('success, navigating to return url');
-        navigate(return_url);
-      }, 100);
+      window.setTimeout(() => navigate(return_url), 100);
     })
     .catch((error) => {
       console.error(error);
-      setError('Unable to receive your login details from Twitter');
+      setError('Unable to receive your login details from Twitter!');
     });
 };
 

@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 import React, { FC, useEffect, useState } from 'react';
+import { Link, navigate } from 'gatsby';
 import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
 import { twitterReturn } from '../auth/twitter';
@@ -23,11 +24,12 @@ const Error = styled.span`
 const TwitterRedirect: FC = () => {
   const [ once, setOnce ] = useState<boolean>(false);
   const [ error, setError ] = useState<string>(null);
+  const [ returnUrl, setReturnUrl ] = useState<string>('/');
   const { setUser } = useBlogContext();
 
   useEffect(() => {
     if (once) return;
-    twitterReturn(setUser, setError);
+    twitterReturn(setUser, setError, setReturnUrl, to => navigate(to));
     setOnce(true);
   }, [ twitterReturn, setUser, setError, setOnce, once ]);
 
@@ -38,8 +40,17 @@ const TwitterRedirect: FC = () => {
       </Title>
       <Summary>
         {error
-          ? <Error>{error}</Error>
-          : <span>Please wait while you are logging in with twitter</span>
+          ? (
+            <section>
+              <Error>{error}</Error>
+              <Link to={returnUrl}>Go back</Link>
+            </section>
+          )
+          : (
+            <section>
+              <span>Please wait while you are logging in with twitter...</span>
+            </section>
+          )
         }
       </Summary>
     </main>

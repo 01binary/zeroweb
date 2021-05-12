@@ -21,6 +21,7 @@ type TwitterCookie = {
   oauth_token_secret?: string;
   access_token?: string;
   access_token_secret?: string;
+  return_url?: string;
 };
 
 const getTwitterCookie = (): TwitterCookie => (
@@ -39,8 +40,7 @@ const getTwitterCookie = (): TwitterCookie => (
 
 const setTwitterCookie = (twitterCookie: TwitterCookie) => {
   const value = encodeURIComponent(JSON.stringify(twitterCookie));
-  console.log('setting cookie');
-  document.cookie = `${TWITTER_COOKIE}=${value}`;
+  document.cookie = `${TWITTER_COOKIE}=${value};path=/`;
 };
 
 const deleteTwitterCookie = () => {
@@ -81,6 +81,8 @@ const setTwitterUser = (
 export const twitterReturn = (
   setUser: SetUserHandler,
   setError: SetErrorHandler,
+  setReturnUrl: (url: string) => void,
+  navigate: (to: string) => void,
 ) => {
   const {
     oauth_token,
@@ -102,7 +104,10 @@ export const twitterReturn = (
   const {
     oauth_token_secret,
     oauth_token: expected_oauth_token,
+    return_url,
   } = twitterCookie;
+
+  setReturnUrl(return_url);
 
   if (oauth_token !== expected_oauth_token) {
     setError('Received unexpected information from Twitter');
@@ -121,8 +126,13 @@ export const twitterReturn = (
         oauth_access_token_secret: access_token_secret,
       }
     }) => {
-      setTwitterCookie({ access_token, access_token_secret });
+      setTwitterCookie({ return_url, access_token, access_token_secret });
       setTwitterUser(access_token, access_token_secret, setUser, setError);
+
+      window.setTimeout(() => {
+        console.log('success, navigating to return url');
+        navigate(return_url);
+      }, 100);
     })
     .catch((error) => {
       console.error(error);
@@ -154,7 +164,11 @@ export const twitterLogin = () => {
   axios
     .post(`${AUTH_URL}/twitter/oauth/request_token`)
     .then(({ data: { oauth_token, oauth_token_secret } }) => {
-      setTwitterCookie({ oauth_token, oauth_token_secret });
+      setTwitterCookie({
+        oauth_token,
+        oauth_token_secret,
+        return_url: window.location.pathname + window.location.search
+      });
       setTimeout(() => {
         window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oauth_token}`;
       }, 100);

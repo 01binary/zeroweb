@@ -21,6 +21,11 @@ const Error = styled.span`
   color: ${props => props.theme.errorColor};
 `;
 
+const BackLink = styled(Link)`
+  display: block;
+  margin-top: ${props => props.theme.spacing};
+`;
+
 const TwitterRedirect: FC = () => {
   const [ once, setOnce ] = useState<boolean>(false);
   const [ error, setError ] = useState<string>(null);
@@ -43,7 +48,7 @@ const TwitterRedirect: FC = () => {
           ? (
             <section>
               <Error>{error}</Error>
-              <Link to={returnUrl}>Go back</Link>
+              <BackLink to={returnUrl}>← Go back</BackLink>
             </section>
           )
           : (

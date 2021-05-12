@@ -64,10 +64,7 @@ const setTwitterUser = (
         provider: Providers.Twitter,
         id: id_str,
         name,
-        token: encodeURIComponent(JSON.stringify({
-          oauth_access_token,
-          oauth_access_token_secret
-        })),
+        token: oauth_access_token,
         expires: null,
         imageUrl: profile_image_url_https,
       });

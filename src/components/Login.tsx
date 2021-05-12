@@ -26,9 +26,15 @@ const Login: FC = () => {
     setError,
   ]);
 
-  const handleFacebookLogin = () => facebookLogin(setUser);
-  const handleGoogleLogin = () => googleLogin(setUser);
-  const handleTwitterLogin = () => twitterLogin();
+  const logoutAll = () => {
+    facebookLogout(setUser);
+    googleLogout(setUser);
+    twitterLogout(setUser);
+    return true;
+  };
+  const handleFacebookLogin = () => logoutAll() && facebookLogin(setUser);
+  const handleGoogleLogin = () => logoutAll() && googleLogin(setUser);
+  const handleTwitterLogin = () => logoutAll() && twitterLogin();
   const handleLogout = () => {
     if (user) {
       switch (user.provider) {

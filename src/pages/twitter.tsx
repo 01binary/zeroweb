@@ -30,13 +30,13 @@ const TwitterRedirect: FC = () => {
   const [ once, setOnce ] = useState<boolean>(false);
   const [ error, setError ] = useState<string>(null);
   const [ returnUrl, setReturnUrl ] = useState<string>('/');
-  const { setUser } = useBlogContext();
+  const { setUser, setCredentials } = useBlogContext();
 
   useEffect(() => {
     if (once) return;
-    twitterReturn(setUser, setError, setReturnUrl, to => navigate(to));
+    twitterReturn(setUser, setError, setCredentials, setReturnUrl, to => navigate(to));
     setOnce(true);
-  }, [ twitterReturn, setUser, setError, setOnce, navigate, once ]);
+  }, [ twitterReturn, setUser, setError, setCredentials, setOnce, navigate, once ]);
 
   return (
     <main>

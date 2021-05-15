@@ -11,7 +11,13 @@
 
 import dayjs from 'dayjs';
 import loadScript from './loadScript';
-import { Providers, SetUserHandler } from '../auth/types';
+import {
+  Providers,
+  SetCredentialsHandler,
+  SetErrorHandler,
+  SetUserHandler
+} from '../auth/types';
+import { authenticate } from './cognito';
 
 enum LoginStatus {
   Connected = 'connected',
@@ -32,6 +38,8 @@ interface LoginResponse {
 
 const handleLogin = (
   setUser: SetUserHandler,
+  setCredentials: SetCredentialsHandler,
+  setError: SetErrorHandler,
   {
     status,
     authResponse
@@ -45,21 +53,32 @@ const handleLogin = (
     } = authResponse;
 
     FB.api(
-      '/me?fields=first_name,last_name',
-      ({ first_name, last_name }) => {
-        setUser({
-          provider: Providers.Facebook,
-          id,
-          name: `${first_name} ${last_name}`,
-          token,
-          expires: dayjs().add(expiresIn, 'seconds'),
-        });
+      '/me?fields=name,picture',
+      ({ name, picture: { data: { url }} }) => {
+        authenticate(Providers.Facebook, token)
+          .then((awsSignature) => {
+            setCredentials(awsSignature);
+            setUser({
+              provider: Providers.Facebook,
+              id,
+              name,
+              imageUrl: url,
+              token,
+              expires: dayjs().add(expiresIn, 'seconds'),
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            setError('Could not sign in with your Facebook account, please try again later!');
+          });
       });
   }
 };
 
 export const facebookInit = (
-  setUser: SetUserHandler
+  setUser: SetUserHandler,
+  setCredentials: SetCredentialsHandler,
+  setError: SetErrorHandler,
 ) => {
   loadScript('facebookapi', 'https://connect.facebook.net/en_US/sdk.js', () => {
     FB.init({
@@ -71,21 +90,25 @@ export const facebookInit = (
       version: 'v10.0'
     });
 
-    FB.getLoginStatus(res => res && handleLogin(setUser, res));
+    FB.getLoginStatus(res => res && handleLogin(setUser, setCredentials, setError, res));
   });
 };
 
 export const facebookLogin = (
-  setUser: SetUserHandler
+  setUser: SetUserHandler,
+  setCredentials: SetCredentialsHandler,
+  setError: SetErrorHandler,
 ) => FB.login(
-  res => res && handleLogin(setUser, res),
+  res => res && handleLogin(setUser, setCredentials, setError, res),
   {
     scope: 'public_profile'
   }
 );
 
 export const facebookLogout = (
-  setUser: SetUserHandler
-) => FB.logout(
-  () => setUser(null)
-);
+  setUser: SetUserHandler,
+  setCredentials: SetCredentialsHandler,
+) => FB.logout(() => {
+  setUser(null);
+  setCredentials(null);
+});

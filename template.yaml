@@ -16,7 +16,7 @@ Resources:
           FunctionName: zeroweb-api
           Handler: graphql.handler
           Runtime: nodejs14.x
-          CodeUri: ./server
+          CodeUri: ./api-server
           Policies:
             - AmazonDynamoDBFullAccess
           Events:
@@ -38,6 +38,13 @@ Resources:
             - AmazonCognitoDeveloperAuthenticatedIdentities
             - AmazonCognitoPowerUser
           Events:
+            CognitoToken:
+              Type: Api
+              Properties:
+                Path: /token
+                Method: post
+                RestApiId:
+                  Ref: ApiGateway
             TwitterRequestToken:
               Type: Api
               Properties:

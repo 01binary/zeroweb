@@ -6,11 +6,10 @@ const TWITTER_REDIRECT_URL = process.env.TWITTER_REDIRECT_URL;
 
 let oauthClient;
 
-exports.initTwitter = (res) => {
+exports.initTwitter = () => {
   try {
     if (!TWITTER_CONSUMER_KEY || !TWITTER_CONSUMER_SECRET || !TWITTER_REDIRECT_URL) {
-      console.error('Lambda environment variables are not set');
-      res.status(500).json({ message: 'Lambda environment variables not set' });
+      console.error('twitter environment variables are not set');
       return false;
     }
 
@@ -25,8 +24,9 @@ exports.initTwitter = (res) => {
     );
 
     return true;
+
   } catch (error) {
-    console.error('lambda initialization failed', error);
+    console.error('twitter initialization failed', error);
     return false;
   }
 };
@@ -85,4 +85,29 @@ exports.getTwitterResource = (
         }
       });
     })
+);
+
+exports.validateTwitterToken = async (access_token, access_token_secret) => (
+  new Promise((resolve, reject) => {
+    try {
+      if (!this.initTwitter()) throw new Error('failed to initialize twitter auth');
+
+      this.getTwitterResource(
+        'https://api.twitter.com/1.1/account/verify_credentials.json',
+        access_token,
+        access_token_secret
+      )
+      .then(({ data }) => {
+        const { id_str } = JSON.parse(data);
+        resolve({
+          id: id_str,
+          valid: true
+        });
+      })
+      .catch((error) => reject(error));
+    } catch (error) {
+      console.error('validateTwitterToken failure', error);
+      reject(error);
+    }
+  })
 );

@@ -19,10 +19,10 @@ export enum Providers {
 };
 
 export type AWSSignature = {
-  identityId: string;
-  accessKey?: string;
+  accessKeyId?: string;
   secretKey?: string;
   sessionToken?: string;
+  expires: dayjs.Dayjs;
 };
 
 export interface User {
@@ -36,3 +36,4 @@ export interface User {
 
 export type SetUserHandler = (user: User) => void;
 export type SetErrorHandler = (message: string) => void;
+export type SetCredentialsHandler = (credentials: AWSSignature) => void;

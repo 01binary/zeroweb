@@ -31,6 +31,7 @@ import {
   TableRow,
   TableCell
 } from '../components/Table';
+import { AWSSignature, User } from '../auth/types';
 
 const getCollection = (path: string): string => path.split('/')[1];
 
@@ -40,13 +41,19 @@ const Layout: FC<RouteComponentProps> = ({
   location
 }) => {
   const theme = useContext(ThemeContext);
-  const [ user, setUser ] = useState(null);
+  const [ user, setUser ] = useState<User>(null);
+  const [ credentials, setCredentials ] = useState<AWSSignature>(null);
+
+  console.log('current user', user);
+  console.log('credentials', credentials);
+
   return (
     <BlogContext.Provider value={{
       url: path,
       collection: getCollection(path),
       user,
-      setUser
+      setUser,
+      setCredentials,
     }}>
       <MDXProvider components={{
         h1: Heading1,

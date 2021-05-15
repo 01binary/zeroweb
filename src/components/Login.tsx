@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
 import { Providers } from '../auth/types';
-import { twitterInit, twitterLogin, twitterLogout } from '../auth/twitter';
-import { facebookInit, facebookLogin, facebookLogout } from '../auth/facebook';
-import { googleInit, googleLogin, googleLogout } from '../auth/google';
+import useTwitter from '../auth/twitter';
+import useFacebook from '../auth/facebook';
+import useGoogle from '../auth/google';
 
 const Error = styled.section`
   color: ${props => props.theme.errorColor};
@@ -15,43 +15,58 @@ const Login: FC = () => {
   const [ error, setError ] = useState<string>(null);
   const [ once, setOnce ] = useState<boolean>(false);
 
+  const {
+    facebookInit,
+    facebookLogin,
+    facebookLogout
+  } = useFacebook(setUser, setCredentials, setError);
+
+  const {
+    googleInit,
+    googleLogin,
+    googleLogout,
+  } = useGoogle(setUser, setCredentials, setError);
+
+  const {
+    twitterInit,
+    twitterLogin,
+    twitterLogout,
+  } = useTwitter(setUser, setCredentials, setError);
+
   useEffect(() => {
     if (once) return;
-    facebookInit(setUser, setCredentials, setError);
-    googleInit(setUser, setCredentials, setError);
-    twitterInit(setUser, setCredentials, setError);
+    facebookInit();
+    googleInit();
+    twitterInit();
     setOnce(true);
   }, [
     facebookInit,
     googleInit,
     twitterInit,
-    setUser,
-    setCredentials,
-    setError,
     setOnce
   ]);
 
   const logoutAll = () => {
-    facebookLogout(setUser, setCredentials);
-    googleLogout(setUser, setCredentials);
-    twitterLogout(setUser, setCredentials);
+    facebookLogout();
+    googleLogout();
+    twitterLogout();
     return true;
   };
 
-  const handleFacebookLogin = () => logoutAll() && facebookLogin(setUser, setCredentials, setError);
-  const handleGoogleLogin = () => logoutAll() && googleLogin(setUser, setCredentials, setError);
-  const handleTwitterLogin = () => logoutAll() && twitterLogin(setError);
+  const handleFacebookLogin = () => logoutAll() && facebookLogin();
+  const handleGoogleLogin = () => logoutAll() && googleLogin();
+  const handleTwitterLogin = () => logoutAll() && twitterLogin();
   const handleLogout = () => {
     if (user) {
       switch (user.provider) {
         case Providers.Facebook:
-          facebookLogout(setUser, setCredentials);
+          facebookLogout();
           break;
         case Providers.Google:
-          googleLogout(setUser, setCredentials);
+          googleLogout();
           break;
         case Providers.Twitter:
-          twitterLogout(setUser, setCredentials);
+          twitterLogout();
           break;
       }
     }

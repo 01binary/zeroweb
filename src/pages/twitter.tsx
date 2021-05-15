@@ -13,7 +13,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, navigate } from 'gatsby';
 import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
-import { twitterReturn } from '../auth/twitter';
+import useTwitter from '../auth/twitter';
 import Title from '../components/Title';
 import Summary from '../components/Summary';
 
@@ -31,12 +31,13 @@ const TwitterRedirect: FC = () => {
   const [ error, setError ] = useState<string>(null);
   const [ returnUrl, setReturnUrl ] = useState<string>('/');
   const { setUser, setCredentials } = useBlogContext();
+  const { twitterReturn } = useTwitter(setUser, setCredentials, setError);
 
   useEffect(() => {
     if (once) return;
-    twitterReturn(setUser, setError, setCredentials, setReturnUrl, to => navigate(to));
+    twitterReturn(setReturnUrl, to => navigate(to));
     setOnce(true);
-  }, [ twitterReturn, setUser, setError, setCredentials, setOnce, navigate, once ]);
+  }, [ twitterReturn, setOnce, navigate, once ]);
 
   return (
     <main>
@@ -53,7 +54,7 @@ const TwitterRedirect: FC = () => {
           )
           : (
             <>
-              <span>Please wait while you are logging in with twitter...</span>
+              <span>Please wait while logging you in with Twitter...</span>
             </>
           )
         }

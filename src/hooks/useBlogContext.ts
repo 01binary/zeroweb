@@ -10,12 +10,18 @@
 \*---------------------------------------------------------*/
 
 import { createContext, useContext } from 'react';
-import { User, SetUserHandler, SetCredentialsHandler } from '../auth/types';
+import {
+  User,
+  SetUserHandler,
+  SetCredentialsHandler,
+  AWSSignature
+} from '../auth/types';
 
 interface BlogContextProps {
   url: string;
   collection: string;
   user: User;
+  credentials: AWSSignature,
   setUser: SetUserHandler;
   setCredentials: SetCredentialsHandler;
 };
@@ -24,6 +30,7 @@ export const BlogContext = createContext<BlogContextProps>({
   url: '',
   collection: '',
   user: null,
+  credentials: null,
   setUser: null,
   setCredentials: null,
 });

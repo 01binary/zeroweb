@@ -77,19 +77,19 @@ const useFacebook = (
   const facebookInit = () => {
     loadScript(
       'facebookapi',
-      'https://connect.facebook.net/en_US/sdk.js',
-      () => {
-        FB.init({
-          appId: '528437335196727',
-          // Persist login in cookie
-          cookie: true,
-          // Parse social logins
-          xfbml: true,
-          version: 'v10.0'
-        });
-    
-        FB.getLoginStatus(res => res && handleLogin(setUser, setCredentials, setError, res));
+      'https://connect.facebook.net/en_US/sdk.js'
+    ).then(() => {
+      FB.init({
+        appId: '528437335196727',
+        // Persist login in cookie
+        cookie: true,
+        // Parse social logins
+        xfbml: true,
+        version: 'v10.0'
       });
+  
+      FB.getLoginStatus(res => res && handleLogin(res));
+    });
   };
 
   const facebookLogin = () => {

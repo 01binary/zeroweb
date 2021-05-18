@@ -51,24 +51,22 @@ const useGoogle = (
   const googleInit = () => {
     loadScript(
       'googleapi',
-      'https://apis.google.com/js/platform.js',
-      () => {
-        gapi.load('auth2', () => {
-          gapi
-            .auth2
-            .init({
-              client_id: '574591881102-kg8frj9pqe5rdgsi8eeqe2emkseb4th0.apps.googleusercontent.com'
-            })
-            .then(() => {
-              const user = gapi
-                .auth2
-                .getAuthInstance()
-                .currentUser
-                .get();
-    
-              if (user.isSignedIn()) handleLogin(user);
-            });
-        });
+      'https://apis.google.com/js/platform.js'
+    ).then(() => {
+      gapi.load('auth2', () => {
+        gapi.auth2
+          .init({
+            client_id: '574591881102-kg8frj9pqe5rdgsi8eeqe2emkseb4th0.apps.googleusercontent.com'
+          })
+          .then(() => {
+            const guser = gapi.auth2
+              .getAuthInstance()
+              .currentUser
+              .get();
+  
+            if (guser.isSignedIn()) handleLogin(guser);
+          });
+      });
     });
   };
 

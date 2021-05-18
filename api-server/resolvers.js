@@ -1,4 +1,3 @@
-const { getCurrentUser } = require('./auth');
 const {
   getComments,
   getComment,
@@ -10,13 +9,15 @@ const {
 
 exports.resolvers = {
   Query: {
-    comments: async (root, { slug }) => getComments(slug),
+    comments: async (root, { slug }) => {
+      return getComments(slug);
+    },
     comment: async (root, { slug, timestamp }) => getComment(slug, timestamp),
   },
   Mutation: {
-    addComment: async (root, { comment }) => addComment({
+    addComment: async (root, { comment }, { user }) => addComment({
       ...comment,
-      user: getCurrentUser(),
+      user,
       timestamp: new Date().toISOString()
     }),
     deleteComment: async (root, { comment }) =>

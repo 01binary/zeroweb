@@ -1,10 +1,16 @@
 const { ApolloServer } = require('apollo-server-lambda');
 const { typeDefs } = require('./typeDefs');
 const { resolvers } = require('./resolvers');
+const { getUser } = require('./auth');
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers
-});
+exports.handler = (event, context, callback) => {
+  const apolloHandler = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: () => ({
+      user: getUser(event.requestContext)
+    }),
+  }).createHandler();
 
-exports.handler = server.createHandler();
+  apolloHandler(event, context, callback);
+};

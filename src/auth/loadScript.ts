@@ -12,19 +12,20 @@
 const loadScript = (
   id: string,
   url: string,
-  handler: () => void
-) => {
-  if (typeof window === `undefined`) return;
-  if (document.getElementById(id)) return;
+): Promise<string> => (
+  new Promise((resolve, reject) => {
+    if (typeof window === `undefined`) reject();
+    if (document.getElementById(id)) resolve(id);
 
-  const scriptEl = document.createElement('script');
+    const scriptEl = document.createElement('script');
 
-  scriptEl.id = id;
-  scriptEl.src = url;
-  scriptEl.async = true;
-  scriptEl.addEventListener('load', handler);
+    scriptEl.id = id;
+    scriptEl.src = url;
+    scriptEl.async = true;
+    scriptEl.addEventListener('load', () => resolve(id));
 
-  window.document.body.appendChild(scriptEl);
-}
+    window.document.body.appendChild(scriptEl);
+  })
+);
 
 export default loadScript;

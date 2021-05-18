@@ -19,7 +19,49 @@ exports.initCognito = () => {
   }
 };
 
-exports.authenticateCognito = (
+exports.getCognitoGuestCredentials = () => (
+  new Promise((resolve, reject) => {
+    cognito.getId({
+      IdentityPoolId: IDENTITY_POOL_ID
+    },
+    (error, data) => {
+      if (error) {
+        console.error('getId failed with', error);
+        reject(error);
+      } else {
+        const { IdentityId } = data;
+
+        cognito.getCredentialsForIdentity({
+          IdentityId
+        },
+        (error, data) => {
+          if (error) {
+            console.error('getCredentialsForIdentity failed with', error);
+            reject(error);
+          } else {
+            const {
+              Credentials: {
+                AccessKeyId,
+                SecretKey,
+                SessionToken,
+                Expiration,
+              }
+            } = data;
+
+            resolve({
+              accessKeyId: AccessKeyId,
+              secretKey: SecretKey,
+              sessionToken: SessionToken,
+              expires: Expiration,
+            });
+          }
+        });
+      }
+    });
+  })
+)
+
+exports.getCognitoUserCredentials = (
   provider,
   providerId
 ) => (

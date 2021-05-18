@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import { createGlobalStyle } from 'styled-components';
-import { mobile } from './constants';
+import { MOBILE } from './constants';
 
 const unit = 30;
 
@@ -35,7 +35,7 @@ const spacing = {
     wide: '1200px',
     desktop: '1080px',
     column: '950px',
-    mobile,
+    mobile: MOBILE,
 }
 
 const typography = {

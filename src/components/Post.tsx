@@ -23,6 +23,7 @@ import ClockIcon from '../images/clock.svg';
 import { Heading } from './Heading';
 import Wheel, { WHEEL_SIZE } from './Wheel';
 import { Ruler, RULER_OFFSET, RULER_SELECTION_GUTTER } from './Ruler';
+import Login from './Login';
 import TagList from './TagList';
 import SEO from './SEO';
 import TOC from './TOC';
@@ -72,7 +73,7 @@ const Main = styled.main`
       width: calc(${props => props.theme.border} * 1.5);
       height: 100%;
       background: ${props => props.theme.foregroundColor};
-      opacity: 0;
+      opacity: .4;
       transition: opacity ${props => props.theme.animationFast} ease-out;
     }
   }
@@ -501,53 +502,57 @@ const Post: FC<PostProps> = ({
 
   return (
     <Main>
-        <SEO
-          title={title}
-          description={description}
-          image={fluid.src}
-          url={url}
-        />
+      <SEO
+        title={title}
+        description={description}
+        image={fluid.src}
+        url={url}
+      />
 
-        <Ruler />
+      <Ruler />
 
-        <PostHeading>{title}</PostHeading>
+      <PostHeading>{title}</PostHeading>
 
-        <Metadata>
-          <Clock />
-          <InlineIndicator>{getDateValue(relativeDate)}</InlineIndicator>
-          &nbsp;
-          <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
-          &nbsp;
-          <Author> by <AuthorLink /></Author>
-          &nbsp;
-          <Location> in <LocationLink /></Location>
-        </Metadata>
+      <Metadata>
+        <Clock />
+        <InlineIndicator>{getDateValue(relativeDate)}</InlineIndicator>
+        &nbsp;
+        <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
+        &nbsp;
+        <Author> by <AuthorLink /></Author>
+        &nbsp;
+        <Location> in <LocationLink /></Location>
+      </Metadata>
 
-        <Wheelhouse>
-          <Wheel />
-        </Wheelhouse>
+      <Wheelhouse>
+        <Wheel />
+      </Wheelhouse>
 
-        <Sidebar>
-          <SidebarPanel>
-            <SidebarMetadata>
-              <Gauge position={readPosition} />
-              <Indicator>{timeToRead}</Indicator><span> min </span>
-              <IndicatorLabel>to read</IndicatorLabel>
-            </SidebarMetadata>
-            <TagList tags={tags} stats={group} collection={collection} />
-            <TagList tags={tags} stats={group} collection={collection} inline />
-          </SidebarPanel>
+      <Sidebar>
+        <SidebarPanel>
+          <SidebarMetadata>
+            <Gauge position={readPosition} />
+            <Indicator>{timeToRead}</Indicator><span> min </span>
+            <IndicatorLabel>to read</IndicatorLabel>
+          </SidebarMetadata>
+          <TagList tags={tags} stats={group} collection={collection} />
+          <TagList tags={tags} stats={group} collection={collection} inline />
+        </SidebarPanel>
 
-          <TOC headings={slugifyHeadings(url, headings)} />
-        </Sidebar>
+        <TOC headings={slugifyHeadings(url, headings)} />
+      </Sidebar>
 
-        <HeroImage fluid={fluid} />
+      <HeroImage fluid={fluid} />
 
-        <Content role="document">
-          <MDXRenderer>
-            {body}
-          </MDXRenderer>
-        </Content>
+      <Content role="document">
+        <MDXRenderer>
+          {body}
+        </MDXRenderer>
+      </Content>
+
+      <h2>+ Comments</h2>
+
+      <Login />
     </Main>
   );
 };

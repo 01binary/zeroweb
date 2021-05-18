@@ -50,7 +50,7 @@ exports.createPages = async ({
         return;
     }
 
-    // Generate posts
+    // Generate posts (both articles and projects)
     const post = require.resolve('./src/components/Post.tsx');
 
     nodes.forEach(({
@@ -69,7 +69,7 @@ exports.createPages = async ({
         });
     });
 
-    // Generate index pages
+    // Generate index pages (all posts for tag)
     const postIndex = require.resolve('./src/components/PostIndex.tsx');
 
     CONTENT.forEach(({ path, collection }) => {

@@ -1,6 +1,6 @@
-import { gql } from 'apollo-server-lambda';
+const { gql } = require('apollo-server-lambda');
 
-export const typeDefs = gql`
+exports.typeDefs = gql`
   type Comment {
     slug: String!
     timestamp: String!

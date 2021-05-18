@@ -15,7 +15,7 @@ import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import flip from '@popperjs/core/lib/modifiers/flip.js';
 import offset from '@popperjs/core/lib/modifiers/offset.js';
 import arrow from '@popperjs/core/lib/modifiers/arrow.js';
-import { mobile } from '../constants';
+import { MOBILE } from '../constants';
 import { Placement } from '@popperjs/core/lib/enums';
 
 export type ShowTipHandler = (text?: string) => void;
@@ -124,7 +124,7 @@ export const useTooltipTarget = ({
   const targetRef = useRef<Element>(null);
   const popperRef = useRef<Instance>(null);
   const isMobile = typeof window !== `undefined`
-    ? window.matchMedia(`(max-width: ${mobile})`).matches
+    ? window.matchMedia(`(max-width: ${MOBILE})`).matches
     : false;
 
   useEffect(() => {

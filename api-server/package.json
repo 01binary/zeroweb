@@ -1,0 +1,19 @@
+{
+  "name": "zeroweb-api",
+  "version": "1.0.0",
+  "description": "Serverless GraphQL API for ZeroWeb",
+  "main": "handler.js",
+  "author": "Valeriy Novytskyy",
+  "license": "MIT",
+  "scripts": {
+    "start": "node playground.js"
+  },
+  "dependencies": {
+    "apollo-server-lambda": "^2.23.0",
+    "aws-sdk": "^2.892.0",
+    "graphql": "^15.5.0"
+  },
+  "devDependencies": {
+    "apollo-server": "^2.23.0"
+  }
+}

@@ -45,6 +45,13 @@ Resources:
                 Method: post
                 RestApiId:
                   Ref: ApiGateway
+            DeleteCognitoIdentity:
+              Type: Api
+              Properties:
+                Path: /identity
+                Method: delete
+                RestApiId:
+                  Ref: ApiGateway
             TwitterRequestToken:
               Type: Api
               Properties:

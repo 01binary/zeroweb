@@ -45,6 +45,7 @@ const Layout: FC<RouteComponentProps> = ({
   const [ credentials, setCredentials ] = useState<AWSSignature>(null);
 
   if (credentials) console.log('credentials', credentials);
+  if (user) console.log('user', user);
 
   return (
     <BlogContext.Provider value={{

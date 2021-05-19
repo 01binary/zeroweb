@@ -3,7 +3,12 @@ const serverless = require('serverless-http');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { validateProvider, validateToken } = require('./providers');
-const { initCognito, getCognitoUserCredentials, getCognitoGuestCredentials } = require('./providers/cognito');
+const {
+  initCognito,
+  getCognitoUserCredentials,
+  getCognitoGuestCredentials,
+  deleteCognitoIdentity,
+} = require('./providers/cognito');
 const {
   initTwitter,
   getTwitterRequestToken,
@@ -42,7 +47,31 @@ router.post('/token', async (req, res) => {
       res.status(200).json(guestRes);
     }
   } catch (error) {
-    console.error('login endpoint failure', error);
+    console.error('token endpoint failure', error);
+    res.status(403).json({ message: error.message });
+  }
+});
+
+router.delete('/identity', async (req, res) => {
+  try {
+    const { provider, access_token, access_token_secret } = req.body;
+
+    if (!validateProvider(provider)) throw new Error('invalid social provider');
+
+    const { id, valid } = await validateToken(
+      provider,
+      access_token,
+      access_token_secret
+    );
+
+    if (!valid) throw new Error(`invalid ${provider} token`);
+    if (!id) throw new Error('invalid social provider id');
+
+    const IdentityId = await deleteCognitoIdentity(provider, id);
+    res.status(200).json({ identityId: IdentityId });
+
+  } catch (error) {
+    console.error('delete endpoint failure', error);
     res.status(403).json({ message: error.message });
   }
 });

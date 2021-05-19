@@ -112,3 +112,42 @@ exports.getCognitoUserCredentials = (
     })
   })
 );
+
+exports.deleteCognitoIdentity = (
+  provider,
+  providerId
+) => (
+  new Promise((resolve, reject) => {
+    cognito.getOpenIdTokenForDeveloperIdentity({
+      IdentityId: null,
+      IdentityPoolId: IDENTITY_POOL_ID,
+      Logins: {
+        [IDENTITY_PROVIDER]: `${provider}:${providerId}`
+      }
+    },
+    (error, data) => {
+      if (error) {
+        console.error('getOpenIdTokenForDeveloperIdentity failed with', error);
+        reject(error);
+      } else {
+        const { IdentityId } = data;
+        cognito.deleteIdentities({
+          IdentityIdsToDelete: [ IdentityId ]
+        },
+        (error, data) => {
+          if (error) {
+            console.error('deleteIdentities failed with', error);
+            reject(error);
+          } else {
+            const { UnprocessedIdentityIds } = data;
+
+            if (UnprocessedIdentityIds.length > 0)
+              reject(new Error(`failed to process identity deletion: ${UnprocessedIdentityIds[0].ErrorCode}`));
+            
+            resolve(IdentityId);
+          }
+        });
+      }
+    });
+  })
+);

@@ -1,12 +1,23 @@
 const { gql } = require('apollo-server-lambda');
 
 exports.typeDefs = gql`
+  enum Reaction {
+    snap,
+    party,
+    laugh,
+    confused
+  }
+
   type Comment {
     slug: String!
     timestamp: String!
-    user: String!
-    votes: Int!
+    userId: String!
+
+    parentTimestamp: String
     markdown: String
+    reaction: Reaction
+    votes: Int
+
     paragraph: String
     rangeStart: Int
     rangeLength: Int
@@ -14,10 +25,19 @@ exports.typeDefs = gql`
 
   input CommentInput {
     slug: String!
+    parentId: String
     markdown: String
+    reaction: Reaction
     paragraph: String
     rangeStart: Int
     rangeLength: Int
+  }
+
+  input VoteCommentInput {
+    slug: String!
+    timestamp: String!
+    upVote: Boolean
+    downVote: Boolean
   }
 
   input DeleteCommentInput {
@@ -31,24 +51,6 @@ exports.typeDefs = gql`
     markdown: String!
   }
 
-  input VoteCommentInput {
-    slug: String!
-    timestamp: String!
-    upvote: Boolean
-    downvote: Boolean
-  }
-
-  type CommentOperationResult {
-    slug: String
-    timestamp: String
-    user: String
-    votes: Int
-    markdown: String
-    paragraph: String
-    rangeStart: Int
-    rangeLength: Int
-  }
-
   type Query {
     comments(slug: String!): [Comment!]!
     comment(slug: String!, timestamp: String!): Comment
@@ -56,9 +58,9 @@ exports.typeDefs = gql`
 
   type Mutation {
     addComment(comment: CommentInput!): Comment
-    deleteComment(comment: DeleteCommentInput!): CommentOperationResult
-    editComment(comment: EditCommentInput!): CommentOperationResult
-    voteComment(comment: VoteCommentInput!): CommentOperationResult
+    editComment(comment: EditCommentInput!): Comment
+    voteComment(comment: VoteCommentInput!): Comment
+    deleteComment(comment: DeleteCommentInput!): Comment
   }
 
   schema {

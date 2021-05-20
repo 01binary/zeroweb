@@ -2,12 +2,13 @@ const AWS = require('aws-sdk');
 
 AWS.config.update({ region: 'us-west-2' });
 
+const TableName = 'zeroweb-comments';
 const db = new AWS.DynamoDB.DocumentClient();
 
 exports.getComment = async (slug, timestamp) => {
-  const { Item } = await db
+  const { Item: comment } = await db
     .get({
-      TableName: 'zeroweb-comments',
+      TableName,
       Key: {
         slug,
         timestamp
@@ -15,13 +16,13 @@ exports.getComment = async (slug, timestamp) => {
     })
     .promise();
 
-  return Item;
+  return comment;
 };
 
 exports.getComments = async (slug) => {
   const { Items } = await db
     .query({
-      TableName: 'zeroweb-comments',
+      TableName,
       KeyConditionExpression: 'slug = :slug',
       ExpressionAttributeValues: {
         ':slug': slug
@@ -32,63 +33,68 @@ exports.getComments = async (slug) => {
   return Items;
 };
 
-exports.addComment = async (comment) => {
-  const Item = { ...comment, votes: 0 };
-  await db
-    .put({
-      TableName: 'zeroweb-comments',
-      Item
-    })
-    .promise();
-
-  return Item;
+exports.addComment = async (Item) => {
+  await db.put({ TableName, Item }).promise();
+  return comment;
 };
 
-exports.editComment = async (comment) => {
-  const { slug, timestamp, markdown } = comment;
+exports.editComment = async ({
+  slug,
+  timestamp,
+  markdown,
+  reaction,
+}, original) => {
   await db
     .update({
-      TableName: 'zeroweb-comments',
+      TableName,
       Key: {
         slug,
-        timestamp
+        timestamp,
       },
-      UpdateExpression: 'set markdown = :markdown',
+      UpdateExpression: 'set markdown = :markdown, reaction = :reaction',
       ExpressionAttributeValues: {
-        ':markdown': markdown
+        ':markdown': markdown,
+        ':reaction': reaction,
       }
     })
     .promise();
 
-  return await getComment(slug, timestamp);
+  return {
+    ...original,
+    markdown,
+    reaction
+  };
 };
 
-exports.voteComment = async (slug, timestamp, vote) => {
-  if (vote) {
-    await db
-      .update({
-        TableName: 'zeroweb-comments',
-        Key: {
-          slug,
-          timestamp
-        },
-        UpdateExpression: 'set votes = votes + :vote',
-        ExpressionAttributeValues: {
-          ':vote': vote
-        }
-      })
-      .promise();
-  }
+exports.voteComment = async ({
+  slug,
+  timestamp,
+  votes,
+}, original) => {
+  await db
+    .update({
+      TableName,
+      Key: {
+        slug,
+        timestamp,
+      },
+      UpdateExpression: 'set votes = :votes',
+      ExpressionAttributeValues: {
+        ':votes': votes,
+      }
+    })
+    .promise();
 
-  const old = await getComment(slug, timestamp);
-  return { ...old, votes: old.votes + vote };
+  return { ...original, votes };
 };
 
-exports.deleteComment = async (comment) => {
-  const { slug, timestamp } = comment;
+exports.deleteComment = async ({
+  slug,
+  timestamp,
+}) => {
   await db
     .delete({
-      TableName: 'zeroweb-comments',
+      TableName,
       Key: {
         slug,
         timestamp

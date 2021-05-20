@@ -10,6 +10,8 @@ Resources:
           AllowMethods: "'POST, GET'"
           AllowOrigin: "'*'"
           AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        Auth:
+          DefaultAuthorizer: NONE
     ApiLambda:
         Type: AWS::Serverless::Function
         Properties:
@@ -24,9 +26,11 @@ Resources:
               Type: Api
               Properties:
                 Path: /graphql
-                Method: any
+                Method: post
                 RestApiId:
                   Ref: ApiGateway
+                Auth:
+                  Authorizer: 'AWS_IAM'
     AuthLambda:
         Type: AWS::Serverless::Function
         Properties:
@@ -45,6 +49,8 @@ Resources:
                 Method: post
                 RestApiId:
                   Ref: ApiGateway
+                Auth:
+                  Authorizer: 'NONE'
             DeleteCognitoIdentity:
               Type: Api
               Properties:
@@ -52,6 +58,8 @@ Resources:
                 Method: delete
                 RestApiId:
                   Ref: ApiGateway
+                Auth:
+                  Authorizer: 'NONE'
             TwitterRequestToken:
               Type: Api
               Properties:
@@ -59,6 +67,8 @@ Resources:
                 Method: post
                 RestApiId:
                   Ref: ApiGateway
+                Auth:
+                  Authorizer: 'NONE'
             TwitterAccessToken:
               Type: Api
               Properties:
@@ -66,6 +76,8 @@ Resources:
                 Method: post
                 RestApiId:
                   Ref: ApiGateway
+                Auth:
+                  Authorizer: 'NONE'
             TwitterUserInfo:
               Type: Api
               Properties:
@@ -73,3 +85,5 @@ Resources:
                 Method: post
                 RestApiId:
                   Ref: ApiGateway
+                Auth:
+                  Authorizer: 'NONE'

@@ -35,7 +35,7 @@ exports.getComments = async (slug) => {
 
 exports.addComment = async (Item) => {
   await db.put({ TableName, Item }).promise();
-  return comment;
+  return Item;
 };
 
 exports.editComment = async ({

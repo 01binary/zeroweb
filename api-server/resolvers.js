@@ -20,36 +20,18 @@ exports.resolvers = {
   Mutation: {
     addComment: async (
       root,
-      {
-        comment: {
-          slug,
-          parentTimestamp,
-          markdown,
-          reaction,
-          paragraph,
-          rangeStart,
-          rangeEnd
-        }
-      },
+      { comment },
       { user },
     ) => {
-      console.log('addComment mutation got user', user);
-
       if (!user?.authenticated) throw new AuthenticationError(
         'must be logged in with a social provider to add comments'
       );
 
       return addComment({
-        slug,
+        ...comment,
         timestamp: new Date().toISOString(),
         userId: user.id,
-        parentTimestamp,
-        markdown,
-        reaction,
         votes: 0,
-        paragraph,
-        rangeStart,
-        rangeEnd
       });
     },
 

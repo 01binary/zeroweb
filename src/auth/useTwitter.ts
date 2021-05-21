@@ -149,22 +149,35 @@ const useTwitter = (
       });
   };
 
-  const twitterInit = () => {
-    const twitterCookie = getTwitterCookie();
-    if (!twitterCookie) return;
-  
-    const {
-      oauth_token,
-      access_token,
-      access_token_secret,
-    } = twitterCookie;
-  
-    if (access_token) {
-      handleLogin(access_token, access_token_secret);
-    } else if (oauth_token) {
-      deleteTwitterCookie();
-    }
-  };
+  const twitterInit = (): Promise<boolean> => (
+    new Promise((resolve, reject) => {
+      try {
+        const twitterCookie = getTwitterCookie();
+        if (!twitterCookie) {
+          resolve(false);
+          return;
+        }
+      
+        const {
+          oauth_token,
+          access_token,
+          access_token_secret,
+        } = twitterCookie;
+      
+        if (access_token) {
+          handleLogin(access_token, access_token_secret);
+          resolve(true);
+          return;
+        } else if (oauth_token) {
+          deleteTwitterCookie();
+        }
+
+        resolve(false);
+      } catch (error) {
+        reject(error);
+      }
+    })
+  );
 
   const twitterLogin = () => {
     axios

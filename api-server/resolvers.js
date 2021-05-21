@@ -1,10 +1,16 @@
-const { AuthenticationError, UserInputError } = require("apollo-server");
+const {
+  AuthenticationError,
+  UserInputError,
+} = require("apollo-server");
 const {
   getComments,
   getComment,
   addComment,
   deleteComment,
   editComment,
+  voteComment,
+  getVote,
+  addVote,
 } = require('./database');
 
 exports.resolvers = {
@@ -63,24 +69,31 @@ exports.resolvers = {
 
     voteComment: async (
       root,
-      { comment: { slug, timestamp, upVote, downVote } },
+      { comment: { slug, timestamp, vote } },
       { user },
     ) => {
       if (!user?.authenticated) throw new AuthenticationError(
         'must be logged in with a social provider to vote on comments'
       );
 
+      const alreadyVoted = await getVote(timestamp, user.id);
+      if (alreadyVoted) throw new UserInputError('already voted');
+
       const original = await getComment(slug, timestamp);
-      const vote = upVote ? 1 : downVote ? -1 : 0;
-
-      if (vote === 0) throw new UserInputError(
-        'comments can be either upvoted or downvoted'
-      );
-
-      return voteComment(
-        { slug, timestamp, votes: original.votes + vote },
+      const updated = await voteComment(
+        {
+          slug,
+          timestamp,
+          votes: vote === 'upvote'
+            ? original.votes + 1
+            : original.votes - 1,
+        },
         original
       );
+
+      await addVote(timestamp, user.id);
+
+      return updated;
     },
 
     deleteComment: async (
@@ -98,7 +111,11 @@ exports.resolvers = {
         'users can only delete their own comments'
       );
 
-      return deleteComment({ slug, timestamp });
+      return deleteComment({
+        slug,
+        timestamp,
+        userId: user.id,
+      });
     },
   }
 };

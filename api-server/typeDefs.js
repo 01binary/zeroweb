@@ -23,6 +23,13 @@ exports.typeDefs = gql`
     rangeLength: Int
   }
 
+  type DeleteComment {
+    slug: String!
+    timestamp: String!
+    userId: String!
+    deleted: Boolean!
+  }
+
   input CommentInput {
     slug: String!
     parentId: String
@@ -33,11 +40,15 @@ exports.typeDefs = gql`
     rangeLength: Int
   }
 
+  enum Vote {
+    upvote,
+    downvote
+  }
+
   input VoteCommentInput {
     slug: String!
     timestamp: String!
-    upVote: Boolean
-    downVote: Boolean
+    vote: Vote!
   }
 
   input DeleteCommentInput {
@@ -48,7 +59,8 @@ exports.typeDefs = gql`
   input EditCommentInput {
     slug: String!
     timestamp: String!
-    markdown: String!
+    markdown: String
+    reaction: Reaction
   }
 
   type Query {
@@ -57,10 +69,10 @@ exports.typeDefs = gql`
   }
 
   type Mutation {
-    addComment(comment: CommentInput!): Comment
-    editComment(comment: EditCommentInput!): Comment
-    voteComment(comment: VoteCommentInput!): Comment
-    deleteComment(comment: DeleteCommentInput!): Comment
+    addComment(comment: CommentInput!): Comment!
+    editComment(comment: EditCommentInput!): Comment!
+    voteComment(comment: VoteCommentInput!): Comment!
+    deleteComment(comment: DeleteCommentInput!): DeleteComment
   }
 
   schema {

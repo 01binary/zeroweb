@@ -7,7 +7,15 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
-  playground: true
+  playground: true,
+  context: () => ({
+    user: {
+      id: 'playground',
+      authenticated: true,
+      provider: 'playground',
+      providerId: 'playground',
+    }
+  })
 });
 
 server

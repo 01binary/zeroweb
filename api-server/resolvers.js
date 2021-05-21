@@ -105,7 +105,11 @@ exports.resolvers = {
         'must be logged in to delete comments'
       );
 
-      const { userId: originalUserId } = await getComment(slug, timestamp);
+      const comment = await getComment(slug, timestamp);
+
+      if (!comment) throw new UserInputError('comment not found');
+
+      const { userId: originalUserId } = comment;
 
       if (originalUserId !== user.id) throw new UserInputError(
         'users can only delete their own comments'

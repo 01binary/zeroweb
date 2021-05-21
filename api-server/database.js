@@ -141,22 +141,17 @@ exports.getVote = async (
   timestamp,
   userId,
 ) => {
-  try {
-    const { Item } = await db
-      .get({
-        TableName: 'zeroweb-votes',
-        Key: {
-          timestamp,
-          userId,
-        },
-      })
-      .promise();
+  const { Item } = await db
+    .get({
+      TableName: 'zeroweb-votes',
+      Key: {
+        timestamp,
+        userId,
+      },
+    })
+    .promise();
 
-    return Item;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  return Item;
 };
 
 exports.addVote = async (

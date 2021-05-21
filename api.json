@@ -1,0 +1,472 @@
+{
+	"info": {
+		"_postman_id": "7a8f5803-78de-4658-8f52-079e3849d4f0",
+		"name": "ZeroWeb API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "mutations",
+			"item": [
+				{
+					"name": "Add Comment",
+					"request": {
+						"auth": {
+							"type": "awsv4",
+							"awsv4": [
+								{
+									"key": "sessionToken",
+									"value": "IQoJb3JpZ2luX2VjEAYaCXVzLXdlc3QtMiJHMEUCIA9hA2oCL0DpNcIDIALiBy9i9uF4gmph36QBxGNahh9QAiEAwP5dbUYa42DaafPnm9/XzFVI8foydbwkwowSBrX04TcqkAQIn///////////ARACGgwwNTQ4NDU4ODA2MTQiDEGZUGCbscjD/2meHSrkA2KHagNAnp5qqQc6Mm9cSH9xSB5m18Tp4rxqb7O4e+RgVr5oyd/0n5KneYnqhSgxgd0B2SUWOG0j7QdL6JNhIiO0uWMOpfB4YswarqodIWrzKcQJjVBAFvup2wW0zfv/yFlUvJs1eVeKNgwrQPqHZ1xizIerujFP6KglwBW6BaDi9RNGYKHKS31HxEOM6XKnPF3qLx016u9ddR5rDFZM7ZfjcPuMstTmmnrcFv8iLnYc3VyZgRXQdKfCa3m9ujYQraw/IjgY0YUqtN14hwEPO0L89I1cy87jg8I/PQtCtG+fl3XyLoyHLXRAeP67/rjIHALRwhy6fr8we0GGpRyTCrAilVXUFPpoWfmjrjZ3B+yXYUBiRcUcTRntYbs7B3QgX6sPfByXrRBJMn+71++ZF/xOSmbaWl9aiejGG/4eIIxRk1GBidop+wKv6wRMX8ey94ANTBRTlyaMhPBdwKnNuyoXDoBnK46JmOmIGsFiAFrLuDeaptZJGc57ki3BvEcs0TrdK58Qvn3g6BD4AqOFVLUIFtWIL0tINuUcq6GH6ZVcBlH6YfaNzmmen3dTln/prrhClmXyNxSJ6YbPxII4MWACFb2w9hLqsZOu2lc8euAC0Ta/U9oz0Q9U4TsIjEi+vTVlzRAwgIqdhQY6hAIiLlCQ5qLmEYgIbXHNhSZPQa6NFq6d+vROF92akQ6X5JARqST7dSXTbq4RzDD8o3B4pcfC1pdHvwy/hKrKaf9VYrggQ0JaO/WWLaTZ0UA3uA2UXnL1Q2x/fbIbxUxuLkukE+oIi5rzjVPsBxBRY7jvI3nP2AYgF2ixPYZQs4zKgdVx5caRsUTiWuS2mR7OXUc7g3p9s/iBg7taenje/enf0iGDLTZqpd97XVIIvAjXXyJ79wUom+PPwtEq32/PRV2XmJnGKYdiyvY5S/7NSyEpzTdJgzG0/w0UpyVjSg3yV6S6R7D93GAXHa3/uSHnk8+98XXU9rHzWCcQZtN4Y3o+X88DLA==",
+									"type": "string"
+								},
+								{
+									"key": "secretKey",
+									"value": "mr66iVaDMl7HMI7bSmAnO979DmkVY3S0c4q8hSQc",
+									"type": "string"
+								},
+								{
+									"key": "accessKey",
+									"value": "ASIAQZRIRXETJIG7BOPI",
+									"type": "string"
+								},
+								{
+									"key": "addAuthDataToQuery",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "region",
+									"value": "us-west-2",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($comment: CommentInput!) {\n  addComment(comment: $comment) {\n    slug,\n    timestamp,\n    userId,\n    parentTimestamp,\n    markdown,\n    reaction,\n    votes,\n    paragraph,\n    rangeStart,\n    rangeLength\n  }\n}",
+								"variables": "{\n  \"comment\": {\n    \"slug\": \"another\",\n    \"markdown\": \"My comment!\"\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://5b9fvh31di.execute-api.us-west-2.amazonaws.com/Prod/graphql",
+							"protocol": "https",
+							"host": [
+								"5b9fvh31di",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Comment",
+					"request": {
+						"auth": {
+							"type": "awsv4",
+							"awsv4": [
+								{
+									"key": "sessionToken",
+									"value": "IQoJb3JpZ2luX2VjEP7//////////wEaCXVzLXdlc3QtMiJHMEUCIQDwnALvovOrabFgjM2LjqmbYgh49VvZtEKTz1EiftXL5AIgFlnWC6mAgXksXJ1OgQlYsLUsCImTgy4pLuVtJgCaikoqkAQIl///////////ARACGgwwNTQ4NDU4ODA2MTQiDGDSYGzkoEjFhvF81yrkAwoRh6wJ0H6WTKJ3Q/IvQ98gZZZ2rk+YXlzI2J40XM/674Pq/hDK8APtK8zqRG+lcpEjX/gO/vbI0q4uWd6yIYpBb3Xe7dTM/FH8LIBr/eq0+bUMuyslSfO55WfkVrmyANSd9wmG3BK/TPWsC9u3263XbSVG1OCglCG94fMBqIJNlWEXYWJtdBqurPkp7VeUpGeToxINrqDhFAhLbK9dspp374MWoJSYNiVkVz6DVIykyzmjS/BMko+GDAXnQdVvZlnCrkeWG0T753hWp5aGsag090u0jXVO7hYTuvkVMUrK0EurI4xTDlTOUMaokK0ijGkTOnb0KHkaHVhuQOOLVnBxqf+XqhrPELu1SfTwstKIK/dPjcT3X97I2YeBJh8es9wGAOn+g64UQju0nTcO6zcgImnCaHJypNoPAjgKt7IjdHcx7isB5tFCPWDAvnrADOWmVieCVPAn2W9LA040COri3xwCgSpAl+Q4LpqWuJTlFj0TFTkdVLiye7ce7Cpz178FYuusBjf/TOKYsK52urzW3/U+HuoUcKw3a3D4dkV/N2cMRiJ1ljQeQ66xnSOHlZrQPOh5EDE1fK3xghMrhp0L2qMSK8MZiatf+f+i1QCRc3oPfNzL4yn2nA+T7iPYUYRGsBkwqrGbhQY6hAJNjQlSnjEjoe49L6n4dH25VCBwk6L/UzdEQ1lmfAWW07mKMSFfXx6p3kDxVeA37ZTTBBygio6aj3EW6x10VTv/4AaMakDXNIrdb75a4XbVFEVvt6D/5GGgfdVcf47e+zop8LvuxOQOB9Mvw0Z0N9F1wfTH1WllfasRD2OMo70ofIjTvo/rjJqACvckBzkA3Rl6qiP2vyAcl4aL1nSowCqHYhGaScunKurB+R762SL4d0DRC8RJuBvJsKeL9bvCthRDylYtezKpYSX/87wR23EUaOvOxuy804X0cjmaMedVUYSd7jgEs7bo35sXkcPIh9GJe1uQZ2pDCz67C2uDBBZ0/qFQaQ==",
+									"type": "string"
+								},
+								{
+									"key": "secretKey",
+									"value": "jdxWEyWRmkCe/MYj5zF5gmaIbf4EvM17H+s4K8Ng",
+									"type": "string"
+								},
+								{
+									"key": "accessKey",
+									"value": "ASIAQZRIRXETK6EVHTLR",
+									"type": "string"
+								},
+								{
+									"key": "addAuthDataToQuery",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "region",
+									"value": "us-west-2",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($comment: VoteCommentInput!) {\n  voteComment(comment: $comment) {\n    slug,\n    timestamp,\n    userId,\n    parentTimestamp,\n    markdown,\n    reaction,\n    votes,\n    paragraph,\n    rangeStart,\n    rangeLength\n  }\n}",
+								"variables": "{\n  \"comment\": {\n    \"slug\": \"test\",\n    \"timestamp\": \"2021-05-21T03:16:53.624Z\",\n    \"vote\": \"downvote\"\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://5b9fvh31di.execute-api.us-west-2.amazonaws.com/Prod/graphql",
+							"protocol": "https",
+							"host": [
+								"5b9fvh31di",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"auth": {
+							"type": "awsv4",
+							"awsv4": [
+								{
+									"key": "sessionToken",
+									"value": "IQoJb3JpZ2luX2VjEAYaCXVzLXdlc3QtMiJHMEUCIA9hA2oCL0DpNcIDIALiBy9i9uF4gmph36QBxGNahh9QAiEAwP5dbUYa42DaafPnm9/XzFVI8foydbwkwowSBrX04TcqkAQIn///////////ARACGgwwNTQ4NDU4ODA2MTQiDEGZUGCbscjD/2meHSrkA2KHagNAnp5qqQc6Mm9cSH9xSB5m18Tp4rxqb7O4e+RgVr5oyd/0n5KneYnqhSgxgd0B2SUWOG0j7QdL6JNhIiO0uWMOpfB4YswarqodIWrzKcQJjVBAFvup2wW0zfv/yFlUvJs1eVeKNgwrQPqHZ1xizIerujFP6KglwBW6BaDi9RNGYKHKS31HxEOM6XKnPF3qLx016u9ddR5rDFZM7ZfjcPuMstTmmnrcFv8iLnYc3VyZgRXQdKfCa3m9ujYQraw/IjgY0YUqtN14hwEPO0L89I1cy87jg8I/PQtCtG+fl3XyLoyHLXRAeP67/rjIHALRwhy6fr8we0GGpRyTCrAilVXUFPpoWfmjrjZ3B+yXYUBiRcUcTRntYbs7B3QgX6sPfByXrRBJMn+71++ZF/xOSmbaWl9aiejGG/4eIIxRk1GBidop+wKv6wRMX8ey94ANTBRTlyaMhPBdwKnNuyoXDoBnK46JmOmIGsFiAFrLuDeaptZJGc57ki3BvEcs0TrdK58Qvn3g6BD4AqOFVLUIFtWIL0tINuUcq6GH6ZVcBlH6YfaNzmmen3dTln/prrhClmXyNxSJ6YbPxII4MWACFb2w9hLqsZOu2lc8euAC0Ta/U9oz0Q9U4TsIjEi+vTVlzRAwgIqdhQY6hAIiLlCQ5qLmEYgIbXHNhSZPQa6NFq6d+vROF92akQ6X5JARqST7dSXTbq4RzDD8o3B4pcfC1pdHvwy/hKrKaf9VYrggQ0JaO/WWLaTZ0UA3uA2UXnL1Q2x/fbIbxUxuLkukE+oIi5rzjVPsBxBRY7jvI3nP2AYgF2ixPYZQs4zKgdVx5caRsUTiWuS2mR7OXUc7g3p9s/iBg7taenje/enf0iGDLTZqpd97XVIIvAjXXyJ79wUom+PPwtEq32/PRV2XmJnGKYdiyvY5S/7NSyEpzTdJgzG0/w0UpyVjSg3yV6S6R7D93GAXHa3/uSHnk8+98XXU9rHzWCcQZtN4Y3o+X88DLA==",
+									"type": "string"
+								},
+								{
+									"key": "secretKey",
+									"value": "mr66iVaDMl7HMI7bSmAnO979DmkVY3S0c4q8hSQc",
+									"type": "string"
+								},
+								{
+									"key": "accessKey",
+									"value": "ASIAQZRIRXETJIG7BOPI",
+									"type": "string"
+								},
+								{
+									"key": "addAuthDataToQuery",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "region",
+									"value": "us-west-2",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($comment: DeleteCommentInput!) {\n  deleteComment(comment: $comment) {\n    slug,\n    timestamp,\n    userId,\n    deleted\n  }\n}",
+								"variables": "{\n  \"comment\": {\n    \"slug\": \"another\",\n    \"timestamp\": \"2021-05-21T05:29:08.103Z\"\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://5b9fvh31di.execute-api.us-west-2.amazonaws.com/Prod/graphql",
+							"protocol": "https",
+							"host": [
+								"5b9fvh31di",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vote Comment",
+					"request": {
+						"auth": {
+							"type": "awsv4",
+							"awsv4": [
+								{
+									"key": "sessionToken",
+									"value": "IQoJb3JpZ2luX2VjEAYaCXVzLXdlc3QtMiJHMEUCIA9hA2oCL0DpNcIDIALiBy9i9uF4gmph36QBxGNahh9QAiEAwP5dbUYa42DaafPnm9/XzFVI8foydbwkwowSBrX04TcqkAQIn///////////ARACGgwwNTQ4NDU4ODA2MTQiDEGZUGCbscjD/2meHSrkA2KHagNAnp5qqQc6Mm9cSH9xSB5m18Tp4rxqb7O4e+RgVr5oyd/0n5KneYnqhSgxgd0B2SUWOG0j7QdL6JNhIiO0uWMOpfB4YswarqodIWrzKcQJjVBAFvup2wW0zfv/yFlUvJs1eVeKNgwrQPqHZ1xizIerujFP6KglwBW6BaDi9RNGYKHKS31HxEOM6XKnPF3qLx016u9ddR5rDFZM7ZfjcPuMstTmmnrcFv8iLnYc3VyZgRXQdKfCa3m9ujYQraw/IjgY0YUqtN14hwEPO0L89I1cy87jg8I/PQtCtG+fl3XyLoyHLXRAeP67/rjIHALRwhy6fr8we0GGpRyTCrAilVXUFPpoWfmjrjZ3B+yXYUBiRcUcTRntYbs7B3QgX6sPfByXrRBJMn+71++ZF/xOSmbaWl9aiejGG/4eIIxRk1GBidop+wKv6wRMX8ey94ANTBRTlyaMhPBdwKnNuyoXDoBnK46JmOmIGsFiAFrLuDeaptZJGc57ki3BvEcs0TrdK58Qvn3g6BD4AqOFVLUIFtWIL0tINuUcq6GH6ZVcBlH6YfaNzmmen3dTln/prrhClmXyNxSJ6YbPxII4MWACFb2w9hLqsZOu2lc8euAC0Ta/U9oz0Q9U4TsIjEi+vTVlzRAwgIqdhQY6hAIiLlCQ5qLmEYgIbXHNhSZPQa6NFq6d+vROF92akQ6X5JARqST7dSXTbq4RzDD8o3B4pcfC1pdHvwy/hKrKaf9VYrggQ0JaO/WWLaTZ0UA3uA2UXnL1Q2x/fbIbxUxuLkukE+oIi5rzjVPsBxBRY7jvI3nP2AYgF2ixPYZQs4zKgdVx5caRsUTiWuS2mR7OXUc7g3p9s/iBg7taenje/enf0iGDLTZqpd97XVIIvAjXXyJ79wUom+PPwtEq32/PRV2XmJnGKYdiyvY5S/7NSyEpzTdJgzG0/w0UpyVjSg3yV6S6R7D93GAXHa3/uSHnk8+98XXU9rHzWCcQZtN4Y3o+X88DLA==",
+									"type": "string"
+								},
+								{
+									"key": "secretKey",
+									"value": "mr66iVaDMl7HMI7bSmAnO979DmkVY3S0c4q8hSQc",
+									"type": "string"
+								},
+								{
+									"key": "accessKey",
+									"value": "ASIAQZRIRXETJIG7BOPI",
+									"type": "string"
+								},
+								{
+									"key": "addAuthDataToQuery",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "region",
+									"value": "us-west-2",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($comment: VoteCommentInput!) {\n  voteComment(comment: $comment) {\n    slug,\n    timestamp,\n    userId,\n    parentTimestamp,\n    markdown,\n    reaction,\n    votes,\n    paragraph,\n    rangeStart,\n    rangeLength\n  }\n}",
+								"variables": "{\n  \"comment\": {\n    \"slug\": \"test\",\n    \"timestamp\": \"2021-05-21T03:16:53.624Z\",\n    \"vote\": \"upvote\"\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "https://5b9fvh31di.execute-api.us-west-2.amazonaws.com/Prod/graphql",
+							"protocol": "https",
+							"host": [
+								"5b9fvh31di",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "queries",
+			"item": [
+				{
+					"name": "Get Comments",
+					"request": {
+						"auth": {
+							"type": "awsv4",
+							"awsv4": [
+								{
+									"key": "sessionToken",
+									"value": "IQoJb3JpZ2luX2VjEAUaCXVzLXdlc3QtMiJHMEUCIDer/ltnQ8rL7Aa5wLBFNle2cmM48UVNn0xtjZMCYLw3AiEAmnx8XYO45siYcETmjAqppize19zrinEtlpaJq29mL00qkAQInv//////////ARACGgwwNTQ4NDU4ODA2MTQiDLtKKJ1yw1w85UcZECrkA8CB+NUhWOKKZhWyMeZRlgAPhVZdr5ympUaoZumpgVyN/SAjQhFQzFT7Bzo7MTEkMfWd/7jNyJlhd5zl/VL3A+sS61NJnKUcF4n/a9NkNn79iG830RFoZVuc1Glhs4U3qos7ybyLkQ7iNDBTP+orJPxC9VICG66yef5Ct5/W653l6iFeUbdCni1pa7edUlwpuR2stYGi2G7kgQpVjCwW5CNWs7froevw9YeuCAVYHmznMkb7aplJRrM432zmysQCmxgjhljGAVcdzTNdBnt9GqicgPXnuyDpDkCW2F2mkxSdodVeECoPBCBmMrnLQ8fumE8+PXzh41qPer75JDWF04PldBwTrKR+jgdwcinXppUkFNeyeW6UjqWDU4dmC74eOiPL2rncy6wejqncwQQqWnleNvB4cs6jdwwRw9hxiHMT/ijiEPaU6f2VvOfr3UgZPpMZXlrCzWXef1t5FTxqquSt0uFmhBuI0Yig7QajuZ37g20xsHnBef3Hq3PIqPgYNGseGOJNXompJzXcr89oSw08YzEEk7J0JNWWtn4Q4Ba2mMYank7VTDG6Eq2RofF13hQAQJKRsXHlTZ/3pZy1yd8+ZM8ppo3cfxddbzrkI2jv6WOY8pctDjP7xBb+2kNk6av3Pl8wlPWchQY6hAKMPad4nyvZhfnKXn09zQlUzw8N5RCuczxdTUat4CYgAEdbs8heSS+RZL9cDSSZIjjY2v4EsOjnQJx51Z2+0otjfG+QEZo9AXNI0XP87rpxsOkzpbHyEnCJAfmtn5jHcbHk0mKYdQ1/ilJP5cz2eKuCcF87MJE7R4WXBlrBjrRAHvtZ59I8NukyEtcZXtPvdvIihlaAzbNPgugMTjd5Ukah62On3i68EQ2fMEqKYVMfx/P21PTTXGLxw6tn0bosGQlzfKvAGBorYpfj2BnAMH/X3ElRQ5oWwQhTNLjjaFcpIA0mmpvZ+Kuk4SeOKjJr6BdFcoY9U4Wb3hVJPBV5Ev/qaDajSQ==",
+									"type": "string"
+								},
+								{
+									"key": "secretKey",
+									"value": "qTErIpOj7nhpBRLCOU4Ok/yBElvAQ7Milb5hfRfe",
+									"type": "string"
+								},
+								{
+									"key": "accessKey",
+									"value": "ASIAQZRIRXETOWXZYU4P",
+									"type": "string"
+								},
+								{
+									"key": "region",
+									"value": "us-west-2",
+									"type": "string"
+								},
+								{
+									"key": "addAuthDataToQuery",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query comments ($slug: String!) {\n    comments (slug: $slug) {\n        slug\n        timestamp\n        userId\n        votes\n        reaction\n        markdown\n        paragraph\n        rangeStart\n        rangeLength\n    }\n}",
+								"variables": "{\n  \"slug\": \"test\"\n}"
+							},
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://5b9fvh31di.execute-api.us-west-2.amazonaws.com/Prod/graphql",
+							"protocol": "https",
+							"host": [
+								"5b9fvh31di",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Comment",
+					"request": {
+						"auth": {
+							"type": "awsv4",
+							"awsv4": [
+								{
+									"key": "sessionToken",
+									"value": "IQoJb3JpZ2luX2VjEAUaCXVzLXdlc3QtMiJHMEUCIDer/ltnQ8rL7Aa5wLBFNle2cmM48UVNn0xtjZMCYLw3AiEAmnx8XYO45siYcETmjAqppize19zrinEtlpaJq29mL00qkAQInv//////////ARACGgwwNTQ4NDU4ODA2MTQiDLtKKJ1yw1w85UcZECrkA8CB+NUhWOKKZhWyMeZRlgAPhVZdr5ympUaoZumpgVyN/SAjQhFQzFT7Bzo7MTEkMfWd/7jNyJlhd5zl/VL3A+sS61NJnKUcF4n/a9NkNn79iG830RFoZVuc1Glhs4U3qos7ybyLkQ7iNDBTP+orJPxC9VICG66yef5Ct5/W653l6iFeUbdCni1pa7edUlwpuR2stYGi2G7kgQpVjCwW5CNWs7froevw9YeuCAVYHmznMkb7aplJRrM432zmysQCmxgjhljGAVcdzTNdBnt9GqicgPXnuyDpDkCW2F2mkxSdodVeECoPBCBmMrnLQ8fumE8+PXzh41qPer75JDWF04PldBwTrKR+jgdwcinXppUkFNeyeW6UjqWDU4dmC74eOiPL2rncy6wejqncwQQqWnleNvB4cs6jdwwRw9hxiHMT/ijiEPaU6f2VvOfr3UgZPpMZXlrCzWXef1t5FTxqquSt0uFmhBuI0Yig7QajuZ37g20xsHnBef3Hq3PIqPgYNGseGOJNXompJzXcr89oSw08YzEEk7J0JNWWtn4Q4Ba2mMYank7VTDG6Eq2RofF13hQAQJKRsXHlTZ/3pZy1yd8+ZM8ppo3cfxddbzrkI2jv6WOY8pctDjP7xBb+2kNk6av3Pl8wlPWchQY6hAKMPad4nyvZhfnKXn09zQlUzw8N5RCuczxdTUat4CYgAEdbs8heSS+RZL9cDSSZIjjY2v4EsOjnQJx51Z2+0otjfG+QEZo9AXNI0XP87rpxsOkzpbHyEnCJAfmtn5jHcbHk0mKYdQ1/ilJP5cz2eKuCcF87MJE7R4WXBlrBjrRAHvtZ59I8NukyEtcZXtPvdvIihlaAzbNPgugMTjd5Ukah62On3i68EQ2fMEqKYVMfx/P21PTTXGLxw6tn0bosGQlzfKvAGBorYpfj2BnAMH/X3ElRQ5oWwQhTNLjjaFcpIA0mmpvZ+Kuk4SeOKjJr6BdFcoY9U4Wb3hVJPBV5Ev/qaDajSQ==",
+									"type": "string"
+								},
+								{
+									"key": "secretKey",
+									"value": "qTErIpOj7nhpBRLCOU4Ok/yBElvAQ7Milb5hfRfe",
+									"type": "string"
+								},
+								{
+									"key": "accessKey",
+									"value": "ASIAQZRIRXETOWXZYU4P",
+									"type": "string"
+								},
+								{
+									"key": "region",
+									"value": "us-west-2",
+									"type": "string"
+								},
+								{
+									"key": "addAuthDataToQuery",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query comment ($slug: String!, $timestamp: String!) {\n    comment (slug: $slug, timestamp: $timestamp) {\n        slug\n        timestamp\n        userId\n        parentTimestamp\n        votes\n        reaction\n        markdown\n        paragraph\n        rangeStart\n        rangeLength\n    }\n}",
+								"variables": "{\n  \"slug\": \"test\",\n  \"timestamp\": \"2021-05-21T02:00:11.013Z\"\n}"
+							},
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://5b9fvh31di.execute-api.us-west-2.amazonaws.com/Prod/graphql",
+							"protocol": "https",
+							"host": [
+								"5b9fvh31di",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Authenticate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"provider\": \"google\",\n    \"access_token\": \"ya29.a0AfH6SMCqK8mzDc0I6D9AdHYDV8Z079aO-ezzmEikbT8BUvO15ZgWEqxG8XzVOcVRCNRl_i9toXrMWVV81abiGkrqb9PnkCq1trU6opy43sQr7qaW5R1LKoEa6g20Ncdgwb8Ky1gj2ISoGsAd6TfemBkjuKnhnQ\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://v485ud71q9.execute-api.us-west-2.amazonaws.com/Prod/token",
+							"protocol": "https",
+							"host": [
+								"v485ud71q9",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"provider\": \"facebook\",\n    \"access_token\": \"EAAHgnGemhDcBAI4g8rpKBgf6lslaOGBzqWWY5LMI1vWdYZBOIm3KxFz3dSzYnf5u5pkIlDSTwabvru0ZCqCuKIqwmFHPLNgIPAH2blcn1EgZBdpwN6tXmEiAhCV2U4ZC0xoGDmyVCZCqMGLPARM8y0J9yZBMkpscB483WQx5DUIadFQm2alnt43q7KQnr0XtXL4VK95YQruiTSipTm3uwY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://v485ud71q9.execute-api.us-west-2.amazonaws.com/Prod/identity",
+							"protocol": "https",
+							"host": [
+								"v485ud71q9",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"identity"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "any",
+			"description": "URL for the request."
+		}
+	]
+}

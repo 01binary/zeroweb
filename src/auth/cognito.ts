@@ -7,6 +7,10 @@ export const authenticate = async (
   access_token: string,
   access_token_secret?: string,
 ): Promise<AWSSignature> => {
+  const payload = provider && access_token
+    ? { provider, access_token, access_token_secret }
+    : {};
+
   const {
     data: {
       accessKeyId,
@@ -14,11 +18,7 @@ export const authenticate = async (
       sessionToken,
       expires,
     }
-  } = await axios.post(`${AUTH_URL}/token`, {
-    provider,
-    access_token,
-    access_token_secret,
-  });
+  } = await axios.post(`${AUTH_URL}/token`, payload);
 
   return {
     accessKeyId,

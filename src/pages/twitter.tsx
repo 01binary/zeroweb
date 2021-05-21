@@ -13,7 +13,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, navigate } from 'gatsby';
 import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
-import useTwitter from '../auth/twitter';
+import useTwitter from '../auth/useTwitter';
 import Title from '../components/Title';
 import Summary from '../components/Summary';
 

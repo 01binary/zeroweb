@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
+import { authenticate } from '../auth/cognito';
 import { Providers } from '../auth/types';
-import useTwitter from '../auth/twitter';
-import useFacebook from '../auth/facebook';
-import useGoogle from '../auth/google';
+import useTwitter from '../auth/useTwitter';
+import useFacebook from '../auth/useFacebook';
+import useGoogle from '../auth/useGoogle';
 
 const Error = styled.section`
   color: ${props => props.theme.errorColor};
@@ -33,16 +34,33 @@ const Login: FC = () => {
     twitterLogout,
   } = useTwitter(setUser, setCredentials, setError);
 
+  const initProviders = async (): Promise<boolean> => {
+    const hasFacebook = await facebookInit();
+    if (hasFacebook) return true;
+
+    const hasGoogle = await googleInit();
+    if (hasGoogle) return true;
+
+    const hasTwitter = await twitterInit();
+    if (hasTwitter) return true;
+
+    return false;
+  };
+
   useEffect(() => {
     if (once) return;
-    facebookInit();
-    googleInit();
-    twitterInit();
     setOnce(true);
+
+    initProviders()
+      .then((hasSocialAccount) => {
+        if (!hasSocialAccount) {
+          authenticate(null, null, null)
+            .then(guestCredentials => setCredentials(guestCredentials));
+        }
+      })
+      .catch(error => console.error(error));
   }, [
-    facebookInit,
-    googleInit,
-    twitterInit,
+    initProviders,
     setOnce
   ]);
 

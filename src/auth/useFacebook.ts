@@ -16,7 +16,7 @@ import {
   SetCredentialsHandler,
   SetErrorHandler,
   SetUserHandler
-} from '../auth/types';
+} from './types';
 import { authenticate } from './cognito';
 
 enum LoginStatus {
@@ -74,23 +74,34 @@ const useFacebook = (
     }
   };
 
-  const facebookInit = () => {
-    loadScript(
-      'facebookapi',
-      'https://connect.facebook.net/en_US/sdk.js'
-    ).then(() => {
-      FB.init({
-        appId: '528437335196727',
-        // Persist login in cookie
-        cookie: true,
-        // Parse social logins
-        xfbml: true,
-        version: 'v10.0'
-      });
-  
-      FB.getLoginStatus(res => res && handleLogin(res));
-    });
-  };
+  const facebookInit = (): Promise<boolean> => (
+    new Promise((resolve, reject) => {
+      loadScript(
+        'facebookapi',
+        'https://connect.facebook.net/en_US/sdk.js'
+      )
+      .then(() => {
+        FB.init({
+          appId: '528437335196727',
+          // Persist login in cookie
+          cookie: true,
+          // Parse social logins
+          xfbml: true,
+          version: 'v10.0'
+        });
+    
+        FB.getLoginStatus(res => {
+          if (res && res.status !== 'unknown') {
+            handleLogin(res);
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+      })
+      .catch(error => reject(error));
+    })
+  );
 
   const facebookLogin = () => {
     FB.login(res => res && handleLogin(res),

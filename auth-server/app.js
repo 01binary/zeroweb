@@ -7,7 +7,7 @@ const {
   initCognito,
   getCognitoUserCredentials,
   getCognitoGuestCredentials,
-  deleteCognitoIdentity,
+  deleteCognitoUserIdentity,
 } = require('./providers/cognito');
 const {
   initTwitter,
@@ -67,7 +67,7 @@ router.delete('/identity', async (req, res) => {
     if (!valid) throw new Error(`invalid ${provider} token`);
     if (!id) throw new Error('invalid social provider id');
 
-    const IdentityId = await deleteCognitoIdentity(provider, id);
+    const IdentityId = await deleteCognitoUserIdentity(provider, id);
     res.status(200).json({ identityId: IdentityId });
 
   } catch (error) {

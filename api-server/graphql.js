@@ -10,7 +10,12 @@ exports.handler = (event, context, callback) => {
     context: () => ({
       user: getUser(event.requestContext)
     }),
-  }).createHandler();
+  }).createHandler({
+    cors: {
+      origin: '*',
+      credentials: true,
+    },
+  });
 
   apolloHandler(event, context, callback);
 };

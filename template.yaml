@@ -27,7 +27,7 @@ Resources:
               Type: Api
               Properties:
                 Path: /graphql
-                Method: any
+                Method: post
                 RestApiId:
                   Ref: ApiGateway
                 Auth:

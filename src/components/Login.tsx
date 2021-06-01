@@ -101,7 +101,7 @@ const Login: FC = () => {
     ? <Error>{error}</Error>
     : (
       <section>
-        Login to comment:
+        <p>Login to comment:</p>
         <ul>
           <li><button onClick={handleFacebookLogin}>Facebook</button></li>
           <li><button onClick={handleGoogleLogin}>Google</button></li>

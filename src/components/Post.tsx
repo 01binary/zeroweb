@@ -9,11 +9,10 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useEffect } from "react"
+import React, { useState, FC } from "react"
 import styled from 'styled-components';
 import Img from "gatsby-image";
 import { Link, graphql } from "gatsby";
-import { ApolloQueryResult, gql } from '@apollo/client';
 import { useBlogContext } from '../hooks/useBlogContext';
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { getHeadingSlug, getHeadingUrl } from './Heading';
@@ -26,11 +25,10 @@ import ClockIcon from '../images/clock.svg';
 import { Heading } from './Heading';
 import Wheel, { WHEEL_SIZE } from './Wheel';
 import { Ruler, RULER_OFFSET, RULER_SELECTION_GUTTER } from './Ruler';
-import Login from './Login';
 import TagList from './TagList';
 import SEO from './SEO';
 import TOC from './TOC';
-import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
+import Comments from './Comments';
 
 const Main = styled.main`
   h1 {
@@ -444,10 +442,6 @@ const Author = styled.span`
   }
 `;
 
-const Error = styled.section`
-  color: ${props => props.theme.errorColor};
-`;
-
 interface SlugifiedHeading extends HeadingQuery {
   slug: string,
   url: string
@@ -503,42 +497,13 @@ const Post: FC<PostProps> = ({
     }
   }
 }) => {
-  const [ comments, setComments ] = useState<CommentQuery[]>(null);
-  const [ error, setError ] = useState<string>(null);
-  const [ readPosition, setReadPosition ] = useState<number>(0);
   const { credentials } = useBlogContext();
   const client = useApiClient(credentials);
-
+  const [ readPosition, setReadPosition ] = useState<number>(0);
+  
   useScrollPosition((position) => {
     setReadPosition(position);
   }, [readPosition])
-
-  useEffect(() => {
-    if (!client) return;
-
-    client.query<AllCommentsQuery>({
-      query: gql`
-        query comments ($slug: String!) {
-          comments (slug: $slug) {
-            slug
-            timestamp
-            userId
-            votes
-            reaction
-            markdown
-            paragraph
-            rangeStart
-            rangeLength
-          }
-        }`,
-      variables: { slug }
-    })
-    .then(({ data }) => setComments(data.comments))
-    .catch(error => {
-      console.error(error);
-      setError('Could not load comments for this post');
-    });
-  }, [client]);
 
   return (
     <Main>
@@ -590,22 +555,7 @@ const Post: FC<PostProps> = ({
         </MDXRenderer>
       </Content>
 
-      <h2>+ Comments</h2>
-
-      <Login />
-
-      {!comments && !error && <div>Loading comments...</div>}
-      {error && <Error>{error}</Error>}
-      {comments && !comments.length && (
-        <p>No comments yet.</p>
-      )}
-      {comments && comments.length > 0 && (
-        <ul>
-          {comments.map(({ timestamp, markdown }) => (
-            <li key={timestamp}>{markdown}</li>
-          ))}
-        </ul>
-      )}
+      <Comments slug={slug} client={client} />
     </Main>
   );
 };

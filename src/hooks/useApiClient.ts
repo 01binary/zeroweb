@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { ApolloClient } from 'apollo-client';
 import {
     AwsApiGwNetworkInterface
@@ -23,10 +23,10 @@ const SCRIPTS = [
 declare var apigClientFactory: any;
 
 const useApiClient = (signature: AWSSignature): ApolloClient => {
-  const apolloClient = useRef<ApolloClient>();
+  const [ client, setClient ] = useState<ApolloClient>();
 
   useEffect(() => {
-    if (!signature) return;
+    if (client || !signature) return;
 
     Promise.all(
       SCRIPTS.reduce((loaded: Promise<string>[], [ id, url ]) => {
@@ -34,21 +34,23 @@ const useApiClient = (signature: AWSSignature): ApolloClient => {
         return loaded;
       }, [])
     ).then(() => {
-      const client = apigClientFactory.newClient({
-        accessKey: signature.accessKeyId,
-        secretKey: signature.secretKey,
-        sessionToken: signature.sessionToken,
-        region: 'us-west-2'
-      });
-
-      client.isAuthenticated = () => true;
-
-      const networkInterface: any = new AwsApiGwNetworkInterface(client);
-      apolloClient.current = new ApolloClient({ networkInterface });
+      setTimeout(() => {
+        const apigClient = apigClientFactory.newClient({
+          accessKey: signature.accessKeyId,
+          secretKey: signature.secretKey,
+          sessionToken: signature.sessionToken,
+          region: 'us-west-2'
+        });
+  
+        apigClient.isAuthenticated = () => true;
+  
+        const networkInterface: any = new AwsApiGwNetworkInterface(apigClient);
+        setClient(new ApolloClient({ networkInterface }));
+      }, 100);
     });
-  }, [signature, apolloClient]);
+  }, [signature, client]);
 
-  return apolloClient.current;
+  return client;
 };
 
 export default useApiClient;

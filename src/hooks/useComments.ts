@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ApolloClient, gql } from '@apollo/client';
+import gql from 'graphql-tag';
+import { ApolloClient } from 'apollo-client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
 
 const useComments = (
@@ -11,9 +12,7 @@ const useComments = (
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!client) return;
-
-    client.query<AllCommentsQuery>({
+    client && client.query<AllCommentsQuery>({
       query: gql`
         query comments ($slug: String!) {
           comments (slug: $slug) {

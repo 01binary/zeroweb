@@ -22,7 +22,7 @@ const SCRIPTS = [
 
 declare var apigClientFactory: any;
 
-const useApiClient = (signature: AWSSignature) => {
+const useApiClient = (signature: AWSSignature): ApolloClient => {
   const apolloClient = useRef<ApolloClient>();
 
   useEffect(() => {
@@ -40,6 +40,8 @@ const useApiClient = (signature: AWSSignature) => {
         sessionToken: signature.sessionToken,
         region: 'us-west-2'
       });
+
+      client.isAuthenticated = () => true;
 
       const networkInterface: any = new AwsApiGwNetworkInterface(client);
       apolloClient.current = new ApolloClient({ networkInterface });

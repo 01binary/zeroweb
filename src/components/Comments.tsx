@@ -1,16 +1,14 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import Login from './Login';
+import Error from './Error';
 import useComments from '../hooks/useComments';
+import { ApolloClient } from 'apollo-client';
 
 type CommentsProps = {
   slug: string;
   client: ApolloClient;
 };
-
-const Error = styled.section`
-  color: ${props => props.theme.errorColor};
-`;
 
 const Comments: FC<CommentsProps> = ({
   slug,
@@ -21,7 +19,7 @@ const Comments: FC<CommentsProps> = ({
     <>
       <h2>Comments</h2>
 
-      {loading && <div>Loading comments...</div>}
+      {loading && <p>Loading comments...</p>}
       {error && <Error>{error}</Error>}
       {comments && !comments.length && (
         <p>No comments yet.</p>

@@ -1,15 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
 import { authenticate } from '../auth/cognito';
 import { Providers } from '../auth/types';
+import Error from '../components/Error';
 import useTwitter from '../auth/useTwitter';
 import useFacebook from '../auth/useFacebook';
 import useGoogle from '../auth/useGoogle';
-
-const Error = styled.section`
-  color: ${props => props.theme.errorColor};
-`;
 
 const Login: FC = () => {
   const { user, setUser, setCredentials } = useBlogContext();

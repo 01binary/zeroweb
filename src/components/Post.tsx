@@ -499,8 +499,8 @@ const Post: FC<PostProps> = ({
 }) => {
   const { credentials } = useBlogContext();
   const client = useApiClient(credentials);
-  const [ readPosition, setReadPosition ] = useState<number>(0);
   
+  const [ readPosition, setReadPosition ] = useState<number>(0);
   useScrollPosition((position) => {
     setReadPosition(position);
   }, [readPosition])

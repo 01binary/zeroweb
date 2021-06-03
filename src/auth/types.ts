@@ -31,7 +31,7 @@ export interface User {
   provider: Providers;
   token: string;
   expires?: dayjs.Dayjs;
-  imageUrl?: string;
+  avatarUrl?: string;
 };
 
 export type SetUserHandler = (user: User) => void;

@@ -84,7 +84,7 @@ const useTwitter = (
               name,
               token: oauth_access_token,
               expires: null,
-              imageUrl: profile_image_url_https,
+              avatarUrl: profile_image_url_https,
             });
           })
           .catch((error) => {

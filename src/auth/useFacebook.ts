@@ -61,7 +61,7 @@ const useFacebook = (
                 provider: Providers.Facebook,
                 id,
                 name,
-                imageUrl: url,
+                avatarUrl: url,
                 token,
                 expires: dayjs().add(expiresIn, 'seconds'),
               });

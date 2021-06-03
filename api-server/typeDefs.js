@@ -11,7 +11,10 @@ exports.typeDefs = gql`
   type Comment {
     slug: String!
     timestamp: String!
+
     userId: String!
+    userName: String!
+    avatarUrl: String!
 
     parentTimestamp: String
     markdown: String
@@ -32,6 +35,9 @@ exports.typeDefs = gql`
 
   input CommentInput {
     slug: String!
+    userName: String!
+    avatarUrl: String!
+
     parentId: String
     markdown: String
     reaction: Reaction

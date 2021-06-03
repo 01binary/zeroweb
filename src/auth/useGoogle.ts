@@ -28,7 +28,7 @@ const useGoogle = (
     const profile = guser.getBasicProfile();
     const id = profile.getId();
     const name = profile.getName();
-    const imageUrl = profile.getImageUrl();
+    const avatarUrl = profile.getImageUrl();
     const { access_token, expires_in } = guser.getAuthResponse(true);
   
     authenticate(Providers.Google, access_token)
@@ -38,7 +38,7 @@ const useGoogle = (
           provider: Providers.Google,
           id,
           name,
-          imageUrl,
+          avatarUrl,
           token: access_token,
           expires: dayjs().add(expires_in, 'seconds'),
         });

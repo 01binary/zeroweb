@@ -49,11 +49,12 @@ const Comments: FC<CommentsProps> = ({
             timestamp,
             markdown,
             avatarUrl,
+            userId,
             userName
           }) => (
             <Comment key={timestamp}>
               <Avatar avatarUrl={avatarUrl} />
-              <MetaLink>{userName}</MetaLink>
+              <MetaLink to={`/users/${userId}`}>{userName}</MetaLink>
               <CommentContent>{markdown}</CommentContent>
             </Comment>
           ))}

@@ -1,11 +1,33 @@
 import React, { FC, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
 import { authenticate } from '../auth/cognito';
 import { Providers } from '../auth/types';
 import Error from '../components/Error';
+import Avatar from '../components/Avatar';
 import useTwitter from '../auth/useTwitter';
 import useFacebook from '../auth/useFacebook';
 import useGoogle from '../auth/useGoogle';
+import Facebook from '../images/facebook.svg';
+import Google from '../images/google.svg';
+import Twitter from '../images/twitter.svg';
+
+const UserName = styled.span`
+  margin: 0 ${props => props.theme.spacingQuarter};
+`;
+
+const Container = styled.section`
+  display: flex;
+  align-items: center;
+`;
+
+const ProviderList = styled.ul`
+  padding: 0;
+`;
+
+const Provider = styled.li`
+  display: inline
+`;
 
 const Login: FC = () => {
   const { user, setUser, setCredentials } = useBlogContext();
@@ -55,10 +77,7 @@ const Login: FC = () => {
         }
       })
       .catch(error => console.error(error));
-  }, [
-    initProviders,
-    setOnce
-  ]);
+  }, [ initProviders, setOnce ]);
 
   const logoutAll = () => {
     facebookLogout();
@@ -88,22 +107,38 @@ const Login: FC = () => {
 
   return user
     ? (
-      <section>
-        Logged in with {user.provider}
+      <Container>
+        <Avatar avatarUrl={user.avatarUrl} />
+        <UserName>{user.name}</UserName>
         <button onClick={handleLogout}>Logout</button>
-      </section>
+      </Container>
     )
     : error
     ? <Error>{error}</Error>
     : (
-      <section>
-        <p>Login to comment:</p>
-        <ul>
-          <li><button onClick={handleFacebookLogin}>Facebook</button></li>
-          <li><button onClick={handleGoogleLogin}>Google</button></li>
-          <li><button onClick={handleTwitterLogin}>Twitter</button></li>
-        </ul>
-      </section>
+      <Container>
+        <p>Please login to comment</p>
+        <ProviderList>
+          <Provider>
+            <button onClick={handleFacebookLogin}>
+              <Facebook />
+              Facebook
+            </button>
+          </Provider>
+          <Provider>
+            <button onClick={handleGoogleLogin}>
+              <Google />
+              Google
+            </button>
+          </Provider>
+          <Provider>
+            <button onClick={handleTwitterLogin}>
+              <Twitter />
+              Twitter
+            </button>
+          </Provider>
+        </ProviderList>
+      </Container>
     );
 };
 

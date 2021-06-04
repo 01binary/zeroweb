@@ -19,6 +19,8 @@ const useComments = (
             slug
             timestamp
             userId
+            userName
+            avatarUrl
             votes
             reaction
             markdown

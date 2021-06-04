@@ -17,7 +17,13 @@ export interface CommentQuery {
   timestamp: number;
 
   // User id
-  user: string;
+  userId: string;
+
+  // User name
+  userName: string;
+
+  // User avatar
+  avatarUrl: string;
 
   // Body text in markdown
   markdown: string;

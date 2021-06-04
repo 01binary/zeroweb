@@ -29,6 +29,7 @@ import TagList from './TagList';
 import SEO from './SEO';
 import TOC from './TOC';
 import Comments from './Comments';
+import MetaLink from './MetaLink';
 
 const Main = styled.main`
   h1 {
@@ -194,29 +195,6 @@ const Metadata = styled.section`
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
     margin-bottom: 0;
-  }
-`;
-
-const MetaLink = styled(Link)`
-  border-bottom-width: ${props => props.theme.border};
-  border-bottom-style: dotted;
-  border-bottom-color: ${props => props.theme.isDark
-    ? props.theme.primaryAccentColor
-    : props.theme.accentTextColor
-  };
-  text-decoration: none;
-  white-space: nowrap;
-
-  transition:
-    color ${props => props.theme.animationFast} ease-out,
-    border-bottom-color ${props => props.theme.animationFast} ease-out;
-
-  &:hover {
-    border-bottom-color: ${props => props.theme.isDark
-      ? props.theme.primaryColor
-      : props.theme.primaryDarkColor
-    };
-    text-decoration: none;
   }
 `;
 

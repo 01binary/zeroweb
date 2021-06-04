@@ -143,15 +143,6 @@ const Main = styled.main`
   }
 `;
 
-const Footer = styled.footer`
-  margin-top: -6em;
-
-  h2 {
-    font-size: ${props => props.theme.headingFontSizeMedium};
-    font-weight: ${props => props.theme.headingFontWeight};
-  }
-`;
-
 const HeroImage = styled(Img)`
   max-height: 280px;
   max-width: calc(80% - 3em);
@@ -550,9 +541,7 @@ const Post: FC<PostProps> = ({
           </MDXRenderer>
         </Content>
       </Main>
-      <Footer>
-        <Comments slug={slug} client={client} />
-      </Footer>
+      <Comments slug={slug} client={client} />
     </>
   );
 };

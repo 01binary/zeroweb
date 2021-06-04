@@ -17,6 +17,7 @@ const UserName = styled.span`
 `;
 
 const Container = styled.section`
+  position: relative;
   display: flex;
   align-items: center;
 `;
@@ -27,6 +28,12 @@ const ProviderList = styled.ul`
 
 const Provider = styled.li`
   display: inline
+`;
+
+const CommentAvatar = styled.div`
+  position: absolute;
+  left: calc(-24px - 1em);
+  top: -.5em;
 `;
 
 const Login: FC = () => {
@@ -108,7 +115,9 @@ const Login: FC = () => {
   return user
     ? (
       <Container>
-        <Avatar avatarUrl={user.avatarUrl} />
+        <CommentAvatar>
+          <Avatar avatarUrl={user.avatarUrl} />
+        </CommentAvatar>
         <UserName>{user.name}</UserName>
         <button onClick={handleLogout}>Logout</button>
       </Container>

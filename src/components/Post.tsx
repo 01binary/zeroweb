@@ -12,7 +12,7 @@
 import React, { useState, FC } from "react"
 import styled from 'styled-components';
 import Img from "gatsby-image";
-import { Link, graphql } from "gatsby";
+import { graphql } from "gatsby";
 import { useBlogContext } from '../hooks/useBlogContext';
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { getHeadingSlug, getHeadingUrl } from './Heading';
@@ -32,6 +32,13 @@ import Comments from './Comments';
 import MetaLink from './MetaLink';
 
 const Main = styled.main`
+  margin-bottom: -3.5em;
+  padding-bottom: 3em;
+
+  &:after {
+    top: 0;
+  }
+
   h1 {
     max-width: calc(80% - 1.5em);
     margin-left: ${props => props.theme.spacingHalf};
@@ -133,6 +140,15 @@ const Main = styled.main`
         : props.theme.accentShadowColor
       };
     }
+  }
+`;
+
+const Footer = styled.footer`
+  margin-top: -6em;
+
+  h2 {
+    font-size: ${props => props.theme.headingFontSizeMedium};
+    font-weight: ${props => props.theme.headingFontWeight};
   }
 `;
 
@@ -484,57 +500,60 @@ const Post: FC<PostProps> = ({
   }, [readPosition])
 
   return (
-    <Main>
-      <SEO
-        title={title}
-        description={description}
-        image={fluid.src}
-        url={url}
-      />
+    <>
+      <Main>
+        <SEO
+          title={title}
+          description={description}
+          image={fluid.src}
+          url={url}
+        />
 
-      <Ruler />
+        <Ruler />
 
-      <PostHeading>{title}</PostHeading>
+        <PostHeading>{title}</PostHeading>
 
-      <Metadata>
-        <Clock />
-        <InlineIndicator>{getDateValue(relativeDate)}</InlineIndicator>
-        &nbsp;
-        <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
-        &nbsp;
-        <Author> by <AuthorLink /></Author>
-        &nbsp;
-        <Location> in <LocationLink /></Location>
-      </Metadata>
+        <Metadata>
+          <Clock />
+          <InlineIndicator>{getDateValue(relativeDate)}</InlineIndicator>
+          &nbsp;
+          <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
+          &nbsp;
+          <Author> by <AuthorLink /></Author>
+          &nbsp;
+          <Location> in <LocationLink /></Location>
+        </Metadata>
 
-      <Wheelhouse>
-        <Wheel />
-      </Wheelhouse>
+        <Wheelhouse>
+          <Wheel />
+        </Wheelhouse>
 
-      <Sidebar>
-        <SidebarPanel>
-          <SidebarMetadata>
-            <Gauge position={readPosition} />
-            <Indicator>{timeToRead}</Indicator><span> min </span>
-            <IndicatorLabel>to read</IndicatorLabel>
-          </SidebarMetadata>
-          <TagList tags={tags} stats={group} collection={collection} />
-          <TagList tags={tags} stats={group} collection={collection} inline />
-        </SidebarPanel>
+        <Sidebar>
+          <SidebarPanel>
+            <SidebarMetadata>
+              <Gauge position={readPosition} />
+              <Indicator>{timeToRead}</Indicator><span> min </span>
+              <IndicatorLabel>to read</IndicatorLabel>
+            </SidebarMetadata>
+            <TagList tags={tags} stats={group} collection={collection} />
+            <TagList tags={tags} stats={group} collection={collection} inline />
+          </SidebarPanel>
 
-        <TOC headings={slugifyHeadings(url, headings)} />
-      </Sidebar>
+          <TOC headings={slugifyHeadings(url, headings)} />
+        </Sidebar>
 
-      <HeroImage fluid={fluid} />
+        <HeroImage fluid={fluid} />
 
-      <Content role="document">
-        <MDXRenderer>
-          {body}
-        </MDXRenderer>
-      </Content>
-
-      <Comments slug={slug} client={client} />
-    </Main>
+        <Content role="document">
+          <MDXRenderer>
+            {body}
+          </MDXRenderer>
+        </Content>
+      </Main>
+      <Footer>
+        <Comments slug={slug} client={client} />
+      </Footer>
+    </>
   );
 };
 

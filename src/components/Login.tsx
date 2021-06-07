@@ -20,6 +20,7 @@ const Container = styled.section`
   position: relative;
   display: flex;
   align-items: center;
+  margin-top: 1.25em;
 `;
 
 const ProviderList = styled.ul`

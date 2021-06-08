@@ -21,6 +21,7 @@ const Container = styled.section`
   display: flex;
   align-items: center;
   margin-top: 1.25em;
+  margin-left: calc(${props => props.theme.spacing} + 46px);
 `;
 
 const ProviderList = styled.ul`

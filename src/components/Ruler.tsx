@@ -49,7 +49,7 @@ const RulerTop = styled.div`
 
 const RulerBottom = styled.div`
   position: absolute;
-  top: calc(100% - ${RULER_HEIGHT}px - ${props => props.theme.spacingDouble} * 2.5);
+  top: calc(100% - ${RULER_HEIGHT}px - ${props => props.theme.spacing} * 3);
   left: calc(100% - ${RULER_WIDTH + (RULER_ENDMARK_WIDTH - RULER_WIDTH * 2) - RULER_GUTTER}px);
   width: ${RULER_ENDMARK_WIDTH}px;
   height: ${RULER_HEIGHT}px;
@@ -65,7 +65,7 @@ const RulerBase = styled.div`
   top: 0;
   left: calc(100% + ${RULER_GUTTER}px);
   width: ${RULER_WIDTH}px;
-  bottom: calc(${props => props.theme.spacingDouble} * 2.5 - ${props => props.theme.border});
+  bottom: calc(${props => props.theme.spacing} * 3 - ${props => props.theme.border});
   display: flex;
   flex-direction: column;
   border-right: ${props => props.theme.border} solid ${props => getLineColor(props)};

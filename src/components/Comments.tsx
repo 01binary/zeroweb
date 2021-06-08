@@ -6,6 +6,10 @@ import Avatar from '../components/Avatar';
 import MetaLink from '../components/MetaLink';
 import Login from './Login';
 import Error from './Error';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 type CommentsProps = {
   slug: string;
@@ -14,7 +18,7 @@ type CommentsProps = {
 
 const CommentsList = styled.ul`
   list-style-type: none;
-  max-width: calc(80% - 2em);
+  max-width: calc(80% - 5em);
   margin-block-end: 0;
   margin-top: ${props => props.theme.spacing};
   margin-bottom: ${props => props.theme.spacingHalf};
@@ -60,13 +64,14 @@ const CommentContent = styled.span`
   margin: 0 ${props => props.theme.spacingHalf};
 `;
 
+const CommentDate = styled.span`
+  color: ${props => props.theme.secondaryTextColor};
+  position: absolute;
+  left: calc(100% + 1em);
+  width: 8em;
+`;
+
 const Footer = styled.footer`
-  margin-top: -6em;
-
-  @media (max-width: ${props => props.theme.mobile}) {
-    margin-top: 0;
-  }
-
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};
     font-weight: ${props => props.theme.headingFontWeight};
@@ -79,6 +84,8 @@ const Footer = styled.footer`
     line-height: 1.7em;
   }
 `;
+
+const formatCommentDate = (timestamp) => dayjs(timestamp).fromNow(); //.format('MMM DD');
 
 const Comments: FC<CommentsProps> = ({
   slug,
@@ -113,6 +120,9 @@ const Comments: FC<CommentsProps> = ({
                 <CommentContent>
                   {markdown}
                 </CommentContent>
+                <CommentDate>
+                  {formatCommentDate(timestamp)}
+                </CommentDate>
               </Comment>
             ))}
         </CommentsList>

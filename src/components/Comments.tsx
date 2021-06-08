@@ -24,13 +24,29 @@ const CommentsList = styled.ul`
 
 const Comment = styled.li`
   position: relative;
-  margin-bottom: 1em;
+  margin-bottom: .7em;
 `;
+
+const getAvatarHorzOffset = (index) => {
+  if (index % 2) {
+    return -19;
+  } else {
+    return 0;
+  }
+};
+
+const getAvatarVertOffset = (index) => {
+  if (index % 2) {
+    return -4;
+  } else {
+    return 2;
+  }
+};
 
 const CommentAvatar = styled.div`
   position: absolute;
-  left: calc(-24px - 2em);
-  top: -.5em;
+  left: calc(-25px - 2em + ${props => getAvatarHorzOffset(props.index)}px);
+  top: calc(-.5em + ${props => getAvatarVertOffset(props.index)}px);
 `;
 
 const CommentContent = styled.span`
@@ -49,7 +65,7 @@ const Footer = styled.footer`
     font-family: ${props => props.theme.smallFont};
     font-size: ${props => props.theme.smallFontSize};
     font-weight: ${props => props.theme.smallFontWeight};
-    line-height: 1.5em;
+    line-height: 1.7em;
   }
 `;
 
@@ -77,9 +93,9 @@ const Comments: FC<CommentsProps> = ({
               avatarUrl,
               userId,
               userName
-            }) => (
+            }, index) => (
               <Comment key={timestamp}>
-                <CommentAvatar>
+                <CommentAvatar index={index}>
                   <Avatar avatarUrl={avatarUrl} />
                 </CommentAvatar>
                 <MetaLink to={`/users/${userId}`}>{userName}</MetaLink>

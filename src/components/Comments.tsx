@@ -16,6 +16,25 @@ type CommentsProps = {
   client: ApolloClient;
 };
 
+const Footer = styled.footer`
+  h2 {
+    font-size: ${props => props.theme.headingFontSizeMedium};
+    font-weight: ${props => props.theme.headingFontWeight};
+  }
+
+  p, li {
+    font-family: ${props => props.theme.smallFont};
+    font-size: ${props => props.theme.smallFontSize};
+    font-weight: ${props => props.theme.smallFontWeight};
+    line-height: 1.7em;
+  }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    max-width: initial;
+    margin-right: 0.25em;
+  }
+`;
+
 const CommentsList = styled.ul`
   list-style-type: none;
   max-width: calc(80% - 5em);
@@ -25,6 +44,10 @@ const CommentsList = styled.ul`
   margin-left: ${props => props.theme.spacingTriple};
   margin-right: 0;
   padding: 0;
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    max-width: initial;
+  }
 `;
 
 const Comment = styled.li`
@@ -69,23 +92,15 @@ const CommentDate = styled.span`
   position: absolute;
   left: calc(100% + 1em);
   width: 8em;
-`;
 
-const Footer = styled.footer`
-  h2 {
-    font-size: ${props => props.theme.headingFontSizeMedium};
-    font-weight: ${props => props.theme.headingFontWeight};
-  }
-
-  p, li {
-    font-family: ${props => props.theme.smallFont};
-    font-size: ${props => props.theme.smallFontSize};
-    font-weight: ${props => props.theme.smallFontWeight};
-    line-height: 1.7em;
+  @media(max-width: ${props => props.theme.mobile}) {
+    position: initial;
+    left: initial;
+    width: initial;
   }
 `;
 
-const formatCommentDate = (timestamp) => dayjs(timestamp).fromNow(); //.format('MMM DD');
+const formatCommentDate = (timestamp) => dayjs(timestamp).fromNow();
 
 const Comments: FC<CommentsProps> = ({
   slug,
@@ -94,7 +109,9 @@ const Comments: FC<CommentsProps> = ({
   const { comments, loading, error } = useComments(slug, client);
   return (
     <Footer>
-      <h2>Comments</h2>
+      {comments && comments.length > 0 && <h2>Comments [{comments.length}]</h2>}
+
+      {comments && !comments.length && <h2>Comments</h2>}
 
       {loading && <p>Loading comments...</p>}
 
@@ -117,12 +134,12 @@ const Comments: FC<CommentsProps> = ({
                   <Avatar avatarUrl={avatarUrl} />
                 </CommentAvatar>
                 <MetaLink to={`/users/${userId}`}>{userName}</MetaLink>
+                <CommentDate>
+                  {' '}{formatCommentDate(timestamp)}
+                </CommentDate>
                 <CommentContent>
                   {markdown}
                 </CommentContent>
-                <CommentDate>
-                  {formatCommentDate(timestamp)}
-                </CommentDate>
               </Comment>
             ))}
         </CommentsList>

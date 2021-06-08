@@ -32,8 +32,11 @@ import Comments from './Comments';
 import MetaLink from './MetaLink';
 
 const Main = styled.main`
-  margin-bottom: -3.5em;
-  padding-bottom: 3em;
+  margin-bottom: -3em;
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    margin-bottom: 2em;
+  }
 
   &:after {
     top: 0;

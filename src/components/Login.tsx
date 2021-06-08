@@ -5,6 +5,7 @@ import { authenticate } from '../auth/cognito';
 import { Providers } from '../auth/types';
 import Error from '../components/Error';
 import Avatar from '../components/Avatar';
+import MetaLink from '../components/MetaLink';
 import useTwitter from '../auth/useTwitter';
 import useFacebook from '../auth/useFacebook';
 import useGoogle from '../auth/useGoogle';
@@ -13,15 +14,20 @@ import Google from '../images/google.svg';
 import Twitter from '../images/twitter.svg';
 
 const UserName = styled.span`
-  margin: 0 ${props => props.theme.spacingQuarter};
+  margin: ${props => props.theme.spacingQuarter} ${props => props.theme.spacingQuarter};
 `;
 
 const Container = styled.section`
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: 1.25em;
+  margin-top: 1.5em;
   margin-left: calc(${props => props.theme.spacing} + 46px);
+  margin-bottom: 2em;
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+  line-height: 1.7em;
 `;
 
 const ProviderList = styled.ul`
@@ -34,8 +40,8 @@ const Provider = styled.li`
 
 const CommentAvatar = styled.div`
   position: absolute;
-  left: calc(-24px - 1em);
-  top: -.5em;
+  left: calc(-27px - 1em);
+  top: 0;
 `;
 
 const Login: FC = () => {
@@ -120,7 +126,9 @@ const Login: FC = () => {
         <CommentAvatar>
           <Avatar avatarUrl={user.avatarUrl} />
         </CommentAvatar>
-        <UserName>{user.name}</UserName>
+        <UserName>
+          Commenting as <MetaLink to="/profile">{user.name}</MetaLink>
+        </UserName>
         <button onClick={handleLogout}>Logout</button>
       </Container>
     )

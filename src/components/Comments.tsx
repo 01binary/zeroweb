@@ -14,10 +14,11 @@ type CommentsProps = {
 
 const CommentsList = styled.ul`
   list-style-type: none;
+  max-width: calc(80% - 2em);
   margin-block-end: 0;
   margin-top: ${props => props.theme.spacing};
   margin-bottom: ${props => props.theme.spacingHalf};
-  margin-left: ${props => props.theme.spacingHalf};
+  margin-left: ${props => props.theme.spacingTriple};
   margin-right: 0;
   padding: 0;
 `;
@@ -25,6 +26,20 @@ const CommentsList = styled.ul`
 const Comment = styled.li`
   position: relative;
   margin-bottom: .7em;
+
+  &:before {
+    content: '';
+    position: absolute;
+    border-right: ${props => props.theme.border} dotted ${props => props.theme.borderColor};
+    top: 28px;
+    left: -40px;
+    height: calc(100% - 20px);
+    z-index: -1;
+  }
+
+  &:last-of-type::before {
+    height: 100%;
+  }
 `;
 
 const getAvatarHorzOffset = (index) => {
@@ -35,18 +50,10 @@ const getAvatarHorzOffset = (index) => {
   }
 };
 
-const getAvatarVertOffset = (index) => {
-  if (index % 2) {
-    return -4;
-  } else {
-    return 2;
-  }
-};
-
 const CommentAvatar = styled.div`
   position: absolute;
   left: calc(-25px - 2em + ${props => getAvatarHorzOffset(props.index)}px);
-  top: calc(-.5em + ${props => getAvatarVertOffset(props.index)}px);
+  top: -.5em;
 `;
 
 const CommentContent = styled.span`
@@ -55,6 +62,10 @@ const CommentContent = styled.span`
 
 const Footer = styled.footer`
   margin-top: -6em;
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    margin-top: 0;
+  }
 
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};

@@ -541,6 +541,7 @@ const Post: FC<PostProps> = ({
           </MDXRenderer>
         </Content>
       </Main>
+
       <Comments slug={slug} client={client} />
     </>
   );

@@ -10,6 +10,7 @@ import Error from './Error';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentMarkerIcon from '../images/comment-marker.svg';
+import { RULER_ENDMARK_WIDTH } from './Ruler';
 
 dayjs.extend(relativeTime);
 
@@ -72,7 +73,7 @@ const CommentsScaleDate = styled.div`
   font-weight: ${props => props.theme.smallFontWeight};
   color: ${props => props.theme.secondaryTextColor};
   margin-top: -1em;
-  padding-left: 100%;
+  padding-left: calc(100% - 1em);
   width: 5em;
 
   @media(max-width: ${COMMENT_SCALE_BREAKPOINT}) {
@@ -110,9 +111,9 @@ const CommentsList = styled.ul`
     content: '';
     position: absolute;
     top: 0;
-    left: calc(100% + 10em);
+    left: calc(100% + 9.5em);
     height: calc(100% + ${props => props.theme.spacing});
-    width: calc(${props => props.theme.spacing} + ${props => props.theme.spacingHalf});
+    width: ${RULER_ENDMARK_WIDTH}px;
     border-top: ${props => props.theme.border} solid ${props => getLineColor(props)};
     border-left: ${props => props.theme.border} solid ${props => getLineColor(props)};
     border-bottom: ${props => props.theme.border} solid ${props => getLineColor(props)};
@@ -129,23 +130,24 @@ const CommentsList = styled.ul`
 
 const CommentMarker = styled(CommentMarkerIcon)`
   position: absolute;
-  left: calc(-100% - 0.25em);
+  left: calc(-100% + 0.33em);
   top: 1em;
 `;
 
 const DateMarker = styled.div`
   position: absolute;
   transition: top ${props => props.theme.animationFast} ease-in-out;
-  left: calc(133% + 1em);
+  left: 133%;
   top: ${props => props.offset};
   color: ${props => props.theme.secondaryTextColor};
   height: 1em;
   font-family: monospace;
   font-size: 28pt;
+  transform: scaleX(1);
 
   @media(max-width: ${COMMENT_SCALE_BREAKPOINT}) {
-    top: calc(${props => props.offset} - 0.75em);
-    left: calc(133% - 1.25em);
+    left: calc(133% + 1em + ${props => props.theme.border});
+    transform: scaleX(-1);
 
     .comment-marker__arrow {
       display: none;
@@ -160,7 +162,7 @@ const DateMarker = styled.div`
 const DateMarkerLabel = styled.div`
   position: relative;
   top: 1em;
-  left: -1.25em;
+  left: 0;
   min-width: 4.75em;
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
@@ -201,7 +203,7 @@ const Comment = styled.li`
     position: absolute;
     top: 0;
     bottom: 0;
-    right: calc(-30% - ${props => props.theme.spacingHalf});
+    right: calc(-30% - ${props => props.theme.border} * 2);
     border-right: ${props => props.scrollHighlight
       ? `${props.theme.borderThick} solid ${props.theme.borderColor}`
       : `${props.theme.borderThick} solid ${props.theme.shadowColor}`

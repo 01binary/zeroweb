@@ -17,16 +17,16 @@ import React, {
 import styled from 'styled-components';
 import Measure from 'react-measure';
 
-export const RULER_SELECTION_GUTTER = 6;
-export const RULER_OFFSET = 245 + RULER_SELECTION_GUTTER;
-
 const RULER_GUTTER = 8;
 const RULER_WIDTH = 24;
 const RULER_HEIGHT = 24;
 const RULER_MARK_HEIGHT = 48;
-const RULER_ENDMARK_WIDTH = RULER_WIDTH * 2 + 4;
 const RULER_SHORTMARK_WIDTH = RULER_WIDTH;
 const RULER_LONGMARK_WIDTH = RULER_WIDTH + 10;
+
+export const RULER_SELECTION_GUTTER = 6;
+export const RULER_ENDMARK_WIDTH = RULER_WIDTH * 2 + 4;
+export const RULER_OFFSET = 245 + RULER_SELECTION_GUTTER;
 
 const getLineColor = props => (
   props.theme.isDark

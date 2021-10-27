@@ -12,9 +12,8 @@ Some smarty pants
 
 Some inline code
 
-```javascript
-const text = 'World'
-console.log(`Hello ${text}`)
+```bash
+sudo nano /etc/hostapd/hostapd.conf
 ```
 
 And of course a table

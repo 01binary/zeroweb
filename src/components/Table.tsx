@@ -11,10 +11,42 @@
 
 import React, { FC } from 'react';
 import styled from 'styled-components'
+import { RULER_OFFSET } from './Ruler';
 
 export const Table: FC = styled.table`
   font-size: ${props => props.theme.normalFontSize};
   border-spacing: 0;
+
+  position: relative;
+  width: calc(100% - ${props => props.theme.spacing});
+  margin-bottom: ${props => props.theme.spacingHalf};
+  margin-left: ${props => props.theme.spacingHalf};
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: calc(100% + ${props => props.theme.spacing} + ${RULER_OFFSET}px + ${props => props.theme.border});
+    top: 0;
+    width: calc(${props => props.theme.border} * 1.5);
+    height: 100%;
+    background: ${props => props.theme.foregroundColor};
+    opacity: .4;
+    transition: opacity ${props => props.theme.animationFast} ease-out;
+  }
+
+  &:hover {
+    &:after {
+      opacity: 1;
+    }
+  }
+
+  th:first-of-type, td:first-of-type {
+    padding-left: 0;
+  }
+
+  th:first-of-type, td:last-of-type {
+    padding-right: 0;
+  }
 `
 
 export const TableHeading: FC = styled.th`
@@ -24,12 +56,6 @@ export const TableHeading: FC = styled.th`
 
 export const TableRow: FC = styled.tr`
   height: ${props => props.theme.spacingDouble};
-
-  &:hover td {
-      background: ${props => props.theme.isDark
-  ? props.theme.foregroundColor + '20'
-  : props.theme.accentLightColor};
-  }
 
   &:last-of-type td {
       border: none;

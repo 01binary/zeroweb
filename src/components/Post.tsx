@@ -105,9 +105,52 @@ const Main = styled.main`
   }
 
   ol {
+    position: relative;
     list-style: none;
     counter-reset: listCounter;
     padding-left: ${props => props.theme.spacingHalf};
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: calc(100% + ${props => props.theme.spacingHalf} + ${props => props.theme.border} + ${RULER_OFFSET}px);
+      top: 0;
+      width: calc(${props => props.theme.border} * 1.5);
+      height: 100%;
+      background: ${props => props.theme.foregroundColor};
+      opacity: .4;
+      transition: opacity ${props => props.theme.animationFast} ease-out;
+    }
+
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+
+  table {
+    position: relative;
+    width: calc(100% - .25em);
+    margin-bottom: 1em;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: calc(100% + ${props => props.theme.spacingHalf} + 7px + ${RULER_OFFSET}px);
+      top: 0;
+      width: calc(${props => props.theme.border} * 1.5);
+      height: 100%;
+      background: ${props => props.theme.foregroundColor};
+      opacity: .4;
+      transition: opacity ${props => props.theme.animationFast} ease-out;
+    }
+
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
   }
 
   ol > li {
@@ -223,6 +266,28 @@ const Content = styled.section`
   opacity: 0;
   animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
   animation-fill-mode: forwards;
+  
+  ul {
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: calc(100% + ${props => props.theme.spacingHalf} + ${props => props.theme.border} + ${RULER_OFFSET}px);
+      top: 0;
+      width: calc(${props => props.theme.border} * 1.5);
+      height: 100%;
+      background: ${props => props.theme.foregroundColor};
+      opacity: .4;
+      transition: opacity ${props => props.theme.animationFast} ease-out;
+    }
+
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
 
   @keyframes slideIn {
     0% {

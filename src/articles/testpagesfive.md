@@ -14,7 +14,7 @@ Some inline code
 
 ```javascript
 const text = 'World'
-console.log(`Hello ${text}`)
+console.log(`Hello ${text}`);
 ```
 
 And of course a table

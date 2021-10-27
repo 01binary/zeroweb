@@ -32,11 +32,7 @@ import Comments from './Comments';
 import MetaLink from './MetaLink';
 
 const Main = styled.main`
-  margin-bottom: -3em;
-
-  @media(max-width: ${props => props.theme.mobile}) {
-    margin-bottom: 2em;
-  }
+  margin-bottom: 3em;
 
   &:after {
     top: 0;
@@ -147,11 +143,24 @@ const Main = styled.main`
 `;
 
 const HeroImage = styled(Img)`
+  overflow: initial !important;
   max-height: 280px;
   max-width: calc(80% - 3em);
   margin-right: 1.5em;
   margin-left: ${props => props.theme.spacingHalf};
   z-index: -1;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: calc(100% + ${props => props.theme.spacingHalf} + ${RULER_OFFSET}px + 7px);
+    top: 0;
+    width: calc(${props => props.theme.border} * 1.5);
+    height: 100%;
+    background: ${props => props.theme.foregroundColor};
+    opacity: .4;
+    transition: opacity ${props => props.theme.animationFast} ease-out;
+  }
 
   opacity: 0;
   animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
@@ -487,10 +496,12 @@ const Post: FC<PostProps> = ({
 }) => {
   const { credentials } = useBlogContext();
   const client = useApiClient(credentials);
-  
   const [ readPosition, setReadPosition ] = useState<number>(0);
-  useScrollPosition((position) => {
+  const [ scrollOffset, setScrollOffset ] = useState<number>(0);
+
+  useScrollPosition((position, offset) => {
     setReadPosition(position);
+    setScrollOffset(offset);
   }, [readPosition])
 
   return (
@@ -545,7 +556,12 @@ const Post: FC<PostProps> = ({
         </Content>
       </Main>
 
-      <Comments slug={slug} client={client} />
+      <Comments
+        slug={slug}
+        client={client}
+        readPosition={readPosition}
+        scrollOffset={scrollOffset}
+      />
     </>
   );
 };

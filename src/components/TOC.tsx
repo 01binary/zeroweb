@@ -26,9 +26,14 @@ const Toc = styled.section`
 
 const TocTitle = styled.h2`
   margin-left: 0 !important;
+
+  &:after {
+    display: none;
+  }
+
   @media(max-width: ${props => props.theme.mobile}) {
-      position: relative;
-      margin-top: -0.25em !important;
+    position: relative;
+    margin-top: -0.25em !important;
   }
 `;
 
@@ -43,9 +48,9 @@ const TocItem = styled.li`
 
 const TocItemLink = styled(AnchorLink)`
   @media(min-width: ${props => props.theme.mobile}) {
-      ${props => props.active && `
-          text-decoration: underline;
-      `}
+    ${props => props.active && `
+        text-decoration: underline;
+    `}
   }
 `;
 

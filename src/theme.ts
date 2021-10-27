@@ -17,6 +17,7 @@ const unit = 30;
 const spacing = {
   unit: unit,
   border: '2px',
+  borderThick: '3px',
   borderRadius: '4px',
   spacing: `${unit}px`,
   spacingDouble: `${unit * 2}px`,
@@ -225,11 +226,11 @@ export const GlobalStyle = createGlobalStyle`
       font-size: 45pt;
       color: ${props => props.theme.borderColor};
   
+      float: right;
       position: relative;
-      top: -1.1em;
-      left: calc(100% + ${props => props.theme.spacingHalf});
+      left: calc(
+        ${props => props.theme.spacingOneAndHalf} + ${props => props.theme.border});
       text-align: right;
-      margin-bottom: -2em;
     }
 
     @media(max-width: ${props => props.theme.desktop}) {
@@ -293,6 +294,10 @@ export const GlobalStyle = createGlobalStyle`
 
   .fill-foreground {
     fill: ${props => props.theme.foregroundColor};
+  }
+
+  .fill-focus {
+    fill: ${props => props.theme.focusColor};
   }
 
   .fill-none {

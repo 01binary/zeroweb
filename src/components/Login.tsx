@@ -21,13 +21,12 @@ const Container = styled.section`
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: 1.5em;
-  margin-left: calc(${props => props.theme.spacing} + 46px);
-  margin-bottom: 2em;
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  font-weight: ${props => props.theme.smallFontWeight};
+  font-family: ${props => props.theme.normalFont};
+  font-size: ${props => props.theme.normalFontSize};
+  font-weight: ${props => props.theme.normalFontWeight};
+  color: ${props => props.theme.secondaryTextColor};
   line-height: 1.7em;
+  margin-top: -1.5em;
 `;
 
 const ProviderList = styled.ul`
@@ -35,7 +34,7 @@ const ProviderList = styled.ul`
 `;
 
 const Provider = styled.li`
-  display: inline
+  display: inline;
 `;
 
 const CommentAvatar = styled.div`
@@ -136,7 +135,7 @@ const Login: FC = () => {
     ? <Error>{error}</Error>
     : (
       <Container>
-        <p>Please login to comment</p>
+        <p>Please login to comment:</p>
         <ProviderList>
           <Provider>
             <button onClick={handleFacebookLogin}>

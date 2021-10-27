@@ -24,7 +24,7 @@ const RULER_GUTTER = 8;
 const RULER_WIDTH = 24;
 const RULER_HEIGHT = 24;
 const RULER_MARK_HEIGHT = 48;
-const RULER_ENDMARK_WIDTH = RULER_WIDTH * 2 + 5;
+const RULER_ENDMARK_WIDTH = RULER_WIDTH * 2 + 4;
 const RULER_SHORTMARK_WIDTH = RULER_WIDTH;
 const RULER_LONGMARK_WIDTH = RULER_WIDTH + 10;
 
@@ -49,7 +49,7 @@ const RulerTop = styled.div`
 
 const RulerBottom = styled.div`
   position: absolute;
-  top: calc(100% - ${RULER_HEIGHT}px - ${props => props.theme.spacing} * 3);
+  top: calc(100% - ${RULER_HEIGHT}px);
   left: calc(100% - ${RULER_WIDTH + (RULER_ENDMARK_WIDTH - RULER_WIDTH * 2) - RULER_GUTTER}px);
   width: ${RULER_ENDMARK_WIDTH}px;
   height: ${RULER_HEIGHT}px;
@@ -65,7 +65,7 @@ const RulerBase = styled.div`
   top: 0;
   left: calc(100% + ${RULER_GUTTER}px);
   width: ${RULER_WIDTH}px;
-  bottom: calc(${props => props.theme.spacing} * 3 - ${props => props.theme.border});
+  bottom: -${props => props.theme.border};
   display: flex;
   flex-direction: column;
   border-right: ${props => props.theme.border} solid ${props => getLineColor(props)};
@@ -88,7 +88,7 @@ const RulerMark = styled.div`
 `;
 
 const getRulerMarks = (height: number): string[] => {
-  const count = Math.max(Math.round((height / RULER_MARK_HEIGHT) - 1), 0);
+  const count = Math.max(Math.round((height / RULER_MARK_HEIGHT) - 2), 0);
   return count
     ? new Array(count)
       .fill(0)

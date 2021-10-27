@@ -1,0 +1,84 @@
+Prev page button
+
+
+'<svg class="date-selector-page-mask-left" width="35" height="27" viewBox="0 0 35 27">' +
+              '<use xlink:href="#scroll-left-mask"></use>' +
+          '</svg>' +
+          '<div class="date-selector-page-pushed"></div>' +
+          '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
+              '<use xlink:href="#left-scroll-button-outline"></use>' +
+          '</svg>' +
+          '<svg class="date-selector-page-focus-outline" width="38" height="30" viewBox="0 0 38 30">' +
+              '<use xlink:href="#left-scroll-button-focus-outline"></use>' +
+          '</svg>' +
+          '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
+              '<use xlink:href="#left-scroll-button-border"></use>' +
+          '</svg>' +
+          '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
+              '<use xlink:href="#left-scroll-button-border"></use>' +
+          '</svg>' +
+          '<div class="date-selector-page-label">' +
+              '<svg width="11" height="7" viewBox="0 0 11 7">' +
+                  '<use xlink:href="#arrow-left"></use>' +
+              '</svg>' +
+          '</div>' +
+
+
+Page button
+
+ '<svg data-ng-if="!isSeparator(page)" class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-mask"></use>' +
+              '</svg>' +
+              '<svg data-ng-if="isSeparator(page)" class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#scroll-right-mask"></use>' +
+              '</svg>' +
+              '<div class="date-selector-page-overlay"></div>' +
+              '<div class="date-selector-page-pushed"></div>' +
+              '<svg class="date-selector-page-focus-outline" width="38" height="29" viewBox="0 0 38 29">' +
+                  '<use xlink:href="#page-button-focus-outline"></use>' +
+              '</svg>' +
+              '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-outline"></use>' +
+              '</svg>' +
+              '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-border"></use>' +
+              '</svg>' +
+              '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-border"></use>' +
+              '</svg>' +
+              '<div class="date-selector-page-label">' +
+                  '<span class="date-selector-page-fallback">page</span>' +
+                  '<div class="date-selector-page-number">{{page}}</div>' +
+              '</div>' +
+
+
+
+
+Next page button
+
+
+'<svg class="date-selector-page-mask" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-mask"></use>' +
+              '</svg>' +
+              '<svg class="date-selector-page-mask-right" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#scroll-right-mask"></use>' +
+              '</svg>' +
+              '<div class="date-selector-page-overlay"></div>' +
+              '<div class="date-selector-page-pushed"></div>' +
+              '<svg class="date-selector-page-outline" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-outline"></use>' +
+              '</svg>' +
+              '<svg class="date-selector-page-focus-outline" width="38" height="29" viewBox="0 0 38 29">' +
+                  '<use xlink:href="#page-button-focus-outline"></use>' +
+              '</svg>' +
+              '<svg class="date-selector-page-border" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-border"></use>' +
+              '</svg>' +
+              '<svg class="date-selector-page-border-pushed" width="35" height="27" viewBox="0 0 35 27">' +
+                  '<use xlink:href="#page-button-border"></use>' +
+              '</svg>' +
+              '<div class="date-selector-page-label">' +
+                  '<svg class="date-selector-scroll-label" width="11" height="7" viewBox="0 0 11 7">' +
+                      '<use xlink:href="#arrow-right"></use>' +
+                  '</svg>' +
+              '</div>' +

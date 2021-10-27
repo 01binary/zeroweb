@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import gql from 'graphql-tag';
 import { ApolloClient } from 'apollo-client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
+import mockComments from '../__tests__/comments.json';
 
 const useComments = (
   slug: string,
@@ -12,7 +13,7 @@ const useComments = (
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
-    client && client.query<AllCommentsQuery>({
+    /*client && client.query<AllCommentsQuery>({
       query: gql`
         query comments ($slug: String!) {
           comments (slug: $slug) {
@@ -30,7 +31,8 @@ const useComments = (
           }
         }`,
       variables: { slug }
-    })
+    })*/
+    Promise.resolve(mockComments)
     .then(({ data }) => {
       setComments(data.comments);
       setLoading(false);

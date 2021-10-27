@@ -9,7 +9,7 @@ const Avatar = ({ avatarUrl }) => (
         <polygon points="0.5,11.3 0.5,32.7 19,43.3 37.5,32.7 37.5,11.3 19,0.6"/>
       </clipPath>
     </defs>
-    <polygon className="stroke-border fill-foreground" points="0.5,11.3 0.5,32.7 19,43.3 37.5,32.7 37.5,11.3 19,0.6"/>
+    <polygon className="stroke-border fill-opaque" points="0.5,11.3 0.5,32.7 19,43.3 37.5,32.7 37.5,11.3 19,0.6"/>
     <image clipPath="url(#avatar-clip)" x="-2" y="1" width={`${AVATAR_SIZE + 4}px`} height={`${AVATAR_SIZE + 4}px`} xlinkHref={avatarUrl}/>
   </svg>
 );

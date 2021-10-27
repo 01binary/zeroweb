@@ -27,14 +27,17 @@ const getScrollPercent: () => number = () => {
 }
 
 const useScrollPosition = (
-  effect: (position: number) => void,
+  effect: (position: number, offset: number) => void,
   dependencies: React.DependencyList | null
 ) => {
   let throttleTimeout: ReturnType<typeof setTimeout> = null;
 
   const callback = () => {
     const currentPosition = getScrollPercent();
-    effect(currentPosition);
+    const offset = document.documentElement.scrollTop || document.body.scrollTop;
+
+    effect(currentPosition, offset);
+
     throttleTimeout = null;
   };
 

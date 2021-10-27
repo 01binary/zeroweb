@@ -24,4 +24,12 @@ Donec molestie imperdiet faucibus. Pellentesque libero eros, fermentum a risus q
 
 #### This is heading four
 
-Let's not do this anyjomre.
+A very small heading watch out.
+
+## Let's fill that table of contents
+
+Another paragraph.
+
+## Another toc item
+
+One more paragraph.

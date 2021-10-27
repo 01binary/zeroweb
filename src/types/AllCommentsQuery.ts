@@ -14,7 +14,7 @@ export interface CommentQuery {
   slug: string;
 
   // UTC timestamp (range)
-  timestamp: number;
+  timestamp: string;
 
   // User id
   userId: string;

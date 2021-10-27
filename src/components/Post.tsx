@@ -131,13 +131,14 @@ const Main = styled.main`
 
   table {
     position: relative;
-    width: calc(100% - .25em);
-    margin-bottom: 1em;
+    width: calc(100% - ${props => props.theme.spacing});
+    margin-bottom: ${props => props.theme.spacingHalf};
+    margin-left: ${props => props.theme.spacingHalf};
 
     &:after {
       content: '';
       position: absolute;
-      left: calc(100% + ${props => props.theme.spacingHalf} + 7px + ${RULER_OFFSET}px);
+      left: calc(100% + ${props => props.theme.spacing} + ${RULER_OFFSET}px + ${props => props.theme.border});
       top: 0;
       width: calc(${props => props.theme.border} * 1.5);
       height: 100%;
@@ -150,6 +151,14 @@ const Main = styled.main`
       &:after {
         opacity: 1;
       }
+    }
+
+    th:first-of-type, td:first-of-type {
+      padding-left: 0;
+    }
+
+    th:first-of-type, td:last-of-type {
+      padding-right: 0;
     }
   }
 

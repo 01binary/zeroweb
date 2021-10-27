@@ -21,8 +21,8 @@ const Pre = styled.pre`
   position: relative;
   padding: 16px;
   width: calc(100% - 3.25em);
-  margin-left: 2em;
-  margin-right: 1em;
+  margin-left: ${props => props.theme.spacingHalf};
+  margin-left: ${props => props.theme.spacingHalf};
   left: 0.5em;
   margin: auto;
   font-size: ${props => props.theme.smallFontSize};
@@ -44,6 +44,10 @@ const Pre = styled.pre`
       opacity: 1;
     }
   }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    margin-right: 1em;
+  }
 `;
 
 const Code = (props: any) => {
@@ -64,12 +68,14 @@ const Code = (props: any) => {
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
       <Pre className={className} style={style}>
-        {tokens.map((line, i) => (
-        <div {...getLineProps({ line, key: i })}>
-          {line.slice(undefined, -1).map((token, key) => (
-            <span {...getTokenProps({ token, key })} />
-          ))}
-        </div>
+        {tokens
+          .filter((line) => line.length === 1 && line[0].empty ? false: true)
+          .map((line, i) => (
+            <div {...getLineProps({ line, key: i })}>
+              {line.map((token, key) => (
+                <span {...getTokenProps({ token, key })} />
+              ))}
+            </div>
         ))}
       </Pre>
       )}

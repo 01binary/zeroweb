@@ -9,7 +9,9 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
+
+const THROTTLE_MS = 200;
 
 const isBrowser = typeof window !== `undefined`
 
@@ -30,7 +32,7 @@ const useScrollPosition = (
   effect: (position: number, offset: number) => void,
   dependencies: React.DependencyList | null
 ) => {
-  let throttleTimeout: ReturnType<typeof setTimeout> = null;
+  const throttleTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const callback = () => {
     const currentPosition = getScrollPercent();
@@ -38,12 +40,13 @@ const useScrollPosition = (
 
     effect(currentPosition, offset);
 
-    throttleTimeout = null;
+    throttleTimeoutRef.current = null;
   };
 
   useLayoutEffect(() => {
     const handleScroll = () => {
-      if (throttleTimeout === null) throttleTimeout = setTimeout(callback, 200);
+      if (throttleTimeoutRef.current === null)
+        throttleTimeoutRef.current = setTimeout(callback, THROTTLE_MS);
     };
 
     window.addEventListener('scroll', handleScroll);

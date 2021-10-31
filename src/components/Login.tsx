@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useBlogContext } from '../hooks/useBlogContext';
 import { authenticate } from '../auth/cognito';
@@ -26,7 +26,7 @@ const Container = styled.section`
   font-weight: ${props => props.theme.normalFontWeight};
   color: ${props => props.theme.secondaryTextColor};
   line-height: 1.7em;
-  margin-top: -1.5em;
+  margin-top: -1em;
 `;
 
 const ProviderList = styled.ul`
@@ -46,7 +46,7 @@ const CommentAvatar = styled.div`
 const Login: FC = () => {
   const { user, setUser, setCredentials } = useBlogContext();
   const [ error, setError ] = useState<string>(null);
-  const [ once, setOnce ] = useState<boolean>(false);
+  const onceRef = useRef<boolean>(false);
 
   const {
     facebookInit,
@@ -80,8 +80,8 @@ const Login: FC = () => {
   };
 
   useEffect(() => {
-    if (once) return;
-    setOnce(true);
+    if (onceRef.current) return;
+    onceRef.current = true;
 
     initProviders()
       .then((hasSocialAccount) => {
@@ -91,7 +91,7 @@ const Login: FC = () => {
         }
       })
       .catch(error => console.error(error));
-  }, [ initProviders, setOnce ]);
+  }, [ initProviders ]);
 
   const logoutAll = () => {
     facebookLogout();

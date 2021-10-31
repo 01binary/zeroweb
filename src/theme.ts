@@ -116,6 +116,7 @@ export const lightTheme = {
   warningColor: '#E1B412',
   focusColor: '#FF008E',
   errorColor: '#BA141A',
+  successColor: '#0dbc79',
 
   textSelectionColor: 'white',
   textSelectionBackground: '#FF008E',
@@ -159,6 +160,7 @@ export const darkTheme = {
   warningColor: '#E1B412',
   focusColor: '#FF008E',
   errorColor: '#BA141A',
+  successColor: '#0dbc79',
 
   textSelectionColor: 'white',
   textSelectionBackground: '#FF008E',

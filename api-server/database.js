@@ -94,11 +94,12 @@ exports.voteComment = async (
   {
     slug,
     timestamp,
-    votes,
+    upVotes,
+    downVotes,
   },
   original
 ) => {
-  const update = { votes };
+  const update = { upVotes, downVotes };
   await db
     .update({
       TableName,

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="61px" height="17px" viewBox="0 0 61 17" style="enable-background:new 0 0 61 17;" xml:space="preserve">
-	<polygon class="fill-border stroke-none comment-marker__arrow" points="53.4,0.5 17.1,16.5 19.6,16.5 53.6,1.5 60.4,1.5 60.4,0.5 "/>
-	<polygon class="fill-border stroke-none" points="18.4,16.5 0.5,16.5 0.5,5.5 43.3,5.5 	"/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="80px" height="16px" viewBox="0 0 80 16" style="enable-background:new 0 0 80 16;" xml:space="preserve">
+	<rect class="comment-marker__arrow fill-foreground stroke-none" x="0.5" y="15" width="29.7" height="1"/>
+	<polygon class="fill-foreground stroke-none" points="62.2,0.9 30.2,15 30.2,16 30.4,16 39.8,11.9 80,11.9 80,0.9 "/>
 </svg>

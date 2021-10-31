@@ -1,4 +1,4 @@
-e/*--------------------------------------------------------*\
+/*--------------------------------------------------------*\
 |  ██████   ██  |
 |  ██  ██   ██  |
 |  ██  ██   ██  |
@@ -35,8 +35,9 @@ export interface CommentQuery {
   rangeStart: number;
   rangeLength: number;
 
-  // Upvotes/downvotes
-  votes: number;
+  // Votes
+  upVotes: number;
+  downVotes: number;
 };
 
 interface AllCommentsQuery {

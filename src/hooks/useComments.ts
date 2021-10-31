@@ -22,7 +22,8 @@ const useComments = (
             userId
             userName
             avatarUrl
-            votes
+            upVotes
+            downVotes
             reaction
             markdown
             paragraph

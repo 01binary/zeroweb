@@ -37,7 +37,8 @@ exports.resolvers = {
         ...comment,
         timestamp: new Date().toISOString(),
         userId: user.id,
-        votes: 0,
+        upVotes: 0,
+        downVotes: 0
       });
     },
 
@@ -84,9 +85,10 @@ exports.resolvers = {
         {
           slug,
           timestamp,
-          votes: vote === 'upvote'
-            ? original.votes + 1
-            : original.votes - 1,
+          upVotes: vote === 'upVote' ?
+            original.upVotes + 1 : original.upVotes,
+          downVotes: vote === 'downVote' ?
+            original.downVotes - 1 : original.downVotes,
         },
         original
       );

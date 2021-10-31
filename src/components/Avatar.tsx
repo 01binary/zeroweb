@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AVATAR_SIZE = 38;
+export const AVATAR_SIZE = 38;
 
 const Avatar = ({ avatarUrl }) => (
   <svg width="38" height="44" viewBox="0 0 38 44">

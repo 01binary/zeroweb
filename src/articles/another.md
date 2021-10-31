@@ -1,7 +1,7 @@
 ---
 title: Another one but really long title this time, yep super long
 description: This is another article
-image: ./images/test.png
+image: ./images/test.jpg
 date: 2021-02-11
 tags: ["engineering-electrical", "tool-raspi"]
 ---

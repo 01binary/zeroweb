@@ -1,7 +1,7 @@
 ---
 title: Hello, world! Three
 description: This is a test
-image: ./images/test.png
+image: ./images/test.jpg
 date: 2021-02-10
 tags: ["engineering-mechanical"]
 ---

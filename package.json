@@ -11,7 +11,7 @@
     "deploy-backend": "chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh",
     "deploy": "TODO",
     "start": "NODE_OPTIONS='-r esm' gatsby develop --https",
-    "build": "NODE_OPTIONS='-r esm' gatsby build",
+    "build": "NODE_OPTIONS='-r esm --openssl-legacy-provider' gatsby build",
     "serve": "NODE_OPTIONS='-r esm' gatsby serve",
     "clean": "NODE_OPTIONS='-r esm' gatsby clean"
   },

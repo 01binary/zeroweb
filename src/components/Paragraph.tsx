@@ -13,7 +13,7 @@ import React, { FC } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
 import { useCommentsContext } from '../hooks/useComments';
-import { RulerMarker } from './RulerMarker';
+import { RulerMarker, RulerMarkerBadge } from './RulerMarker';
 import RulerHighlightIcon from '../images/ruler-highlight.svg';
 import RulerCommentIcon from '../images/ruler-comment.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
@@ -67,8 +67,26 @@ const Paragraph: FC = (props) => {
       {props.children}
       {displayMarker &&
         <RulerMarker className="paragraph__ruler-marker">
-          {displayHighlight && <RulerHighlightIcon/>}
-          {displayComment && <RulerCommentIcon/>}
+          {displayHighlight &&
+            <>
+              <RulerHighlightIcon/>
+              {highlights.length > 1 &&
+                <RulerMarkerBadge>
+                  {highlights.length}
+                </RulerMarkerBadge>
+              }
+            </>
+          }
+          {displayComment &&
+            <>
+              <RulerCommentIcon/>
+              {comments.length > 1 &&
+                <RulerMarkerBadge>
+                  {comments.length}
+                </RulerMarkerBadge>
+              }
+            </>
+          }
         </RulerMarker>
       }
     </Text>

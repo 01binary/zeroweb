@@ -15,3 +15,12 @@ export const RulerMarker = styled.span`
   z-index: 1;
   transition: border-color ${props => props.theme.animationFast} ease-out, box-shadow ${props => props.theme.animationFast} ease-out;
 `;
+
+export const RulerMarkerBadge = styled.span`
+  position: absolute;
+  left: calc(100% + ${props => props.theme.spacingHalf});
+  top: 0;
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+`;

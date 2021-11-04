@@ -62,6 +62,18 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
     border-color: ${props => props.theme.foregroundColor};
     box-shadow: ${props => props.theme.shadowColor} 0px 0px 6px;
   }
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    width: initial;
+
+    &:after {
+      display: none;
+    }
+
+    .code__ruler-marker {
+      display: none;
+    }
+  }
 `;
 
 const Pre = styled.pre`
@@ -74,6 +86,10 @@ const Pre = styled.pre`
     button {
       opacity: 1;
     }
+  }
+
+  @media (max-width: ${props => props.theme.mobile}) {
+    width: initial;
   }
 `;
 

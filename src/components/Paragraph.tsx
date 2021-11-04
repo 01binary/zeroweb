@@ -13,9 +13,12 @@ import React, { FC } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
 import { useCommentsContext } from '../hooks/useComments';
+import { useTooltip } from '../hooks/useTooltip';
+import { Tooltip, Arrow } from './Tooltip';
 import { RulerMarker, RulerMarkerBadge } from './RulerMarker';
 import RulerHighlightIcon from '../images/ruler-highlight.svg';
 import RulerCommentIcon from '../images/ruler-comment.svg';
+import AddCommentIcon from '../images/add-comment.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
 
 const Text = styled.p`
@@ -40,10 +43,30 @@ const Text = styled.p`
     opacity: 1
   }
 
+  &:hover button {
+    opacity: 1;
+  }
+
   &:hover .paragraph__ruler-marker {
     border-color: ${props => props.theme.foregroundColor};
     box-shadow: ${props => props.theme.shadowColor} 0px 0px 6px;
   }
+`;
+
+const InlineCommentButton = styled.button`
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: -${props => props.theme.borderThick};
+  right: ${props => props.theme.spacingQuarter};
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+  opacity: 0;
+  transition: opacity ${props => props.theme.animationFast} ease-out;
 `;
 
 const getHash = (children: any): string => (
@@ -61,10 +84,34 @@ const Paragraph: FC = (props) => {
   const displayHighlight = Boolean(highlights?.length && !comments?.length);
   const displayComment = Boolean(comments?.length);
   const displayMarker = displayComment || displayHighlight;
+  const {
+    showTip,
+    hideTip,
+    tipProps,
+    tipRef,
+    targetRef
+  } = useTooltip({
+    verticalOffsetDesktop: 10,
+    verticalOffsetMobile: 5,
+    placement: 'top'
+  });
 
   return (
     <Text id={hash}>
       {props.children}
+
+      <InlineCommentButton
+        ref={targetRef}
+        onMouseOver={showTip}
+        onMouseOut={hideTip}
+      >
+        <AddCommentIcon />
+        <Tooltip ref={tipRef} {...tipProps}>
+          comment
+          <Arrow />
+        </Tooltip>
+      </InlineCommentButton>
+
       {displayMarker &&
         <RulerMarker className="paragraph__ruler-marker">
           {displayHighlight &&

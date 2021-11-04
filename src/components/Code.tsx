@@ -17,9 +17,7 @@ import light from 'prism-react-renderer/themes/github';
 import dark from 'prism-react-renderer/themes/vsDark';
 import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
 import { Tooltip, Arrow } from './Tooltip';
-import { RULER_WIDTH, RULER_ENDMARK_WIDTH } from './Ruler';
-import { RulerMarker } from './RulerMarker';
-import CodeMarkerIcon from '../images/ruler-code.svg';
+import { RULER_ENDMARK_WIDTH } from './Ruler';
 import CopyIcon from '../images/copy.svg';
 import LightIcon from '../images/light.svg';
 import DarkIcon from '../images/dark.svg';
@@ -56,11 +54,6 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
     &:after {
       opacity: 1;
     }
-  }
-
-  &:hover > .code__ruler-marker {
-    border-color: ${props => props.theme.foregroundColor};
-    box-shadow: ${props => props.theme.shadowColor} 0px 0px 6px;
   }
 
   @media (max-width: ${props => props.theme.mobile}) {
@@ -258,12 +251,6 @@ const Code: FC = ({ children }) => {
         </Pre>
         )}
       </Highlight>
-      <RulerMarker
-        className="code__ruler-marker"
-        offset={`calc(-33% - ${RULER_WIDTH}px - 28px)`}
-      >
-        <CodeMarkerIcon />
-      </RulerMarker>
     </CodeWrapper>
   );
 };

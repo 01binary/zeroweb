@@ -166,7 +166,7 @@ const PermaLink: FC<PermaLinkProps> = ({
         <Tooltip ref={tipRef} {...tipProps}>
           <NoWrap>
             {!isCopied && <StyledMouseIcon/>}
-            {isCopied ? 'copied' : 'copy link'}
+            {isCopied ? 'copied!' : 'copy link'}
           </NoWrap>
         <Arrow />
       </Tooltip>

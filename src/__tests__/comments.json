@@ -7,6 +7,26 @@
                 "userId": "us-west-2:a44dd067-1913-4cfc-a080-3ea551932aec",
                 "userName": "01 Binary",
                 "avatarUrl": "https://lh3.googleusercontent.com/a-/AOh14GgOOKYisvtQsT2Qh_EGd60PWuwBZneSXW5WAJg4=s96-c",
+                "paragraph": "p1490963721",
+                "rangeStart": 1,
+                "rangeLength": 15
+            },
+            {
+                "slug": "another",
+                "timestamp": "2021-06-03T15:42:23.346Z",
+                "userId": "us-west-2:a44dd067-1913-4cfc-a080-3ea551932aec",
+                "userName": "01 Binary",
+                "avatarUrl": "https://lh3.googleusercontent.com/a-/AOh14GgOOKYisvtQsT2Qh_EGd60PWuwBZneSXW5WAJg4=s96-c",
+                "paragraph": "p3336274517",
+                "rangeStart": 1,
+                "rangeLength": 15
+            },
+            {
+                "slug": "another",
+                "timestamp": "2021-06-03T15:42:23.346Z",
+                "userId": "us-west-2:a44dd067-1913-4cfc-a080-3ea551932aec",
+                "userName": "01 Binary",
+                "avatarUrl": "https://lh3.googleusercontent.com/a-/AOh14GgOOKYisvtQsT2Qh_EGd60PWuwBZneSXW5WAJg4=s96-c",
                 "upVotes": 2,
                 "downVotes": 2,
                 "reaction": null,
@@ -26,7 +46,7 @@
                 "downVotes": 1,
                 "reaction": null,
                 "markdown": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque sem sit amet velit rutrum hendrerit. Nullam erat lectus, euismod sit amet interdum ac, laoreet nec odio. Mauris felis justo, suscipit sit amet justo vel, condimentum interdum mauris. Proin viverra arcu ut porta blandit.",
-                "paragraph": null,
+                "paragraph": "p369630885",
                 "rangeStart": null,
                 "rangeLength": null,
                 "__typename": "Comment"

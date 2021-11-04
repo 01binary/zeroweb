@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState } from "react"
+import React, { FC, useState, useCallback } from "react"
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import { useTooltip } from '../hooks/useTooltip';
@@ -137,13 +137,17 @@ const PermaLink: FC<PermaLinkProps> = ({
 
   const [ isCopied, setCopied ] = useState(false);
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(
-      window.location.protocol + '//' + window.location.host + url
-    );
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1000);
-  };
+  const copyLink = useCallback(() => {
+    try {
+      navigator.clipboard.writeText(
+        window.location.protocol + '//' + window.location.host + url
+      );
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1000);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [setCopied, setTimeout]);
 
   const Anchor = inline
     ? PermaLinkAnchorInline

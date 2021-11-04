@@ -71,12 +71,14 @@ const DateSelector: FC<DateSelectorProps> = ({
     const hasNext = pageNumber < numberOfPages - 1;
     const hasPrev = pageNumber > 0;
 
-    return (
+    return null;
+
+    /*return (
         <section>
           {hasPrev && <Link to={previousPagePath}>Previous</Link>}
           {hasNext && <Link to={nextPagePath}>Next</Link>}
         </section>
-    )
+    )*/
 };
 
 export default DateSelector;

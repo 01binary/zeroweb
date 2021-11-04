@@ -15,6 +15,10 @@ Some inline code
 ```javascript
 const text = 'World'
 console.log(`Hello ${text}`);
+
+const fn = () => {
+    console.log('what is this');
+}
 ```
 
 And of course a table

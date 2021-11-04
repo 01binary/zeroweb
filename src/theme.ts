@@ -251,8 +251,9 @@ export const GlobalStyle = createGlobalStyle`
     margin-right: ${props => props.theme.spacingHalf};
   }
 
-  main blockquote {
-    margin-inline-end: 0;
+  blockquote p {
+    margin-right: calc(-30% - 164px) !important;
+    padding-right: calc(30% + 164px) !important;
   }
 
   main a, footer a {

@@ -9,11 +9,15 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC } from "react"
+import React, { useState, FC, useMemo } from "react"
 import styled from 'styled-components';
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import { useBlogContext } from '../hooks/useBlogContext';
+import {
+  CommentsContext,
+  useComments
+} from '../hooks/useComments';
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { getHeadingSlug, getHeadingUrl } from './Heading';
 import PostQuery from '../types/PostQuery';
@@ -39,7 +43,7 @@ const Main = styled.main`
   }
 
   h1 {
-    max-width: calc(80% - 1.5em);
+    padding-right: calc(20% + ${props => props.theme.spacing});
     margin-left: ${props => props.theme.spacingHalf};
     margin-right: ${props => props.theme.spacingHalf};
   }
@@ -163,7 +167,6 @@ const Main = styled.main`
 
 const HeroImage = styled(Img)`
   overflow: initial !important;
-  max-height: 280px;
   max-width: calc(80% - 3em);
   margin-right: 1.5em;
   margin-left: ${props => props.theme.spacingHalf};
@@ -537,6 +540,7 @@ const Post: FC<PostProps> = ({
 }) => {
   const { credentials } = useBlogContext();
   const client = useApiClient(credentials);
+  const { comments, loading, error } = useComments(slug, client);
   const [ readPosition, setReadPosition ] = useState<number>(0);
   const [ scrollOffset, setScrollOffset ] = useState<number>(0);
 
@@ -591,15 +595,20 @@ const Post: FC<PostProps> = ({
         <HeroImage fluid={fluid} />
 
         <Content role="document">
-          <MDXRenderer>
-            {body}
-          </MDXRenderer>
+          <CommentsContext.Provider value={{ comments }}>
+            <MDXRenderer>
+              {body}
+            </MDXRenderer>
+          </CommentsContext.Provider>
         </Content>
       </Main>
 
       <Comments
         slug={slug}
         client={client}
+        loading={loading}
+        error={error}
+        comments={comments}
         readPosition={readPosition}
         scrollOffset={scrollOffset}
       />

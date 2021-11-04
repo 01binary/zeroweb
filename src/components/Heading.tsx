@@ -52,7 +52,7 @@ export const getHeadingUrl = (
 
 interface HeadingProps {
   level?: number;
-  className: string;
+  className?: string;
 };
 
 export const Heading: FC<HeadingProps> = ({

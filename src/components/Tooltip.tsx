@@ -59,22 +59,12 @@ export const Tooltip = styled.div.attrs(() => ({
 
   &[data-popper-placement="top"] [data-popper-arrow] {
     top: 100%;
-    border-color:
-      ${props => getTooltipColor(props)}
-      transparent
-      transparent
-      transparent
-    ;
+    border-color: ${props => getTooltipColor(props)} transparent transparent transparent;
   }
 
   &[data-popper-placement="bottom"] [data-popper-arrow] {
     top: -16px;
-    border-color:
-      transparent
-      transparent
-      ${props => getTooltipColor(props)}
-      transparent
-    ;
+    border-color: transparent transparent ${props => getTooltipColor(props)} transparent;
   }
 `;
 

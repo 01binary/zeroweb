@@ -18,9 +18,9 @@ import styled from 'styled-components';
 import Measure from 'react-measure';
 
 const RULER_GUTTER = 8;
-const RULER_WIDTH = 24;
+export const RULER_WIDTH = 24;
 const RULER_HEIGHT = 24;
-const RULER_MARK_HEIGHT = 48;
+const RULER_MARK_HEIGHT = 52;
 const RULER_SHORTMARK_WIDTH = RULER_WIDTH;
 const RULER_LONGMARK_WIDTH = RULER_WIDTH + 10;
 

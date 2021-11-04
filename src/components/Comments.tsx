@@ -2,7 +2,6 @@ import React, { FC, useLayoutEffect, useState, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 import { ApolloClient } from 'apollo-client';
 import ReactMarkdown from 'react-markdown';
-import useComments from '../hooks/useComments';
 import Avatar from '../components/Avatar';
 import MetaLink from '../components/MetaLink';
 import Login from './Login';
@@ -15,12 +14,16 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentMarkerIcon from '../images/comment-marker.svg';
 import UpVoteIcon from '../images/upvote.svg';
 import DownVoteIcon from '../images/downvote.svg';
+import { CommentQuery } from '../types/AllCommentsQuery';
 
 dayjs.extend(relativeTime);
 
 type CommentsProps = {
   slug: string;
   client: ApolloClient;
+  comments: CommentQuery[] | null;
+  loading: boolean;
+  error: string | null;
   readPosition: number;
   scrollOffset: number;
 };
@@ -33,7 +36,7 @@ type CommentVotesProps = {
 };
 
 const COMMENT_SCALE_BREAKPOINT = '1160px';
-const AVATAR_TILE_MAX_DIST = 0.2;
+const AVATAR_TILE_MAX_DIST = 0.15;
 const AVATAR_TILE_OFFSET = 19;
 const MAX_VOTE_SLOTS = 10;
 const VOTE_SLOT_WIDTH = 12;
@@ -383,20 +386,30 @@ const CommentDate = styled.span`
 const Comments: FC<CommentsProps> = ({
   slug,
   client,
+  comments,
+  loading,
+  error,
   readPosition,
   scrollOffset,
 }) => {
   const { user } = useBlogContext();
-  const { comments, loading, error } = useComments(slug, client);
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);
   const commentSpansRef = useRef<number[]>([]);
   const commentsRef = useRef<HTMLElement>();
   const markerRef = useRef<HTMLElement>();
+  const listedComments = comments
+    ?.filter(({ markdown }) => markdown && markdown.length)
+    ?.sort(({ timestamp: timestamp1 }, { timestamp: timestamp2 }) => (
+      timestamp1.localeCompare(timestamp2)
+    ));
+  const maxVotes = listedComments?.reduce(
+    (acc, { upVotes, downVotes }) => Math.max(acc, upVotes && downVotes ? upVotes + downVotes : 0), 0
+  ) || 0;
 
   useLayoutEffect(() => {
     // Calculate % scrolled through comments and comment index in view
-    if (commentsRef.current && comments && comments.length > 0) {
+    if (commentsRef.current && listedComments && listedComments.length > 0) {
       const commentsRect = commentsRef.current.getBoundingClientRect();
       const { height: markerHeight } = markerRef.current.getBoundingClientRect();
       const bodyRect = document.body.getBoundingClientRect();
@@ -407,7 +420,7 @@ const Comments: FC<CommentsProps> = ({
         (scrollOffset + window.innerHeight * 0.75 - commentsTop)
       )) / commentsRect.height;
 
-      const { current } = comments.reduce(
+      const { current } = listedComments.reduce(
         ({ sum, current }, { timestamp }, index) => {
           const { height } = document
             .getElementById(`comment-${timestamp}`)
@@ -426,21 +439,19 @@ const Comments: FC<CommentsProps> = ({
       commentsMarkerOffsetRef.current = offsetPixels > markerHeight
         ? offsetPixels - markerHeight
         : offsetPixels;
-      commentsIndexRef.current = readPosition > .99 ? comments.length - 1 : current;
+      commentsIndexRef.current = readPosition > .99 ? listedComments.length - 1 : current;
       commentSpansRef.current = spans;
     }
-  }, [scrollOffset, comments]);
-
-  const maxVotes = comments?.reduce(
-    (acc, { upVotes, downVotes }) => Math.max(acc, upVotes + downVotes), 0
-  ) || 0;
+  }, [scrollOffset, listedComments]);
 
   return (
     <CommentsSection isUserLoggedIn={Boolean(user)}>
-      {comments && (
+      {listedComments && (
         <h2>
           Comments
-          {comments.length && <span>&nbsp;[&nbsp;{comments.length}&nbsp;]</span>}
+          {listedComments.length &&
+            <span>&nbsp;[&nbsp;{listedComments.length}&nbsp;]</span>
+          }
         </h2>
       )}
       {loading && <p>Loading comments...</p>}
@@ -448,17 +459,13 @@ const Comments: FC<CommentsProps> = ({
 
       <Login />
 
-      {comments && comments.length > 0 && (
+      {listedComments && listedComments.length > 0 && (
         <>
           <CommentsStartDate>
-            {formatMarkerDate(comments[0].timestamp)}
+            {formatMarkerDate(listedComments[0].timestamp)}
           </CommentsStartDate>
           <CommentsList ref={commentsRef}>
-            {comments
-              .filter(({ markdown }) => markdown && markdown.length)
-              .sort(({ timestamp: timestamp1 }, { timestamp: timestamp2 }) => (
-                timestamp1.localeCompare(timestamp2)
-              ))
+            {listedComments
               .map(({
                 timestamp,
                 markdown,
@@ -512,16 +519,16 @@ const Comments: FC<CommentsProps> = ({
                   <MarkerCount>
                     {commentsIndexRef.current + 1}
                     {' / '}
-                    {comments.length}
+                    {listedComments.length}
                   </MarkerCount>
                   {formatMarkerDate(
-                    comments[commentsIndexRef.current].timestamp
+                    listedComments[commentsIndexRef.current].timestamp
                   )}
                 </DateMarkerLabel>
               </DateMarker>
           </CommentsList>
           <CommentsEndDate>
-            {formatMarkerDate(comments[comments.length - 1].timestamp)}
+            {formatMarkerDate(listedComments[listedComments.length - 1].timestamp)}
           </CommentsEndDate>
         </>
       )}

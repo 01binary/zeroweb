@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import gql from 'graphql-tag';
 import { ApolloClient } from 'apollo-client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
 import mockComments from '../__tests__/comments.json';
 
-const useComments = (
+type CommentsContextProps = {
+  comments: CommentQuery[] | null;
+};
+
+export const CommentsContext = createContext<CommentsContextProps>({
+  comments: null
+});
+
+export const useCommentsContext: () => CommentsContextProps = () => (
+  useContext(CommentsContext)
+);
+
+export const useComments = (
   slug: string,
   client: ApolloClient,
 ) => {
-  const [ comments, setComments ] = useState<CommentQuery[]>(null);
-  const [ error, setError ] = useState<string>(null);
+  const [ comments, setComments ] = useState<CommentQuery[] | null>();
+  const [ error, setError ] = useState<string | null>(null);
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
@@ -51,5 +63,3 @@ const useComments = (
     loading,
   })
 };
-
-export default useComments;

@@ -346,6 +346,7 @@ const Toggle = styled.button`
     position: absolute;
     left: calc((${props => props.theme.spacingOneAndThird} - 24px) / 2);
     top: calc((${props => props.theme.spacingOneAndThird} - 24px) / 2);
+    pointer-events: none;
   }
 
   &:before {

@@ -49,7 +49,6 @@ const Text = styled.p`
 
   &:hover .paragraph__ruler-marker {
     border-color: ${props => props.theme.foregroundColor};
-    box-shadow: ${props => props.theme.shadowColor} 0px 0px 6px;
   }
 `;
 

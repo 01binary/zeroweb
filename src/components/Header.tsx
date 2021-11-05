@@ -9,12 +9,14 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
 import { Link } from 'gatsby';
 import NavLink from './NavLink';
 import Hamburger from './Hamburger';
+import { useTooltip } from '../hooks/useTooltip';
+import { Tooltip, Arrow } from './Tooltip';
 import LogoImage from '../images/logo.svg';
 import ArticlesIcon from "../images/articles.svg"
 import ProjectsIcon from "../images/projects.svg"
@@ -52,9 +54,9 @@ const Hero = styled.header`
   -moz-osx-font-smoothing: grayscale;
 
   background: linear-gradient(
-      135deg,
-      ${props => props.theme.primaryColor} 0%,
-      ${props => props.theme.secondaryColor} 100%);
+    135deg,
+    ${props => props.theme.primaryColor} 0%,
+    ${props => props.theme.secondaryColor} 100%);
   
   transition:
     margin ${props => props.theme.animationFast} ease-out,
@@ -386,13 +388,24 @@ const Toggle = styled.button`
 interface ThemeToggleProps {
   isDark: boolean;
   toggleDark: () => void;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
+  forwardRef: React.MutableRefObject<HTMLElement>;
 };
 
 const ThemeToggle: FC<ThemeToggleProps> = ({
   isDark,
-  toggleDark
+  toggleDark,
+  forwardRef,
+  onMouseOver,
+  onMouseOut,
 }) => (
-  <Toggle onClick={() => toggleDark()}>
+  <Toggle
+    ref={forwardRef}
+    onMouseOver={onMouseOver}
+    onMouseOut={onMouseOut}
+    onClick={() => toggleDark()}
+  >
     {isDark
       ? <LightIcon />
       : <DarkIcon />
@@ -407,8 +420,17 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({
   path
 }) => {
-  const { isDark, toggleDark } = useStyledDarkMode();
   const [ menuOpen, showMenu ] = useState(false);
+  const themeToggleRef = useRef<HTMLElement>(null);
+  const { isDark, toggleDark } = useStyledDarkMode();
+  const {
+    hideTip,
+    showTipFor,
+    tipProps,
+    tipRef,
+    tooltipText,
+  } = useTooltip({ placement: 'top' });
+
   return (
     <Hero isDark={isDark} role="banner">
       <LogoLink to="/">
@@ -420,8 +442,17 @@ const Header: FC<HeaderProps> = ({
       </Title>
 
       <Toolbar role="toolbar">
-        <ThemeToggle isDark={isDark} toggleDark={toggleDark} />
-        <Hamburger menuOpen={menuOpen} showMenu={showMenu} />
+        <ThemeToggle
+          forwardRef={themeToggleRef}
+          isDark={isDark}
+          toggleDark={toggleDark}
+          onMouseOver={() => showTipFor(isDark ? 'light theme' : 'dark theme', themeToggleRef)}
+          onMouseOut={hideTip}
+        />
+        <Hamburger
+          menuOpen={menuOpen}
+          showMenu={showMenu}
+        />
       </Toolbar>
 
       <Navigation
@@ -440,6 +471,10 @@ const Header: FC<HeaderProps> = ({
           </NavLink>
         ))}
       </Navigation>
+      <Tooltip ref={tipRef} {...tipProps} role="tooltip">
+        {tooltipText}
+        <Arrow />
+      </Tooltip>
     </Hero>
   );
 };

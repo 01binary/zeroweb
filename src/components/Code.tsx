@@ -25,6 +25,7 @@ import DarkIcon from '../images/dark.svg';
 const DARK_MODE_OVERRIDE = 'darkCode';
 
 type CodeWrapperProps = {
+  isDark: boolean;
   isCodeDark: boolean;
 };
 
@@ -35,7 +36,7 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
   width: calc(130% + ${RULER_ENDMARK_WIDTH}px + ${props => props.theme.spacing} + 3px);
 
   .stroke-foreground {
-    stroke: ${props => props.isCodeDark ? props.theme.backgroundColor : props.theme.foregroundColor};
+    stroke: ${props => props.isCodeDark !== props.isDark ? props.theme.backgroundColor : props.theme.foregroundColor};
   }
 
   &:after {
@@ -153,10 +154,12 @@ const CodeButton: FC<CodeButtonProps> = ({
 };
 
 const Code: FC = ({ children }) => {
+  const darkOverride = localStorage.getItem(DARK_MODE_OVERRIDE) == '1';
+
   const snippetRef = useRef<HTMLElement>(null);
   const { isDark } = useStyledDarkMode();
   const [ isCopied, setCopied ] = useState(false);
-  const [ isCodeDark, setCodeDark ] = useState(isDark || localStorage.getItem(DARK_MODE_OVERRIDE) == '1');
+  const [ isCodeDark, setCodeDark ] = useState(isDark || darkOverride);
 
   const {
     showTip,
@@ -199,10 +202,10 @@ const Code: FC = ({ children }) => {
   const matches = className.match(/language-(?<lang>.*)/);
 
   return (
-    <CodeWrapper isCodeDark={isCodeDark}>
+    <CodeWrapper isDark={isDark} isCodeDark={isCodeDark}>
       <Highlight
         {...defaultProps}
-        theme={isCodeDark ? dark : light}
+        theme={(darkOverride ? isCodeDark : isDark) ? dark : light}
         code={(children as React.ReactElement).props.children}
         language={
         matches && matches.groups && matches.groups.lang
@@ -244,8 +247,8 @@ const Code: FC = ({ children }) => {
             {isCodeDark ? <LightIcon /> : <DarkIcon />}
           </CodeButton>
           <Tooltip {...tipProps} role="tooltip">
-            {tipId === 'copy' && (isCopied ? 'Copied!' : 'Copy Code')}
-            {tipId === 'mode' && (isCodeDark ? 'Light Theme' : 'Dark Theme')}
+            {tipId === 'copy' && (isCopied ? 'copied!' : 'copy code')}
+            {tipId === 'mode' && (isCodeDark ? 'light theme' : 'dark theme')}
             <Arrow />
           </Tooltip>
         </Pre>

@@ -159,7 +159,6 @@ const Wheel: FC = () => {
     showTipFor,
     tipProps,
     tipRef,
-    targetRef,
     tooltipText,
   } = useTooltip({ placement: 'top' });
 

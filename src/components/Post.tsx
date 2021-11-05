@@ -547,7 +547,7 @@ const Post: FC<PostProps> = ({
   useScrollPosition((position, offset) => {
     setReadPosition(position);
     setScrollOffset(offset);
-  }, [readPosition])
+  }, [readPosition]);
 
   return (
     <>

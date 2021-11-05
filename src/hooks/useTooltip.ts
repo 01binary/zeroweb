@@ -19,11 +19,14 @@ import { MOBILE } from '../constants';
 import { Placement } from '@popperjs/core/lib/enums';
 
 export type ShowTipHandler = (text?: string) => void;
+export type ShowTipForHandler = (text?: string, targetRef?: React.MutableRefObject<HTMLElement>) => void;
 export type HideTipHandler = () => void;
+export type UpdateTipHandler = () => void;
 
 interface TooltipInfo {
   showTip: ShowTipHandler;
   hideTip: HideTipHandler;
+  showTipFor: ShowTipForHandler;
   tooltipText: string;
   tipProps: Record<string, any>;
   tipRef: React.MutableRefObject<HTMLElement>;
@@ -48,8 +51,10 @@ export const useTooltip = ({
     tipProps,
     tipRef
   } = useTooltipController();
+
   const {
     showTip: showTargetTip,
+    updateTip,
     targetRef
   } = useTooltipTarget({
     tooltipElement: tipRef.current,
@@ -59,8 +64,15 @@ export const useTooltip = ({
     placement
   });
 
+  const showTipFor = useCallback<ShowTipForHandler>((text, ref) => {
+    if (ref) targetRef.current = ref.current;
+    updateTip();
+    showTargetTip(text);
+  }, [updateTip, showTargetTip]);
+
   return {
     showTip: showTargetTip,
+    showTipFor,
     hideTip,
     tooltipText,
     tipProps,
@@ -103,6 +115,7 @@ export const useTooltipController = (): TooltipController => {
 
 interface TooltipTarget {
   showTip: ShowTipHandler;
+  updateTip: UpdateTipHandler;
   targetRef: React.MutableRefObject<Element>;
 };
 
@@ -127,7 +140,7 @@ export const useTooltipTarget = ({
     ? window.matchMedia(`(max-width: ${MOBILE})`).matches
     : false;
 
-  useEffect(() => {
+  const updateTip = useCallback(() => {
     if (tooltipElement && targetRef.current) {
       popperRef.current = createPopper(targetRef.current, tooltipElement, {
         placement,
@@ -156,10 +169,14 @@ export const useTooltipTarget = ({
     }
   }, [targetRef, popperRef, tooltipElement, isMobile]);
 
+  useEffect(() => {
+    updateTip();
+  }, [updateTip]);
+
   const showTargetTip = useCallback((text: string) => {
     showTip(text);
     if (popperRef.current) popperRef.current.update();
   }, [popperRef]);
 
-  return { showTip: showTargetTip, targetRef };
+  return { showTip: showTargetTip, targetRef, updateTip };
 };

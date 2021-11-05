@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useRef, useCallback, useMemo } from 'react';
+import React, { FC, useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
@@ -36,7 +36,7 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
   width: calc(130% + ${RULER_ENDMARK_WIDTH}px + ${props => props.theme.spacing} + 3px);
 
   .stroke-foreground {
-    stroke: ${props => props.isCodeDark !== props.isDark ? props.theme.backgroundColor : props.theme.foregroundColor};
+    stroke: ${props => props.isCodeDark ? (props.isDark ? props.theme.foregroundColor : props.theme.backgroundColor) : (props.isDark ? props.theme.backgroundColor : props.theme.foregroundColor)};
   }
 
   &:after {
@@ -185,6 +185,7 @@ const Code: FC = ({ children }) => {
     try {
       if (isDark === isCodeDark) {
         // Override dark mode
+        console.log('setting override');
         localStorage.setItem(DARK_MODE_OVERRIDE, '1');
       } else {
         // Remove dark mode override
@@ -205,7 +206,7 @@ const Code: FC = ({ children }) => {
     <CodeWrapper isDark={isDark} isCodeDark={isCodeDark}>
       <Highlight
         {...defaultProps}
-        theme={(darkOverride ? isCodeDark : isDark) ? dark : light}
+        theme={(isDark || isCodeDark) ? dark : light}
         code={(children as React.ReactElement).props.children}
         language={
         matches && matches.groups && matches.groups.lang
@@ -236,16 +237,18 @@ const Code: FC = ({ children }) => {
           >
             <CopyIcon />
           </CodeButton>
-          <CodeButton
-            offset={1}
-            tipId={'mode'}
-            tipRef={tipRef}
-            onClick={toggleDarkMode}
-            showTip={showTip}
-            hideTip={hideTip}
-          >
-            {isCodeDark ? <LightIcon /> : <DarkIcon />}
-          </CodeButton>
+          {isDark === false &&
+            <CodeButton
+              offset={1}
+              tipId={'mode'}
+              tipRef={tipRef}
+              onClick={toggleDarkMode}
+              showTip={showTip}
+              hideTip={hideTip}
+            >
+              {isCodeDark ? <LightIcon /> : <DarkIcon />}
+            </CodeButton>
+          }
           <Tooltip {...tipProps} role="tooltip">
             {tipId === 'copy' && (isCopied ? 'copied!' : 'copy code')}
             {tipId === 'mode' && (isCodeDark ? 'light theme' : 'dark theme')}

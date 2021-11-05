@@ -13,7 +13,7 @@ export const RulerMarker = styled.span`
   border: ${props => props.theme.border} solid ${props => props.theme.borderColor};
   background: ${props => props.theme.backgroundColor};
   z-index: 1;
-  transition: border-color ${props => props.theme.animationFast} ease-out, box-shadow ${props => props.theme.animationFast} ease-out;
+  transition: border-color ${props => props.theme.animationFast} ease-out;
 `;
 
 export const RulerMarkerBadge = styled.span`

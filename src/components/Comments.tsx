@@ -58,6 +58,7 @@ const formatMarkerDate = (timestamp: string): string => (
 type CommentsSectionProps = {
   isLoading: boolean;
   isUserLoggedIn: boolean;
+  hasComments: boolean;
 };
 
 const CommentsSection = styled.footer<CommentsSectionProps>`
@@ -74,7 +75,7 @@ const CommentsSection = styled.footer<CommentsSectionProps>`
   }
 
   opacity: ${props => props.isLoading ? 0.5 : 1};
-  margin-top: ${props => props.isUserLoggedIn ? 4 : -1}em;
+  margin-top: ${props => props.isUserLoggedIn && props.hasComments ? 4 : -1}em;
   transition: opacity ${props => props.theme.animationFast} ease-out;
 
   @media(max-width: ${props => props.theme.desktop}) {
@@ -394,7 +395,7 @@ const AddCommentForm = styled.form`
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
-  margin-top: -${props => props.theme.spacing};
+  margin-top: ${props => props.hasComments ? 0 : -props.theme.spacing};
   margin-bottom: ${props => props.theme.spacing};
 `;
 
@@ -542,6 +543,7 @@ const Comments: FC<CommentsProps> = ({
     <CommentsSection
       isUserLoggedIn={Boolean(user)}
       isLoading={loading}
+      hasComments={Boolean(postComments && postComments.length)}
     >
       {postComments && (
         <h2>
@@ -642,27 +644,27 @@ const Comments: FC<CommentsProps> = ({
         </>
       )}
       {(user && comments) &&
-        <AddCommentForm>
+        <AddCommentForm hasComments={Boolean(postComments && postComments.length)}>
           <AddCommentRow>
             <AddCommentAvatar>
               <Avatar avatarUrl={user.avatarUrl} />
             </AddCommentAvatar>
             <AddCommentUser>
-              Commenting as <MetaLink to="/profile">{user.name}</MetaLink>
+              commenting as <MetaLink to="/profile">{user.name}</MetaLink>
             </AddCommentUser>
-            <button>Logout</button>
+            <button>logout</button>
             {commentError && <Error>{commentError}</Error>}
           </AddCommentRow>
           <AddCommentInput
             value={comment}
+            placeholder="leave a comment"
             onChange={handleChangeComment}
           />
           <AddCommentSubmit
             type="submit"
             onClick={handlePostComment}
-            placeholder="leave a comment"
           >
-            Comment
+            comment
           </AddCommentSubmit>
         </AddCommentForm>
       }

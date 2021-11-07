@@ -54,6 +54,19 @@ const Text = styled.p`
   &:hover .paragraph__ruler-marker__badge {
     opacity: 0;
   }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    padding-right: 0;
+    margin-right: ${props => props.theme.spacingHalf};
+
+    &:after {
+      display:none;
+    }
+
+    .paragraph__ruler-marker {
+      display: none;
+    }
+  }
 `;
 
 const InlineCommentButton = styled.button`
@@ -70,6 +83,10 @@ const InlineCommentButton = styled.button`
   background: none;
   opacity: 0;
   transition: opacity ${props => props.theme.animationFast} ease-out;
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const getHash = (children: any): string => (

@@ -19,8 +19,11 @@ export const RulerMarker = styled.span`
 export const RulerMarkerBadge = styled.span`
   position: absolute;
   left: calc(100% + ${props => props.theme.spacingHalf});
-  top: 0;
+  top: calc(50% - 1em);
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
+  opacity: 1;
+  transition: opacity ${props => props.theme.animationFast} ease-out;
+  pointer-events: none;
 `;

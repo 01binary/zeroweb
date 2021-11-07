@@ -9,6 +9,8 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+export type Reaction = 'snap' | 'party' | 'lol' | 'confused';
+
 export interface CommentQuery {
   // Post slug (hash)
   slug: string;
@@ -16,8 +18,14 @@ export interface CommentQuery {
   // UTC timestamp (range)
   timestamp: string;
 
+  // UTC timestamp of comment replying or reacting to
+  parentTimestamp?: string;
+
   // User id
   userId: string;
+
+  // Did I post this comment?
+  me?: boolean;
 
   // User name
   userName: string;
@@ -25,19 +33,23 @@ export interface CommentQuery {
   // User avatar
   avatarUrl: string;
 
-  // Body text in markdown
-  markdown: string;
+  // Comment text
+  markdown?: string;
 
-  // Hash of the highlighted paragraph
-  paragraph: string;
+  // Hash of the highlighted or commented-on paragraph
+  paragraph?: string;
 
   // Text range within highlighted paragraph
-  rangeStart: number;
-  rangeLength: number;
+  rangeStart?: number;
+  rangeLength?: number;
 
   // Votes
-  upVotes: number;
-  downVotes: number;
+  upVotes?: number;
+  downVotes?: number;
+  voted?: boolean;
+
+  // Reaction
+  reaction?: Reaction;
 };
 
 interface AllCommentsQuery {

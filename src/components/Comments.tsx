@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useState, useRef, useMemo } from 'react';
+import React, { FC, useLayoutEffect, useRef, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { ApolloClient } from 'apollo-client';
 import ReactMarkdown from 'react-markdown';
@@ -15,18 +15,10 @@ import CommentMarkerIcon from '../images/comment-marker.svg';
 import UpVoteIcon from '../images/upvote.svg';
 import DownVoteIcon from '../images/downvote.svg';
 import { CommentQuery } from '../types/AllCommentsQuery';
+import { Vote } from '../types/VoteCommentQuery';
+import AddCommentMutation from '../types/AddCommentMutation';
 
 dayjs.extend(relativeTime);
-
-type CommentsProps = {
-  slug: string;
-  client: ApolloClient;
-  comments: CommentQuery[] | null;
-  loading: boolean;
-  error: string | null;
-  readPosition: number;
-  scrollOffset: number;
-};
 
 type CommentVotesProps = {
   upVotes: number;
@@ -63,7 +55,12 @@ const formatMarkerDate = (timestamp: string): string => (
   dayjs(timestamp).format('MMM YYYY')
 );
 
-const CommentsSection = styled.footer`
+type CommentsSectionProps = {
+  isLoading: boolean;
+  isUserLoggedIn: boolean;
+};
+
+const CommentsSection = styled.footer<CommentsSectionProps>`
   h2 {
     font-size: ${props => props.theme.headingFontSizeMedium};
     font-weight: ${props => props.theme.headingFontWeight};
@@ -76,7 +73,9 @@ const CommentsSection = styled.footer`
     line-height: 1.7em;
   }
 
+  opacity: ${props => props.isLoading ? 0.5 : 1};
   margin-top: ${props => props.isUserLoggedIn ? 4 : -1}em;
+  transition: opacity ${props => props.theme.animationFast} ease-out;
 
   @media(max-width: ${props => props.theme.desktop}) {
     margin-top: 0;
@@ -113,6 +112,7 @@ const CommentsStartDate = styled(CommentsScaleDate)`
 `;
 
 const CommentsEndDate = styled(CommentsScaleDate)`
+  position: absolute;
   margin-bottom: 1em;
 `;
 
@@ -237,16 +237,18 @@ const Comment = styled.li`
   }
 
   &:hover {
-    .comment-votes__scale {
-      right: calc(${AVATAR_TILE_OFFSET}px + ${VOTE_SLOT_WIDTH}px + 2.5em);
-    }
-
     button {
       opacity: 1;
     }
 
     &:after {
       opacity: 1;
+    }
+  }
+
+  &.comment--unvoted:hover {
+    .comment-votes__scale {
+      right: calc(${AVATAR_TILE_OFFSET}px + ${VOTE_SLOT_WIDTH}px + 2.5em);
     }
   }
 
@@ -261,6 +263,10 @@ const Comment = styled.li`
       display: none;
     }
   }
+`;
+
+const Me = styled.span`
+  color: ${props => props.theme.focusColor};
 `;
 
 const CommentAvatar = styled.div`
@@ -284,16 +290,16 @@ const CommentVotesScale = styled.div`
   }
 `;
 
-const Vote = styled.span`
+const VoteSlot = styled.span`
   display: inline-block;
   width: ${VOTE_SLOT_WIDTH}px;
 `;
 
-const DownVote = styled(Vote)`
+const DownVote = styled(VoteSlot)`
   color: ${props => props.theme.focusColor};
 `;
 
-const UpVote = styled(Vote)`
+const UpVote = styled(VoteSlot)`
   color: ${props => props.theme.successColor};
 `;
 
@@ -383,33 +389,103 @@ const CommentDate = styled.span`
   }
 `;
 
+const AddCommentForm = styled.form`
+  position: relative;
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+  margin-top: -${props => props.theme.spacing};
+  margin-bottom: ${props => props.theme.spacing};
+`;
+
+const AddCommentRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const AddCommentAvatar = styled.div`
+  display: inline;
+  margin-left: calc(${props => props.theme.spacing} + ${props => props.theme.border} * 2);
+`;
+
+const AddCommentUser = styled.div`
+  display: inline;
+  margin: 0 ${props => props.theme.spacingHalf};
+`;
+
+const AddCommentInput = styled.textarea`
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+
+  width: calc(67% - ${props => props.theme.spacing});
+  max-height: 500px;
+  resize: vertical;
+
+  padding: ${props => props.theme.spacingHalf};
+  margin-top: ${props => props.theme.spacingHalf};
+  margin-bottom: ${props => props.theme.spacingHalf};
+  margin-left: calc(${props => props.theme.spacingOneAndHalf} + ${props => props.theme.spacingQuarter} + ${AVATAR_SIZE}px);
+`;
+
+const AddCommentSubmit = styled.button`
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+  position: absolute;
+  left: calc(67% + ${props => props.theme.spacingDouble} * 2);
+  top: ${props => props.theme.spacingDouble};
+`;
+
+type CommentsProps = {
+  slug: string;
+  client: ApolloClient;
+  comments: CommentQuery[] | null;
+  loading: boolean;
+  error: string | null;
+  commentError: string | null;
+  handleVote: (timestamp: string, vote: Vote) => void;
+  handleAdd: (comment: AddCommentMutation) => void;
+  readPosition: number;
+  scrollOffset: number;
+};
+
 const Comments: FC<CommentsProps> = ({
-  slug,
-  client,
   comments,
   loading,
   error,
+  commentError,
+  handleVote,
+  handleAdd,
   readPosition,
   scrollOffset,
 }) => {
   const { user } = useBlogContext();
+  const [ comment, setComment ] = useState<string>('');
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);
   const commentSpansRef = useRef<number[]>([]);
   const commentsRef = useRef<HTMLElement>();
   const markerRef = useRef<HTMLElement>();
-  const listedComments = comments
+  const postComments = comments
+    // Post comments are displayed after the post (do not include highlights and reactions)
     ?.filter(({ markdown }) => markdown && markdown.length)
     ?.sort(({ timestamp: timestamp1 }, { timestamp: timestamp2 }) => (
       timestamp1.localeCompare(timestamp2)
     ));
-  const maxVotes = listedComments?.reduce(
+  const maxVotes = postComments?.reduce(
     (acc, { upVotes, downVotes }) => Math.max(acc, upVotes && downVotes ? upVotes + downVotes : 0), 0
   ) || 0;
 
   useLayoutEffect(() => {
     // Calculate % scrolled through comments and comment index in view
-    if (commentsRef.current && listedComments && listedComments.length > 0) {
+    if (commentsRef.current && postComments && postComments.length > 0) {
       const commentsRect = commentsRef.current.getBoundingClientRect();
       const { height: markerHeight } = markerRef.current.getBoundingClientRect();
       const bodyRect = document.body.getBoundingClientRect();
@@ -420,7 +496,7 @@ const Comments: FC<CommentsProps> = ({
         (scrollOffset + window.innerHeight * 0.75 - commentsTop)
       )) / commentsRect.height;
 
-      const { current } = listedComments.reduce(
+      const { current } = postComments.reduce(
         ({ sum, current }, { timestamp }, index) => {
           const { height } = document
             .getElementById(`comment-${timestamp}`)
@@ -439,33 +515,56 @@ const Comments: FC<CommentsProps> = ({
       commentsMarkerOffsetRef.current = offsetPixels > markerHeight
         ? offsetPixels - markerHeight
         : offsetPixels;
-      commentsIndexRef.current = readPosition > .99 ? listedComments.length - 1 : current;
+      commentsIndexRef.current = readPosition > .99 ? postComments.length - 1 : current;
       commentSpansRef.current = spans;
     }
-  }, [scrollOffset, listedComments]);
+  }, [scrollOffset, postComments]);
+
+  const handleChangeComment = useCallback(({ target: { value }}) => {
+    setComment(value);
+  }, [setComment]);
+
+  const handlePostComment = useCallback((e) => {
+    e.preventDefault();
+
+    if (!comment.length) return;
+
+    handleAdd({
+      userName: user.name,
+      avatarUrl: user.avatarUrl || '',
+      markdown: comment
+    });
+
+    setComment('');
+  }, [handleAdd, user, comment]);
 
   return (
-    <CommentsSection isUserLoggedIn={Boolean(user)}>
-      {listedComments && (
+    <CommentsSection
+      isUserLoggedIn={Boolean(user)}
+      isLoading={loading}
+    >
+      {postComments && (
         <h2>
           Comments
-          {listedComments.length &&
-            <span>&nbsp;[&nbsp;{listedComments.length}&nbsp;]</span>
+          {postComments.length
+            ? <span>&nbsp;[&nbsp;{postComments.length}&nbsp;]</span>
+            : null
           }
         </h2>
       )}
-      {loading && <p>Loading comments...</p>}
+
+      {(loading && !comments) && <p>Loading comments...</p>}
       {error && <Error>{error}</Error>}
 
       <Login />
 
-      {listedComments && listedComments.length > 0 && (
+      {postComments && postComments.length > 0 && (
         <>
           <CommentsStartDate>
-            {formatMarkerDate(listedComments[0].timestamp)}
+            {formatMarkerDate(postComments[0].timestamp)}
           </CommentsStartDate>
           <CommentsList ref={commentsRef}>
-            {listedComments
+            {postComments
               .map(({
                 timestamp,
                 markdown,
@@ -474,11 +573,14 @@ const Comments: FC<CommentsProps> = ({
                 userName,
                 upVotes,
                 downVotes,
+                voted,
+                me,
               }, index) => (
                 <Comment
-                  key={timestamp}
+                  key={`${timestamp}${voted ? 'v' : ''}`}
                   id={`comment-${timestamp}`}
                   scrollHighlight={index === commentsIndexRef.current}
+                  className={voted || me ? 'comment--voted' : 'comment--unvoted'}
                 >
                   <CommentAvatar
                     index={index}
@@ -494,14 +596,21 @@ const Comments: FC<CommentsProps> = ({
                       maxVotes={maxVotes}
                       maxSlots={MAX_VOTE_SLOTS}
                     />
-                    <UpVoteButton title="Up vote">
-                      <UpVoteIcon />
-                    </UpVoteButton>
-                    <DownVoteButton title="Down vote">
-                      <DownVoteIcon />
-                    </DownVoteButton>
+                    {(voted === false && me === false) &&
+                      <>
+                        <UpVoteButton onClick={() => handleVote(timestamp, 'upVote')}>
+                          <UpVoteIcon />
+                        </UpVoteButton>
+                        <DownVoteButton onClick={() => handleVote(timestamp, 'downVote')}>
+                          <DownVoteIcon />
+                        </DownVoteButton>
+                      </>
+                    }
                   </CommentAvatar>
-                  <MetaLink to={`/users/${userId}`}>{userName}</MetaLink>
+                  {me
+                    ? <Me>{userName}</Me>
+                    : <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
+                  }
                   <CommentDate>
                     <MetaLink to={`?comment=${encodeURIComponent(timestamp)}`}>
                       {' '}
@@ -519,19 +628,44 @@ const Comments: FC<CommentsProps> = ({
                   <MarkerCount>
                     {commentsIndexRef.current + 1}
                     {' / '}
-                    {listedComments.length}
+                    {postComments.length}
                   </MarkerCount>
                   {formatMarkerDate(
-                    listedComments[commentsIndexRef.current].timestamp
+                    postComments[commentsIndexRef.current].timestamp
                   )}
                 </DateMarkerLabel>
               </DateMarker>
           </CommentsList>
           <CommentsEndDate>
-            {formatMarkerDate(listedComments[listedComments.length - 1].timestamp)}
+            {formatMarkerDate(postComments[postComments.length - 1].timestamp)}
           </CommentsEndDate>
         </>
       )}
+      {(user && comments) &&
+        <AddCommentForm>
+          <AddCommentRow>
+            <AddCommentAvatar>
+              <Avatar avatarUrl={user.avatarUrl} />
+            </AddCommentAvatar>
+            <AddCommentUser>
+              Commenting as <MetaLink to="/profile">{user.name}</MetaLink>
+            </AddCommentUser>
+            <button>Logout</button>
+            {commentError && <Error>{commentError}</Error>}
+          </AddCommentRow>
+          <AddCommentInput
+            value={comment}
+            onChange={handleChangeComment}
+          />
+          <AddCommentSubmit
+            type="submit"
+            onClick={handlePostComment}
+            placeholder="leave a comment"
+          >
+            Comment
+          </AddCommentSubmit>
+        </AddCommentForm>
+      }
     </CommentsSection>
   );
 };

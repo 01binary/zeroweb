@@ -447,7 +447,7 @@ const Header: FC<HeaderProps> = ({
           forwardRef={themeToggleRef}
           isDark={isDark}
           toggleDark={toggleDark}
-          onMouseOver={() => showTipFor(isDark ? 'light theme' : 'dark theme', themeToggleRef)}
+          onMouseOver={() => showTipFor('theme', themeToggleRef)}
           onMouseOut={hideTip}
         />
         <Hamburger

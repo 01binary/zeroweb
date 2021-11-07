@@ -4,7 +4,7 @@ exports.typeDefs = gql`
   enum Reaction {
     snap,
     party,
-    laugh,
+    lol,
     confused
   }
 
@@ -19,7 +19,10 @@ exports.typeDefs = gql`
     parentTimestamp: String
     markdown: String
     reaction: Reaction
-    votes: Int
+    upVotes: Int
+    downVotes: Int
+    voted: Boolean
+    me: Boolean
 
     paragraph: String
     rangeStart: Int
@@ -38,7 +41,7 @@ exports.typeDefs = gql`
     userName: String!
     avatarUrl: String!
 
-    parentId: String
+    parentTimestamp: String
     markdown: String
     reaction: Reaction
     paragraph: String
@@ -47,8 +50,8 @@ exports.typeDefs = gql`
   }
 
   enum Vote {
-    upvote,
-    downvote
+    upVote,
+    downVote
   }
 
   input VoteCommentInput {

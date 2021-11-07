@@ -160,19 +160,15 @@ const Wheel: FC = () => {
     tipProps,
     tipRef,
     tooltipText,
-  } = useTooltip({ placement: 'top' });
+  } = useTooltip({ placement: 'bottom' });
 
-  const handleSnap = useCallback(() => {
+  const handleSnap = () => {
     if (snapTimer) return;
     setSnapTimer(window.setTimeout(() => {
-      window.clearTimeout(snapTimer);
-      setSnapTimer(0);
+        window.clearTimeout(snapTimer);
+        setSnapTimer(0);
     },400));
-  }, [snapTimer, setSnapTimer]);
-
-  useEffect(() => () => {
-    if (snapTimer) window.clearTimeout(snapTimer);
-  });
+};
 
   return (
     <WheelWrapper>

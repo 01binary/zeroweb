@@ -420,6 +420,7 @@ const AddCommentInput = styled.textarea`
   font-weight: ${props => props.theme.smallFontWeight};
 
   width: calc(67% - ${props => props.theme.spacing});
+  min-height: 1.5em;
   max-height: 500px;
   resize: vertical;
 

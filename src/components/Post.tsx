@@ -69,14 +69,6 @@ const Main = styled.main`
     clear: left;
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
-    h1, h2, h3, h4 {
-      max-width: initial;
-      margin-left: ${props => props.theme.spacingHalf};
-      margin-right: ${props => props.theme.spacingHalf};
-    }
-  }
-
   h1, h2, h3, h4 {
     &:after {
       content: '';
@@ -142,7 +134,7 @@ const Main = styled.main`
       counter-increment: listCounter;
       line-height: ${props => props.theme.spacingOneAndThird};
       background: ${props => props.theme.isDark
-        ? props.theme.borderColor
+        ? props.theme.accentDarkShadowColor
         : props.theme.accentLightShadowColor};
       width: ${props => props.theme.spacingOneAndThird};
       height: ${props => props.theme.spacingOneAndThird};
@@ -161,6 +153,24 @@ const Main = styled.main`
         ? props.theme.accentColor
         : props.theme.accentShadowColor
       };
+    }
+  }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    h1, h2, h3, h4 {
+      max-width: initial;
+      margin-left: ${props => props.theme.spacingHalf};
+      margin-right: ${props => props.theme.spacingHalf};
+
+      &:after {
+        display: none;
+      }
+    }
+
+    ul, ol {
+      &:after {
+        display: none;
+      }
     }
   }
 `;
@@ -204,6 +214,10 @@ const HeroImage = styled(Img)`
     max-width: 100%;
     margin-top: 1em;
     margin-right: ${props => props.theme.spacingHalf};
+
+    &:after {
+      display: none;
+    }
   }
 `;
 

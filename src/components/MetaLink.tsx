@@ -11,7 +11,7 @@ const MetaLink = styled(Link)`
   text-decoration: none;
   white-space: nowrap;
 
-  color: ${props => props.highlight ? props.theme.focusColor : props.theme.accentTextColor};
+  color: ${props => props.highlight ? props.theme.focusColor : props.theme.isDark ? props.theme.primaryAccentColor : props.theme.accentTextColor};
 
   transition:
     color ${props => props.theme.animationFast} ease-out,

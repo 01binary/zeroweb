@@ -50,6 +50,10 @@ const Text = styled.p`
   &:hover .paragraph__ruler-marker {
     border-color: ${props => props.theme.foregroundColor};
   }
+
+  &:hover .paragraph__ruler-marker__badge {
+    opacity: 0;
+  }
 `;
 
 const InlineCommentButton = styled.button`
@@ -117,7 +121,7 @@ const Paragraph: FC = (props) => {
             <>
               <RulerHighlightIcon/>
               {highlights.length > 1 &&
-                <RulerMarkerBadge>
+                <RulerMarkerBadge className="paragraph__ruler-marker__badge">
                   {highlights.length}
                 </RulerMarkerBadge>
               }
@@ -127,7 +131,7 @@ const Paragraph: FC = (props) => {
             <>
               <RulerCommentIcon/>
               {comments.length > 1 &&
-                <RulerMarkerBadge>
+                <RulerMarkerBadge className="paragraph__ruler-marker__badge">
                   {comments.length}
                 </RulerMarkerBadge>
               }

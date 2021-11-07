@@ -13,10 +13,6 @@ import Facebook from '../images/facebook.svg';
 import Google from '../images/google.svg';
 import Twitter from '../images/twitter.svg';
 
-const UserName = styled.span`
-  margin: ${props => props.theme.spacingQuarter} ${props => props.theme.spacingQuarter};
-`;
-
 const Container = styled.section`
   position: relative;
   display: flex;
@@ -35,12 +31,6 @@ const ProviderList = styled.ul`
 
 const Provider = styled.li`
   display: inline;
-`;
-
-const CommentAvatar = styled.div`
-  position: absolute;
-  left: calc(-27px - 1em);
-  top: 0;
 `;
 
 const Login: FC = () => {
@@ -120,17 +110,7 @@ const Login: FC = () => {
   };
 
   return user
-    ? (
-      <Container>
-        <CommentAvatar>
-          <Avatar avatarUrl={user.avatarUrl} />
-        </CommentAvatar>
-        <UserName>
-          Commenting as <MetaLink to="/profile">{user.name}</MetaLink>
-        </UserName>
-        <button onClick={handleLogout}>Logout</button>
-      </Container>
-    )
+    ? null
     : error
     ? <Error>{error}</Error>
     : (

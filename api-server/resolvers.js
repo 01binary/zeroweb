@@ -11,12 +11,35 @@ const {
   voteComment,
   getVote,
   addVote,
+  getReaction,
+  addReaction,
+  getVotes,
 } = require('./database');
 
 exports.resolvers = {
   Query: {
-    comments: async (root, { slug }) => {
-      return getComments(slug);
+    comments: async (
+      root,
+      { slug },
+      { user }
+    ) => {
+      const comments = await getComments(slug);
+
+      // For anonymous users, return comments immediately
+      if (!user?.authenticated) return comments.map(comment => ({
+        ...comment,
+        voted: null,
+        me: null
+      }));
+
+      // For logged in users, indicate their comments and if already voted
+      const votes = await getVotes(user.id);
+
+      return comments.map(comment => ({
+        ...comment,
+        voted: Boolean(votes.find(({ timestamp }) => timestamp === comment.timestamp)),
+        me: Boolean(comment.userId === user.id)
+      }));
     },
 
     comment: async (root, { slug, timestamp }) => {
@@ -30,16 +53,30 @@ exports.resolvers = {
       { user },
     ) => {
       if (!user?.authenticated) throw new AuthenticationError(
-        'must be logged in with a social provider to add comments'
+        'must be logged in with a social provider to add comments, highlights, or reactions'
       );
 
-      return addComment({
+      if (comment.reaction && (comment.markdown || comment.rangeLength))
+        throw new UserInputError('cannot add reaction with a comment or highlight');
+
+      if (comment.reaction) {
+        const { slug, parentTimestamp } = comment;
+        const alreadyReacted = await getReaction(slug, parentTimestamp, user.id);
+        if (alreadyReacted) throw new UserInputError('already reacted to this comment or post');
+      }
+
+      const added = await addComment({
         ...comment,
         timestamp: new Date().toISOString(),
         userId: user.id,
         upVotes: 0,
-        downVotes: 0
+        downVotes: 0,
+        me: true,
       });
+
+      if (comment.reaction) await addReaction(slug, parentTimestamp, user.id);
+
+      return added;
     },
 
     editComment: async (
@@ -52,12 +89,12 @@ exports.resolvers = {
       );
 
       const original = await getComment(slug, timestamp);
-
       if (original.userId !== user.id) throw new UserInputError(
-        'users can only edit their own comments'
+        'users can only edit their own comments or reactions'
       );
 
-      return editComment(
+      const votes = await getVotes(user.id);
+      const updated = await editComment(
         {
           slug,
           timestamp,
@@ -66,6 +103,14 @@ exports.resolvers = {
         },
         original
       );
+
+      return {
+        ...updated,
+        me: true,
+        voted: Boolean(votes.find(
+          ({ timestamp: voteTimestamp }) => voteTimestamp === timestamp
+        ))
+      }
     },
 
     voteComment: async (
@@ -77,10 +122,16 @@ exports.resolvers = {
         'must be logged in with a social provider to vote on comments'
       );
 
+      const original = await getComment(slug, timestamp);
+      if (original.reaction) throw new UserInputError('cannot vote on reactions');
+      if (!original.markdown) throw new UserInputError('cannot vote on highlights');
+      if (original.userId === user.id) throw new UserInputError('cannot vote on your own comments');
+
       const alreadyVoted = await getVote(timestamp, user.id);
       if (alreadyVoted) throw new UserInputError('already voted');
 
-      const original = await getComment(slug, timestamp);
+      await addVote(timestamp, user.id);
+
       const updated = await voteComment(
         {
           slug,
@@ -88,14 +139,16 @@ exports.resolvers = {
           upVotes: vote === 'upVote' ?
             original.upVotes + 1 : original.upVotes,
           downVotes: vote === 'downVote' ?
-            original.downVotes - 1 : original.downVotes,
+            original.downVotes + 1 : original.downVotes,
         },
         original
       );
 
-      await addVote(timestamp, user.id);
-
-      return updated;
+      return {
+        ...updated,
+        voted: true,
+        me: false
+      };
     },
 
     deleteComment: async (
@@ -104,17 +157,15 @@ exports.resolvers = {
       { user },
     ) => {
       if (!user?.authenticated) throw new AuthenticationError(
-        'must be logged in to delete comments'
+        'must be logged in to delete comments, highlights, and reactions'
       );
 
       const comment = await getComment(slug, timestamp);
-
       if (!comment) throw new UserInputError('comment not found');
 
       const { userId: originalUserId } = comment;
-
       if (originalUserId !== user.id) throw new UserInputError(
-        'users can only delete their own comments'
+        'users can only delete their own comments, highlights, and reactions'
       );
 
       return deleteComment({

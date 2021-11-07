@@ -540,7 +540,13 @@ const Post: FC<PostProps> = ({
 }) => {
   const { credentials } = useBlogContext();
   const client = useApiClient(credentials);
-  const { comments, loading, error } = useComments(slug, client);
+  const {
+    comments,
+    loading,
+    error,
+    handleVote,
+    handleAdd,
+  } = useComments(slug, client);
   const [ readPosition, setReadPosition ] = useState<number>(0);
   const [ scrollOffset, setScrollOffset ] = useState<number>(0);
 
@@ -605,10 +611,12 @@ const Post: FC<PostProps> = ({
 
       <Comments
         slug={slug}
-        client={client}
         loading={loading}
         error={error}
         comments={comments}
+        handleVote={handleVote}
+        handleAdd={handleAdd}
+        client={client}
         readPosition={readPosition}
         scrollOffset={scrollOffset}
       />

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g class="fill-none stroke-foreground">
+	<circle stroke-width="1.5" stroke-miterlimit="10" cx="11.7" cy="12.1" r="9.1"/>
+	<circle stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" cx="11.9" cy="15.4" r="3.2"/>
+</g>
+<g class="stroke-none fill-foreground">
+	<circle cx="15" cy="10.3" r="1.2"/>
+	<circle cx="8.7" cy="10.3" r="1.2"/>
+</g>
+</svg>

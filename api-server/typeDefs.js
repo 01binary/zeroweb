@@ -5,6 +5,7 @@ exports.typeDefs = gql`
     snap,
     party,
     lol,
+    wow,
     confused
   }
 

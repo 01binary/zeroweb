@@ -9,7 +9,9 @@
                 "avatarUrl": "https://lh3.googleusercontent.com/a-/AOh14GgOOKYisvtQsT2Qh_EGd60PWuwBZneSXW5WAJg4=s96-c",
                 "paragraph": "p1490963721",
                 "rangeStart": 1,
-                "rangeLength": 15
+                "rangeLength": 15,
+                "me": true,
+                "voted": null
             },
             {
                 "slug": "another",
@@ -19,7 +21,9 @@
                 "avatarUrl": "https://lh3.googleusercontent.com/a-/AOh14GgOOKYisvtQsT2Qh_EGd60PWuwBZneSXW5WAJg4=s96-c",
                 "paragraph": "p3336274517",
                 "rangeStart": 1,
-                "rangeLength": 15
+                "rangeLength": 15,
+                "me": true,
+                "voted": null
             },
             {
                 "slug": "another",
@@ -29,11 +33,13 @@
                 "avatarUrl": "https://lh3.googleusercontent.com/a-/AOh14GgOOKYisvtQsT2Qh_EGd60PWuwBZneSXW5WAJg4=s96-c",
                 "upVotes": 2,
                 "downVotes": 2,
+                "voted": null,
                 "reaction": null,
                 "markdown": "My comment text!",
                 "paragraph": null,
                 "rangeStart": null,
                 "rangeLength": null,
+                "me": true,
                 "__typename": "Comment"
             },
             {
@@ -44,6 +50,7 @@
                 "avatarUrl": "https://avatars.githubusercontent.com/u/18667394?s=100&v=4",
                 "upVotes": 6,
                 "downVotes": 1,
+                "voted": null,
                 "reaction": null,
                 "markdown": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque sem sit amet velit rutrum hendrerit. Nullam erat lectus, euismod sit amet interdum ac, laoreet nec odio. Mauris felis justo, suscipit sit amet justo vel, condimentum interdum mauris. Proin viverra arcu ut porta blandit.",
                 "paragraph": "p369630885",
@@ -59,6 +66,7 @@
                 "avatarUrl": "https://avatars.githubusercontent.com/u/9102855?s=100&v=4",
                 "upVotes": 10,
                 "downVotes": 8,
+                "voted": null,
                 "reaction": null,
                 "markdown": "Suspendisse porta, tortor quis ultricies eleifend, nulla justo facilisis libero, quis vulputate ante nunc bibendum ante. Quisque vel cursus magna. Aliquam dignissim dapibus ante eget convallis. Nam tempor placerat vulputate. Etiam vel congue neque. Donec at aliquet orci. Nullam a porta velit. Morbi venenatis ullamcorper leo id laoreet.",
                 "paragraph": null,
@@ -74,6 +82,7 @@
                 "avatarUrl": "https://avatars.githubusercontent.com/u/40081706?s=100&v=4",
                 "upVotes": 0,
                 "downVotes": 2,
+                "voted": null,
                 "reaction": null,
                 "markdown": "Aenean laoreet neque elit, id egestas odio cursus in. Suspendisse pellentesque leo tincidunt enim rutrum convallis.\n\nSed viverra vel magna ac malesuada. Vivamus eget nisl enim. Phasellus placerat tempor lobortis. Donec efficitur finibus lorem, eget sagittis sapien faucibus eu. Praesent ultricies scelerisque enim sed accumsan. Ut condimentum sodales odio. Sed elementum nisl a elit maximus, a venenatis neque vulputate. Sed quis eleifend metus. Nulla pellentesque tellus quis nulla ultrices, eu cursus lectus ultricies.Vestibulum ac dolor eros. Nulla ex risus, efficitur ac interdum id, efficitur vel elit. Proin vitae consectetur quam, sit amet consequat nibh. Nunc id nisl id sapien dignissim vestibulum. Mauris in dolor elementum, finibus ligula et, posuere ante. Nulla sit amet ante eu orci venenatis feugiat. Nunc malesuada nunc ante. Cras lacinia mollis neque, sed dapibus nisl tincidunt nec. Pellentesque sagittis sagittis sem, convallis euismod nunc fringilla nec. Praesent suscipit in ex ut laoreet. Donec posuere interdum ullamcorper. Sed dictum mi massa, ut consequat augue luctus a. Nullam ultricies nisi ac pellentesque venenatis. Vivamus nec quam magna. Interdum et malesuada fames ac ante ipsum primis in faucibus",
                 "paragraph": null,
@@ -89,6 +98,7 @@
                 "avatarUrl": "https://avatars.githubusercontent.com/u/177020?s=100&v=4",
                 "upVotes": 2,
                 "downVotes": 3,
+                "voted": null,
                 "reaction": null,
                 "markdown": "Another comment here for testing multiple ones",
                 "paragraph": null,
@@ -104,6 +114,7 @@
                 "avatarUrl": "https://avatars.githubusercontent.com/u/35074091?s=88&u=9d9a3ecc5f0bf016e103d8f86c874ad886b3a744&v=4",
                 "upVotes": 0,
                 "downVotes": 0,
+                "voted": null,
                 "reaction": null,
                 "markdown": "Just making sure multiple users can comment with ***markdown***",
                 "paragraph": null,
@@ -119,6 +130,7 @@
                 "avatarUrl": "https://avatars.githubusercontent.com/u/6730081?s=88&v=4",
                 "upVotes": 5,
                 "downVotes": 2,
+                "voted": null,
                 "reaction": null,
                 "markdown": "What if there was one more?",
                 "paragraph": null,

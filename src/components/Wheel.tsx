@@ -23,6 +23,7 @@ export const WHEEL_SIZE = 76;
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
 const ICON_SIZE = 36;
+const SNAP_TIME_MS = 400;
 
 const StyledCell = styled(Cell)`
   position: absolute;
@@ -160,15 +161,15 @@ const Wheel: FC = () => {
     tipProps,
     tipRef,
     tooltipText,
-  } = useTooltip({ placement: 'bottom' });
+  } = useTooltip({});
 
   const handleSnap = () => {
     if (snapTimer) return;
     setSnapTimer(window.setTimeout(() => {
         window.clearTimeout(snapTimer);
         setSnapTimer(0);
-    },400));
-};
+    }, SNAP_TIME_MS));
+  };
 
   return (
     <WheelWrapper>

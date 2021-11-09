@@ -29,8 +29,8 @@ export const useComments = (
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
-    //Promise.resolve(mockComments)
-    client && client.query<AllCommentsQuery>({
+    Promise.resolve(mockComments)
+    /*client && client.query<AllCommentsQuery>({
       query: gql`
         query comments ($slug: String!) {
           comments (slug: $slug) {
@@ -51,7 +51,7 @@ export const useComments = (
           }
         }`,
       variables: { slug }
-    })
+    })*/
     .then(({ data: { comments } }) => {
       setComments(comments);
       setLoading(false);

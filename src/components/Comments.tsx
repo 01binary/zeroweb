@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useRef, useState, useCallback } from 'react';
+import React, { FC, useLayoutEffect, useRef, useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { ApolloClient } from 'apollo-client';
 import ReactMarkdown from 'react-markdown';
@@ -14,18 +14,21 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentMarkerIcon from '../images/comment-marker.svg';
 import UpVoteIcon from '../images/upvote.svg';
 import DownVoteIcon from '../images/downvote.svg';
-import { CommentQuery } from '../types/AllCommentsQuery';
+import ReactionIcon from '../images/reaction.svg';
+import ReactionLolIcon from '../images/reaction-lol.svg';
+import ReactionWowIcon from '../images/reaction-wow.svg';
+import ReactionConfusedIcon from '../images/reaction-confused.svg';
+import ReactionPartyIcon from '../images/reaction-party.svg';
+import ReactionSnapIcon from '../images/reaction-snap.svg';
+import MenuIcon from '../images/comment-menu.svg';
+import { CommentQuery, Reaction } from '../types/AllCommentsQuery';
 import { Vote } from '../types/VoteCommentQuery';
 import AddCommentMutation from '../types/AddCommentMutation';
+import EditCommentMutation from '../types/EditCommentMutation';
+import { useTooltip } from '../hooks/useTooltip';
+import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 
 dayjs.extend(relativeTime);
-
-type CommentVotesProps = {
-  upVotes: number;
-  downVotes: number;
-  maxVotes: number;
-  maxSlots: number;
-};
 
 const COMMENT_SCALE_BREAKPOINT = '1160px';
 const AVATAR_TILE_MAX_DIST = 0.15;
@@ -75,12 +78,8 @@ const CommentsSection = styled.footer<CommentsSectionProps>`
   }
 
   opacity: ${props => props.isLoading ? 0.5 : 1};
-  margin-top: ${props => props.isUserLoggedIn && props.hasComments ? 4 : -1}em;
+  margin-top: ${props => props.isUserLoggedIn && props.hasComments ? 4 : 0}em;
   transition: opacity ${props => props.theme.animationFast} ease-out;
-
-  @media(max-width: ${props => props.theme.desktop}) {
-    margin-top: 0;
-  }
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: initial;
@@ -238,13 +237,21 @@ const Comment = styled.li`
   }
 
   &:hover {
-    button {
+    .comment__vote-button {
+      opacity: 1;
+    }
+
+    .comment__option-button {
       opacity: 1;
     }
 
     &:after {
       opacity: 1;
     }
+  }
+
+  .comment__option--active {
+    opacity: 1;
   }
 
   &.comment--unvoted:hover {
@@ -338,6 +345,13 @@ const DownVoteButton = styled(VoteButton)`
   top: 20px;
 `;
 
+type CommentVotesProps = {
+  upVotes: number;
+  downVotes: number;
+  maxVotes: number;
+  maxSlots: number;
+};
+
 const CommentVotes: FC<CommentVotesProps> = ({
   upVotes,
   downVotes,
@@ -363,7 +377,7 @@ const CommentVotes: FC<CommentVotesProps> = ({
 };
 
 const CommentContent = styled.span`
-  margin: 0 ${props => props.theme.spacing} 0 ${props => props.theme.spacingHalf};
+  margin: 0 ${props => props.theme.spacingHalf};
 
   p {
     margin-left: 0;
@@ -390,6 +404,178 @@ const CommentDate = styled.span`
   }
 `;
 
+const CommentOptionGroup = styled.span`
+  word-wrap: none;
+`;
+
+const CommentOption = styled.button`
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+
+  width: 32px;
+  height: 32px;
+
+  position: relative;
+  top: calc(${props => props.theme.borderThick} * 2);
+  padding-top: calc(${props => props.theme.border} * 2);
+  margin-bottom: calc(${props => props.theme.border} * 2);
+
+  opacity: 0;
+  transition: opacity ${props => props.theme.animationFast} ease-out;
+
+  svg {
+    pointer-events: none;
+  }
+
+  &:hover {
+    .stroke-foreground {
+      stroke: ${props => props.theme.isDark
+        ? props.theme.primaryColor
+        : props.theme.primaryDarkColor
+      };
+    }
+
+    .fill-foreground {
+      fill: ${props => props.theme.isDark
+        ? props.theme.primaryColor
+        : props.theme.primaryDarkColor
+      };
+    }
+  }
+`;
+
+type MenuProps = {
+  vertical?: boolean;
+};
+
+const Menu = styled.div<MenuProps>`
+  display: flex;
+  flex-direction: ${props => props.vertical ? 'column' : 'row'};
+  min-width: 180px;
+  padding-top: 4px;
+`;
+
+const MenuItem = styled.button`
+  padding: 10px 16px;
+  cursor: pointer;
+
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+  text-align: left;
+
+  svg {
+    position: relative;
+    pointer-events: none;
+    top: 2px;
+  }
+
+  &:hover {
+    color: ${props => props.theme.backgroundColor};
+    background: ${props => props.theme.isDark
+      ? props.theme.primaryColor
+      : props.theme.primaryDarkColor
+    };
+
+    .stroke-foreground {
+      stroke: ${props => props.theme.backgroundColor};
+    }
+
+    .fill-foreground {
+      fill: ${props => props.theme.backgroundColor};
+    }
+  }
+`;
+
+type CommentMenuProps = {
+  onSelect?: (e: React.MouseEvent) => void;
+};
+
+const OptionMenu: FC<CommentMenuProps> = ({ onSelect }) => (
+  <Menu vertical>
+    <MenuItem id="editComment" onClick={onSelect}>
+      Edit
+    </MenuItem>
+    <MenuItem id="deleteComment" onClick={onSelect}>
+      Delete
+    </MenuItem>
+    <MenuItem id="copyCommentLink" onClick={onSelect}>
+      Copy Link
+    </MenuItem>
+  </Menu>
+);
+
+const ReactionDescription = styled.div`
+  padding: 10px 16px;
+  min-height: 1em;
+  max-height: 1em;
+`;
+
+const ReactionMenu: FC<CommentMenuProps> = ({ onSelect }) => {
+  const [ reaction, setReaction ] = useState<string>(null);
+  return (
+    <Menu vertical>
+      <ReactionDescription>
+        {reaction}
+        {!reaction && 'choose a reaction'}
+      </ReactionDescription>
+      <Menu>
+        <MenuItem
+          id="snap"
+          onMouseOver={() => setReaction('snap!')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionSnapIcon />
+        </MenuItem>
+        <MenuItem
+          id="party"
+          onMouseOver={() => setReaction('four loko')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionPartyIcon />
+        </MenuItem>
+        <MenuItem
+          id="lol"
+          onMouseOver={() => setReaction('lol')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionLolIcon />
+        </MenuItem>
+        <MenuItem
+          id="wow"
+          onMouseOver={() => setReaction('surprised')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionWowIcon />
+        </MenuItem>
+        <MenuItem
+          id="confused"
+          onMouseOver={() => setReaction('confused')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionConfusedIcon />
+        </MenuItem>
+      </Menu>
+    </Menu>
+  );
+};
+
 const AddCommentForm = styled.form`
   position: relative;
   font-family: ${props => props.theme.smallFont};
@@ -402,6 +588,12 @@ const AddCommentForm = styled.form`
 const AddCommentRow = styled.div`
   display: flex;
   align-items: center;
+  width: calc(80% - ${props => props.theme.spacing});
+  justify-content: ${props => props.align === 'right' ? 'flex-end' : 'flex-start'};
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    width: calc(100% - ${props => props.theme.spacingHalf});
+  }
 `;
 
 const AddCommentAvatar = styled.div`
@@ -419,7 +611,7 @@ const AddCommentInput = styled.textarea`
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
 
-  width: calc(67% - ${props => props.theme.spacing});
+  width: 100%;
   min-height: 1.5em;
   max-height: 500px;
   resize: vertical;
@@ -440,9 +632,6 @@ const AddCommentSubmit = styled.button`
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
-  position: absolute;
-  left: calc(67% + ${props => props.theme.spacingDouble} * 2);
-  top: ${props => props.theme.spacingDouble};
 `;
 
 type CommentsProps = {
@@ -454,6 +643,9 @@ type CommentsProps = {
   commentError: string | null;
   handleVote: (timestamp: string, vote: Vote) => void;
   handleAdd: (comment: AddCommentMutation) => void;
+  handleEdit: (comment: EditCommentMutation) => void;
+  handleDelete: (timestamp: string) => void;
+  handleReact: (parentTimestamp: string, reaction: Reaction) => void;
   readPosition: number;
   scrollOffset: number;
 };
@@ -465,6 +657,9 @@ const Comments: FC<CommentsProps> = ({
   commentError,
   handleVote,
   handleAdd,
+  handleEdit,
+  handleDelete,
+  handleReact,
   readPosition,
   scrollOffset,
 }) => {
@@ -475,18 +670,35 @@ const Comments: FC<CommentsProps> = ({
   const commentSpansRef = useRef<number[]>([]);
   const commentsRef = useRef<HTMLElement>();
   const markerRef = useRef<HTMLElement>();
+  const optionRef = useRef<HTMLElement>();
+  const menuTimestampRef = useRef<string>(null);
+  const {
+    hideTip,
+    showTipFor,
+    tipProps,
+    tipRef,
+    tooltipText: tipId,
+  } = useTooltip({
+    placement: 'bottom-start',
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6
+  });
+
   const postComments = comments
-    // Post comments are displayed after the post (do not include highlights and reactions)
+    // Post comments are displayed after the post (excludes highlights and reactions)
     ?.filter(({ markdown }) => markdown && markdown.length)
+    // Post comments are displayed in a historical timeline
     ?.sort(({ timestamp: timestamp1 }, { timestamp: timestamp2 }) => (
       timestamp1.localeCompare(timestamp2)
     ));
+
   const maxVotes = postComments?.reduce(
+    // Get maximum votes on any comment so we can calculate proportion on available slots
     (acc, { upVotes, downVotes }) => Math.max(acc, upVotes && downVotes ? upVotes + downVotes : 0), 0
   ) || 0;
 
   useLayoutEffect(() => {
-    // Calculate % scrolled through comments and comment index in view
+    // Calculate % scrolled through comments and which comment is  in view
     if (commentsRef.current && postComments && postComments.length > 0) {
       const commentsRect = commentsRef.current.getBoundingClientRect();
       const { height: markerHeight } = markerRef.current.getBoundingClientRect();
@@ -540,6 +752,49 @@ const Comments: FC<CommentsProps> = ({
     setComment('');
   }, [handleAdd, user, comment]);
 
+  const handleHideCommentMenu = useCallback((e) => {
+    e.target.classList.remove('comment__option--active');
+    optionRef.current = null;
+    hideTip();
+  }, [hideTip]);
+
+  const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
+    e.target.classList.add('comment__option--active');
+    menuTimestampRef.current = timestamp;
+    optionRef.current = e.target;
+    showTipFor(id, optionRef);
+  };
+
+  const handleCommentReact = useCallback((e) => {
+    switch (e.target.id) {
+      case 'reactSnap':
+        break;
+    }
+  }, []);
+
+  const handleCommentOption = useCallback((e) => {
+    switch (e.target.id) {
+      case 'editComment':
+        // TODO: go into edit mode
+        break;
+      case 'deleteComment':
+        handleDelete(menuTimestampRef.current);
+        break;
+      case 'copyCommentLink':
+        navigator.clipboard.writeText(
+          `${window.location.protocol}//${window.location.host}${window.location.pathname}?comment=${encodeURIComponent(menuTimestampRef.current)}`
+        );
+        break;
+    }
+  }, []);
+
+  useEffect(() => {
+    document.body.addEventListener('click', hideTip);
+    return () => {
+      document.body.removeEventListener('click', hideTip);
+    };
+  });
+
   return (
     <CommentsSection
       isUserLoggedIn={Boolean(user)}
@@ -559,7 +814,7 @@ const Comments: FC<CommentsProps> = ({
       {(loading && !comments) && <p>Loading comments...</p>}
       {error && <Error>{error}</Error>}
 
-      <Login />
+      {comments && <Login />}
 
       {postComments && postComments.length > 0 && (
         <>
@@ -601,10 +856,16 @@ const Comments: FC<CommentsProps> = ({
                     />
                     {(voted === false && me === false) &&
                       <>
-                        <UpVoteButton onClick={() => handleVote(timestamp, 'upVote')}>
+                        <UpVoteButton
+                          className="comment__vote-button"
+                          onClick={() => handleVote(timestamp, 'upVote')}
+                        >
                           <UpVoteIcon />
                         </UpVoteButton>
-                        <DownVoteButton onClick={() => handleVote(timestamp, 'downVote')}>
+                        <DownVoteButton
+                          className="comment__vote-button"
+                          onClick={() => handleVote(timestamp, 'downVote')}
+                        >
                           <DownVoteIcon />
                         </DownVoteButton>
                       </>
@@ -623,6 +884,22 @@ const Comments: FC<CommentsProps> = ({
                   <CommentContent>
                     <ReactMarkdown>{markdown}</ReactMarkdown>
                   </CommentContent>
+                  <CommentOptionGroup>
+                    <CommentOption
+                      className="comment__option-button"
+                      onClick={handleShowCommentMenu('options', timestamp)}
+                      onBlur={handleHideCommentMenu}
+                    >
+                      <MenuIcon />
+                    </CommentOption>
+                    <CommentOption
+                      className="comment__option-button"
+                      onClick={handleShowCommentMenu('reaction', timestamp)}
+                      onBlur={handleHideCommentMenu}
+                    >
+                      <ReactionIcon />
+                    </CommentOption>
+                  </CommentOptionGroup>
                 </Comment>
               ))}
               <DateMarker offset={`${commentsMarkerOffsetRef.current}px`}>
@@ -644,6 +921,11 @@ const Comments: FC<CommentsProps> = ({
           </CommentsEndDate>
         </>
       )}
+      <ContextMenu ref={tipRef} {...tipProps} role="menu">
+        {tipId === 'reaction' && <ReactionMenu onSelect={handleCommentReact} />}
+        {tipId === 'options' && <OptionMenu onSelect={handleCommentOption} />}
+        <ContextMenuArrow />
+      </ContextMenu>
       {(user && comments) &&
         <AddCommentForm hasComments={Boolean(postComments && postComments.length)}>
           <AddCommentRow>
@@ -656,17 +938,21 @@ const Comments: FC<CommentsProps> = ({
             <button>logout</button>
             {commentError && <Error>{commentError}</Error>}
           </AddCommentRow>
-          <AddCommentInput
-            value={comment}
-            placeholder="leave a comment"
-            onChange={handleChangeComment}
-          />
-          <AddCommentSubmit
-            type="submit"
-            onClick={handlePostComment}
-          >
-            comment
-          </AddCommentSubmit>
+          <AddCommentRow>
+            <AddCommentInput
+              value={comment}
+              placeholder="leave a comment"
+              onChange={handleChangeComment}
+            />
+          </AddCommentRow>
+          <AddCommentRow align="right">
+            <AddCommentSubmit
+              type="submit"
+              onClick={handlePostComment}
+            >
+              comment
+            </AddCommentSubmit>
+          </AddCommentRow>
         </AddCommentForm>
       }
     </CommentsSection>

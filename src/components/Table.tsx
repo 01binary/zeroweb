@@ -47,6 +47,12 @@ export const Table: FC = styled.table`
   th:first-of-type, td:last-of-type {
     padding-right: 0;
   }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    &:after {
+      display: none;
+    }
+  }
 `
 
 export const TableHeading: FC = styled.th`

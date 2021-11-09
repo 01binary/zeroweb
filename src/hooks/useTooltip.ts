@@ -33,7 +33,7 @@ interface TooltipInfo {
   targetRef: React.MutableRefObject<Element>;
 };
 
-interface TooltipOptions {
+type TooltipOptions = {
   verticalOffsetDesktop?: number;
   verticalOffsetMobile?: number;
   placement?: Placement;
@@ -43,7 +43,7 @@ export const useTooltip = ({
   verticalOffsetDesktop,
   verticalOffsetMobile,
   placement
-}: TooltipOptions): TooltipInfo => {
+}: TooltipOptions | undefined = {}): TooltipInfo => {
   const {
     showTip,
     hideTip,
@@ -122,9 +122,9 @@ interface TooltipTarget {
 interface TooltipTargetOptions {
   tooltipElement: HTMLElement,
   showTip: ShowTipHandler,
-  verticalOffsetDesktop: number;
-  verticalOffsetMobile: number;
-  placement: Placement;
+  verticalOffsetDesktop?: number;
+  verticalOffsetMobile?: number;
+  placement?: Placement;
 };
 
 export const useTooltipTarget = ({

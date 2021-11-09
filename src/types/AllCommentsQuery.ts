@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-export type Reaction = 'snap' | 'party' | 'lol' | 'confused';
+export type Reaction = 'snap' | 'party' | 'lol' | 'wow' | 'confused';
 
 export interface CommentQuery {
   // Post slug (hash)

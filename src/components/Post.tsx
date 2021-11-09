@@ -558,8 +558,12 @@ const Post: FC<PostProps> = ({
     comments,
     loading,
     error,
+    commentError,
     handleVote,
     handleAdd,
+    handleEdit,
+    handleDelete,
+    handleReact,
   } = useComments(slug, client);
   const [ readPosition, setReadPosition ] = useState<number>(0);
   const [ scrollOffset, setScrollOffset ] = useState<number>(0);
@@ -627,9 +631,13 @@ const Post: FC<PostProps> = ({
         slug={slug}
         loading={loading}
         error={error}
+        commentError={commentError}
         comments={comments}
         handleVote={handleVote}
         handleAdd={handleAdd}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        handleReact={handleReact}
         client={client}
         readPosition={readPosition}
         scrollOffset={scrollOffset}

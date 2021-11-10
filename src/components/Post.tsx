@@ -34,6 +34,7 @@ import SEO from './SEO';
 import TOC from './TOC';
 import Comments from './Comments';
 import MetaLink from './MetaLink';
+import { useLogin } from "../hooks/useLogin";
 
 const Main = styled.main`
   margin-bottom: 3em;
@@ -552,8 +553,15 @@ const Post: FC<PostProps> = ({
     }
   }
 }) => {
-  const { credentials } = useBlogContext();
+  const { credentials, user } = useBlogContext();
   const client = useApiClient(credentials);
+  const {
+    handleFacebookLogin,
+    handleGoogleLogin,
+    handleTwitterLogin,
+    handleLogout,
+    loginError,
+  } = useLogin();
   const {
     comments,
     loading,
@@ -628,9 +636,9 @@ const Post: FC<PostProps> = ({
       </Main>
 
       <Comments
-        slug={slug}
         loading={loading}
         error={error}
+        loginError={loginError}
         commentError={commentError}
         comments={comments}
         handleVote={handleVote}
@@ -638,7 +646,10 @@ const Post: FC<PostProps> = ({
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleReact={handleReact}
-        client={client}
+        handleFacebookLogin={handleFacebookLogin}
+        handleTwitterLogin={handleTwitterLogin}
+        handleGoogleLogin={handleGoogleLogin}
+        handleLogout={handleLogout}
         readPosition={readPosition}
         scrollOffset={scrollOffset}
       />

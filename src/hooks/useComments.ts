@@ -310,11 +310,11 @@ export const useComments = (
     })
     .then(({
       data: {
-        addComment
+        addComment: addReaction
       }
     }) => {
       setLoading(false);
-      setComments([ ...comments, addComment as CommentQuery ]);
+      setComments([ ...comments, addReaction as CommentQuery ]);
     })
     .catch((e: Error) => {
       setLoading(false);

@@ -1,11 +1,21 @@
-import React, { useState, useEffect, createContext, useContext, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useCallback
+} from "react";
 import gql from 'graphql-tag';
 import { ApolloClient } from 'apollo-client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
 import AddCommentQuery from '../types/AddCommentQuery';
+import EditCommentQuery from '../types/EditCommentQuery';
+import DeleteCommentQuery from '../types/DeleteCommentQuery';
 import AddCommentMutation from '../types/AddCommentMutation';
+import EditCommentMutation from '../types/EditCommentMutation';
 import { VoteCommentQuery, Vote } from '../types/VoteCommentQuery';
-import mockComments from '../__tests__/comments.json';
+import ReactMutation from "../types/ReactMutation";
+import ReactQuery from "../types/ReactQuery";
 
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
@@ -23,14 +33,14 @@ export const useComments = (
   slug: string,
   client: ApolloClient,
 ) => {
-  const [ comments, setComments ] = useState<CommentQuery[] | null>();
+  const [ comments, setComments ] = useState<CommentQuery[] | null>(null);
   const [ commentError, setCommentError ] = useState<string | null>(null);
   const [ error, setError ] = useState<string | null>(null);
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
-    Promise.resolve(mockComments)
-    /*client && client.query<AllCommentsQuery>({
+    setError(null);
+    client && client.query<AllCommentsQuery>({
       query: gql`
         query comments ($slug: String!) {
           comments (slug: $slug) {
@@ -51,7 +61,7 @@ export const useComments = (
           }
         }`,
       variables: { slug }
-    })*/
+    })
     .then(({ data: { comments } }) => {
       setComments(comments);
       setLoading(false);
@@ -61,9 +71,10 @@ export const useComments = (
       setError('Could not load comments for this post');
       setLoading(false);
     });
-  }, [client]);
+  }, [client, setLoading, setError, setComments]);
 
   const handleVote = useCallback((timestamp: string, vote: Vote) => {
+    setCommentError(null);
     setLoading(true);
     client && client.mutate<VoteCommentQuery>({
       mutation: gql`
@@ -105,9 +116,10 @@ export const useComments = (
         ? { ...comment, voted: true }
         : comment
       )));
+      setCommentError(e.message);
       console.error(e.message);
     });
-  }, [client, slug, comments, setComments, setLoading]);
+  }, [client, slug, comments, setCommentError, setComments, setLoading]);
 
   const handleAdd = useCallback(({
     userName,
@@ -117,6 +129,7 @@ export const useComments = (
     rangeStart: inputRangeStart,
     rangeLength: inputRangeLength,
   }: AddCommentMutation) => {
+    setCommentError(null);
     setLoading(true);
     client && client.mutate<AddCommentQuery>({
       mutation: gql`
@@ -163,7 +176,152 @@ export const useComments = (
       setCommentError(e.message);
       console.error(e.message);
     });
-  }, [client, slug, comments, setComments, setError, setLoading]);
+  }, [client, slug, comments, setComments, setCommentError, setLoading]);
+
+  const handleEdit = useCallback(({
+    timestamp,
+    markdown,
+    reaction,
+  }: EditCommentMutation) => {
+    setCommentError(null);
+    setLoading(true);
+    client && client.mutate<EditCommentQuery>({
+      mutation: gql`
+        mutation ($comment: CommentInput!) {
+          editComment(comment: $comment) {
+            slug
+            timestamp
+            userId
+            userName
+            avatarUrl
+            upVotes
+            downVotes
+            voted
+            reaction
+            markdown
+            paragraph
+            rangeStart
+            rangeLength
+            me
+          }
+        }`,
+        variables: {
+          comment: {
+            slug,
+            timestamp,
+            markdown,
+            reaction,
+          }
+        }
+    })
+    .then(({
+      data: {
+        editComment
+      }
+    }) => {
+      setLoading(false);
+      setComments(comments.map((comment) => (
+        comment.timestamp === timestamp
+        ? {
+          ...comment,
+          markdown: editComment.markdown,
+          reaction: editComment.reaction
+        }
+        : comment
+      )));
+    })
+    .catch((e: Error) => {
+      setLoading(false);
+      setCommentError(e.message);
+      console.error(e.message);
+    });
+  }, [client, slug, comments, setComments, setCommentError, setLoading]);
+
+  const handleDelete = useCallback((timestamp: string) => {
+    setCommentError(null);
+    setLoading(true);
+    client && client.mutate<DeleteCommentQuery>({
+      mutation: gql`
+        mutation ($comment: DeleteCommentInput!) {
+          deleteComment(comment: $comment) {
+            slug
+            timestamp
+            userId
+            deleted
+          }
+        }`,
+        variables: {
+          comment: {
+            slug,
+            timestamp,
+          }
+        }
+    })
+    .then(({
+      data: {
+        deleteComment
+      }
+    }) => {
+      setLoading(false);
+      if (deleteComment.deleted) {
+        setComments(comments.filter(
+          comment => comment.timestamp !== deleteComment.timestamp
+        ));
+      }
+    })
+    .catch((e: Error) => {
+      setLoading(false);
+      setCommentError(e.message);
+      console.error(e.message);
+    });
+  }, [client, slug, comments, setComments, setCommentError, setLoading]);
+
+  const handleReact = useCallback(({
+    userName,
+    avatarUrl,
+    paragraph,
+    reaction,
+    parentTimestamp,
+  }: ReactMutation) => {
+    setCommentError(null);
+    setLoading(true);
+    client && client.mutate<ReactQuery>({
+      mutation: gql`
+        mutation ($comment: CommentInput!) {
+          addComment(comment: $comment) {
+            slug
+            timestamp
+            parentTimestamp
+            reaction
+            paragraph
+            me
+          }
+        }`,
+        variables: {
+          comment: {
+            slug,
+            parentTimestamp,
+            userName,
+            avatarUrl,
+            paragraph,
+            reaction,
+          }
+        }
+    })
+    .then(({
+      data: {
+        addComment
+      }
+    }) => {
+      setLoading(false);
+      setComments([ ...comments, addComment as CommentQuery ]);
+    })
+    .catch((e: Error) => {
+      setLoading(false);
+      setCommentError(e.message);
+      console.error(e.message);
+    });
+  }, [client, slug, comments, setComments, setCommentError, setLoading]);
 
   return ({
     comments,
@@ -172,5 +330,8 @@ export const useComments = (
     loading,
     handleVote,
     handleAdd,
+    handleEdit,
+    handleDelete,
+    handleReact,
   })
 };

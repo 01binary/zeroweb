@@ -21,12 +21,13 @@ import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionPartyIcon from '../images/reaction-party.svg';
 import ReactionSnapIcon from '../images/reaction-snap.svg';
 import MenuIcon from '../images/comment-menu.svg';
-import { CommentQuery, Reaction } from '../types/AllCommentsQuery';
+import { CommentQuery } from '../types/AllCommentsQuery';
 import { Vote } from '../types/VoteCommentQuery';
 import AddCommentMutation from '../types/AddCommentMutation';
 import EditCommentMutation from '../types/EditCommentMutation';
 import { useTooltip } from '../hooks/useTooltip';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
+import ReactCommentMutation from '../types/ReactMutation';
 
 dayjs.extend(relativeTime);
 
@@ -635,17 +636,20 @@ const AddCommentSubmit = styled.button`
 `;
 
 type CommentsProps = {
-  slug: string;
-  client: ApolloClient;
   comments: CommentQuery[] | null;
   loading: boolean;
   error: string | null;
+  loginError: string | null;
   commentError: string | null;
   handleVote: (timestamp: string, vote: Vote) => void;
   handleAdd: (comment: AddCommentMutation) => void;
   handleEdit: (comment: EditCommentMutation) => void;
   handleDelete: (timestamp: string) => void;
-  handleReact: (parentTimestamp: string, reaction: Reaction) => void;
+  handleReact: (comment: ReactCommentMutation) => void;
+  handleFacebookLogin: () => void;
+  handleGoogleLogin: () => void;
+  handleTwitterLogin: () => void;
+  handleLogout: () => void;
   readPosition: number;
   scrollOffset: number;
 };
@@ -654,12 +658,17 @@ const Comments: FC<CommentsProps> = ({
   comments,
   loading,
   error,
+  loginError,
   commentError,
   handleVote,
   handleAdd,
   handleEdit,
   handleDelete,
   handleReact,
+  handleFacebookLogin,
+  handleGoogleLogin,
+  handleTwitterLogin,
+  handleLogout,
   readPosition,
   scrollOffset,
 }) => {
@@ -687,7 +696,7 @@ const Comments: FC<CommentsProps> = ({
   const postComments = comments
     // Post comments are displayed after the post (excludes highlights and reactions)
     ?.filter(({ markdown }) => markdown && markdown.length)
-    // Post comments are displayed in a historical timeline
+    // Post comments are displayed on a historical timeline
     ?.sort(({ timestamp: timestamp1 }, { timestamp: timestamp2 }) => (
       timestamp1.localeCompare(timestamp2)
     ));
@@ -740,15 +749,12 @@ const Comments: FC<CommentsProps> = ({
 
   const handlePostComment = useCallback((e) => {
     e.preventDefault();
-
     if (!comment.length) return;
-
     handleAdd({
       userName: user.name,
       avatarUrl: user.avatarUrl || '',
       markdown: comment
     });
-
     setComment('');
   }, [handleAdd, user, comment]);
 
@@ -765,11 +771,16 @@ const Comments: FC<CommentsProps> = ({
     showTipFor(id, optionRef);
   };
 
-  const handleCommentReact = useCallback((e) => {
-    switch (e.target.id) {
-      case 'reactSnap':
-        break;
-    }
+  const handleReactToComment = useCallback((e) => {
+    handleReact({
+      userName: user.name,
+      avatarUrl: user.avatarUrl || '',
+      parentTimestamp: menuTimestampRef.current,
+      reaction: e.target.id
+    });
+  }, [handleReact]);
+
+  const handleSaveComment = useCallback(() => {
   }, []);
 
   const handleCommentOption = useCallback((e) => {
@@ -795,6 +806,10 @@ const Comments: FC<CommentsProps> = ({
     };
   });
 
+  const showComments = postComments && postComments.length;
+  const showLoadingComments = loading && !comments;
+  const showLogin = !user && comments;
+
   return (
     <CommentsSection
       isUserLoggedIn={Boolean(user)}
@@ -811,12 +826,19 @@ const Comments: FC<CommentsProps> = ({
         </h2>
       )}
 
-      {(loading && !comments) && <p>Loading comments...</p>}
+      {showLoadingComments && <p>Loading comments...</p>}
       {error && <Error>{error}</Error>}
 
-      {comments && <Login />}
+      {showLogin &&
+        <Login
+          handleFacebookLogin={handleFacebookLogin}
+          handleGoogleLogin={handleGoogleLogin}
+          handleTwitterLogin={handleTwitterLogin}
+          loginError={loginError}
+        />
+      }
 
-      {postComments && postComments.length > 0 && (
+      {showComments && (
         <>
           <CommentsStartDate>
             {formatMarkerDate(postComments[0].timestamp)}
@@ -922,7 +944,7 @@ const Comments: FC<CommentsProps> = ({
         </>
       )}
       <ContextMenu ref={tipRef} {...tipProps} role="menu">
-        {tipId === 'reaction' && <ReactionMenu onSelect={handleCommentReact} />}
+        {tipId === 'reaction' && <ReactionMenu onSelect={handleReactToComment} />}
         {tipId === 'options' && <OptionMenu onSelect={handleCommentOption} />}
         <ContextMenuArrow />
       </ContextMenu>

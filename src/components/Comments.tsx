@@ -907,13 +907,15 @@ const Comments: FC<CommentsProps> = ({
                     <ReactMarkdown>{markdown}</ReactMarkdown>
                   </CommentContent>
                   <CommentOptionGroup>
-                    <CommentOption
-                      className="comment__option-button"
-                      onClick={handleShowCommentMenu('options', timestamp)}
-                      onBlur={handleHideCommentMenu}
-                    >
-                      <MenuIcon />
-                    </CommentOption>
+                    {me &&
+                      <CommentOption
+                        className="comment__option-button"
+                        onClick={handleShowCommentMenu('options', timestamp)}
+                        onBlur={handleHideCommentMenu}
+                      >
+                        <MenuIcon />
+                      </CommentOption>
+                    }
                     <CommentOption
                       className="comment__option-button"
                       onClick={handleShowCommentMenu('reaction', timestamp)}

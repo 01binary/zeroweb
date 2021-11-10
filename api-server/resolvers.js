@@ -59,8 +59,9 @@ exports.resolvers = {
       if (comment.reaction && (comment.markdown || comment.rangeLength))
         throw new UserInputError('cannot add reaction with a comment or highlight');
 
+      const { slug, parentTimestamp } = comment;
+
       if (comment.reaction) {
-        const { slug, parentTimestamp } = comment;
         const alreadyReacted = await getReaction(slug, parentTimestamp, user.id);
         if (alreadyReacted) throw new UserInputError('already reacted to this comment or post');
       }

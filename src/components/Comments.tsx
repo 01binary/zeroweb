@@ -114,8 +114,8 @@ const CommentsStartDate = styled(CommentsScaleDate)`
 `;
 
 const CommentsEndDate = styled(CommentsScaleDate)`
-  position: absolute;
-  margin-bottom: 1em;
+  top: ${props => props.theme.spacing};
+  height: 2em;
 `;
 
 const CommentMarker = styled(CommentMarkerIcon)`
@@ -175,7 +175,7 @@ const CommentsList = styled.ul`
   list-style-type: none;
   margin-block-end: 0;
   margin-top: 0;
-  margin-bottom: ${props => props.theme.spacingDouble};
+  margin-bottom: ${props => props.theme.spacing};
   margin-left: ${props => props.theme.spacingHalf};
   margin-right: 0;
   padding-top: 0.5em;
@@ -276,7 +276,30 @@ const Comment = styled.li`
 `;
 
 const Me = styled.span`
-  color: ${props => props.theme.focusColor};
+  position: relative;
+  padding: 6px 8px;
+  background: ${props => props.theme.primaryColor};
+  color: ${props => props.theme.backgroundColor};
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent transparent ${props => props.theme.backgroundColor};
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent ${props => props.theme.backgroundColor} transparent transparent;
+  }
 `;
 
 const CommentAvatar = styled.div`
@@ -595,7 +618,7 @@ const AddCommentForm = styled.form`
 const AddCommentRow = styled.div`
   display: flex;
   align-items: center;
-  width: calc(80% - ${props => props.theme.spacing});
+  width: calc(100% - ${props => props.theme.spacing} - ${props => props.theme.borderThick});
   justify-content: ${props => props.align === 'right' ? 'flex-end' : 'flex-start'};
 
   @media(max-width: ${props => props.theme.mobile}) {
@@ -856,7 +879,7 @@ const Comments: FC<CommentsProps> = ({
           <CommentsStartDate>
             {formatMarkerDate(postComments[0].timestamp)}
           </CommentsStartDate>
-          <CommentsList ref={commentsRef}>
+          <CommentsList ref={commentsRef} isUserLoggedIn={Boolean(user)}>
             {postComments
               .map(({
                 timestamp,
@@ -961,6 +984,11 @@ const Comments: FC<CommentsProps> = ({
       </ContextMenu>
       {(user && comments) &&
         <AddCommentForm hasComments={Boolean(postComments && postComments.length)}>
+          {commentError &&
+            <AddCommentRow>
+              <Error>{commentError}</Error>
+            </AddCommentRow>
+          }
           <AddCommentRow>
             <AddCommentAvatar>
               <Avatar avatarUrl={user.avatarUrl} />
@@ -969,7 +997,6 @@ const Comments: FC<CommentsProps> = ({
               commenting as <MetaLink to="/profile">{user.name}</MetaLink>
             </AddCommentUser>
             <button onClick={handleLogout}>logout</button>
-            {commentError && <Error>{commentError}</Error>}
           </AddCommentRow>
           <AddCommentRow>
             <AddCommentInput

@@ -59,6 +59,7 @@ exports.resolvers = {
       if (comment.reaction && (comment.markdown || comment.rangeLength))
         throw new UserInputError('cannot add reaction with a comment or highlight');
 
+      if (comment.me) comment.me = undefined;
       const { slug, parentTimestamp } = comment;
 
       if (comment.reaction) {
@@ -72,12 +73,14 @@ exports.resolvers = {
         userId: user.id,
         upVotes: 0,
         downVotes: 0,
-        me: true,
       });
 
       if (comment.reaction) await addReaction(slug, parentTimestamp, user.id);
 
-      return added;
+      return {
+        ...added,
+        me: true
+      };
     },
 
     editComment: async (

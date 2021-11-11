@@ -78,13 +78,15 @@ const CommentsSection = styled.footer<CommentsSectionProps>`
   }
 
   opacity: ${props => props.isLoading ? 0.5 : 1};
-  margin-top: ${props => props.isUserLoggedIn && props.hasComments ? 4 : 0}em;
+  margin-top: ${props => props.isUserLoggedIn && props.hasComments ? 4 : props.isLoading ? -1 : 0}em;
+  margin-bottom: ${props => props.isLoading ? 3 : 0}em;
   transition: opacity ${props => props.theme.animationFast} ease-out;
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: initial;
     margin-right: 0.25em;
     margin-top: 0;
+    margin-bottom: 0;
   }
 `;
 
@@ -407,6 +409,7 @@ const CommentDate = styled.span`
 `;
 
 const CommentOptionGroup = styled.span`
+  position: absolute;
   word-wrap: none;
 `;
 
@@ -424,7 +427,7 @@ const CommentOption = styled.button.attrs(() => ({
   height: 32px;
 
   position: relative;
-  top: calc(${props => props.theme.borderThick} * 2);
+  top: 0;
   padding-top: calc(${props => props.theme.border} * 2);
   margin-bottom: calc(${props => props.theme.border} * 2);
 
@@ -823,7 +826,7 @@ const Comments: FC<CommentsProps> = ({
   return (
     <CommentsSection
       isUserLoggedIn={Boolean(user)}
-      isLoading={loading}
+      isLoading={showLoadingComments}
       hasComments={Boolean(postComments && postComments.length)}
     >
       {postComments && (

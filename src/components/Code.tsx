@@ -185,7 +185,6 @@ const Code: FC = ({ children }) => {
     try {
       if (isDark === isCodeDark) {
         // Override dark mode
-        console.log('setting override');
         localStorage.setItem(DARK_MODE_OVERRIDE, '1');
       } else {
         // Remove dark mode override

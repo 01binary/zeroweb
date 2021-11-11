@@ -74,9 +74,10 @@ export const useComments = (
   }, [client, setLoading, setError, setComments]);
 
   const handleVote = useCallback((timestamp: string, vote: Vote) => {
+    if (!client) return;
     setCommentError(null);
     setLoading(true);
-    client && client.mutate<VoteCommentQuery>({
+    client.mutate<VoteCommentQuery>({
       mutation: gql`
         mutation ($comment: VoteCommentInput!) {
           voteComment(comment: $comment) {
@@ -129,9 +130,12 @@ export const useComments = (
     rangeStart: inputRangeStart,
     rangeLength: inputRangeLength,
   }: AddCommentMutation) => {
+    if (!client) return;
+
     setCommentError(null);
     setLoading(true);
-    client && client.mutate<AddCommentQuery>({
+
+    client.mutate<AddCommentQuery>({
       mutation: gql`
         mutation ($comment: CommentInput!) {
           addComment(comment: $comment) {
@@ -183,9 +187,12 @@ export const useComments = (
     markdown,
     reaction,
   }: EditCommentMutation) => {
+    if (!client) return;
+
     setCommentError(null);
     setLoading(true);
-    client && client.mutate<EditCommentQuery>({
+
+    client.mutate<EditCommentQuery>({
       mutation: gql`
         mutation ($comment: CommentInput!) {
           editComment(comment: $comment) {
@@ -238,15 +245,17 @@ export const useComments = (
   }, [client, slug, comments, setComments, setCommentError, setLoading]);
 
   const handleDelete = useCallback((timestamp: string) => {
+    if (!client) return;
+
     setCommentError(null);
     setLoading(true);
-    client && client.mutate<DeleteCommentQuery>({
+   
+    client.mutate<DeleteCommentQuery>({
       mutation: gql`
         mutation ($comment: DeleteCommentInput!) {
           deleteComment(comment: $comment) {
             slug
             timestamp
-            userId
             deleted
           }
         }`,
@@ -259,15 +268,15 @@ export const useComments = (
     })
     .then(({
       data: {
-        deleteComment
+        deleteComment: {
+          deleted
+        }
       }
     }) => {
       setLoading(false);
-      if (deleteComment.deleted) {
-        setComments(comments.filter(
-          comment => comment.timestamp !== deleteComment.timestamp
-        ));
-      }
+      if (deleted) setComments(comments.filter(
+        comment => comment.timestamp !== timestamp
+      ));
     })
     .catch((e: Error) => {
       setLoading(false);
@@ -323,7 +332,7 @@ export const useComments = (
     });
   }, [client, slug, comments, setComments, setCommentError, setLoading]);
 
-  return ({
+  return {
     comments,
     commentError,
     error,
@@ -333,5 +342,5 @@ export const useComments = (
     handleEdit,
     handleDelete,
     handleReact,
-  })
+  };
 };

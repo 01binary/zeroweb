@@ -1,6 +1,5 @@
 import React, { FC, useLayoutEffect, useRef, useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { ApolloClient } from 'apollo-client';
 import ReactMarkdown from 'react-markdown';
 import Avatar from '../components/Avatar';
 import MetaLink from '../components/MetaLink';
@@ -769,10 +768,14 @@ const Comments: FC<CommentsProps> = ({
   }, [hideTip]);
 
   const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
-    e.target.classList.add('comment__option--active');
-    menuTimestampRef.current = timestamp;
-    optionRef.current = e.target;
-    showTipFor(id, optionRef);
+    if (e.target.classList.contains('comment__option--active')) {
+      handleHideCommentMenu(e);
+    } else {
+      e.target.classList.add('comment__option--active');
+      menuTimestampRef.current = timestamp;
+      optionRef.current = e.target;
+      showTipFor(id, optionRef);
+    }
   };
 
   const handleReactToComment = useCallback((e) => {

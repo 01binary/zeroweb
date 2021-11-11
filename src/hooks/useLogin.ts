@@ -34,14 +34,26 @@ export const useLogin = () => {
     onceRef.current = true;
 
     const initProviders = async (): Promise<boolean> => {
-      const hasFacebook = await facebookInit();
-      if (hasFacebook) return true;
+      try {
+        const hasFacebook = await facebookInit();
+        if (hasFacebook) return true;
+      } catch (e) {
+        console.error('Facebook auth failed to initialize', e);
+      }
   
-      const hasGoogle = await googleInit();
-      if (hasGoogle) return true;
+      try {
+        const hasGoogle = await googleInit();
+        if (hasGoogle) return true;
+      } catch (e) {
+        console.error('Google auth failed to initialize');
+      }
   
-      const hasTwitter = await twitterInit();
-      if (hasTwitter) return true;
+      try {
+        const hasTwitter = await twitterInit();
+        if (hasTwitter) return true;
+      } catch (e) {
+        console.error('Twitter auth failed to initialize');
+      }
   
       return false;
     };

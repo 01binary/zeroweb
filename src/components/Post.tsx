@@ -162,6 +162,7 @@ const Main = styled.main`
       max-width: initial;
       margin-left: ${props => props.theme.spacingHalf};
       margin-right: ${props => props.theme.spacingHalf};
+      padding-right: 0;
 
       &:after {
         display: none;

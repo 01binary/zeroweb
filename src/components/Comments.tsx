@@ -312,7 +312,9 @@ const UpVote = styled(VoteSlot)`
   color: ${props => props.theme.successColor};
 `;
 
-const VoteButton = styled.button`
+const VoteButton = styled.button.attrs(() => ({
+  className: 'comment__vote-button'
+}))`
   position: absolute;
   right: calc(${props => props.theme.spacingOneAndHalf} - 4px);
   width: 32px;
@@ -409,7 +411,9 @@ const CommentOptionGroup = styled.span`
   word-wrap: none;
 `;
 
-const CommentOption = styled.button`
+const CommentOption = styled.button.attrs(() => ({
+  className: 'comment__option-button'
+}))`
   border: none;
   cursor: pointer;
   fill: none;
@@ -879,18 +883,12 @@ const Comments: FC<CommentsProps> = ({
                       maxVotes={maxVotes}
                       maxSlots={MAX_VOTE_SLOTS}
                     />
-                    {(voted === false && me === false) &&
+                    {(user && !me && !voted) &&
                       <>
-                        <UpVoteButton
-                          className="comment__vote-button"
-                          onClick={() => handleVote(timestamp, 'upVote')}
-                        >
+                        <UpVoteButton onClick={() => handleVote(timestamp, 'upVote')}>
                           <UpVoteIcon />
                         </UpVoteButton>
-                        <DownVoteButton
-                          className="comment__vote-button"
-                          onClick={() => handleVote(timestamp, 'downVote')}
-                        >
+                        <DownVoteButton onClick={() => handleVote(timestamp, 'downVote')}>
                           <DownVoteIcon />
                         </DownVoteButton>
                       </>
@@ -907,25 +905,27 @@ const Comments: FC<CommentsProps> = ({
                     </MetaLink>
                   </CommentDate>
                   <CommentContent>
-                    <ReactMarkdown>{markdown}</ReactMarkdown>
+                    <ReactMarkdown>
+                      {markdown}
+                    </ReactMarkdown>
                   </CommentContent>
                   <CommentOptionGroup>
                     {me &&
                       <CommentOption
-                        className="comment__option-button"
                         onClick={handleShowCommentMenu('options', timestamp)}
                         onBlur={handleHideCommentMenu}
                       >
                         <MenuIcon />
                       </CommentOption>
                     }
-                    {(user && !me) && <CommentOption
-                      className="comment__option-button"
-                      onClick={handleShowCommentMenu('reaction', timestamp)}
-                      onBlur={handleHideCommentMenu}
-                    >
-                      <ReactionIcon />
-                    </CommentOption>}
+                    {(user && !me) &&
+                      <CommentOption
+                        onClick={handleShowCommentMenu('reaction', timestamp)}
+                        onBlur={handleHideCommentMenu}
+                      >
+                        <ReactionIcon />
+                      </CommentOption>
+                    }
                   </CommentOptionGroup>
                 </Comment>
               ))}

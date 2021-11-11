@@ -45,7 +45,7 @@ const typography = {
   titleFontWeight: 'normal',
 
   headingFont: 'Open Sans, Helvetica Neue, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-  headingFontWeight: 600,
+  headingFontWeight: 450,
   headingFontSizeLargest: '22pt',
   headingFontSizeLarge: '20pt',
   headingFontSizeMedium: '16pt',

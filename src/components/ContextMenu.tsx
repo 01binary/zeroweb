@@ -42,6 +42,10 @@ export const ContextMenu = styled.div`
     top: -16px;
     border-color: transparent transparent ${props => props.theme.backgroundColor} transparent;
   }
+
+  &.comment-menu--closed {
+    pointer-events: none;
+  }
 `;
 
 export const ContextMenuArrow = styled.div.attrs(() => ({

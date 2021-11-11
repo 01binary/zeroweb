@@ -46,7 +46,7 @@ const useFacebook = (
   ) => {
     if (status === LoginStatus.Connected) {
       const {
-        userID: id,
+        userID: providerUserId,
         accessToken: token,
         expiresIn
       } = authResponse;
@@ -59,7 +59,7 @@ const useFacebook = (
               setCredentials(awsSignature);
               setUser({
                 provider: Providers.Facebook,
-                id,
+                providerUserId,
                 name,
                 avatarUrl: url,
                 token,

@@ -19,6 +19,7 @@ export enum Providers {
 };
 
 export type AWSSignature = {
+  userId: string;
   accessKeyId?: string;
   secretKey?: string;
   sessionToken?: string;
@@ -26,9 +27,9 @@ export type AWSSignature = {
 };
 
 export interface User {
-  id: string;
   name: string;
   provider: Providers;
+  providerUserId: string;
   token: string;
   expires?: dayjs.Dayjs;
   avatarUrl?: string;

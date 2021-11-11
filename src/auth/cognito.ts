@@ -13,6 +13,7 @@ export const authenticate = async (
 
   const {
     data: {
+      userId,
       accessKeyId,
       secretKey,
       sessionToken,
@@ -21,6 +22,7 @@ export const authenticate = async (
   } = await axios.post(`${AUTH_URL}/token`, payload);
 
   return {
+    userId,
     accessKeyId,
     secretKey,
     sessionToken,

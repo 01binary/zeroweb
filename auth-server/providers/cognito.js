@@ -61,6 +61,7 @@ const getGuestCredentials = (IdentityId) => (
         } = data;
 
         resolve({
+          userId: IdentityId,
           accessKeyId: AccessKeyId,
           secretKey: SecretKey,
           sessionToken: SessionToken,
@@ -120,6 +121,7 @@ const getUserCredentials = (
         } = data;
 
         resolve({
+          userId: IdentityId,
           accessKeyId: AccessKeyId,
           secretKey: SecretKey,
           sessionToken: SessionToken,

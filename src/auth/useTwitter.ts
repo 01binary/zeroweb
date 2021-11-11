@@ -70,7 +70,7 @@ const useTwitter = (
         oauth_access_token_secret,
       })
       .then(({ data }) => {
-        const { id_str, name, profile_image_url_https } = data;
+        const { id_str: providerUserId, name, profile_image_url_https } = data;
         authenticate(
           Providers.Twitter,
           oauth_access_token,
@@ -80,7 +80,7 @@ const useTwitter = (
             setCredentials(awsSignature);
             setUser({
               provider: Providers.Twitter,
-              id: id_str,
+              providerUserId,
               name,
               token: oauth_access_token,
               expires: null,

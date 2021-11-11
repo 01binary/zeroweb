@@ -26,7 +26,7 @@ const useGoogle = (
 ) => {
   const handleLogin = (guser: any) => {
     const profile = guser.getBasicProfile();
-    const id = profile.getId();
+    const providerUserId = profile.getId();
     const name = profile.getName();
     const avatarUrl = profile.getImageUrl();
     const { access_token, expires_in } = guser.getAuthResponse(true);
@@ -36,7 +36,7 @@ const useGoogle = (
         setCredentials(awsSignature);
         setUser({
           provider: Providers.Google,
-          id,
+          providerUserId,
           name,
           avatarUrl,
           token: access_token,

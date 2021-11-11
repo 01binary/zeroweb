@@ -784,20 +784,23 @@ const Comments: FC<CommentsProps> = ({
   }, []);
 
   const handleCommentOption = useCallback((e) => {
+    const timestamp = menuTimestampRef.current;
+    menuTimestampRef.current = null;
+
     switch (e.target.id) {
       case 'editComment':
         // TODO: go into edit mode
         break;
       case 'deleteComment':
-        handleDelete(menuTimestampRef.current);
+        handleDelete(timestamp);
         break;
       case 'copyCommentLink':
         navigator.clipboard.writeText(
-          `${window.location.protocol}//${window.location.host}${window.location.pathname}?comment=${encodeURIComponent(menuTimestampRef.current)}`
+          `${window.location.protocol}//${window.location.host}${window.location.pathname}?comment=${encodeURIComponent(timestamp)}`
         );
         break;
     }
-  }, []);
+  }, [handleDelete]);
 
   useEffect(() => {
     document.body.addEventListener('click', hideTip);
@@ -935,7 +938,7 @@ const Comments: FC<CommentsProps> = ({
                     {postComments.length}
                   </MarkerCount>
                   {formatMarkerDate(
-                    postComments[commentsIndexRef.current].timestamp
+                    postComments[commentsIndexRef.current]?.timestamp
                   )}
                 </DateMarkerLabel>
               </DateMarker>

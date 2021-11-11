@@ -16,20 +16,20 @@ import { useBlogContext } from '../hooks/useBlogContext';
 import PermaLink from './PermaLink';
 
 const HeadingWrapper = styled.div`
-    position: relative;
-    margin: 0;
-    padding: 0;
+  position: relative;
+  margin: 0;
+  padding: 0;
 
+  .permalink-icon {
+    transition: opacity ${props => props.theme.animationFast} ease-out;
+    opacity: 0;
+  }
+
+  &:hover {
     .permalink-icon {
-        transition: opacity ${props => props.theme.animationFast} ease-out;
-        opacity: 0;
+      opacity: 1;
     }
-
-    &:hover {
-        .permalink-icon {
-            opacity: 1;
-        }
-    }
+  }
 `;
 
 const HeadingText = styled.span`

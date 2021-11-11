@@ -709,7 +709,7 @@ const Comments: FC<CommentsProps> = ({
   const commentsRef = useRef<HTMLElement>();
   const markerRef = useRef<HTMLElement>();
   const optionRef = useRef<HTMLElement>();
-  const menuTimestampRef = useRef<string>(null);
+  const [ selected, setSelected ] = useState<string>(null);
   const {
     hideTip,
     showTipFor,
@@ -790,6 +790,7 @@ const Comments: FC<CommentsProps> = ({
   const handleHideCommentMenu = useCallback((e) => {
     e.target.classList.remove('comment__option--active');
     optionRef.current = null;
+    setSelected(null);
     hideTip();
   }, [hideTip]);
 
@@ -798,8 +799,8 @@ const Comments: FC<CommentsProps> = ({
       handleHideCommentMenu(e);
     } else {
       e.target.classList.add('comment__option--active');
-      menuTimestampRef.current = timestamp;
       optionRef.current = e.target;
+      setSelected(timestamp);
       showTipFor(id, optionRef);
     }
   };
@@ -807,8 +808,8 @@ const Comments: FC<CommentsProps> = ({
   const handleReactToComment = useCallback((e) => {
     handleReact({
       userName: user.name,
-      avatarUrl: user.avatarUrl || '',
-      parentTimestamp: menuTimestampRef.current,
+      avatarUrl: user.avatarUrl,
+      parentTimestamp: selected,
       reaction: e.target.id
     });
   }, [handleReact]);
@@ -817,8 +818,8 @@ const Comments: FC<CommentsProps> = ({
   }, []);
 
   const handleCommentOption = useCallback((e) => {
-    const timestamp = menuTimestampRef.current;
-    menuTimestampRef.current = null;
+    const timestamp = selected;
+    setSelected(null);
 
     switch (e.target.id) {
       case 'editComment':
@@ -977,9 +978,13 @@ const Comments: FC<CommentsProps> = ({
           </CommentsEndDate>
         </>
       )}
-      <ContextMenu ref={tipRef} {...tipProps} role="menu">
-        {tipId === 'reaction' && <ReactionMenu onSelect={handleReactToComment} />}
-        {tipId === 'options' && <OptionMenu onSelect={handleCommentOption} />}
+      <ContextMenu ref={tipRef} {...tipProps} className={selected ? 'comment-menu--open' : 'comment-menu--closed'}>
+        {tipId === 'reaction' &&
+          <ReactionMenu onSelect={handleReactToComment} />
+        }
+        {tipId === 'options' &&
+          <OptionMenu onSelect={handleCommentOption} />
+        }
         <ContextMenuArrow />
       </ContextMenu>
       {(user && comments) &&

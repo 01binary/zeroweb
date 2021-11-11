@@ -255,7 +255,7 @@ const Comment = styled.li`
     opacity: 1;
   }
 
-  &.comment--unvoted:hover {
+  &.comment--votable:hover {
     .comment-votes__scale {
       right: calc(${AVATAR_TILE_OFFSET}px + ${VOTE_SLOT_WIDTH}px + 2.5em);
     }
@@ -809,9 +809,9 @@ const Comments: FC<CommentsProps> = ({
     };
   });
 
-  const showComments = postComments && postComments.length;
-  const showLoadingComments = loading && !comments;
-  const showLogin = !user && comments;
+  const showComments = Boolean(postComments && postComments.length);
+  const showLoadingComments = Boolean(loading && !comments);
+  const showLogin = Boolean(!user && comments);
 
   return (
     <CommentsSection
@@ -863,7 +863,7 @@ const Comments: FC<CommentsProps> = ({
                   key={`${timestamp}${voted ? 'v' : ''}`}
                   id={`comment-${timestamp}`}
                   scrollHighlight={index === commentsIndexRef.current}
-                  className={voted || me ? 'comment--voted' : 'comment--unvoted'}
+                  className={(voted || me || !user) ? 'comment-unvotable' : 'comment--votable'}
                 >
                   <CommentAvatar
                     index={index}
@@ -919,13 +919,13 @@ const Comments: FC<CommentsProps> = ({
                         <MenuIcon />
                       </CommentOption>
                     }
-                    <CommentOption
+                    {(user && !me) && <CommentOption
                       className="comment__option-button"
                       onClick={handleShowCommentMenu('reaction', timestamp)}
                       onBlur={handleHideCommentMenu}
                     >
                       <ReactionIcon />
-                    </CommentOption>
+                    </CommentOption>}
                   </CommentOptionGroup>
                 </Comment>
               ))}
@@ -962,7 +962,7 @@ const Comments: FC<CommentsProps> = ({
             <AddCommentUser>
               commenting as <MetaLink to="/profile">{user.name}</MetaLink>
             </AddCommentUser>
-            <button>logout</button>
+            <button onClick={handleLogout}>logout</button>
             {commentError && <Error>{commentError}</Error>}
           </AddCommentRow>
           <AddCommentRow>

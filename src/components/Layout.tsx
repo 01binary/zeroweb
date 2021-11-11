@@ -19,6 +19,7 @@ import SEO from './SEO';
 import Header from './Header';
 import Code from '../components/Code';
 import Paragraph from '../components/Paragraph';
+import Blockquote from '../components/Blockquote';
 import {
   Heading1,
   Heading2,
@@ -66,7 +67,8 @@ const Layout: FC<RouteComponentProps> = ({
         th: TableHeading,
         tr: TableRow,
         td: TableCell,
-        p: Paragraph
+        p: Paragraph,
+        blockquote: Blockquote,
       }}>
         <SEO />
         <GlobalStyle theme={theme} />

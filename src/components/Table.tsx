@@ -21,6 +21,7 @@ export const Table: FC = styled.table`
   width: calc(100% - ${props => props.theme.spacing});
   margin-bottom: ${props => props.theme.spacingHalf};
   margin-left: ${props => props.theme.spacingHalf};
+  border-collapse: collapse;
 
   &:after {
     content: '';

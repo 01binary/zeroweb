@@ -431,9 +431,9 @@ const CommentDate = styled.span`
   }
 `;
 
-const CommentOptionGroup = styled.span`
-  position: absolute;
-  word-wrap: none;
+const CommentOptionGroup = styled.div`
+  display: inline-block;
+  margin-top: -1em;
 `;
 
 const CommentOption = styled.button.attrs(() => ({
@@ -450,9 +450,7 @@ const CommentOption = styled.button.attrs(() => ({
   height: 32px;
 
   position: relative;
-  top: 0;
-  padding-top: calc(${props => props.theme.border} * 2);
-  margin-bottom: calc(${props => props.theme.border} * 2);
+  top: 0.5em;
 
   opacity: 0;
   transition: opacity ${props => props.theme.animationFast} ease-out;
@@ -929,6 +927,7 @@ const Comments: FC<CommentsProps> = ({
                     : <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
                   }
                   <CommentDate>
+                    {/* TODO: copylink tooltip and remove copy from context menu */}
                     <MetaLink to={`?comment=${encodeURIComponent(timestamp)}`}>
                       {' '}
                       {formatCommentDate(timestamp)}
@@ -978,7 +977,11 @@ const Comments: FC<CommentsProps> = ({
           </CommentsEndDate>
         </>
       )}
-      <ContextMenu ref={tipRef} {...tipProps} className={selected ? 'comment-menu--open' : 'comment-menu--closed'}>
+      <ContextMenu
+        ref={tipRef}
+        className={selected ? 'comment-menu--open' : 'comment-menu--closed'}
+        {...tipProps}
+      >
         {tipId === 'reaction' &&
           <ReactionMenu onSelect={handleReactToComment} />
         }

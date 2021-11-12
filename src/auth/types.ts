@@ -26,7 +26,7 @@ export type AWSSignature = {
   expires: dayjs.Dayjs;
 };
 
-export interface User {
+export type User = {
   name: string;
   provider: Providers;
   providerUserId: string;

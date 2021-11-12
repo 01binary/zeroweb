@@ -16,6 +16,7 @@ import EditCommentMutation from '../types/EditCommentMutation';
 import { VoteCommentQuery, Vote } from '../types/VoteCommentQuery';
 import ReactMutation from "../types/ReactMutation";
 import ReactQuery from "../types/ReactQuery";
+import { User } from "../auth/types";
 
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
@@ -38,7 +39,7 @@ export const useComments = (
   const [ error, setError ] = useState<string | null>(null);
   const [ loading, setLoading ] = useState<boolean>(true);
 
-  useEffect(() => {
+  const handleReload = useCallback(() => {
     setError(null);
     client && client.query<AllCommentsQuery>({
       query: gql`
@@ -71,7 +72,7 @@ export const useComments = (
       setError('Could not load comments for this post');
       setLoading(false);
     });
-  }, [client, setLoading, setError, setComments]);
+  }, [client, setComments, setError, setLoading]);
 
   const handleVote = useCallback((timestamp: string, vote: Vote) => {
     if (!client) return;
@@ -331,6 +332,8 @@ export const useComments = (
       console.error(e.message);
     });
   }, [client, slug, comments, setComments, setCommentError, setLoading]);
+
+  useEffect(handleReload, [handleReload, client]);
 
   return {
     comments,

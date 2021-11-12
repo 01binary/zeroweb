@@ -257,11 +257,6 @@ export const GlobalStyle = createGlobalStyle`
     margin-right: ${props => props.theme.spacingHalf};
   }
 
-  blockquote p {
-    margin-right: calc(-30% - 164px) !important;
-    padding-right: calc(30% + 164px) !important;
-  }
-
   main a, footer a {
     position: relative;
     color: ${props => props.theme.isDark

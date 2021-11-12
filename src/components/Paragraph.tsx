@@ -60,7 +60,7 @@ const Text = styled.p`
     margin-right: ${props => props.theme.spacingHalf};
 
     &:after {
-      display:none;
+      display: none;
     }
 
     .paragraph__ruler-marker {

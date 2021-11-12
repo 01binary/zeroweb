@@ -26,7 +26,7 @@ const useApiClient = (signature: AWSSignature): ApolloClient => {
   const [ client, setClient ] = useState<ApolloClient>();
 
   useEffect(() => {
-    if (client || !signature) return;
+    if (!signature) return;
 
     Promise.all(
       SCRIPTS.reduce((loaded: Promise<string>[], [ id, url ]) => {
@@ -48,7 +48,7 @@ const useApiClient = (signature: AWSSignature): ApolloClient => {
         setClient(new ApolloClient({ networkInterface }));
       }, 100);
     });
-  }, [signature, client]);
+  }, [signature, setClient]);
 
   return client;
 };

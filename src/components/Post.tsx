@@ -554,7 +554,7 @@ const Post: FC<PostProps> = ({
     }
   }
 }) => {
-  const { credentials, user } = useBlogContext();
+  const { credentials } = useBlogContext();
   const client = useApiClient(credentials);
   const {
     handleFacebookLogin,

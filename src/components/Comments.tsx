@@ -830,7 +830,7 @@ const Comments: FC<CommentsProps> = ({
         break;
       case 'copyCommentLink':
         navigator.clipboard.writeText(
-          `${window.location.protocol}//${window.location.host}${window.location.pathname}?comment=${encodeURIComponent(timestamp)}`
+          `${window.location.href}?comment=${encodeURIComponent(timestamp)}`
         );
         break;
     }

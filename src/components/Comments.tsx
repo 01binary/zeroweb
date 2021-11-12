@@ -404,7 +404,7 @@ const CommentVotes: FC<CommentVotesProps> = ({
 };
 
 const CommentContent = styled.span`
-  margin: 0 ${props => props.theme.spacingHalf};
+  margin: 0 0.25em 0 ${props => props.theme.spacingHalf};
 
   p {
     margin-left: 0;

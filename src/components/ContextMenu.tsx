@@ -26,21 +26,35 @@ export const ContextMenu = styled.div`
   transition: opacity ${props => props.theme.animationFast} ease-in-out;
   box-shadow: 0 0 10px ${props => `${props.theme.dropShadowLightColor}66`};
   opacity: 0;
+  pointer-events: none;
 
   z-index: 2;
 
   &[data-show] {
     opacity: 1;
+    pointer-events: all;
   }
 
-  &[data-popper-placement="top"] [data-popper-arrow] {
-    top: 100%;
-    border-color: ${props => props.theme.backgroundColor} transparent transparent transparent;
+  &[data-popper-placement="top-start"] [data-popper-arrow] {
+    top: calc(100% + 1px);
+    border-color: ${props => props.theme.dropShadowDarkColor} transparent transparent transparent;
+
+    &:before {
+      border-color: ${props => props.theme.backgroundColor} transparent transparent transparent;
+      top: -10px;
+      left: -9px;
+    }
   }
 
-  &[data-popper-placement="bottom"] [data-popper-arrow] {
+  &[data-popper-placement="bottom-start"] [data-popper-arrow] {
     top: -16px;
-    border-color: transparent transparent ${props => props.theme.backgroundColor} transparent;
+    border-color: transparent transparent ${props => props.theme.dropShadowDarkColor} transparent;
+
+    &:before {
+      border-color: transparent transparent ${props => props.theme.backgroundColor} transparent;
+      top: -8px;
+      left: -9px;
+    }
   }
 
   &.comment-menu--closed {
@@ -54,16 +68,11 @@ export const ContextMenuArrow = styled.div.attrs(() => ({
   position: absolute;
   border-width: 8px;
   border-style: solid;
-  top: -16px;
-  border-color: transparent transparent ${props => props.theme.dropShadowDarkColor} transparent;
 
   &:before {
     content: '';
     position: absolute;
     border-width: 9px;
     border-style: solid;
-    border-color: transparent transparent ${props => props.theme.backgroundColor} transparent;
-    top: -8px;
-    left: -9px;
   }
 `;

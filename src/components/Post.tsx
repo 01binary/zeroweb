@@ -637,6 +637,7 @@ const Post: FC<PostProps> = ({
       </Main>
 
       <Comments
+        slug={slug}
         loading={loading}
         error={error}
         loginError={loginError}

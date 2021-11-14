@@ -477,6 +477,12 @@ const EditCommentButtonGroup = styled.div`
   position: absolute;
   left: calc(100% + ${props => props.theme.spacingDouble});
   top: 0;
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    position: initial;
+    left: initial;
+    top: initial;
+  }
 `;
 
 const EditCommentButton = styled.button`
@@ -806,11 +812,11 @@ const Comments: FC<CommentsProps> = ({
   const [ editingComment, setEditingComment ] = useState<string | null>(null);
   const [ editMarkdown, setEditMarkdown ] = useState<string>('');
   const {
-    hideTip,
-    showTipFor,
-    tipProps,
-    tipRef,
-    tooltipText: tipId,
+    hideTip: hideMenu,
+    showTipFor: showMenu,
+    tipProps: menuProps,
+    tipRef: menuRef,
+    tooltipText: menuId,
   } = useTooltip({
     placement: 'bottom-start',
     verticalOffsetDesktop: 6,
@@ -887,9 +893,9 @@ const Comments: FC<CommentsProps> = ({
       target.classList.remove('comment__option--active');
       optionRef.current = null;
       setSelectedComment(null);
-      hideTip();
+      hideMenu();
     }, 250);
-  }, [hideTip, setSelectedComment]);
+  }, [hideMenu, setSelectedComment]);
 
   const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
     if (e.target.classList.contains('comment__option--active')) {
@@ -898,7 +904,7 @@ const Comments: FC<CommentsProps> = ({
       e.target.classList.add('comment__option--active');
       optionRef.current = e.target;
       setSelectedComment(timestamp);
-      showTipFor(id, optionRef);
+      showMenu(id, optionRef);
     }
   };
 
@@ -958,9 +964,9 @@ const Comments: FC<CommentsProps> = ({
   }, [editingComment]);
 
   useEffect(() => {
-    document.body.addEventListener('click', hideTip);
+    document.body.addEventListener('click', hideMenu);
     return () => {
-      document.body.removeEventListener('click', hideTip);
+      document.body.removeEventListener('click', hideMenu);
     };
   });
 
@@ -1129,14 +1135,14 @@ const Comments: FC<CommentsProps> = ({
         </>
       )}
       <ContextMenu
-        ref={tipRef}
+        ref={menuRef}
         className={selectedComment ? 'comment-menu--open' : 'comment-menu--closed'}
-        {...tipProps}
+        {...menuProps}
       >
-        {tipId === 'reaction' &&
+        {menuId === 'reaction' &&
           <ReactionMenu onSelect={handleReactToComment} />
         }
-        {tipId === 'options' &&
+        {menuId === 'options' &&
           <OptionMenu onSelect={handleCommentOption} />
         }
         <ContextMenuArrow />

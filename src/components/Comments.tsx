@@ -28,6 +28,7 @@ import AddCommentMutation from '../types/AddCommentMutation';
 import EditCommentMutation from '../types/EditCommentMutation';
 import { useTooltip } from '../hooks/useTooltip';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
+import { Tooltip, Arrow } from './Tooltip';
 import ReactCommentMutation from '../types/ReactMutation';
 
 dayjs.extend(relativeTime);
@@ -76,7 +77,7 @@ const CommentsSection = styled.footer<CommentsSectionProps>`
     font-family: ${props => props.theme.smallFont};
     font-size: ${props => props.theme.smallFontSize};
     font-weight: ${props => props.theme.smallFontWeight};
-    line-height: 1.7em;
+    line-height: 1.5em;
   }
 
   opacity: ${props => props.isLoading ? 0.5 : 1};
@@ -788,6 +789,7 @@ const Comments: FC<CommentsProps> = ({
   const markerRef = useRef<HTMLElement>();
   const optionRef = useRef<HTMLElement>();
   const editRef = useRef<HTMLTextAreaElement>();
+  const linkRef = useRef<HTMLElement>();
   const [ selectedComment, setSelectedComment ] = useState<string | null>(null);
   const [ editingComment, setEditingComment ] = useState<string | null>(null);
   const [ editMarkdown, setEditMarkdown ] = useState<string>('');
@@ -799,6 +801,16 @@ const Comments: FC<CommentsProps> = ({
     tooltipText: menuId,
   } = useTooltip({
     placement: 'bottom-start',
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6
+  });
+  const {
+    hideTip,
+    showTipFor,
+    tipProps,
+    tipRef,
+    tooltipText,
+  } = useTooltip({
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6
   });
@@ -897,6 +909,13 @@ const Comments: FC<CommentsProps> = ({
     });
   }, [handleReact]);
 
+  const handleEditComment = useCallback(() => {
+    setEditingComment(selectedComment);
+    setEditMarkdown(postComments.find(
+      ({ timestamp }) => timestamp === selectedComment
+    )?.markdown || '');
+  }, [selectedComment, postComments, setEditingComment, setEditMarkdown]);
+
   const handleEditCommentChange = useCallback((e) => {
     setEditMarkdown(e.target.value);
   }, [setEditMarkdown]);
@@ -926,15 +945,24 @@ const Comments: FC<CommentsProps> = ({
   const handleCommentOption = useCallback((e) => {
     switch (e.target.id) {
       case 'editComment':
-        setEditingComment(selectedComment);
-        setEditMarkdown(postComments.find(({ timestamp }) => timestamp === selectedComment)?.markdown || '');
+        handleEditComment();
         break;
       case 'deleteComment':
         handleDelete(selectedComment);
         break;
     }
     setSelectedComment(null);
-  }, [postComments, selectedComment, handleDelete]);
+  }, [selectedComment, handleEditComment, handleDelete]);
+
+  const handleShowCommentLinkTip = useCallback((e) => {
+    linkRef.current = e.target;
+    showTipFor('copy link', linkRef);
+  }, [showTipFor]);
+
+  const handleShowCommentLinkTipCopied = useCallback((e) => {
+    linkRef.current = e.target;
+    showTipFor('copied!', linkRef);
+  }, [showTipFor]);
 
   useEffect(() => {
     if (editingComment && editRef.current) {
@@ -1043,7 +1071,10 @@ const Comments: FC<CommentsProps> = ({
                         navigator.clipboard.writeText(
                           `${window.location.href}?comment=${encodeURIComponent(timestamp)}`
                         );
+                        handleShowCommentLinkTipCopied(e);
                       }}
+                      onMouseOver={handleShowCommentLinkTip}
+                      onMouseOut={hideTip}
                     >
                       {' '}
                       {formatCommentDate(timestamp)}
@@ -1127,6 +1158,13 @@ const Comments: FC<CommentsProps> = ({
         }
         <ContextMenuArrow />
       </ContextMenu>
+      <Tooltip
+        ref={tipRef}
+        {...tipProps}
+      >
+        {tooltipText}
+        <Arrow />
+      </Tooltip>
       {(user && comments) &&
         <AddCommentForm
           onSubmit={(e) => e.preventDefault()}

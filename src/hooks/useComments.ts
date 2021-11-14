@@ -301,7 +301,6 @@ export const useComments = (
     reaction,
     parentTimestamp,
   }: ReactMutation) => {
-    setCommentError(null);
     setLoading(true);
     client && client.mutate<ReactQuery>({
       mutation: gql`
@@ -336,10 +335,9 @@ export const useComments = (
     })
     .catch((e: Error) => {
       setLoading(false);
-      setCommentError(e.message);
       console.error(e.message);
     });
-  }, [client, slug, comments, setComments, setCommentError, setLoading]);
+  }, [client, slug, comments, setComments, setLoading]);
 
   useEffect(handleReload, [handleReload, client]);
 

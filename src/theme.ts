@@ -45,7 +45,7 @@ const typography = {
   titleFontWeight: 'normal',
 
   headingFont: 'Open Sans, Helvetica Neue, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-  headingFontWeight: 450,
+  headingFontWeight: 550,
   headingFontSizeLargest: '22pt',
   headingFontSizeLarge: '20pt',
   headingFontSizeMedium: '16pt',
@@ -165,7 +165,7 @@ export const darkTheme = {
 
   warningColor: '#E1B412',
   focusColor: '#FF008E',
-  errorColor: '#BA141A',
+  errorColor: '#FF008E',
   successColor: '#0dbc79',
 
   textSelectionColor: 'white',

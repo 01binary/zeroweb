@@ -352,7 +352,7 @@ const SidebarPanel = styled.section`
   }
 `;
 
-const Sidebar = styled.section`
+const Sidebar = styled.aside`
   position: sticky;
   float: right;
   top: 0;
@@ -374,7 +374,7 @@ const Sidebar = styled.section`
   }
 `;
 
-const SidebarMetadata = styled.section`
+const SidebarMetadata = styled.div`
   position: relative;
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};

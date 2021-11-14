@@ -55,6 +55,34 @@ const Text = styled.p`
     opacity: 0;
   }
 
+  code {
+    position: relative;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: ${props => props.theme.normalFontSize};
+    background: ${props => props.theme.isDark ? props.theme.alwaysDarkColor : props.theme.accentLightColor};
+    padding: ${props => props.theme.spacingQuarter};
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -8px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent ${props => props.theme.backgroundColor};
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: -8px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent ${props => props.theme.backgroundColor} transparent transparent;
+    }
+  }
+
   @media(max-width: ${props => props.theme.mobile}) {
     padding-right: 0;
     margin-right: ${props => props.theme.spacingHalf};

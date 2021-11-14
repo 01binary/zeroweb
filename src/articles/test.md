@@ -10,7 +10,7 @@ Some smarty pants
 
 > "Hello world, he said"
 
-Some inline code
+Some `inline` code
 
 ```javascript
 const text = 'World'

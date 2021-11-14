@@ -421,6 +421,34 @@ const CommentContent = styled.span`
   p:last-of-type {
     margin-bottom: 0;
   }
+
+  code {
+    position: relative;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: ${props => props.theme.smallFontSize};
+    background: ${props => props.theme.isDark ? props.theme.alwaysDarkColor : props.theme.accentLightColor};
+    padding: ${props => props.theme.spacingQuarter};
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -8px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent ${props => props.theme.backgroundColor};
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: -8px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent ${props => props.theme.backgroundColor} transparent transparent;
+    }
+  }
 `;
 
 const EditCommentForm = styled.form`
@@ -570,6 +598,8 @@ const MenuItem = styled.button`
     pointer-events: none;
     top: 2px;
   }
+
+  color: ${props => props.theme.foregroundColor};
 
   &:hover {
     color: ${props => props.theme.backgroundColor};
@@ -771,7 +801,7 @@ const Comments: FC<CommentsProps> = ({
   const commentsRef = useRef<HTMLElement>();
   const markerRef = useRef<HTMLElement>();
   const optionRef = useRef<HTMLElement>();
-  const editRef = useRef<HTMLElement>();
+  const editRef = useRef<HTMLTextAreaElement>();
   const [ selectedComment, setSelectedComment ] = useState<string | null>(null);
   const [ editingComment, setEditingComment ] = useState<string | null>(null);
   const [ editMarkdown, setEditMarkdown ] = useState<string>('');
@@ -921,7 +951,10 @@ const Comments: FC<CommentsProps> = ({
   }, [postComments, selectedComment, handleDelete]);
 
   useEffect(() => {
-    editingComment && editRef.current && editRef.current.focus();
+    if (editingComment && editRef.current) {
+      editRef.current.focus();
+      editRef.current.select();
+    }
   }, [editingComment]);
 
   useEffect(() => {

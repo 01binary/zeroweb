@@ -24,7 +24,7 @@ export const ContextMenu = styled.div`
   border: 1px solid ${props => props.theme.dropShadowDarkColor};
   border-radius: ${props => props.theme.spacingSmall};
   transition: opacity ${props => props.theme.animationFast} ease-in-out;
-  box-shadow: 0 0 10px ${props => `${props.theme.dropShadowLightColor}66`};
+  box-shadow: 0 0 10px ${props => props.theme.isDark ? `${props.theme.dropShadowTransparentColor}FF` : `${props.theme.dropShadowLightColor}66`};
   opacity: 0;
   pointer-events: none;
 

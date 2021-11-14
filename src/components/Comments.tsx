@@ -732,8 +732,8 @@ type CommentsProps = {
   loginError: string | null;
   commentError: string | null;
   handleVote: (timestamp: string, vote: Vote) => void;
-  handleAdd: (comment: AddCommentMutation) => void;
-  handleEdit: (comment: EditCommentMutation) => void;
+  handleAdd: (comment: AddCommentMutation) => Promise<void>;
+  handleEdit: (comment: EditCommentMutation) => Promise<void>;
   handleDelete: (timestamp: string) => void;
   handleReact: (comment: ReactCommentMutation) => void;
   handleFacebookLogin: () => void;
@@ -848,8 +848,7 @@ const Comments: FC<CommentsProps> = ({
       userName: user.name,
       avatarUrl: user.avatarUrl || '',
       markdown: comment
-    });
-    setComment('');
+    }).then(() => setComment(''));
   }, [handleAdd, user, comment]);
 
   const handleHideCommentMenu = useCallback((e) => {
@@ -886,18 +885,23 @@ const Comments: FC<CommentsProps> = ({
     setEditMarkdown(e.target.value);
   }, [setEditMarkdown]);
 
-  const handleEditCommentSave = useCallback(() => {
+  const handleEditCommentSave = useCallback((e) => {
+    e.preventDefault();
     if (!editingComment || !editMarkdown.length) return;
     handleEdit({
       slug,
       timestamp: editingComment,
       markdown: editMarkdown
+    }).then(() => {
+      setEditingComment(null);
+      setEditMarkdown('');
+    }).catch((e) => {
+      console.error(e);
     });
-    setEditingComment(null);
-    setEditMarkdown('');
   }, [editingComment, editMarkdown, handleEdit, setEditingComment, setEditMarkdown]);
 
-  const handleEditCommentCancel = useCallback(() => {
+  const handleEditCommentCancel = useCallback((e) => {
+    e.preventDefault();
     if (!editingComment) return;
     setEditingComment(null);
     setEditMarkdown('');
@@ -1029,13 +1033,16 @@ const Comments: FC<CommentsProps> = ({
                   <CommentContent>
                     {editingComment === timestamp
                       ? (
-                        <EditCommentForm>
+                        <EditCommentForm onSubmit={(e) => e.preventDefault()}>
                           <EditCommentInput
                             ref={editRef}
                             value={editMarkdown}
                             placeholder="edit your comment"
                             onChange={handleEditCommentChange}
                           />
+                          <Error>
+                            {commentError}
+                          </Error>
                           <EditCommentButtonGroup>
                             <EditCommentButton onClick={handleEditCommentSave}>
                               <SaveIcon />
@@ -1102,7 +1109,10 @@ const Comments: FC<CommentsProps> = ({
         <ContextMenuArrow />
       </ContextMenu>
       {(user && comments) &&
-        <AddCommentForm hasComments={Boolean(postComments && postComments.length)}>
+        <AddCommentForm
+          onSubmit={(e) => e.preventDefault()}
+          hasComments={Boolean(postComments && postComments.length)}
+        >
           {commentError &&
             <AddCommentRow>
               <Error>{commentError}</Error>

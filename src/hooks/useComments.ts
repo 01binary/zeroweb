@@ -131,13 +131,16 @@ export const useComments = (
     paragraph: inputParagraph,
     rangeStart: inputRangeStart,
     rangeLength: inputRangeLength,
-  }: AddCommentMutation) => {
-    if (!client) return;
+  }: AddCommentMutation): Promise<void> => {
+    if (!client) {
+      setCommentError('Could not contact the server');
+      return Promise.reject();
+    }
 
     setCommentError(null);
     setLoading(true);
 
-    client.mutate<AddCommentQuery>({
+    return client.mutate<AddCommentQuery>({
       mutation: gql`
         mutation ($comment: CommentInput!) {
           addComment(comment: $comment) {
@@ -188,13 +191,16 @@ export const useComments = (
     timestamp,
     markdown,
     reaction,
-  }: EditCommentMutation) => {
-    if (!client) return;
+  }: EditCommentMutation): Promise<void> => {
+    if (!client) {
+      setCommentError('Could not contact the server');
+      return Promise.reject();
+    }
 
     setCommentError(null);
     setLoading(true);
 
-    client.mutate<EditCommentQuery>({
+    return client.mutate<EditCommentQuery>({
       mutation: gql`
         mutation ($comment: CommentInput!) {
           editComment(comment: $comment) {
@@ -247,7 +253,10 @@ export const useComments = (
   }, [client, slug, comments, setComments, setCommentError, setLoading]);
 
   const handleDelete = useCallback((timestamp: string) => {
-    if (!client) return;
+    if (!client) {
+      setCommentError('Could not contact the server');
+      return;
+    }
 
     setCommentError(null);
     setLoading(true);

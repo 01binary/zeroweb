@@ -358,6 +358,10 @@ const VoteButton = styled.button.attrs(() => ({
 
   transition: opacity ${props => props.theme.animationFast} ease-out;
 
+  svg {
+    pointer-events: none;
+  }
+
   &:hover {
     stroke: ${props => props.theme.primaryColor};
   }
@@ -789,7 +793,7 @@ const Comments: FC<CommentsProps> = ({
   const markerRef = useRef<HTMLElement>();
   const optionRef = useRef<HTMLElement>();
   const editRef = useRef<HTMLTextAreaElement>();
-  const linkRef = useRef<HTMLElement>();
+  const tipTargetRef = useRef<HTMLElement>();
   const [ selectedComment, setSelectedComment ] = useState<string | null>(null);
   const [ editingComment, setEditingComment ] = useState<string | null>(null);
   const [ editMarkdown, setEditMarkdown ] = useState<string>('');
@@ -954,14 +958,9 @@ const Comments: FC<CommentsProps> = ({
     setSelectedComment(null);
   }, [selectedComment, handleEditComment, handleDelete]);
 
-  const handleShowCommentLinkTip = useCallback((e) => {
-    linkRef.current = e.target;
-    showTipFor('copy link', linkRef);
-  }, [showTipFor]);
-
-  const handleShowCommentLinkTipCopied = useCallback((e) => {
-    linkRef.current = e.target;
-    showTipFor('copied!', linkRef);
+  const handleShowTip = useCallback((e, text) => {
+    tipTargetRef.current = e.target;
+    showTipFor(text, tipTargetRef);
   }, [showTipFor]);
 
   useEffect(() => {
@@ -1050,10 +1049,18 @@ const Comments: FC<CommentsProps> = ({
                     />
                     {(user && !me && !voted) &&
                       <>
-                        <UpVoteButton onClick={() => handleVote(timestamp, 'upVote')}>
+                        <UpVoteButton
+                          onClick={() => handleVote(timestamp, 'upVote')}
+                          onMouseOver={(e) => handleShowTip(e, 'up vote')}
+                          onMouseOut={hideTip}
+                        >
                           <UpVoteIcon />
                         </UpVoteButton>
-                        <DownVoteButton onClick={() => handleVote(timestamp, 'downVote')}>
+                        <DownVoteButton
+                          onClick={() => handleVote(timestamp, 'downVote')}
+                          onMouseOver={(e) => handleShowTip(e, 'down vote')}
+                          onMouseOut={hideTip}
+                        >
                           <DownVoteIcon />
                         </DownVoteButton>
                       </>
@@ -1071,9 +1078,9 @@ const Comments: FC<CommentsProps> = ({
                         navigator.clipboard.writeText(
                           `${window.location.href}?comment=${encodeURIComponent(timestamp)}`
                         );
-                        handleShowCommentLinkTipCopied(e);
+                        handleShowTip(e, 'copied!');
                       }}
-                      onMouseOver={handleShowCommentLinkTip}
+                      onMouseOver={(e) => handleShowTip(e, 'copy link')}
                       onMouseOut={hideTip}
                     >
                       {' '}
@@ -1094,10 +1101,18 @@ const Comments: FC<CommentsProps> = ({
                             {commentError}
                           </Error>
                           <EditCommentButtonGroup>
-                            <EditCommentButton onClick={handleEditCommentSave}>
+                            <EditCommentButton
+                              onClick={handleEditCommentSave}
+                              onMouseOver={(e) => handleShowTip(e, 'save')}
+                              onMouseOut={hideTip}
+                            >
                               <SaveIcon />
                             </EditCommentButton>
-                            <EditCommentButton onClick={handleEditCommentCancel}>
+                            <EditCommentButton
+                              onClick={handleEditCommentCancel}
+                              onMouseOver={(e) => handleShowTip(e, 'cancel')}
+                              onMouseOut={hideTip}
+                            >
                               <CancelIcon />
                             </EditCommentButton>
                           </EditCommentButtonGroup>
@@ -1111,6 +1126,8 @@ const Comments: FC<CommentsProps> = ({
                       <CommentButton
                         onClick={handleShowCommentMenu('options', timestamp)}
                         onBlur={handleHideCommentMenu}
+                        onMouseOver={(e) => handleShowTip(e, 'comment actions')}
+                        onMouseOut={hideTip}
                       >
                         <MenuIcon />
                       </CommentButton>
@@ -1119,6 +1136,8 @@ const Comments: FC<CommentsProps> = ({
                       <CommentButton
                         onClick={handleShowCommentMenu('reaction', timestamp)}
                         onBlur={handleHideCommentMenu}
+                        onMouseOver={(e) => handleShowTip(e, 'react')}
+                        onMouseOut={hideTip}
                       >
                         <ReactionIcon />
                       </CommentButton>

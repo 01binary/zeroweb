@@ -15,7 +15,8 @@ import AddCommentMutation from '../types/AddCommentMutation';
 import EditCommentMutation from '../types/EditCommentMutation';
 import { VoteCommentQuery, Vote } from '../types/VoteCommentQuery';
 import ReactMutation from "../types/ReactMutation";
-import ReactQuery from "../types/ReactQuery";
+import ReactQuery from '../types/ReactQuery';
+//import mockComments from '../__tests__/fixtures/comments.json';
 
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
@@ -40,6 +41,7 @@ export const useComments = (
 
   const handleReload = useCallback(() => {
     setError(null);
+    //Promise.resolve(mockComments)
     client && client.query<AllCommentsQuery>({
       query: gql`
         query comments ($slug: String!) {

@@ -20,6 +20,8 @@ import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionPartyIcon from '../images/reaction-party.svg';
 import ReactionSnapIcon from '../images/reaction-snap.svg';
 import MenuIcon from '../images/comment-menu.svg';
+import SaveIcon from '../images/accept.svg';
+import CancelIcon from '../images/cancel.svg';
 import { CommentQuery } from '../types/AllCommentsQuery';
 import { Vote } from '../types/VoteCommentQuery';
 import AddCommentMutation from '../types/AddCommentMutation';
@@ -421,6 +423,66 @@ const CommentContent = styled.span`
   }
 `;
 
+const EditCommentForm = styled.form`
+  position: relative;
+  width: calc(100% - 3em);
+  margin-top: ${props => props.theme.spacingHalf};
+  margin-bottom: -${props => props.theme.spacing};
+`;
+
+const EditCommentInput = styled.textarea`
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+
+  width: 100%;
+  max-height: 10em;
+  padding: ${props => props.theme.spacingHalf};
+  resize: vertical;
+
+  background: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.foregroundColor};
+`;
+
+const EditCommentButtonGroup = styled.div`
+  display: flex;
+  position: absolute;
+  left: calc(100% + ${props => props.theme.spacingDouble});
+  top: 0;
+`;
+
+const EditCommentButton = styled.button`
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+
+  width: 32px;
+  height: 32px;
+
+  svg {
+    pointer-events: none;
+  }
+
+  &:hover {
+    .stroke-foreground {
+      stroke: ${props => props.theme.isDark
+        ? props.theme.primaryColor
+        : props.theme.primaryDarkColor
+      };
+    }
+
+    .fill-foreground {
+      fill: ${props => props.theme.isDark
+        ? props.theme.primaryColor
+        : props.theme.primaryDarkColor
+      };
+    }
+  }
+`;
+
 const CommentDate = styled.span`
   position: absolute;
   left: calc(80% - ${props => props.theme.spacingHalf} - ${props => props.theme.border});
@@ -431,12 +493,12 @@ const CommentDate = styled.span`
   }
 `;
 
-const CommentOptionGroup = styled.div`
+const CommentButtonGroup = styled.div`
   display: inline-block;
   margin-top: -1em;
 `;
 
-const CommentOption = styled.button.attrs(() => ({
+const CommentButton = styled.button.attrs(() => ({
   className: 'comment__option-button'
 }))`
   border: none;
@@ -537,9 +599,6 @@ const OptionMenu: FC<CommentMenuProps> = ({ onSelect }) => (
     </MenuItem>
     <MenuItem id="deleteComment" onClick={onSelect}>
       Delete
-    </MenuItem>
-    <MenuItem id="copyCommentLink" onClick={onSelect}>
-      Copy Link
     </MenuItem>
   </Menu>
 );
@@ -644,13 +703,16 @@ const AddCommentInput = styled.textarea`
   max-height: 500px;
   resize: vertical;
 
+  background: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.foregroundColor};
+
   padding: ${props => props.theme.spacingHalf};
   margin-top: ${props => props.theme.spacingHalf};
   margin-bottom: ${props => props.theme.spacingHalf};
   margin-left: calc(${props => props.theme.spacingOneAndHalf} + ${props => props.theme.spacingQuarter} + ${AVATAR_SIZE}px);
 `;
 
-const AddCommentSubmit = styled.button`
+const PrimaryButton = styled.button`
   border: none;
   cursor: pointer;
   padding: 4px;
@@ -663,6 +725,7 @@ const AddCommentSubmit = styled.button`
 `;
 
 type CommentsProps = {
+  slug: string;
   comments: CommentQuery[] | null;
   loading: boolean;
   error: string | null;
@@ -682,6 +745,7 @@ type CommentsProps = {
 };
 
 const Comments: FC<CommentsProps> = ({
+  slug,
   comments,
   loading,
   error,
@@ -707,7 +771,10 @@ const Comments: FC<CommentsProps> = ({
   const commentsRef = useRef<HTMLElement>();
   const markerRef = useRef<HTMLElement>();
   const optionRef = useRef<HTMLElement>();
-  const [ selected, setSelected ] = useState<string>(null);
+  const editRef = useRef<HTMLElement>();
+  const [ selectedComment, setSelectedComment ] = useState<string | null>(null);
+  const [ editingComment, setEditingComment ] = useState<string | null>(null);
+  const [ editMarkdown, setEditMarkdown ] = useState<string>('');
   const {
     hideTip,
     showTipFor,
@@ -734,7 +801,7 @@ const Comments: FC<CommentsProps> = ({
   ) || 0;
 
   useLayoutEffect(() => {
-    // Calculate % scrolled through comments and which comment is  in view
+    // Calculate % scrolled through comments and which comment is in view
     if (commentsRef.current && postComments && postComments.length > 0) {
       const commentsRect = commentsRef.current.getBoundingClientRect();
       const { height: markerHeight } = markerRef.current.getBoundingClientRect();
@@ -786,11 +853,14 @@ const Comments: FC<CommentsProps> = ({
   }, [handleAdd, user, comment]);
 
   const handleHideCommentMenu = useCallback((e) => {
-    e.target.classList.remove('comment__option--active');
-    optionRef.current = null;
-    setSelected(null);
-    hideTip();
-  }, [hideTip]);
+    const target = e.target;
+    setTimeout(() => {
+      target.classList.remove('comment__option--active');
+      optionRef.current = null;
+      setSelectedComment(null);
+      hideTip();
+    }, 250);
+  }, [hideTip, setSelectedComment]);
 
   const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
     if (e.target.classList.contains('comment__option--active')) {
@@ -798,7 +868,7 @@ const Comments: FC<CommentsProps> = ({
     } else {
       e.target.classList.add('comment__option--active');
       optionRef.current = e.target;
-      setSelected(timestamp);
+      setSelectedComment(timestamp);
       showTipFor(id, optionRef);
     }
   };
@@ -807,32 +877,48 @@ const Comments: FC<CommentsProps> = ({
     handleReact({
       userName: user.name,
       avatarUrl: user.avatarUrl,
-      parentTimestamp: selected,
+      parentTimestamp: selectedComment,
       reaction: e.target.id
     });
   }, [handleReact]);
 
-  const handleSaveComment = useCallback(() => {
-  }, []);
+  const handleEditCommentChange = useCallback((e) => {
+    setEditMarkdown(e.target.value);
+  }, [setEditMarkdown]);
+
+  const handleEditCommentSave = useCallback(() => {
+    if (!editingComment || !editMarkdown.length) return;
+    handleEdit({
+      slug,
+      timestamp: editingComment,
+      markdown: editMarkdown
+    });
+    setEditingComment(null);
+    setEditMarkdown('');
+  }, [editingComment, editMarkdown, handleEdit, setEditingComment, setEditMarkdown]);
+
+  const handleEditCommentCancel = useCallback(() => {
+    if (!editingComment) return;
+    setEditingComment(null);
+    setEditMarkdown('');
+  }, [editingComment, setEditingComment, setEditMarkdown]);
 
   const handleCommentOption = useCallback((e) => {
-    const timestamp = selected;
-    setSelected(null);
-
     switch (e.target.id) {
       case 'editComment':
-        // TODO: go into edit mode
+        setEditingComment(selectedComment);
+        setEditMarkdown(postComments.find(({ timestamp }) => timestamp === selectedComment)?.markdown || '');
         break;
       case 'deleteComment':
-        handleDelete(timestamp);
-        break;
-      case 'copyCommentLink':
-        navigator.clipboard.writeText(
-          `${window.location.href}?comment=${encodeURIComponent(timestamp)}`
-        );
+        handleDelete(selectedComment);
         break;
     }
-  }, [handleDelete]);
+    setSelectedComment(null);
+  }, [postComments, selectedComment, handleDelete]);
+
+  useEffect(() => {
+    editingComment && editRef.current && editRef.current.focus();
+  }, [editingComment]);
 
   useEffect(() => {
     document.body.addEventListener('click', hideTip);
@@ -927,35 +1013,60 @@ const Comments: FC<CommentsProps> = ({
                     : <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
                   }
                   <CommentDate>
-                    {/* TODO: copylink tooltip and remove copy from context menu */}
-                    <MetaLink to={`?comment=${encodeURIComponent(timestamp)}`}>
+                    <MetaLink
+                      to={`?comment=${encodeURIComponent(timestamp)}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(
+                          `${window.location.href}?comment=${encodeURIComponent(timestamp)}`
+                        );
+                      }}
+                    >
                       {' '}
                       {formatCommentDate(timestamp)}
                     </MetaLink>
                   </CommentDate>
                   <CommentContent>
-                    <ReactMarkdown>
-                      {markdown}
-                    </ReactMarkdown>
+                    {editingComment === timestamp
+                      ? (
+                        <EditCommentForm>
+                          <EditCommentInput
+                            ref={editRef}
+                            value={editMarkdown}
+                            placeholder="edit your comment"
+                            onChange={handleEditCommentChange}
+                          />
+                          <EditCommentButtonGroup>
+                            <EditCommentButton onClick={handleEditCommentSave}>
+                              <SaveIcon />
+                            </EditCommentButton>
+                            <EditCommentButton onClick={handleEditCommentCancel}>
+                              <CancelIcon />
+                            </EditCommentButton>
+                          </EditCommentButtonGroup>
+                        </EditCommentForm>
+                      )
+                      : <ReactMarkdown>{markdown}</ReactMarkdown>
+                    }
                   </CommentContent>
-                  <CommentOptionGroup>
-                    {me &&
-                      <CommentOption
+                  <CommentButtonGroup>
+                    {(me && !editingComment) &&
+                      <CommentButton
                         onClick={handleShowCommentMenu('options', timestamp)}
                         onBlur={handleHideCommentMenu}
                       >
                         <MenuIcon />
-                      </CommentOption>
+                      </CommentButton>
                     }
                     {(user && !me) &&
-                      <CommentOption
+                      <CommentButton
                         onClick={handleShowCommentMenu('reaction', timestamp)}
                         onBlur={handleHideCommentMenu}
                       >
                         <ReactionIcon />
-                      </CommentOption>
+                      </CommentButton>
                     }
-                  </CommentOptionGroup>
+                  </CommentButtonGroup>
                 </Comment>
               ))}
               <DateMarker offset={`${commentsMarkerOffsetRef.current}px`}>
@@ -979,7 +1090,7 @@ const Comments: FC<CommentsProps> = ({
       )}
       <ContextMenu
         ref={tipRef}
-        className={selected ? 'comment-menu--open' : 'comment-menu--closed'}
+        className={selectedComment ? 'comment-menu--open' : 'comment-menu--closed'}
         {...tipProps}
       >
         {tipId === 'reaction' &&
@@ -1014,12 +1125,12 @@ const Comments: FC<CommentsProps> = ({
             />
           </AddCommentRow>
           <AddCommentRow align="right">
-            <AddCommentSubmit
+            <PrimaryButton
               type="submit"
               onClick={handlePostComment}
             >
               comment
-            </AddCommentSubmit>
+            </PrimaryButton>
           </AddCommentRow>
         </AddCommentForm>
       }

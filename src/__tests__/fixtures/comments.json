@@ -49,7 +49,7 @@
                 "paragraph": "p369630885",
                 "rangeStart": null,
                 "rangeLength": null,
-                "me": null,
+                "me": true,
                 "__typename": "Comment"
             },
             {

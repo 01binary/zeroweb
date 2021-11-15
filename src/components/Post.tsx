@@ -32,7 +32,7 @@ import { Ruler, RULER_OFFSET, RULER_SELECTION_GUTTER } from './Ruler';
 import TagList from './TagList';
 import SEO from './SEO';
 import TOC from './TOC';
-import Comments from './Comments';
+import Comments from './Comments/Comments';
 import MetaLink from './MetaLink';
 import { useLogin } from "../hooks/useLogin";
 

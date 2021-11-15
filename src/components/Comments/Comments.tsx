@@ -252,6 +252,7 @@ const Comments: FC<CommentsProps> = ({
   const handleEditCommentSave = useCallback((e) => {
     e.preventDefault();
     if (!editingComment || !editMarkdown.length) return;
+    hideTip();
     handleEdit({
       slug,
       timestamp: editingComment,
@@ -267,6 +268,7 @@ const Comments: FC<CommentsProps> = ({
   const handleEditCommentCancel = useCallback((e) => {
     e.preventDefault();
     if (!editingComment) return;
+    hideTip();
     setEditingComment(null);
     setEditMarkdown('');
   }, [editingComment, setEditingComment, setEditMarkdown]);

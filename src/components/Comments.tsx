@@ -533,10 +533,15 @@ const CommentReactionGroup = styled.div`
 const CommentReaction = styled.div`
   position: relative;
   top: 6px;
-  padding-left: 1em;
+  padding-left: 6px;
 `;
 
 const CommentReactionBadge = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-left: 0.33em;
+  top: -6px;
+  color: ${props => props.theme.secondaryTextColor};
 `;
 
 const CommentActions = styled.div`
@@ -599,7 +604,7 @@ const CommentReactions: FC<CommentReactionsProps> = ({
   ), [timestamp, comments]);
 
   const count = useMemo(() => reactions.reduce(
-    (acc, { reaction }) => ({ ...acc, [reaction]: (acc[reaction] || 0) + 1 }),
+    (count, { reaction }) => ({ ...count, [reaction]: (count[reaction] || 0) + 1 }),
   {}), [reactions]);
 
   return reactions.length === 0 ? null : (

@@ -34,7 +34,7 @@ import {
 } from '../components/Table';
 import { AWSSignature, User } from '../auth/types';
 
-const getCollection = (path: string): string => path.split('/')[1];
+const getCollection = (path?: string): string => path?.split('/')?.[1];
 
 const Layout: FC<RouteComponentProps> = ({
   path,

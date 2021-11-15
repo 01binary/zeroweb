@@ -48,6 +48,7 @@ export const useComments = (
           comments (slug: $slug) {
             slug
             timestamp
+            parentTimestamp
             userId
             userName
             avatarUrl
@@ -146,6 +147,7 @@ export const useComments = (
           addComment(comment: $comment) {
             slug
             timestamp
+            parentTimestamp
             userId
             userName
             avatarUrl
@@ -206,6 +208,7 @@ export const useComments = (
           editComment(comment: $comment) {
             slug
             timestamp
+            parentTimestamp
             userId
             userName
             avatarUrl

@@ -1,4 +1,12 @@
-import React, { FC, useLayoutEffect, useRef, useState, useCallback, useEffect } from 'react';
+import React, {
+  FC,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo
+} from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import Avatar from '../components/Avatar';
@@ -512,9 +520,29 @@ const CommentDate = styled.span`
   }
 `;
 
-const CommentButtonGroup = styled.div`
+const CommentMetadata = styled.div`
+  display: inline;
+`;
+
+const CommentReactionGroup = styled.div`
+  display: inline-flex;
+  margin-top: -1em;
+  width: max-content;
+`;
+
+const CommentReaction = styled.div`
+  position: relative;
+  top: 6px;
+  padding-left: 1em;
+`;
+
+const CommentReactionBadge = styled.div`
+`;
+
+const CommentActions = styled.div`
   display: inline-block;
   margin-top: -1em;
+  width: max-content;
 `;
 
 const CommentButton = styled.button.attrs(() => ({
@@ -556,6 +584,51 @@ const CommentButton = styled.button.attrs(() => ({
     }
   }
 `;
+
+type CommentReactionsProps = {
+  timestamp: string;
+  comments: CommentQuery[];
+};
+
+const CommentReactions: FC<CommentReactionsProps> = ({
+  timestamp,
+  comments
+}) => {
+  const reactions = useMemo(() => comments.filter(
+    ({ parentTimestamp, reaction }) => reaction && parentTimestamp === timestamp
+  ), [timestamp, comments]);
+
+  const count = useMemo(() => reactions.reduce(
+    (acc, { reaction }) => ({ ...acc, [reaction]: (acc[reaction] || 0) + 1 }),
+  {}), [reactions]);
+
+  return reactions.length === 0 ? null : (
+    <CommentReactionGroup>
+      {Object.keys(count).map(reaction => (
+        <CommentReaction key={reaction}>
+          {
+            reaction === 'lol' ?
+              <ReactionLolIcon /> :
+            reaction === 'wow' ?
+              <ReactionWowIcon /> :
+            reaction === 'confused' ?
+              <ReactionConfusedIcon /> :
+            reaction === 'party' ?
+              <ReactionPartyIcon /> :
+            reaction === 'snap' ?
+              <ReactionSnapIcon /> :
+            null
+          }
+          {count[reaction] > 1 &&
+            <CommentReactionBadge>
+              {count[reaction]}
+            </CommentReactionBadge>
+          }
+        </CommentReaction>
+      ))}
+    </CommentReactionGroup>
+  );
+};
 
 type MenuProps = {
   vertical?: boolean;
@@ -1121,28 +1194,31 @@ const Comments: FC<CommentsProps> = ({
                       : <ReactMarkdown>{markdown}</ReactMarkdown>
                     }
                   </CommentContent>
-                  <CommentButtonGroup>
-                    {(me && !editingComment) &&
-                      <CommentButton
-                        onClick={handleShowCommentMenu('options', timestamp)}
-                        onBlur={handleHideCommentMenu}
-                        onMouseOver={(e) => handleShowTip(e, 'comment actions')}
-                        onMouseOut={hideTip}
-                      >
-                        <MenuIcon />
-                      </CommentButton>
-                    }
-                    {(user && !me) &&
-                      <CommentButton
-                        onClick={handleShowCommentMenu('reaction', timestamp)}
-                        onBlur={handleHideCommentMenu}
-                        onMouseOver={(e) => handleShowTip(e, 'react')}
-                        onMouseOut={hideTip}
-                      >
-                        <ReactionIcon />
-                      </CommentButton>
-                    }
-                  </CommentButtonGroup>
+                  <CommentMetadata>
+                    <CommentReactions timestamp={timestamp} comments={comments} />
+                    <CommentActions>
+                      {(me && !editingComment) &&
+                        <CommentButton
+                          onClick={handleShowCommentMenu('options', timestamp)}
+                          onBlur={handleHideCommentMenu}
+                          onMouseOver={(e) => handleShowTip(e, 'actions')}
+                          onMouseOut={hideTip}
+                        >
+                          <MenuIcon />
+                        </CommentButton>
+                      }
+                      {(user && !me) &&
+                        <CommentButton
+                          onClick={handleShowCommentMenu('reaction', timestamp)}
+                          onBlur={handleHideCommentMenu}
+                          onMouseOver={(e) => handleShowTip(e, 'react')}
+                          onMouseOut={hideTip}
+                        >
+                          <ReactionIcon />
+                        </CommentButton>
+                      }
+                    </CommentActions>
+                  </CommentMetadata>
                 </Comment>
               ))}
               <DateMarker offset={`${commentsMarkerOffsetRef.current}px`}>

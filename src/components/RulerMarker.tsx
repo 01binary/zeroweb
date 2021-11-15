@@ -12,7 +12,6 @@ export const RulerMarker = styled.span`
   border-radius: ${MARKER_SIZE}px;
   border: ${props => props.theme.border} solid ${props => props.theme.borderColor};
   background: ${props => props.theme.backgroundColor};
-  z-index: 1;
   transition: border-color ${props => props.theme.animationFast} ease-out;
 `;
 

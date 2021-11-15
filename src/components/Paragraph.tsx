@@ -37,6 +37,7 @@ const Text = styled.p`
     background: ${props => props.theme.foregroundColor};
     opacity: .4;
     transition: opacity ${props => props.theme.animationFast} ease-out;
+    z-index: -1;
   }
 
   &:hover:after {

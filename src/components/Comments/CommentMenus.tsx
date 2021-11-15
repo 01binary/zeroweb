@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+import DeleteIcon from '../../images/delete.svg';
 import ReactionLolIcon from '../../images/reaction-lol.svg';
 import ReactionWowIcon from '../../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../../images/reaction-confused.svg';
@@ -17,7 +18,18 @@ const Menu = styled.div<MenuProps>`
   padding-top: 4px;
 `;
 
+const OptionMenuIcon = styled.div`
+  position: relative;
+  display: inline;
+  pointer-events: none;
+  left: -4px;
+  top: 0;
+  width: 32px;
+  height: 16px;
+`;
+
 const MenuItem = styled.button`
+  display: flex;
   padding: 10px 16px;
   cursor: pointer;
 
@@ -32,12 +44,6 @@ const MenuItem = styled.button`
   font-size: ${props => props.theme.smallFontSize};
   font-weight: ${props => props.theme.smallFontWeight};
   text-align: left;
-
-  svg {
-    position: relative;
-    pointer-events: none;
-    top: 2px;
-  }
 
   color: ${props => props.theme.foregroundColor};
 
@@ -68,6 +74,9 @@ export const OptionMenu: FC<CommentMenuProps> = ({ onSelect }) => (
       Edit
     </MenuItem>
     <MenuItem id="deleteComment" onClick={onSelect}>
+      <OptionMenuIcon>
+        <DeleteIcon />
+      </OptionMenuIcon>
       Delete
     </MenuItem>
   </Menu>

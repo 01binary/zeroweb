@@ -44,7 +44,7 @@ const typography = {
   titleFontSize: '16pt',
   titleFontWeight: 'normal',
 
-  headingFont: 'Open Sans, Helvetica Neue, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+  headingFont: '"Open Sans", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
   headingFontWeight: 550,
   headingFontSizeLargest: '22pt',
   headingFontSizeLarge: '20pt',
@@ -52,13 +52,13 @@ const typography = {
   headingFontSizeSmall: '15pt',
   headingFontSizeSmaller: '14.375pt',
 
-  normalFont: 'Open Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+  normalFont: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
   normalFontWeight: 400,
   normalFontSize: '15pt',
   normalFontLineHeight: '1.52em',
   navigationFontSize: '12.5pt',
 
-  smallFont: '"Segoe UI", -apple-system, BlinkMacSystemFont, Helvetica, Verdana, sans-serif',
+  smallFont: '"Segoe UI", Verdana, -apple-system, BlinkMacSystemFont, sans-serif',
   smallFontWeight: 400,
   smallFontSize: '12.5pt',
   smallFontLineHeight: '21.25pt',

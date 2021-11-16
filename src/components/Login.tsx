@@ -15,10 +15,23 @@ const Container = styled.section`
   color: ${props => props.theme.secondaryTextColor};
   line-height: 1.7em;
   margin-top: -1em;
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: block;
+  }
+`;
+
+const Text = styled.p`
+  @media(max-width: ${props => props.theme.mobile}) {
+    padding-top: ${props => props.theme.spacingHalf};
+  }
 `;
 
 const ProviderList = styled.ul`
   padding: 0;
+  @media(max-width: ${props => props.theme.mobile}) {
+    margin-left: ${props => props.theme.spacingHalf};
+  }
 `;
 
 const Provider = styled.li`
@@ -42,7 +55,7 @@ const Login: FC<LoginProps> = ({
     ? <Error>{loginError}</Error>
     : (
       <Container>
-        <p>Please login to comment:</p>
+        <Text>Please login to comment:</Text>
         <ProviderList>
           <Provider>
             <button onClick={handleFacebookLogin}>

@@ -43,6 +43,8 @@ const Main = styled.main`
     top: 0;
   }
 
+  text-rendering: optimizeLegibility;
+
   h1 {
     padding-right: calc(20% + ${props => props.theme.spacing});
     margin-left: ${props => props.theme.spacingHalf};
@@ -608,7 +610,7 @@ const Post: FC<PostProps> = ({
         </Metadata>
 
         <Wheelhouse>
-          <Wheel />
+          <Wheel comments={comments} />
         </Wheelhouse>
 
         <Sidebar>

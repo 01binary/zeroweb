@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useRef, useEffect, useCallback } from 'react';
+import React, { FC, useState, useRef, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import { useTooltip } from '../hooks/useTooltip';
 import { Tooltip, Arrow } from './Tooltip';
@@ -17,6 +17,7 @@ import Cell from '../images/cell.svg';
 import ShareIcon from '../images/share.svg';
 import CommentIcon from '../images/comment.svg';
 import SnapIcon from '../images/snap.svg';
+import { CommentQuery } from '../types/AllCommentsQuery';
 
 export const WHEEL_SIZE = 76;
 
@@ -149,11 +150,53 @@ const CommentButton = styled(WheelButton)`
   top: 18.5px;
 `;
 
-const Wheel: FC = () => {
+const Badge = styled.div`
+  position: absolute;
+  color: ${props => props.theme.secondaryTextColor};
+  font-family: ${props => props.theme.smallFont};
+  font-size: ${props => props.theme.smallFontSize};
+  font-weight: ${props => props.theme.smallFontWeight};
+`;
+
+const SharesBadge = styled(Badge)`
+  left: calc(100% + 0.33em);
+  top: -0.33em;
+`;
+
+const CommentsBadge = styled(Badge)`
+  left: calc(100% + 0.33em);
+  top: calc(50% - 0.66em);
+`;
+
+const ReactionsBadge = styled(Badge)`
+  left: calc(100% + 0.33em);
+  bottom: -0.33em;
+`;
+
+type WheelProps = {
+  comments: CommentQuery[];
+};
+
+const Wheel: FC<WheelProps> = ({
+  comments
+}) => {
   const [ snapTimer, setSnapTimer ] = useState<number>(0);
   const snapRef = useRef<HTMLElement>(null);
   const shareRef = useRef<HTMLElement>(null);
   const commentRef = useRef<HTMLElement>(null);
+
+  const commentCount = useMemo(() => (comments || [])
+    .filter(({ markdown }) => markdown && markdown.length)
+    .length,
+  [comments]);
+
+  const reactionCount = useMemo(() => (comments || [])
+    .filter(({ parentTimestamp, reaction }) => reaction && !parentTimestamp)
+    .length,
+  [comments]);
+
+  // TODO: keep track of shares with page view logging?
+  const shareCount = 0;
 
   const {
     hideTip,
@@ -166,8 +209,8 @@ const Wheel: FC = () => {
   const handleSnap = () => {
     if (snapTimer) return;
     setSnapTimer(window.setTimeout(() => {
-        window.clearTimeout(snapTimer);
-        setSnapTimer(0);
+      window.clearTimeout(snapTimer);
+      setSnapTimer(0);
     }, SNAP_TIME_MS));
   };
 
@@ -184,6 +227,9 @@ const Wheel: FC = () => {
             ? <StyledAnimatedSnapIcon />
             : <StyledStaticSnapIcon />
         }
+        {reactionCount &&
+          <ReactionsBadge>{reactionCount}</ReactionsBadge>
+        }
       </SnapButton>
       <ShareButton
         ref={shareRef}
@@ -192,6 +238,9 @@ const Wheel: FC = () => {
       >
         <StyledCell />
         <StyledShareIcon />
+        {shareCount &&
+          <SharesBadge>{shareCount}</SharesBadge>
+        }
       </ShareButton>
       <CommentButton
         ref={commentRef}
@@ -200,6 +249,9 @@ const Wheel: FC = () => {
       >
         <StyledCell />
         <StyledCommentIcon />
+        {commentCount &&
+          <CommentsBadge>{commentCount}</CommentsBadge>
+        }
       </CommentButton>
       <Tooltip ref={tipRef} {...tipProps} role="tooltip">
         {tooltipText}

@@ -18,6 +18,7 @@ export const AddCommentRow = styled.div`
 
   @media(max-width: ${props => props.theme.mobile}) {
     width: calc(100% - ${props => props.theme.spacingHalf});
+    ${props => props.distribute && 'justify-content: space-between'};
   }
 `;
 

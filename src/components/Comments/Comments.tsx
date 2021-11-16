@@ -526,7 +526,7 @@ const Comments: FC<CommentsProps> = ({
               <Error>{commentError}</Error>
             </AddCommentRow>
           }
-          <AddCommentRow>
+          <AddCommentRow distribute>
             <AddCommentAvatar>
               <Avatar avatarUrl={user.avatarUrl} />
             </AddCommentAvatar>

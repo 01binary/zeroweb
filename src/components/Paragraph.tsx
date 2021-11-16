@@ -59,7 +59,6 @@ const Text = styled.p`
   code {
     position: relative;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: ${props => props.theme.normalFontSize};
     background: ${props => props.theme.isDark ? props.theme.alwaysDarkColor : props.theme.accentLightColor};
     padding: ${props => props.theme.spacingQuarter};
   }

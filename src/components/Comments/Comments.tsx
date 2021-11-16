@@ -311,7 +311,7 @@ const Comments: FC<CommentsProps> = ({
   return (
     <CommentsSection
       isUserLoggedIn={Boolean(user)}
-      isLoading={showLoadingComments}
+      isLoading={loading}
       hasComments={Boolean(postComments && postComments.length)}
     >
       {postComments && (
@@ -429,6 +429,7 @@ const Comments: FC<CommentsProps> = ({
                           </Error>
                           <EditCommentButtonGroup>
                             <EditCommentButton
+                              disabled={loading}
                               onClick={handleEditCommentSave}
                               onMouseOver={(e) => handleShowTip(e, 'save')}
                               onMouseOut={hideTip}
@@ -436,6 +437,7 @@ const Comments: FC<CommentsProps> = ({
                               <SaveIcon />
                             </EditCommentButton>
                             <EditCommentButton
+                              disabled={loading}
                               onClick={handleEditCommentCancel}
                               onMouseOver={(e) => handleShowTip(e, 'cancel')}
                               onMouseOut={hideTip}
@@ -543,6 +545,7 @@ const Comments: FC<CommentsProps> = ({
           <AddCommentRow align="right">
             <PrimaryButton
               type="submit"
+              disabled={loading}
               onClick={handlePostComment}
             >
               comment

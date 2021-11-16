@@ -352,6 +352,10 @@ const SidebarPanel = styled.section`
     justify-content: space-between;
     margin-bottom: 0;
   }
+
+  @media(max-width: 380px) {
+    flex-direction: row;
+  }
 `;
 
 const Sidebar = styled.aside`
@@ -402,23 +406,10 @@ const SidebarMetadata = styled.div`
   @media(max-width: ${props => props.theme.mobile}) {
     flex: 0 1 auto;
     margin-left: 1em;
+  }
 
-    &:after {
-      content: '';
-      position: absolute;
-      left: -2.5em;
-      top: -1em;
-      bottom: -1em;
-      width: 2.5em;
-      transition: background-color ${props => props.theme.animationFast} ease-out;
-      background: linear-gradient(
-        90deg,
-        ${props => props.theme.backgroundColor + '00'} 0%,
-        ${props => props.theme.backgroundColor} 50%
-      );
-      
-      z-index: 1;
-    }
+  @media(max-width: 380px) {
+    display: none;
   }
 `;
 
@@ -498,6 +489,13 @@ const Location = styled.span`
 const Author = styled.span`
   @media(max-width: 380px) {
     display: none;
+  }
+`;
+
+const InlineTimeToRead = styled.span`
+  display: none;
+  @media(max-width: 380px) {
+    display: block;
   }
 `;
 
@@ -607,6 +605,12 @@ const Post: FC<PostProps> = ({
           <Author> by <AuthorLink /></Author>
           &nbsp;
           <Location> in <LocationLink /></Location>
+          <InlineTimeToRead>
+            /
+            &nbsp;
+            <Indicator>{timeToRead}</Indicator><span> min </span>
+            <IndicatorLabel>to read</IndicatorLabel>
+          </InlineTimeToRead>
         </Metadata>
 
         <Wheelhouse>

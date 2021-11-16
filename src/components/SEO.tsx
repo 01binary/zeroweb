@@ -50,6 +50,7 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
       <meta charSet="utf-8" />
 
       <title>{title}</title>
+
       <meta name="description" content={description || siteDesc} />
 
       <meta property="og:url" content={url} />
@@ -62,6 +63,8 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description || siteDesc} />
       <meta name="twitter:image" content={image || siteImage} />
+
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     </Helmet>
   );
 };

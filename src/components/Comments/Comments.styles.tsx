@@ -16,13 +16,14 @@ const getLineColor = props => (
   : props.theme.shadowColor
 );
 
-const getAvatarHorzOffset = (index: number, distance: number) => (
-  distance < AVATAR_TILE_MAX_DIST && index % 2
+const getAvatarHorzOffset = (index: number, distance: number) => {
+  if (index) console.log('distance from', index, distance);
+  return distance < AVATAR_TILE_MAX_DIST && index % 2
     // Tile avatars that are close together for a honeycomb pattern look
     ? -AVATAR_TILE_OFFSET
     // Center odd avatars or avatars that are too far apart
     : 0
-);
+};
 
 type CommentsSectionProps = {
   isLoading: boolean;
@@ -163,6 +164,8 @@ export const CommentsList = styled.ul`
 
   @media(max-width: ${props => props.theme.mobile}) {
     max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
 
     &:after {
       content: initial;
@@ -272,6 +275,10 @@ export const CommentAvatar = styled.div`
   position: absolute;
   left: calc(${props => getAvatarHorzOffset(props.index, props.distance)}px + ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px);
   top: -.5em;
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    left: calc(${props => `${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px`});
+  }
 `;
 
 export const CommentVotesScale = styled.div`

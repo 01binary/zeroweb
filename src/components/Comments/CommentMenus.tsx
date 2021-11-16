@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+import EditIcon from '../../images/edit.svg';
 import DeleteIcon from '../../images/delete.svg';
 import ReactionLolIcon from '../../images/reaction-lol.svg';
 import ReactionWowIcon from '../../images/reaction-wow.svg';
@@ -71,6 +72,9 @@ type CommentMenuProps = {
 export const OptionMenu: FC<CommentMenuProps> = ({ onSelect }) => (
   <Menu vertical>
     <MenuItem id="editComment" onClick={onSelect}>
+      <OptionMenuIcon>
+        <EditIcon />
+      </OptionMenuIcon>
       Edit
     </MenuItem>
     <MenuItem id="deleteComment" onClick={onSelect}>

@@ -454,7 +454,7 @@ const Comments: FC<CommentsProps> = ({
                       {(me && !editingComment) &&
                         <CommentButton
                           onClick={handleShowCommentMenu('options', timestamp)}
-                          onBlur={null/*handleHideCommentMenu*/}
+                          onBlur={handleHideCommentMenu}
                           onMouseOver={(e) => handleShowTip(e, 'actions')}
                           onMouseOut={hideTip}
                         >

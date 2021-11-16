@@ -160,6 +160,8 @@ const Main = styled.main`
   }
 
   @media(max-width: ${props => props.theme.mobile}) {
+    margin-bottom: 1em;
+
     h1, h2, h3, h4 {
       max-width: initial;
       margin-left: ${props => props.theme.spacingHalf};

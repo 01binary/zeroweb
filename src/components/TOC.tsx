@@ -54,15 +54,14 @@ const TocItemLink = styled(AnchorLink)`
   }
 `;
 
-interface TocProps {
+type TocProps = {
   headings: Array<HeadingQuery>
 };
 
 const TOC: FC<TocProps> = ({
   headings
 }) => {
-  if (headings.length === 0)
-    return null;
+  if (headings.length === 0) return null;
 
   const active = useActiveHeading(headings);
 

@@ -9,9 +9,11 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-interface HeadingQuery {
+type HeadingQuery = {
   value: string,
-  depth: number
+  depth: number,
+  url: string,
+  slug: string;
 }
 
 export default HeadingQuery;

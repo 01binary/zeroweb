@@ -31,14 +31,14 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
     },
   } = useStaticQuery(graphql`
     {
-        site {
-            siteMetadata {
-                title
-                description
-                url
-                image
-            }
+      site {
+        siteMetadata {
+          title
+          description
+          url
+          image
         }
+      }
     }`);
 
   const title = pageTitle ? `${pageTitle} - 01 Binary` : siteTitle;

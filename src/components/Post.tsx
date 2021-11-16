@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useMemo } from "react"
+import React, { useState, FC, useCallback } from "react"
 import styled from 'styled-components';
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
@@ -556,7 +556,7 @@ const Post: FC<PostProps> = ({
     }
   }
 }) => {
-  const { credentials } = useBlogContext();
+  const { credentials, user } = useBlogContext();
   const client = useApiClient(credentials);
   const {
     handleFacebookLogin,
@@ -583,6 +583,15 @@ const Post: FC<PostProps> = ({
     setReadPosition(position);
     setScrollOffset(offset);
   }, [readPosition]);
+
+  const handleSnap = useCallback(() => {
+    handleReact({
+      userName: user.name,
+      avatarUrl: user.avatarUrl,
+      parentTimestamp: null,
+      reaction: 'snap'
+    });
+  }, [user, handleReact]);
 
   return (
     <>
@@ -616,7 +625,10 @@ const Post: FC<PostProps> = ({
         </Metadata>
 
         <Wheelhouse>
-          <Wheel comments={comments} />
+          <Wheel
+            comments={comments}
+            handleSnap={handleSnap}
+          />
         </Wheelhouse>
 
         <Sidebar>

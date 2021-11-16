@@ -533,7 +533,7 @@ const Comments: FC<CommentsProps> = ({
             <AddCommentUser>
               commenting as <MetaLink to="/profile">{user.name}</MetaLink>
             </AddCommentUser>
-            <button onClick={handleLogout}>logout</button>
+            <PrimaryButton onClick={handleLogout}>logout</PrimaryButton>
           </AddCommentRow>
           <AddCommentRow>
             <AddCommentInput

@@ -24,6 +24,10 @@ export const AddCommentRow = styled.div`
 export const AddCommentAvatar = styled.div`
   display: inline;
   margin-left: calc(${props => props.theme.spacing} + ${props => props.theme.border} * 2);
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 export const AddCommentUser = styled.div`
@@ -48,4 +52,8 @@ export const AddCommentInput = styled.textarea`
   margin-top: ${props => props.theme.spacingHalf};
   margin-bottom: ${props => props.theme.spacingHalf};
   margin-left: calc(${props => props.theme.spacingOneAndHalf} + ${props => props.theme.spacingQuarter} + ${AVATAR_SIZE}px);
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    margin-left: ${props => props.theme.spacingHalf};
+  }
 `;

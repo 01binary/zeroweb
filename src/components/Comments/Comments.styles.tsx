@@ -426,6 +426,10 @@ export const CommentButton = styled.button.attrs(() => ({
       };
     }
   }
+
+  @media(max-width: ${props => props.theme.mobile}) {
+    opacity: 1;
+  }
 `;
 
 export const CommentReactionGroup = styled.div`

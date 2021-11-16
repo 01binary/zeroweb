@@ -16,14 +16,13 @@ const getLineColor = props => (
   : props.theme.shadowColor
 );
 
-const getAvatarHorzOffset = (index: number, distance: number) => {
-  if (index) console.log('distance from', index, distance);
-  return distance < AVATAR_TILE_MAX_DIST && index % 2
+const getAvatarHorzOffset = (index: number, distance: number) => (
+  distance < AVATAR_TILE_MAX_DIST && index % 2
     // Tile avatars that are close together for a honeycomb pattern look
     ? -AVATAR_TILE_OFFSET
     // Center odd avatars or avatars that are too far apart
     : 0
-};
+);
 
 type CommentsSectionProps = {
   isLoading: boolean;

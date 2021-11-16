@@ -52,7 +52,9 @@ exports.resolvers = {
       { comment },
       { user },
     ) => {
-      if (!user?.authenticated) throw new AuthenticationError(
+      const isPostReaction = comment.reaction === 'snap' && !comment.parentTimestamp;
+
+      if (!user?.authenticated && !isPostReaction) throw new AuthenticationError(
         'must be logged in with a social provider to add comments, highlights, or reactions'
       );
 
@@ -62,7 +64,7 @@ exports.resolvers = {
       if (comment.me) comment.me = undefined;
       const { slug, parentTimestamp } = comment;
 
-      if (comment.reaction) {
+      if (comment.reaction && !isPostReaction) {
         const alreadyReacted = await getReaction(slug, parentTimestamp, user.id);
         if (alreadyReacted) throw new UserInputError('already reacted to this comment or post');
       }

@@ -175,10 +175,12 @@ const ReactionsBadge = styled(Badge)`
 
 type WheelProps = {
   comments: CommentQuery[];
+  handleSnap: () => void;
 };
 
 const Wheel: FC<WheelProps> = ({
-  comments
+  comments,
+  handleSnap: handleSnapReaction,
 }) => {
   const [ snapTimer, setSnapTimer ] = useState<number>(0);
   const snapRef = useRef<HTMLElement>(null);
@@ -208,6 +210,7 @@ const Wheel: FC<WheelProps> = ({
 
   const handleSnap = () => {
     if (snapTimer) return;
+    handleSnapReaction();
     setSnapTimer(window.setTimeout(() => {
       window.clearTimeout(snapTimer);
       setSnapTimer(0);
@@ -227,7 +230,7 @@ const Wheel: FC<WheelProps> = ({
             ? <StyledAnimatedSnapIcon />
             : <StyledStaticSnapIcon />
         }
-        {reactionCount &&
+        {Boolean(reactionCount) &&
           <ReactionsBadge>{reactionCount}</ReactionsBadge>
         }
       </SnapButton>
@@ -238,7 +241,7 @@ const Wheel: FC<WheelProps> = ({
       >
         <StyledCell />
         <StyledShareIcon />
-        {shareCount &&
+        {Boolean(shareCount) &&
           <SharesBadge>{shareCount}</SharesBadge>
         }
       </ShareButton>
@@ -249,7 +252,7 @@ const Wheel: FC<WheelProps> = ({
       >
         <StyledCell />
         <StyledCommentIcon />
-        {commentCount &&
+        {Boolean(commentCount) &&
           <CommentsBadge>{commentCount}</CommentsBadge>
         }
       </CommentButton>

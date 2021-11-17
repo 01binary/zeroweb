@@ -12,12 +12,14 @@
 import React, { FC, useState, useRef, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import { useTooltip } from '../hooks/useTooltip';
+import { CommentQuery } from '../types/AllCommentsQuery';
 import { Tooltip, Arrow } from './Tooltip';
+import { Menu, MenuItem, MenuIcon, MenuProps } from './Menu';
 import Cell from '../images/cell.svg';
 import ShareIcon from '../images/share.svg';
 import CommentIcon from '../images/comment.svg';
 import SnapIcon from '../images/snap.svg';
-import { CommentQuery } from '../types/AllCommentsQuery';
+import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 
 export const WHEEL_SIZE = 76;
 
@@ -173,6 +175,31 @@ const ReactionsBadge = styled(Badge)`
   bottom: -0.33em;
 `;
 
+const ShareMenu: FC<MenuProps> = ({ onSelect }) => (
+  <Menu vertical>
+    <MenuItem id="linkShare" onClick={onSelect}>
+      <MenuIcon>
+      </MenuIcon>
+      Copy link
+    </MenuItem>
+    <MenuItem id="twitterShare" onClick={onSelect}>
+      <MenuIcon>
+      </MenuIcon>
+      Twitter
+    </MenuItem>
+    <MenuItem id="facebookShare" onClick={onSelect}>
+      <MenuIcon>
+      </MenuIcon>
+      Facebook
+    </MenuItem>
+    <MenuItem id="emailShare" onClick={onSelect}>
+      <MenuIcon>
+      </MenuIcon>
+      Email
+    </MenuItem>
+  </Menu>
+);
+
 type WheelProps = {
   comments: CommentQuery[];
   handleSnap: () => void;
@@ -184,8 +211,25 @@ const Wheel: FC<WheelProps> = ({
 }) => {
   const [ snapTimer, setSnapTimer ] = useState<number>(0);
   const snapRef = useRef<HTMLElement>(null);
-  const shareRef = useRef<HTMLElement>(null);
   const commentRef = useRef<HTMLElement>(null);
+  const {
+    hideTip: hideMenu,
+    showTip: showMenu,
+    tipProps: menuProps,
+    tipRef: menuRef,
+    targetRef,
+  } = useTooltip({
+    placement: 'bottom-start',
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6
+  });
+  const {
+    hideTip,
+    showTipFor,
+    tipProps,
+    tipRef,
+    tooltipText,
+  } = useTooltip({});
 
   const commentCount = useMemo(() => (comments || [])
     .filter(({ markdown }) => markdown && markdown.length)
@@ -197,16 +241,8 @@ const Wheel: FC<WheelProps> = ({
     .length,
   [comments]);
 
-  // TODO: keep track of shares with page view logging?
+  // TODO: load shares from fb and twitter, maybe count email and link copies?
   const shareCount = 0;
-
-  const {
-    hideTip,
-    showTipFor,
-    tipProps,
-    tipRef,
-    tooltipText,
-  } = useTooltip({});
 
   const handleSnap = () => {
     if (snapTimer) return;
@@ -235,8 +271,10 @@ const Wheel: FC<WheelProps> = ({
         }
       </SnapButton>
       <ShareButton
-        ref={shareRef}
-        onMouseOver={() => showTipFor('share', shareRef)}
+        ref={targetRef}
+        onClick={showMenu}
+        onBlur={hideMenu}
+        onMouseOver={() => showTipFor('share', targetRef)}
         onMouseOut={hideTip}
       >
         <StyledCell />
@@ -260,6 +298,13 @@ const Wheel: FC<WheelProps> = ({
         {tooltipText}
         <Arrow />
       </Tooltip>
+      <ContextMenu
+        ref={menuRef}
+        {...menuProps}
+      >
+        <ShareMenu />
+        <ContextMenuArrow />
+      </ContextMenu>
     </WheelWrapper>
   );
 };

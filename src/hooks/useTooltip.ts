@@ -28,6 +28,7 @@ interface TooltipInfo {
   hideTip: HideTipHandler;
   showTipFor: ShowTipForHandler;
   tooltipText: string;
+  tooltipVisible: boolean;
   tipProps: Record<string, any>;
   tipRef: React.MutableRefObject<HTMLElement>;
   targetRef: React.MutableRefObject<Element>;
@@ -48,6 +49,7 @@ export const useTooltip = ({
     showTip,
     hideTip,
     tooltipText,
+    tooltipVisible,
     tipProps,
     tipRef
   } = useTooltipController();
@@ -75,6 +77,7 @@ export const useTooltip = ({
     showTipFor,
     hideTip,
     tooltipText,
+    tooltipVisible,
     tipProps,
     tipRef,
     targetRef
@@ -85,6 +88,7 @@ interface TooltipController {
   showTip: ShowTipHandler;
   hideTip: HideTipHandler;
   tooltipText: string;
+  tooltipVisible: boolean;
   tipProps: Record<string, any>;
   tipRef: React.MutableRefObject<HTMLElement>;
 };
@@ -110,7 +114,7 @@ export const useTooltipController = (): TooltipController => {
 
   if (tooltipVisible) tipProps['data-show'] = 1;
 
-  return { showTip, hideTip, tooltipText, tipProps, tipRef };
+  return { showTip, hideTip, tooltipText, tooltipVisible, tipProps, tipRef };
 };
 
 interface TooltipTarget {

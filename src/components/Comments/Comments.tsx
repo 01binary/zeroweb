@@ -391,6 +391,7 @@ const Comments: FC<CommentsProps> = ({
       e.target.classList.add('comment__option--active');
       optionRef.current = e.target;
       setSelectedComment(timestamp);
+      hideTip();
       showMenu(id, optionRef);
     }
   };

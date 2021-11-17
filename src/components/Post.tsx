@@ -14,10 +14,7 @@ import styled from 'styled-components';
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import { useBlogContext } from '../hooks/useBlogContext';
-import {
-  CommentsContext,
-  useComments
-} from '../hooks/useComments';
+import { CommentsContext, useComments } from '../hooks/useComments';
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { getHeadingSlug, getHeadingUrl } from './Heading';
 import PostQuery from '../types/PostQuery';
@@ -32,8 +29,8 @@ import { Ruler, RULER_OFFSET, RULER_SELECTION_GUTTER } from './Ruler';
 import TagList from './TagList';
 import SEO from './SEO';
 import TOC from './TOC';
-import Comments from './Comments/Comments';
 import MetaLink from './MetaLink';
+import Comments from './Comments/Comments';
 import { useLogin } from "../hooks/useLogin";
 
 const Main = styled.main`

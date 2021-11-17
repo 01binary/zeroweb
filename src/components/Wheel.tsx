@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useRef, useMemo, useCallback } from 'react';
+import React, { FC, useState, useRef, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTooltip } from '../hooks/useTooltip';
 import { CommentQuery } from '../types/AllCommentsQuery';
@@ -253,6 +253,15 @@ const Wheel: FC<WheelProps> = ({
     }, SNAP_TIME_MS));
   };
 
+  useEffect(() => {
+    document.body.addEventListener('click', hideMenu);
+    document.body.addEventListener('scroll', () => console.log('scrolled!!!'));
+    return () => {
+      document.body.removeEventListener('click', hideMenu);
+      document.body.removeEventListener('scroll', hideMenu);
+    };
+  }, []);
+
   return (
     <WheelWrapper>
       <SnapButton
@@ -272,7 +281,10 @@ const Wheel: FC<WheelProps> = ({
       </SnapButton>
       <ShareButton
         ref={targetRef}
-        onClick={showMenu}
+        onClick={() => {
+          hideTip();
+          showMenu();
+        }}
         onBlur={hideMenu}
         onMouseOver={() => showTipFor('share', targetRef)}
         onMouseOut={hideTip}

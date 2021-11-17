@@ -40,7 +40,7 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
     font-family: ${props => props.theme.smallFont};
     font-size: ${props => props.theme.smallFontSize};
     font-weight: ${props => props.theme.smallFontWeight};
-    line-height: 1.5em;
+    line-height: 1.7em;
   }
 
   opacity: ${props => props.isLoading ? 0.5 : 1};
@@ -408,7 +408,7 @@ export const CommentButton = styled.button.attrs(() => ({
   height: 32px;
 
   position: relative;
-  top: 0.5em;
+  top: 8px;
 
   opacity: 0;
   transition: opacity ${props => props.theme.animationFast} ease-out;
@@ -446,8 +446,8 @@ export const CommentReactionGroup = styled.div`
 
 export const CommentReaction = styled.div`
   position: relative;
-  top: 6px;
-  padding-left: 6px;
+  top: 8px;
+  padding-left: 8px;
 `;
 
 export const CommentReactionBadge = styled.div`

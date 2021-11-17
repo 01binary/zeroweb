@@ -1,5 +1,6 @@
 import React, {
   FC,
+  useMemo,
   useLayoutEffect,
   useRef,
   useState,
@@ -20,6 +21,13 @@ import ReactionIcon from '../../images/reaction.svg';
 import MenuIcon from '../../images/comment-menu.svg';
 import SaveIcon from '../../images/accept.svg';
 import CancelIcon from '../../images/cancel.svg';
+import ReactionLolIcon from '../../images/reaction-lol.svg';
+import ReactionWowIcon from '../../images/reaction-wow.svg';
+import ReactionConfusedIcon from '../../images/reaction-confused.svg';
+import ReactionPartyIcon from '../../images/reaction-party.svg';
+import ReactionSnapIcon from '../../images/reaction-snap.svg';
+import EditIcon from '../../images/edit.svg';
+import DeleteIcon from '../../images/delete.svg';
 import { CommentQuery } from '../../types/AllCommentsQuery';
 import { Vote } from '../../types/VoteCommentQuery';
 import AddCommentMutation from '../../types/AddCommentMutation';
@@ -37,7 +45,6 @@ import {
   MAX_VOTE_SLOTS,
   UpVoteButton,
   DownVoteButton,
-  Me,
   CommentDate,
   CommentContent,
   CommentMetadata,
@@ -47,18 +54,27 @@ import {
   CommentMarker,
   DateMarkerLabel,
   MarkerCount,
-  CommentsEndDate
-} from './Comments.styles';
-import {
-  EditCommentButton,
+  CommentsEndDate,
+  CommentReactionGroup,
+  CommentReaction,
+  CommentReactionBadge,
+  CommentReactionDescription,
+  CommentVotesScale,
+  DownVote,
+  UpVote,
+  Me,
+  EditCommentForm,
+  EditCommentInput,
   EditCommentButtonGroup,
-  EditCommentForm, EditCommentInput
-} from './EditComment.styles';
-import { AddCommentAvatar, AddCommentForm, AddCommentInput, AddCommentRow, AddCommentUser } from './AddComment.styles';
-import CommentVotes from './CommentVotes';
-import CommentReactions from './CommentReactions';
-import { ReactionMenu, OptionMenu } from './CommentMenus';
+  EditCommentButton,
+  AddCommentForm,
+  AddCommentRow,
+  AddCommentAvatar,
+  AddCommentUser,
+  AddCommentInput,
+} from './Comments.styles';
 import PrimaryButton from '../PrimaryButton';
+import { Menu, MenuItem, MenuProps } from '../Menu';
 
 dayjs.extend(relativeTime);
 
@@ -69,6 +85,156 @@ const formatCommentDate = (timestamp: string): string => (
 const formatMarkerDate = (timestamp: string): string => (
   dayjs(timestamp).format('MMM YYYY')
 );
+
+type CommentReactionsProps = {
+  timestamp: string;
+  comments: CommentQuery[];
+};
+
+const CommentReactions: FC<CommentReactionsProps> = ({
+  timestamp,
+  comments
+}) => {
+  const reactions = useMemo(() => comments.filter(
+    ({ parentTimestamp, reaction }) => reaction && parentTimestamp === timestamp
+  ), [timestamp, comments]);
+
+  const count = useMemo(() => reactions.reduce(
+    (count, { reaction }) => ({
+      ...count,
+      [reaction]: (count[reaction] || 0) + 1
+    }),
+  {}), [reactions]);
+
+  return reactions.length === 0 ? null : (
+    <CommentReactionGroup>
+      {Object.keys(count).map(reaction => (
+        <CommentReaction key={reaction}>
+          {
+            reaction === 'lol' ?
+              <ReactionLolIcon /> :
+            reaction === 'wow' ?
+              <ReactionWowIcon /> :
+            reaction === 'confused' ?
+              <ReactionConfusedIcon /> :
+            reaction === 'party' ?
+              <ReactionPartyIcon /> :
+            reaction === 'snap' ?
+              <ReactionSnapIcon /> :
+            null
+          }
+          {count[reaction] > 1 &&
+            <CommentReactionBadge>
+              {count[reaction]}
+            </CommentReactionBadge>
+          }
+        </CommentReaction>
+      ))}
+    </CommentReactionGroup>
+  );
+};
+
+const OptionMenu: FC<MenuProps> = ({ onSelect }) => (
+  <Menu vertical>
+    <MenuItem id="editComment" onClick={onSelect}>
+      <MenuIcon>
+        <EditIcon />
+      </MenuIcon>
+      Edit
+    </MenuItem>
+    <MenuItem id="deleteComment" onClick={onSelect}>
+      <MenuIcon>
+        <DeleteIcon />
+      </MenuIcon>
+      Delete
+    </MenuItem>
+  </Menu>
+);
+
+const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
+  const [ reaction, setReaction ] = useState<string>(null);
+  return (
+    <Menu vertical>
+      <CommentReactionDescription>
+        {reaction}
+        {!reaction && 'choose a reaction'}
+      </CommentReactionDescription>
+      <Menu>
+        <MenuItem
+          id="snap"
+          onMouseOver={() => setReaction('snap!')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionSnapIcon />
+        </MenuItem>
+        <MenuItem
+          id="party"
+          onMouseOver={() => setReaction('four loko')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionPartyIcon />
+        </MenuItem>
+        <MenuItem
+          id="lol"
+          onMouseOver={() => setReaction('lol')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionLolIcon />
+        </MenuItem>
+        <MenuItem
+          id="wow"
+          onMouseOver={() => setReaction('surprised')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionWowIcon />
+        </MenuItem>
+        <MenuItem
+          id="confused"
+          onMouseOver={() => setReaction('confused')}
+          onMouseOut={() => setReaction(null)}
+          onClick={onSelect}
+        >
+          <ReactionConfusedIcon />
+        </MenuItem>
+      </Menu>
+    </Menu>
+  );
+};
+
+type CommentVotesProps = {
+  upVotes: number;
+  downVotes: number;
+  maxVotes: number;
+  maxSlots: number;
+};
+
+const CommentVotes: FC<CommentVotesProps> = ({
+  upVotes,
+  downVotes,
+  maxVotes,
+  maxSlots,
+}) => {
+  const upVoteCount = maxVotes <= maxSlots
+    ? upVotes
+    : Math.round((upVotes / maxVotes) * maxSlots);
+
+  const downVoteCount = maxVotes <= maxSlots
+    ? downVotes
+    : Math.round((downVotes / maxVotes) * maxSlots);
+
+  return (
+    <CommentVotesScale className="comment-votes__scale">
+      {Array.apply(null, Array(downVoteCount)).map((_, index) =>
+        <DownVote key={index}>-</DownVote>)}
+      {Array.apply(null, Array(upVoteCount)).map((_, index) =>
+        <UpVote key={index}>+</UpVote>)}
+    </CommentVotesScale>
+  );
+};
 
 type CommentsProps = {
   slug: string;

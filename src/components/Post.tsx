@@ -573,8 +573,8 @@ const Post: FC<PostProps> = ({
     handleDelete,
     handleReact,
   } = useComments(slug, client);
-  const [ readPosition, setReadPosition ] = useState<number>(0);
-  const [ scrollOffset, setScrollOffset ] = useState<number>(0);
+  const [ readPosition, setReadPosition ] = useState(0);
+  const [ scrollOffset, setScrollOffset ] = useState(0);
 
   useScrollPosition((position, offset) => {
     setReadPosition(position);

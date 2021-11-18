@@ -19,6 +19,10 @@ import Cell from '../images/cell.svg';
 import ShareIcon from '../images/share.svg';
 import CommentIcon from '../images/comment.svg';
 import SnapIcon from '../images/snap.svg';
+import ShareFacebookIcon from '../images/share-facebook.svg';
+import ShareTwitterIcon from '../images/share-twitter.svg';
+import ShareLinkIcon from '../images/share-link.svg';
+import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 
 export const WHEEL_SIZE = 76;
@@ -171,7 +175,7 @@ const CommentsBadge = styled(Badge)`
 `;
 
 const ReactionsBadge = styled(Badge)`
-  left: calc(100% + 0.33em);
+  left: calc(100% + 0.1em);
   bottom: -0.33em;
 `;
 
@@ -179,21 +183,25 @@ const ShareMenu: FC<MenuProps> = ({ onSelect }) => (
   <Menu vertical>
     <MenuItem id="linkShare" onClick={onSelect}>
       <MenuIcon>
+        <ShareLinkIcon />
       </MenuIcon>
       Copy link
     </MenuItem>
     <MenuItem id="twitterShare" onClick={onSelect}>
       <MenuIcon>
+        <ShareTwitterIcon />
       </MenuIcon>
       Twitter
     </MenuItem>
     <MenuItem id="facebookShare" onClick={onSelect}>
       <MenuIcon>
+        <ShareFacebookIcon />
       </MenuIcon>
       Facebook
     </MenuItem>
     <MenuItem id="emailShare" onClick={onSelect}>
       <MenuIcon>
+        <ShareEmailIcon />
       </MenuIcon>
       Email
     </MenuItem>
@@ -217,6 +225,7 @@ const Wheel: FC<WheelProps> = ({
     showTip: showMenu,
     tipProps: menuProps,
     tipRef: menuRef,
+    tooltipVisible: menuVisible,
     targetRef,
   } = useTooltip({
     placement: 'bottom-start',
@@ -246,6 +255,7 @@ const Wheel: FC<WheelProps> = ({
 
   const handleSnap = () => {
     if (snapTimer) return;
+    hideTip();
     handleSnapReaction();
     setSnapTimer(window.setTimeout(() => {
       window.clearTimeout(snapTimer);
@@ -254,11 +264,9 @@ const Wheel: FC<WheelProps> = ({
   };
 
   useEffect(() => {
-    document.body.addEventListener('click', hideMenu);
-    document.body.addEventListener('scroll', () => console.log('scrolled!!!'));
+    window.addEventListener('scroll', hideMenu);
     return () => {
-      document.body.removeEventListener('click', hideMenu);
-      document.body.removeEventListener('scroll', hideMenu);
+      window.removeEventListener('scroll', hideMenu);
     };
   }, []);
 
@@ -282,8 +290,12 @@ const Wheel: FC<WheelProps> = ({
       <ShareButton
         ref={targetRef}
         onClick={() => {
-          hideTip();
-          showMenu();
+          if (menuVisible) {
+            hideMenu();
+          } else {
+            hideTip();
+            showMenu();
+          }
         }}
         onBlur={hideMenu}
         onMouseOver={() => showTipFor('share', targetRef)}

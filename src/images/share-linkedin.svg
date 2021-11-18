@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g class="fill-none stroke-foreground">
+	<rect x="3.4" y="7.1" stroke-miterlimit="10" width="3.6" height="11.5"/>
+	<path stroke-miterlimit="10" d="M16.3,7.1c-1.7,0-2.8,0.4-3.6,1v-1H9.1v11.5h3.6v-7.2
+		c0,0,0-2.2,2.2-2.2S17,10,17,10v8.6h3.6V10C20.6,10,20.6,7.1,16.3,7.1z"/>
+	<circle stroke-miterlimit="10" cx="5.2" cy="3.2" r="1.8"/>
+</g>
+</svg>

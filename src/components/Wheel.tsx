@@ -21,6 +21,7 @@ import CommentIcon from '../images/comment.svg';
 import SnapIcon from '../images/snap.svg';
 import ShareFacebookIcon from '../images/share-facebook.svg';
 import ShareTwitterIcon from '../images/share-twitter.svg';
+import ShareLinkedInIcon from '../images/share-linkedin.svg';
 import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
@@ -198,6 +199,12 @@ const ShareMenu: FC<MenuProps> = ({ onSelect }) => (
         <ShareFacebookIcon />
       </MenuIcon>
       Facebook
+    </MenuItem>
+    <MenuItem id="linkedInShare" onClick={onSelect}>
+      <MenuIcon>
+        <ShareLinkedInIcon />
+      </MenuIcon>
+      LinkedIn
     </MenuItem>
     <MenuItem id="emailShare" onClick={onSelect}>
       <MenuIcon>

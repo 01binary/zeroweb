@@ -336,7 +336,10 @@ export const useComments = (
       }
     }) => {
       setLoading(false);
-      setComments([ ...comments, addReaction as CommentQuery ]);
+      if (comments)
+        setComments([ ...comments, addReaction as CommentQuery ]);
+      else
+        setComments([ addReaction as CommentQuery ]);
     })
     .catch((e: Error) => {
       setLoading(false);

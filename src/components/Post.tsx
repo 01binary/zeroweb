@@ -583,8 +583,8 @@ const Post: FC<PostProps> = ({
 
   const handleSnap = useCallback(() => {
     handleReact({
-      userName: user.name,
-      avatarUrl: user.avatarUrl,
+      userName: user?.name || 'anonymous',
+      avatarUrl: user?.avatarUrl || '',
       parentTimestamp: null,
       reaction: 'snap'
     });

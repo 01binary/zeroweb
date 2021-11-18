@@ -52,7 +52,7 @@ const typography = {
   headingFontSizeSmall: '15pt',
   headingFontSizeSmaller: '14.375pt',
 
-  normalFont: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+  normalFont: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
   normalFontWeight: 400,
   normalFontSize: '15pt',
   normalFontLineHeight: '1.52em',

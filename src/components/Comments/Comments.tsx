@@ -477,6 +477,7 @@ const Comments: FC<CommentsProps> = ({
 
   return (
     <CommentsSection
+      id="comments"
       isUserLoggedIn={Boolean(user)}
       isLoading={loading}
       hasComments={Boolean(postComments && postComments.length)}

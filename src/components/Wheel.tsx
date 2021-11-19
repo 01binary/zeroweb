@@ -9,8 +9,9 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useRef, useMemo, useEffect } from 'react';
+import React, { FC, useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import { useTooltip } from '../hooks/useTooltip';
 import { CommentQuery } from '../types/AllCommentsQuery';
 import { Tooltip, Arrow } from './Tooltip';
@@ -157,6 +158,12 @@ const CommentButton = styled(WheelButton)`
   top: 18.5px;
 `;
 
+const CommentLink = styled(AnchorLink)`
+  position: absolute;
+  left: 0;
+  top: 0;
+`;
+
 const Badge = styled.div`
   position: absolute;
   color: ${props => props.theme.secondaryTextColor};
@@ -218,11 +225,13 @@ const ShareMenu: FC<MenuProps> = ({ onSelect }) => (
 type WheelProps = {
   comments: CommentQuery[];
   handleSnap: () => void;
+  handleShare: (provider: string) => void;
 };
 
 const Wheel: FC<WheelProps> = ({
   comments,
-  handleSnap: handleSnapReaction,
+  handleSnap: handleSnapUpstream,
+  handleShare: handleShareUpstream,
 }) => {
   const [ snapTimer, setSnapTimer ] = useState<number>(0);
   const snapRef = useRef<HTMLElement>(null);
@@ -260,15 +269,30 @@ const Wheel: FC<WheelProps> = ({
   // TODO: load shares from fb and twitter, maybe count email and link copies?
   const shareCount = 0;
 
-  const handleSnap = () => {
+  const handleSnap = useCallback(() => {
     if (snapTimer) return;
     hideTip();
-    handleSnapReaction();
+    handleSnapUpstream();
     setSnapTimer(window.setTimeout(() => {
       window.clearTimeout(snapTimer);
       setSnapTimer(0);
     }, SNAP_TIME_MS));
-  };
+  }, [hideTip, handleSnapUpstream, setSnapTimer]);
+
+  const handleShare = useCallback((e) => {
+    handleShareUpstream(e.target.id);
+  }, [handleShareUpstream]);
+
+  const handleShowShareMenu = useCallback(() => {
+    if (menuVisible) {
+      hideMenu();
+    } else {
+      hideTip();
+      showMenu();
+    }
+  }, [menuVisible, hideMenu, hideTip, showMenu]);
+
+  const handleHideShareMenu = useCallback(() => setTimeout(hideMenu, 250), []);
 
   useEffect(() => {
     window.addEventListener('scroll', hideMenu);
@@ -296,16 +320,12 @@ const Wheel: FC<WheelProps> = ({
       </SnapButton>
       <ShareButton
         ref={targetRef}
-        onClick={() => {
-          if (menuVisible) {
-            hideMenu();
-          } else {
-            hideTip();
-            showMenu();
-          }
-        }}
-        onBlur={hideMenu}
-        onMouseOver={() => showTipFor('share', targetRef)}
+        onClick={handleShowShareMenu}
+        onBlur={handleHideShareMenu}
+        onMouseOver={() => showTipFor(
+          'share',
+          targetRef as React.MutableRefObject<HTMLElement>)
+        }
         onMouseOut={hideTip}
       >
         <StyledCell />
@@ -314,17 +334,19 @@ const Wheel: FC<WheelProps> = ({
           <SharesBadge>{shareCount}</SharesBadge>
         }
       </ShareButton>
-      <CommentButton
-        ref={commentRef}
-        onMouseOver={() => showTipFor('comment', commentRef)}
-        onMouseOut={hideTip}
-      >
-        <StyledCell />
-        <StyledCommentIcon />
-        {Boolean(commentCount) &&
-          <CommentsBadge>{commentCount}</CommentsBadge>
-        }
-      </CommentButton>
+      <CommentLink to={`${window.location.pathname}#comments`}>
+        <CommentButton
+          ref={commentRef}
+          onMouseOver={() => showTipFor('comment', commentRef)}
+          onMouseOut={hideTip}
+        >
+          <StyledCell />
+          <StyledCommentIcon />
+          {Boolean(commentCount) &&
+            <CommentsBadge>{commentCount}</CommentsBadge>
+          }
+        </CommentButton>
+      </CommentLink>
       <Tooltip ref={tipRef} {...tipProps} role="tooltip">
         {tooltipText}
         <Arrow />
@@ -333,7 +355,7 @@ const Wheel: FC<WheelProps> = ({
         ref={menuRef}
         {...menuProps}
       >
-        <ShareMenu />
+        <ShareMenu onSelect={handleShare} />
         <ContextMenuArrow />
       </ContextMenu>
     </WheelWrapper>

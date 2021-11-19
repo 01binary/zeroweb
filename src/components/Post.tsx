@@ -523,6 +523,12 @@ export const getDateUnits = (relativeDate: string): string => (
   relativeDate.split(' ').slice(1).join(' ')
 );
 
+const openUrl = (url, params) => {
+  const href = new URL(url);
+  href.search = new URLSearchParams(params).toString();
+  window.open(href.toString());
+};
+
 interface PostProps {
   data: PostQuery
 };
@@ -590,6 +596,37 @@ const Post: FC<PostProps> = ({
     });
   }, [user, handleReact]);
 
+  const handleShare = useCallback((shareType) => {
+    // TODO: record share count
+    switch (shareType) {
+      case 'linkShare':
+        navigator.clipboard.writeText(window.location.href);
+        break;
+      case 'facebookShare':
+        openUrl('https://www.facebook.com/sharer.php', {
+          u: window.location.href
+        });
+        break;
+      case 'twitterShare':
+        openUrl('https://twitter.com/intent/tweet', {
+          text: title,
+          url: window.location.href,
+        });
+        break;
+      case 'linkedInShare':
+        openUrl('https://www.linkedin.com/shareArticle', {
+          title,
+          url: window.location.href,
+          summary: description,
+          mini: true,
+        });
+        break;
+      case 'emailShare':
+        window.open(`mailto:?subject=${title}&body=${window.location.href}`);
+        break;
+    }
+  }, []);
+
   return (
     <>
       <Main>
@@ -625,6 +662,7 @@ const Post: FC<PostProps> = ({
           <Wheel
             comments={comments}
             handleSnap={handleSnap}
+            handleShare={handleShare}
           />
         </Wheelhouse>
 

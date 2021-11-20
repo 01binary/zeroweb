@@ -54,5 +54,9 @@ export const MenuItem = styled.button`
     .fill-foreground {
       fill: ${props => props.theme.backgroundColor};
     }
+
+    div {
+      color: ${props => props.theme.backgroundColor};
+    }
   }
 `;

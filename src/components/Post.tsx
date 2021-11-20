@@ -584,7 +584,11 @@ const Post: FC<PostProps> = ({
     handleDelete,
     handleReact,
   } = useComments(slug, client);
-  const { shares, shareCount, handleAddShare } = useShares(slug, client);
+  const {
+    shareCount,
+    sharesByType,
+    handleAddShare
+  } = useShares(slug, client);
   const [ readPosition, setReadPosition ] = useState(0);
   const [ scrollOffset, setScrollOffset ] = useState(0);
 
@@ -603,7 +607,6 @@ const Post: FC<PostProps> = ({
   }, [user, handleReact]);
 
   const handleShare = useCallback((shareType) => {
-    // TODO: record share count
     switch (shareType) {
       case 'linkShare':
         handleAddShare('link');
@@ -672,8 +675,8 @@ const Post: FC<PostProps> = ({
         <Wheelhouse>
           <Wheel
             comments={comments}
-            shares={shares}
             shareCount={shareCount}
+            sharesByType={sharesByType}
             handleSnap={handleSnap}
             handleShare={handleShare}
           />

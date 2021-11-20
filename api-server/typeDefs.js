@@ -30,6 +30,20 @@ exports.typeDefs = gql`
     rangeLength: Int
   }
 
+  enum ShareType {
+    link,
+    twitter,
+    facebook,
+    linkedIn,
+    email
+  }
+
+  type Share {
+    slug: String!
+    shareType: ShareType!
+    count: Int!
+  }
+
   type DeleteComment {
     slug: String!
     timestamp: String!
@@ -73,9 +87,15 @@ exports.typeDefs = gql`
     reaction: Reaction
   }
 
+  input ShareInput {
+    slug: String!
+    shareType: ShareType!
+  }
+
   type Query {
     comments(slug: String!): [Comment!]!
     comment(slug: String!, timestamp: String!): Comment
+    shares(slug:String!): [Share!]!
   }
 
   type Mutation {
@@ -83,6 +103,7 @@ exports.typeDefs = gql`
     editComment(comment: EditCommentInput!): Comment!
     voteComment(comment: VoteCommentInput!): Comment!
     deleteComment(comment: DeleteCommentInput!): DeleteComment
+    addShare(share: ShareInput!): Share!
   }
 
   schema {

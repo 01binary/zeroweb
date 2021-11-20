@@ -26,6 +26,7 @@ import ShareLinkedInIcon from '../images/share-linkedin.svg';
 import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
+import { ShareQuery } from '../types/AllSharesQuery';
 
 export const WHEEL_SIZE = 76;
 
@@ -223,13 +224,17 @@ const ShareMenu: FC<MenuProps> = ({ onSelect }) => (
 );
 
 type WheelProps = {
-  comments: CommentQuery[];
+  comments?: CommentQuery[];
+  shares?: ShareQuery[];
+  shareCount: number;
   handleSnap: () => void;
   handleShare: (provider: string) => void;
 };
 
 const Wheel: FC<WheelProps> = ({
   comments,
+  shares,
+  shareCount,
   handleSnap: handleSnapUpstream,
   handleShare: handleShareUpstream,
 }) => {
@@ -266,8 +271,7 @@ const Wheel: FC<WheelProps> = ({
     .length,
   [comments]);
 
-  // TODO: load shares from fb and twitter, maybe count email and link copies?
-  const shareCount = 0;
+  console.log('!! Wheel renders share count', shareCount);
 
   const handleSnap = useCallback(() => {
     if (snapTimer) return;
@@ -292,7 +296,8 @@ const Wheel: FC<WheelProps> = ({
     }
   }, [menuVisible, hideMenu, hideTip, showMenu]);
 
-  const handleHideShareMenu = useCallback(() => setTimeout(hideMenu, 250), []);
+  const handleHideShareMenu = useCallback(
+    () => setTimeout(hideMenu, 250), []);
 
   useEffect(() => {
     window.addEventListener('scroll', hideMenu);

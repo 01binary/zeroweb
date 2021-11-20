@@ -11,7 +11,7 @@
 
 export type Reaction = 'snap' | 'party' | 'lol' | 'wow' | 'confused';
 
-export interface CommentQuery {
+export type CommentQuery = {
   // Post slug (hash)
   slug: string;
 
@@ -52,7 +52,7 @@ export interface CommentQuery {
   reaction?: Reaction;
 };
 
-interface AllCommentsQuery {
+type AllCommentsQuery = {
   comments: CommentQuery[]
 };
 

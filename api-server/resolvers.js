@@ -14,6 +14,9 @@ const {
   getReaction,
   addReaction,
   getVotes,
+  getShares,
+  getShare,
+  addShare,
 } = require('./database');
 
 exports.resolvers = {
@@ -44,6 +47,10 @@ exports.resolvers = {
 
     comment: async (root, { slug, timestamp }) => {
       return getComment(slug, timestamp);
+    },
+
+    shares: async (root, { slug }) => {
+      return getShares(slug);
     },
   },
   Mutation: {
@@ -117,6 +124,20 @@ exports.resolvers = {
           ({ timestamp: voteTimestamp }) => voteTimestamp === timestamp
         ))
       }
+    },
+
+    addShare: async (
+      root,
+      { share: { slug, shareType } },
+      { user },
+    ) => {
+      const existing = await getShare(slug, shareType);
+      const count = existing ? existing.count + 1 : 1;
+      const share = { slug, shareType, count };
+
+      await addShare(share);
+
+      return share;
     },
 
     voteComment: async (

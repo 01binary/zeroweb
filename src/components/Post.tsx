@@ -32,6 +32,7 @@ import TOC from './TOC';
 import MetaLink from './MetaLink';
 import Comments from './Comments/Comments';
 import { useLogin } from "../hooks/useLogin";
+import { useShares } from "../hooks/useShares";
 
 const Main = styled.main`
   margin-bottom: 3em;
@@ -282,6 +283,10 @@ const Content = styled.section`
       &:after {
         opacity: 1;
       }
+    }
+
+    li {
+      margin: 0.5em 0;
     }
   }
 
@@ -579,6 +584,7 @@ const Post: FC<PostProps> = ({
     handleDelete,
     handleReact,
   } = useComments(slug, client);
+  const { shares, shareCount, handleAddShare } = useShares(slug, client);
   const [ readPosition, setReadPosition ] = useState(0);
   const [ scrollOffset, setScrollOffset ] = useState(0);
 
@@ -600,20 +606,24 @@ const Post: FC<PostProps> = ({
     // TODO: record share count
     switch (shareType) {
       case 'linkShare':
+        handleAddShare('link');
         navigator.clipboard.writeText(window.location.href);
         break;
       case 'facebookShare':
+        handleAddShare('facebook');
         openUrl('https://www.facebook.com/sharer.php', {
           u: window.location.href
         });
         break;
       case 'twitterShare':
+        handleAddShare('twitter');
         openUrl('https://twitter.com/intent/tweet', {
           text: title,
           url: window.location.href,
         });
         break;
       case 'linkedInShare':
+        handleAddShare('linkedIn');
         openUrl('https://www.linkedin.com/shareArticle', {
           title,
           url: window.location.href,
@@ -622,10 +632,11 @@ const Post: FC<PostProps> = ({
         });
         break;
       case 'emailShare':
+        handleAddShare('email');
         window.open(`mailto:?subject=${title}&body=${window.location.href}`);
         break;
     }
-  }, []);
+  }, [handleAddShare]);
 
   return (
     <>
@@ -661,6 +672,8 @@ const Post: FC<PostProps> = ({
         <Wheelhouse>
           <Wheel
             comments={comments}
+            shares={shares}
+            shareCount={shareCount}
             handleSnap={handleSnap}
             handleShare={handleShare}
           />

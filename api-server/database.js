@@ -5,6 +5,7 @@ AWS.config.update({ region: 'us-west-2' });
 const COMMENTS_TABLE = 'zeroweb-comments';
 const VOTES_TABLE = 'zeroweb-votes';
 const REACTIONS_TABLE = 'zeroweb-reactions';
+const SHARES_TABLE = 'zeroweb-shares';
 
 const db = new AWS.DynamoDB.DocumentClient();
 
@@ -209,10 +210,54 @@ exports.addReaction = async (
   timestamp,
   userId,
 ) => (
-  db
+  await db
     .put({
       TableName: REACTIONS_TABLE,
       Item: { slugTimestamp: `${slug}:${timestamp}`, userId },
     })
     .promise()
 );
+
+exports.getShares = async (
+  slug
+) => {
+  const { Items } = await db
+    .scan({
+      TableName: SHARES_TABLE,
+      FilterExpression: 'slug = :slug',
+      ExpressionAttributeValues: {
+        ':slug': slug
+      }
+    })
+    .promise();
+  
+  return Items;
+}
+
+exports.getShare = async (
+  slug,
+  shareType,
+) => {
+  const { Item } = await db
+    .get({
+      TableName: SHARES_TABLE,
+      Key: {
+        slug,
+        shareType,
+      },
+    })
+    .promise();
+
+  return Item;
+};
+
+exports.addShare = async ({
+  slug,
+  shareType,
+  count
+}) => {
+  await db.put({
+    TableName: SHARES_TABLE,
+    Item: { slug, shareType, count } }
+  ).promise();
+};

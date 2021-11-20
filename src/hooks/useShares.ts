@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import gql from 'graphql-tag';
 import { ApolloClient } from 'apollo-client';
 import AllSharesQuery, { ShareQuery, ShareType } from '../types/AllSharesQuery';
@@ -10,8 +10,9 @@ export const useShares = (
 ) => {
   const [ shares, setShares ] = useState<ShareQuery[] | undefined>();
   const shareCount = shares?.reduce((total, { count }) => total + count, 0) || 0;
-
-  console.log('useShares renders', shares, 'count', shareCount);
+  const sharesByType = useMemo<Partial<Record<ShareType, number>>>(() => shares?.reduce(
+    (all, { shareType, count }) => ({ ...all, [shareType]: count }),
+  {}) || {}, [shares]);
 
   useEffect(() => {
     if (!client || shares) return;
@@ -59,18 +60,10 @@ export const useShares = (
         addShare
       }
     }) => {
-      if (shares?.find(share => share.shareType === shareType)) {
+      if (shares?.find(share => share.shareType === shareType))
         setShares(shares.map(share => share.shareType === shareType ? addShare : share));
-        console.log('updated existing')
-      }
-      else if (!shares) {
-        setShares([ addShare ]);
-        console.log('added first');
-      }
-      else {
-        setShares([ ...shares, addShare ]);
-        console.log('appended')
-      }
+      else
+        setShares((shares || []).concat([ addShare ]));
     })
     .catch((e: Error) => {
       console.error(e.message);
@@ -78,8 +71,8 @@ export const useShares = (
   }, [client, slug, shares, setShares]);
 
   return {
-    shares,
     shareCount,
+    sharesByType,
     handleAddShare,
   }
 };

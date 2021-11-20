@@ -26,7 +26,7 @@ import ShareLinkedInIcon from '../images/share-linkedin.svg';
 import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
-import { ShareQuery } from '../types/AllSharesQuery';
+import { ShareQuery, ShareType } from '../types/AllSharesQuery';
 
 export const WHEEL_SIZE = 76;
 
@@ -188,53 +188,91 @@ const ReactionsBadge = styled(Badge)`
   bottom: -0.33em;
 `;
 
-const ShareMenu: FC<MenuProps> = ({ onSelect }) => (
+const ShareMenuItemBadge = styled.div`
+  position: absolute;
+  right: 1em;
+  color: ${props => props.theme.secondaryTextColor};
+`;
+
+type ShareMenuProps = {
+  sharesByType: Partial<Record<ShareType, number>>;
+} & MenuProps;
+
+const ShareMenu: FC<ShareMenuProps> = ({
+  sharesByType,
+  onSelect
+}) => (
   <Menu vertical>
     <MenuItem id="linkShare" onClick={onSelect}>
       <MenuIcon>
         <ShareLinkIcon />
       </MenuIcon>
       Copy link
+      {Boolean(sharesByType.link) &&
+        <ShareMenuItemBadge>
+          {sharesByType.link}
+        </ShareMenuItemBadge>
+      }
     </MenuItem>
     <MenuItem id="twitterShare" onClick={onSelect}>
       <MenuIcon>
         <ShareTwitterIcon />
       </MenuIcon>
       Twitter
+      {Boolean(sharesByType.twitter) &&
+        <ShareMenuItemBadge>
+          {sharesByType.twitter}
+        </ShareMenuItemBadge>
+      }
     </MenuItem>
     <MenuItem id="facebookShare" onClick={onSelect}>
       <MenuIcon>
         <ShareFacebookIcon />
       </MenuIcon>
       Facebook
+      {Boolean(sharesByType.facebook) &&
+        <ShareMenuItemBadge>
+          {sharesByType.facebook}
+        </ShareMenuItemBadge>
+      }
     </MenuItem>
     <MenuItem id="linkedInShare" onClick={onSelect}>
       <MenuIcon>
         <ShareLinkedInIcon />
       </MenuIcon>
       LinkedIn
+      {Boolean(sharesByType.linkedIn) &&
+        <ShareMenuItemBadge>
+          {sharesByType.linkedIn}
+        </ShareMenuItemBadge>
+      }
     </MenuItem>
     <MenuItem id="emailShare" onClick={onSelect}>
       <MenuIcon>
         <ShareEmailIcon />
       </MenuIcon>
       Email
+      {Boolean(sharesByType.email) &&
+        <ShareMenuItemBadge>
+          {sharesByType.email}
+        </ShareMenuItemBadge>
+      }
     </MenuItem>
   </Menu>
 );
 
 type WheelProps = {
   comments?: CommentQuery[];
-  shares?: ShareQuery[];
   shareCount: number;
+  sharesByType: Partial<Record<ShareType, number>>;
   handleSnap: () => void;
   handleShare: (provider: string) => void;
 };
 
 const Wheel: FC<WheelProps> = ({
   comments,
-  shares,
   shareCount,
+  sharesByType,
   handleSnap: handleSnapUpstream,
   handleShare: handleShareUpstream,
 }) => {
@@ -270,8 +308,6 @@ const Wheel: FC<WheelProps> = ({
     .filter(({ parentTimestamp, reaction }) => reaction && !parentTimestamp)
     .length,
   [comments]);
-
-  console.log('!! Wheel renders share count', shareCount);
 
   const handleSnap = useCallback(() => {
     if (snapTimer) return;
@@ -360,7 +396,7 @@ const Wheel: FC<WheelProps> = ({
         ref={menuRef}
         {...menuProps}
       >
-        <ShareMenu onSelect={handleShare} />
+        <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
         <ContextMenuArrow />
       </ContextMenu>
     </WheelWrapper>

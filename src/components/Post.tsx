@@ -11,6 +11,7 @@
 
 import React, { useState, FC, useCallback } from "react"
 import styled from 'styled-components';
+import { MDXProvider } from '@mdx-js/react';
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import { useBlogContext } from '../hooks/useBlogContext';
@@ -20,7 +21,6 @@ import { getHeadingSlug, getHeadingUrl } from './Heading';
 import PostQuery from '../types/PostQuery';
 import HeadingQuery from '../types/HeadingQuery';
 import useScrollPosition from '../hooks/useScrollPosition';
-import useApiClient from '../hooks/useApiClient';
 import GaugeIcon from '../images/gauge.svg';
 import ClockIcon from '../images/clock.svg';
 import { Heading } from './Heading';
@@ -31,6 +31,21 @@ import SEO from './SEO';
 import TOC from './TOC';
 import MetaLink from './MetaLink';
 import Comments from './Comments/Comments';
+import Code from '../components/Code';
+import Paragraph from '../components/Paragraph';
+import Blockquote from '../components/Blockquote';
+import {
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4
+} from '../components/Heading';
+import {
+  Table,
+  TableHeading,
+  TableRow,
+  TableCell
+} from '../components/Table';
 import { useLogin } from "../hooks/useLogin";
 import { useShares } from "../hooks/useShares";
 
@@ -564,8 +579,7 @@ const Post: FC<PostProps> = ({
     }
   }
 }) => {
-  const { credentials, user } = useBlogContext();
-  const client = useApiClient(credentials);
+  const { user, client } = useBlogContext();
   const {
     handleFacebookLogin,
     handleGoogleLogin,
@@ -642,7 +656,19 @@ const Post: FC<PostProps> = ({
   }, [handleAddShare]);
 
   return (
-    <>
+    <MDXProvider components={{
+      h1: Heading1,
+      h2: Heading2,
+      h3: Heading3,
+      h4: Heading4,
+      pre: Code,
+      table: Table,
+      th: TableHeading,
+      tr: TableRow,
+      td: TableCell,
+      p: Paragraph,
+      blockquote: Blockquote,
+    }}>
       <Main>
         <SEO
           title={title}
@@ -726,7 +752,7 @@ const Post: FC<PostProps> = ({
         readPosition={readPosition}
         scrollOffset={scrollOffset}
       />
-    </>
+    </MDXProvider>
   );
 };
 

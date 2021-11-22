@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 import { createContext, useContext } from 'react';
+import { ApolloClient } from 'apollo-client';
 import {
   User,
   SetUserHandler,
@@ -20,8 +21,9 @@ import {
 interface BlogContextProps {
   url: string;
   collection: string;
-  user: User;
-  credentials: AWSSignature,
+  client: ApolloClient | null;
+  user: User | null;
+  credentials: AWSSignature | null,
   setUser: SetUserHandler;
   setCredentials: SetCredentialsHandler;
 };
@@ -30,6 +32,7 @@ export const BlogContext = createContext<BlogContextProps>({
   url: '',
   collection: '',
   user: null,
+  client: null,
   credentials: null,
   setUser: null,
   setCredentials: null,

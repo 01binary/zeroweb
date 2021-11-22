@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ApolloClient } from 'apollo-client';
+import { BaseNetworkInterface } from 'apollo-client/transport/networkInterface';
 import {
-    AwsApiGwNetworkInterface
+  AwsApiGwNetworkInterface
 } from 'apollo-client-aws-ni/api-gw-connector';
 import { AWSSignature } from '../auth/types';
 import loadScript from '../auth/loadScript';
+import { ExecutionResult } from 'graphql';
 
 const SCRIPTS = [
   ['axios-standalone', '/lib/axios/dist/axios.standalone.js'],
@@ -22,8 +24,21 @@ const SCRIPTS = [
 
 declare var apigClientFactory: any;
 
+class NotInitialized extends BaseNetworkInterface {
+  constructor() {
+    super('empty');
+  }
+
+  query(request: Request): Promise<ExecutionResult> {
+    return Promise.reject();
+  }
+};
+
 const useApiClient = (signature: AWSSignature): ApolloClient => {
-  const [ client, setClient ] = useState<ApolloClient>();
+  const [ client, setClient ] = useState(new ApolloClient({
+    // Defer queries against the server until we get an authentication token
+    networkInterface: new NotInitialized()
+  }));
 
   useEffect(() => {
     if (!signature) return;

@@ -591,13 +591,12 @@ const Post: FC<PostProps> = ({
     comments,
     loading,
     error,
-    commentError,
     handleVote,
     handleAdd,
     handleEdit,
     handleDelete,
     handleReact,
-  } = useComments(slug, client);
+  } = useComments(slug);
   const {
     shareCount,
     sharesByType,
@@ -738,7 +737,6 @@ const Post: FC<PostProps> = ({
         loading={loading}
         error={error}
         loginError={loginError}
-        commentError={commentError}
         comments={comments}
         handleVote={handleVote}
         handleAdd={handleAdd}

@@ -11,7 +11,7 @@ export const Menu = styled.div<{ vertical?: boolean }>`
   padding-top: 4px;
 `;
 
-export const MenuIcon = styled.div`
+export const MenuItemIcon = styled.div`
   position: relative;
   display: inline;
   pointer-events: none;
@@ -39,6 +39,10 @@ export const MenuItem = styled.button`
   text-align: left;
 
   color: ${props => props.theme.foregroundColor};
+
+  svg {
+    pointer-events: none;
+  }
 
   &:hover {
     color: ${props => props.theme.backgroundColor};

@@ -11,7 +11,7 @@
 
 import React, { FC, useContext, useState } from 'react';
 import { ThemeContext } from "styled-components";
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/client';
 import { RouteComponentProps } from '@reach/router';
 import { BlogContext } from '../hooks/useBlogContext';
 import { GlobalStyle } from '../theme';

@@ -601,7 +601,7 @@ const Post: FC<PostProps> = ({
     shareCount,
     sharesByType,
     handleAddShare
-  } = useShares(slug, client);
+  } = useShares(slug);
   const [ readPosition, setReadPosition ] = useState(0);
   const [ scrollOffset, setScrollOffset ] = useState(0);
 

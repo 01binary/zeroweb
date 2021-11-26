@@ -74,7 +74,8 @@ import {
   AddCommentInput,
 } from './Comments.styles';
 import PrimaryButton from '../PrimaryButton';
-import { Menu, MenuItem, MenuProps } from '../Menu';
+import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../Menu';
+import { FetchResult } from '@apollo/client';
 
 dayjs.extend(relativeTime);
 
@@ -137,15 +138,15 @@ const CommentReactions: FC<CommentReactionsProps> = ({
 const OptionMenu: FC<MenuProps> = ({ onSelect }) => (
   <Menu vertical>
     <MenuItem id="editComment" onClick={onSelect}>
-      <MenuIcon>
+      <MenuItemIcon>
         <EditIcon />
-      </MenuIcon>
+      </MenuItemIcon>
       Edit
     </MenuItem>
     <MenuItem id="deleteComment" onClick={onSelect}>
-      <MenuIcon>
+      <MenuItemIcon>
         <DeleteIcon />
-      </MenuIcon>
+      </MenuItemIcon>
       Delete
     </MenuItem>
   </Menu>
@@ -242,10 +243,9 @@ type CommentsProps = {
   loading: boolean;
   error: string | null;
   loginError: string | null;
-  commentError: string | null;
   handleVote: (timestamp: string, vote: Vote) => void;
-  handleAdd: (comment: AddCommentMutation) => Promise<void>;
-  handleEdit: (comment: EditCommentMutation) => Promise<void>;
+  handleAdd: (comment: AddCommentMutation) => Promise<FetchResult>;
+  handleEdit: (comment: EditCommentMutation) => Promise<FetchResult>;
   handleDelete: (timestamp: string) => void;
   handleReact: (comment: ReactCommentMutation) => void;
   handleFacebookLogin: () => void;
@@ -262,7 +262,6 @@ const Comments: FC<CommentsProps> = ({
   loading,
   error,
   loginError,
-  commentError,
   handleVote,
   handleAdd,
   handleEdit,
@@ -397,13 +396,13 @@ const Comments: FC<CommentsProps> = ({
   };
 
   const handleReactToComment = useCallback((e) => {
-    handleReact({
+    selectedComment && handleReact({
       userName: user.name,
       avatarUrl: user.avatarUrl,
       parentTimestamp: selectedComment,
       reaction: e.target.id
     });
-  }, [handleReact]);
+  }, [handleReact, selectedComment]);
 
   const handleEditComment = useCallback(() => {
     setEditingComment(selectedComment);
@@ -592,9 +591,6 @@ const Comments: FC<CommentsProps> = ({
                             placeholder="edit your comment"
                             onChange={handleEditCommentChange}
                           />
-                          <Error>
-                            {commentError}
-                          </Error>
                           <EditCommentButtonGroup>
                             <EditCommentButton
                               disabled={loading}
@@ -689,11 +685,6 @@ const Comments: FC<CommentsProps> = ({
           onSubmit={(e) => e.preventDefault()}
           hasComments={Boolean(postComments && postComments.length)}
         >
-          {commentError &&
-            <AddCommentRow>
-              <Error>{commentError}</Error>
-            </AddCommentRow>
-          }
           <AddCommentRow distribute>
             <AddCommentAvatar>
               <Avatar avatarUrl={user.avatarUrl} />

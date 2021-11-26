@@ -15,7 +15,7 @@ import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import { useTooltip } from '../hooks/useTooltip';
 import { CommentQuery } from '../types/AllCommentsQuery';
 import { Tooltip, Arrow } from './Tooltip';
-import { Menu, MenuItem, MenuIcon, MenuProps } from './Menu';
+import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
 import Cell from '../images/cell.svg';
 import ShareIcon from '../images/share.svg';
 import CommentIcon from '../images/comment.svg';
@@ -204,9 +204,9 @@ const ShareMenu: FC<ShareMenuProps> = ({
 }) => (
   <Menu vertical>
     <MenuItem id="linkShare" onClick={onSelect}>
-      <MenuIcon>
+      <MenuItemIcon>
         <ShareLinkIcon />
-      </MenuIcon>
+      </MenuItemIcon>
       Copy link
       {Boolean(sharesByType.link) &&
         <ShareMenuItemBadge>
@@ -215,9 +215,9 @@ const ShareMenu: FC<ShareMenuProps> = ({
       }
     </MenuItem>
     <MenuItem id="twitterShare" onClick={onSelect}>
-      <MenuIcon>
+      <MenuItemIcon>
         <ShareTwitterIcon />
-      </MenuIcon>
+      </MenuItemIcon>
       Twitter
       {Boolean(sharesByType.twitter) &&
         <ShareMenuItemBadge>
@@ -226,9 +226,9 @@ const ShareMenu: FC<ShareMenuProps> = ({
       }
     </MenuItem>
     <MenuItem id="facebookShare" onClick={onSelect}>
-      <MenuIcon>
+      <MenuItemIcon>
         <ShareFacebookIcon />
-      </MenuIcon>
+      </MenuItemIcon>
       Facebook
       {Boolean(sharesByType.facebook) &&
         <ShareMenuItemBadge>
@@ -237,9 +237,9 @@ const ShareMenu: FC<ShareMenuProps> = ({
       }
     </MenuItem>
     <MenuItem id="linkedInShare" onClick={onSelect}>
-      <MenuIcon>
+      <MenuItemIcon>
         <ShareLinkedInIcon />
-      </MenuIcon>
+      </MenuItemIcon>
       LinkedIn
       {Boolean(sharesByType.linkedIn) &&
         <ShareMenuItemBadge>
@@ -248,9 +248,9 @@ const ShareMenu: FC<ShareMenuProps> = ({
       }
     </MenuItem>
     <MenuItem id="emailShare" onClick={onSelect}>
-      <MenuIcon>
+      <MenuItemIcon>
         <ShareEmailIcon />
-      </MenuIcon>
+      </MenuItemIcon>
       Email
       {Boolean(sharesByType.email) &&
         <ShareMenuItemBadge>

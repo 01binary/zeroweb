@@ -1,5 +1,17 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Apollo client setup for GraphQL API calls.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import { useEffect, useState } from 'react';
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 import { AWSSignature } from '../auth/types';
 
 // https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-generate-sdk-javascript.html
@@ -37,20 +49,21 @@ const useApiClient = (signature: AWSSignature): ApolloClient<NormalizedCacheObje
         })
       });
 
-      setClient(new ApolloClient({
-        cache: new InMemoryCache({
-          typePolicies: {
-            Query: {
-              fields: {
-                comments: {
-                  merge: (first, second) => second
-                }
+      const storage = new LocalStorageWrapper(window.localStorage);
+      const cache = new InMemoryCache({
+        typePolicies: {
+          Query: {
+            fields: {
+              comments: {
+                merge: (first, second) => second
               }
             }
           }
-        }),
-        link
-      }));
+        }
+      });
+
+      persistCache({ cache, storage }).then(
+        () => setClient(new ApolloClient({ cache, link })));
   }, [signature, setClient]);
 
   return client;

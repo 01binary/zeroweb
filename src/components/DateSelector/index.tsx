@@ -66,8 +66,6 @@ const DateSelector: FC<DateSelectorProps> = ({
         limit
     ), [nodes, year, limit]);
 
-    console.log(contrib);
-
     const hasNext = pageNumber < numberOfPages - 1;
     const hasPrev = pageNumber > 0;
 

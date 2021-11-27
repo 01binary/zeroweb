@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Post shares queries and mutations.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { useCallback, useMemo } from 'react';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/client';

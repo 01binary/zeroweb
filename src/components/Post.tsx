@@ -15,7 +15,8 @@ import { MDXProvider } from '@mdx-js/react';
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import { useBlogContext } from '../hooks/useBlogContext';
-import { CommentsContext, useComments } from '../hooks/useComments';
+import { COMMENTS, CommentsContext, useComments } from '../hooks/useComments';
+import { SHARES, useShares } from "../hooks/useShares";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { getHeadingSlug, getHeadingUrl } from './Heading';
 import PostQuery from '../types/PostQuery';
@@ -47,7 +48,7 @@ import {
   TableCell
 } from '../components/Table';
 import { useLogin } from "../hooks/useLogin";
-import { useShares } from "../hooks/useShares";
+import { gql, useQuery } from "@apollo/client";
 
 const Main = styled.main`
   margin-bottom: 3em;
@@ -549,8 +550,14 @@ const openUrl = (url, params) => {
   window.open(href.toString());
 };
 
-interface PostProps {
-  data: PostQuery
+const USER_CONTENT = gql`
+  query userContent ($slug: String!) {
+    ${COMMENTS}
+    ${SHARES}
+  }`;
+
+type PostProps = {
+  data: PostQuery;
 };
 
 const Post: FC<PostProps> = ({
@@ -579,7 +586,7 @@ const Post: FC<PostProps> = ({
     }
   }
 }) => {
-  const { user, client } = useBlogContext();
+  const { user } = useBlogContext();
   const {
     handleFacebookLogin,
     handleGoogleLogin,
@@ -588,23 +595,24 @@ const Post: FC<PostProps> = ({
     loginError,
   } = useLogin();
   const {
-    comments,
-    loading,
-    error,
+    loading, error, data: userContent,
+  } = useQuery(USER_CONTENT, {
+    variables: { slug },
+  });
+  const {
     handleVote,
     handleAdd,
     handleEdit,
     handleDelete,
     handleReact,
-  } = useComments(slug);
+  } = useComments(slug, USER_CONTENT);
   const {
     shareCount,
     sharesByType,
     handleAddShare
-  } = useShares(slug);
+  } = useShares(slug, USER_CONTENT, userContent?.shares);
   const [ readPosition, setReadPosition ] = useState(0);
   const [ scrollOffset, setScrollOffset ] = useState(0);
-
   useScrollPosition((position, offset) => {
     setReadPosition(position);
     setScrollOffset(offset);
@@ -612,7 +620,7 @@ const Post: FC<PostProps> = ({
 
   const handleSnap = useCallback(() => {
     handleReact({
-      userName: user?.name || 'anonymous',
+      userName: user?.name || '',
       avatarUrl: user?.avatarUrl || '',
       parentTimestamp: null,
       reaction: 'snap'
@@ -699,7 +707,7 @@ const Post: FC<PostProps> = ({
 
         <Wheelhouse>
           <Wheel
-            comments={comments}
+            comments={userContent?.comments}
             shareCount={shareCount}
             sharesByType={sharesByType}
             handleSnap={handleSnap}
@@ -724,7 +732,7 @@ const Post: FC<PostProps> = ({
         <HeroImage fluid={fluid} />
 
         <Content role="document">
-          <CommentsContext.Provider value={{ comments }}>
+          <CommentsContext.Provider value={{ comments: userContent?.comments }}>
             <MDXRenderer>
               {body}
             </MDXRenderer>
@@ -735,9 +743,9 @@ const Post: FC<PostProps> = ({
       <Comments
         slug={slug}
         loading={loading}
-        error={error}
+        error={error?.message}
         loginError={loginError}
-        comments={comments}
+        comments={userContent?.comments}
         handleVote={handleVote}
         handleAdd={handleAdd}
         handleEdit={handleEdit}

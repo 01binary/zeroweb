@@ -15,8 +15,8 @@ import React, {
   useCallback
 } from "react";
 import gql from 'graphql-tag';
-import { FetchResult, useMutation, useQuery } from '@apollo/client';
-import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
+import { DocumentNode, FetchResult, useMutation } from '@apollo/client';
+import { CommentQuery } from '../types/AllCommentsQuery';
 import AddCommentQuery from '../types/AddCommentQuery';
 import EditCommentQuery from '../types/EditCommentQuery';
 import DeleteCommentQuery from '../types/DeleteCommentQuery';
@@ -38,25 +38,23 @@ export const useCommentsContext: () => CommentsContextProps = () => (
   useContext(CommentsContext)
 );
 
-export const COMMENTS = gql`
-  query comments ($slug: String!) {
-    comments (slug: $slug) {
-      slug
-      timestamp
-      parentTimestamp
-      userId
-      userName
-      avatarUrl
-      upVotes
-      downVotes
-      voted
-      reaction
-      markdown
-      paragraph
-      rangeStart
-      rangeLength
-      me
-    }
+export const COMMENTS = `
+  comments (slug: $slug) {
+    slug
+    timestamp
+    parentTimestamp
+    userId
+    userName
+    avatarUrl
+    upVotes
+    downVotes
+    voted
+    reaction
+    markdown
+    paragraph
+    rangeStart
+    rangeLength
+    me
   }`;
 
 const VOTE_COMMENT = gql`
@@ -141,15 +139,9 @@ const REACT_COMMENT = gql`
   }`;
 
 export const useComments = (
-  slug: string
+  slug: string,
+  query: DocumentNode,
 ) => {
-  const {
-    loading,
-    error,
-    data,
-  } = useQuery<AllCommentsQuery>(COMMENTS, {
-    variables: { slug },
-  });
   const [ voteComment ] = useMutation<VoteCommentQuery>(VOTE_COMMENT);
   const [ addComment ] = useMutation<AddCommentQuery>(ADD_COMMENT);
   const [ editComment ] = useMutation<EditCommentQuery>(EDIT_COMMENT);
@@ -167,11 +159,11 @@ export const useComments = (
       },
       update (cache, { data: { voteComment }}) {
         const { comments } = cache.readQuery({
-          query: COMMENTS,
+          query,
           variables: { slug }
         });
         cache.writeQuery({
-          query: COMMENTS,
+          query,
           variables: { slug },
           data: { comments: comments.map((comment) => (
             comment.timestamp === timestamp
@@ -205,11 +197,11 @@ export const useComments = (
       },
       update (cache, { data: { addComment }}) {
         const { comments } = cache.readQuery({
-          query: COMMENTS,
+          query,
           variables: { slug }
         });
         cache.writeQuery({
-          query: COMMENTS,
+          query,
           variables: { slug },
           data: { comments: comments.concat(addComment) }
         })
@@ -233,11 +225,11 @@ export const useComments = (
       },
       update (cache, { data: { editComment }}) {
         const { comments } = cache.readQuery({
-          query: COMMENTS,
+          query,
           variables: { slug }
         });
         cache.writeQuery({
-          query: COMMENTS,
+          query,
           variables: { slug },
           data: { comments: comments.map((comment) => (
             comment.timestamp === timestamp
@@ -271,12 +263,12 @@ export const useComments = (
         if (!deleted) return;
 
         const { comments } = cache.readQuery({
-          query: COMMENTS,
+          query,
           variables: { slug }
         });
 
         cache.writeQuery({
-          query: COMMENTS,
+          query,
           variables: { slug },
           data: { comments: comments.filter(
             comment => comment.timestamp !== timestamp
@@ -306,11 +298,11 @@ export const useComments = (
       },
       update (cache, { data: { addComment }}) {
         const { comments } = cache.readQuery({
-          query: COMMENTS,
+          query,
           variables: { slug }
         });
         cache.writeQuery({
-          query: COMMENTS,
+          query,
           variables: { slug },
           data: { comments: comments.concat(addComment)}
         });
@@ -319,9 +311,6 @@ export const useComments = (
   [slug, reactToComment]);
 
   return {
-    comments: data?.comments,
-    error: error?.message,
-    loading,
     handleVote,
     handleAdd,
     handleEdit,

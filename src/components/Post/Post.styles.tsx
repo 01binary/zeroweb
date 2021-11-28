@@ -4,56 +4,20 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Post template (post details when clicking on a post).
+|  Blog post styles.
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useCallback } from "react"
 import styled from 'styled-components';
-import { MDXProvider } from '@mdx-js/react';
 import Img from "gatsby-image";
-import { graphql } from "gatsby";
-import { useBlogContext } from '../hooks/useBlogContext';
-import { COMMENTS, CommentsContext, useComments } from '../hooks/useComments';
-import { SHARES, useShares } from "../hooks/useShares";
-import { MDXRenderer } from "gatsby-plugin-mdx";
-import { getHeadingSlug, getHeadingUrl } from './Heading';
-import PostQuery from '../types/PostQuery';
-import HeadingQuery from '../types/HeadingQuery';
-import useScrollPosition from '../hooks/useScrollPosition';
-import GaugeIcon from '../images/gauge.svg';
-import ClockIcon from '../images/clock.svg';
-import { Heading } from './Heading';
-import Wheel, { WHEEL_SIZE } from './Wheel';
-import { Ruler, RULER_OFFSET, RULER_SELECTION_GUTTER } from './Ruler';
-import TagList from './TagList';
-import SEO from './SEO';
-import TOC from './TOC';
-import MetaLink from './MetaLink';
-import Comments from './Comments/Comments';
-import Code from '../components/Code';
-import Paragraph from '../components/Paragraph';
-import Blockquote from '../components/Blockquote';
-import {
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4
-} from '../components/Heading';
-import {
-  Table,
-  TableHeading,
-  TableRow,
-  TableCell
-} from '../components/Table';
-import { useLogin } from "../hooks/useLogin";
-import { ApolloCache, gql, useQuery } from "@apollo/client";
-import AllCommentsQuery, { CommentQuery } from "../types/AllCommentsQuery";
-import AllSharesQuery, { ShareQuery } from "../types/AllSharesQuery";
-import useUserContent from "../hooks/useUserContent";
+import GaugeIcon from '../../images/gauge.svg';
+import ClockIcon from '../../images/clock.svg';
+import { Heading } from '../Heading';
+import { WHEEL_SIZE } from '../Wheel';
+import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
 
-const Main = styled.main`
+export const Main = styled.main`
   margin-bottom: 3em;
 
   &:after {
@@ -198,7 +162,7 @@ const Main = styled.main`
   }
 `;
 
-const HeroImage = styled(Img)`
+export const HeroImage = styled(Img)`
   overflow: initial !important;
   max-width: calc(80% - 3em);
   margin-right: 1.5em;
@@ -244,7 +208,7 @@ const HeroImage = styled(Img)`
   }
 `;
 
-const Metadata = styled.section`
+export const Metadata = styled.section`
   display: flex;
 
   font-family: ${props => props.theme.smallFont};
@@ -276,7 +240,7 @@ const Metadata = styled.section`
   }
 `;
 
-const Content = styled.section`
+export const Content = styled.section`
   max-width: calc(80% - 2em);
 
   opacity: 0;
@@ -326,7 +290,7 @@ const Content = styled.section`
   }
 `;
 
-const Wheelhouse = styled.section`
+export const Wheelhouse = styled.section`
   opacity: 1;
   position: sticky;
   float: left;
@@ -365,7 +329,7 @@ const Wheelhouse = styled.section`
   }
 `;
 
-const SidebarPanel = styled.section`
+export const SidebarPanel = styled.section`
   display: block;
 
   @media(max-width: ${props => props.theme.mobile}) {
@@ -381,7 +345,7 @@ const SidebarPanel = styled.section`
   }
 `;
 
-const Sidebar = styled.aside`
+export const Sidebar = styled.aside`
   position: sticky;
   float: right;
   top: 0;
@@ -403,7 +367,7 @@ const Sidebar = styled.aside`
   }
 `;
 
-const SidebarMetadata = styled.div`
+export const SidebarMetadata = styled.div`
   position: relative;
   font-family: ${props => props.theme.smallFont};
   font-size: ${props => props.theme.smallFontSize};
@@ -436,7 +400,7 @@ const SidebarMetadata = styled.div`
   }
 `;
 
-const Gauge = styled(GaugeIcon)`
+export const Gauge = styled(GaugeIcon)`
   float: left;
   margin: .25em .25em 0 .5em;
 
@@ -451,7 +415,7 @@ const Gauge = styled(GaugeIcon)`
   }
 `;
 
-const Indicator = styled.span`
+export const Indicator = styled.span`
   font-size: 20pt;
   color: ${props => props.theme.foregroundColor};
 
@@ -460,22 +424,22 @@ const Indicator = styled.span`
   }
 `;
 
-const InlineIndicator = styled.span`
+export const InlineIndicator = styled.span`
   color: ${props => props.theme.foregroundColor};
 `;
 
-const IndicatorLabel = styled.div`
+export const IndicatorLabel = styled.div`
   @media(max-width: ${props => props.theme.mobile}) {
     display: inline;
   }
 `;
 
-const Clock = styled(ClockIcon)`
+export const Clock = styled(ClockIcon)`
   margin-top: -1px;
   margin-right: ${props => props.theme.spacingQuarter};
 `;
 
-const PostHeading = styled(Heading)`
+export const PostHeading = styled(Heading)`
   animation: slideIn ${props => props.theme.animationSlow} ease-out 1;
 
   @keyframes slideIn {
@@ -491,312 +455,21 @@ const PostHeading = styled(Heading)`
   }
 `;
 
-const AuthorLink = () => (
-  <MetaLink to="/about">
-    Valeriy Novytskyy
-  </MetaLink>
-);
-
-const LocationLink = () => (
-  <MetaLink to="#">
-    Portland, OR
-  </MetaLink>
-);
-
-const Location = styled.span`
+export const Location = styled.span`
   @media(max-width: 540px) {
     display: none;
   }
 `;
 
-const Author = styled.span`
+export const Author = styled.span`
   @media(max-width: 380px) {
     display: none;
   }
 `;
 
-const InlineTimeToRead = styled.span`
+export const InlineTimeToRead = styled.span`
   display: none;
   @media(max-width: 380px) {
     display: block;
   }
 `;
-
-interface SlugifiedHeading extends HeadingQuery {
-  slug: string,
-  url: string
-};
-
-const slugifyHeadings = (
-  baseUrl: string,
-  headings: HeadingQuery[]
-): SlugifiedHeading[] => headings.map((heading) => {
-  const slug = getHeadingSlug(false, heading.value);
-  return {
-      ...heading,
-      url: getHeadingUrl(baseUrl, slug),
-      slug
-  };
-});
-
-export const getDateValue = (relativeDate: string): string => (
-  relativeDate.split(' ')[0]
-);
-
-export const getDateUnits = (relativeDate: string): string => (
-  relativeDate.split(' ').slice(1).join(' ')
-);
-
-const openUrl = (url, params) => {
-  const href = new URL(url);
-  href.search = new URLSearchParams(params).toString();
-  window.open(href.toString());
-};
-
-type PostProps = {
-  data: PostQuery;
-};
-
-const Post: FC<PostProps> = ({
-  data: {
-    mdx: {
-      slug,
-      body,
-      timeToRead,
-      frontmatter: {
-        title,
-        description,
-        image: {
-          childImageSharp: { fluid }
-        },
-        relativeDate
-      },
-      fields: {
-        url,
-        collection,
-        tags
-      },
-      headings
-    },
-    allMdx: {
-      group
-    }
-  }
-}) => {
-  const [ readPosition, setReadPosition ] = useState(0);
-  const [ scrollOffset, setScrollOffset ] = useState(0);
-
-  useScrollPosition((position, offset) => {
-    setReadPosition(position);
-    setScrollOffset(offset);
-  }, [readPosition]);
-
-  const { user } = useBlogContext();
-
-  const {
-    handleFacebookLogin,
-    handleGoogleLogin,
-    handleTwitterLogin,
-    handleLogout,
-    loginError,
-  } = useLogin();
-
-  const {
-    loading,
-    error,
-    comments,
-    handleAdd,
-    handleEdit,
-    handleDelete,
-    handleVote,
-    handleReact,
-    shares,
-    shareCount,
-    sharesByType,
-    handleAddShare,
-  } = useUserContent(slug);
-
-  const handleSnap = useCallback(() => {
-    handleReact({
-      userName: user?.name || '',
-      avatarUrl: user?.avatarUrl || '',
-      parentTimestamp: null,
-      reaction: 'snap'
-    });
-  }, [user, handleReact]);
-
-  const handleShare = useCallback((shareType) => {
-    switch (shareType) {
-      case 'linkShare':
-        handleAddShare('link');
-        navigator.clipboard.writeText(window.location.href);
-        break;
-      case 'facebookShare':
-        handleAddShare('facebook');
-        openUrl('https://www.facebook.com/sharer.php', {
-          u: window.location.href
-        });
-        break;
-      case 'twitterShare':
-        handleAddShare('twitter');
-        openUrl('https://twitter.com/intent/tweet', {
-          text: title,
-          url: window.location.href,
-        });
-        break;
-      case 'linkedInShare':
-        handleAddShare('linkedIn');
-        openUrl('https://www.linkedin.com/shareArticle', {
-          title,
-          url: window.location.href,
-          summary: description,
-          mini: true,
-        });
-        break;
-      case 'emailShare':
-        handleAddShare('email');
-        window.open(`mailto:?subject=${title}&body=${window.location.href}`);
-        break;
-    }
-  }, [handleAddShare]);
-
-  return (
-    <MDXProvider components={{
-      h1: Heading1,
-      h2: Heading2,
-      h3: Heading3,
-      h4: Heading4,
-      pre: Code,
-      table: Table,
-      th: TableHeading,
-      tr: TableRow,
-      td: TableCell,
-      p: Paragraph,
-      blockquote: Blockquote,
-    }}>
-      <Main>
-        <SEO
-          title={title}
-          description={description}
-          image={fluid.src}
-          url={url}
-        />
-
-        <Ruler />
-
-        <PostHeading>{title}</PostHeading>
-
-        <Metadata>
-          <Clock />
-          <InlineIndicator>{getDateValue(relativeDate)}</InlineIndicator>
-          &nbsp;
-          <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
-          &nbsp;
-          <Author> by <AuthorLink /></Author>
-          &nbsp;
-          <Location> in <LocationLink /></Location>
-          <InlineTimeToRead>
-            /
-            &nbsp;
-            <Indicator>{timeToRead}</Indicator><span> min </span>
-            <IndicatorLabel>to read</IndicatorLabel>
-          </InlineTimeToRead>
-        </Metadata>
-
-        <Wheelhouse>
-          <Wheel
-            comments={comments}
-            shareCount={shareCount}
-            sharesByType={sharesByType}
-            handleSnap={handleSnap}
-            handleShare={handleShare}
-          />
-        </Wheelhouse>
-
-        <Sidebar>
-          <SidebarPanel>
-            <SidebarMetadata>
-              <Gauge position={readPosition} />
-              <Indicator>{timeToRead}</Indicator><span> min </span>
-              <IndicatorLabel>to read</IndicatorLabel>
-            </SidebarMetadata>
-            <TagList tags={tags} stats={group} collection={collection} />
-            <TagList tags={tags} stats={group} collection={collection} inline />
-          </SidebarPanel>
-
-          <TOC headings={slugifyHeadings(url, headings)} />
-        </Sidebar>
-
-        <HeroImage fluid={fluid} />
-
-        <Content role="document">
-          <CommentsContext.Provider value={{ comments }}>
-            <MDXRenderer>
-              {body}
-            </MDXRenderer>
-          </CommentsContext.Provider>
-        </Content>
-      </Main>
-
-      <Comments
-        slug={slug}
-        loading={loading}
-        error={error}
-        loginError={loginError}
-        comments={comments}
-        handleVote={handleVote}
-        handleAdd={handleAdd}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-        handleReact={handleReact}
-        handleFacebookLogin={handleFacebookLogin}
-        handleTwitterLogin={handleTwitterLogin}
-        handleGoogleLogin={handleGoogleLogin}
-        handleLogout={handleLogout}
-        readPosition={readPosition}
-        scrollOffset={scrollOffset}
-      />
-    </MDXProvider>
-  );
-};
-
-export const pageQuery = graphql`
-  query($slug: String!, $collection: String!) {
-    mdx(slug: { eq: $slug }) {
-      slug
-      body
-      timeToRead
-      frontmatter {
-        title
-        description
-        image {
-          childImageSharp {
-            fluid(maxWidth:768, maxHeight:280) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
-        relativeDate: date(fromNow: true)
-        date(formatString: "MMM DD, YYYY")
-        tags
-      }
-      fields {
-        url,
-        collection,
-        tags
-      }
-      headings {
-        value
-        depth
-      }
-    }
-    allMdx(filter: {fields: {collection: {eq: $collection}}}) {
-      group(field: frontmatter___tags) {
-        tag: fieldValue
-        totalCount
-      }
-    }
-  }
-`
-
-export default Post;

@@ -12,7 +12,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { PostsQuery } from '../types/AllPostsQuery';
-import { getDateValue, getDateUnits } from './Post';
+import { getDateValue, getDateUnits } from './Post/Post';
 import { Link } from 'gatsby';
 import TagList from './TagList';
 import ClockIcon from '../images/clock.svg';

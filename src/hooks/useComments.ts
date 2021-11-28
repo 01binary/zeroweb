@@ -15,8 +15,8 @@ import React, {
   useCallback
 } from "react";
 import gql from 'graphql-tag';
-import { DocumentNode, FetchResult, useMutation } from '@apollo/client';
-import { CommentQuery } from '../types/AllCommentsQuery';
+import { ApolloCache, FetchResult, useMutation } from '@apollo/client';
+import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
 import AddCommentQuery from '../types/AddCommentQuery';
 import EditCommentQuery from '../types/EditCommentQuery';
 import DeleteCommentQuery from '../types/DeleteCommentQuery';
@@ -24,7 +24,6 @@ import AddCommentMutation from '../types/AddCommentMutation';
 import EditCommentMutation from '../types/EditCommentMutation';
 import { VoteCommentQuery, Vote } from '../types/VoteCommentQuery';
 import ReactMutation from '../types/ReactMutation';
-import ReactQuery from '../types/ReactQuery';
 
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
@@ -140,13 +139,14 @@ const REACT_COMMENT = gql`
 
 export const useComments = (
   slug: string,
-  query: DocumentNode,
+  setComments: (cache: ApolloCache<AllCommentsQuery>, comments: CommentQuery[]) => void,
+  comments?: CommentQuery[]
 ) => {
   const [ voteComment ] = useMutation<VoteCommentQuery>(VOTE_COMMENT);
   const [ addComment ] = useMutation<AddCommentQuery>(ADD_COMMENT);
   const [ editComment ] = useMutation<EditCommentQuery>(EDIT_COMMENT);
   const [ deleteComment ] = useMutation<DeleteCommentQuery>(DELETE_COMMENT);
-  const [ reactToComment ] = useMutation<ReactQuery>(REACT_COMMENT);
+  const [ reactToComment ] = useMutation<AddCommentQuery>(REACT_COMMENT);
 
   const handleVote = useCallback((timestamp: string, vote: Vote) =>
     voteComment({
@@ -158,22 +158,14 @@ export const useComments = (
         }
       },
       update (cache, { data: { voteComment }}) {
-        const { comments } = cache.readQuery({
-          query,
-          variables: { slug }
-        });
-        cache.writeQuery({
-          query,
-          variables: { slug },
-          data: { comments: comments.map((comment) => (
-            comment.timestamp === timestamp
-              ? { ...comment, ...voteComment }
-              : comment
-          ))}
-        })
+        setComments(cache, comments.map((comment) => (
+          comment.timestamp === timestamp
+            ? { ...comment, ...voteComment }
+            : comment
+        )));
       }
     })
-  , [slug, voteComment]);
+  , [slug, comments, voteComment]);
 
   const handleAdd = useCallback(({
     userName,
@@ -196,18 +188,10 @@ export const useComments = (
         }
       },
       update (cache, { data: { addComment }}) {
-        const { comments } = cache.readQuery({
-          query,
-          variables: { slug }
-        });
-        cache.writeQuery({
-          query,
-          variables: { slug },
-          data: { comments: comments.concat(addComment) }
-        })
+        setComments(cache, comments.concat(addComment));
       },
     }
-  ), [slug, addComment]);
+  ), [slug, comments, addComment]);
 
   const handleEdit = useCallback(({
     timestamp,
@@ -224,26 +208,18 @@ export const useComments = (
         }
       },
       update (cache, { data: { editComment }}) {
-        const { comments } = cache.readQuery({
-          query,
-          variables: { slug }
-        });
-        cache.writeQuery({
-          query,
-          variables: { slug },
-          data: { comments: comments.map((comment) => (
-            comment.timestamp === timestamp
-            ? {
-              ...comment,
-              markdown: editComment.markdown,
-              reaction: editComment.reaction
-            }
-            : comment
-          ))}
-        });
+        setComments(cache, comments.map((comment) => (
+          comment.timestamp === timestamp
+          ? {
+            ...comment,
+            markdown: editComment.markdown,
+            reaction: editComment.reaction
+          }
+          : comment
+        )));
       },
     }),
-  [slug, editComment]);
+  [slug, comments, editComment]);
 
   const handleDelete = useCallback((timestamp: string) =>
     deleteComment({
@@ -253,30 +229,14 @@ export const useComments = (
           timestamp,
         }
       },
-      update (cache, {
-        data: {
-          deleteComment: {
-            deleted
-          }
-        }
-      }) {
+      update (cache, { data: { deleteComment: { deleted }}}) {
         if (!deleted) return;
-
-        const { comments } = cache.readQuery({
-          query,
-          variables: { slug }
-        });
-
-        cache.writeQuery({
-          query,
-          variables: { slug },
-          data: { comments: comments.filter(
-            comment => comment.timestamp !== timestamp
-          )}
-        });
+        setComments(cache, comments.filter(
+          comment => comment.timestamp !== timestamp)
+        );
       }
     }),
-  [slug, deleteComment]);
+  [slug, comments, deleteComment]);
 
   const handleReact = useCallback(({
     userName,
@@ -297,18 +257,10 @@ export const useComments = (
         }
       },
       update (cache, { data: { addComment }}) {
-        const { comments } = cache.readQuery({
-          query,
-          variables: { slug }
-        });
-        cache.writeQuery({
-          query,
-          variables: { slug },
-          data: { comments: comments.concat(addComment)}
-        });
+        setComments(cache, comments.concat(addComment));
       },
     }),
-  [slug, reactToComment]);
+  [slug, comments, reactToComment]);
 
   return {
     handleVote,

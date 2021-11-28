@@ -40,7 +40,7 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
     font-family: ${props => props.theme.smallFont};
     font-size: ${props => props.theme.smallFontSize};
     font-weight: ${props => props.theme.smallFontWeight};
-    line-height: 1.7em;
+    line-height: ${props => props.theme.smallFontLineHeight};
   }
 
   opacity: ${props => props.isLoading ? 0.5 : 1};
@@ -237,6 +237,7 @@ export const Comment = styled.li`
   @media(max-width: ${props => props.theme.mobile}) {
     padding-right: 0;
     margin-right: calc(-${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${props => props.theme.spacingHalf});
+    margin-bottom: calc(${props => props.theme.spacingHalf} + ${props => props.theme.border});
     &:after {
       display: none;
     }

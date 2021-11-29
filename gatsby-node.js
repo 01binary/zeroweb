@@ -51,7 +51,7 @@ exports.createPages = async ({
     }
 
     // Generate posts (both articles and projects)
-    const post = require.resolve('./src/components/Post.tsx');
+    const post = require.resolve('./src/components/Post/Post.tsx');
 
     nodes.forEach(({
         slug,

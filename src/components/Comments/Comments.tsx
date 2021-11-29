@@ -544,14 +544,20 @@ const Comments: FC<CommentsProps> = ({
                     {(user && !me && !voted) &&
                       <>
                         <UpVoteButton
-                          onClick={() => handleVote(timestamp, 'upVote')}
+                          onClick={() => {
+                            hideTip();
+                            handleVote(timestamp, 'upVote');
+                          }}
                           onMouseOver={(e) => handleShowTip(e, 'up vote')}
                           onMouseOut={hideTip}
                         >
                           <UpVoteIcon />
                         </UpVoteButton>
                         <DownVoteButton
-                          onClick={() => handleVote(timestamp, 'downVote')}
+                          onClick={() => {
+                            hideTip();
+                            handleVote(timestamp, 'downVote');
+                          }}
                           onMouseOver={(e) => handleShowTip(e, 'down vote')}
                           onMouseOut={hideTip}
                         >

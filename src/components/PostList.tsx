@@ -9,39 +9,41 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import { PostsQuery } from '../types/AllPostsQuery';
-import { getDateValue, getDateUnits } from './Post/Post';
-import { Link } from 'gatsby';
-import TagList from './TagList';
-import ClockIcon from '../images/clock.svg';
+import React, { FC } from "react";
+import styled from "styled-components";
+import { PostsQuery } from "../types/AllPostsQuery";
+import { getDateValue, getDateUnits } from "../utils";
+import ClockIcon from "../images/clock.svg";
+import { Link } from "gatsby";
+import TagList from "./TagList";
 
 const Article = styled.article`
-  margin-left: ${props => props.theme.spacingHalf};
-  margin-right: ${props => props.theme.spacingHalf};
-  padding-bottom: ${props => props.theme.spacingHalf};
-  border-bottom: ${props => props.theme.border} dotted ${props => props.theme.borderColor};
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingHalf};
+  padding-bottom: ${(props) => props.theme.spacingHalf};
+  border-bottom: ${(props) => props.theme.border} dotted
+    ${(props) => props.theme.borderColor};
 
   opacity: 0;
-  animation: slideIn ${props => props.theme.animationSlow} ${props => .12 * (props.Index + 1)}s ease-out 1;
+  animation: slideIn ${(props) => props.theme.animationSlow}
+    ${(props) => 0.12 * (props.Index + 1)}s ease-out 1;
   animation-fill-mode: forwards;
 
   @keyframes slideIn {
     0% {
       opacity: 0;
-      transform: translateY(8px)
+      transform: translateY(8px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
   }
 `;
 
 const ArticleLink = styled(Link)`
-  margin-top: ${props => props.theme.spacing};
+  margin-top: ${(props) => props.theme.spacing};
 
   &:hover {
     text-decoration: underline;
@@ -49,29 +51,29 @@ const ArticleLink = styled(Link)`
 `;
 
 const Title = styled.h2`
-  font-size: ${props => props.theme.headingFontSizeLarge};
-  font-weight: ${props => props.theme.headingFontWeight};
+  font-size: ${(props) => props.theme.headingFontSizeLarge};
+  font-weight: ${(props) => props.theme.headingFontWeight};
   margin-left: 0;
-  margin-bottom: ${props => props.theme.spacingHalf};
+  margin-bottom: ${(props) => props.theme.spacingHalf};
 `;
 
 const Meta = styled.section`
-  color: ${props => props.theme.secondaryTextColor};
-  margin-bottom: ${props => props.theme.spacingHalf};
+  color: ${(props) => props.theme.secondaryTextColor};
+  margin-bottom: ${(props) => props.theme.spacingHalf};
 `;
 
 const MetaIndicator = styled.span`
-  color: ${props => props.theme.foregroundColor};
+  color: ${(props) => props.theme.foregroundColor};
 `;
 
 const InlineTags = styled.section`
-  margin-bottom: ${props => props.theme.spacing};
+  margin-bottom: ${(props) => props.theme.spacing};
 `;
 
 const Clock = styled(ClockIcon)`
   position: relative;
   top: 0.2em;
-  margin-right: ${props => props.theme.spacingQuarter};
+  margin-right: ${(props) => props.theme.spacingQuarter};
 `;
 
 const ArticleTitleLink = styled(Link)`
@@ -86,50 +88,45 @@ const ArticleTitleLink = styled(Link)`
   }
 
   &:focus h2:after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 0 ${props => props.theme.border} ${props => props.theme.focusColor};
-    border-radius: ${props => props.theme.borderRadius};
+    box-shadow: 0 0 0 ${(props) => props.theme.border}
+      ${(props) => props.theme.focusColor};
+    border-radius: ${(props) => props.theme.borderRadius};
   }
 `;
 
-const PostList: FC<PostsQuery> = ({
-    nodes,
-    group
-}) => (
-    <>
-    {nodes.map(({
-        slug,
-        timeToRead,
-        frontmatter: {
-          title,
-          relativeDate
+const PostList: FC<PostsQuery> = ({ nodes, group }) => (
+  <>
+    {nodes.map(
+      (
+        {
+          slug,
+          timeToRead,
+          frontmatter: { title, relativeDate },
+          fields: { tags, collection, url },
         },
-        fields: {
-          tags,
-          collection,
-          url
-        }
-      }, index) => (
+        index
+      ) => (
         <Article key={slug} Index={index}>
           <ArticleTitleLink to={url}>
             <Title>{title}</Title>
           </ArticleTitleLink>
-          
+
           <Meta>
             <Clock />
             <MetaIndicator>{getDateValue(relativeDate)} </MetaIndicator>
             {getDateUnits(relativeDate)}
-            {timeToRead &&
+            {timeToRead && (
               <span>
-                {' / '}
+                {" / "}
                 <MetaIndicator>{timeToRead}</MetaIndicator> min to read
               </span>
-            }
+            )}
           </Meta>
 
           <InlineTags>
@@ -140,13 +137,12 @@ const PostList: FC<PostsQuery> = ({
               alwaysInline
             />
           </InlineTags>
-          
-          <ArticleLink to={url}>
-            Read more...
-          </ArticleLink>
+
+          <ArticleLink to={url}>Read more...</ArticleLink>
         </Article>
-      ))}
-    </>
+      )
+    )}
+  </>
 );
 
 export default PostList;

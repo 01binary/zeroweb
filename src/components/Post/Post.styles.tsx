@@ -9,13 +9,13 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import styled from 'styled-components';
+import styled from "styled-components";
 import Img from "gatsby-image";
-import GaugeIcon from '../../images/gauge.svg';
-import ClockIcon from '../../images/clock.svg';
-import { Heading } from '../Heading';
-import { WHEEL_SIZE } from '../Wheel';
-import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
+import GaugeIcon from "../../images/gauge.svg";
+import ClockIcon from "../../images/clock.svg";
+import { Heading } from "../Heading";
+import { WHEEL_SIZE } from "../Wheel";
+import { RULER_OFFSET, RULER_SELECTION_GUTTER } from "../Ruler";
 
 export const Main = styled.main`
   margin-bottom: 3em;
@@ -27,48 +27,59 @@ export const Main = styled.main`
   text-rendering: optimizeLegibility;
 
   h1 {
-    padding-right: calc(20% + ${props => props.theme.spacing});
-    margin-left: ${props => props.theme.spacingHalf};
-    margin-right: ${props => props.theme.spacingHalf};
+    padding-right: calc(20% + ${(props) => props.theme.spacing});
+    margin-left: ${(props) => props.theme.spacingHalf};
+    margin-right: ${(props) => props.theme.spacingHalf};
   }
 
   h2 {
-    font-size: ${props => props.theme.headingFontSizeMedium};
+    font-size: ${(props) => props.theme.headingFontSizeMedium};
   }
 
   h3 {
-    font-size: ${props => props.theme.headingFontSizeSmall};
+    font-size: ${(props) => props.theme.headingFontSizeSmall};
   }
 
   h4 {
-    font-size: ${props => props.theme.headingFontSizeSmaller};
+    font-size: ${(props) => props.theme.headingFontSizeSmaller};
   }
 
-  h2, h3, h4 {
+  h2,
+  h3,
+  h4 {
     text-transform: lowercase;
-    font-family: ${props => props.theme.headingFont};
-    font-weight: ${props => props.theme.headingFontWeight};
-    margin-bottom: ${props => props.theme.margin};
-    margin-top: ${props => props.theme.margin};
+    font-family: ${(props) => props.theme.headingFont};
+    font-weight: ${(props) => props.theme.headingFontWeight};
+    margin-bottom: ${(props) => props.theme.margin};
+    margin-top: ${(props) => props.theme.margin};
     clear: left;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     &:after {
-      content: '';
+      content: "";
       position: absolute;
-      left: calc(100% + ${props => props.theme.spacingHalf} + ${props => props.theme.border} + ${RULER_OFFSET}px);
+      left: calc(
+        100% + ${(props) => props.theme.spacingHalf} +
+          ${(props) => props.theme.border} + ${RULER_OFFSET}px
+      );
       top: 0;
-      width: calc(${props => props.theme.border} * 1.5);
+      width: calc(${(props) => props.theme.border} * 1.5);
       height: 100%;
-      background: ${props => props.theme.foregroundColor};
-      opacity: .4;
-      transition: opacity ${props => props.theme.animationFast} ease-out;
+      background: ${(props) => props.theme.foregroundColor};
+      opacity: 0.4;
+      transition: opacity ${(props) => props.theme.animationFast} ease-out;
     }
   }
 
   h1:after {
-    left: calc(100% + ${props => props.theme.spacing} + ${props => props.theme.border} + ${RULER_SELECTION_GUTTER}px);
+    left: calc(
+      100% + ${(props) => props.theme.spacing} +
+        ${(props) => props.theme.border} + ${RULER_SELECTION_GUTTER}px
+    );
   }
 
   h1:hover,
@@ -88,18 +99,21 @@ export const Main = styled.main`
     position: relative;
     list-style: none;
     counter-reset: listCounter;
-    padding-left: ${props => props.theme.spacingHalf};
+    padding-left: ${(props) => props.theme.spacingHalf};
 
     &:after {
-      content: '';
+      content: "";
       position: absolute;
-      left: calc(100% + ${props => props.theme.spacingHalf} + ${props => props.theme.border} + ${RULER_OFFSET}px);
+      left: calc(
+        100% + ${(props) => props.theme.spacingHalf} +
+          ${(props) => props.theme.border} + ${RULER_OFFSET}px
+      );
       top: 0;
-      width: calc(${props => props.theme.border} * 1.5);
+      width: calc(${(props) => props.theme.border} * 1.5);
       height: 100%;
-      background: ${props => props.theme.foregroundColor};
-      opacity: .4;
-      transition: opacity ${props => props.theme.animationFast} ease-out;
+      background: ${(props) => props.theme.foregroundColor};
+      opacity: 0.4;
+      transition: opacity ${(props) => props.theme.animationFast} ease-out;
     }
 
     &:hover {
@@ -110,43 +124,45 @@ export const Main = styled.main`
   }
 
   ol > li {
-    margin: 0 0 ${props => props.theme.spacingHalf} 0;
+    margin: 0 0 ${(props) => props.theme.spacingHalf} 0;
     &:before {
       display: inline-block;
       content: counter(listCounter);
-      color: ${props => props.theme.foregroundColor};
+      color: ${(props) => props.theme.foregroundColor};
       counter-increment: listCounter;
-      line-height: ${props => props.theme.spacingOneAndThird};
-      background: ${props => props.theme.isDark
-        ? props.theme.accentDarkShadowColor
-        : props.theme.accentLightShadowColor};
-      width: ${props => props.theme.spacingOneAndThird};
-      height: ${props => props.theme.spacingOneAndThird};
-      border-radius: ${props => props.theme.spacingOneAndThird};
-      margin: 0 ${props => props.theme.spacingHalf} 0 0;
+      line-height: ${(props) => props.theme.spacingOneAndThird};
+      background: ${(props) =>
+        props.theme.isDark
+          ? props.theme.accentDarkShadowColor
+          : props.theme.accentLightShadowColor};
+      width: ${(props) => props.theme.spacingOneAndThird};
+      height: ${(props) => props.theme.spacingOneAndThird};
+      border-radius: ${(props) => props.theme.spacingOneAndThird};
+      margin: 0 ${(props) => props.theme.spacingHalf} 0 0;
       text-align: center;
-      transition:
-        color .3s ease-in-out,
-        background-color .3s ease-in-out;
+      transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
     }
 
     &:hover:before,
     &:focus:before {
-      color: ${props => props.theme.backgroundColor};
-      background: ${props => props.theme.isDark
-        ? props.theme.accentColor
-        : props.theme.accentShadowColor
-      };
+      color: ${(props) => props.theme.backgroundColor};
+      background: ${(props) =>
+        props.theme.isDark
+          ? props.theme.accentColor
+          : props.theme.accentShadowColor};
     }
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     margin-bottom: 1em;
 
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
       max-width: initial;
-      margin-left: ${props => props.theme.spacingHalf};
-      margin-right: ${props => props.theme.spacingHalf};
+      margin-left: ${(props) => props.theme.spacingHalf};
+      margin-right: ${(props) => props.theme.spacingHalf};
       padding-right: 0;
 
       &:after {
@@ -154,7 +170,8 @@ export const Main = styled.main`
       }
     }
 
-    ul, ol {
+    ul,
+    ol {
       &:after {
         display: none;
       }
@@ -166,41 +183,43 @@ export const HeroImage = styled(Img)`
   overflow: initial !important;
   max-width: calc(80% - 3em);
   margin-right: 1.5em;
-  margin-left: ${props => props.theme.spacingHalf};
+  margin-left: ${(props) => props.theme.spacingHalf};
   z-index: -1;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
-    left: calc(100% + ${props => props.theme.spacingHalf} + ${RULER_OFFSET}px + 7px);
+    left: calc(
+      100% + ${(props) => props.theme.spacingHalf} + ${RULER_OFFSET}px + 7px
+    );
     top: 0;
-    width: calc(${props => props.theme.border} * 1.5);
+    width: calc(${(props) => props.theme.border} * 1.5);
     height: 100%;
-    background: ${props => props.theme.foregroundColor};
-    opacity: .4;
-    transition: opacity ${props => props.theme.animationFast} ease-out;
+    background: ${(props) => props.theme.foregroundColor};
+    opacity: 0.4;
+    transition: opacity ${(props) => props.theme.animationFast} ease-out;
   }
 
   opacity: 0;
-  animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
+  animation: slideIn ${(props) => props.theme.animationSlow} 0.2s ease-out 1;
   animation-fill-mode: forwards;
 
   @keyframes slideIn {
     0% {
       opacity: 0;
-      transform: translateY(8px)
+      transform: translateY(8px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     max-width: 100%;
     margin-top: 1em;
-    margin-right: ${props => props.theme.spacingHalf};
+    margin-right: ${(props) => props.theme.spacingHalf};
 
     &:after {
       display: none;
@@ -211,30 +230,30 @@ export const HeroImage = styled(Img)`
 export const Metadata = styled.section`
   display: flex;
 
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  color: ${props => props.theme.secondaryTextColor};
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  color: ${(props) => props.theme.secondaryTextColor};
   max-width: calc(80% - 3em);
   margin-left: 1em;
   margin-bottom: 1.5em;
 
   opacity: 0;
-  animation: slideIn ${props => props.theme.animationSlow} .1s ease-out 1;
+  animation: slideIn ${(props) => props.theme.animationSlow} 0.1s ease-out 1;
   animation-fill-mode: forwards;
 
   @keyframes slideIn {
     0% {
       opacity: 0;
-      transform: translateY(8px)
+      transform: translateY(8px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     max-width: 100%;
     margin-bottom: 0;
   }
@@ -244,22 +263,25 @@ export const Content = styled.section`
   max-width: calc(80% - 2em);
 
   opacity: 0;
-  animation: slideIn ${props => props.theme.animationSlow} .2s ease-out 1;
+  animation: slideIn ${(props) => props.theme.animationSlow} 0.2s ease-out 1;
   animation-fill-mode: forwards;
-  
+
   ul {
     position: relative;
 
     &:after {
-      content: '';
+      content: "";
       position: absolute;
-      left: calc(100% + ${props => props.theme.spacingHalf} + ${props => props.theme.border} + ${RULER_OFFSET}px);
+      left: calc(
+        100% + ${(props) => props.theme.spacingHalf} +
+          ${(props) => props.theme.border} + ${RULER_OFFSET}px
+      );
       top: 0;
-      width: calc(${props => props.theme.border} * 1.5);
+      width: calc(${(props) => props.theme.border} * 1.5);
       height: 100%;
-      background: ${props => props.theme.foregroundColor};
-      opacity: .4;
-      transition: opacity ${props => props.theme.animationFast} ease-out;
+      background: ${(props) => props.theme.foregroundColor};
+      opacity: 0.4;
+      transition: opacity ${(props) => props.theme.animationFast} ease-out;
     }
 
     &:hover {
@@ -276,16 +298,16 @@ export const Content = styled.section`
   @keyframes slideIn {
     0% {
       opacity: 0;
-      transform: translateY(8px)
+      transform: translateY(8px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     max-width: 100%;
   }
 `;
@@ -294,37 +316,36 @@ export const Wheelhouse = styled.section`
   opacity: 1;
   position: sticky;
   float: left;
-  top: ${props => props.theme.spacingHalf};
+  top: ${(props) => props.theme.spacingHalf};
   width: ${WHEEL_SIZE};
   height: ${WHEEL_SIZE};
-  margin-left: -${props => props.theme.unit + WHEEL_SIZE}px;
+  margin-left: -${(props) => props.theme.unit + WHEEL_SIZE}px;
 
   opacity: 1;
-  animation: slideIn ${props => props.theme.animationSlow} ease-out 1;
+  animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
 
   @keyframes slideIn {
     0% {
       opacity: 0;
-      transform: translateY(8px)
+      transform: translateY(8px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
   }
 
   transform: translateY(0);
-  transition:
-    opacity ${props => props.theme.animationFast} ease-out,
-    transform ${props => props.theme.animationSlow} ease-out;
+  transition: opacity ${(props) => props.theme.animationFast} ease-out,
+    transform ${(props) => props.theme.animationSlow} ease-out;
 
-  @media(max-width: ${props => props.theme.wide}) {
+  @media (max-width: ${(props) => props.theme.wide}) {
     opacity: 0;
     transform: translateY(1.5em);
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;
   }
 `;
@@ -332,7 +353,7 @@ export const Wheelhouse = styled.section`
 export const SidebarPanel = styled.section`
   display: block;
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -340,7 +361,7 @@ export const SidebarPanel = styled.section`
     margin-bottom: 0;
   }
 
-  @media(max-width: 380px) {
+  @media (max-width: 380px) {
     flex-direction: row;
   }
 `;
@@ -353,123 +374,123 @@ export const Sidebar = styled.aside`
   min-width: 20%;
   max-width: 20%;
   margin-top: -5.25em;
-  padding-top: ${props => props.theme.spacingThird};
+  padding-top: ${(props) => props.theme.spacingThird};
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     position: relative;
     float: none;
     left: 0;
     max-width: 100%;
     padding-top: 0;
     margin-top: 1em;
-    margin-left: ${props => props.theme.spacingHalf};
-    margin-right: ${props => props.theme.spacingHalf};
+    margin-left: ${(props) => props.theme.spacingHalf};
+    margin-right: ${(props) => props.theme.spacingHalf};
   }
 `;
 
 export const SidebarMetadata = styled.div`
   position: relative;
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  color: ${props => props.theme.secondaryTextColor};
-  margin-bottom: ${props => props.theme.spacing};
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  color: ${(props) => props.theme.secondaryTextColor};
+  margin-bottom: ${(props) => props.theme.spacing};
 
   opacity: 0;
-  animation: slideIn ${props => props.theme.animationSlow} .1s ease-out 1;
+  animation: slideIn ${(props) => props.theme.animationSlow} 0.1s ease-out 1;
   animation-fill-mode: forwards;
 
   @keyframes slideIn {
     0% {
       opacity: 0;
-      transform: translateY(8px)
+      transform: translateY(8px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     flex: 0 1 auto;
     margin-left: 1em;
   }
 
-  @media(max-width: 380px) {
+  @media (max-width: 380px) {
     display: none;
   }
 `;
 
 export const Gauge = styled(GaugeIcon)`
   float: left;
-  margin: .25em .25em 0 .5em;
+  margin: 0.25em 0.25em 0 0.5em;
 
   #arrow {
-    transform: rotate(${props => props.position * 90}deg);
+    transform: rotate(${(props) => props.position * 90}deg);
     transform-origin: 45.634px 47.543px;
-    transition: transform ${props => props.theme.animationFast} ease-in-out;
+    transition: transform ${(props) => props.theme.animationFast} ease-in-out;
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;
   }
 `;
 
 export const Indicator = styled.span`
   font-size: 20pt;
-  color: ${props => props.theme.foregroundColor};
+  color: ${(props) => props.theme.foregroundColor};
 
-  @media(max-width: ${props => props.theme.mobile}) {
-    font-size: ${props => props.theme.smallFontSize};
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    font-size: ${(props) => props.theme.smallFontSize};
   }
 `;
 
 export const InlineIndicator = styled.span`
-  color: ${props => props.theme.foregroundColor};
+  color: ${(props) => props.theme.foregroundColor};
 `;
 
 export const IndicatorLabel = styled.div`
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     display: inline;
   }
 `;
 
 export const Clock = styled(ClockIcon)`
   margin-top: -1px;
-  margin-right: ${props => props.theme.spacingQuarter};
+  margin-right: ${(props) => props.theme.spacingQuarter};
 `;
 
 export const PostHeading = styled(Heading)`
-  animation: slideIn ${props => props.theme.animationSlow} ease-out 1;
+  animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
 
   @keyframes slideIn {
     0% {
       opacity: 0;
-      transform: translateY(8px)
+      transform: translateY(8px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
   }
 `;
 
 export const Location = styled.span`
-  @media(max-width: 540px) {
+  @media (max-width: 540px) {
     display: none;
   }
 `;
 
 export const Author = styled.span`
-  @media(max-width: 380px) {
+  @media (max-width: 380px) {
     display: none;
   }
 `;
 
 export const InlineTimeToRead = styled.span`
   display: none;
-  @media(max-width: 380px) {
+  @media (max-width: 380px) {
     display: block;
   }
 `;

@@ -48,7 +48,10 @@ import {
   TableCell
 } from '../components/Table';
 import { useLogin } from "../hooks/useLogin";
-import { gql, useQuery } from "@apollo/client";
+import { ApolloCache, gql, useQuery } from "@apollo/client";
+import AllCommentsQuery, { CommentQuery } from "../types/AllCommentsQuery";
+import AllSharesQuery, { ShareQuery } from "../types/AllSharesQuery";
+import useUserContent from "../hooks/useUserContent";
 
 const Main = styled.main`
   margin-bottom: 3em;
@@ -550,12 +553,6 @@ const openUrl = (url, params) => {
   window.open(href.toString());
 };
 
-const USER_CONTENT = gql`
-  query userContent ($slug: String!) {
-    ${COMMENTS}
-    ${SHARES}
-  }`;
-
 type PostProps = {
   data: PostQuery;
 };
@@ -586,7 +583,16 @@ const Post: FC<PostProps> = ({
     }
   }
 }) => {
+  const [ readPosition, setReadPosition ] = useState(0);
+  const [ scrollOffset, setScrollOffset ] = useState(0);
+
+  useScrollPosition((position, offset) => {
+    setReadPosition(position);
+    setScrollOffset(offset);
+  }, [readPosition]);
+
   const { user } = useBlogContext();
+
   const {
     handleFacebookLogin,
     handleGoogleLogin,
@@ -594,29 +600,21 @@ const Post: FC<PostProps> = ({
     handleLogout,
     loginError,
   } = useLogin();
+
   const {
-    loading, error, data: userContent,
-  } = useQuery(USER_CONTENT, {
-    variables: { slug },
-  });
-  const {
-    handleVote,
+    loading,
+    error,
+    comments,
     handleAdd,
     handleEdit,
     handleDelete,
+    handleVote,
     handleReact,
-  } = useComments(slug, USER_CONTENT);
-  const {
+    shares,
     shareCount,
     sharesByType,
-    handleAddShare
-  } = useShares(slug, USER_CONTENT, userContent?.shares);
-  const [ readPosition, setReadPosition ] = useState(0);
-  const [ scrollOffset, setScrollOffset ] = useState(0);
-  useScrollPosition((position, offset) => {
-    setReadPosition(position);
-    setScrollOffset(offset);
-  }, [readPosition]);
+    handleAddShare,
+  } = useUserContent(slug);
 
   const handleSnap = useCallback(() => {
     handleReact({
@@ -707,7 +705,7 @@ const Post: FC<PostProps> = ({
 
         <Wheelhouse>
           <Wheel
-            comments={userContent?.comments}
+            comments={comments}
             shareCount={shareCount}
             sharesByType={sharesByType}
             handleSnap={handleSnap}
@@ -732,7 +730,7 @@ const Post: FC<PostProps> = ({
         <HeroImage fluid={fluid} />
 
         <Content role="document">
-          <CommentsContext.Provider value={{ comments: userContent?.comments }}>
+          <CommentsContext.Provider value={{ comments }}>
             <MDXRenderer>
               {body}
             </MDXRenderer>
@@ -743,9 +741,9 @@ const Post: FC<PostProps> = ({
       <Comments
         slug={slug}
         loading={loading}
-        error={error?.message}
+        error={error}
         loginError={loginError}
-        comments={userContent?.comments}
+        comments={comments}
         handleVote={handleVote}
         handleAdd={handleAdd}
         handleEdit={handleEdit}

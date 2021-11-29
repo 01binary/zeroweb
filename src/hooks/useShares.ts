@@ -11,8 +11,8 @@
 
 import React, { useCallback, useMemo } from 'react';
 import gql from 'graphql-tag';
-import { DocumentNode, useMutation } from '@apollo/client';
-import { ShareQuery, ShareType } from '../types/AllSharesQuery';
+import { ApolloCache, DocumentNode, useMutation } from '@apollo/client';
+import AllSharesQuery, { ShareQuery, ShareType } from '../types/AllSharesQuery';
 import AddShareQuery from '../types/AddShareQuery';
 
 export const SHARES = `
@@ -33,7 +33,7 @@ const ADD_SHARE = gql`
 
 export const useShares = (
   slug: string,
-  query: DocumentNode,
+  setShares: (cache: ApolloCache<AllSharesQuery>, shares: ShareQuery[]) => void,
   shares?: ShareQuery[],
 ) => {
   const [ addShare ] = useMutation<AddShareQuery>(ADD_SHARE);
@@ -53,26 +53,12 @@ export const useShares = (
       }
     },
     update (cache, { data: { addShare }}) {
-      const { shares } = cache.readQuery({
-        query,
-        variables: { slug }
-      });
-
-      if (shares?.find(share => share.shareType === shareType)) {
-        cache.writeQuery({
-          query,
-          variables: { slug },
-          data: { shares: shares.map(share => share.shareType === shareType ? addShare : share) }
-        });
-      } else {
-        cache.writeQuery({
-          query,
-          variables: { slug },
-          data: { shares: shares.concat(addShare) }
-        });
-      }
+      if (shares?.find(share => share.shareType === shareType))
+        setShares(cache, shares.map(share => share.shareType === shareType ? addShare : share));
+      else
+        setShares(cache, shares.concat(addShare));
     },
-  }), [slug, addShare]);
+  }), [slug, shares, addShare]);
 
   return {
     shareCount,

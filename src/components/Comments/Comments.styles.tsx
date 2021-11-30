@@ -90,7 +90,7 @@ export const CommentMarker = styled(CommentMarkerIcon)`
   top: 0;
 `;
 
-export const DateMarker = styled.div`
+export const DateMarker = styled.div<{ offset: number; show: boolean }>`
   position: absolute;
   transition: top ${(props) => props.theme.animationFast} ease-in-out;
   right: -${(props) => props.theme.spacingDouble};
@@ -99,6 +99,7 @@ export const DateMarker = styled.div`
   height: 1em;
   font-family: monospace;
   font-size: 28pt;
+  ${(props) => !props.show && "display: none"};
 
   @media (max-width: ${COMMENT_SCALE_BREAKPOINT}) {
     right: 1.25em;

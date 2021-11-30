@@ -9,24 +9,31 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useRef, useMemo, useEffect, useCallback } from 'react';
-import styled from 'styled-components';
-import { AnchorLink } from 'gatsby-plugin-anchor-links';
-import { useTooltip } from '../hooks/useTooltip';
-import { CommentQuery } from '../types/AllCommentsQuery';
-import { Tooltip, Arrow } from './Tooltip';
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
-import Cell from '../images/cell.svg';
-import ShareIcon from '../images/share.svg';
-import CommentIcon from '../images/comment.svg';
-import SnapIcon from '../images/snap.svg';
-import ShareFacebookIcon from '../images/share-facebook.svg';
-import ShareTwitterIcon from '../images/share-twitter.svg';
-import ShareLinkedInIcon from '../images/share-linkedin.svg';
-import ShareLinkIcon from '../images/share-link.svg';
-import ShareEmailIcon from '../images/share-email.svg';
-import { ContextMenu, ContextMenuArrow } from './ContextMenu';
-import { ShareQuery, ShareType } from '../types/AllSharesQuery';
+import React, {
+  FC,
+  useState,
+  useRef,
+  useMemo,
+  useEffect,
+  useCallback,
+} from "react";
+import styled from "styled-components";
+import { AnchorLink } from "gatsby-plugin-anchor-links";
+import { useTooltip } from "../hooks/useTooltip";
+import { CommentQuery } from "../types/AllCommentsQuery";
+import { Tooltip, Arrow } from "./Tooltip";
+import { Menu, MenuItem, MenuItemIcon, MenuProps } from "./Menu";
+import Cell from "../images/cell.svg";
+import ShareIcon from "../images/share.svg";
+import CommentIcon from "../images/comment.svg";
+import SnapIcon from "../images/snap.svg";
+import ShareFacebookIcon from "../images/share-facebook.svg";
+import ShareTwitterIcon from "../images/share-twitter.svg";
+import ShareLinkedInIcon from "../images/share-linkedin.svg";
+import ShareLinkIcon from "../images/share-link.svg";
+import ShareEmailIcon from "../images/share-email.svg";
+import { ContextMenu, ContextMenuArrow } from "./ContextMenu";
+import { ShareQuery, ShareType } from "../types/AllSharesQuery";
 
 export const WHEEL_SIZE = 76;
 
@@ -44,11 +51,11 @@ const StyledCell = styled(Cell)`
 `;
 
 const StyledShareIcon = styled(ShareIcon).attrs(() => ({
-  className: 'wheel-icon'
+  className: "wheel-icon",
 }))``;
 
 const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
-  className: 'wheel-icon'
+  className: "wheel-icon",
 }))``;
 
 const StyledStaticSnapIcon = styled(SnapIcon)`
@@ -60,7 +67,9 @@ const StyledStaticSnapIcon = styled(SnapIcon)`
     opacity: 1;
   }
 
-  #frame1, #frame2, #frame3 {
+  #frame1,
+  #frame2,
+  #frame3 {
     opacity: 0;
   }
 `;
@@ -72,42 +81,58 @@ const StyledAnimatedSnapIcon = styled(SnapIcon)`
 
   #frame1 {
     opacity: 0;
-    animation: snapFrame1 .4s steps(1) 1;
+    animation: snapFrame1 0.4s steps(1) 1;
   }
 
   #frame2 {
     opacity: 0;
-    animation: snapFrame2 .4s steps(1) 1;
+    animation: snapFrame2 0.4s steps(1) 1;
   }
-  
+
   #frame3 {
     opacity: 0;
-    animation: snapFrame3 .4s steps(1) 1;
+    animation: snapFrame3 0.4s steps(1) 1;
   }
 
   #frame4 {
     opacity: 0;
-    animation: snapFrame4 .4s steps(1) 1;
+    animation: snapFrame4 0.4s steps(1) 1;
   }
 
   @keyframes snapFrame1 {
-    0% { opacity: 1; }
-    25% { opacity: 0; }
+    0% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 0;
+    }
   }
 
   @keyframes snapFrame2 {
-    25% { opacity: 1; }
-    50% { opacity: 0; }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
   }
 
   @keyframes snapFrame3 {
-    50% { opacity: 1; }
-    75% { opacity: 0; }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0;
+    }
   }
 
   @keyframes snapFrame4 {
-    75% { opacity: 1; }
-    100% { opacity: 0; }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 `;
 
@@ -133,7 +158,7 @@ const WheelButton = styled.button`
     z-index: 1;
 
     .stroke-border {
-      stroke: ${props => props.theme.focusColor};
+      stroke: ${(props) => props.theme.focusColor};
     }
   }
 
@@ -165,12 +190,14 @@ const CommentLink = styled(AnchorLink)`
   top: 0;
 `;
 
-const Badge = styled.div`
+const Badge = styled.div<{ show: boolean }>`
   position: absolute;
-  color: ${props => props.theme.secondaryTextColor};
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  font-weight: ${props => props.theme.smallFontWeight};
+  color: ${(props) => props.theme.secondaryTextColor};
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  font-weight: ${(props) => props.theme.smallFontWeight};
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  transition: opacity ${(props) => props.theme.animationFast} ease-out;
 `;
 
 const SharesBadge = styled(Badge)`
@@ -191,72 +218,59 @@ const ReactionsBadge = styled(Badge)`
 const ShareMenuItemBadge = styled.div`
   position: absolute;
   right: 1em;
-  color: ${props => props.theme.secondaryTextColor};
+  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 type ShareMenuProps = {
   sharesByType: Partial<Record<ShareType, number>>;
 } & MenuProps;
 
-const ShareMenu: FC<ShareMenuProps> = ({
-  sharesByType,
-  onSelect
-}) => (
+const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
   <Menu vertical>
     <MenuItem id="linkShare" onClick={onSelect}>
       <MenuItemIcon>
         <ShareLinkIcon />
       </MenuItemIcon>
       Copy link
-      {Boolean(sharesByType.link) &&
-        <ShareMenuItemBadge>
-          {sharesByType.link}
-        </ShareMenuItemBadge>
-      }
+      {Boolean(sharesByType.link) && (
+        <ShareMenuItemBadge>{sharesByType.link}</ShareMenuItemBadge>
+      )}
     </MenuItem>
     <MenuItem id="twitterShare" onClick={onSelect}>
       <MenuItemIcon>
         <ShareTwitterIcon />
       </MenuItemIcon>
       Twitter
-      {Boolean(sharesByType.twitter) &&
-        <ShareMenuItemBadge>
-          {sharesByType.twitter}
-        </ShareMenuItemBadge>
-      }
+      {Boolean(sharesByType.twitter) && (
+        <ShareMenuItemBadge>{sharesByType.twitter}</ShareMenuItemBadge>
+      )}
     </MenuItem>
     <MenuItem id="facebookShare" onClick={onSelect}>
       <MenuItemIcon>
         <ShareFacebookIcon />
       </MenuItemIcon>
       Facebook
-      {Boolean(sharesByType.facebook) &&
-        <ShareMenuItemBadge>
-          {sharesByType.facebook}
-        </ShareMenuItemBadge>
-      }
+      {Boolean(sharesByType.facebook) && (
+        <ShareMenuItemBadge>{sharesByType.facebook}</ShareMenuItemBadge>
+      )}
     </MenuItem>
     <MenuItem id="linkedInShare" onClick={onSelect}>
       <MenuItemIcon>
         <ShareLinkedInIcon />
       </MenuItemIcon>
       LinkedIn
-      {Boolean(sharesByType.linkedIn) &&
-        <ShareMenuItemBadge>
-          {sharesByType.linkedIn}
-        </ShareMenuItemBadge>
-      }
+      {Boolean(sharesByType.linkedIn) && (
+        <ShareMenuItemBadge>{sharesByType.linkedIn}</ShareMenuItemBadge>
+      )}
     </MenuItem>
     <MenuItem id="emailShare" onClick={onSelect}>
       <MenuItemIcon>
         <ShareEmailIcon />
       </MenuItemIcon>
       Email
-      {Boolean(sharesByType.email) &&
-        <ShareMenuItemBadge>
-          {sharesByType.email}
-        </ShareMenuItemBadge>
-      }
+      {Boolean(sharesByType.email) && (
+        <ShareMenuItemBadge>{sharesByType.email}</ShareMenuItemBadge>
+      )}
     </MenuItem>
   </Menu>
 );
@@ -276,7 +290,7 @@ const Wheel: FC<WheelProps> = ({
   handleSnap: handleSnapUpstream,
   handleShare: handleShareUpstream,
 }) => {
-  const [ snapTimer, setSnapTimer ] = useState<number>(0);
+  const [snapTimer, setSnapTimer] = useState<number>(0);
   const snapRef = useRef<HTMLElement>(null);
   const commentRef = useRef<HTMLElement>(null);
   const {
@@ -287,41 +301,45 @@ const Wheel: FC<WheelProps> = ({
     tooltipVisible: menuVisible,
     targetRef,
   } = useTooltip({
-    placement: 'bottom-start',
+    placement: "bottom-start",
     verticalOffsetDesktop: 6,
-    verticalOffsetMobile: 6
+    verticalOffsetMobile: 6,
   });
-  const {
-    hideTip,
-    showTipFor,
-    tipProps,
-    tipRef,
-    tooltipText,
-  } = useTooltip({});
+  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
 
-  const commentCount = useMemo(() => (comments || [])
-    .filter(({ markdown }) => markdown && markdown.length)
-    .length,
-  [comments]);
+  const commentCount = useMemo(
+    () =>
+      (comments || []).filter(({ markdown }) => markdown && markdown.length)
+        .length,
+    [comments]
+  );
 
-  const reactionCount = useMemo(() => (comments || [])
-    .filter(({ parentTimestamp, reaction }) => reaction && !parentTimestamp)
-    .length,
-  [comments]);
+  const reactionCount = useMemo(
+    () =>
+      (comments || []).filter(
+        ({ parentTimestamp, reaction }) => reaction && !parentTimestamp
+      ).length,
+    [comments]
+  );
 
   const handleSnap = useCallback(() => {
     if (snapTimer) return;
     hideTip();
     handleSnapUpstream();
-    setSnapTimer(window.setTimeout(() => {
-      window.clearTimeout(snapTimer);
-      setSnapTimer(0);
-    }, SNAP_TIME_MS));
+    setSnapTimer(
+      window.setTimeout(() => {
+        window.clearTimeout(snapTimer);
+        setSnapTimer(0);
+      }, SNAP_TIME_MS)
+    );
   }, [hideTip, handleSnapUpstream, setSnapTimer]);
 
-  const handleShare = useCallback((e) => {
-    handleShareUpstream(e.target.id);
-  }, [handleShareUpstream]);
+  const handleShare = useCallback(
+    (e) => {
+      handleShareUpstream(e.target.id);
+    },
+    [handleShareUpstream]
+  );
 
   const handleShowShareMenu = useCallback(() => {
     if (menuVisible) {
@@ -332,70 +350,60 @@ const Wheel: FC<WheelProps> = ({
     }
   }, [menuVisible, hideMenu, hideTip, showMenu]);
 
-  const handleHideShareMenu = useCallback(
-    () => setTimeout(hideMenu, 250), []);
+  const handleHideShareMenu = useCallback(() => setTimeout(hideMenu, 250), []);
 
   useEffect(() => {
-    window.addEventListener('scroll', hideMenu);
+    window.addEventListener("scroll", hideMenu);
     return () => {
-      window.removeEventListener('scroll', hideMenu);
+      window.removeEventListener("scroll", hideMenu);
     };
-  }, []);
+  }, [hideMenu]);
 
   return (
     <WheelWrapper>
       <SnapButton
         ref={snapRef}
         onClick={handleSnap}
-        onMouseOver={() => showTipFor('snap!', snapRef)}
+        onMouseOver={() => showTipFor("snap!", snapRef)}
         onMouseOut={hideTip}
       >
         <StyledCell />
-        { snapTimer
-            ? <StyledAnimatedSnapIcon />
-            : <StyledStaticSnapIcon />
-        }
-        {Boolean(reactionCount) &&
-          <ReactionsBadge>{reactionCount}</ReactionsBadge>
-        }
+        {snapTimer ? <StyledAnimatedSnapIcon /> : <StyledStaticSnapIcon />}
+        <ReactionsBadge show={Boolean(reactionCount)}>
+          {reactionCount}
+        </ReactionsBadge>
       </SnapButton>
       <ShareButton
         ref={targetRef}
         onClick={handleShowShareMenu}
         onBlur={handleHideShareMenu}
-        onMouseOver={() => showTipFor(
-          'share',
-          targetRef as React.MutableRefObject<HTMLElement>)
+        onMouseOver={() =>
+          showTipFor("share", targetRef as React.MutableRefObject<HTMLElement>)
         }
         onMouseOut={hideTip}
       >
         <StyledCell />
         <StyledShareIcon />
-        {Boolean(shareCount) &&
-          <SharesBadge>{shareCount}</SharesBadge>
-        }
+        <SharesBadge show={Boolean(shareCount)}>{shareCount}</SharesBadge>
       </ShareButton>
       <CommentLink to={`${window.location.pathname}#comments`}>
         <CommentButton
           ref={commentRef}
-          onMouseOver={() => showTipFor('comment', commentRef)}
+          onMouseOver={() => showTipFor("comment", commentRef)}
           onMouseOut={hideTip}
         >
           <StyledCell />
           <StyledCommentIcon />
-          {Boolean(commentCount) &&
-            <CommentsBadge>{commentCount}</CommentsBadge>
-          }
+          <CommentsBadge show={Boolean(commentCount)}>
+            {commentCount}
+          </CommentsBadge>
         </CommentButton>
       </CommentLink>
       <Tooltip ref={tipRef} {...tipProps} role="tooltip">
         {tooltipText}
         <Arrow />
       </Tooltip>
-      <ContextMenu
-        ref={menuRef}
-        {...menuProps}
-      >
+      <ContextMenu ref={menuRef} {...menuProps}>
         <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
         <ContextMenuArrow />
       </ContextMenu>

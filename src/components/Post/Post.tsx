@@ -38,7 +38,6 @@ import {
   Location,
   InlineTimeToRead,
   Indicator,
-  Wheelhouse,
   Sidebar,
   SidebarPanel,
   SidebarMetadata,
@@ -211,22 +210,20 @@ const Post: FC<PostProps> = ({
             in <LocationLink />
           </Location>
           <InlineTimeToRead>
-            / &nbsp;
+            {"/ "}
             <Indicator>{timeToRead}</Indicator>
             <span> min </span>
             <IndicatorLabel>to read</IndicatorLabel>
           </InlineTimeToRead>
         </Metadata>
 
-        <Wheelhouse>
-          <Wheel
-            comments={comments}
-            shareCount={shareCount}
-            sharesByType={sharesByType}
-            handleSnap={handleSnap}
-            handleShare={handleShare}
-          />
-        </Wheelhouse>
+        <Wheel
+          comments={comments}
+          shareCount={shareCount}
+          sharesByType={sharesByType}
+          handleSnap={handleSnap}
+          handleShare={handleShare}
+        />
 
         <Sidebar>
           <SidebarPanel>
@@ -250,6 +247,15 @@ const Post: FC<PostProps> = ({
             <MDXRenderer>{body}</MDXRenderer>
           </CommentsContext.Provider>
         </Content>
+
+        <Wheel
+          inline
+          comments={comments}
+          shareCount={shareCount}
+          sharesByType={sharesByType}
+          handleSnap={handleSnap}
+          handleShare={handleShare}
+        />
       </Main>
 
       <Comments

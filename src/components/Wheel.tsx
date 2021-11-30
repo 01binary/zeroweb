@@ -182,8 +182,8 @@ const Wheelhouse = styled.aside<{ inline?: boolean }>`
     opacity: initial;
     width: initial;
     height: initial;
-    margin-left: ${(props) => props.theme.spacingHalf};
-    margin-top: -${(props) => props.theme.spacingHalf};
+    margin-left: 0px;
+    margin-top: -${(props) => props.theme.spacing};
     margin-bottom: ${(props) => props.theme.spacingDouble};
   }
 `;
@@ -282,9 +282,9 @@ const Badge = styled.div<{ show?: boolean }>`
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    ${(props) => (props.show ? "display:block" : "display:none;")};
+    ${(props) =>
+      props.show ? "display:inline !important;" : "display:none !important;"};
     position: initial;
-    display: inline;
     margin-right: 0.5em;
   }
 `;

@@ -33,7 +33,7 @@ import ShareLinkedInIcon from "../images/share-linkedin.svg";
 import ShareLinkIcon from "../images/share-link.svg";
 import ShareEmailIcon from "../images/share-email.svg";
 import { ContextMenu, ContextMenuArrow } from "./ContextMenu";
-import { ShareQuery, ShareType } from "../types/AllSharesQuery";
+import { ShareType } from "../types/AllSharesQuery";
 
 export const WHEEL_SIZE = 76;
 
@@ -48,6 +48,10 @@ const StyledCell = styled(Cell)`
   top: 0;
   width: ${CELL_WIDTH}px;
   height: ${CELL_HEIGHT}px;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const StyledShareIcon = styled(ShareIcon).attrs(() => ({
@@ -58,7 +62,9 @@ const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
   className: "wheel-icon",
 }))``;
 
-const StyledStaticSnapIcon = styled(SnapIcon)`
+const StyledStaticSnapIcon = styled(SnapIcon).attrs(() => ({
+  className: "wheel-icon",
+}))`
   position: relative;
   top: 1px;
   left: -8px;
@@ -136,10 +142,64 @@ const StyledAnimatedSnapIcon = styled(SnapIcon)`
   }
 `;
 
+const Wheelhouse = styled.aside<{ inline?: boolean }>`
+  ${(props) => (props.inline ? "display:none;" : "display:block;")}
+  position: sticky;
+  float: left;
+  top: ${(props) => props.theme.spacingHalf};
+  width: ${WHEEL_SIZE}px;
+  height: ${WHEEL_SIZE}px;
+  margin-left: -${(props) => props.theme.unit + WHEEL_SIZE}px;
+  opacity: 1;
+
+  animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+
+  transform: translateY(0);
+  transition: opacity ${(props) => props.theme.animationFast} ease-out,
+    transform ${(props) => props.theme.animationSlow} ease-out;
+
+  @media (max-width: ${(props) => props.theme.wide}) {
+    opacity: 0;
+    transform: translateY(1.5em);
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    ${(props) => (props.inline ? "display:block;" : "display:none;")}
+    position: initial;
+    float: initial;
+    opacity: initial;
+    width: initial;
+    height: initial;
+    margin-left: ${(props) => props.theme.spacingHalf};
+    margin-top: -${(props) => props.theme.spacingHalf};
+    margin-bottom: ${(props) => props.theme.spacingDouble};
+  }
+`;
+
 const WheelWrapper = styled.div`
+  display: block;
   position: relative;
   width: ${WHEEL_SIZE}px;
   height: ${WHEEL_SIZE}px;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    position: initial;
+    width: initial;
+    height: initial;
+    display: flex;
+  }
 `;
 
 const WheelButton = styled.button`
@@ -154,7 +214,6 @@ const WheelButton = styled.button`
 
   &:focus {
     outline: none;
-
     z-index: 1;
 
     .stroke-border {
@@ -167,11 +226,29 @@ const WheelButton = styled.button`
     left: ${(CELL_WIDTH - ICON_SIZE) / 2}px;
     top: ${(CELL_HEIGHT - ICON_SIZE) / 2}px;
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    position: relative;
+    width: initial;
+    height: initial;
+
+    .wheel-icon {
+      position: relative;
+      left: 0;
+      top: ${ICON_SIZE / 3}px;
+      width: ${ICON_SIZE}px;
+      height: ${ICON_SIZE}px;
+    }
+  }
 `;
 
 const SnapButton = styled(WheelButton)`
   left: 0px;
   top: 37px;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    top: 0px;
+  }
 `;
 
 const ShareButton = styled(WheelButton)`
@@ -182,6 +259,10 @@ const ShareButton = styled(WheelButton)`
 const CommentButton = styled(WheelButton)`
   left: 32px;
   top: 18.5px;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    display: none;
+  }
 `;
 
 const CommentLink = styled(AnchorLink)`
@@ -190,7 +271,8 @@ const CommentLink = styled(AnchorLink)`
   top: 0;
 `;
 
-const Badge = styled.div<{ show: boolean }>`
+const Badge = styled.div<{ show?: boolean }>`
+  display: block;
   position: absolute;
   color: ${(props) => props.theme.secondaryTextColor};
   font-family: ${(props) => props.theme.smallFont};
@@ -198,21 +280,36 @@ const Badge = styled.div<{ show: boolean }>`
   font-weight: ${(props) => props.theme.smallFontWeight};
   opacity: ${(props) => (props.show ? 1 : 0)};
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    ${(props) => (props.show ? "display:block" : "display:none;")};
+    position: initial;
+    display: inline;
+    margin-right: 0.5em;
+  }
 `;
 
 const SharesBadge = styled(Badge)`
   left: calc(100% + 0.33em);
   top: -0.33em;
-`;
 
-const CommentsBadge = styled(Badge)`
-  left: calc(100% + 0.33em);
-  top: calc(50% - 0.66em);
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin-left: 6px;
+  }
 `;
 
 const ReactionsBadge = styled(Badge)`
   left: calc(100% + 0.1em);
   bottom: -0.33em;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin-left: 8px;
+  }
+`;
+
+const CommentsBadge = styled(Badge)`
+  left: calc(100% + 0.33em);
+  top: calc(50% - 0.66em);
 `;
 
 const ShareMenuItemBadge = styled.div`
@@ -279,11 +376,13 @@ type WheelProps = {
   comments?: CommentQuery[];
   shareCount: number;
   sharesByType: Partial<Record<ShareType, number>>;
+  inline?: boolean;
   handleSnap: () => void;
   handleShare: (provider: string) => void;
 };
 
 const Wheel: FC<WheelProps> = ({
+  inline,
   comments,
   shareCount,
   sharesByType,
@@ -360,54 +459,59 @@ const Wheel: FC<WheelProps> = ({
   }, [hideMenu]);
 
   return (
-    <WheelWrapper>
-      <SnapButton
-        ref={snapRef}
-        onClick={handleSnap}
-        onMouseOver={() => showTipFor("snap!", snapRef)}
-        onMouseOut={hideTip}
-      >
-        <StyledCell />
-        {snapTimer ? <StyledAnimatedSnapIcon /> : <StyledStaticSnapIcon />}
-        <ReactionsBadge show={Boolean(reactionCount)}>
-          {reactionCount}
-        </ReactionsBadge>
-      </SnapButton>
-      <ShareButton
-        ref={targetRef}
-        onClick={handleShowShareMenu}
-        onBlur={handleHideShareMenu}
-        onMouseOver={() =>
-          showTipFor("share", targetRef as React.MutableRefObject<HTMLElement>)
-        }
-        onMouseOut={hideTip}
-      >
-        <StyledCell />
-        <StyledShareIcon />
-        <SharesBadge show={Boolean(shareCount)}>{shareCount}</SharesBadge>
-      </ShareButton>
-      <CommentLink to={`${window.location.pathname}#comments`}>
-        <CommentButton
-          ref={commentRef}
-          onMouseOver={() => showTipFor("comment", commentRef)}
+    <Wheelhouse inline={inline}>
+      <WheelWrapper>
+        <SnapButton
+          ref={snapRef}
+          onClick={handleSnap}
+          onMouseOver={() => showTipFor("snap!", snapRef)}
           onMouseOut={hideTip}
         >
           <StyledCell />
-          <StyledCommentIcon />
-          <CommentsBadge show={Boolean(commentCount)}>
-            {commentCount}
-          </CommentsBadge>
-        </CommentButton>
-      </CommentLink>
-      <Tooltip ref={tipRef} {...tipProps} role="tooltip">
-        {tooltipText}
-        <Arrow />
-      </Tooltip>
-      <ContextMenu ref={menuRef} {...menuProps}>
-        <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
-        <ContextMenuArrow />
-      </ContextMenu>
-    </WheelWrapper>
+          {snapTimer ? <StyledAnimatedSnapIcon /> : <StyledStaticSnapIcon />}
+          <ReactionsBadge show={Boolean(reactionCount)}>
+            {reactionCount}
+          </ReactionsBadge>
+        </SnapButton>
+        <ShareButton
+          ref={targetRef}
+          onClick={handleShowShareMenu}
+          onBlur={handleHideShareMenu}
+          onMouseOver={() =>
+            showTipFor(
+              "share",
+              targetRef as React.MutableRefObject<HTMLElement>
+            )
+          }
+          onMouseOut={hideTip}
+        >
+          <StyledCell />
+          <StyledShareIcon />
+          <SharesBadge show={Boolean(shareCount)}>{shareCount}</SharesBadge>
+        </ShareButton>
+        <CommentLink to={`${window.location.pathname}#comments`}>
+          <CommentButton
+            ref={commentRef}
+            onMouseOver={() => showTipFor("comment", commentRef)}
+            onMouseOut={hideTip}
+          >
+            <StyledCell />
+            <StyledCommentIcon />
+            <CommentsBadge show={Boolean(commentCount)}>
+              {commentCount}
+            </CommentsBadge>
+          </CommentButton>
+        </CommentLink>
+        <Tooltip ref={tipRef} {...tipProps} role="tooltip">
+          {tooltipText}
+          <Arrow />
+        </Tooltip>
+        <ContextMenu ref={menuRef} {...menuProps}>
+          <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
+          <ContextMenuArrow />
+        </ContextMenu>
+      </WheelWrapper>
+    </Wheelhouse>
   );
 };
 

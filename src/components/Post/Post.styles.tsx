@@ -312,44 +312,6 @@ export const Content = styled.section`
   }
 `;
 
-export const Wheelhouse = styled.section`
-  opacity: 1;
-  position: sticky;
-  float: left;
-  top: ${(props) => props.theme.spacingHalf};
-  width: ${WHEEL_SIZE};
-  height: ${WHEEL_SIZE};
-  margin-left: -${(props) => props.theme.unit + WHEEL_SIZE}px;
-
-  opacity: 1;
-  animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
-
-  @keyframes slideIn {
-    0% {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateY(0px);
-    }
-  }
-
-  transform: translateY(0);
-  transition: opacity ${(props) => props.theme.animationFast} ease-out,
-    transform ${(props) => props.theme.animationSlow} ease-out;
-
-  @media (max-width: ${(props) => props.theme.wide}) {
-    opacity: 0;
-    transform: translateY(1.5em);
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    display: none;
-  }
-`;
-
 export const SidebarPanel = styled.section`
   display: block;
 

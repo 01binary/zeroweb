@@ -190,6 +190,7 @@ const Code: FC = ({ children }) => {
   const copyCode = useCallback(() => {
     if (snippetRef.current) {
       try {
+        hideTip();
         navigator.clipboard.writeText(snippetRef.current.innerText);
         setCopied(true);
         setTimeout(() => setCopied(false), 1000);
@@ -201,6 +202,8 @@ const Code: FC = ({ children }) => {
 
   const toggleDarkMode = useCallback(() => {
     try {
+      hideTip();
+
       if (isDark === isCodeDark) {
         // Override dark mode
         localStorage.setItem(DARK_MODE_OVERRIDE, "1");

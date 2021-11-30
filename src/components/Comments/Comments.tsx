@@ -85,6 +85,8 @@ const formatCommentDate = (timestamp: string): string =>
 const formatMarkerDate = (timestamp: string): string =>
   dayjs(timestamp).format("MMM YYYY");
 
+const DATE_MARKER_THRESHOLD = 100;
+
 type CommentReactionsProps = {
   timestamp: string;
   comments: CommentQuery[];
@@ -314,21 +316,28 @@ const Comments: FC<CommentsProps> = ({
     verticalOffsetMobile: 6,
   });
 
-  const postComments = comments
-    // Post comments are displayed after the post (excludes highlights and reactions)
-    ?.filter(({ markdown }) => markdown && markdown.length)
-    // Post comments are displayed on a historical timeline
-    ?.sort(({ timestamp: timestamp1 }, { timestamp: timestamp2 }) =>
-      timestamp1.localeCompare(timestamp2)
-    );
+  const postComments = useMemo(
+    () =>
+      comments
+        // Post comments are displayed after the post (excludes highlights and reactions)
+        ?.filter(({ markdown }) => markdown && markdown.length)
+        // Post comments are displayed on a historical timeline
+        ?.sort(({ timestamp: timestamp1 }, { timestamp: timestamp2 }) =>
+          timestamp1.localeCompare(timestamp2)
+        ),
+    [comments]
+  );
 
-  const maxVotes =
-    postComments?.reduce(
-      // Get maximum votes on any comment so we can calculate proportion on available slots
-      (acc, { upVotes, downVotes }) =>
-        Math.max(acc, upVotes && downVotes ? upVotes + downVotes : 0),
-      0
-    ) || 0;
+  const maxVotes = useMemo(
+    () =>
+      postComments?.reduce(
+        // Get maximum votes on any comment so we can calculate proportion on available slots
+        (acc, { upVotes, downVotes }) =>
+          Math.max(acc, upVotes && downVotes ? upVotes + downVotes : 0),
+        0
+      ) || 0,
+    [postComments]
+  );
 
   useLayoutEffect(() => {
     // Calculate % scrolled through comments and which comment is in view
@@ -526,6 +535,10 @@ const Comments: FC<CommentsProps> = ({
     };
   });
 
+  const showDateMarker = Boolean(
+    commentsRef.current &&
+      commentsRef.current.getBoundingClientRect().height > DATE_MARKER_THRESHOLD
+  );
   const showComments = Boolean(postComments && postComments.length);
   const showLoadingComments = Boolean(loading && !comments);
   const showLogin = Boolean(!user && comments);
@@ -712,7 +725,10 @@ const Comments: FC<CommentsProps> = ({
                 </Comment>
               )
             )}
-            <DateMarker offset={`${commentsMarkerOffsetRef.current}px`}>
+            <DateMarker
+              show={showDateMarker}
+              offset={`${commentsMarkerOffsetRef.current}px`}
+            >
               <CommentMarker />
               <DateMarkerLabel ref={markerRef}>
                 <MarkerCount>

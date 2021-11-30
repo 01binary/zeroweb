@@ -62,9 +62,7 @@ const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
   className: "wheel-icon",
 }))``;
 
-const StyledStaticSnapIcon = styled(SnapIcon).attrs(() => ({
-  className: "wheel-icon",
-}))`
+const StyledStaticSnapIcon = styled(SnapIcon)`
   position: relative;
   top: 1px;
   left: -8px;
@@ -77,6 +75,11 @@ const StyledStaticSnapIcon = styled(SnapIcon).attrs(() => ({
   #frame2,
   #frame3 {
     opacity: 0;
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    top: 12px;
+    left: 1px;
   }
 `;
 
@@ -139,6 +142,11 @@ const StyledAnimatedSnapIcon = styled(SnapIcon)`
     100% {
       opacity: 0;
     }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    top: 12px;
+    left: 1px;
   }
 `;
 

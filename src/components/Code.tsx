@@ -165,8 +165,8 @@ const CodeButton: FC<CodeButtonProps> = ({
 };
 
 const Code: FC = ({ children }) => {
-  const darkOverride = localStorage.getItem(DARK_MODE_OVERRIDE) == '1';
-
+  const darkOverride =
+    localStorage && localStorage.getItem(DARK_MODE_OVERRIDE) == '1';
   const snippetRef = useRef<HTMLElement>(null);
   const { isDark } = useStyledDarkMode();
   const [isCopied, setCopied] = useState(false);

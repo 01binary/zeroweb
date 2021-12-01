@@ -9,11 +9,11 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC } from "react";
-import { AnchorLink } from "gatsby-plugin-anchor-links";
-import styled from "styled-components";
-import useActiveHeading from "../hooks/useActiveHeading";
-import HeadingQuery from "../types/HeadingQuery";
+import React, { FC } from 'react';
+import { AnchorLink } from 'gatsby-plugin-anchor-links';
+import styled from 'styled-components';
+import useActiveHeading from '../hooks/useActiveHeading';
+import HeadingQuery from '../types/HeadingQuery';
 
 const Toc = styled.section`
   font-family: ${(props) => props.theme.smallFont};

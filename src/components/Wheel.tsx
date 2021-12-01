@@ -16,24 +16,24 @@ import React, {
   useMemo,
   useEffect,
   useCallback,
-} from "react";
-import styled from "styled-components";
-import { AnchorLink } from "gatsby-plugin-anchor-links";
-import { useTooltip } from "../hooks/useTooltip";
-import { CommentQuery } from "../types/AllCommentsQuery";
-import { Tooltip, Arrow } from "./Tooltip";
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from "./Menu";
-import Cell from "../images/cell.svg";
-import ShareIcon from "../images/share.svg";
-import CommentIcon from "../images/comment.svg";
-import SnapIcon from "../images/snap.svg";
-import ShareFacebookIcon from "../images/share-facebook.svg";
-import ShareTwitterIcon from "../images/share-twitter.svg";
-import ShareLinkedInIcon from "../images/share-linkedin.svg";
-import ShareLinkIcon from "../images/share-link.svg";
-import ShareEmailIcon from "../images/share-email.svg";
-import { ContextMenu, ContextMenuArrow } from "./ContextMenu";
-import { ShareType } from "../types/AllSharesQuery";
+} from 'react';
+import styled from 'styled-components';
+import { AnchorLink } from 'gatsby-plugin-anchor-links';
+import { useTooltip } from '../hooks/useTooltip';
+import { CommentQuery } from '../types/AllCommentsQuery';
+import { Tooltip, Arrow } from './Tooltip';
+import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
+import Cell from '../images/cell.svg';
+import ShareIcon from '../images/share.svg';
+import CommentIcon from '../images/comment.svg';
+import SnapIcon from '../images/snap.svg';
+import ShareFacebookIcon from '../images/share-facebook.svg';
+import ShareTwitterIcon from '../images/share-twitter.svg';
+import ShareLinkedInIcon from '../images/share-linkedin.svg';
+import ShareLinkIcon from '../images/share-link.svg';
+import ShareEmailIcon from '../images/share-email.svg';
+import { ContextMenu, ContextMenuArrow } from './ContextMenu';
+import { ShareType } from '../types/AllSharesQuery';
 
 export const WHEEL_SIZE = 76;
 
@@ -55,11 +55,11 @@ const StyledCell = styled(Cell)`
 `;
 
 const StyledShareIcon = styled(ShareIcon).attrs(() => ({
-  className: "wheel-icon",
+  className: 'wheel-icon',
 }))``;
 
 const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
-  className: "wheel-icon",
+  className: 'wheel-icon',
 }))``;
 
 const StyledStaticSnapIcon = styled(SnapIcon)`
@@ -151,7 +151,7 @@ const StyledAnimatedSnapIcon = styled(SnapIcon)`
 `;
 
 const Wheelhouse = styled.aside<{ inline?: boolean }>`
-  ${(props) => (props.inline ? "display:none;" : "display:block;")}
+  ${(props) => (props.inline ? 'display:none;' : 'display:block;')}
   position: sticky;
   float: left;
   top: ${(props) => props.theme.spacingHalf};
@@ -184,7 +184,7 @@ const Wheelhouse = styled.aside<{ inline?: boolean }>`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    ${(props) => (props.inline ? "display:block;" : "display:none;")}
+    ${(props) => (props.inline ? 'display:block;' : 'display:none;')}
     position: initial;
     float: initial;
     opacity: initial;
@@ -291,7 +291,7 @@ const Badge = styled.div<{ show?: boolean }>`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     ${(props) =>
-      props.show ? "display:inline !important;" : "display:none !important;"};
+      props.show ? 'display:inline !important;' : 'display:none !important;'};
     position: initial;
     margin-right: 0.5em;
   }
@@ -408,7 +408,7 @@ const Wheel: FC<WheelProps> = ({
     tooltipVisible: menuVisible,
     targetRef,
   } = useTooltip({
-    placement: "bottom-start",
+    placement: 'bottom-start',
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
@@ -460,9 +460,9 @@ const Wheel: FC<WheelProps> = ({
   const handleHideShareMenu = useCallback(() => setTimeout(hideMenu, 250), []);
 
   useEffect(() => {
-    window.addEventListener("scroll", hideMenu);
+    window.addEventListener('scroll', hideMenu);
     return () => {
-      window.removeEventListener("scroll", hideMenu);
+      window.removeEventListener('scroll', hideMenu);
     };
   }, [hideMenu]);
 
@@ -472,7 +472,7 @@ const Wheel: FC<WheelProps> = ({
         <SnapButton
           ref={snapRef}
           onClick={handleSnap}
-          onMouseOver={() => showTipFor("snap!", snapRef)}
+          onMouseOver={() => showTipFor('snap!', snapRef)}
           onMouseOut={hideTip}
         >
           <StyledCell />
@@ -487,7 +487,7 @@ const Wheel: FC<WheelProps> = ({
           onBlur={handleHideShareMenu}
           onMouseOver={() =>
             showTipFor(
-              "share",
+              'share',
               targetRef as React.MutableRefObject<HTMLElement>
             )
           }
@@ -500,7 +500,7 @@ const Wheel: FC<WheelProps> = ({
         <CommentLink to={`${window.location.pathname}#comments`}>
           <CommentButton
             ref={commentRef}
-            onMouseOver={() => showTipFor("comment", commentRef)}
+            onMouseOver={() => showTipFor('comment', commentRef)}
             onMouseOut={hideTip}
           >
             <StyledCell />

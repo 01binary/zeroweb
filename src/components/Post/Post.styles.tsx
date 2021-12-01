@@ -9,13 +9,13 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import styled from "styled-components";
-import Img from "gatsby-image";
-import GaugeIcon from "../../images/gauge.svg";
-import ClockIcon from "../../images/clock.svg";
-import { Heading } from "../Heading";
-import { WHEEL_SIZE } from "../Wheel";
-import { RULER_OFFSET, RULER_SELECTION_GUTTER } from "../Ruler";
+import styled from 'styled-components';
+import Img from 'gatsby-image';
+import GaugeIcon from '../../images/gauge.svg';
+import ClockIcon from '../../images/clock.svg';
+import { Heading } from '../Heading';
+import { WHEEL_SIZE } from '../Wheel';
+import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
 
 export const Main = styled.main`
   margin-bottom: 3em;
@@ -60,7 +60,7 @@ export const Main = styled.main`
   h3,
   h4 {
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       left: calc(
         100% + ${(props) => props.theme.spacingHalf} +
@@ -102,7 +102,7 @@ export const Main = styled.main`
     padding-left: ${(props) => props.theme.spacingHalf};
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       left: calc(
         100% + ${(props) => props.theme.spacingHalf} +
@@ -187,7 +187,7 @@ export const HeroImage = styled(Img)`
   z-index: -1;
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     left: calc(
       100% + ${(props) => props.theme.spacingHalf} + ${RULER_OFFSET}px + 7px
@@ -270,7 +270,7 @@ export const Content = styled.section`
     position: relative;
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       left: calc(
         100% + ${(props) => props.theme.spacingHalf} +

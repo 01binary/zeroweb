@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import CommentMarkerIcon from "../../images/comment-marker.svg";
-import { RULER_ENDMARK_WIDTH } from "../Ruler";
-import { AVATAR_SIZE } from "../Avatar";
+import styled from 'styled-components';
+import CommentMarkerIcon from '../../images/comment-marker.svg';
+import { RULER_ENDMARK_WIDTH } from '../Ruler';
+import { AVATAR_SIZE } from '../Avatar';
 
-const COMMENT_SCALE_BREAKPOINT = "1160px";
+const COMMENT_SCALE_BREAKPOINT = '1160px';
 const VOTE_SLOT_WIDTH = 12;
 const AVATAR_TILE_MAX_DIST = 30;
 const AVATAR_TILE_OFFSET = 19;
@@ -107,7 +107,7 @@ export const DateMarker = styled.div<{ offset: number; show: boolean }>`
   height: 1em;
   font-family: monospace;
   font-size: 28pt;
-  ${(props) => !props.show && "display: none"};
+  ${(props) => !props.show && 'display: none'};
 
   @media (max-width: ${COMMENT_SCALE_BREAKPOINT}) {
     right: 1.25em;
@@ -159,7 +159,7 @@ export const CommentsList = styled.ul`
   padding-bottom: 0;
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: calc(
@@ -202,7 +202,7 @@ export const Comment = styled.li`
   margin-bottom: 0.7em;
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     border-right: ${(props) => props.theme.border} dotted
       ${(props) => props.theme.borderColor};
@@ -217,7 +217,7 @@ export const Comment = styled.li`
   }
 
   &:after {
-    content: "";
+    content: '';
     z-index: -1;
     position: absolute;
     top: 0;
@@ -281,7 +281,7 @@ export const Me = styled.span`
   color: ${(props) => props.theme.backgroundColor};
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: -8px;
@@ -292,7 +292,7 @@ export const Me = styled.span`
   }
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     right: 0;
     bottom: -8px;
@@ -350,7 +350,7 @@ export const UpVote = styled(VoteSlot)`
 `;
 
 const VoteButton = styled.button.attrs(() => ({
-  className: "comment__vote-button",
+  className: 'comment__vote-button',
 }))`
   position: absolute;
   right: calc(${(props) => props.theme.spacingOneAndHalf} - 4px);
@@ -408,8 +408,8 @@ export const CommentContent = styled.span`
 
   code {
     position: relative;
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
     font-size: ${(props) => props.theme.smallFontSize};
     background: ${(props) =>
       props.theme.isDark
@@ -443,7 +443,7 @@ export const CommentActions = styled.div`
 `;
 
 export const CommentButton = styled.button.attrs(() => ({
-  className: "comment__option-button",
+  className: 'comment__option-button',
 }))`
   border: none;
   cursor: pointer;
@@ -595,11 +595,11 @@ export const AddCommentRow = styled.div`
       ${(props) => props.theme.borderThick}
   );
   justify-content: ${(props) =>
-    props.align === "right" ? "flex-end" : "flex-start"};
+    props.align === 'right' ? 'flex-end' : 'flex-start'};
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     width: calc(100% - ${(props) => props.theme.spacingHalf});
-    ${(props) => props.distribute && "justify-content: space-between"};
+    ${(props) => props.distribute && 'justify-content: space-between'};
   }
 `;
 

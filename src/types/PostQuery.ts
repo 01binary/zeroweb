@@ -12,14 +12,15 @@
 import PostMetadataQuery from './PostMetadataQuery';
 import HeadingQuery from './HeadingQuery';
 import TagsQuery from './TagsQuery';
+import SiteMetadataQuery from './SiteMetadataQuery';
 
-interface PostFieldsQuery {
+type PostFieldsQuery = {
   url: string;
   collection: string;
   tags: Array<string>;
 };
 
-interface PostDetailsQuery {
+type PostDetailsQuery = {
   slug: string;
   body: string;
   timeToRead?: number;
@@ -28,6 +29,9 @@ interface PostDetailsQuery {
   headings: Array<HeadingQuery>;
   mdx: PostDetailsQuery;
   allMdx: TagsQuery;
+  site: {
+    siteMetadata: SiteMetadataQuery;
+  };
 };
 
 export default PostDetailsQuery;

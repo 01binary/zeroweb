@@ -223,6 +223,7 @@ const Post: FC<PostProps> = ({
         </Metadata>
 
         <Wheel
+          postUrl={postUrl}
           comments={comments}
           shareCount={shareCount}
           sharesByType={sharesByType}
@@ -255,6 +256,7 @@ const Post: FC<PostProps> = ({
 
         <Wheel
           inline
+          postUrl={postUrl}
           comments={comments}
           shareCount={shareCount}
           sharesByType={sharesByType}
@@ -265,6 +267,7 @@ const Post: FC<PostProps> = ({
 
       <Comments
         slug={slug}
+        url={url}
         loading={loading}
         error={error}
         loginError={loginError}

@@ -249,6 +249,7 @@ const CommentVotes: FC<CommentVotesProps> = ({
 
 type CommentsProps = {
   slug: string;
+  url: string;
   comments: CommentQuery[] | null;
   loading: boolean;
   error: string | null;
@@ -268,6 +269,7 @@ type CommentsProps = {
 
 const Comments: FC<CommentsProps> = ({
   slug,
+  url,
   comments,
   loading,
   error,
@@ -649,9 +651,7 @@ const Comments: FC<CommentsProps> = ({
                       onClick={(e) => {
                         e.preventDefault();
                         navigator.clipboard.writeText(
-                          `${window.location.href}?comment=${encodeURIComponent(
-                            timestamp
-                          )}`
+                          `${url}?comment=${encodeURIComponent(timestamp)}`
                         );
                         handleShowTip(e, 'copied!');
                       }}

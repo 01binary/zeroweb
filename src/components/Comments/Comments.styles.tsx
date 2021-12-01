@@ -27,6 +27,20 @@ type CommentsSectionProps = {
 };
 
 export const CommentsSection = styled.footer<CommentsSectionProps>`
+  font-family: ${(props) => props.theme.normalFont};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+  font-size: ${(props) => props.theme.normalFontSize};
+  color: ${(props) => props.theme.foregroundColor};
+
+  max-width: ${(props) => props.theme.column};
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: ${(props) =>
+    props.isUserLoggedIn && props.hasComments ? 4 : props.isLoading ? -1 : 0}em;
+  margin-bottom: ${(props) => (props.isLoading ? 3 : 0)}em;
+  opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
+  transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
   h2 {
     font-size: ${(props) => props.theme.headingFontSizeMedium};
     font-weight: ${(props) => props.theme.headingFontWeight};
@@ -39,12 +53,6 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
     font-weight: ${(props) => props.theme.smallFontWeight};
     line-height: ${(props) => props.theme.smallFontLineHeight};
   }
-
-  opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
-  margin-top: ${(props) =>
-    props.isUserLoggedIn && props.hasComments ? 4 : props.isLoading ? -1 : 0}em;
-  margin-bottom: ${(props) => (props.isLoading ? 3 : 0)}em;
-  transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     max-width: initial;

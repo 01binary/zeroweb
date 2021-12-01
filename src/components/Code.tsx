@@ -9,27 +9,20 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, {
-  FC,
-  useState,
-  useRef,
-  useCallback,
-  useMemo,
-  useEffect,
-} from "react";
-import styled from "styled-components";
-import Highlight, { defaultProps } from "prism-react-renderer";
-import { useStyledDarkMode } from "gatsby-styled-components-dark-mode";
-import light from "prism-react-renderer/themes/github";
-import dark from "prism-react-renderer/themes/vsDark";
-import { useTooltipController, useTooltipTarget } from "../hooks/useTooltip";
-import { Tooltip, Arrow } from "./Tooltip";
-import { RULER_ENDMARK_WIDTH } from "./Ruler";
-import CopyIcon from "../images/copy.svg";
-import LightIcon from "../images/light.svg";
-import DarkIcon from "../images/dark.svg";
+import React, { FC, useState, useRef, useCallback } from 'react';
+import styled from 'styled-components';
+import Highlight, { defaultProps } from 'prism-react-renderer';
+import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
+import light from 'prism-react-renderer/themes/github';
+import dark from 'prism-react-renderer/themes/vsDark';
+import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
+import { Tooltip, Arrow } from './Tooltip';
+import { RULER_ENDMARK_WIDTH } from './Ruler';
+import CopyIcon from '../images/copy.svg';
+import LightIcon from '../images/light.svg';
+import DarkIcon from '../images/dark.svg';
 
-const DARK_MODE_OVERRIDE = "darkCode";
+const DARK_MODE_OVERRIDE = 'darkCode';
 
 type CodeWrapperProps = {
   isDark: boolean;
@@ -59,7 +52,7 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
   }
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: ${(props) => props.theme.spacingOneAndHalf};
@@ -150,7 +143,7 @@ const CodeButton: FC<CodeButtonProps> = ({
     showTip,
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 10,
-    placement: "top",
+    placement: 'top',
   });
 
   const showTooltip = useCallback(() => showTargetTip(tipId), [
@@ -172,7 +165,7 @@ const CodeButton: FC<CodeButtonProps> = ({
 };
 
 const Code: FC = ({ children }) => {
-  const darkOverride = localStorage.getItem(DARK_MODE_OVERRIDE) == "1";
+  const darkOverride = localStorage.getItem(DARK_MODE_OVERRIDE) == '1';
 
   const snippetRef = useRef<HTMLElement>(null);
   const { isDark } = useStyledDarkMode();
@@ -206,7 +199,7 @@ const Code: FC = ({ children }) => {
 
       if (isDark === isCodeDark) {
         // Override dark mode
-        localStorage.setItem(DARK_MODE_OVERRIDE, "1");
+        localStorage.setItem(DARK_MODE_OVERRIDE, '1');
       } else {
         // Remove dark mode override
         localStorage.removeItem(DARK_MODE_OVERRIDE);
@@ -218,7 +211,7 @@ const Code: FC = ({ children }) => {
     setCodeDark(!isCodeDark);
   }, [isDark, isCodeDark, setCodeDark]);
 
-  const className = (children as React.ReactElement)?.props?.className || "";
+  const className = (children as React.ReactElement)?.props?.className || '';
   const matches = className.match(/language-(?<lang>.*)/);
 
   return (
@@ -230,7 +223,7 @@ const Code: FC = ({ children }) => {
         language={
           matches && matches.groups && matches.groups.lang
             ? matches.groups.lang
-            : ""
+            : ''
         }
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
@@ -250,7 +243,7 @@ const Code: FC = ({ children }) => {
             </span>
             <CodeButton
               offset={0}
-              tipId={"copy"}
+              tipId={'copy'}
               tipRef={tipRef}
               onClick={copyCode}
               showTip={showTip}
@@ -261,7 +254,7 @@ const Code: FC = ({ children }) => {
             {isDark === false && (
               <CodeButton
                 offset={1}
-                tipId={"mode"}
+                tipId={'mode'}
                 tipRef={tipRef}
                 onClick={toggleDarkMode}
                 showTip={showTip}
@@ -271,8 +264,8 @@ const Code: FC = ({ children }) => {
               </CodeButton>
             )}
             <Tooltip {...tipProps} role="tooltip">
-              {tipId === "copy" && (isCopied ? "copied!" : "copy code")}
-              {tipId === "mode" && (isCodeDark ? "light theme" : "dark theme")}
+              {tipId === 'copy' && (isCopied ? 'copied!' : 'copy code')}
+              {tipId === 'mode' && (isCodeDark ? 'light theme' : 'dark theme')}
               <Arrow />
             </Tooltip>
           </Pre>

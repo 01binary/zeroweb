@@ -9,13 +9,13 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC } from "react";
-import styled from "styled-components";
-import { PostsQuery } from "../types/AllPostsQuery";
-import { getDateValue, getDateUnits } from "../utils";
-import ClockIcon from "../images/clock.svg";
-import { Link } from "gatsby";
-import TagList from "./TagList";
+import React, { FC } from 'react';
+import styled from 'styled-components';
+import { PostsQuery } from '../types/AllPostsQuery';
+import { getDateValue, getDateUnits } from '../utils';
+import ClockIcon from '../images/clock.svg';
+import { Link } from 'gatsby';
+import TagList from './TagList';
 
 const Article = styled.article`
   margin-left: ${(props) => props.theme.spacingHalf};
@@ -88,7 +88,7 @@ const ArticleTitleLink = styled(Link)`
   }
 
   &:focus h2:after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 0;
@@ -123,7 +123,7 @@ const PostList: FC<PostsQuery> = ({ nodes, group }) => (
             {getDateUnits(relativeDate)}
             {timeToRead && (
               <span>
-                {" / "}
+                {' / '}
                 <MetaIndicator>{timeToRead}</MetaIndicator> min to read
               </span>
             )}

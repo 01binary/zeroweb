@@ -9,24 +9,24 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useCallback } from "react";
-import { MDXProvider } from "@mdx-js/react";
-import { graphql } from "gatsby";
-import { useBlogContext } from "../../hooks/useBlogContext";
-import { CommentsContext } from "../../hooks/useComments";
-import { MDXRenderer } from "gatsby-plugin-mdx";
-import PostQuery from "../../types/PostQuery";
-import useScrollPosition from "../../hooks/useScrollPosition";
-import Wheel from "../Wheel";
-import { Ruler } from "../Ruler";
-import TagList from "../TagList";
-import SEO from "../SEO";
-import TOC from "../TOC";
-import MetaLink from "../MetaLink";
-import Comments from "../Comments/Comments";
-import Code from "../Code";
-import Paragraph from "../Paragraph";
-import Blockquote from "../Blockquote";
+import React, { useState, FC, useCallback } from 'react';
+import { MDXProvider } from '@mdx-js/react';
+import { graphql } from 'gatsby';
+import { useBlogContext } from '../../hooks/useBlogContext';
+import { CommentsContext } from '../../hooks/useComments';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
+import PostQuery from '../../types/PostQuery';
+import useScrollPosition from '../../hooks/useScrollPosition';
+import Wheel from '../Wheel';
+import { Ruler } from '../Ruler';
+import TagList from '../TagList';
+import SEO from '../SEO';
+import TOC from '../TOC';
+import MetaLink from '../MetaLink';
+import Comments from '../Comments/Comments';
+import Code from '../Code';
+import Paragraph from '../Paragraph';
+import Blockquote from '../Blockquote';
 import {
   Main,
   PostHeading,
@@ -44,17 +44,17 @@ import {
   Gauge,
   HeroImage,
   Content,
-} from "./Post.styles";
-import { Heading1, Heading2, Heading3, Heading4 } from "../Heading";
-import { Table, TableHeading, TableRow, TableCell } from "../Table";
-import { useLogin } from "../../hooks/useLogin";
-import useUserContent from "../../hooks/useUserContent";
+} from './Post.styles';
+import { Heading1, Heading2, Heading3, Heading4 } from '../Heading';
+import { Table, TableHeading, TableRow, TableCell } from '../Table';
+import { useLogin } from '../../hooks/useLogin';
+import useUserContent from '../../hooks/useUserContent';
 import {
   getDateUnits,
   getDateValue,
   openUrl,
   slugifyHeadings,
-} from "../../utils";
+} from '../../utils';
 
 const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 
@@ -121,44 +121,44 @@ const Post: FC<PostProps> = ({
 
   const handleSnap = useCallback(() => {
     handleReact({
-      userName: user?.name || "",
-      avatarUrl: user?.avatarUrl || "",
+      userName: user?.name || '',
+      avatarUrl: user?.avatarUrl || '',
       parentTimestamp: null,
-      reaction: "snap",
+      reaction: 'snap',
     });
   }, [user, handleReact]);
 
   const handleShare = useCallback(
     (shareType) => {
       switch (shareType) {
-        case "linkShare":
-          handleAddShare("link");
+        case 'linkShare':
+          handleAddShare('link');
           navigator.clipboard.writeText(window.location.href);
           break;
-        case "facebookShare":
-          handleAddShare("facebook");
-          openUrl("https://www.facebook.com/sharer.php", {
+        case 'facebookShare':
+          handleAddShare('facebook');
+          openUrl('https://www.facebook.com/sharer.php', {
             u: window.location.href,
           });
           break;
-        case "twitterShare":
-          handleAddShare("twitter");
-          openUrl("https://twitter.com/intent/tweet", {
+        case 'twitterShare':
+          handleAddShare('twitter');
+          openUrl('https://twitter.com/intent/tweet', {
             text: title,
             url: window.location.href,
           });
           break;
-        case "linkedInShare":
-          handleAddShare("linkedIn");
-          openUrl("https://www.linkedin.com/shareArticle", {
+        case 'linkedInShare':
+          handleAddShare('linkedIn');
+          openUrl('https://www.linkedin.com/shareArticle', {
             title,
             url: window.location.href,
             summary: description,
             mini: true,
           });
           break;
-        case "emailShare":
-          handleAddShare("email");
+        case 'emailShare':
+          handleAddShare('email');
           window.open(`mailto:?subject=${title}&body=${window.location.href}`);
           break;
       }
@@ -201,16 +201,16 @@ const Post: FC<PostProps> = ({
           <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
           &nbsp;
           <Author>
-            {" "}
+            {' '}
             by <AuthorLink />
           </Author>
           &nbsp;
           <Location>
-            {" "}
+            {' '}
             in <LocationLink />
           </Location>
           <InlineTimeToRead>
-            {"/ "}
+            {'/ '}
             <Indicator>{timeToRead}</Indicator>
             <span> min </span>
             <IndicatorLabel>to read</IndicatorLabel>

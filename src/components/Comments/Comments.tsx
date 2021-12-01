@@ -6,36 +6,36 @@ import React, {
   useState,
   useCallback,
   useEffect,
-} from "react";
-import ReactMarkdown from "react-markdown";
-import Avatar from "../Avatar";
-import MetaLink from "../MetaLink";
-import Login from "../Login";
-import Error from "../Error";
-import dayjs from "dayjs";
-import { useBlogContext } from "../../hooks/useBlogContext";
-import relativeTime from "dayjs/plugin/relativeTime";
-import UpVoteIcon from "../../images/upvote.svg";
-import DownVoteIcon from "../../images/downvote.svg";
-import ReactionIcon from "../../images/reaction.svg";
-import MenuIcon from "../../images/comment-menu.svg";
-import SaveIcon from "../../images/accept.svg";
-import CancelIcon from "../../images/cancel.svg";
-import ReactionLolIcon from "../../images/reaction-lol.svg";
-import ReactionWowIcon from "../../images/reaction-wow.svg";
-import ReactionConfusedIcon from "../../images/reaction-confused.svg";
-import ReactionPartyIcon from "../../images/reaction-party.svg";
-import ReactionSnapIcon from "../../images/reaction-snap.svg";
-import EditIcon from "../../images/edit.svg";
-import DeleteIcon from "../../images/delete.svg";
-import { CommentQuery } from "../../types/AllCommentsQuery";
-import { Vote } from "../../types/VoteCommentQuery";
-import AddCommentMutation from "../../types/AddCommentMutation";
-import EditCommentMutation from "../../types/EditCommentMutation";
-import { useTooltip } from "../../hooks/useTooltip";
-import { ContextMenu, ContextMenuArrow } from "../ContextMenu";
-import { Tooltip, Arrow } from "../Tooltip";
-import ReactCommentMutation from "../../types/ReactMutation";
+} from 'react';
+import ReactMarkdown from 'react-markdown';
+import Avatar from '../Avatar';
+import MetaLink from '../MetaLink';
+import Login from '../Login';
+import Error from '../Error';
+import dayjs from 'dayjs';
+import { useBlogContext } from '../../hooks/useBlogContext';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import UpVoteIcon from '../../images/upvote.svg';
+import DownVoteIcon from '../../images/downvote.svg';
+import ReactionIcon from '../../images/reaction.svg';
+import MenuIcon from '../../images/comment-menu.svg';
+import SaveIcon from '../../images/accept.svg';
+import CancelIcon from '../../images/cancel.svg';
+import ReactionLolIcon from '../../images/reaction-lol.svg';
+import ReactionWowIcon from '../../images/reaction-wow.svg';
+import ReactionConfusedIcon from '../../images/reaction-confused.svg';
+import ReactionPartyIcon from '../../images/reaction-party.svg';
+import ReactionSnapIcon from '../../images/reaction-snap.svg';
+import EditIcon from '../../images/edit.svg';
+import DeleteIcon from '../../images/delete.svg';
+import { CommentQuery } from '../../types/AllCommentsQuery';
+import { Vote } from '../../types/VoteCommentQuery';
+import AddCommentMutation from '../../types/AddCommentMutation';
+import EditCommentMutation from '../../types/EditCommentMutation';
+import { useTooltip } from '../../hooks/useTooltip';
+import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
+import { Tooltip, Arrow } from '../Tooltip';
+import ReactCommentMutation from '../../types/ReactMutation';
 import {
   CommentsList,
   CommentsSection,
@@ -72,10 +72,10 @@ import {
   AddCommentAvatar,
   AddCommentUser,
   AddCommentInput,
-} from "./Comments.styles";
-import PrimaryButton from "../PrimaryButton";
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from "../Menu";
-import { FetchResult } from "@apollo/client";
+} from './Comments.styles';
+import PrimaryButton from '../PrimaryButton';
+import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../Menu';
+import { FetchResult } from '@apollo/client';
 
 dayjs.extend(relativeTime);
 
@@ -83,7 +83,7 @@ const formatCommentDate = (timestamp: string): string =>
   dayjs(timestamp).fromNow();
 
 const formatMarkerDate = (timestamp: string): string =>
-  dayjs(timestamp).format("MMM YYYY");
+  dayjs(timestamp).format('MMM YYYY');
 
 const DATE_MARKER_THRESHOLD = 100;
 
@@ -121,15 +121,15 @@ const CommentReactions: FC<CommentReactionsProps> = ({
     <CommentReactionGroup>
       {Object.keys(count).map((reaction) => (
         <CommentReaction key={reaction}>
-          {reaction === "lol" ? (
+          {reaction === 'lol' ? (
             <ReactionLolIcon />
-          ) : reaction === "wow" ? (
+          ) : reaction === 'wow' ? (
             <ReactionWowIcon />
-          ) : reaction === "confused" ? (
+          ) : reaction === 'confused' ? (
             <ReactionConfusedIcon />
-          ) : reaction === "party" ? (
+          ) : reaction === 'party' ? (
             <ReactionPartyIcon />
-          ) : reaction === "snap" ? (
+          ) : reaction === 'snap' ? (
             <ReactionSnapIcon />
           ) : null}
           {count[reaction] > 1 && (
@@ -164,12 +164,12 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
     <Menu vertical>
       <CommentReactionDescription>
         {reaction}
-        {!reaction && "choose a reaction"}
+        {!reaction && 'choose a reaction'}
       </CommentReactionDescription>
       <Menu>
         <MenuItem
           id="snap"
-          onMouseOver={() => setReaction("snap!")}
+          onMouseOver={() => setReaction('snap!')}
           onMouseOut={() => setReaction(null)}
           onClick={onSelect}
         >
@@ -177,7 +177,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
         </MenuItem>
         <MenuItem
           id="party"
-          onMouseOver={() => setReaction("four loko")}
+          onMouseOver={() => setReaction('four loko')}
           onMouseOut={() => setReaction(null)}
           onClick={onSelect}
         >
@@ -185,7 +185,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
         </MenuItem>
         <MenuItem
           id="lol"
-          onMouseOver={() => setReaction("lol")}
+          onMouseOver={() => setReaction('lol')}
           onMouseOut={() => setReaction(null)}
           onClick={onSelect}
         >
@@ -193,7 +193,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
         </MenuItem>
         <MenuItem
           id="wow"
-          onMouseOver={() => setReaction("surprised")}
+          onMouseOver={() => setReaction('surprised')}
           onMouseOut={() => setReaction(null)}
           onClick={onSelect}
         >
@@ -201,7 +201,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
         </MenuItem>
         <MenuItem
           id="confused"
-          onMouseOver={() => setReaction("confused")}
+          onMouseOver={() => setReaction('confused')}
           onMouseOut={() => setReaction(null)}
           onClick={onSelect}
         >
@@ -285,7 +285,7 @@ const Comments: FC<CommentsProps> = ({
   scrollOffset,
 }) => {
   const { user } = useBlogContext();
-  const [comment, setComment] = useState<string>("");
+  const [comment, setComment] = useState<string>('');
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);
   const commentSpansRef = useRef<number[]>([]);
@@ -297,7 +297,7 @@ const Comments: FC<CommentsProps> = ({
   const tipTargetRef = useRef<HTMLElement>();
   const [selectedComment, setSelectedComment] = useState<string | null>(null);
   const [editingComment, setEditingComment] = useState<string | null>(null);
-  const [editMarkdown, setEditMarkdown] = useState<string>("");
+  const [editMarkdown, setEditMarkdown] = useState<string>('');
 
   const {
     hideTip: hideMenu,
@@ -306,7 +306,7 @@ const Comments: FC<CommentsProps> = ({
     tipRef: menuRef,
     tooltipText: menuId,
   } = useTooltip({
-    placement: "bottom-start",
+    placement: 'bottom-start',
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
@@ -400,9 +400,9 @@ const Comments: FC<CommentsProps> = ({
       if (!comment.length) return;
       handleAdd({
         userName: user.name,
-        avatarUrl: user.avatarUrl || "",
+        avatarUrl: user.avatarUrl || '',
         markdown: comment,
-      }).then(() => setComment(""));
+      }).then(() => setComment(''));
     },
     [handleAdd, user, comment]
   );
@@ -411,7 +411,7 @@ const Comments: FC<CommentsProps> = ({
     (e) => {
       const target = e.target;
       setTimeout(() => {
-        target.classList.remove("comment__option--active");
+        target.classList.remove('comment__option--active');
         optionRef.current = null;
         setSelectedComment(null);
         hideMenu();
@@ -421,10 +421,10 @@ const Comments: FC<CommentsProps> = ({
   );
 
   const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
-    if (e.target.classList.contains("comment__option--active")) {
+    if (e.target.classList.contains('comment__option--active')) {
       handleHideCommentMenu(e);
     } else {
-      e.target.classList.add("comment__option--active");
+      e.target.classList.add('comment__option--active');
       optionRef.current = e.target;
       setSelectedComment(timestamp);
       hideTip();
@@ -449,7 +449,7 @@ const Comments: FC<CommentsProps> = ({
     setEditingComment(selectedComment);
     setEditMarkdown(
       postComments.find(({ timestamp }) => timestamp === selectedComment)
-        ?.markdown || ""
+        ?.markdown || ''
     );
   }, [selectedComment, postComments, setEditingComment, setEditMarkdown]);
 
@@ -472,7 +472,7 @@ const Comments: FC<CommentsProps> = ({
       })
         .then(() => {
           setEditingComment(null);
-          setEditMarkdown("");
+          setEditMarkdown('');
         })
         .catch((e) => {
           console.error(e);
@@ -493,7 +493,7 @@ const Comments: FC<CommentsProps> = ({
       if (!editingComment) return;
       hideTip();
       setEditingComment(null);
-      setEditMarkdown("");
+      setEditMarkdown('');
     },
     [editingComment, setEditingComment, setEditMarkdown]
   );
@@ -501,10 +501,10 @@ const Comments: FC<CommentsProps> = ({
   const handleCommentOption = useCallback(
     (e) => {
       switch (e.target.id) {
-        case "editComment":
+        case 'editComment':
           handleEditComment();
           break;
-        case "deleteComment":
+        case 'deleteComment':
           handleDelete(selectedComment);
           break;
       }
@@ -529,9 +529,9 @@ const Comments: FC<CommentsProps> = ({
   }, [editingComment]);
 
   useEffect(() => {
-    document.body.addEventListener("click", hideMenu);
+    document.body.addEventListener('click', hideMenu);
     return () => {
-      document.body.removeEventListener("click", hideMenu);
+      document.body.removeEventListener('click', hideMenu);
     };
   });
 
@@ -593,13 +593,13 @@ const Comments: FC<CommentsProps> = ({
                 index
               ) => (
                 <Comment
-                  key={`${timestamp}${voted ? "v" : ""}`}
+                  key={`${timestamp}${voted ? 'v' : ''}`}
                   id={`comment-${timestamp}`}
                   scrollHighlight={index === commentsIndexRef.current}
                   className={
                     voted || me || !user
-                      ? "comment-unvotable"
-                      : "comment--votable"
+                      ? 'comment-unvotable'
+                      : 'comment--votable'
                   }
                 >
                   <CommentAvatar
@@ -618,9 +618,9 @@ const Comments: FC<CommentsProps> = ({
                         <UpVoteButton
                           onClick={() => {
                             hideTip();
-                            handleVote(timestamp, "upVote");
+                            handleVote(timestamp, 'upVote');
                           }}
-                          onMouseOver={(e) => handleShowTip(e, "up vote")}
+                          onMouseOver={(e) => handleShowTip(e, 'up vote')}
                           onMouseOut={hideTip}
                         >
                           <UpVoteIcon />
@@ -628,9 +628,9 @@ const Comments: FC<CommentsProps> = ({
                         <DownVoteButton
                           onClick={() => {
                             hideTip();
-                            handleVote(timestamp, "downVote");
+                            handleVote(timestamp, 'downVote');
                           }}
-                          onMouseOver={(e) => handleShowTip(e, "down vote")}
+                          onMouseOver={(e) => handleShowTip(e, 'down vote')}
                           onMouseOut={hideTip}
                         >
                           <DownVoteIcon />
@@ -653,12 +653,12 @@ const Comments: FC<CommentsProps> = ({
                             timestamp
                           )}`
                         );
-                        handleShowTip(e, "copied!");
+                        handleShowTip(e, 'copied!');
                       }}
-                      onMouseOver={(e) => handleShowTip(e, "copy link")}
+                      onMouseOver={(e) => handleShowTip(e, 'copy link')}
                       onMouseOut={hideTip}
                     >
-                      {" "}
+                      {' '}
                       {formatCommentDate(timestamp)}
                     </MetaLink>
                   </CommentDate>
@@ -675,7 +675,7 @@ const Comments: FC<CommentsProps> = ({
                           <EditCommentButton
                             disabled={loading}
                             onClick={handleEditCommentSave}
-                            onMouseOver={(e) => handleShowTip(e, "save")}
+                            onMouseOver={(e) => handleShowTip(e, 'save')}
                             onMouseOut={hideTip}
                           >
                             <SaveIcon />
@@ -683,7 +683,7 @@ const Comments: FC<CommentsProps> = ({
                           <EditCommentButton
                             disabled={loading}
                             onClick={handleEditCommentCancel}
-                            onMouseOver={(e) => handleShowTip(e, "cancel")}
+                            onMouseOver={(e) => handleShowTip(e, 'cancel')}
                             onMouseOut={hideTip}
                           >
                             <CancelIcon />
@@ -702,9 +702,9 @@ const Comments: FC<CommentsProps> = ({
                     <CommentActions>
                       {me && !editingComment && (
                         <CommentButton
-                          onClick={handleShowCommentMenu("options", timestamp)}
+                          onClick={handleShowCommentMenu('options', timestamp)}
                           onBlur={handleHideCommentMenu}
-                          onMouseOver={(e) => handleShowTip(e, "actions")}
+                          onMouseOver={(e) => handleShowTip(e, 'actions')}
                           onMouseOut={hideTip}
                         >
                           <MenuIcon />
@@ -712,9 +712,9 @@ const Comments: FC<CommentsProps> = ({
                       )}
                       {user && !me && (
                         <CommentButton
-                          onClick={handleShowCommentMenu("reaction", timestamp)}
+                          onClick={handleShowCommentMenu('reaction', timestamp)}
                           onBlur={handleHideCommentMenu}
-                          onMouseOver={(e) => handleShowTip(e, "react")}
+                          onMouseOver={(e) => handleShowTip(e, 'react')}
                           onMouseOut={hideTip}
                         >
                           <ReactionIcon />
@@ -733,7 +733,7 @@ const Comments: FC<CommentsProps> = ({
               <DateMarkerLabel ref={markerRef}>
                 <MarkerCount>
                   {commentsIndexRef.current + 1}
-                  {" / "}
+                  {' / '}
                   {postComments.length}
                 </MarkerCount>
                 {formatMarkerDate(
@@ -750,14 +750,14 @@ const Comments: FC<CommentsProps> = ({
       <ContextMenu
         ref={menuRef}
         className={
-          selectedComment ? "comment-menu--open" : "comment-menu--closed"
+          selectedComment ? 'comment-menu--open' : 'comment-menu--closed'
         }
         {...menuProps}
       >
-        {menuId === "reaction" && (
+        {menuId === 'reaction' && (
           <ReactionMenu onSelect={handleReactToComment} />
         )}
-        {menuId === "options" && <OptionMenu onSelect={handleCommentOption} />}
+        {menuId === 'options' && <OptionMenu onSelect={handleCommentOption} />}
         <ContextMenuArrow />
       </ContextMenu>
       <Tooltip ref={tipRef} {...tipProps}>

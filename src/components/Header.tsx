@@ -9,22 +9,22 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useRef } from "react";
-import styled from "styled-components";
-import { useStyledDarkMode } from "gatsby-styled-components-dark-mode";
-import { Link } from "gatsby";
-import NavLink from "./NavLink";
-import Hamburger from "./Hamburger";
-import LogoImage from "../images/logo.svg";
-import ArticlesIcon from "../images/articles.svg";
-import ProjectsIcon from "../images/projects.svg";
-import AboutIcon from "../images/about.svg";
-import LightIcon from "../images/light.svg";
-import DarkIcon from "../images/dark.svg";
-import ArticlesBackground from "../images/navigation-articles.svg";
-import ProjectsBackground from "../images/navigation-projects.svg";
-import AboutBackground from "../images/navigation-about.svg";
-import ROUTES from "../routes";
+import React, { FC, useState, useRef } from 'react';
+import styled from 'styled-components';
+import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
+import { Link } from 'gatsby';
+import NavLink from './NavLink';
+import Hamburger from './Hamburger';
+import LogoImage from '../images/logo.svg';
+import ArticlesIcon from '../images/articles.svg';
+import ProjectsIcon from '../images/projects.svg';
+import AboutIcon from '../images/about.svg';
+import LightIcon from '../images/light.svg';
+import DarkIcon from '../images/dark.svg';
+import ArticlesBackground from '../images/navigation-articles.svg';
+import ProjectsBackground from '../images/navigation-projects.svg';
+import AboutBackground from '../images/navigation-about.svg';
+import ROUTES from '../routes';
 
 const HEADER_HEIGHT = 250;
 
@@ -63,7 +63,7 @@ const Hero = styled.header`
   margin-top: ${(props) => props.theme.spacingTriple};
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     left: 10px;
     bottom: 0.1px;
@@ -75,7 +75,7 @@ const Hero = styled.header`
   }
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     left: 100%;
     top: -7.5px;
@@ -227,7 +227,7 @@ const Logo = styled(LogoImage)`
 
 const LogoLink = styled(Link)`
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 14px;
     left: 22px;
@@ -266,7 +266,7 @@ const Navigation = styled.nav`
   height: 82px;
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     bottom: 0;
@@ -277,7 +277,7 @@ const Navigation = styled.nav`
   }
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     left: -13px;
     bottom: -3px;
@@ -299,7 +299,7 @@ const Navigation = styled.nav`
     right: 0;
     top: ${(props) => props.theme.spacingDouble};
     bottom: initial;
-    height: ${(props) => (props.menuOpen ? "11em" : "0")};
+    height: ${(props) => (props.menuOpen ? '11em' : '0')};
     flex-direction: column;
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
 
@@ -358,7 +358,7 @@ const Toggle = styled.button`
   }
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     right: 0;

@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import React, { FC, useContext, useState } from 'react';
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from 'styled-components';
 import { ApolloProvider } from '@apollo/client';
 import { RouteComponentProps } from '@reach/router';
 import { BlogContext } from '../hooks/useBlogContext';
@@ -22,29 +22,27 @@ import { AWSSignature, User } from '../auth/types';
 
 const getCollection = (path?: string): string => path?.split('/')?.[1];
 
-const Layout: FC<RouteComponentProps> = ({
-  path,
-  children,
-  location
-}) => {
+const Layout: FC<RouteComponentProps> = ({ path, children, location }) => {
   const theme = useContext(ThemeContext);
-  const [ user, setUser ] = useState<User>(null);
-  const [ credentials, setCredentials ] = useState<AWSSignature>(null);
+  const [user, setUser] = useState<User>(null);
+  const [credentials, setCredentials] = useState<AWSSignature>(null);
   const client = useApiClient(credentials);
 
   if (credentials) console.log('credentials', credentials);
   if (user) console.log('user', user);
 
   return (
-    <BlogContext.Provider value={{
-      url: path,
-      collection: getCollection(path),
-      client: client,
-      user,
-      credentials,
-      setUser,
-      setCredentials,
-    }}>
+    <BlogContext.Provider
+      value={{
+        url: path,
+        collection: getCollection(path),
+        client: client,
+        user,
+        credentials,
+        setUser,
+        setCredentials,
+      }}
+    >
       <ApolloProvider client={client}>
         <SEO />
         <GlobalStyle theme={theme} />

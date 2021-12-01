@@ -1,4 +1,14 @@
-import React from 'react';
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Ruler marker for post metadata of interest.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import styled from 'styled-components';
 
 export const MARKER_SIZE = 36;
@@ -6,23 +16,25 @@ export const MARKER_SIZE = 36;
 export const RulerMarker = styled.span`
   position: absolute;
   top: calc(50% - ${MARKER_SIZE + 4}px / 2);
-  right: ${props => `calc(${props.theme.spacingHalf} + ${props.theme.borderThick} + ${MARKER_SIZE}px / 2)`};
+  right: ${(props) =>
+    `calc(${props.theme.spacingHalf} + ${props.theme.borderThick} + ${MARKER_SIZE}px / 2)`};
   width: ${MARKER_SIZE}px;
   height: ${MARKER_SIZE}px;
   border-radius: ${MARKER_SIZE}px;
-  border: ${props => props.theme.border} solid ${props => props.theme.borderColor};
-  background: ${props => props.theme.backgroundColor};
-  transition: border-color ${props => props.theme.animationFast} ease-out;
+  border: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+  background: ${(props) => props.theme.backgroundColor};
+  transition: border-color ${(props) => props.theme.animationFast} ease-out;
 `;
 
 export const RulerMarkerBadge = styled.span`
   position: absolute;
-  left: calc(100% + ${props => props.theme.spacingHalf});
+  left: calc(100% + ${(props) => props.theme.spacingHalf});
   top: calc(50% - 1em);
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  font-weight: ${props => props.theme.smallFontWeight};
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  font-weight: ${(props) => props.theme.smallFontWeight};
   opacity: 1;
-  transition: opacity ${props => props.theme.animationFast} ease-out;
+  transition: opacity ${(props) => props.theme.animationFast} ease-out;
   pointer-events: none;
 `;

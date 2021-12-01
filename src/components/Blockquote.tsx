@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import styled from "styled-components";
+import React, { FC } from 'react';
+import styled from 'styled-components';
 
 const Quote = styled.blockquote`
   margin: 0;

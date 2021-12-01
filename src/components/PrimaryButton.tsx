@@ -7,9 +7,9 @@ const PrimaryButton = styled.button`
   fill: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  font-weight: ${props => props.theme.smallFontWeight};
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  font-weight: ${(props) => props.theme.smallFontWeight};
 `;
 
 export default PrimaryButton;

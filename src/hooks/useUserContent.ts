@@ -9,13 +9,13 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useCallback } from "react"
-import { ApolloCache, useQuery } from "@apollo/client";
-import AllCommentsQuery, { CommentQuery } from "../types/AllCommentsQuery";
-import gql from "graphql-tag";
-import { COMMENTS, useComments } from "./useComments";
-import { SHARES, useShares } from "./useShares";
-import AllSharesQuery, { ShareQuery } from "../types/AllSharesQuery";
+import React, { useCallback } from 'react';
+import { ApolloCache, useQuery } from '@apollo/client';
+import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
+import gql from 'graphql-tag';
+import { COMMENTS, useComments } from './useComments';
+import { SHARES, useShares } from './useShares';
+import AllSharesQuery, { ShareQuery } from '../types/AllSharesQuery';
 
 const USER_CONTENT = gql`
   query userContent ($slug: String!) {
@@ -24,47 +24,49 @@ const USER_CONTENT = gql`
   }`;
 
 const useUserContent = (slug: string) => {
-  const {
-    loading, error, data,
-  } = useQuery<AllCommentsQuery & AllSharesQuery>(USER_CONTENT, {
-    variables: { slug },
-  });
-
-  const setComments = useCallback((
-    cache: ApolloCache<AllCommentsQuery>,
-    comments: CommentQuery[]
-  ) => {
-    const { shares } = cache.readQuery({
-      query: USER_CONTENT,
-      variables: { slug }
-    });
-    cache.writeQuery({
-      query: USER_CONTENT,
+  const { loading, error, data } = useQuery<AllCommentsQuery & AllSharesQuery>(
+    USER_CONTENT,
+    {
+      skip: true,
       variables: { slug },
-      data: {
-        comments,
-        shares,
-      }
-    });
-  }, []);
+    }
+  );
 
-  const setShares = useCallback((
-    cache: ApolloCache<AllSharesQuery>,
-    shares: ShareQuery[]
-  ) => {
-    const { comments } = cache.readQuery({
-      query: USER_CONTENT,
-      variables: { slug }
-    });
-    cache.writeQuery({
-      query: USER_CONTENT,
-      variables: { slug },
-      data: {
-        comments,
-        shares,
-      }
-    });
-  }, []);
+  const setComments = useCallback(
+    (cache: ApolloCache<AllCommentsQuery>, comments: CommentQuery[]) => {
+      const { shares } = cache.readQuery({
+        query: USER_CONTENT,
+        variables: { slug },
+      });
+      cache.writeQuery({
+        query: USER_CONTENT,
+        variables: { slug },
+        data: {
+          comments,
+          shares,
+        },
+      });
+    },
+    []
+  );
+
+  const setShares = useCallback(
+    (cache: ApolloCache<AllSharesQuery>, shares: ShareQuery[]) => {
+      const { comments } = cache.readQuery({
+        query: USER_CONTENT,
+        variables: { slug },
+      });
+      cache.writeQuery({
+        query: USER_CONTENT,
+        variables: { slug },
+        data: {
+          comments,
+          shares,
+        },
+      });
+    },
+    []
+  );
 
   const {
     handleAdd,
@@ -74,11 +76,11 @@ const useUserContent = (slug: string) => {
     handleReact,
   } = useComments(slug, setComments, data?.comments);
 
-  const {
-    shareCount,
-    sharesByType,
-    handleAddShare
-  } = useShares(slug, setShares, data?.shares);
+  const { shareCount, sharesByType, handleAddShare } = useShares(
+    slug,
+    setShares,
+    data?.shares
+  );
 
   return {
     loading,
@@ -95,7 +97,7 @@ const useUserContent = (slug: string) => {
     shareCount,
     sharesByType,
     handleAddShare,
-  }
+  };
 };
 
 export default useUserContent;

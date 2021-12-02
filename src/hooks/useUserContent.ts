@@ -10,9 +10,9 @@
 \*---------------------------------------------------------*/
 
 import React, { useCallback } from 'react';
+import gql from 'graphql-tag';
 import { ApolloCache, useQuery } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
-import gql from 'graphql-tag';
 import { COMMENTS, useComments } from './useComments';
 import { SHARES, useShares } from './useShares';
 import AllSharesQuery, { ShareQuery } from '../types/AllSharesQuery';

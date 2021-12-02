@@ -66,6 +66,9 @@ type PostProps = {
 
 const Post: FC<PostProps> = ({
   data: {
+    site: {
+      siteMetadata: { url: siteUrl },
+    },
     mdx: {
       slug,
       body,
@@ -119,6 +122,8 @@ const Post: FC<PostProps> = ({
     handleAddShare,
   } = useUserContent(slug);
 
+  const postUrl = `${siteUrl}${url}`;
+
   const handleSnap = useCallback(() => {
     handleReact({
       userName: user?.name || '',
@@ -133,33 +138,33 @@ const Post: FC<PostProps> = ({
       switch (shareType) {
         case 'linkShare':
           handleAddShare('link');
-          navigator.clipboard.writeText(window.location.href);
+          navigator.clipboard.writeText(postUrl);
           break;
         case 'facebookShare':
           handleAddShare('facebook');
           openUrl('https://www.facebook.com/sharer.php', {
-            u: window.location.href,
+            u: postUrl,
           });
           break;
         case 'twitterShare':
           handleAddShare('twitter');
           openUrl('https://twitter.com/intent/tweet', {
             text: title,
-            url: window.location.href,
+            url: postUrl,
           });
           break;
         case 'linkedInShare':
           handleAddShare('linkedIn');
           openUrl('https://www.linkedin.com/shareArticle', {
             title,
-            url: window.location.href,
+            url: postUrl,
             summary: description,
             mini: true,
           });
           break;
         case 'emailShare':
           handleAddShare('email');
-          window.open(`mailto:?subject=${title}&body=${window.location.href}`);
+          window.open(`mailto:?subject=${title}&body=${postUrl}`);
           break;
       }
     },
@@ -282,6 +287,11 @@ const Post: FC<PostProps> = ({
 
 export const pageQuery = graphql`
   query($slug: String!, $collection: String!) {
+    site {
+      siteMetadata {
+        url
+      }
+    }
     mdx(slug: { eq: $slug }) {
       slug
       body

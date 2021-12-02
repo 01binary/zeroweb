@@ -27,7 +27,6 @@ const useUserContent = (slug: string) => {
   const { loading, error, data } = useQuery<AllCommentsQuery & AllSharesQuery>(
     USER_CONTENT,
     {
-      skip: true,
       variables: { slug },
     }
   );

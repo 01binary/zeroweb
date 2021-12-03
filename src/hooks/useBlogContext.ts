@@ -10,20 +10,20 @@
 \*---------------------------------------------------------*/
 
 import { createContext, useContext } from 'react';
-import { ApolloClient } from 'apollo-client';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
   User,
   SetUserHandler,
   SetCredentialsHandler,
-  AWSSignature
+  AWSSignature,
 } from '../auth/types';
 
-interface BlogContextProps {
+type BlogContextProps = {
   url: string;
   collection: string;
-  client: ApolloClient | null;
+  client: ApolloClient<NormalizedCacheObject> | null;
   user: User | null;
-  credentials: AWSSignature | null,
+  credentials: AWSSignature | null;
   setUser: SetUserHandler;
   setCredentials: SetCredentialsHandler;
 };
@@ -38,6 +38,5 @@ export const BlogContext = createContext<BlogContextProps>({
   setCredentials: null,
 });
 
-export const useBlogContext: () => BlogContextProps = () => (
-  useContext(BlogContext)
-);
+export const useBlogContext: () => BlogContextProps = () =>
+  useContext(BlogContext);

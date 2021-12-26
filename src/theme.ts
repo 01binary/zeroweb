@@ -226,7 +226,7 @@ export const GlobalStyle = createGlobalStyle`
   
       float: left;
       position: relative;
-      left: -${(props) => props.theme.spacingOneAndHalf};
+      right: ${(props) => props.theme.spacingOneAndHalf};
       top: 26pt;
       width: 0;
     }

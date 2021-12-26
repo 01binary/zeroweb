@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from './src/components/Layout';
 import BlogProvider from './src/components/BlogProvider';
+import { lightTheme as theme } from './src/theme';
 
 export const wrapPageElement = ({
   element,
@@ -17,9 +18,18 @@ export const wrapRootElement = ({ element }) => (
   </BlogProvider>
 );
 
-export const onRenderBody = (
-  { setPostBodyComponents },
-) => {
+export const onRenderBody = ({
+  setHtmlAttributes,
+  setPostBodyComponents
+}) => {
+  const style = Object
+    .keys(theme)
+    .reduce((cssProperties, key) => {
+      cssProperties[`--${key}`] = theme[key]
+      return cssProperties;
+    }, {});
+
+  setHtmlAttributes({ style });
   setPostBodyComponents([
     <script key="axios" type="text/javascript" src="/lib/axios/dist/axios.standalone.js"></script>,
     <script key="hmac-sha256" type="text/javascript" src="/lib/CryptoJS/rollups/hmac-sha256.js"></script>,

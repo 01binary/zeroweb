@@ -71,7 +71,9 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    width: initial;
+    margin-right: ${(props) => props.theme.spacingHalf};
+    margin-left: ${(props) => props.theme.spacingHalf};
+    padding-right: initial;
 
     &:after {
       display: none;
@@ -92,10 +94,6 @@ const Pre = styled.pre`
     button {
       opacity: 1;
     }
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    width: initial;
   }
 `;
 

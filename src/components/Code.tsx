@@ -105,9 +105,9 @@ type ToolButtonProps = {
 
 const ToolButton = styled.button<ToolButtonProps>`
   position: absolute;
-  width: 32px;
-  height: 32px;
-  top: ${(props) => props.theme.spacingHalf};
+  width: ${(props) => props.theme.spacing};
+  height: ${(props) => props.theme.spacing};
+  top: ${(props) => props.theme.spacingThird};
   right: ${({ offset, theme }) =>
     offset === 0 ? theme.spacingHalf : theme.spacingDouble};
   border: none;

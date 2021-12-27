@@ -33,14 +33,7 @@ const getLinkIconSize = ({
       ? headingFontSizeMedium
       : headingFontSizeSmall;
 
-  return (
-    // Extract value without units, assume pt
-    parseInt(sizeWithUnits.substring(0, sizeWithUnits.length - 2)) +
-    // Add 2 points
-    2 +
-    // Add units back
-    'pt'
-  );
+  return `calc(${sizeWithUnits} + 2pt)`;
 };
 
 const PermaLinkAnchorInline = styled(Link)`
@@ -62,7 +55,8 @@ const PermaLinkAnchor = styled(Link)`
   position: absolute;
   top: 0;
   left: calc(
-    -${(props) => getLinkIconSize(props)} + ${(props) => props.theme.spacingSmall}
+    0px - ${(props) => getLinkIconSize(props)} +
+      ${(props) => props.theme.spacingSmall}
   );
   height: ${(props) => getLinkIconSize(props)};
   opacity: 1;

@@ -223,7 +223,7 @@ const Post: FC<PostProps> = ({
         </Metadata>
 
         <Wheel
-          postUrl={postUrl}
+          url={url}
           comments={comments}
           shareCount={shareCount}
           sharesByType={sharesByType}

@@ -68,6 +68,10 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
     &:after {
       opacity: 1;
     }
+
+    button {
+      opacity: 1;
+    }
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
@@ -89,12 +93,8 @@ const Pre = styled.pre`
   position: relative;
   font-size: ${(props) => props.theme.smallFontSize};
   padding: ${(props) => props.theme.spacingHalf};
-
-  &:hover {
-    button {
-      opacity: 1;
-    }
-  }
+  overflow-x: scroll;
+  background: none;
 `;
 
 type ToolButtonProps = {
@@ -241,36 +241,36 @@ const Code: FC = ({ children }) => {
                   </div>
                 ))}
             </span>
-            <CodeButton
-              offset={0}
-              tipId={'copy'}
-              tipRef={tipRef}
-              onClick={copyCode}
-              showTip={showTip}
-              hideTip={hideTip}
-            >
-              <CopyIcon />
-            </CodeButton>
-            {isDark === false && (
-              <CodeButton
-                offset={1}
-                tipId={'mode'}
-                tipRef={tipRef}
-                onClick={toggleDarkMode}
-                showTip={showTip}
-                hideTip={hideTip}
-              >
-                {isCodeDark ? <LightIcon /> : <DarkIcon />}
-              </CodeButton>
-            )}
-            <Tooltip {...tipProps} role="tooltip">
-              {tipId === 'copy' && (isCopied ? 'copied!' : 'copy code')}
-              {tipId === 'mode' && (isCodeDark ? 'light theme' : 'dark theme')}
-              <Arrow />
-            </Tooltip>
           </Pre>
         )}
       </Highlight>
+      <CodeButton
+        offset={0}
+        tipId={'copy'}
+        tipRef={tipRef}
+        onClick={copyCode}
+        showTip={showTip}
+        hideTip={hideTip}
+      >
+        <CopyIcon />
+      </CodeButton>
+      {isDark === false && (
+        <CodeButton
+          offset={1}
+          tipId={'mode'}
+          tipRef={tipRef}
+          onClick={toggleDarkMode}
+          showTip={showTip}
+          hideTip={hideTip}
+        >
+          {isCodeDark ? <LightIcon /> : <DarkIcon />}
+        </CodeButton>
+      )}
+      <Tooltip {...tipProps} role="tooltip">
+        {tipId === 'copy' && (isCopied ? 'copied!' : 'copy code')}
+        {tipId === 'mode' && (isCodeDark ? 'light theme' : 'dark theme')}
+        <Arrow />
+      </Tooltip>
     </CodeWrapper>
   );
 };

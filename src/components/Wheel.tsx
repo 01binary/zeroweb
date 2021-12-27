@@ -157,7 +157,7 @@ const Wheelhouse = styled.aside<{ inline?: boolean }>`
   top: ${(props) => props.theme.spacingHalf};
   width: ${WHEEL_SIZE}px;
   height: ${WHEEL_SIZE}px;
-  margin-left: -${(props) => props.theme.unit + WHEEL_SIZE}px;
+  margin-left: calc(0px - ${(props) => props.theme.spacing} - ${WHEEL_SIZE}px);
   opacity: 1;
 
   animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;

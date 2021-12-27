@@ -201,8 +201,11 @@ const Post: FC<PostProps> = ({
 
         <Metadata>
           <Clock />
-          <InlineIndicator>{getDateValue(relativeDate)}</InlineIndicator>
-          &nbsp;
+          {Boolean(getDateValue(relativeDate).length) && (
+            <InlineIndicator>
+              {getDateValue(relativeDate)}&nbsp;
+            </InlineIndicator>
+          )}
           <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
           &nbsp;
           <Author>

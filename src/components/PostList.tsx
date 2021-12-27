@@ -119,7 +119,9 @@ const PostList: FC<PostsQuery> = ({ nodes, group }) => (
 
           <Meta>
             <Clock />
-            <MetaIndicator>{getDateValue(relativeDate)} </MetaIndicator>
+            {Boolean(getDateValue(relativeDate).length) && (
+              <MetaIndicator>{getDateValue(relativeDate)}&nbsp;</MetaIndicator>
+            )}
             {getDateUnits(relativeDate)}
             {timeToRead && (
               <span>

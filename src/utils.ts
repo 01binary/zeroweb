@@ -9,8 +9,8 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { getHeadingSlug, getHeadingUrl } from "./components/Heading";
-import HeadingQuery from "./types/HeadingQuery";
+import { getHeadingSlug, getHeadingUrl } from './components/Heading';
+import HeadingQuery from './types/HeadingQuery';
 
 export const slugifyHeadings = (baseUrl: string, headings: HeadingQuery[]) =>
   headings.map((heading) => {
@@ -22,11 +22,17 @@ export const slugifyHeadings = (baseUrl: string, headings: HeadingQuery[]) =>
     };
   });
 
-export const getDateValue = (relativeDate: string): string =>
-  relativeDate.split(" ")[0];
+export const getDateValue = (relativeDate: string): string => {
+  const value = relativeDate.split(' ')[0];
+  if (isNaN(Number(value))) return '';
+  return value;
+};
 
-export const getDateUnits = (relativeDate: string): string =>
-  relativeDate.split(" ").slice(1).join(" ");
+export const getDateUnits = (relativeDate: string): string => {
+  const value = relativeDate.split(' ')[0];
+  if (isNaN(Number(value))) return relativeDate;
+  relativeDate.split(' ').slice(1).join(' ');
+};
 
 export const openUrl = (url, params) => {
   const href = new URL(url);

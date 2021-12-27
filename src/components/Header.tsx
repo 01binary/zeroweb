@@ -331,12 +331,12 @@ const Navigation = styled.nav`
 const Toolbar = styled.section`
   display: flex;
   justify-content: flex-end;
-  margin: 0;
-  padding: 0;
+  margin-right: ${(props) => props.theme.spacing};
+  padding-top: ${(props) => props.theme.spacing};
 
-  @media (min-width: ${(props) => props.theme.mobile}) {
-    margin-right: ${(props) => props.theme.spacing};
-    padding-top: ${(props) => props.theme.spacing};
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin: 0;
+    padding: 0;
   }
 `;
 

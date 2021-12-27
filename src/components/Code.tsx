@@ -93,7 +93,7 @@ const Pre = styled.pre`
   position: relative;
   font-size: ${(props) => props.theme.smallFontSize};
   padding: ${(props) => props.theme.spacingHalf};
-  overflow-x: scroll;
+  overflow-x: auto;
   background: none;
 `;
 

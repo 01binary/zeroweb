@@ -116,6 +116,10 @@ const ToolButton = styled.button<ToolButtonProps>`
   background: none;
   opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    opacity: 1;
+  }
 `;
 
 type CodeButtonProps = {
@@ -241,31 +245,31 @@ const Code: FC = ({ children }) => {
                   </div>
                 ))}
             </span>
+            <CodeButton
+              offset={0}
+              tipId={'copy'}
+              tipRef={tipRef}
+              onClick={copyCode}
+              showTip={showTip}
+              hideTip={hideTip}
+            >
+              <CopyIcon />
+            </CodeButton>
+            {isDark === false && (
+              <CodeButton
+                offset={1}
+                tipId={'mode'}
+                tipRef={tipRef}
+                onClick={toggleDarkMode}
+                showTip={showTip}
+                hideTip={hideTip}
+              >
+                {isCodeDark ? <LightIcon /> : <DarkIcon />}
+              </CodeButton>
+            )}
           </Pre>
         )}
       </Highlight>
-      <CodeButton
-        offset={0}
-        tipId={'copy'}
-        tipRef={tipRef}
-        onClick={copyCode}
-        showTip={showTip}
-        hideTip={hideTip}
-      >
-        <CopyIcon />
-      </CodeButton>
-      {isDark === false && (
-        <CodeButton
-          offset={1}
-          tipId={'mode'}
-          tipRef={tipRef}
-          onClick={toggleDarkMode}
-          showTip={showTip}
-          hideTip={hideTip}
-        >
-          {isCodeDark ? <LightIcon /> : <DarkIcon />}
-        </CodeButton>
-      )}
       <Tooltip {...tipProps} role="tooltip">
         {tipId === 'copy' && (isCopied ? 'copied!' : 'copy code')}
         {tipId === 'mode' && (isCodeDark ? 'light theme' : 'dark theme')}

@@ -24,9 +24,6 @@ export type CommentQuery = {
   // User id
   userId: string;
 
-  // Did I post this comment?
-  me?: boolean;
-
   // User name
   userName: string;
 
@@ -53,7 +50,7 @@ export type CommentQuery = {
 };
 
 type AllCommentsQuery = {
-  comments: CommentQuery[]
+  comments: CommentQuery[];
 };
 
 export default AllCommentsQuery;

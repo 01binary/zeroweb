@@ -13,7 +13,7 @@ import MetaLink from '../MetaLink';
 import Login from '../Login';
 import Error from '../Error';
 import dayjs from 'dayjs';
-import { useBlogContext } from '../../hooks/useBlogContext';
+import { useBlogData } from '../../hooks/useBlogData';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import UpVoteIcon from '../../images/upvote.svg';
 import DownVoteIcon from '../../images/downvote.svg';
@@ -284,7 +284,7 @@ const Comments: FC<CommentsProps> = ({
     handleTwitterLogin,
     handleGoogleLogin,
     handleLogout,
-  } = useBlogContext();
+  } = useBlogData();
   const [comment, setComment] = useState<string>('');
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);

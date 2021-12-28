@@ -12,7 +12,7 @@
 import React, { FC } from 'react';
 import slugify from 'slugify';
 import styled from 'styled-components';
-import { useBlogContext } from '../hooks/useBlogContext';
+import { useBlogLocation } from '../hooks/useBlogLocation';
 import PermaLink from './PermaLink';
 
 const HeadingWrapper = styled.div`
@@ -21,7 +21,7 @@ const HeadingWrapper = styled.div`
   padding: 0;
 
   .permalink-icon {
-    transition: opacity ${props => props.theme.animationFast} ease-out;
+    transition: opacity ${(props) => props.theme.animationFast} ease-out;
     opacity: 0;
   }
 
@@ -33,36 +33,28 @@ const HeadingWrapper = styled.div`
 `;
 
 const HeadingText = styled.span`
-    margin-right: 0.33em;
+  margin-right: 0.33em;
 `;
 
-export const getHeadingSlug = (
-  main: boolean,
-  text: string
-): string => (
-  main ? null : slugify(text, { lower: true })
-);
+export const getHeadingSlug = (main: boolean, text: string): string =>
+  main ? null : slugify(text, { lower: true });
 
-export const getHeadingUrl = (
-  baseUrl: string,
-  slug?: string,
-): string => (
-  slug ? `${baseUrl}#${slug}` : baseUrl
-);
+export const getHeadingUrl = (baseUrl: string, slug?: string): string =>
+  slug ? `${baseUrl}#${slug}` : baseUrl;
 
 interface HeadingProps {
   level?: number;
   className?: string;
-};
+}
 
 export const Heading: FC<HeadingProps> = ({
   level = 1,
   children,
-  className
+  className,
 }) => {
-  const { url } = useBlogContext();
+  const { path } = useBlogLocation();
   const slug = getHeadingSlug(level === 1, children.toString());
-  const permaLinkUrl = getHeadingUrl(url, slug);
+  const permaLinkUrl = getHeadingUrl(path, slug);
   const HeadingElement: any = `h${level}`;
 
   return (

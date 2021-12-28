@@ -24,8 +24,13 @@ type BlogContextProps = {
   client: ApolloClient<NormalizedCacheObject> | null;
   user: User | null;
   credentials: AWSSignature | null;
+  loginError: string | null;
   setUser: SetUserHandler;
   setCredentials: SetCredentialsHandler;
+  handleFacebookLogin: () => void;
+  handleTwitterLogin: () => void;
+  handleGoogleLogin: () => void;
+  handleLogout: () => void;
 };
 
 export const BlogContext = createContext<BlogContextProps>({
@@ -34,8 +39,13 @@ export const BlogContext = createContext<BlogContextProps>({
   user: null,
   client: null,
   credentials: null,
+  loginError: null,
   setUser: null,
   setCredentials: null,
+  handleFacebookLogin: null,
+  handleTwitterLogin: null,
+  handleGoogleLogin: null,
+  handleLogout: null,
 });
 
 export const useBlogContext: () => BlogContextProps = () =>

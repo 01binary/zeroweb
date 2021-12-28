@@ -1,38 +1,41 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { authenticate } from '../auth/cognito';
-import { Providers } from '../auth/types';
-import { useBlogContext } from '../hooks/useBlogContext';
+import {
+  Providers,
+  SetCredentialsHandler,
+  SetUserHandler,
+  User,
+} from '../auth/types';
 import useTwitter from '../auth/useTwitter';
 import useFacebook from '../auth/useFacebook';
 import useGoogle from '../auth/useGoogle';
 
-export const useLogin = () => {
-  const { user, setUser, setCredentials } = useBlogContext();
-  const [ loginError, setLoginError ] = useState<string>(null);
-  const onceRef = useRef<boolean>(false);
+export const useLogin = (
+  user: User,
+  setUser: SetUserHandler,
+  setCredentials: SetCredentialsHandler
+) => {
+  const [loginError, setLoginError] = useState<string>(null);
 
-  const {
-    facebookInit,
-    facebookLogin,
-    facebookLogout
-  } = useFacebook(setUser, setCredentials, setLoginError);
+  const { facebookInit, facebookLogin, facebookLogout } = useFacebook(
+    setUser,
+    setCredentials,
+    setLoginError
+  );
 
-  const {
-    googleInit,
-    googleLogin,
-    googleLogout,
-  } = useGoogle(setUser, setCredentials, setLoginError);
+  const { googleInit, googleLogin, googleLogout } = useGoogle(
+    setUser,
+    setCredentials,
+    setLoginError
+  );
 
-  const {
-    twitterInit,
-    twitterLogin,
-    twitterLogout,
-  } = useTwitter(setUser, setCredentials, setLoginError);
+  const { twitterInit, twitterLogin, twitterLogout } = useTwitter(
+    setUser,
+    setCredentials,
+    setLoginError
+  );
 
   useEffect(() => {
-    if (onceRef.current) return;
-    onceRef.current = true;
-
     const initProviders = async (): Promise<boolean> => {
       try {
         const hasFacebook = await facebookInit();
@@ -40,32 +43,33 @@ export const useLogin = () => {
       } catch (e) {
         console.error('Facebook auth failed to initialize', e);
       }
-  
+
       try {
         const hasGoogle = await googleInit();
         if (hasGoogle) return true;
       } catch (e) {
         console.error('Google auth failed to initialize');
       }
-  
+
       try {
         const hasTwitter = await twitterInit();
         if (hasTwitter) return true;
       } catch (e) {
         console.error('Twitter auth failed to initialize');
       }
-  
+
       return false;
     };
 
     initProviders()
       .then((hasSocialAccount) => {
         if (!hasSocialAccount) {
-          authenticate(null, null, null)
-            .then(guestCredentials => setCredentials(guestCredentials));
+          authenticate(null, null, null).then((guestCredentials) =>
+            setCredentials(guestCredentials)
+          );
         }
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   }, [setCredentials]);
 
   const handleLogoutAll = useCallback(() => {

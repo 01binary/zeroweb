@@ -47,7 +47,6 @@ import {
 } from './Post.styles';
 import { Heading1, Heading2, Heading3, Heading4 } from '../Heading';
 import { Table, TableHeading, TableRow, TableCell } from '../Table';
-import { useLogin } from '../../hooks/useLogin';
 import useUserContent from '../../hooks/useUserContent';
 import {
   getDateUnits,
@@ -99,14 +98,6 @@ const Post: FC<PostProps> = ({
   );
 
   const { user } = useBlogContext();
-
-  const {
-    handleFacebookLogin,
-    handleGoogleLogin,
-    handleTwitterLogin,
-    handleLogout,
-    loginError,
-  } = useLogin();
 
   const {
     loading,
@@ -273,17 +264,12 @@ const Post: FC<PostProps> = ({
         postUrl={relativePostUrl}
         loading={loading}
         error={error}
-        loginError={loginError}
         comments={comments}
         handleVote={handleVote}
         handleAdd={handleAdd}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleReact={handleReact}
-        handleFacebookLogin={handleFacebookLogin}
-        handleTwitterLogin={handleTwitterLogin}
-        handleGoogleLogin={handleGoogleLogin}
-        handleLogout={handleLogout}
         readPosition={readPosition}
         scrollOffset={scrollOffset}
       />

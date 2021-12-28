@@ -286,7 +286,7 @@ const Comments: FC<CommentsProps> = ({
   readPosition,
   scrollOffset,
 }) => {
-  const { user } = useBlogContext();
+  const { user, credentials } = useBlogContext();
   const [comment, setComment] = useState<string>('');
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);
@@ -537,13 +537,12 @@ const Comments: FC<CommentsProps> = ({
     };
   });
 
-  const showDateMarker = Boolean(
-    commentsRef.current &&
-      commentsRef.current.getBoundingClientRect().height > DATE_MARKER_THRESHOLD
-  );
+  const showDateMarker =
+    commentsRef.current?.getBoundingClientRect().height > DATE_MARKER_THRESHOLD;
   const showComments = Boolean(postComments && postComments.length);
   const showLoadingComments = Boolean(loading && !comments);
   const showLogin = Boolean(!user && comments);
+  const currentUserId = credentials?.userId;
 
   return (
     <CommentsSection
@@ -590,7 +589,6 @@ const Comments: FC<CommentsProps> = ({
                   upVotes,
                   downVotes,
                   voted,
-                  me,
                 },
                 index
               ) => (
@@ -599,7 +597,7 @@ const Comments: FC<CommentsProps> = ({
                   id={`comment-${timestamp}`}
                   scrollHighlight={index === commentsIndexRef.current}
                   className={
-                    voted || me || !user
+                    voted || !user || userId === currentUserId
                       ? 'comment-unvotable'
                       : 'comment--votable'
                   }
@@ -615,7 +613,7 @@ const Comments: FC<CommentsProps> = ({
                       maxVotes={maxVotes}
                       maxSlots={MAX_VOTE_SLOTS}
                     />
-                    {user && !me && !voted && (
+                    {user && userId !== currentUserId && !voted && (
                       <>
                         <UpVoteButton
                           onClick={() => {
@@ -640,7 +638,7 @@ const Comments: FC<CommentsProps> = ({
                       </>
                     )}
                   </CommentAvatar>
-                  {me ? (
+                  {userId === currentUserId ? (
                     <Me>{userName}</Me>
                   ) : (
                     <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
@@ -700,7 +698,7 @@ const Comments: FC<CommentsProps> = ({
                       comments={comments}
                     />
                     <CommentActions>
-                      {me && !editingComment && (
+                      {userId === currentUserId && !editingComment && (
                         <CommentButton
                           onClick={handleShowCommentMenu('options', timestamp)}
                           onBlur={handleHideCommentMenu}
@@ -710,7 +708,7 @@ const Comments: FC<CommentsProps> = ({
                           <MenuIcon />
                         </CommentButton>
                       )}
-                      {user && !me && (
+                      {user && userId !== currentUserId && (
                         <CommentButton
                           onClick={handleShowCommentMenu('reaction', timestamp)}
                           onBlur={handleHideCommentMenu}

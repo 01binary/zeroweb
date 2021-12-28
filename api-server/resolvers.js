@@ -40,8 +40,7 @@ exports.resolvers = {
 
       return comments.map(comment => ({
         ...comment,
-        voted: Boolean(votes.find(({ timestamp }) => timestamp === comment.timestamp)),
-        me: Boolean(comment.userId === user.id)
+        voted: Boolean(votes.find(({ timestamp }) => timestamp === comment.timestamp))
       }));
     },
 
@@ -68,7 +67,6 @@ exports.resolvers = {
       if (comment.reaction && (comment.markdown || comment.rangeLength))
         throw new UserInputError('cannot add reaction with a comment or highlight');
 
-      if (comment.me) comment.me = undefined;
       const { slug, parentTimestamp } = comment;
 
       if (comment.reaction && !isPostReaction) {
@@ -86,10 +84,7 @@ exports.resolvers = {
 
       if (comment.reaction) await addReaction(slug, parentTimestamp, user.id);
 
-      return {
-        ...added,
-        me: true
-      };
+      return added;
     },
 
     editComment: async (
@@ -119,7 +114,6 @@ exports.resolvers = {
 
       return {
         ...updated,
-        me: true,
         voted: Boolean(votes.find(
           ({ timestamp: voteTimestamp }) => voteTimestamp === timestamp
         ))
@@ -129,7 +123,6 @@ exports.resolvers = {
     addShare: async (
       root,
       { share: { slug, shareType } },
-      { user },
     ) => {
       const existing = await getShare(slug, shareType);
       const count = existing ? existing.count + 1 : 1;
@@ -174,7 +167,6 @@ exports.resolvers = {
       return {
         ...updated,
         voted: true,
-        me: false
       };
     },
 

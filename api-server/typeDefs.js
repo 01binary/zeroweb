@@ -23,7 +23,6 @@ exports.typeDefs = gql`
     upVotes: Int
     downVotes: Int
     voted: Boolean
-    me: Boolean
 
     paragraph: String
     rangeStart: Int

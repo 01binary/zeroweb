@@ -253,16 +253,11 @@ type CommentsProps = {
   comments: CommentQuery[] | null;
   loading: boolean;
   error: string | null;
-  loginError: string | null;
   handleVote: (timestamp: string, vote: Vote) => void;
   handleAdd: (comment: AddCommentMutation) => Promise<FetchResult>;
   handleEdit: (comment: EditCommentMutation) => Promise<FetchResult>;
   handleDelete: (timestamp: string) => void;
   handleReact: (comment: ReactCommentMutation) => void;
-  handleFacebookLogin: () => void;
-  handleGoogleLogin: () => void;
-  handleTwitterLogin: () => void;
-  handleLogout: () => void;
   readPosition: number;
   scrollOffset: number;
 };
@@ -273,20 +268,23 @@ const Comments: FC<CommentsProps> = ({
   comments,
   loading,
   error,
-  loginError,
   handleVote,
   handleAdd,
   handleEdit,
   handleDelete,
   handleReact,
-  handleFacebookLogin,
-  handleGoogleLogin,
-  handleTwitterLogin,
-  handleLogout,
   readPosition,
   scrollOffset,
 }) => {
-  const { user, credentials } = useBlogContext();
+  const {
+    user,
+    credentials,
+    loginError,
+    handleFacebookLogin,
+    handleTwitterLogin,
+    handleGoogleLogin,
+    handleLogout,
+  } = useBlogContext();
   const [comment, setComment] = useState<string>('');
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);

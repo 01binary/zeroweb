@@ -385,13 +385,13 @@ type WheelProps = {
   shareCount: number;
   sharesByType: Partial<Record<ShareType, number>>;
   inline?: boolean;
-  url: string;
+  postUrl: string;
   handleSnap: () => void;
   handleShare: (provider: string) => void;
 };
 
 const Wheel: FC<WheelProps> = ({
-  url,
+  postUrl,
   inline,
   comments,
   shareCount,
@@ -499,7 +499,7 @@ const Wheel: FC<WheelProps> = ({
           <StyledShareIcon />
           <SharesBadge show={Boolean(shareCount)}>{shareCount}</SharesBadge>
         </ShareButton>
-        <CommentLink to={`${url}#comments`}>
+        <CommentLink to={`${postUrl}#comments`}>
           <CommentButton
             ref={commentRef}
             onMouseOver={() => showTipFor('comment', commentRef)}

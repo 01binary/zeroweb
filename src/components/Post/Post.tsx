@@ -81,7 +81,7 @@ const Post: FC<PostProps> = ({
         },
         relativeDate,
       },
-      fields: { url, collection, tags },
+      fields: { url: relativePostUrl, collection, tags },
       headings,
     },
     allMdx: { group },
@@ -122,7 +122,7 @@ const Post: FC<PostProps> = ({
     handleAddShare,
   } = useUserContent(slug);
 
-  const postUrl = `${siteUrl}${url}`;
+  const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
   const handleSnap = useCallback(() => {
     handleReact({
@@ -138,33 +138,33 @@ const Post: FC<PostProps> = ({
       switch (shareType) {
         case 'linkShare':
           handleAddShare('link');
-          navigator.clipboard.writeText(postUrl);
+          navigator.clipboard.writeText(absolutePostUrl);
           break;
         case 'facebookShare':
           handleAddShare('facebook');
           openUrl('https://www.facebook.com/sharer.php', {
-            u: postUrl,
+            u: absolutePostUrl,
           });
           break;
         case 'twitterShare':
           handleAddShare('twitter');
           openUrl('https://twitter.com/intent/tweet', {
             text: title,
-            url: postUrl,
+            url: absolutePostUrl,
           });
           break;
         case 'linkedInShare':
           handleAddShare('linkedIn');
           openUrl('https://www.linkedin.com/shareArticle', {
             title,
-            url: postUrl,
+            url: absolutePostUrl,
             summary: description,
             mini: true,
           });
           break;
         case 'emailShare':
           handleAddShare('email');
-          window.open(`mailto:?subject=${title}&body=${postUrl}`);
+          window.open(`mailto:?subject=${title}&body=${absolutePostUrl}`);
           break;
       }
     },
@@ -192,7 +192,7 @@ const Post: FC<PostProps> = ({
           title={title}
           description={description}
           image={fluid.src}
-          url={url}
+          url={relativePostUrl}
         />
 
         <Ruler />
@@ -226,7 +226,7 @@ const Post: FC<PostProps> = ({
         </Metadata>
 
         <Wheel
-          url={url}
+          postUrl={relativePostUrl}
           comments={comments}
           shareCount={shareCount}
           sharesByType={sharesByType}
@@ -246,7 +246,7 @@ const Post: FC<PostProps> = ({
             <TagList tags={tags} stats={group} collection={collection} inline />
           </SidebarPanel>
 
-          <TOC headings={slugifyHeadings(url, headings)} />
+          <TOC headings={slugifyHeadings(relativePostUrl, headings)} />
         </Sidebar>
 
         <HeroImage fluid={fluid} />
@@ -259,7 +259,7 @@ const Post: FC<PostProps> = ({
 
         <Wheel
           inline
-          postUrl={postUrl}
+          postUrl={relativePostUrl}
           comments={comments}
           shareCount={shareCount}
           sharesByType={sharesByType}
@@ -270,7 +270,7 @@ const Post: FC<PostProps> = ({
 
       <Comments
         slug={slug}
-        url={url}
+        postUrl={relativePostUrl}
         loading={loading}
         error={error}
         loginError={loginError}

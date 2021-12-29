@@ -4,7 +4,7 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Blog context provider.
+|  Provides access to user and user-generated content.
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -17,7 +17,7 @@ import { User, AWSSignature } from '../auth/types';
 import { BlogDataContext } from '../hooks/useBlogData';
 import { useLogin } from '../hooks/useLogin';
 
-const BlogDataProvider: FC<RouteComponentProps> = ({ path, children }) => {
+const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
   const [user, setUser] = useState<User>(null);
   const [credentials, setCredentials] = useState<AWSSignature>(null);
   const client = useApiClient(credentials);
@@ -52,4 +52,4 @@ const BlogDataProvider: FC<RouteComponentProps> = ({ path, children }) => {
   );
 };
 
-export default BlogDataProvider;
+export default UserContentProvider;

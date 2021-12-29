@@ -14,12 +14,10 @@ import { RouteComponentProps } from '@reach/router';
 import { ApolloProvider } from '@apollo/client';
 import useApiClient from '../hooks/useApiClient';
 import { User, AWSSignature } from '../auth/types';
-import { BlogContext } from '../hooks/useBlogContext';
+import { BlogDataContext } from '../hooks/useBlogData';
 import { useLogin } from '../hooks/useLogin';
 
-const getCollection = (path?: string): string => path?.split('/')?.[1];
-
-const BlogProvider: FC<RouteComponentProps> = ({ path, children }) => {
+const BlogDataProvider: FC<RouteComponentProps> = ({ path, children }) => {
   const [user, setUser] = useState<User>(null);
   const [credentials, setCredentials] = useState<AWSSignature>(null);
   const client = useApiClient(credentials);
@@ -35,10 +33,8 @@ const BlogProvider: FC<RouteComponentProps> = ({ path, children }) => {
   if (user) console.log('user', user);
 
   return (
-    <BlogContext.Provider
+    <BlogDataContext.Provider
       value={{
-        url: path,
-        collection: getCollection(path),
         client: client,
         user,
         credentials,
@@ -52,8 +48,8 @@ const BlogProvider: FC<RouteComponentProps> = ({ path, children }) => {
       }}
     >
       <ApolloProvider client={client}>{children}</ApolloProvider>
-    </BlogContext.Provider>
+    </BlogDataContext.Provider>
   );
 };
 
-export default BlogProvider;
+export default BlogDataProvider;

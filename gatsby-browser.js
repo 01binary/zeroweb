@@ -11,7 +11,7 @@
 
 import React from 'react';
 import Layout from './src/components/Layout';
-import BlogProvider from './src/components/BlogProvider';
+import BlogDataProvider from './src/components/BlogDataProvider';
 
 export const wrapPageElement = ({
   element,
@@ -23,7 +23,7 @@ export const wrapPageElement = ({
 );
 
 export const wrapRootElement = ({ element }) => (
-  <BlogProvider>
+  <BlogDataProvider>
     {element}
-  </BlogProvider>
+  </BlogDataProvider>
 );

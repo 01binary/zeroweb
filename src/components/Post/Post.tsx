@@ -12,7 +12,7 @@
 import React, { useState, FC, useCallback } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql } from 'gatsby';
-import { useBlogContext } from '../../hooks/useBlogContext';
+import { useBlogData } from '../../hooks/useBlogData';
 import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
@@ -97,7 +97,7 @@ const Post: FC<PostProps> = ({
     [readPosition]
   );
 
-  const { user } = useBlogContext();
+  const { user } = useBlogData();
 
   const {
     loading,

@@ -4,7 +4,7 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Blog context used to get current page route information.
+|  Blog context used to query user generated content
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -18,9 +18,7 @@ import {
   AWSSignature,
 } from '../auth/types';
 
-type BlogContextProps = {
-  url: string;
-  collection: string;
+type BlogDataContextProps = {
   client: ApolloClient<NormalizedCacheObject> | null;
   user: User | null;
   credentials: AWSSignature | null;
@@ -33,9 +31,7 @@ type BlogContextProps = {
   handleLogout: () => void;
 };
 
-export const BlogContext = createContext<BlogContextProps>({
-  url: '',
-  collection: '',
+export const BlogDataContext = createContext<BlogDataContextProps>({
   user: null,
   client: null,
   credentials: null,
@@ -48,5 +44,5 @@ export const BlogContext = createContext<BlogContextProps>({
   handleLogout: null,
 });
 
-export const useBlogContext: () => BlogContextProps = () =>
-  useContext(BlogContext);
+export const useBlogData: () => BlogDataContextProps = () =>
+  useContext(BlogDataContext);

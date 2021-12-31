@@ -286,10 +286,10 @@ const Comments: FC<CommentsProps> = ({
     handleLogout,
   } = useBlogData();
   const [comment, setComment] = useState<string>('');
+  const [commentHeights, setCommentHeights] = useState<number[]>([]);
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);
   const commentSpansRef = useRef<number[]>([]);
-  const commentHeightsRef = useRef<number[]>([]);
   const commentsRef = useRef<HTMLElement>();
   const markerRef = useRef<HTMLElement>();
   const optionRef = useRef<HTMLElement>();
@@ -383,9 +383,10 @@ const Comments: FC<CommentsProps> = ({
       commentsIndexRef.current =
         readPosition > 0.99 ? postComments.length - 1 : current;
       commentSpansRef.current = spans;
-      commentHeightsRef.current = heights;
+
+      setCommentHeights(heights);
     }
-  }, [scrollOffset, postComments]);
+  }, [scrollOffset, postComments, setCommentHeights]);
 
   const handleChangeComment = useCallback(
     ({ target: { value } }) => {
@@ -599,10 +600,13 @@ const Comments: FC<CommentsProps> = ({
                       ? 'comment-unvotable'
                       : 'comment--votable'
                   }
+                  single={postComments.length === 1}
                 >
                   <CommentAvatar
                     index={index}
-                    distance={index ? commentHeightsRef.current[index - 1] : 0}
+                    count={postComments.length}
+                    prevDistance={index > 1 ? commentHeights[index - 2] : -1}
+                    distance={index > 0 ? commentHeights[index - 1] : -1}
                   >
                     <Avatar avatarUrl={avatarUrl} />
                     <CommentVotes

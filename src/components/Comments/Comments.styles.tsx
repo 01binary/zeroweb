@@ -13,12 +13,21 @@ export const MAX_VOTE_SLOTS = 10;
 const getLineColor = (props) =>
   props.theme.isDark ? props.theme.accentShadowColor : props.theme.shadowColor;
 
-const getAvatarHorzOffset = (index: number, distance: number) =>
-  index && distance < AVATAR_TILE_MAX_DIST && index % 2 == 0
-    ? // Tile avatars that are close together for a honeycomb pattern look
+const getAvatarHorzOffset = (
+  index: number,
+  distance: number,
+  prevDistance: number,
+  count: number
+) => {
+  const prevTile = index > 1 && prevDistance < AVATAR_TILE_MAX_DIST;
+  const tile =
+    count === 1 || (index > 0 && distance < AVATAR_TILE_MAX_DIST && !prevTile);
+  return tile
+    ? // Tile avatars that are close together in a honeycomb pattern
       -AVATAR_TILE_OFFSET
-    : // Center odd avatars or avatars that are too far apart
+    : // Center avatars that are too far apart
       0;
+};
 
 type CommentsSectionProps = {
   isLoading: boolean;
@@ -191,10 +200,17 @@ export const CommentsList = styled.ul`
 export const Comment = styled.li`
   position: relative;
   left: calc(-${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px);
-  padding-left: calc(
-    ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${AVATAR_SIZE}px +
-      ${AVATAR_TILE_OFFSET}px + 1em
-  );
+
+  padding-left: ${(props) =>
+    props.single
+      ? // Only one comment, basic list layout
+        `calc(${
+          MAX_VOTE_SLOTS + 1
+        } * ${VOTE_SLOT_WIDTH}px + ${AVATAR_SIZE}px + 1em)`
+      : // More than one comment, honey-comb pattern layout
+        `calc(${
+          MAX_VOTE_SLOTS + 1
+        } * ${VOTE_SLOT_WIDTH}px + ${AVATAR_SIZE}px + ${AVATAR_TILE_OFFSET}px + 1em)`};
   padding-right: calc(20% + ${RULER_ENDMARK_WIDTH}px + 1em);
   margin-right: calc(
     -${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px - ${RULER_ENDMARK_WIDTH}px
@@ -208,8 +224,7 @@ export const Comment = styled.li`
       ${(props) => props.theme.borderColor};
     top: 28px;
     left: calc(
-      ${(props) => getAvatarHorzOffset(props.index, props.distance)}px +
-        ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px +
+      ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px +
         1em + ${(props) => props.theme.border} * 0.5
     );
     height: calc(100% - 17px);
@@ -306,8 +321,14 @@ export const Me = styled.span`
 export const CommentAvatar = styled.div`
   position: absolute;
   left: calc(
-    ${(props) => getAvatarHorzOffset(props.index, props.distance)}px +
-      ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px
+    ${(props) =>
+        getAvatarHorzOffset(
+          props.index,
+          props.distance,
+          props.prevDistance,
+          props.count
+        )}px + ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX +
+      ${AVATAR_TILE_OFFSET}px
   );
   top: -0.5em;
 

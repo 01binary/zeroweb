@@ -276,12 +276,17 @@ export const Comment = styled.li`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
+    padding-left: calc(
+      ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${AVATAR_SIZE}px +
+        ${AVATAR_TILE_OFFSET}px + 1em
+    );
     padding-right: 0;
     margin-right: calc(
       -${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${(props) => props.theme.spacingHalf}
     );
     margin-bottom: calc(
-      ${(props) => props.theme.spacingHalf} + ${(props) => props.theme.border}
+      ${(props) => props.theme.spacingHalf} +
+        ${(props) => props.theme.borderThick} * 2
     );
     &:after {
       display: none;
@@ -606,6 +611,17 @@ export const AddCommentForm = styled.form`
   font-weight: ${(props) => props.theme.smallFontWeight};
   margin-top: ${(props) => (props.hasComments ? 0 : -props.theme.spacing)};
   margin-bottom: ${(props) => props.theme.spacing};
+  margin-left: ${(props) =>
+    getAvatarHorzOffset(
+      props.lastIndex + 1,
+      1,
+      props.prevDistance,
+      props.count
+    )}px;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin-left: 0;
+  }
 `;
 
 export const AddCommentRow = styled.div`

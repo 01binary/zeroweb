@@ -768,6 +768,9 @@ const Comments: FC<CommentsProps> = ({
         <AddCommentForm
           onSubmit={(e) => e.preventDefault()}
           hasComments={Boolean(postComments && postComments.length)}
+          lastIndex={postComments.length + 1}
+          count={postComments.length}
+          prevDistance={commentHeights[postComments.length - 1]}
         >
           <AddCommentRow distribute>
             <AddCommentAvatar>

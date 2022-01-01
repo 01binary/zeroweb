@@ -153,7 +153,7 @@ export const darkTheme = {
   alwaysLightColor: '#FFFFFF',
 
   foregroundColor: '#ffffff',
-  backgroundColor: '#282a37',
+  backgroundColor: '#2B2C34',
   borderColor: '#8E8E8E',
   selectionColor: '#C3C3C3',
 

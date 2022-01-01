@@ -97,17 +97,28 @@ const Pre = styled.pre`
   background: none;
 `;
 
+const CodeToolbar = styled.div`
+  position: absolute;
+  display: flex;
+  top: ${(props) => props.theme.spacingThird};
+  left: calc(
+    70% - ${RULER_ENDMARK_WIDTH}px - ${(props) => props.theme.spacing} -
+      ${(props) => props.theme.borderThick}
+  );
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    left: initial;
+    right: ${(props) => props.theme.spacingHalf};
+  }
+`;
+
 type ToolButtonProps = {
   offset: number;
 };
 
 const ToolButton = styled.button<ToolButtonProps>`
-  position: absolute;
   width: ${(props) => props.theme.spacing};
   height: ${(props) => props.theme.spacing};
-  top: ${(props) => props.theme.spacingThird};
-  right: ${({ offset, theme }) =>
-    offset === 0 ? theme.spacingHalf : theme.spacingDouble};
   border: none;
   cursor: pointer;
   fill: none;
@@ -231,43 +242,47 @@ const Code: FC = ({ children }) => {
         }
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Pre className={className} style={style}>
-            <span ref={snippetRef}>
-              {tokens
-                .filter((line) =>
-                  line.length === 1 && line[0].empty ? false : true
-                )
-                .map((line, i) => (
-                  <div {...getLineProps({ line, key: i })}>
-                    {line.map((token, key) => (
-                      <span {...getTokenProps({ token, key })} />
-                    ))}
-                  </div>
-                ))}
-            </span>
-            <CodeButton
-              offset={0}
-              tipId={'copy'}
-              tipRef={tipRef}
-              onClick={copyCode}
-              showTip={showTip}
-              hideTip={hideTip}
-            >
-              <CopyIcon />
-            </CodeButton>
-            {isDark === false && (
+          <>
+            <Pre className={className} style={style}>
+              <span ref={snippetRef}>
+                {tokens
+                  .filter((line) =>
+                    line.length === 1 && line[0].empty ? false : true
+                  )
+                  .map((line, i) => (
+                    <div {...getLineProps({ line, key: i })}>
+                      {line.map((token, key) => (
+                        <span {...getTokenProps({ token, key })} />
+                      ))}
+                    </div>
+                  ))}
+              </span>
+            </Pre>
+            <CodeToolbar>
               <CodeButton
-                offset={1}
-                tipId={'mode'}
+                offset={0}
+                tipId={'copy'}
                 tipRef={tipRef}
-                onClick={toggleDarkMode}
+                onClick={copyCode}
                 showTip={showTip}
                 hideTip={hideTip}
               >
-                {isCodeDark ? <LightIcon /> : <DarkIcon />}
+                <CopyIcon />
               </CodeButton>
-            )}
-          </Pre>
+              {isDark === false && (
+                <CodeButton
+                  offset={1}
+                  tipId={'mode'}
+                  tipRef={tipRef}
+                  onClick={toggleDarkMode}
+                  showTip={showTip}
+                  hideTip={hideTip}
+                >
+                  {isCodeDark ? <LightIcon /> : <DarkIcon />}
+                </CodeButton>
+              )}
+            </CodeToolbar>
+          </>
         )}
       </Highlight>
       <Tooltip {...tipProps} role="tooltip">

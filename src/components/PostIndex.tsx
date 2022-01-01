@@ -15,27 +15,15 @@ import { getTagDescriptionById } from '../components/TagList';
 import Title from '../components/Title';
 import PostList from '../components/PostList';
 import Summary from '../components/Summary';
-import DateSelector from '../components/DateSelector';
 import { AllPostsQuery } from '../types/AllPostsQuery';
+import { Pagination, PaginationProps } from './Pagination';
 
-interface IndexPageContext {
-  tag: string;
-  collection: string;
-  numberOfPages: number;
-  pageNumber: number;
-  humanPageNumber: number;
-  previousPagePath: string;
-  nextPagePath: string;
-};
-
-interface IndexQuery {
+type IndexQuery = {
   data: AllPostsQuery;
-  pageContext: IndexPageContext;
+  pageContext: {
+    tag: string;
+  } & PaginationProps;
 };
-
-const getCollectionText = (collection: string) => (
-  collection[0].toUpperCase() + collection.substr(1)
-);
 
 /**
  * Index page for articles and projects
@@ -46,67 +34,58 @@ const PostIndex: FC<IndexQuery> = ({
   pageContext: {
     tag,
     collection,
-    pageNumber,
     numberOfPages,
     humanPageNumber,
     nextPagePath,
-    previousPagePath
+    previousPagePath,
   },
   data: {
-    allMdx: {
-      nodes,
-      group
-    }
-  }
-}) => {
-  return (
-    <main>
-      <Title collection={collection}>
-        {getCollectionText(collection)}
-      </Title>
+    allMdx: { nodes, group },
+  },
+}) => (
+  <main>
+    <Title collection={collection}>{collection}</Title>
 
-      <DateSelector
-        collection={collection}
-        numberOfPages={numberOfPages}
-        pageNumber={pageNumber}
-        humanPageNumber={humanPageNumber}
-        nextPagePath={nextPagePath}
-        previousPagePath={previousPagePath}
-      />
+    {tag && (
+      <Summary>
+        All <b>{getTagDescriptionById(tag)}</b> {collection}:
+      </Summary>
+    )}
 
-      {tag &&
-        <Summary>All <b>{getTagDescriptionById(tag)}</b> {collection}:</Summary>
-      }
+    <PostList nodes={nodes} group={group} />
 
-      <PostList nodes={nodes} group={group} />
-    </main>
-  );
-};
+    <Pagination
+      {...{
+        collection,
+        numberOfPages,
+        humanPageNumber,
+        nextPagePath,
+        previousPagePath,
+      }}
+    />
+  </main>
+);
 
 export const pageQuery = graphql`
   query($collection: String!, $skip: Int, $limit: Int, $tag: String) {
-    allMdx
-    (
-      sort: { fields: [frontmatter___date], order: DESC },
-      skip: $skip,
-      limit: $limit,
+    allMdx(
+      sort: { fields: [frontmatter___date], order: DESC }
+      skip: $skip
+      limit: $limit
       filter: {
-        fields: {
-          collection: { eq: $collection },
-          tags: { eq: $tag }
-        }
+        fields: { collection: { eq: $collection }, tags: { eq: $tag } }
       }
     ) {
       nodes {
         slug
         timeToRead
         frontmatter {
-          title,
+          title
           relativeDate: date(fromNow: true)
           date(formatString: "MMMM DD, YYYY")
         }
         fields {
-          url,
+          url
           collection
           tags
         }
@@ -117,6 +96,6 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
 
 export default PostIndex;

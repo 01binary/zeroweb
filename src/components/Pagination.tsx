@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Pagination strip with previous/next and page buttons.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FC } from 'react';
 import { Link } from 'gatsby';
 import { getPathForCollection } from '../routes';
@@ -108,10 +119,10 @@ const getPages = (numberOfPages: number, humanPageNumber: number): string[] => {
   }
 };
 
-const getPageUrl = (page: string, collection: string) =>
-  page === '1'
-    ? `${getPathForCollection(collection)}`
-    : `${getPathForCollection(collection)}/${page}`;
+const getPageUrl = (page: string, collection: string) => {
+  const path = getPathForCollection(collection);
+  return page === '1' ? `${path}` : `${path == '/' ? '' : path}/${page}`;
+};
 
 export type PaginationProps = {
   collection: string;
@@ -141,7 +152,12 @@ export const Pagination: FC<PaginationProps> = ({
             {page === BREAK ? (
               '...'
             ) : (
-              <Link to={getPageUrl(page, collection)}>{page}</Link>
+              <Link
+                to={getPageUrl(page, collection)}
+                aria-label={`Go to page ${page}`}
+              >
+                {page}
+              </Link>
             )}
           </li>
         ))}

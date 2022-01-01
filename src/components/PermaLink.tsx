@@ -88,8 +88,9 @@ const StyledMouseIcon = styled(MouseIcon)`
   position: relative;
   width: 1.3em;
   height: 1.3em;
-  top: ${(props) => props.theme.spacingMin};
+  margin-top: -0.3em;
   margin-right: ${(props) => props.theme.spacingQuarter};
+  top: ${(props) => props.theme.spacingMin};
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;
@@ -117,9 +118,7 @@ const PermaLink: FC<PermaLinkProps> = ({ url, level, inline }) => {
 
   const copyLink = useCallback(() => {
     try {
-      navigator.clipboard.writeText(
-        window.location.protocol + '//' + window.location.host + url
-      );
+      navigator.clipboard.writeText(window.location.href);
       setCopied(true);
       setTimeout(() => setCopied(false), 1000);
     } catch (e) {

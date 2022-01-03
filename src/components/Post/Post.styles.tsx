@@ -14,7 +14,6 @@ import Img from 'gatsby-image';
 import GaugeIcon from '../../images/gauge.svg';
 import ClockIcon from '../../images/clock.svg';
 import { Heading } from '../Heading';
-import { WHEEL_SIZE } from '../Wheel';
 import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
 
 export const Main = styled.main`

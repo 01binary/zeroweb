@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import React, { FC } from 'react';
-import { GatsbyLinkProps, Link } from 'gatsby';
+import { Link } from 'gatsby';
 import styled, { useTheme } from 'styled-components';
 import { getPathForCollection } from '../routes';
 

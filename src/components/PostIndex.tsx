@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 import React, { FC } from 'react';
+import styled from 'styled-components';
 import { graphql } from 'gatsby';
 import { getTagDescriptionById } from '../components/TagList';
 import Title from '../components/Title';
@@ -18,6 +19,10 @@ import Summary from '../components/Summary';
 import { AllPostsQuery } from '../types/AllPostsQuery';
 import { Pagination, PaginationProps } from './Pagination';
 
+const IndexPage = styled.main`
+  padding-bottom: ${(props) => props.theme.spacingTriple};
+`;
+
 type IndexQuery = {
   data: AllPostsQuery;
   pageContext: {
@@ -25,11 +30,6 @@ type IndexQuery = {
   } & PaginationProps;
 };
 
-/**
- * Index page for articles and projects
- * @param props - The index page query.
- * @returns The index page content.
- */
 const PostIndex: FC<IndexQuery> = ({
   pageContext: {
     tag,
@@ -43,7 +43,7 @@ const PostIndex: FC<IndexQuery> = ({
     allMdx: { nodes, group },
   },
 }) => (
-  <main>
+  <IndexPage>
     <Title collection={collection}>{collection}</Title>
 
     {tag && (
@@ -63,7 +63,7 @@ const PostIndex: FC<IndexQuery> = ({
         previousPagePath,
       }}
     />
-  </main>
+  </IndexPage>
 );
 
 export const pageQuery = graphql`

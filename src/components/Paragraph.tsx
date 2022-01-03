@@ -24,24 +24,29 @@ import { RULER_ENDMARK_WIDTH } from './Ruler';
 const Text = styled.p`
   position: relative;
 
-  margin-right: calc(-30% - ${RULER_ENDMARK_WIDTH}px - ${props => props.theme.borderThick} - ${props => props.theme.spacingOneAndHalf});
-  padding-right: calc(30% + ${RULER_ENDMARK_WIDTH}px + ${props => props.theme.borderThick} + ${props => props.theme.spacingOneAndHalf});
+  margin-right: calc(
+    -30% - ${RULER_ENDMARK_WIDTH}px - ${(props) => props.theme.borderThick} - ${(props) => props.theme.spacingOneAndHalf}
+  );
+  padding-right: calc(
+    30% + ${RULER_ENDMARK_WIDTH}px + ${(props) => props.theme.borderThick} +
+      ${(props) => props.theme.spacingOneAndHalf}
+  );
 
   &:after {
     content: '';
     position: absolute;
     top: 0;
-    right: ${props => props.theme.spacingOneAndHalf};
-    width: calc(${props => props.theme.border} * 1.5);
+    right: ${(props) => props.theme.spacingOneAndHalf};
+    width: calc(${(props) => props.theme.border} * 1.5);
     height: 100%;
-    background: ${props => props.theme.foregroundColor};
-    opacity: .4;
-    transition: opacity ${props => props.theme.animationFast} ease-out;
+    background: ${(props) => props.theme.foregroundColor};
+    opacity: 0.4;
+    transition: opacity ${(props) => props.theme.animationFast} ease-out;
     z-index: -1;
   }
 
   &:hover:after {
-    opacity: 1
+    opacity: 1;
   }
 
   &:hover button {
@@ -49,7 +54,7 @@ const Text = styled.p`
   }
 
   &:hover .paragraph__ruler-marker {
-    border-color: ${props => props.theme.foregroundColor};
+    border-color: ${(props) => props.theme.foregroundColor};
   }
 
   &:hover .paragraph__ruler-marker__badge {
@@ -58,14 +63,19 @@ const Text = styled.p`
 
   code {
     position: relative;
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    background: ${props => props.theme.isDark ? props.theme.alwaysDarkColor : props.theme.accentLightColor};
-    padding: ${props => props.theme.spacingQuarter};
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
+    font-size: medium;
+    background: ${(props) =>
+      props.theme.isDark
+        ? props.theme.alwaysDarkColor
+        : props.theme.accentLightColor};
+    padding: ${(props) => props.theme.spacingQuarter};
   }
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     padding-right: 0;
-    margin-right: ${props => props.theme.spacingHalf};
+    margin-right: ${(props) => props.theme.spacingHalf};
 
     &:after {
       display: none;
@@ -81,8 +91,8 @@ const InlineCommentButton = styled.button`
   position: absolute;
   width: 32px;
   height: 32px;
-  top: -${props => props.theme.borderThick};
-  right: ${props => props.theme.spacingQuarter};
+  top: -${(props) => props.theme.borderThick};
+  right: ${(props) => props.theme.spacingQuarter};
   border: none;
   cursor: pointer;
   fill: none;
@@ -90,18 +100,17 @@ const InlineCommentButton = styled.button`
   -moz-appearance: none;
   background: none;
   opacity: 0;
-  transition: opacity ${props => props.theme.animationFast} ease-out;
+  transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;
   }
 `;
 
-const getHash = (children: any): string => (
+const getHash = (children: any): string =>
   typeof children === 'string'
     ? `p${stringHash(children.toString())}`
-    : 'p-unknown'
-);
+    : 'p-unknown';
 
 const Paragraph: FC = (props) => {
   const { comments: responses } = useCommentsContext();
@@ -112,16 +121,10 @@ const Paragraph: FC = (props) => {
   const displayHighlight = Boolean(highlights?.length && !comments?.length);
   const displayComment = Boolean(comments?.length);
   const displayMarker = displayComment || displayHighlight;
-  const {
-    showTip,
-    hideTip,
-    tipProps,
-    tipRef,
-    targetRef
-  } = useTooltip({
+  const { showTip, hideTip, tipProps, tipRef, targetRef } = useTooltip({
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 5,
-    placement: 'top'
+    placement: 'top',
   });
 
   return (
@@ -140,30 +143,30 @@ const Paragraph: FC = (props) => {
         </Tooltip>
       </InlineCommentButton>
 
-      {displayMarker &&
+      {displayMarker && (
         <RulerMarker className="paragraph__ruler-marker">
-          {displayHighlight &&
+          {displayHighlight && (
             <>
-              <RulerHighlightIcon/>
-              {highlights.length > 1 &&
+              <RulerHighlightIcon />
+              {highlights.length > 1 && (
                 <RulerMarkerBadge className="paragraph__ruler-marker__badge">
                   {highlights.length}
                 </RulerMarkerBadge>
-              }
+              )}
             </>
-          }
-          {displayComment &&
+          )}
+          {displayComment && (
             <>
-              <RulerCommentIcon/>
-              {comments.length > 1 &&
+              <RulerCommentIcon />
+              {comments.length > 1 && (
                 <RulerMarkerBadge className="paragraph__ruler-marker__badge">
                   {comments.length}
                 </RulerMarkerBadge>
-              }
+              )}
             </>
-          }
+          )}
         </RulerMarker>
-      }
+      )}
     </Text>
   );
 };

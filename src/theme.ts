@@ -142,8 +142,8 @@ export const darkTheme = {
 
   accentColor: '#E3EBEC',
   accentLightColor: '#F6F6F6',
-  accentHighlightColor: '#FBFBFB',
-  accentLightShadowColor: '#EBEBEB',
+  accentHighlightColor: '#393940',
+  accentLightShadowColor: '#28292B',
   accentDarkShadowColor: '#666666',
   accentShadowColor: '#898989',
   accentHoverColor: '#D7DFE0',

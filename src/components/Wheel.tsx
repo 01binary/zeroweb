@@ -471,6 +471,7 @@ const Wheel: FC<WheelProps> = ({
   return (
     <Wheelhouse inline={inline}>
       <WheelWrapper>
+        Hello
         <SnapButton
           ref={snapRef}
           onClick={handleSnap}

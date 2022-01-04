@@ -94,34 +94,6 @@ export const Main = styled.main`
     }
   }
 
-  ol {
-    position: relative;
-    list-style: none;
-    counter-reset: listCounter;
-    padding-left: ${(props) => props.theme.spacingHalf};
-
-    &:after {
-      content: '';
-      position: absolute;
-      left: calc(
-        100% + ${(props) => props.theme.spacingHalf} +
-          ${(props) => props.theme.border} + ${RULER_OFFSET}px
-      );
-      top: 0;
-      width: calc(${(props) => props.theme.border} * 1.5);
-      height: 100%;
-      background: ${(props) => props.theme.foregroundColor};
-      opacity: 0.4;
-      transition: opacity ${(props) => props.theme.animationFast} ease-out;
-    }
-
-    &:hover {
-      &:after {
-        opacity: 1;
-      }
-    }
-  }
-
   ol > li {
     margin: 0 0 ${(props) => props.theme.spacingHalf} 0;
     &:before {

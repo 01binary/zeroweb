@@ -11,7 +11,7 @@
 
 import { createContext, useContext } from 'react';
 
-type BlogLocationContextProps = {
+export type BlogLocationContextProps = {
   path: string;
   collection: string;
 };

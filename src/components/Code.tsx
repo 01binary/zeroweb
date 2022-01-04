@@ -269,18 +269,6 @@ const Code: FC = ({ children }) => {
               >
                 <CopyIcon />
               </CodeButton>
-              {isDark === false && (
-                <CodeButton
-                  offset={1}
-                  tipId={'mode'}
-                  tipRef={tipRef}
-                  onClick={toggleDarkMode}
-                  showTip={showTip}
-                  hideTip={hideTip}
-                >
-                  {isCodeDark ? <LightIcon /> : <DarkIcon />}
-                </CodeButton>
-              )}
             </CodeToolbar>
           </>
         )}

@@ -46,8 +46,6 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
         ? props.isDark
           ? props.theme.foregroundColor
           : props.theme.backgroundColor
-        : props.isDark
-        ? props.theme.backgroundColor
         : props.theme.foregroundColor};
   }
 
@@ -101,24 +99,18 @@ const CodeToolbar = styled.div`
   position: absolute;
   display: flex;
   top: ${(props) => props.theme.spacingThird};
-  left: calc(
-    70% - ${RULER_ENDMARK_WIDTH}px - ${(props) => props.theme.spacing} -
-      ${(props) => props.theme.borderThick}
-  );
+  right: calc(30% + ${(props) => props.theme.spacingHalf});
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     left: initial;
-    right: ${(props) => props.theme.spacingHalf};
+    right: ${(props) => props.theme.spacingQuarter};
   }
 `;
 
-type ToolButtonProps = {
-  offset: number;
-};
-
-const ToolButton = styled.button<ToolButtonProps>`
+const ToolButton = styled.button`
   width: ${(props) => props.theme.spacing};
   height: ${(props) => props.theme.spacing};
+  margin-right: ${(props) => props.theme.spacingQuarter};
   border: none;
   cursor: pointer;
   fill: none;
@@ -134,7 +126,6 @@ const ToolButton = styled.button<ToolButtonProps>`
 `;
 
 type CodeButtonProps = {
-  offset: number;
   tipId: string;
   tipRef: React.MutableRefObject<HTMLElement>;
   showTip: (id: string) => void;
@@ -144,7 +135,6 @@ type CodeButtonProps = {
 
 const CodeButton: FC<CodeButtonProps> = ({
   children,
-  offset,
   tipId,
   tipRef,
   showTip,
@@ -166,7 +156,6 @@ const CodeButton: FC<CodeButtonProps> = ({
 
   return (
     <ToolButton
-      offset={offset}
       ref={targetRef}
       onClick={onClick}
       onMouseOver={showTooltip}
@@ -260,7 +249,6 @@ const Code: FC = ({ children }) => {
             </Pre>
             <CodeToolbar>
               <CodeButton
-                offset={0}
                 tipId={'copy'}
                 tipRef={tipRef}
                 onClick={copyCode}
@@ -269,9 +257,8 @@ const Code: FC = ({ children }) => {
               >
                 <CopyIcon />
               </CodeButton>
-              {isDark === false && (
+              {!isDark && (
                 <CodeButton
-                  offset={1}
                   tipId={'mode'}
                   tipRef={tipRef}
                   onClick={toggleDarkMode}

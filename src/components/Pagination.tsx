@@ -155,17 +155,18 @@ const SlotLink = styled(Link)`
   }
 
   .top-left {
-    stroke: ${(props) => props.theme.backgroundColor};
+    stroke: ${(props) => props.theme.accentLightColor};
   }
 
   .bottom-right {
-    stroke: ${(props) => props.theme.accentShadowColor};
+    stroke: ${(props) =>
+      props.theme.isDark
+        ? props.theme.dropShadowDarkColor
+        : props.theme.accentShadowColor};
   }
 
   .arrow {
     position: absolute;
-    left: 0;
-    top: 0;
     fill: ${(props) => props.theme.foregroundColor};
   }
 
@@ -184,19 +185,28 @@ const SlotLink = styled(Link)`
     }
 
     .top-left {
-      stroke: ${(props) => props.theme.accentShadowColor};
+      stroke: ${(props) => props.theme.dropShadowDarkColor};
     }
 
     .bottom-right {
-      stroke: ${(props) => props.theme.backgroundColor};
+      stroke: ${(props) => props.theme.accentHighlightColor};
     }
 
     .arrow {
-      fill: ${(props) => props.theme.backgroundColor};
+      fill: ${(props) =>
+        props.theme.isDark
+          ? props.theme.secondaryTextColor
+          : props.theme.backgroundColor};
+      transform: translate(2px, 2px);
     }
 
     .label {
-      color: ${(props) => props.theme.backgroundColor};
+      padding-left: 2px;
+      padding-top: 2px;
+      color: ${(props) =>
+        props.theme.isDark
+          ? props.theme.secondaryTextColor
+          : props.theme.backgroundColor};
     }
   }
 
@@ -248,6 +258,7 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
   const theme = useTheme();
   return (
     <MiddleSlotLink role="button" to={to} className={isCurrent && 'current'}>
+      {label && <div className="label">{label}</div>}
       <svg width="56" height="44" viewBox="0 0 56 44">
         <defs>
           <linearGradient id="normal_gradient" gradientTransform="rotate(90)">
@@ -256,7 +267,7 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
           </linearGradient>
           <linearGradient id="pushed_gradient" gradientTransform="rotate(90)">
             <stop offset="0%" stopColor={theme.accentDarkShadowColor} />
-            <stop offset="100%" stopColor={theme.shadowColor} />
+            <stop offset="100%" stopColor={theme.accentLightShadowColor} />
           </linearGradient>
         </defs>
         <polygon
@@ -270,14 +281,14 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
           className="background-normal"
           fill="url('#normal_gradient')"
           strokeWidth="1"
-          stroke={theme.borderColor}
+          stroke={theme.dropShadowDarkColor}
           points="42.8,41.5 53.2,31 53.2,2.5 12.8,2.5 12.8,31 2.2,41.5 "
         />
         <polygon
           className="background-pushed"
           fill="url('#pushed_gradient')"
           strokeWidth="1"
-          stroke={theme.borderColor}
+          stroke={theme.dropShadowDarkColor}
           points="42.8,41.5 53.2,31 53.2,2.5 12.8,2.5 12.8,31 2.2,41.5 "
         />
         <polyline
@@ -297,7 +308,6 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
           />
         )}
       </svg>
-      {label && <div className="label">{label}</div>}
     </MiddleSlotLink>
   );
 };
@@ -314,7 +324,7 @@ const BackLink: FC<{ to: string }> = ({ to }) => {
           </linearGradient>
           <linearGradient id="pushed_gradient" gradientTransform="rotate(90)">
             <stop offset="0%" stopColor={theme.accentDarkShadowColor} />
-            <stop offset="100%" stopColor={theme.shadowColor} />
+            <stop offset="100%" stopColor={theme.accentLightShadowColor} />
           </linearGradient>
         </defs>
         <polygon
@@ -328,14 +338,14 @@ const BackLink: FC<{ to: string }> = ({ to }) => {
           className="background-normal"
           fill="url('#normal_gradient')"
           strokeWidth="1"
-          stroke={theme.borderColor}
+          stroke={theme.dropShadowDarkColor}
           points="13,2.5 2.5,13 2.5,41 3,41.5 35,41.5 45.5,31 45.5,2.5 "
         />
         <polygon
           className="background-pushed"
           fill="url('#pushed_gradient')"
           strokeWidth="1"
-          stroke={theme.borderColor}
+          stroke={theme.dropShadowDarkColor}
           points="13,2.5 2.5,13 2.5,41 3,41.5 35,41.5 45.5,31 45.5,2.5 "
         />
         <polyline

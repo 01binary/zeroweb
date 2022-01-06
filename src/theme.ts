@@ -141,10 +141,10 @@ export const darkTheme = {
   secondaryTextColor: '#c6c6c6',
 
   accentColor: '#E3EBEC',
-  accentLightColor: '#F6F6F6',
+  accentLightColor: '#4E4F56',
   accentHighlightColor: '#393940',
   accentLightShadowColor: '#28292B',
-  accentDarkShadowColor: '#666666',
+  accentDarkShadowColor: '#000000',
   accentShadowColor: '#898989',
   accentHoverColor: '#D7DFE0',
   accentTextColor: '#127191',
@@ -158,10 +158,10 @@ export const darkTheme = {
   selectionColor: '#C3C3C3',
 
   shadowColor: '#D3D3D3',
-  shadowDarkColor: '#595959',
+  shadowDarkColor: '#1E1E1E',
   shadowLightColor: '#B5D9E3',
 
-  dropShadowDarkColor: '#777777',
+  dropShadowDarkColor: '#141518',
   dropShadowLightColor: '#999999',
   dropShadowTransparentColor: 'black',
 

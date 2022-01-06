@@ -68,7 +68,7 @@ const Text = styled.p`
     font-size: medium;
     background: ${(props) =>
       props.theme.isDark
-        ? props.theme.alwaysDarkColor
+        ? props.theme.dropShadowDarkColor
         : props.theme.accentLightColor};
     padding: ${(props) => props.theme.spacingQuarter};
   }

@@ -130,7 +130,7 @@ const Hero = styled.header`
       width: 100%;
       height: 100%;
       transform: none;
-      box-shadow: 0 0 5px ${(props) => props.theme.dropShadowLightColor};
+      box-shadow: 0 0 5px ${(props) => props.theme.dropShadowDarkColor};
     }
 
     &:after {

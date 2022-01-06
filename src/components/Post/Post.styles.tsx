@@ -132,7 +132,7 @@ export const Main = styled.main`
       line-height: ${(props) => props.theme.spacingOneAndThird};
       background: ${(props) =>
         props.theme.isDark
-          ? props.theme.accentDarkShadowColor
+          ? props.theme.alwaysDarkColor
           : props.theme.accentLightShadowColor};
       width: ${(props) => props.theme.spacingOneAndThird};
       height: ${(props) => props.theme.spacingOneAndThird};

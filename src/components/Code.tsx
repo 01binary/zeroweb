@@ -110,8 +110,7 @@ const CodeToolbar = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     left: initial;
-    //right: ${(props) => props.theme.spacingQuarter};
-    right: initial;
+    right: ${(props) => props.theme.spacingQuarter};
     padding-right: ${(props) => props.theme.spacingQuarter};
   }
 `;

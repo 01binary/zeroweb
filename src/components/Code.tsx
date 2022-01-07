@@ -120,6 +120,7 @@ const CodeToolbar = styled.div`
     left: 0;
     right: 0;
     padding-right: ${(props) => props.theme.spacingQuarter};
+    background: none;
   }
 `;
 
@@ -127,12 +128,16 @@ const ToolButton = styled.button`
   width: ${(props) => props.theme.spacing};
   height: ${(props) => props.theme.spacing};
   margin-right: ${(props) => props.theme.spacingQuarter};
-  border: none;
+
+  border: 1px solid red;
+  background: yellow;
+
+  //border: none;
   cursor: pointer;
   fill: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: none;
+  //background: none;
   opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 

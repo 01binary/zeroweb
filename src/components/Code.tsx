@@ -98,8 +98,15 @@ const Pre = styled.pre`
 const CodeToolbar = styled.div`
   position: absolute;
   display: flex;
+
   top: ${(props) => props.theme.spacingThird};
   right: calc(30% + ${(props) => props.theme.spacingHalf});
+
+  border-radius: ${(props) => props.theme.borderThick};
+  background: ${(props) =>
+    props.theme.isDark
+      ? `${props.theme.dropShadowDarkColor}D0`
+      : `${props.theme.accentLightColor}D0`};
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     left: initial;

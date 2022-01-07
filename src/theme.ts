@@ -161,7 +161,7 @@ export const darkTheme = {
   shadowDarkColor: '#1E1E1E',
   shadowLightColor: '#B5D9E3',
 
-  dropShadowDarkColor: '#141518',
+  dropShadowDarkColor: '#1E1E1E',
   dropShadowLightColor: '#999999',
   dropShadowTransparentColor: 'black',
 

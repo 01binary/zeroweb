@@ -24,6 +24,93 @@ import DarkIcon from '../images/dark.svg';
 
 const DARK_MODE_OVERRIDE = 'darkCode';
 
+const CodeToolbar = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: row-reverse;
+
+  top: ${(props) => props.theme.spacingThird};
+  right: calc(30% + ${(props) => props.theme.spacingHalf});
+
+  border-radius: ${(props) => props.theme.borderThick};
+  background: ${(props) =>
+    props.theme.isDark
+      ? `${props.theme.dropShadowDarkColor}D0`
+      : `${props.theme.accentLightColor}D0`};
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    left: 0;
+    right: 0;
+    padding-right: ${(props) => props.theme.spacingQuarter};
+    background: none;
+  }
+`;
+
+const ToolButton = styled.button`
+  width: ${(props) => props.theme.spacing};
+  height: ${(props) => props.theme.spacing};
+
+  padding: 0;
+  margin-right: ${(props) => props.theme.spacingQuarter};
+
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+  opacity: 0;
+  transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    opacity: 1;
+  }
+`;
+
+type CodeButtonProps = {
+  tipId: string;
+  tipRef: React.MutableRefObject<HTMLElement>;
+  showTip: (id: string) => void;
+  hideTip: () => void;
+  onClick: () => void;
+  label: string;
+};
+
+const CodeButton: FC<CodeButtonProps> = ({
+  children,
+  tipId,
+  tipRef,
+  label,
+  showTip,
+  hideTip,
+  onClick,
+}) => {
+  const { showTip: showTargetTip, targetRef } = useTooltipTarget({
+    tooltipElement: tipRef.current,
+    showTip,
+    verticalOffsetDesktop: 10,
+    verticalOffsetMobile: 10,
+    placement: 'top',
+  });
+
+  const showTooltip = useCallback(() => showTargetTip(tipId), [
+    showTargetTip,
+    tipId,
+  ]);
+
+  return (
+    <ToolButton
+      ref={targetRef}
+      aria-label={label}
+      onClick={onClick}
+      onMouseOver={showTooltip}
+      onMouseOut={hideTip}
+    >
+      {children}
+    </ToolButton>
+  );
+};
+
 type CodeWrapperProps = {
   isDark: boolean;
   isCodeDark: boolean;
@@ -101,90 +188,6 @@ const Pre = styled.pre`
     );
   }
 `;
-
-const CodeToolbar = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: row-reverse;
-
-  top: ${(props) => props.theme.spacingThird};
-  right: calc(30% + ${(props) => props.theme.spacingHalf});
-
-  border-radius: ${(props) => props.theme.borderThick};
-  background: ${(props) =>
-    props.theme.isDark
-      ? `${props.theme.dropShadowDarkColor}D0`
-      : `${props.theme.accentLightColor}D0`};
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    left: 0;
-    right: 0;
-    padding-right: ${(props) => props.theme.spacingQuarter};
-    background: none;
-  }
-`;
-
-const ToolButton = styled.button`
-  width: ${(props) => props.theme.spacing};
-  height: ${(props) => props.theme.spacing};
-
-  padding: 0;
-  margin-right: ${(props) => props.theme.spacingQuarter};
-
-  border: none;
-  cursor: pointer;
-  fill: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: none;
-  opacity: 0;
-  transition: opacity ${(props) => props.theme.animationFast} ease-out;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    opacity: 1;
-  }
-`;
-
-type CodeButtonProps = {
-  tipId: string;
-  tipRef: React.MutableRefObject<HTMLElement>;
-  showTip: (id: string) => void;
-  hideTip: () => void;
-  onClick: () => void;
-};
-
-const CodeButton: FC<CodeButtonProps> = ({
-  children,
-  tipId,
-  tipRef,
-  showTip,
-  hideTip,
-  onClick,
-}) => {
-  const { showTip: showTargetTip, targetRef } = useTooltipTarget({
-    tooltipElement: tipRef.current,
-    showTip,
-    verticalOffsetDesktop: 10,
-    verticalOffsetMobile: 10,
-    placement: 'top',
-  });
-
-  const showTooltip = useCallback(() => showTargetTip(tipId), [
-    showTargetTip,
-    tipId,
-  ]);
-
-  return (
-    <ToolButton
-      ref={targetRef}
-      onClick={onClick}
-      onMouseOver={showTooltip}
-      onMouseOut={hideTip}
-    >
-      {children}
-    </ToolButton>
-  );
-};
 
 const Code: FC = ({ children }) => {
   const darkOverride =
@@ -271,6 +274,7 @@ const Code: FC = ({ children }) => {
               <CodeButton
                 tipId={'copy'}
                 tipRef={tipRef}
+                label="Copy code snippet"
                 onClick={copyCode}
                 showTip={showTip}
                 hideTip={hideTip}
@@ -281,6 +285,7 @@ const Code: FC = ({ children }) => {
                 <CodeButton
                   tipId={'mode'}
                   tipRef={tipRef}
+                  label="Toggle code snippet dark mode"
                   onClick={toggleDarkMode}
                   showTip={showTip}
                   hideTip={hideTip}

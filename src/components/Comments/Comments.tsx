@@ -7,14 +7,15 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
+import dayjs from 'dayjs';
 import ReactMarkdown from 'react-markdown';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { FetchResult } from '@apollo/client';
 import Avatar from '../Avatar';
 import MetaLink from '../MetaLink';
 import Login from '../Login';
 import Error from '../Error';
-import dayjs from 'dayjs';
 import { useBlogData } from '../../hooks/useBlogData';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import UpVoteIcon from '../../images/upvote.svg';
 import DownVoteIcon from '../../images/downvote.svg';
 import ReactionIcon from '../../images/reaction.svg';
@@ -30,10 +31,11 @@ import { CommentQuery } from '../../types/AllCommentsQuery';
 import { Vote } from '../../types/VoteCommentQuery';
 import AddCommentMutation from '../../types/AddCommentMutation';
 import EditCommentMutation from '../../types/EditCommentMutation';
+import ReactCommentMutation from '../../types/ReactMutation';
 import { useTooltip } from '../../hooks/useTooltip';
 import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
 import { Tooltip, Arrow } from '../Tooltip';
-import ReactCommentMutation from '../../types/ReactMutation';
+import PrimaryButton from '../PrimaryButton';
 import {
   CommentsList,
   CommentsSection,
@@ -70,9 +72,8 @@ import {
   AddCommentUser,
   AddCommentInput,
 } from './Comments.styles';
-import PrimaryButton from '../PrimaryButton';
-import { FetchResult } from '@apollo/client';
 import OptionMenu from './OptionMenu';
+import ReactionMenu from './ReactionMenu';
 
 dayjs.extend(relativeTime);
 

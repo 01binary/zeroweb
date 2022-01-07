@@ -12,19 +12,26 @@
 import styled from 'styled-components';
 
 export const ContextMenu = styled.div`
-  font-family: ${props => props.theme.smallFont};
-  font-size: ${props => props.theme.smallFontSize};
-  font-weight: ${props => props.theme.smallFontWeight};
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  font-weight: ${(props) => props.theme.smallFontWeight};
   text-transform: lowercase;
 
-  color: ${props => props.theme.foregroundColor};
-  background: ${props => props.theme.backgroundColor};
+  color: ${(props) => props.theme.foregroundColor};
+  background: ${(props) =>
+    props.theme.isDark
+      ? props.theme.alwaysDarkColor
+      : props.theme.backgroundColor};
 
   position: absolute;
-  border: 1px solid ${props => props.theme.dropShadowDarkColor};
-  border-radius: ${props => props.theme.spacingSmall};
-  transition: opacity ${props => props.theme.animationFast} ease-in-out;
-  box-shadow: 0 0 10px ${props => props.theme.isDark ? `${props.theme.dropShadowTransparentColor}FF` : `${props.theme.dropShadowLightColor}66`};
+  border: 1px solid ${(props) => props.theme.dropShadowDarkColor};
+  border-radius: ${(props) => props.theme.spacingSmall};
+  transition: opacity ${(props) => props.theme.animationFast} ease-in-out;
+  box-shadow: 0 0 10px
+    ${(props) =>
+      props.theme.isDark
+        ? `${props.theme.accentDarkShadowColor}66`
+        : `${props.theme.dropShadowLightColor}66`};
   opacity: 0;
   pointer-events: none;
 
@@ -35,23 +42,30 @@ export const ContextMenu = styled.div`
     pointer-events: all;
   }
 
-  &[data-popper-placement="top-start"] [data-popper-arrow] {
+  &[data-popper-placement='top-start'] [data-popper-arrow] {
     top: calc(100% + 1px);
-    border-color: ${props => props.theme.dropShadowDarkColor} transparent transparent transparent;
+    border-color: ${(props) => props.theme.dropShadowDarkColor} transparent
+      transparent transparent;
 
     &:before {
-      border-color: ${props => props.theme.backgroundColor} transparent transparent transparent;
+      border-color: ${(props) => props.theme.backgroundColor} transparent
+        transparent transparent;
       top: -10px;
       left: -9px;
     }
   }
 
-  &[data-popper-placement="bottom-start"] [data-popper-arrow] {
+  &[data-popper-placement='bottom-start'] [data-popper-arrow] {
     top: -16px;
-    border-color: transparent transparent ${props => props.theme.dropShadowDarkColor} transparent;
+    border-color: transparent transparent
+      ${(props) => props.theme.dropShadowDarkColor} transparent;
 
     &:before {
-      border-color: transparent transparent ${props => props.theme.backgroundColor} transparent;
+      border-color: transparent transparent
+        ${(props) =>
+          props.theme.isDark
+            ? props.theme.alwaysDarkColor
+            : props.theme.backgroundColor}; transparent;
       top: -8px;
       left: -9px;
     }
@@ -63,7 +77,7 @@ export const ContextMenu = styled.div`
 `;
 
 export const ContextMenuArrow = styled.div.attrs(() => ({
-  ['data-popper-arrow']: 1
+  ['data-popper-arrow']: 1,
 }))`
   position: absolute;
   border-width: 8px;

@@ -93,11 +93,19 @@ const Pre = styled.pre`
   padding: ${(props) => props.theme.spacingHalf};
   overflow-x: auto;
   background: none;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    padding-top: calc(
+      ${(props) => props.theme.spacing} +
+        ${(props) => props.theme.spacingQuarter}
+    );
+  }
 `;
 
 const CodeToolbar = styled.div`
   position: absolute;
   display: flex;
+  flex-direction: row-reverse;
 
   top: ${(props) => props.theme.spacingThird};
   right: calc(30% + ${(props) => props.theme.spacingHalf});
@@ -109,8 +117,8 @@ const CodeToolbar = styled.div`
       : `${props.theme.accentLightColor}D0`};
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    left: initial;
-    right: ${(props) => props.theme.spacingQuarter};
+    left: 0;
+    right: 0;
     padding-right: ${(props) => props.theme.spacingQuarter};
   }
 `;

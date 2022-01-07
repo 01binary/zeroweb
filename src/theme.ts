@@ -94,7 +94,7 @@ export const lightTheme = {
   secondaryTextColor: '#848D95',
 
   accentColor: '#E3EBEC',
-  accentLightColor: '#F6F6F6',
+  accentLightColor: '#F6F8FA',
   accentHighlightColor: '#FBFBFB',
   accentLightShadowColor: '#EBEBEB',
   accentDarkShadowColor: '#666666',

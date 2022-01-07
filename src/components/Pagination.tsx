@@ -261,11 +261,17 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
       {label && <div className="label">{label}</div>}
       <svg width="56" height="44" viewBox="0 0 56 44">
         <defs>
-          <linearGradient id="normal_gradient" gradientTransform="rotate(90)">
+          <linearGradient
+            id="normal_page_gradient"
+            gradientTransform="rotate(90)"
+          >
             <stop offset="0%" stopColor={theme.accentHighlightColor} />
             <stop offset="100%" stopColor={theme.accentLightShadowColor} />
           </linearGradient>
-          <linearGradient id="pushed_gradient" gradientTransform="rotate(90)">
+          <linearGradient
+            id="pushed_page_gradient"
+            gradientTransform="rotate(90)"
+          >
             <stop offset="0%" stopColor={theme.accentDarkShadowColor} />
             <stop offset="100%" stopColor={theme.accentLightShadowColor} />
           </linearGradient>
@@ -279,14 +285,14 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
         />
         <polygon
           className="background-normal"
-          fill="url('#normal_gradient')"
+          fill="url('#normal_page_gradient')"
           strokeWidth="1"
           stroke={theme.dropShadowDarkColor}
           points="42.8,41.5 53.2,31 53.2,2.5 12.8,2.5 12.8,31 2.2,41.5 "
         />
         <polygon
           className="background-pushed"
-          fill="url('#pushed_gradient')"
+          fill="url('#pushed_page_gradient')"
           strokeWidth="1"
           stroke={theme.dropShadowDarkColor}
           points="42.8,41.5 53.2,31 53.2,2.5 12.8,2.5 12.8,31 2.2,41.5 "
@@ -318,11 +324,17 @@ const BackLink: FC<{ to: string }> = ({ to }) => {
     <FirstSlotLink role="button" to={to}>
       <svg width="48" height="44" viewBox="0 0 48 44">
         <defs>
-          <linearGradient id="normal_gradient" gradientTransform="rotate(90)">
+          <linearGradient
+            id="normal_back_gradient"
+            gradientTransform="rotate(90)"
+          >
             <stop offset="0%" stopColor={theme.accentHighlightColor} />
             <stop offset="100%" stopColor={theme.accentLightShadowColor} />
           </linearGradient>
-          <linearGradient id="pushed_gradient" gradientTransform="rotate(90)">
+          <linearGradient
+            id="pushed_back_gradient"
+            gradientTransform="rotate(90)"
+          >
             <stop offset="0%" stopColor={theme.accentDarkShadowColor} />
             <stop offset="100%" stopColor={theme.accentLightShadowColor} />
           </linearGradient>
@@ -336,14 +348,14 @@ const BackLink: FC<{ to: string }> = ({ to }) => {
         />
         <polygon
           className="background-normal"
-          fill="url('#normal_gradient')"
+          fill="url('#normal_back_gradient')"
           strokeWidth="1"
           stroke={theme.dropShadowDarkColor}
           points="13,2.5 2.5,13 2.5,41 3,41.5 35,41.5 45.5,31 45.5,2.5 "
         />
         <polygon
           className="background-pushed"
-          fill="url('#pushed_gradient')"
+          fill="url('#pushed_back_gradient')"
           strokeWidth="1"
           stroke={theme.dropShadowDarkColor}
           points="13,2.5 2.5,13 2.5,41 3,41.5 35,41.5 45.5,31 45.5,2.5 "

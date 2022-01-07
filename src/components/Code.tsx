@@ -130,7 +130,7 @@ const ToolButton = styled.button`
   margin-right: ${(props) => props.theme.spacingQuarter};
 
   border: 1px solid red;
-  background: yellow;
+  background: blue;
 
   //border: none;
   cursor: pointer;

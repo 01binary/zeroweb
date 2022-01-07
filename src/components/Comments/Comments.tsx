@@ -26,8 +26,6 @@ import ReactionWowIcon from '../../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../../images/reaction-confused.svg';
 import ReactionPartyIcon from '../../images/reaction-party.svg';
 import ReactionSnapIcon from '../../images/reaction-snap.svg';
-import EditIcon from '../../images/edit.svg';
-import DeleteIcon from '../../images/delete.svg';
 import { CommentQuery } from '../../types/AllCommentsQuery';
 import { Vote } from '../../types/VoteCommentQuery';
 import AddCommentMutation from '../../types/AddCommentMutation';
@@ -58,7 +56,6 @@ import {
   CommentReactionGroup,
   CommentReaction,
   CommentReactionBadge,
-  CommentReactionDescription,
   CommentVotesScale,
   DownVote,
   UpVote,
@@ -74,8 +71,8 @@ import {
   AddCommentInput,
 } from './Comments.styles';
 import PrimaryButton from '../PrimaryButton';
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../Menu';
 import { FetchResult } from '@apollo/client';
+import OptionMenu from './OptionMenu';
 
 dayjs.extend(relativeTime);
 
@@ -138,77 +135,6 @@ const CommentReactions: FC<CommentReactionsProps> = ({
         </CommentReaction>
       ))}
     </CommentReactionGroup>
-  );
-};
-
-const OptionMenu: FC<MenuProps> = ({ onSelect }) => (
-  <Menu vertical>
-    <MenuItem id="editComment" onClick={onSelect}>
-      <MenuItemIcon>
-        <EditIcon />
-      </MenuItemIcon>
-      Edit
-    </MenuItem>
-    <MenuItem id="deleteComment" onClick={onSelect}>
-      <MenuItemIcon>
-        <DeleteIcon />
-      </MenuItemIcon>
-      Delete
-    </MenuItem>
-  </Menu>
-);
-
-const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
-  const [reaction, setReaction] = useState<string>(null);
-  return (
-    <Menu vertical>
-      <CommentReactionDescription>
-        {reaction}
-        {!reaction && 'choose a reaction'}
-      </CommentReactionDescription>
-      <Menu>
-        <MenuItem
-          id="snap"
-          onMouseOver={() => setReaction('snap!')}
-          onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
-        >
-          <ReactionSnapIcon />
-        </MenuItem>
-        <MenuItem
-          id="party"
-          onMouseOver={() => setReaction('four loko')}
-          onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
-        >
-          <ReactionPartyIcon />
-        </MenuItem>
-        <MenuItem
-          id="lol"
-          onMouseOver={() => setReaction('lol')}
-          onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
-        >
-          <ReactionLolIcon />
-        </MenuItem>
-        <MenuItem
-          id="wow"
-          onMouseOver={() => setReaction('surprised')}
-          onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
-        >
-          <ReactionWowIcon />
-        </MenuItem>
-        <MenuItem
-          id="confused"
-          onMouseOver={() => setReaction('confused')}
-          onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
-        >
-          <ReactionConfusedIcon />
-        </MenuItem>
-      </Menu>
-    </Menu>
   );
 };
 

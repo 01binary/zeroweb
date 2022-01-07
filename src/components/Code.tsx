@@ -127,17 +127,16 @@ const CodeToolbar = styled.div`
 const ToolButton = styled.button`
   width: ${(props) => props.theme.spacing};
   height: ${(props) => props.theme.spacing};
+
+  padding: 0;
   margin-right: ${(props) => props.theme.spacingQuarter};
 
-  border: 1px solid red;
-  background: blue;
-
-  //border: none;
+  border: none;
   cursor: pointer;
   fill: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  //background: none;
+  background: none;
   opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 

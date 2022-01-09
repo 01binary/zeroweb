@@ -26,7 +26,6 @@ import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
 import Cell from '../images/cell.svg';
 import ShareIcon from '../images/share.svg';
 import CommentIcon from '../images/comment.svg';
-import SnapIcon from '../images/snap.svg';
 import ShareFacebookIcon from '../images/share-facebook.svg';
 import ShareTwitterIcon from '../images/share-twitter.svg';
 import ShareLinkedInIcon from '../images/share-linkedin.svg';
@@ -34,13 +33,14 @@ import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 import { ShareType } from '../types/AllSharesQuery';
+import Snap from './Snap';
+import useSnap from '../hooks/useSnap';
 
 export const WHEEL_SIZE = 76;
 
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
 const ICON_SIZE = 36;
-const SNAP_TIME_MS = 400;
 
 const StyledCell = styled(Cell)`
   position: absolute;
@@ -48,10 +48,6 @@ const StyledCell = styled(Cell)`
   top: 0;
   width: ${CELL_WIDTH}px;
   height: ${CELL_HEIGHT}px;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    display: none;
-  }
 `;
 
 const StyledShareIcon = styled(ShareIcon).attrs(() => ({
@@ -62,96 +58,14 @@ const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
   className: 'wheel-icon',
 }))``;
 
-const StyledStaticSnapIcon = styled(SnapIcon)`
+const StyledSnapIcon = styled(Snap)`
   position: relative;
   top: 1px;
   left: -8px;
-
-  #frame4 {
-    opacity: 1;
-  }
-
-  #frame1,
-  #frame2,
-  #frame3 {
-    opacity: 0;
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    top: 12px;
-    left: 1px;
-  }
 `;
 
-const StyledAnimatedSnapIcon = styled(SnapIcon)`
-  position: relative;
-  top: 1px;
-  left: -8px;
-
-  #frame1 {
-    opacity: 0;
-    animation: snapFrame1 0.4s steps(1) 1;
-  }
-
-  #frame2 {
-    opacity: 0;
-    animation: snapFrame2 0.4s steps(1) 1;
-  }
-
-  #frame3 {
-    opacity: 0;
-    animation: snapFrame3 0.4s steps(1) 1;
-  }
-
-  #frame4 {
-    opacity: 0;
-    animation: snapFrame4 0.4s steps(1) 1;
-  }
-
-  @keyframes snapFrame1 {
-    0% {
-      opacity: 1;
-    }
-    25% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes snapFrame2 {
-    25% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes snapFrame3 {
-    50% {
-      opacity: 1;
-    }
-    75% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes snapFrame4 {
-    75% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    top: 12px;
-    left: 1px;
-  }
-`;
-
-const Wheelhouse = styled.aside<{ inline?: boolean }>`
-  ${(props) => (props.inline ? 'display:none;' : 'display:block;')}
+const Wheelhouse = styled.aside`
+  display: block;
   position: sticky;
   float: left;
   top: ${(props) => props.theme.spacingHalf};
@@ -184,15 +98,7 @@ const Wheelhouse = styled.aside<{ inline?: boolean }>`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    ${(props) => (props.inline ? 'display:block;' : 'display:none;')}
-    position: initial;
-    float: initial;
-    opacity: initial;
-    width: initial;
-    height: initial;
-    margin-left: 0px;
-    margin-top: -${(props) => props.theme.spacing};
-    margin-bottom: ${(props) => props.theme.spacingDouble};
+    display: none;
   }
 `;
 
@@ -201,13 +107,6 @@ const WheelWrapper = styled.div`
   position: relative;
   width: ${WHEEL_SIZE}px;
   height: ${WHEEL_SIZE}px;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    position: initial;
-    width: initial;
-    height: initial;
-    display: flex;
-  }
 `;
 
 const WheelButton = styled.button`
@@ -234,29 +133,11 @@ const WheelButton = styled.button`
     left: ${(CELL_WIDTH - ICON_SIZE) / 2}px;
     top: ${(CELL_HEIGHT - ICON_SIZE) / 2}px;
   }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    position: relative;
-    width: initial;
-    height: initial;
-
-    .wheel-icon {
-      position: relative;
-      left: 0;
-      top: ${ICON_SIZE / 3}px;
-      width: ${ICON_SIZE}px;
-      height: ${ICON_SIZE}px;
-    }
-  }
 `;
 
 const SnapButton = styled(WheelButton)`
   left: 0px;
   top: 37px;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    top: 0px;
-  }
 `;
 
 const ShareButton = styled(WheelButton)`
@@ -267,10 +148,6 @@ const ShareButton = styled(WheelButton)`
 const CommentButton = styled(WheelButton)`
   left: 32px;
   top: 18.5px;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    display: none;
-  }
 `;
 
 const CommentLink = styled(AnchorLink)`
@@ -288,31 +165,16 @@ const Badge = styled.div<{ show?: boolean }>`
   font-weight: ${(props) => props.theme.smallFontWeight};
   opacity: ${(props) => (props.show ? 1 : 0)};
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    ${(props) =>
-      props.show ? 'display:inline !important;' : 'display:none !important;'};
-    position: initial;
-    margin-right: 0.5em;
-  }
 `;
 
 const SharesBadge = styled(Badge)`
   left: calc(100% + 0.33em);
   top: -0.33em;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    margin-left: 6px;
-  }
 `;
 
 const ReactionsBadge = styled(Badge)`
   left: calc(100% + 0.1em);
   bottom: -0.33em;
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    margin-left: 8px;
-  }
 `;
 
 const CommentsBadge = styled(Badge)`
@@ -384,7 +246,6 @@ type WheelProps = {
   comments?: CommentQuery[];
   shareCount: number;
   sharesByType: Partial<Record<ShareType, number>>;
-  inline?: boolean;
   postUrl: string;
   handleSnap: () => void;
   handleShare: (provider: string) => void;
@@ -392,16 +253,15 @@ type WheelProps = {
 
 const Wheel: FC<WheelProps> = ({
   postUrl,
-  inline,
   comments,
   shareCount,
   sharesByType,
-  handleSnap: handleSnapUpstream,
+  handleSnap,
   handleShare: handleShareUpstream,
 }) => {
-  const [snapTimer, setSnapTimer] = useState<number>(0);
   const snapRef = useRef<HTMLElement>(null);
   const commentRef = useRef<HTMLElement>(null);
+  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
   const {
     hideTip: hideMenu,
     showTip: showMenu,
@@ -414,7 +274,10 @@ const Wheel: FC<WheelProps> = ({
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
-  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
+  const [isSnapAnimated, playSnapAnimation] = useSnap(() => {
+    hideTip();
+    handleSnap();
+  });
 
   const commentCount = useMemo(
     () =>
@@ -431,24 +294,9 @@ const Wheel: FC<WheelProps> = ({
     [comments]
   );
 
-  const handleSnap = useCallback(() => {
-    if (snapTimer) return;
-    hideTip();
-    handleSnapUpstream();
-    setSnapTimer(
-      window.setTimeout(() => {
-        window.clearTimeout(snapTimer);
-        setSnapTimer(0);
-      }, SNAP_TIME_MS)
-    );
-  }, [hideTip, handleSnapUpstream, setSnapTimer]);
-
-  const handleShare = useCallback(
-    (e) => {
-      handleShareUpstream(e.target.id);
-    },
-    [handleShareUpstream]
-  );
+  const handleShare = useCallback((e) => handleShareUpstream(e.target.id), [
+    handleShareUpstream,
+  ]);
 
   const handleShowShareMenu = useCallback(() => {
     if (menuVisible) {
@@ -469,16 +317,16 @@ const Wheel: FC<WheelProps> = ({
   }, [hideMenu]);
 
   return (
-    <Wheelhouse inline={inline}>
+    <Wheelhouse>
       <WheelWrapper>
         <SnapButton
           ref={snapRef}
-          onClick={handleSnap}
+          onClick={playSnapAnimation}
           onMouseOver={() => showTipFor('snap!', snapRef)}
           onMouseOut={hideTip}
         >
           <StyledCell />
-          {snapTimer ? <StyledAnimatedSnapIcon /> : <StyledStaticSnapIcon />}
+          <StyledSnapIcon animate={isSnapAnimated} />
           <ReactionsBadge show={Boolean(reactionCount)}>
             {reactionCount}
           </ReactionsBadge>

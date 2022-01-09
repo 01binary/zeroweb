@@ -247,16 +247,6 @@ const Post: FC<PostProps> = ({
             <MDXRenderer>{body}</MDXRenderer>
           </CommentsContext.Provider>
         </Content>
-
-        <Wheel
-          inline
-          postUrl={relativePostUrl}
-          comments={comments}
-          shareCount={shareCount}
-          sharesByType={sharesByType}
-          handleSnap={handleSnap}
-          handleShare={handleShare}
-        />
       </Main>
 
       <Comments

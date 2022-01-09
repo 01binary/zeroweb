@@ -6,19 +6,19 @@ import React, {
   useRef,
 } from 'react';
 import styled from 'styled-components';
-import { ShareType } from '../../types/AllSharesQuery';
-import { useTooltip } from '../../hooks/useTooltip';
-import useSnap from '../../hooks/useSnap';
-import ShareIcon from '../../images/share.svg';
-import ShareFacebookIcon from '../../images/share-facebook.svg';
-import ShareTwitterIcon from '../../images/share-twitter.svg';
-import ShareLinkedInIcon from '../../images/share-linkedin.svg';
-import ShareLinkIcon from '../../images/share-link.svg';
-import ShareEmailIcon from '../../images/share-email.svg';
-import { Arrow, Tooltip } from '../Tooltip';
-import SnapAnimation from './SnapAnimation';
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../Menu';
-import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
+import { ShareType } from '../types/AllSharesQuery';
+import { useTooltip } from '../hooks/useTooltip';
+import useSnap from '../hooks/useSnap';
+import ShareIcon from '../images/share.svg';
+import ShareFacebookIcon from '../images/share-facebook.svg';
+import ShareTwitterIcon from '../images/share-twitter.svg';
+import ShareLinkedInIcon from '../images/share-linkedin.svg';
+import ShareLinkIcon from '../images/share-link.svg';
+import ShareEmailIcon from '../images/share-email.svg';
+import { Arrow, Tooltip } from './Tooltip';
+import SnapAnimation from './Post/SnapAnimation';
+import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
+import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 
 const StyledSnapAnimation = styled(SnapAnimation)`
   transform: scale(1.15);

@@ -54,7 +54,7 @@ import {
   openUrl,
   slugifyHeadings,
 } from '../../utils';
-import Reactions from './Reactions';
+import Reactions from '../PostReactions';
 
 const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 

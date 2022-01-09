@@ -12,21 +12,21 @@
 import React, { FC, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
-import useSnap from '../../hooks/useSnap';
-import { useTooltip } from '../../hooks/useTooltip';
-import { Tooltip, Arrow } from '../Tooltip';
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../Menu';
+import useSnap from '../hooks/useSnap';
+import { useTooltip } from '../hooks/useTooltip';
+import { Tooltip, Arrow } from './Tooltip';
+import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
 import SnapAnimation from './SnapAnimation';
-import Cell from '../../images/cell.svg';
-import ShareIcon from '../../images/share.svg';
-import CommentIcon from '../../images/comment.svg';
-import ShareFacebookIcon from '../../images/share-facebook.svg';
-import ShareTwitterIcon from '../../images/share-twitter.svg';
-import ShareLinkedInIcon from '../../images/share-linkedin.svg';
-import ShareLinkIcon from '../../images/share-link.svg';
-import ShareEmailIcon from '../../images/share-email.svg';
-import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
-import { ShareType } from '../../types/AllSharesQuery';
+import Cell from '../images/cell.svg';
+import ShareIcon from '../images/share.svg';
+import CommentIcon from '../images/comment.svg';
+import ShareFacebookIcon from '../images/share-facebook.svg';
+import ShareTwitterIcon from '../images/share-twitter.svg';
+import ShareLinkedInIcon from '../images/share-linkedin.svg';
+import ShareLinkIcon from '../images/share-link.svg';
+import ShareEmailIcon from '../images/share-email.svg';
+import { ContextMenu, ContextMenuArrow } from './ContextMenu';
+import { ShareType } from '../types/AllSharesQuery';
 
 export const WHEEL_SIZE = 76;
 

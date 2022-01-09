@@ -17,13 +17,14 @@ import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
-import Wheel from './Wheel';
+import Wheel from '../Wheel';
 import { Ruler } from '../Ruler';
 import TagList from '../TagList';
 import SEO from '../SEO';
 import TOC from '../TOC';
 import MetaLink from '../MetaLink';
 import Comments from '../Comments/Comments';
+import Reactions from '../PostReactions';
 import Code from '../Code';
 import Paragraph from '../Paragraph';
 import Blockquote from '../Blockquote';
@@ -54,7 +55,6 @@ import {
   openUrl,
   slugifyHeadings,
 } from '../../utils';
-import Reactions from '../PostReactions';
 
 const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 

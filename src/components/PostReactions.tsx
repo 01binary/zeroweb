@@ -16,7 +16,7 @@ import ShareLinkedInIcon from '../images/share-linkedin.svg';
 import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { Arrow, Tooltip } from './Tooltip';
-import SnapAnimation from './Post/SnapAnimation';
+import SnapAnimation from './SnapAnimation';
 import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 

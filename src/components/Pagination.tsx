@@ -162,7 +162,7 @@ const SlotLink = styled(Link)`
     stroke: ${(props) =>
       props.theme.isDark
         ? props.theme.dropShadowDarkColor
-        : props.theme.accentShadowColor};
+        : props.theme.dropShadowLightColor};
   }
 
   .arrow {

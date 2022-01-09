@@ -102,7 +102,7 @@ export const lightTheme = {
   accentHoverColor: '#D7DFE0',
   accentTextColor: '#127191',
 
-  alwaysDarkColor: '#3B4A51',
+  alwaysDarkColor: '#3B4351',
   alwaysLightColor: '#FFFFFF',
 
   foregroundColor: '#3B4A51',
@@ -149,7 +149,7 @@ export const darkTheme = {
   accentHoverColor: '#D7DFE0',
   accentTextColor: '#127191',
 
-  alwaysDarkColor: '#3B4A51',
+  alwaysDarkColor: '#3B4351',
   alwaysLightColor: '#FFFFFF',
 
   foregroundColor: '#ffffff',

@@ -116,8 +116,12 @@ const Hero = styled.header`
     right: 0;
     margin: 0;
     max-width: initial;
-    height: ${(props) => props.theme.spacingDouble};
+    height: ${(props) =>
+      props.menuOpen
+        ? `calc(11em + ${props.theme.spacingDouble})`
+        : props.theme.spacingDouble};
     background: none;
+    backdrop-filter: blur(6px);
     color: ${(props) => props.theme.foregroundColor};
 
     &:before {
@@ -304,14 +308,7 @@ const Navigation = styled.nav`
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
 
     &:before {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      height: 100%;
-      background: ${(props) => props.theme.backgroundColor};
-      opacity: 0.95;
-      box-shadow: initial;
+      content: initial;
     }
 
     &:after {
@@ -424,7 +421,7 @@ const Header: FC<HeaderProps> = ({ path }) => {
   const { isDark, toggleDark } = useStyledDarkMode();
 
   return (
-    <Hero isDark={isDark} role="banner">
+    <Hero isDark={isDark} menuOpen={menuOpen} role="banner">
       <LogoLink to="/">
         <Logo />
       </LogoLink>

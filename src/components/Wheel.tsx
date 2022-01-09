@@ -9,18 +9,10 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, {
-  FC,
-  useState,
-  useRef,
-  useMemo,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { FC, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import { useTooltip } from '../hooks/useTooltip';
-import { CommentQuery } from '../types/AllCommentsQuery';
 import { Tooltip, Arrow } from './Tooltip';
 import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
 import Cell from '../images/cell.svg';
@@ -243,7 +235,8 @@ const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
 );
 
 type WheelProps = {
-  comments?: CommentQuery[];
+  commentCount: number;
+  reactionCount: number;
   shareCount: number;
   sharesByType: Partial<Record<ShareType, number>>;
   postUrl: string;
@@ -253,7 +246,8 @@ type WheelProps = {
 
 const Wheel: FC<WheelProps> = ({
   postUrl,
-  comments,
+  commentCount,
+  reactionCount,
   shareCount,
   sharesByType,
   handleSnap,
@@ -278,21 +272,6 @@ const Wheel: FC<WheelProps> = ({
     hideTip();
     handleSnap();
   });
-
-  const commentCount = useMemo(
-    () =>
-      (comments || []).filter(({ markdown }) => markdown && markdown.length)
-        .length,
-    [comments]
-  );
-
-  const reactionCount = useMemo(
-    () =>
-      (comments || []).filter(
-        ({ parentTimestamp, reaction }) => reaction && !parentTimestamp
-      ).length,
-    [comments]
-  );
 
   const handleShare = useCallback((e) => handleShareUpstream(e.target.id), [
     handleShareUpstream,

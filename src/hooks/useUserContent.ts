@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import gql from 'graphql-tag';
 import { ApolloCache, useQuery } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
@@ -81,11 +81,30 @@ const useUserContent = (slug: string) => {
     data?.shares
   );
 
+  const comments = data?.comments;
+
+  const commentCount = useMemo(
+    () =>
+      (comments ?? []).filter(({ markdown }) => markdown && markdown.length)
+        .length,
+    [comments]
+  );
+
+  const reactionCount = useMemo(
+    () =>
+      (comments ?? []).filter(
+        ({ parentTimestamp, reaction }) => reaction && !parentTimestamp
+      ).length,
+    [comments]
+  );
+
   return {
     loading,
     error: error?.message,
 
-    comments: data?.comments,
+    comments,
+    commentCount,
+    reactionCount,
     handleAdd,
     handleEdit,
     handleDelete,

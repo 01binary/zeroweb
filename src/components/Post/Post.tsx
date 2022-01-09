@@ -103,6 +103,8 @@ const Post: FC<PostProps> = ({
     loading,
     error,
     comments,
+    commentCount,
+    reactionCount,
     handleAdd,
     handleEdit,
     handleDelete,
@@ -218,7 +220,8 @@ const Post: FC<PostProps> = ({
 
         <Wheel
           postUrl={relativePostUrl}
-          comments={comments}
+          commentCount={commentCount}
+          reactionCount={reactionCount}
           shareCount={shareCount}
           sharesByType={sharesByType}
           handleSnap={handleSnap}

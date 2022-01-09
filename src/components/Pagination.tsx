@@ -141,6 +141,7 @@ const Strip = styled.ul`
 
 const Slot = styled.li`
   flex: 0 0 48px;
+  padding: 0;
 `;
 
 const SlotLink = styled(Link)`

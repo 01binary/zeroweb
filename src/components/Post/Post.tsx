@@ -54,6 +54,7 @@ import {
   openUrl,
   slugifyHeadings,
 } from '../../utils';
+import Reactions from './Reactions';
 
 const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 
@@ -250,6 +251,14 @@ const Post: FC<PostProps> = ({
             <MDXRenderer>{body}</MDXRenderer>
           </CommentsContext.Provider>
         </Content>
+
+        <Reactions
+          reactionCount={reactionCount}
+          shareCount={shareCount}
+          sharesByType={sharesByType}
+          handleSnap={handleSnap}
+          handleShare={handleShare}
+        />
       </Main>
 
       <Comments

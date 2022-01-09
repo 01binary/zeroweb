@@ -16,7 +16,7 @@ import useSnap from '../../hooks/useSnap';
 import { useTooltip } from '../../hooks/useTooltip';
 import { Tooltip, Arrow } from '../Tooltip';
 import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../Menu';
-import Snap from './Snap';
+import SnapAnimation from './SnapAnimation';
 import Cell from '../../images/cell.svg';
 import ShareIcon from '../../images/share.svg';
 import CommentIcon from '../../images/comment.svg';
@@ -50,7 +50,7 @@ const StyledCommentIcon = styled(CommentIcon).attrs(() => ({
   className: 'wheel-icon',
 }))``;
 
-const StyledSnapIcon = styled(Snap)`
+const StyledSnapAnimation = styled(SnapAnimation)`
   position: relative;
   top: 1px;
   left: -8px;
@@ -255,6 +255,10 @@ const Wheel: FC<WheelProps> = ({
 }) => {
   const snapRef = useRef<HTMLElement>(null);
   const commentRef = useRef<HTMLElement>(null);
+  const [isSnapAnimated, playSnapAnimation] = useSnap(() => {
+    hideTip();
+    handleSnap();
+  });
   const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
   const {
     hideTip: hideMenu,
@@ -267,10 +271,6 @@ const Wheel: FC<WheelProps> = ({
     placement: 'bottom-start',
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
-  });
-  const [isSnapAnimated, playSnapAnimation] = useSnap(() => {
-    hideTip();
-    handleSnap();
   });
 
   const handleShare = useCallback((e) => handleShareUpstream(e.target.id), [
@@ -305,7 +305,7 @@ const Wheel: FC<WheelProps> = ({
           onMouseOut={hideTip}
         >
           <StyledCell />
-          <StyledSnapIcon animate={isSnapAnimated} />
+          <StyledSnapAnimation animate={isSnapAnimated} />
           <ReactionsBadge show={Boolean(reactionCount)}>
             {reactionCount}
           </ReactionsBadge>

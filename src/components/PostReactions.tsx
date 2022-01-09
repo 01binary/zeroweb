@@ -15,7 +15,6 @@ import ShareTwitterIcon from '../images/share-twitter.svg';
 import ShareLinkedInIcon from '../images/share-linkedin.svg';
 import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
-import { Arrow, Tooltip } from './Tooltip';
 import SnapAnimation from './SnapAnimation';
 import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
@@ -43,29 +42,20 @@ const ReactionButton = styled.button`
   margin: ${(props) => props.theme.spacingQuarter};
 `;
 
-const ReactionBadge = styled.span<{ show: boolean }>`
-  color: ${(props) => props.theme.secondaryTextColor};
-  font-family: ${(props) => props.theme.smallFont};
-  font-size: ${(props) => props.theme.smallFontSize};
-  line-height: ${(props) => props.theme.smallFontLineHeight};
-
-  margin-right: ${(props) =>
-    props.show ? props.theme.spacingQuarter : '-0.25em'};
-
-  opacity: ${(props) => (props.show ? 1 : 0)};
-  transition: opacity ${(props) => props.theme.animationFast} ease-out;
-`;
-
-const ReactionLabel = styled.label`
+const ReactionLabel = styled.span`
   position: relative;
-  top: -0.7em;
+  top: -0.75em;
+  margin-left: 0.75em;
+  margin-right: 0.5em;
 
   color: ${(props) => props.theme.foregroundColor};
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};
   line-height: ${(props) => props.theme.smallFontLineHeight};
+`;
 
-  cursor: pointer;
+const ReactionAdorner = styled.span`
+  color: ${(props) => props.theme.borderColor};
 `;
 
 const ShareBadge = styled.div`
@@ -82,7 +72,7 @@ type ReactionsProps = {
   handleShare: (provider: string) => void;
 };
 
-const Reactions: FC<ReactionsProps> = ({
+const PostReactions: FC<ReactionsProps> = ({
   reactionCount,
   shareCount,
   sharesByType,
@@ -90,7 +80,6 @@ const Reactions: FC<ReactionsProps> = ({
   handleShare: handleShareUpstream,
 }) => {
   const snapRef = useRef<HTMLElement>(null);
-  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
   const {
     hideTip: hideMenu,
     showTip: showMenu,
@@ -103,16 +92,12 @@ const Reactions: FC<ReactionsProps> = ({
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
-  const [isSnapAnimated, playSnapAnimation] = useSnap(() => {
-    hideTip();
-    handleSnap();
-  });
+  const [isSnapAnimated, playSnapAnimation] = useSnap(handleSnap);
 
   const handleToggleShareMenu = useCallback(() => {
-    hideTip();
     if (menuVisible) hideMenu();
     else showMenu();
-  }, [menuVisible, showMenu, hideMenu, hideTip]);
+  }, [menuVisible, showMenu, hideMenu]);
 
   const handleHideShareMenu = useCallback(() => setTimeout(hideMenu, 250), [
     hideMenu,
@@ -131,30 +116,27 @@ const Reactions: FC<ReactionsProps> = ({
 
   return (
     <Container>
-      <ReactionButton
-        ref={snapRef}
-        onClick={playSnapAnimation}
-        onMouseOver={() => showTipFor('snap!', snapRef)}
-        onMouseOut={hideTip}
-      >
+      <ReactionButton ref={snapRef} onClick={playSnapAnimation}>
         <StyledSnapAnimation animate={isSnapAnimated} />
-        <ReactionBadge show={Boolean(reactionCount)}>
+        <ReactionLabel>
+          {reactionCount > 1 ? 'Snaps' : 'Snap!'}
+          <ReactionAdorner>&nbsp;[&nbsp;</ReactionAdorner>
           {reactionCount}
-        </ReactionBadge>
-        <ReactionLabel>{reactionCount > 1 ? 'Snaps' : 'Snap'}</ReactionLabel>
+          <ReactionAdorner>&nbsp;]</ReactionAdorner>
+        </ReactionLabel>
       </ReactionButton>
       <ReactionButton
         ref={shareRef}
         onClick={handleToggleShareMenu}
         onBlur={handleHideShareMenu}
-        onMouseOver={() =>
-          showTipFor('share', shareRef as MutableRefObject<HTMLElement>)
-        }
-        onMouseOut={hideTip}
       >
         <StyledShareIcon />
-        <ReactionBadge show={Boolean(shareCount)}>{shareCount}</ReactionBadge>
-        <ReactionLabel>{shareCount > 1 ? 'Shares' : 'Share'}</ReactionLabel>
+        <ReactionLabel>
+          {shareCount > 1 ? 'Shares' : 'Share'}
+          <ReactionAdorner>&nbsp;[&nbsp;</ReactionAdorner>
+          {shareCount}
+          <ReactionAdorner>&nbsp;]</ReactionAdorner>
+        </ReactionLabel>
       </ReactionButton>
       <ContextMenu ref={menuRef} {...menuProps}>
         <Menu vertical>
@@ -206,12 +188,8 @@ const Reactions: FC<ReactionsProps> = ({
         </Menu>
         <ContextMenuArrow />
       </ContextMenu>
-      <Tooltip ref={tipRef} {...tipProps} role="tooltip">
-        {tooltipText}
-        <Arrow />
-      </Tooltip>
     </Container>
   );
 };
 
-export default Reactions;
+export default PostReactions;

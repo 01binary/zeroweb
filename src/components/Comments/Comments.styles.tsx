@@ -29,6 +29,10 @@ const getAvatarHorzOffset = (
       0;
 };
 
+export const IndicatorAdorner = styled.span`
+  color: ${(props) => props.theme.borderColor};
+`;
+
 type CommentsSectionProps = {
   isLoading: boolean;
   isUserLoggedIn: boolean;

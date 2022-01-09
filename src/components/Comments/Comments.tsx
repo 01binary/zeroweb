@@ -71,6 +71,7 @@ import {
   AddCommentAvatar,
   AddCommentUser,
   AddCommentInput,
+  IndicatorAdorner,
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
@@ -481,7 +482,11 @@ const Comments: FC<CommentsProps> = ({
         <h2>
           Comments
           {postComments.length ? (
-            <span>&nbsp;[&nbsp;{postComments.length}&nbsp;]</span>
+            <span>
+              <IndicatorAdorner>&nbsp;[&nbsp;</IndicatorAdorner>
+              {postComments.length}
+              <IndicatorAdorner>&nbsp;]</IndicatorAdorner>
+            </span>
           ) : null}
         </h2>
       )}

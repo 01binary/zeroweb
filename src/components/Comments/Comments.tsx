@@ -71,7 +71,6 @@ import {
   AddCommentAvatar,
   AddCommentUser,
   AddCommentInput,
-  IndicatorAdorner,
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
@@ -482,11 +481,7 @@ const Comments: FC<CommentsProps> = ({
         <h2>
           Comments
           {postComments.length ? (
-            <span>
-              <IndicatorAdorner>&nbsp;[&nbsp;</IndicatorAdorner>
-              {postComments.length}
-              <IndicatorAdorner>&nbsp;]</IndicatorAdorner>
-            </span>
+            <span>&nbsp;[&nbsp;{postComments.length}&nbsp;]</span>
           ) : null}
         </h2>
       )}
@@ -635,7 +630,6 @@ const Comments: FC<CommentsProps> = ({
                       {userId === currentUserId && !editingComment && (
                         <CommentButton
                           onClick={handleShowCommentMenu('options', timestamp)}
-                          onBlur={handleHideCommentMenu}
                           onMouseOver={(e) => handleShowTip(e, 'actions')}
                           onMouseOut={hideTip}
                         >

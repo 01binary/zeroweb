@@ -48,8 +48,11 @@ export const ContextMenu = styled.div`
       transparent transparent;
 
     &:before {
-      border-color: ${(props) => props.theme.backgroundColor} transparent
-        transparent transparent;
+      border-color: ${(props) =>
+          props.theme.isDark
+            ? props.theme.alwaysDarkColor
+            : props.theme.backgroundColor}
+        transparent transparent transparent;
       top: -10px;
       left: -9px;
     }
@@ -65,7 +68,8 @@ export const ContextMenu = styled.div`
         ${(props) =>
           props.theme.isDark
             ? props.theme.alwaysDarkColor
-            : props.theme.backgroundColor}; transparent;
+            : props.theme.backgroundColor}
+        transparent;
       top: -8px;
       left: -9px;
     }

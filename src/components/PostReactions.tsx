@@ -21,10 +21,14 @@ import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 
 const StyledSnapAnimation = styled(SnapAnimation)`
   transform: scale(1.15);
+  pointer-events: none;
 `;
 
 const StyledShareIcon = styled(ShareIcon)`
+  position: relative;
+  left: 4px;
   transform: scale(1.25);
+  pointer-events: none;
 `;
 
 const Container = styled.section`
@@ -45,17 +49,22 @@ const ReactionButton = styled.button`
 const ReactionLabel = styled.span`
   position: relative;
   top: -0.75em;
-  margin-left: 0.75em;
+  margin-left: 0.5em;
   margin-right: 0.5em;
 
-  color: ${(props) => props.theme.foregroundColor};
+  color: ${(props) =>
+    props.hasIndicator
+      ? props.theme.secondaryTextColor
+      : props.theme.foregroundColor};
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};
   line-height: ${(props) => props.theme.smallFontLineHeight};
+
+  pointer-events: none;
 `;
 
-const ReactionAdorner = styled.span`
-  color: ${(props) => props.theme.borderColor};
+const ReactionIndicator = styled.span`
+  color: ${(props) => props.theme.foregroundColor};
 `;
 
 const ShareBadge = styled.div`
@@ -80,23 +89,27 @@ const PostReactions: FC<ReactionsProps> = ({
   handleShare: handleShareUpstream,
 }) => {
   const snapRef = useRef<HTMLElement>(null);
+  const shareRef = useRef<HTMLElement>(null);
   const {
     hideTip: hideMenu,
-    showTip: showMenu,
+    showTipFor: showMenu,
+    tooltipVisible: menuVisible,
     tipProps: menuProps,
     tipRef: menuRef,
-    tooltipVisible: menuVisible,
-    targetRef: shareRef,
   } = useTooltip({
     placement: 'bottom-start',
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
+
   const [isSnapAnimated, playSnapAnimation] = useSnap(handleSnap);
 
   const handleToggleShareMenu = useCallback(() => {
-    if (menuVisible) hideMenu();
-    else showMenu();
+    if (menuVisible) {
+      hideMenu();
+    } else {
+      showMenu('share', shareRef);
+    }
   }, [menuVisible, showMenu, hideMenu]);
 
   const handleHideShareMenu = useCallback(() => setTimeout(hideMenu, 250), [
@@ -107,22 +120,16 @@ const PostReactions: FC<ReactionsProps> = ({
     handleShareUpstream,
   ]);
 
-  useEffect(() => {
-    window.addEventListener('scroll', hideMenu);
-    return () => {
-      window.removeEventListener('scroll', hideMenu);
-    };
-  }, [hideMenu]);
-
   return (
     <Container>
       <ReactionButton ref={snapRef} onClick={playSnapAnimation}>
         <StyledSnapAnimation animate={isSnapAnimated} />
-        <ReactionLabel>
+        <ReactionLabel hasIndicator={reactionCount > 0}>
+          {reactionCount > 0 && (
+            <ReactionIndicator>{reactionCount}</ReactionIndicator>
+          )}
+          &nbsp;
           {reactionCount > 1 ? 'Snaps' : 'Snap!'}
-          <ReactionAdorner>&nbsp;[&nbsp;</ReactionAdorner>
-          {reactionCount}
-          <ReactionAdorner>&nbsp;]</ReactionAdorner>
         </ReactionLabel>
       </ReactionButton>
       <ReactionButton
@@ -131,11 +138,12 @@ const PostReactions: FC<ReactionsProps> = ({
         onBlur={handleHideShareMenu}
       >
         <StyledShareIcon />
-        <ReactionLabel>
+        <ReactionLabel hasIndicator={shareCount > 0}>
+          {reactionCount > 0 && (
+            <ReactionIndicator>{shareCount}</ReactionIndicator>
+          )}
+          &nbsp;
           {shareCount > 1 ? 'Shares' : 'Share'}
-          <ReactionAdorner>&nbsp;[&nbsp;</ReactionAdorner>
-          {shareCount}
-          <ReactionAdorner>&nbsp;]</ReactionAdorner>
         </ReactionLabel>
       </ReactionButton>
       <ContextMenu ref={menuRef} {...menuProps}>

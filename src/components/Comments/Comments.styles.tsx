@@ -68,6 +68,11 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
     margin-right: 0.25em;
     margin-top: 0;
     margin-bottom: 0;
+
+    p,
+    li {
+      line-height: ${(props) => props.theme.smallFontLineHeightMobile};
+    }
   }
 `;
 
@@ -416,7 +421,7 @@ export const DownVoteButton = styled(VoteButton)`
 `;
 
 export const CommentContent = styled.span`
-  margin: 0 0.25em 0 ${(props) => props.theme.spacingHalf};
+  margin: 0 0.25em 0 0.5em;
 
   p {
     margin-left: 0;

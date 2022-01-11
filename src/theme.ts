@@ -64,6 +64,7 @@ const typography = {
   smallFontWeight: 400,
   smallFontSize: '12.5pt',
   smallFontLineHeight: '21.25pt',
+  smallFontLineHeightMobile: '1.4em',
 
   smallestFontSize: '10pt',
 

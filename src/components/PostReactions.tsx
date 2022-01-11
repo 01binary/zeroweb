@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { ShareType } from '../types/AllSharesQuery';
 import { useTooltip } from '../hooks/useTooltip';
@@ -16,7 +10,7 @@ import ShareLinkedInIcon from '../images/share-linkedin.svg';
 import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import SnapAnimation from './SnapAnimation';
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
+import { Menu, MenuItem, MenuItemIcon } from './Menu';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 
 const StyledSnapAnimation = styled(SnapAnimation)`
@@ -139,7 +133,7 @@ const PostReactions: FC<ReactionsProps> = ({
       >
         <StyledShareIcon />
         <ReactionLabel hasIndicator={shareCount > 0}>
-          {reactionCount > 0 && (
+          {shareCount > 0 && (
             <ReactionIndicator>{shareCount}</ReactionIndicator>
           )}
           &nbsp;

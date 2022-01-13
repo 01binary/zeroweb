@@ -682,6 +682,10 @@ export const AddCommentInput = styled.textarea`
     ${(props) => props.theme.spacingOneAndHalf} +
       ${(props) => props.theme.spacingQuarter} + ${AVATAR_SIZE}px
   );
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin-left: ${(props) => props.theme.spacingHalf};
+  }
 `;
 
 export const LoadCommentsError = styled(Error)`

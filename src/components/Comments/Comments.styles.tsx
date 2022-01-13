@@ -301,32 +301,7 @@ export const Comment = styled.li`
 `;
 
 export const Me = styled.span`
-  position: relative;
-  padding: 6px 8px;
-  background: ${(props) => props.theme.primaryColor};
-  color: ${(props) => props.theme.backgroundColor};
-
-  &:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: -8px;
-    border-width: 8px;
-    border-style: solid;
-    border-color: transparent transparent transparent
-      ${(props) => props.theme.backgroundColor};
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: -8px;
-    border-width: 8px;
-    border-style: solid;
-    border-color: transparent ${(props) => props.theme.backgroundColor}
-      transparent transparent;
-  }
+  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 export const CommentAvatar = styled.div`

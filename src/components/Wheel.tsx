@@ -60,7 +60,6 @@ const Wheelhouse = styled.aside`
   display: block;
   position: sticky;
   float: left;
-  top: ${(props) => props.theme.spacingHalf};
   width: ${WHEEL_SIZE}px;
   height: ${WHEEL_SIZE}px;
   margin-left: calc(0px - ${(props) => props.theme.spacing} - ${WHEEL_SIZE}px);
@@ -80,7 +79,9 @@ const Wheelhouse = styled.aside`
     }
   }
 
-  transform: translateY(0);
+  transform: translateY(
+    ${(props) => (props.lower ? props.theme.spacingHalf : 0)}
+  );
   transition: opacity ${(props) => props.theme.animationFast} ease-out,
     transform ${(props) => props.theme.animationSlow} ease-out;
 
@@ -295,8 +296,10 @@ const Wheel: FC<WheelProps> = ({
     };
   }, [hideMenu]);
 
+  console.log('lowering', shareCount > 9);
+
   return (
-    <Wheelhouse>
+    <Wheelhouse lower={shareCount > 9}>
       <WheelWrapper>
         <SnapButton
           ref={snapRef}

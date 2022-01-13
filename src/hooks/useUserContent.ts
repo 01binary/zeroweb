@@ -24,7 +24,7 @@ const USER_CONTENT = gql`
   }`;
 
 const useUserContent = (slug: string) => {
-  const { loading, error: apolloError, data } = useQuery<
+  const { loading: loadingComments, error: apolloError, data } = useQuery<
     AllCommentsQuery & AllSharesQuery
   >(USER_CONTENT, {
     variables: { slug },
@@ -72,6 +72,7 @@ const useUserContent = (slug: string) => {
     handleDelete,
     handleVote,
     handleReact,
+    loading: mutatingComments,
   } = useComments(slug, setComments, data?.comments);
 
   const { shareCount, sharesByType, handleAddShare } = useShares(
@@ -98,7 +99,7 @@ const useUserContent = (slug: string) => {
   );
 
   return {
-    loading,
+    loading: loadingComments || mutatingComments,
     error: apolloError ? 'Could not load comments' : null,
 
     comments,

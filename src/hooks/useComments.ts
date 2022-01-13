@@ -141,11 +141,26 @@ export const useComments = (
   ) => void,
   comments?: CommentQuery[]
 ) => {
-  const [voteComment] = useMutation<VoteCommentQuery>(VOTE_COMMENT);
-  const [addComment] = useMutation<AddCommentQuery>(ADD_COMMENT);
-  const [editComment] = useMutation<EditCommentQuery>(EDIT_COMMENT);
-  const [deleteComment] = useMutation<DeleteCommentQuery>(DELETE_COMMENT);
-  const [reactToComment] = useMutation<AddCommentQuery>(REACT_COMMENT);
+  const [voteComment, { loading: voteLoading }] = useMutation<VoteCommentQuery>(
+    VOTE_COMMENT
+  );
+  const [addComment, { loading: addLoading }] = useMutation<AddCommentQuery>(
+    ADD_COMMENT
+  );
+  const [editComment, { loading: editLoading }] = useMutation<EditCommentQuery>(
+    EDIT_COMMENT
+  );
+  const [
+    deleteComment,
+    { loading: deleteLoading },
+  ] = useMutation<DeleteCommentQuery>(DELETE_COMMENT);
+  const [
+    reactToComment,
+    { loading: reactLoading },
+  ] = useMutation<AddCommentQuery>(REACT_COMMENT);
+
+  const loading =
+    voteLoading || addLoading || editLoading || deleteLoading || reactLoading;
 
   const handleVote = useCallback(
     (timestamp: string, vote: Vote) =>
@@ -291,5 +306,6 @@ export const useComments = (
     handleEdit,
     handleDelete,
     handleReact,
+    loading,
   };
 };

@@ -36,6 +36,11 @@ export const Tooltip = styled.div.attrs(() => ({
   pointer-events: none;
   z-index: 3;
   opacity: 0;
+  box-shadow: 0 0 10px
+    ${(props) =>
+      props.theme.isDark
+        ? `${props.theme.accentDarkShadowColor}99`
+        : `${props.theme.dropShadowLightColor}99`};
 
   .stroke-foreground {
     stroke: ${(props) => props.theme.backgroundColor};

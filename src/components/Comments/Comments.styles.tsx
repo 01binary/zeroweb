@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import CommentMarkerIcon from '../../images/comment-marker.svg';
 import { RULER_ENDMARK_WIDTH } from '../Ruler';
 import { AVATAR_SIZE } from '../Avatar';
+import Error from '../Error';
 
 const COMMENT_SCALE_BREAKPOINT = '1160px';
 const VOTE_SLOT_WIDTH = 12;
@@ -681,8 +682,17 @@ export const AddCommentInput = styled.textarea`
     ${(props) => props.theme.spacingOneAndHalf} +
       ${(props) => props.theme.spacingQuarter} + ${AVATAR_SIZE}px
   );
+`;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    margin-left: ${(props) => props.theme.spacingHalf};
-  }
+export const LoadCommentsError = styled(Error)`
+  margin-bottom: 0;
+`;
+
+export const EditCommentError = styled(Error)`
+  padding: ${(props) => props.theme.spacingQuarter} 0;
+`;
+
+export const PostCommentError = styled(Error)`
+  margin-top: 0;
+  margin-bottom: 0;
 `;

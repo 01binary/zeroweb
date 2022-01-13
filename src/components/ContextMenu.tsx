@@ -17,22 +17,24 @@ export const ContextMenu = styled.div`
   font-weight: ${(props) => props.theme.smallFontWeight};
   text-transform: lowercase;
 
+  position: absolute;
+  left: -1000px;
+  top: -1000px;
+  opacity: 0;
+  transition: opacity ${(props) => props.theme.animationFast} ease-in-out;
+
   color: ${(props) => props.theme.foregroundColor};
   background: ${(props) =>
     props.theme.isDark
       ? props.theme.alwaysDarkColor
       : props.theme.backgroundColor};
-
-  position: absolute;
   border: 1px solid ${(props) => props.theme.dropShadowDarkColor};
   border-radius: ${(props) => props.theme.spacingSmall};
-  transition: opacity ${(props) => props.theme.animationFast} ease-in-out;
   box-shadow: 0 0 10px
     ${(props) =>
       props.theme.isDark
         ? `${props.theme.accentDarkShadowColor}66`
         : `${props.theme.dropShadowLightColor}66`};
-  opacity: 0;
   pointer-events: none;
 
   z-index: 2;

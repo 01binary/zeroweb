@@ -14,7 +14,6 @@ import { FetchResult } from '@apollo/client';
 import Avatar from '../Avatar';
 import MetaLink from '../MetaLink';
 import Login from '../Login';
-import Error from '../Error';
 import { useBlogData } from '../../hooks/useBlogData';
 import UpVoteIcon from '../../images/upvote.svg';
 import DownVoteIcon from '../../images/downvote.svg';
@@ -71,6 +70,9 @@ import {
   AddCommentAvatar,
   AddCommentUser,
   AddCommentInput,
+  LoadCommentsError,
+  EditCommentError,
+  PostCommentError,
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
@@ -194,7 +196,7 @@ const Comments: FC<CommentsProps> = ({
   postUrl,
   comments,
   loading,
-  error,
+  error: loadCommentsError,
   handleVote,
   handleAdd,
   handleEdit,
@@ -212,6 +214,7 @@ const Comments: FC<CommentsProps> = ({
     handleGoogleLogin,
     handleLogout,
   } = useBlogData();
+  const [commentError, setCommentError] = useState<string | null>();
   const [comment, setComment] = useState<string>('');
   const [commentHeights, setCommentHeights] = useState<number[]>([]);
   const commentsMarkerOffsetRef = useRef<number>(0);
@@ -330,35 +333,18 @@ const Comments: FC<CommentsProps> = ({
         userName: user.name,
         avatarUrl: user.avatarUrl || '',
         markdown: comment,
-      }).then(() => setComment(''));
+      })
+        .then(() => {
+          setComment('');
+          setCommentError(null);
+        })
+        .catch((e) => {
+          console.log('handle add caught', e);
+          setCommentError('Could not post comment');
+        });
     },
     [handleAdd, user, comment]
   );
-
-  const handleHideCommentMenu = useCallback(
-    (e) => {
-      const target = e.target;
-      setTimeout(() => {
-        target.classList.remove('comment__option--active');
-        optionRef.current = null;
-        setSelectedComment(null);
-        hideMenu();
-      }, 250);
-    },
-    [hideMenu, setSelectedComment]
-  );
-
-  const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
-    if (e.target.classList.contains('comment__option--active')) {
-      handleHideCommentMenu(e);
-    } else {
-      e.target.classList.add('comment__option--active');
-      optionRef.current = e.target;
-      setSelectedComment(timestamp);
-      hideTip();
-      showMenu(id, optionRef);
-    }
-  };
 
   const handleReactToComment = useCallback(
     (e) => {
@@ -401,10 +387,9 @@ const Comments: FC<CommentsProps> = ({
         .then(() => {
           setEditingComment(null);
           setEditMarkdown('');
+          setCommentError(null);
         })
-        .catch((e) => {
-          console.error(e);
-        });
+        .catch(() => setCommentError('Could not save comment'));
     },
     [
       editingComment,
@@ -441,6 +426,31 @@ const Comments: FC<CommentsProps> = ({
     [selectedComment, handleEditComment, handleDelete]
   );
 
+  const handleHideCommentMenu = useCallback(
+    (e) => {
+      const target = e.target;
+      setTimeout(() => {
+        target.classList.remove('comment__option--active');
+        optionRef.current = null;
+        setSelectedComment(null);
+        hideMenu();
+      }, 250);
+    },
+    [hideMenu, setSelectedComment]
+  );
+
+  const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
+    if (e.target.classList.contains('comment__option--active')) {
+      handleHideCommentMenu(e);
+    } else {
+      e.target.classList.add('comment__option--active');
+      optionRef.current = e.target;
+      setSelectedComment(timestamp);
+      hideTip();
+      showMenu(id, optionRef);
+    }
+  };
+
   const handleShowTip = useCallback(
     (e, text) => {
       tipTargetRef.current = e.target;
@@ -469,6 +479,8 @@ const Comments: FC<CommentsProps> = ({
   const showLoadingComments = Boolean(loading && !comments);
   const showLogin = Boolean(!user && comments);
   const currentUserId = credentials?.userId;
+  const showEditError = Boolean(editingComment && commentError);
+  const showAddError = Boolean(comment.length && commentError);
 
   return (
     <CommentsSection
@@ -487,7 +499,9 @@ const Comments: FC<CommentsProps> = ({
       )}
 
       {showLoadingComments && <p>Loading comments...</p>}
-      {error && <Error>{error}</Error>}
+      {loadCommentsError && (
+        <LoadCommentsError>{loadCommentsError}</LoadCommentsError>
+      )}
 
       {showLogin && (
         <Login
@@ -598,6 +612,11 @@ const Comments: FC<CommentsProps> = ({
                           placeholder="edit your comment"
                           onChange={handleEditCommentChange}
                         />
+                        <EditCommentButtonGroup>
+                          {showEditError && (
+                            <EditCommentError>{commentError}</EditCommentError>
+                          )}
+                        </EditCommentButtonGroup>
                         <EditCommentButtonGroup>
                           <EditCommentButton
                             disabled={loading}
@@ -714,6 +733,7 @@ const Comments: FC<CommentsProps> = ({
               onChange={handleChangeComment}
             />
           </AddCommentRow>
+          {showAddError && <PostCommentError>{commentError}</PostCommentError>}
           <AddCommentRow align="right">
             <PrimaryButton
               type="submit"

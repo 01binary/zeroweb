@@ -24,12 +24,11 @@ const USER_CONTENT = gql`
   }`;
 
 const useUserContent = (slug: string) => {
-  const { loading, error, data } = useQuery<AllCommentsQuery & AllSharesQuery>(
-    USER_CONTENT,
-    {
-      variables: { slug },
-    }
-  );
+  const { loading, error: apolloError, data } = useQuery<
+    AllCommentsQuery & AllSharesQuery
+  >(USER_CONTENT, {
+    variables: { slug },
+  });
 
   const setComments = useCallback(
     (cache: ApolloCache<AllCommentsQuery>, comments: CommentQuery[]) => {
@@ -100,7 +99,7 @@ const useUserContent = (slug: string) => {
 
   return {
     loading,
-    error: error?.message,
+    error: apolloError ? 'Could not load comments' : null,
 
     comments,
     commentCount,

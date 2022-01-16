@@ -296,8 +296,6 @@ const Wheel: FC<WheelProps> = ({
     };
   }, [hideMenu]);
 
-  console.log('lowering', shareCount > 9);
-
   return (
     <Wheelhouse lower={shareCount > 9}>
       <WheelWrapper>

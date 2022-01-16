@@ -336,6 +336,7 @@ export const Sidebar = styled.aside`
   max-width: 20%;
   margin-top: -5.25em;
   padding-top: ${(props) => props.theme.spacingThird};
+  z-index: 1;
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     position: relative;

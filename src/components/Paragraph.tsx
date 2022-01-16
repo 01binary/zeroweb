@@ -13,8 +13,6 @@ import React, { FC, useRef } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
 import { useCommentsContext } from '../hooks/useComments';
-import { useTooltip } from '../hooks/useTooltip';
-import { Tooltip, Arrow } from './Tooltip';
 import { RulerMarker, RulerMarkerBadge } from './RulerMarker';
 import RulerHighlightIcon from '../images/ruler-highlight.svg';
 import RulerCommentIcon from '../images/ruler-comment.svg';
@@ -106,11 +104,6 @@ const InlineCommentButton = styled.button`
   backface-visibility: hidden;
 
   @media (max-width: ${(props) => props.theme.wide}) {
-    z-index: 1000;
-    right: 4em;
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;
   }
 `;

@@ -17,19 +17,14 @@ export const RulerMarker = styled.span`
   position: absolute;
   top: calc(50% - ${MARKER_SIZE + 4}px / 2);
   right: ${(props) =>
-    `calc(${props.theme.spacingHalf} + ${props.theme.borderThick} + ${MARKER_SIZE}px / 2)`};
+    `calc(${props.theme.spacingHalf} + ${props.theme.borderThick} - ${MARKER_SIZE}px / 3)`};
   width: ${MARKER_SIZE}px;
   height: ${MARKER_SIZE}px;
-  border-radius: ${MARKER_SIZE}px;
-  border: ${(props) => props.theme.border} solid
-    ${(props) => props.theme.borderColor};
-  background: ${(props) => props.theme.backgroundColor};
-  transition: border-color ${(props) => props.theme.animationFast} ease-out;
 `;
 
 export const RulerMarkerBadge = styled.span`
   position: absolute;
-  left: calc(100% + ${(props) => props.theme.spacingHalf});
+  right: calc(0px - ${(props) => props.theme.spacingHalf});
   top: calc(50% - 1em);
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};

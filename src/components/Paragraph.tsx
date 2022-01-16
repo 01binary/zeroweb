@@ -54,11 +54,7 @@ const Text = styled.p`
   }
 
   &:hover .paragraph__ruler-marker {
-    border-color: ${(props) => props.theme.foregroundColor};
-  }
-
-  &:hover .paragraph__ruler-marker__badge {
-    opacity: 0;
+    display: none;
   }
 
   code {
@@ -91,16 +87,21 @@ const InlineCommentButton = styled.button`
   position: absolute;
   width: 32px;
   height: 32px;
-  top: -${(props) => props.theme.borderThick};
-  right: ${(props) => props.theme.spacingQuarter};
+  top: calc(0px - ${(props) => props.theme.borderThick});
+  right: 0.25em;
   border: none;
   cursor: pointer;
   fill: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: none;
+  padding: 0;
   opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;

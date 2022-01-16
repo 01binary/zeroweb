@@ -55,6 +55,8 @@ import {
   openUrl,
   slugifyHeadings,
 } from '../../utils';
+import { useTooltip } from '../../hooks/useTooltip';
+import { Arrow, Tooltip } from '../Tooltip';
 
 const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 
@@ -97,6 +99,12 @@ const Post: FC<PostProps> = ({
     },
     [readPosition]
   );
+
+  const { showTipFor, hideTip, tipProps, tipRef } = useTooltip({
+    verticalOffsetDesktop: 10,
+    verticalOffsetMobile: 5,
+    placement: 'top',
+  });
 
   const { user } = useBlogData();
 
@@ -246,8 +254,19 @@ const Post: FC<PostProps> = ({
 
         <HeroImage fluid={fluid} />
 
+        <Tooltip ref={tipRef} {...tipProps}>
+          comment
+          <Arrow />
+        </Tooltip>
+
         <Content role="document">
-          <CommentsContext.Provider value={{ comments }}>
+          <CommentsContext.Provider
+            value={{
+              comments,
+              showTipFor,
+              hideTip,
+            }}
+          >
             <MDXRenderer>{body}</MDXRenderer>
           </CommentsContext.Provider>
         </Content>

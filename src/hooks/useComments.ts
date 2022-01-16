@@ -20,13 +20,18 @@ import AddCommentMutation from '../types/AddCommentMutation';
 import EditCommentMutation from '../types/EditCommentMutation';
 import { VoteCommentQuery, Vote } from '../types/VoteCommentQuery';
 import ReactMutation from '../types/ReactMutation';
+import { HideTipHandler, ShowTipForHandler } from './useTooltip';
 
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
+  showTipFor: ShowTipForHandler;
+  hideTip: HideTipHandler;
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
   comments: null,
+  showTipFor: () => {},
+  hideTip: () => {},
 });
 
 export const useCommentsContext: () => CommentsContextProps = () =>

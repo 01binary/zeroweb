@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
 import { useCommentsContext } from '../hooks/useComments';
@@ -106,7 +106,8 @@ const InlineCommentButton = styled.button`
   backface-visibility: hidden;
 
   @media (max-width: ${(props) => props.theme.wide}) {
-    right: 3em;
+    z-index: 1000;
+    right: 4em;
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
@@ -120,7 +121,8 @@ const getHash = (children: any): string =>
     : 'p-unknown';
 
 const Paragraph: FC = (props) => {
-  const { comments: responses } = useCommentsContext();
+  const { comments: responses, showTipFor, hideTip } = useCommentsContext();
+  const commentButtonRef = useRef<HTMLElement>(null);
   const hash = getHash(props.children);
   const relevant = responses?.filter(({ paragraph }) => paragraph === hash);
   const highlights = relevant?.filter(({ rangeLength }) => rangeLength);
@@ -128,26 +130,17 @@ const Paragraph: FC = (props) => {
   const displayHighlight = Boolean(highlights?.length && !comments?.length);
   const displayComment = Boolean(comments?.length);
   const displayMarker = displayComment || displayHighlight;
-  const { showTip, hideTip, tipProps, tipRef, targetRef } = useTooltip({
-    verticalOffsetDesktop: 10,
-    verticalOffsetMobile: 5,
-    placement: 'top',
-  });
 
   return (
     <Text id={hash}>
       {props.children}
 
       <InlineCommentButton
-        ref={targetRef}
-        onMouseOver={showTip}
-        onMouseOut={hideTip}
+        ref={commentButtonRef}
+        onMouseOver={() => showTipFor(null, commentButtonRef)}
+        onMouseOut={() => hideTip()}
       >
         <AddCommentIcon />
-        <Tooltip ref={tipRef} {...tipProps}>
-          comment
-          <Arrow />
-        </Tooltip>
       </InlineCommentButton>
 
       {displayMarker && (

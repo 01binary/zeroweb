@@ -20,6 +20,10 @@ export const RulerMarker = styled.span`
     `calc(${props.theme.spacingHalf} + ${props.theme.borderThick} - ${MARKER_SIZE}px / 3)`};
   width: ${MARKER_SIZE}px;
   height: ${MARKER_SIZE}px;
+
+  @media (max-width: ${(props) => props.theme.wide}) {
+    right: 3em;
+  }
 `;
 
 export const RulerMarkerBadge = styled.span`

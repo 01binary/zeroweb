@@ -159,18 +159,16 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
     }
   }
 
+  @media (max-width: ${(props) => props.theme.wide}) {
+    &:after {
+      display: none;
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     margin-right: ${(props) => props.theme.spacingHalf};
     margin-left: ${(props) => props.theme.spacingHalf};
     padding-right: initial;
-
-    &:after {
-      display: none;
-    }
-
-    .code__ruler-marker {
-      display: none;
-    }
   }
 `;
 

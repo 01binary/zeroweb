@@ -69,13 +69,15 @@ const Text = styled.p`
     padding: ${(props) => props.theme.spacingQuarter};
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    padding-right: 0;
-    margin-right: ${(props) => props.theme.spacingHalf};
-
+  @media (max-width: ${(props) => props.theme.wide}) {
     &:after {
       display: none;
     }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    padding-right: 0;
+    margin-right: ${(props) => props.theme.spacingHalf};
 
     .paragraph__ruler-marker {
       display: none;
@@ -102,6 +104,10 @@ const InlineCommentButton = styled.button`
   // Flickers on Safari due to opacity
   transform-style: preserve-3d;
   backface-visibility: hidden;
+
+  @media (max-width: ${(props) => props.theme.wide}) {
+    right: 3em;
+  }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;

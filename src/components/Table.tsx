@@ -53,7 +53,7 @@ export const Table = styled.table`
     padding-right: 0;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.wide}) {
     &:after {
       display: none;
     }

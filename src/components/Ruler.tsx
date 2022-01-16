@@ -39,7 +39,7 @@ const RulerTop = styled.div`
   border-top: ${(props) => props.theme.border} solid
     ${(props) => getLineColor(props)};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.wide}) {
     display: none;
   }
 `;
@@ -56,7 +56,7 @@ const RulerBottom = styled.div`
   border-bottom: ${(props) => props.theme.border} solid
     ${(props) => getLineColor(props)};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.wide}) {
     display: none;
   }
 `;
@@ -72,7 +72,7 @@ const RulerBase = styled.div`
   border-right: ${(props) => props.theme.border} solid
     ${(props) => getLineColor(props)};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.wide}) {
     display: none;
   }
 `;

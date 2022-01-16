@@ -152,6 +152,24 @@ export const Main = styled.main`
     }
   }
 
+  @media (max-width: ${(props) => props.theme.wide}) {
+    h1,
+    h2,
+    h3,
+    h4 {
+      &:after {
+        display: none;
+      }
+    }
+
+    ul,
+    ol {
+      &:after {
+        display: none;
+      }
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     margin-bottom: 1em;
 
@@ -163,17 +181,6 @@ export const Main = styled.main`
       margin-left: ${(props) => props.theme.spacingHalf};
       margin-right: ${(props) => props.theme.spacingHalf};
       padding-right: 0;
-
-      &:after {
-        display: none;
-      }
-    }
-
-    ul,
-    ol {
-      &:after {
-        display: none;
-      }
     }
   }
 `;
@@ -215,14 +222,16 @@ export const HeroImage = styled(Img)`
     }
   }
 
+  @media (max-width: ${(props) => props.theme.wide}) {
+    &:after {
+      display: none;
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     max-width: 100%;
     margin-top: 1em;
     margin-right: ${(props) => props.theme.spacingHalf};
-
-    &:after {
-      display: none;
-    }
   }
 `;
 

@@ -223,6 +223,10 @@ export const Comment = styled.li`
   );
   margin-bottom: 0.7em;
 
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+
   &:before {
     content: '';
     position: absolute;
@@ -317,6 +321,10 @@ export const CommentAvatar = styled.div`
       ${AVATAR_TILE_OFFSET}px
   );
   top: -0.5em;
+
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     left: calc(
@@ -497,6 +505,10 @@ export const CommentReactionGroup = styled.div`
   display: inline-flex;
   margin-top: -1em;
   width: max-content;
+
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 `;
 
 export const CommentReaction = styled.div`

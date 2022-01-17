@@ -209,7 +209,7 @@ const Code: FC = ({ children }) => {
     if (snippetRef.current) {
       try {
         hideTip();
-        navigator.clipboard.writeText(snippetRef.current.innerText);
+        window.navigator.clipboard.writeText(snippetRef.current.innerText);
         setCopied(true);
         setTimeout(() => setCopied(false), 1000);
       } catch (e) {

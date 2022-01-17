@@ -118,7 +118,7 @@ const PermaLink: FC<PermaLinkProps> = ({ url, level, inline }) => {
 
   const copyLink = useCallback(() => {
     try {
-      navigator.clipboard.writeText(window.location.href);
+      window.navigator.clipboard.writeText(window.location.href);
       setCopied(true);
       setTimeout(() => setCopied(false), 1000);
     } catch (e) {

@@ -140,7 +140,7 @@ const Post: FC<PostProps> = ({
       switch (shareType) {
         case 'linkShare':
           handleAddShare('link');
-          navigator.clipboard.writeText(absolutePostUrl);
+          window.navigator.clipboard.writeText(absolutePostUrl);
           break;
         case 'facebookShare':
           handleAddShare('facebook');

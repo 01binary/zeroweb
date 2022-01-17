@@ -593,7 +593,7 @@ const Comments: FC<CommentsProps> = ({
                       to={`?comment=${encodeURIComponent(timestamp)}`}
                       onClick={(e) => {
                         e.preventDefault();
-                        navigator.clipboard.writeText(
+                        window.navigator.clipboard.writeText(
                           `${postUrl}?comment=${encodeURIComponent(timestamp)}`
                         );
                         handleShowTip(e, 'copied!');

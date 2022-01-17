@@ -425,7 +425,11 @@ const Comments: FC<CommentsProps> = ({
   );
 
   const handleHideCommentMenu = useCallback(() => {
-    optionRef.current = null;
+    if (optionRef.current) {
+      optionRef.current.classList.remove('comment__option--active');
+      optionRef.current = null;
+    }
+
     setCommentMenu(null);
     setSelectedComment(null);
     hideMenu();
@@ -444,6 +448,8 @@ const Comments: FC<CommentsProps> = ({
 
       optionRef.current = e.target;
       showMenu(id, optionRef);
+
+      e.target.classList.add('comment__option--active');
     }
   };
 

@@ -476,6 +476,10 @@ export const CommentButton = styled.button.attrs(() => ({
   opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+
   svg {
     pointer-events: none;
   }

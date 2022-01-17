@@ -226,6 +226,7 @@ const Comments: FC<CommentsProps> = ({
   const editRef = useRef<HTMLTextAreaElement>();
   const tipTargetRef = useRef<HTMLElement>();
   const [selectedComment, setSelectedComment] = useState<string | null>(null);
+  const [commentMenu, setCommentMenu] = useState<string | null>(null);
   const [editingComment, setEditingComment] = useState<string | null>(null);
   const [editMarkdown, setEditMarkdown] = useState<string>('');
 
@@ -338,10 +339,7 @@ const Comments: FC<CommentsProps> = ({
           setComment('');
           setCommentError(null);
         })
-        .catch((e) => {
-          console.log('handle add caught', e);
-          setCommentError('Could not post comment');
-        });
+        .catch((e) => setCommentError('Could not post comment'));
     },
     [handleAdd, user, comment]
   );
@@ -426,27 +424,25 @@ const Comments: FC<CommentsProps> = ({
     [selectedComment, handleEditComment, handleDelete]
   );
 
-  const handleHideCommentMenu = useCallback(
-    (e) => {
-      const target = e.target;
-      setTimeout(() => {
-        target.classList.remove('comment__option--active');
-        optionRef.current = null;
-        setSelectedComment(null);
-        hideMenu();
-      }, 250);
-    },
-    [hideMenu, setSelectedComment]
-  );
+  const handleHideCommentMenu = useCallback(() => {
+    optionRef.current = null;
+    setCommentMenu(null);
+    setSelectedComment(null);
+    hideMenu();
+  }, [hideMenu, setSelectedComment]);
 
   const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
-    if (e.target.classList.contains('comment__option--active')) {
-      handleHideCommentMenu(e);
+    hideTip();
+
+    if (commentMenu === id && selectedComment === timestamp) {
+      // Toggle comment menu when clicked on same menu, same comment
+      handleHideCommentMenu();
     } else {
-      e.target.classList.add('comment__option--active');
-      optionRef.current = e.target;
+      // Show comment menu
+      setCommentMenu(id);
       setSelectedComment(timestamp);
-      hideTip();
+
+      optionRef.current = e.target;
       showMenu(id, optionRef);
     }
   };
@@ -658,7 +654,6 @@ const Comments: FC<CommentsProps> = ({
                       {user && userId !== currentUserId && (
                         <CommentButton
                           onClick={handleShowCommentMenu('reaction', timestamp)}
-                          onBlur={handleHideCommentMenu}
                           onMouseOver={(e) => handleShowTip(e, 'react')}
                           onMouseOut={hideTip}
                         >

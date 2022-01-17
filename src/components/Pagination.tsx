@@ -148,22 +148,18 @@ const SlotLink = styled(Link)`
   display: flex;
 
   .focus-outline {
-    pointer-events: none;
     display: none;
   }
 
   .background-pushed {
-    pointer-events: none;
     display: none;
   }
 
   .top-left {
-    pointer-events: none;
     stroke: ${(props) => props.theme.accentLightColor};
   }
 
   .bottom-right {
-    pointer-events: none;
     stroke: ${(props) =>
       props.theme.isDark
         ? props.theme.dropShadowDarkColor
@@ -182,37 +178,48 @@ const SlotLink = styled(Link)`
     top: calc(50% - 0.5em - 3px);
     text-align: center;
     color: ${(props) => props.theme.foregroundColor};
-    pointer-events: none;
   }
 
-  &:active {
-    .background-pushed {
-      display: block;
+  @media (min-width: ${(props) => props.theme.wide}) {
+    &:active {
+      .background-pushed {
+        display: block;
+      }
+
+      .top-left {
+        stroke: ${(props) => props.theme.dropShadowDarkColor};
+      }
+
+      .bottom-right {
+        stroke: ${(props) => props.theme.accentHighlightColor};
+      }
+
+      .arrow {
+        fill: ${(props) =>
+          props.theme.isDark
+            ? props.theme.secondaryTextColor
+            : props.theme.backgroundColor};
+        transform: translate(2px, 2px);
+      }
+
+      .label {
+        padding-left: 2px;
+        padding-top: 2px;
+        color: ${(props) =>
+          props.theme.isDark
+            ? props.theme.secondaryTextColor
+            : props.theme.backgroundColor};
+      }
     }
 
-    .top-left {
-      stroke: ${(props) => props.theme.dropShadowDarkColor};
-    }
+    &:focus {
+      outline: none;
+      border-radius: initial;
+      box-shadow: initial;
 
-    .bottom-right {
-      stroke: ${(props) => props.theme.accentHighlightColor};
-    }
-
-    .arrow {
-      fill: ${(props) =>
-        props.theme.isDark
-          ? props.theme.secondaryTextColor
-          : props.theme.backgroundColor};
-      transform: translate(2px, 2px);
-    }
-
-    .label {
-      padding-left: 2px;
-      padding-top: 2px;
-      color: ${(props) =>
-        props.theme.isDark
-          ? props.theme.secondaryTextColor
-          : props.theme.backgroundColor};
+      .focus-outline {
+        display: block;
+      }
     }
   }
 
@@ -231,16 +238,6 @@ const SlotLink = styled(Link)`
 
     .label {
       color: ${(props) => props.theme.secondaryColor};
-    }
-  }
-
-  &:focus {
-    outline: none;
-    border-radius: initial;
-    box-shadow: initial;
-
-    .focus-outline {
-      display: block;
     }
   }
 `;

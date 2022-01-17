@@ -60,7 +60,8 @@ export const ContextMenu = styled.div`
     }
   }
 
-  &[data-popper-placement='bottom-start'] [data-popper-arrow] {
+  &[data-popper-placement='bottom-start'] [data-popper-arrow],
+  &[data-popper-placement='bottom-end'] [data-popper-arrow] {
     top: -16px;
     border-color: transparent transparent
       ${(props) => props.theme.dropShadowDarkColor} transparent;

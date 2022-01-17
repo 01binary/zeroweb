@@ -180,7 +180,7 @@ const SlotLink = styled(Link)`
     color: ${(props) => props.theme.foregroundColor};
   }
 
-  @media (min-width: ${(props) => props.theme.wide}) {
+  @media (hover) {
     &:active {
       .background-pushed {
         display: block;

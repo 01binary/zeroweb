@@ -148,13 +148,11 @@ const SlotLink = styled(Link)`
   display: flex;
 
   .focus-outline {
-    // Fix: two clicks on Safari iOS to activate link
-    opacity: 0.001;
+    display: none;
   }
 
   .background-pushed {
-    // Fix: two clicks on Safari iOS to activate link
-    opacity: 0.001;
+    display: none;
   }
 
   .top-left {
@@ -184,7 +182,7 @@ const SlotLink = styled(Link)`
 
   &:active {
     .background-pushed {
-      opacity: 1;
+      display: block;
     }
 
     .top-left {
@@ -237,7 +235,7 @@ const SlotLink = styled(Link)`
     box-shadow: initial;
 
     .focus-outline {
-      opacity: 1;
+      display: block;
     }
   }
 `;

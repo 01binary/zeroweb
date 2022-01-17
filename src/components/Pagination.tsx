@@ -148,11 +148,13 @@ const SlotLink = styled(Link)`
   display: flex;
 
   .focus-outline {
-    opacity: 0;
+    // Fix: two clicks on Safari iOS to activate link
+    opacity: 0.001;
   }
 
   .background-pushed {
-    opacity: 0;
+    // Fix: two clicks on Safari iOS to activate link
+    opacity: 0.001;
   }
 
   .top-left {

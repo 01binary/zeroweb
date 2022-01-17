@@ -148,18 +148,22 @@ const SlotLink = styled(Link)`
   display: flex;
 
   .focus-outline {
+    pointer-events: none;
     display: none;
   }
 
   .background-pushed {
+    pointer-events: none;
     display: none;
   }
 
   .top-left {
+    pointer-events: none;
     stroke: ${(props) => props.theme.accentLightColor};
   }
 
   .bottom-right {
+    pointer-events: none;
     stroke: ${(props) =>
       props.theme.isDark
         ? props.theme.dropShadowDarkColor

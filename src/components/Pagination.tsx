@@ -148,11 +148,11 @@ const SlotLink = styled(Link)`
   display: flex;
 
   .focus-outline {
-    display: none;
+    opacity: 0;
   }
 
   .background-pushed {
-    display: none;
+    opacity: 0;
   }
 
   .top-left {
@@ -182,7 +182,7 @@ const SlotLink = styled(Link)`
 
   &:active {
     .background-pushed {
-      display: block;
+      opacity: 1;
     }
 
     .top-left {
@@ -235,7 +235,7 @@ const SlotLink = styled(Link)`
     box-shadow: initial;
 
     .focus-outline {
-      display: block;
+      opacity: 1;
     }
   }
 `;

@@ -182,6 +182,7 @@ const SlotLink = styled(Link)`
     top: calc(50% - 0.5em - 3px);
     text-align: center;
     color: ${(props) => props.theme.foregroundColor};
+    pointer-events: none;
   }
 
   &:active {

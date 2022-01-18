@@ -401,7 +401,8 @@ export const Pagination: FC<PaginationProps> = ({
       <Strip>
         {humanPageNumber > 1 && (
           <Slot>
-            <BackLink to={previousPagePath} />
+            {/*<BackLink to={previousPagePath} />*/}
+            <Link to={previousPagePath}>Back</Link>
           </Slot>
         )}
         {getPages(numberOfPages, humanPageNumber).map((page, index) => (
@@ -409,18 +410,20 @@ export const Pagination: FC<PaginationProps> = ({
             {page === BREAK ? (
               '...'
             ) : (
-              <PageLink
+              <Link to={getPageUrl(page, collection)}>{page}</Link>
+              /*<PageLink
                 to={getPageUrl(page, collection)}
                 aria-label={`Go to page ${page}`}
                 label={page}
                 isCurrent={index + 1 === humanPageNumber}
-              />
+              />*/
             )}
           </Slot>
         ))}
         {humanPageNumber < numberOfPages && (
           <Slot>
-            <PageLink to={nextPagePath} />
+            <Link to={nextPagePath}>Next</Link>
+            {/*<PageLink to={nextPagePath} />*/}
           </Slot>
         )}
       </Strip>

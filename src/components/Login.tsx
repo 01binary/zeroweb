@@ -4,34 +4,41 @@ import Error from '../components/Error';
 import Facebook from '../images/facebook.svg';
 import Google from '../images/google.svg';
 import Twitter from '../images/twitter.svg';
+import Alert from './Alert';
 
 const Container = styled.section`
-  position: relative;
-  display: flex;
-  align-items: center;
-  font-family: ${props => props.theme.normalFont};
-  font-size: ${props => props.theme.normalFontSize};
-  font-weight: ${props => props.theme.normalFontWeight};
-  color: ${props => props.theme.secondaryTextColor};
-  line-height: 1.7em;
-  margin-top: -1em;
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-bottom: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingDouble};
 
-  @media(max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${(props) => props.theme.mobile}) {
     display: block;
+    margin-right: ${(props) => props.theme.spacingQuarter};
   }
 `;
 
+const Prompt = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  font-family: ${(props) => props.theme.normalFont};
+  font-size: ${(props) => props.theme.normalFontSize};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+  color: ${(props) => props.theme.secondaryTextColor};
+`;
+
 const Text = styled.p`
-  @media(max-width: ${props => props.theme.mobile}) {
-    padding-top: ${props => props.theme.spacingHalf};
-  }
+  font-family: ${(props) => props.theme.normalFont};
+  font-size: ${(props) => props.theme.normalFontSize};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 const ProviderList = styled.ul`
   padding: 0;
-  @media(max-width: ${props => props.theme.mobile}) {
-    margin-left: ${props => props.theme.spacingHalf};
-  }
+  margin: 0;
+  margin-right: ${(props) => props.theme.spacingHalf};
 `;
 
 const Provider = styled.li`
@@ -50,34 +57,37 @@ const Login: FC<LoginProps> = ({
   handleGoogleLogin,
   handleTwitterLogin,
   loginError,
-}) => (
-  loginError
-    ? <Error>{loginError}</Error>
-    : (
-      <Container>
-        <Text>Please login to comment:</Text>
-        <ProviderList>
-          <Provider>
-            <button onClick={handleFacebookLogin}>
-              <Facebook />
-              Facebook
-            </button>
-          </Provider>
-          <Provider>
-            <button onClick={handleGoogleLogin}>
-              <Google />
-              Google
-            </button>
-          </Provider>
-          <Provider>
-            <button onClick={handleTwitterLogin}>
-              <Twitter />
-              Twitter
-            </button>
-          </Provider>
-        </ProviderList>
-      </Container>
-    )
-);
+}) =>
+  loginError ? (
+    <Error>{loginError}</Error>
+  ) : (
+    <Container>
+      <Alert>
+        <Prompt>
+          <Text>Please login to comment:</Text>
+          <ProviderList>
+            <Provider>
+              <button onClick={handleFacebookLogin}>
+                <Facebook />
+                Facebook
+              </button>
+            </Provider>
+            <Provider>
+              <button onClick={handleGoogleLogin}>
+                <Google />
+                Google
+              </button>
+            </Provider>
+            <Provider>
+              <button onClick={handleTwitterLogin}>
+                <Twitter />
+                Twitter
+              </button>
+            </Provider>
+          </ProviderList>
+        </Prompt>
+      </Alert>
+    </Container>
+  );
 
 export default Login;

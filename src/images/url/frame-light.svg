@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="28.5px" height="28.5px" viewBox="1 1 28.5 28.5">
+	<line fill="none" stroke="#EBEBEB" stroke-linecap="square" stroke-width="2.5" stroke-miterlimit="10" x1="8.7" y1="0" x2="0" y2="8.7"/>
+	<line fill="none" stroke="#EBEBEB" stroke-linecap="square" stroke-width="2.5" stroke-miterlimit="10" x1="18.2" y1="0" x2="0" y2="18.2"/>
+	<line fill="none" stroke="#EBEBEB" stroke-linecap="square" stroke-width="2.5" stroke-miterlimit="10" x1="27.7" y1="0" x2="0" y2="27.7"/>
+	<line fill="none" stroke="#EBEBEB" stroke-linecap="square" stroke-width="2.5" stroke-miterlimit="10" x1="30" y1="7.2" x2="7.2" y2="30"/>
+	<line fill="none" stroke="#EBEBEB" stroke-linecap="square" stroke-width="2.5" stroke-miterlimit="10" x1="30" y1="16.7" x2="16.7" y2="30"/>
+	<line fill="none" stroke="#EBEBEB" stroke-linecap="square" stroke-width="2.5" stroke-miterlimit="10" x1="30" y1="26.2" x2="26.2" y2="30"/>
+</svg>

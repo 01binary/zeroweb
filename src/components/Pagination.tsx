@@ -147,6 +147,10 @@ const Slot = styled.li`
 const SlotLink = styled(Link)`
   display: flex;
 
+  svg {
+    pointer-events: none;
+  }
+
   .focus-outline {
     display: none;
   }
@@ -180,46 +184,44 @@ const SlotLink = styled(Link)`
     color: ${(props) => props.theme.foregroundColor};
   }
 
-  @media (hover) {
-    &:active {
-      .background-pushed {
-        display: block;
-      }
-
-      .top-left {
-        stroke: ${(props) => props.theme.dropShadowDarkColor};
-      }
-
-      .bottom-right {
-        stroke: ${(props) => props.theme.accentHighlightColor};
-      }
-
-      .arrow {
-        fill: ${(props) =>
-          props.theme.isDark
-            ? props.theme.secondaryTextColor
-            : props.theme.backgroundColor};
-        transform: translate(2px, 2px);
-      }
-
-      .label {
-        padding-left: 2px;
-        padding-top: 2px;
-        color: ${(props) =>
-          props.theme.isDark
-            ? props.theme.secondaryTextColor
-            : props.theme.backgroundColor};
-      }
+  &:active {
+    .background-pushed {
+      display: block;
     }
 
-    &:focus {
-      outline: none;
-      border-radius: initial;
-      box-shadow: initial;
+    .top-left {
+      stroke: ${(props) => props.theme.dropShadowDarkColor};
+    }
 
-      .focus-outline {
-        display: block;
-      }
+    .bottom-right {
+      stroke: ${(props) => props.theme.accentHighlightColor};
+    }
+
+    .arrow {
+      fill: ${(props) =>
+        props.theme.isDark
+          ? props.theme.secondaryTextColor
+          : props.theme.backgroundColor};
+      transform: translate(2px, 2px);
+    }
+
+    .label {
+      padding-left: 2px;
+      padding-top: 2px;
+      color: ${(props) =>
+        props.theme.isDark
+          ? props.theme.secondaryTextColor
+          : props.theme.backgroundColor};
+    }
+  }
+
+  &:focus {
+    outline: none;
+    border-radius: initial;
+    box-shadow: initial;
+
+    .focus-outline {
+      display: block;
     }
   }
 

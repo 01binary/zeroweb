@@ -147,11 +147,7 @@ const Slot = styled.li`
 const SlotLink = styled(Link)`
   display: flex;
 
-  svg {
-    pointer-events: none;
-  }
-
-  .focus-outline {
+  /*.focus-outline {
     display: none;
   }
 
@@ -165,9 +161,9 @@ const SlotLink = styled(Link)`
 
   .bottom-right {
     stroke: ${(props) =>
-      props.theme.isDark
-        ? props.theme.dropShadowDarkColor
-        : props.theme.dropShadowLightColor};
+    props.theme.isDark
+      ? props.theme.dropShadowDarkColor
+      : props.theme.dropShadowLightColor};
   }
 
   .arrow {
@@ -199,9 +195,9 @@ const SlotLink = styled(Link)`
 
     .arrow {
       fill: ${(props) =>
-        props.theme.isDark
-          ? props.theme.secondaryTextColor
-          : props.theme.backgroundColor};
+    props.theme.isDark
+      ? props.theme.secondaryTextColor
+      : props.theme.backgroundColor};
       transform: translate(2px, 2px);
     }
 
@@ -209,9 +205,9 @@ const SlotLink = styled(Link)`
       padding-left: 2px;
       padding-top: 2px;
       color: ${(props) =>
-        props.theme.isDark
-          ? props.theme.secondaryTextColor
-          : props.theme.backgroundColor};
+    props.theme.isDark
+      ? props.theme.secondaryTextColor
+      : props.theme.backgroundColor};
     }
   }
 
@@ -241,7 +237,7 @@ const SlotLink = styled(Link)`
     .label {
       color: ${(props) => props.theme.secondaryColor};
     }
-  }
+  }*/
 `;
 
 const FirstSlotLink = styled(SlotLink)`
@@ -263,8 +259,8 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
   const theme = useTheme();
   return (
     <MiddleSlotLink role="button" to={to} className={isCurrent && 'current'}>
-      {/*label && <div className="label">{label}</div>*/}
-      <svg width="56" height="44" viewBox="0 0 56 44">
+      {label && <div className="label">{label}</div>}
+      {/*<svg width="56" height="44" viewBox="0 0 56 44">
         <defs>
           <linearGradient
             id="normal_page_gradient"
@@ -318,7 +314,7 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
             points="40,21 31.6,12.6 30.6,13.6 37.2,20.3 23.4,20.3 23.4,21.7 37.2,21.7 30.6,28.3 31.6,29.4 "
           />
         )}
-      </svg>
+        </svg>*/}
     </MiddleSlotLink>
   );
 };

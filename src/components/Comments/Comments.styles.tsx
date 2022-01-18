@@ -680,7 +680,7 @@ export const AddCommentInput = styled.textarea`
 `;
 
 export const LoadCommentsError = styled(Error)`
-  margin-bottom: 0;
+  margin: ${(props) => props.theme.spacingHalf};
 `;
 
 export const EditCommentError = styled(Error)`

@@ -7,20 +7,29 @@ const AlertBackground = styled.section`
   display: flex;
   background-image: ${(props) =>
     props.theme.isDark ? `url(${FrameDark})` : `url(${FrameLight})`};
+
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingDouble};
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin-right: ${(props) => props.theme.spacingQuarter};
+  }
 `;
 
 const AlertForeground = styled.div`
   display: flex;
   background: ${(props) => props.theme.backgroundColor};
-  margin-top: ${(props) => props.theme.spacingHalf};
-  margin-bottom: ${(props) => props.theme.spacingHalf};
-  margin-left: ${(props) => props.theme.spacingHalf};
-  margin-right: ${(props) => props.theme.spacingHalf};
+  margin: ${(props) => props.theme.spacingHalf};
+  ${(props) => props.fullWidth && `width: 100%`};
 `;
 
-const Alert: FC = ({ children }) => (
+type AlertProps = {
+  fullWidth?: boolean;
+};
+
+const Alert: FC<AlertProps> = ({ fullWidth, children }) => (
   <AlertBackground>
-    <AlertForeground>{children}</AlertForeground>
+    <AlertForeground fullWidth={fullWidth}>{children}</AlertForeground>
   </AlertBackground>
 );
 

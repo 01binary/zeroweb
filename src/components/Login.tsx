@@ -7,14 +7,7 @@ import Twitter from '../images/twitter.svg';
 import Alert from './Alert';
 
 const Container = styled.section`
-  margin-left: ${(props) => props.theme.spacingHalf};
   margin-bottom: ${(props) => props.theme.spacingHalf};
-  margin-right: ${(props) => props.theme.spacingDouble};
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    display: block;
-    margin-right: ${(props) => props.theme.spacingQuarter};
-  }
 `;
 
 const Prompt = styled.div`

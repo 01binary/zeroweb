@@ -76,6 +76,7 @@ import {
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
+import Alert from '../Alert';
 
 dayjs.extend(relativeTime);
 
@@ -502,7 +503,9 @@ const Comments: FC<CommentsProps> = ({
 
       {showLoadingComments && <p>Loading comments...</p>}
       {loadCommentsError && (
-        <LoadCommentsError>{loadCommentsError}</LoadCommentsError>
+        <Alert fullWidth>
+          <LoadCommentsError>{loadCommentsError}</LoadCommentsError>
+        </Alert>
       )}
 
       {showLogin && (

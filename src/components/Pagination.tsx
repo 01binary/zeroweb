@@ -128,7 +128,7 @@ const getPageUrl = (page: string, collection: string) => {
 };
 
 const Strip = styled.ul`
-  display: flex;
+  //display: flex;
   list-style-type: none;
 
   padding: 0;

@@ -127,22 +127,19 @@ const getPageUrl = (page: string, collection: string) => {
   return page === '1' ? `${path}` : `${path == '/' ? '' : path}/${page}`;
 };
 
-const Strip = styled.ul`
+const Strip = styled.div`
   //display: flex;
   list-style-type: none;
 
   padding: 0;
+  margin-top: 1em;
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};
   margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
 `;
 
-const Slot = styled.li`
-  flex: 0 0 48px;
-  padding: 0;
-`;
-
 const SlotLink = styled(Link)`
+  flex: 0 0 48px;
   display: flex;
 
   /*.focus-outline {
@@ -397,31 +394,27 @@ export const Pagination: FC<PaginationProps> = ({
   numberOfPages == 1 ? null : (
     <Strip>
       {humanPageNumber > 1 && (
-        <Slot>
-          {/*<BackLink to={previousPagePath} />*/}
-          <Link to={previousPagePath}>Back</Link>
-        </Slot>
+        /*<BackLink to={previousPagePath} />*/
+        <Link to={previousPagePath}> Back </Link>
       )}
-      {getPages(numberOfPages, humanPageNumber).map((page, index) => (
-        <Slot key={page}>
-          {page === BREAK ? (
-            '...'
-          ) : (
-            <Link to={getPageUrl(page, collection)}>{page}</Link>
-            /*<PageLink
+      {getPages(numberOfPages, humanPageNumber).map((page, index) =>
+        page === BREAK ? (
+          <span> ... </span>
+        ) : (
+          <Link key={page} to={getPageUrl(page, collection)}>
+            &nbsp;&nbsp;&nbsp;{page}&nbsp; &nbsp; &nbsp;
+          </Link>
+          /*<PageLink
                 to={getPageUrl(page, collection)}
                 aria-label={`Go to page ${page}`}
                 label={page}
                 isCurrent={index + 1 === humanPageNumber}
               />*/
-          )}
-        </Slot>
-      ))}
+        )
+      )}
       {humanPageNumber < numberOfPages && (
-        <Slot>
-          <Link to={nextPagePath}>Next</Link>
-          {/*<PageLink to={nextPagePath} />*/}
-        </Slot>
+        <Link to={nextPagePath}> Next </Link>
+        /*<PageLink to={nextPagePath} />*/
       )}
     </Strip>
   );

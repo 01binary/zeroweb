@@ -241,11 +241,11 @@ const SlotLink = styled(Link)`
 `;
 
 const FirstSlotLink = styled(SlotLink)`
-  margin-left: -2px;
+  //margin-left: -2px;
 `;
 
 const MiddleSlotLink = styled(SlotLink)`
-  margin-left: -10px;
+  //margin-left: -10px;
 `;
 
 type PageLinkProps = {
@@ -259,7 +259,8 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
   const theme = useTheme();
   return (
     <MiddleSlotLink role="button" to={to} className={isCurrent && 'current'}>
-      {label && <div className="label">{label}</div>}
+      {label}
+      {/*label && <div className="label">{label}</div>*/}
       {/*<svg width="56" height="44" viewBox="0 0 56 44">
         <defs>
           <linearGradient

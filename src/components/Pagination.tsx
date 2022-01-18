@@ -127,16 +127,14 @@ const getPageUrl = (page: string, collection: string) => {
   return page === '1' ? `${path}` : `${path == '/' ? '' : path}/${page}`;
 };
 
-const Navigation = styled.nav`
-  margin-left: ${(props) => props.theme.spacingHalf};
-  margin-right: ${(props) => props.theme.spacingHalf};
-  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
-`;
-
 const Strip = styled.ul`
   display: flex;
   list-style-type: none;
+
   padding: 0;
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingHalf};
+  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
 `;
 
 const Slot = styled.li`
@@ -397,35 +395,33 @@ export const Pagination: FC<PaginationProps> = ({
   nextPagePath,
 }) =>
   numberOfPages == 1 ? null : (
-    <Navigation role="navigation" aria-label="pagination navigation">
-      <Strip>
-        {humanPageNumber > 1 && (
-          <Slot>
-            {/*<BackLink to={previousPagePath} />*/}
-            <Link to={previousPagePath}>Back</Link>
-          </Slot>
-        )}
-        {getPages(numberOfPages, humanPageNumber).map((page, index) => (
-          <Slot key={page}>
-            {page === BREAK ? (
-              '...'
-            ) : (
-              <Link to={getPageUrl(page, collection)}>{page}</Link>
-              /*<PageLink
+    <Strip>
+      {humanPageNumber > 1 && (
+        <Slot>
+          {/*<BackLink to={previousPagePath} />*/}
+          <Link to={previousPagePath}>Back</Link>
+        </Slot>
+      )}
+      {getPages(numberOfPages, humanPageNumber).map((page, index) => (
+        <Slot key={page}>
+          {page === BREAK ? (
+            '...'
+          ) : (
+            <Link to={getPageUrl(page, collection)}>{page}</Link>
+            /*<PageLink
                 to={getPageUrl(page, collection)}
                 aria-label={`Go to page ${page}`}
                 label={page}
                 isCurrent={index + 1 === humanPageNumber}
               />*/
-            )}
-          </Slot>
-        ))}
-        {humanPageNumber < numberOfPages && (
-          <Slot>
-            <Link to={nextPagePath}>Next</Link>
-            {/*<PageLink to={nextPagePath} />*/}
-          </Slot>
-        )}
-      </Strip>
-    </Navigation>
+          )}
+        </Slot>
+      ))}
+      {humanPageNumber < numberOfPages && (
+        <Slot>
+          <Link to={nextPagePath}>Next</Link>
+          {/*<PageLink to={nextPagePath} />*/}
+        </Slot>
+      )}
+    </Strip>
   );

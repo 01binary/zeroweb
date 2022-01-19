@@ -374,12 +374,8 @@ export type PaginationProps = {
 };
 
 const Strip = styled.div`
-  // temporary
-  margin-top: ${(props) => props.theme.spacing};
-
-  margin-left: ${(props) => props.theme.spacingHalf};
-  margin-right: ${(props) => props.theme.spacingHalf};
-  //margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
+  margin: ${(props) => props.theme.spacing}
+    ${(props) => props.theme.spacingHalf};
 `;
 
 const BasicLink = styled(Link)`

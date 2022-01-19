@@ -129,7 +129,13 @@ const getPageUrl = (page: string, collection: string) => {
 
 const Strip = styled.div`
   display: flex;
+  justify-content: space-evenly;
+
   padding: 0;
+
+  // temporary
+  margin-top: ${(props) => props.theme.spacing};
+
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};
   margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});

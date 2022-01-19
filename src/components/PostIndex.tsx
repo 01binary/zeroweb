@@ -23,10 +23,6 @@ const Container = styled.main`
   padding-bottom: calc(
     max(env(safe-area-inset-bottom), ${(props) => props.theme.spacingTriple})
   );
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    padding-bottom: calc(max(env(safe-area-inset-bottom), 5em));
-  }
 `;
 
 type IndexQuery = {

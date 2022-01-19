@@ -25,9 +25,7 @@ const Container = styled.main`
   );
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    padding-bottom: calc(
-      max(env(safe-area-inset-bottom), ${(props) => props.theme.spacing})
-    );
+    padding-bottom: calc(max(env(safe-area-inset-bottom), 5em));
   }
 `;
 

@@ -127,15 +127,6 @@ const getPageUrl = (page: string, collection: string) => {
   return page === '1' ? `${path}` : `${path == '/' ? '' : path}/${page}`;
 };
 
-const Strip = styled.div`
-  // temporary
-  margin-top: ${(props) => props.theme.spacing};
-
-  margin-left: ${(props) => props.theme.spacingHalf};
-  margin-right: ${(props) => props.theme.spacingHalf};
-  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
-`;
-
 const SlotLink = styled(Link)`
   flex: 0 0 48px;
   display: flex;
@@ -382,8 +373,17 @@ export type PaginationProps = {
   nextPagePath: string;
 };
 
+const Strip = styled.div`
+  // temporary
+  margin-top: ${(props) => props.theme.spacing};
+
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingHalf};
+  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
+`;
+
 const BasicLink = styled(Link)`
-  display: inline-block;
+  display: inline;
   margin: 20px;
 `;
 

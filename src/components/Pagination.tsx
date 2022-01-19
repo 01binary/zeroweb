@@ -128,12 +128,11 @@ const getPageUrl = (page: string, collection: string) => {
 };
 
 const Strip = styled.div`
-  /*display: flex;
+  display: flex;
   padding: 0;
-  margin-top: 1em;
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};
-  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});*/
+  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
 `;
 
 const SlotLink = styled(Link)`
@@ -390,7 +389,7 @@ export const Pagination: FC<PaginationProps> = ({
   nextPagePath,
 }) =>
   numberOfPages == 1 ? null : (
-    <div>
+    <Strip>
       {humanPageNumber > 1 && <Link to={previousPagePath}>Back</Link>}
       {getPages(numberOfPages, humanPageNumber).map((page, index) =>
         page === BREAK ? (
@@ -404,5 +403,5 @@ export const Pagination: FC<PaginationProps> = ({
         )
       )}
       {humanPageNumber < numberOfPages && <Link to={nextPagePath}>Next</Link>}
-    </div>
+    </Strip>
   );

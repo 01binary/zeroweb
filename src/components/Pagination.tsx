@@ -395,7 +395,7 @@ export const Pagination: FC<PaginationProps> = ({
   nextPagePath,
 }) =>
   numberOfPages == 1 ? null : (
-    <Strip>
+    <div>
       {humanPageNumber > 1 && <BasicLink to={previousPagePath}>Back</BasicLink>}
       {getPages(numberOfPages, humanPageNumber).map((page, index) =>
         page === BREAK ? (
@@ -409,5 +409,5 @@ export const Pagination: FC<PaginationProps> = ({
       {humanPageNumber < numberOfPages && (
         <BasicLink to={nextPagePath}>Next</BasicLink>
       )}
-    </Strip>
+    </div>
   );

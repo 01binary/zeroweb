@@ -128,11 +128,6 @@ const getPageUrl = (page: string, collection: string) => {
 };
 
 const Strip = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-
-  padding: 0;
-
   // temporary
   margin-top: ${(props) => props.theme.spacing};
 
@@ -387,6 +382,11 @@ export type PaginationProps = {
   nextPagePath: string;
 };
 
+const BasicLink = styled(Link)`
+  display: inline-block;
+  margin: 20px;
+`;
+
 export const Pagination: FC<PaginationProps> = ({
   collection,
   numberOfPages,
@@ -396,18 +396,18 @@ export const Pagination: FC<PaginationProps> = ({
 }) =>
   numberOfPages == 1 ? null : (
     <Strip>
-      {humanPageNumber > 1 && <Link to={previousPagePath}>Back</Link>}
+      {humanPageNumber > 1 && <BasicLink to={previousPagePath}>Back</BasicLink>}
       {getPages(numberOfPages, humanPageNumber).map((page, index) =>
         page === BREAK ? (
-          <div> ... </div>
+          <span>...</span>
         ) : (
-          <div>
-            <Link key={page} to={getPageUrl(page, collection)}>
-              {page}
-            </Link>
-          </div>
+          <BasicLink key={page} to={getPageUrl(page, collection)}>
+            {page}
+          </BasicLink>
         )
       )}
-      {humanPageNumber < numberOfPages && <Link to={nextPagePath}>Next</Link>}
+      {humanPageNumber < numberOfPages && (
+        <BasicLink to={nextPagePath}>Next</BasicLink>
+      )}
     </Strip>
   );

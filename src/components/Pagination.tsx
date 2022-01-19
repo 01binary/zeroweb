@@ -377,9 +377,9 @@ const Strip = styled.div`
   // temporary
   margin-top: ${(props) => props.theme.spacing};
 
-  margin-left: ${(props) => props.theme.spacingHalf};
-  margin-right: ${(props) => props.theme.spacingHalf};
-  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
+  //margin-left: ${(props) => props.theme.spacingHalf};
+  //margin-right: ${(props) => props.theme.spacingHalf};
+  //margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
 `;
 
 const BasicLink = styled(Link)`
@@ -395,7 +395,7 @@ export const Pagination: FC<PaginationProps> = ({
   nextPagePath,
 }) =>
   numberOfPages == 1 ? null : (
-    <div>
+    <Strip>
       {humanPageNumber > 1 && <BasicLink to={previousPagePath}>Back</BasicLink>}
       {getPages(numberOfPages, humanPageNumber).map((page, index) =>
         page === BREAK ? (
@@ -409,5 +409,5 @@ export const Pagination: FC<PaginationProps> = ({
       {humanPageNumber < numberOfPages && (
         <BasicLink to={nextPagePath}>Next</BasicLink>
       )}
-    </div>
+    </Strip>
   );

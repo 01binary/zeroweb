@@ -377,7 +377,6 @@ const Strip = styled.div`
   margin-top: ${(props) => props.theme.spacing};
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};
-  padding-bottom: ${(props) => props.theme.spacing};
 `;
 
 const BasicLink = styled(Link)`

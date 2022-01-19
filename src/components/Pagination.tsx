@@ -128,14 +128,12 @@ const getPageUrl = (page: string, collection: string) => {
 };
 
 const Strip = styled.div`
-  //display: flex;
-  list-style-type: none;
-
+  /*display: flex;
   padding: 0;
   margin-top: 1em;
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};
-  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
+  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});*/
 `;
 
 const SlotLink = styled(Link)`
@@ -392,29 +390,17 @@ export const Pagination: FC<PaginationProps> = ({
   nextPagePath,
 }) =>
   numberOfPages == 1 ? null : (
-    <Strip>
-      {humanPageNumber > 1 && (
-        /*<BackLink to={previousPagePath} />*/
-        <Link to={previousPagePath}> Back </Link>
-      )}
+    <>
       {getPages(numberOfPages, humanPageNumber).map((page, index) =>
         page === BREAK ? (
-          <span> ... </span>
+          <p> ... </p>
         ) : (
-          <Link key={page} to={getPageUrl(page, collection)}>
-            &nbsp;&nbsp;&nbsp;{page}&nbsp; &nbsp; &nbsp;
-          </Link>
-          /*<PageLink
-                to={getPageUrl(page, collection)}
-                aria-label={`Go to page ${page}`}
-                label={page}
-                isCurrent={index + 1 === humanPageNumber}
-              />*/
+          <p>
+            <Link key={page} to={getPageUrl(page, collection)}>
+              {page}
+            </Link>
+          </p>
         )
       )}
-      {humanPageNumber < numberOfPages && (
-        <Link to={nextPagePath}> Next </Link>
-        /*<PageLink to={nextPagePath} />*/
-      )}
-    </Strip>
+    </>
   );

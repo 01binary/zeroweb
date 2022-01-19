@@ -127,11 +127,27 @@ const getPageUrl = (page: string, collection: string) => {
   return page === '1' ? `${path}` : `${path == '/' ? '' : path}/${page}`;
 };
 
-const SlotLink = styled(Link)`
+const Navigation = styled.nav`
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingHalf};
+  margin-bottom: calc(0px - ${(props) => props.theme.spacingDouble});
+`;
+
+const Strip = styled.ul`
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+`;
+
+const Slot = styled.li`
   flex: 0 0 48px;
+  padding: 0;
+`;
+
+const SlotLink = styled(Link)`
   display: flex;
 
-  /*.focus-outline {
+  .focus-outline {
     display: none;
   }
 
@@ -145,9 +161,9 @@ const SlotLink = styled(Link)`
 
   .bottom-right {
     stroke: ${(props) =>
-    props.theme.isDark
-      ? props.theme.dropShadowDarkColor
-      : props.theme.dropShadowLightColor};
+      props.theme.isDark
+        ? props.theme.dropShadowDarkColor
+        : props.theme.dropShadowLightColor};
   }
 
   .arrow {
@@ -179,9 +195,9 @@ const SlotLink = styled(Link)`
 
     .arrow {
       fill: ${(props) =>
-    props.theme.isDark
-      ? props.theme.secondaryTextColor
-      : props.theme.backgroundColor};
+        props.theme.isDark
+          ? props.theme.secondaryTextColor
+          : props.theme.backgroundColor};
       transform: translate(2px, 2px);
     }
 
@@ -189,19 +205,9 @@ const SlotLink = styled(Link)`
       padding-left: 2px;
       padding-top: 2px;
       color: ${(props) =>
-    props.theme.isDark
-      ? props.theme.secondaryTextColor
-      : props.theme.backgroundColor};
-    }
-  }
-
-  &:focus {
-    outline: none;
-    border-radius: initial;
-    box-shadow: initial;
-
-    .focus-outline {
-      display: block;
+        props.theme.isDark
+          ? props.theme.secondaryTextColor
+          : props.theme.backgroundColor};
     }
   }
 
@@ -221,15 +227,25 @@ const SlotLink = styled(Link)`
     .label {
       color: ${(props) => props.theme.secondaryColor};
     }
-  }*/
+  }
+
+  &:focus {
+    outline: none;
+    border-radius: initial;
+    box-shadow: initial;
+
+    .focus-outline {
+      display: block;
+    }
+  }
 `;
 
 const FirstSlotLink = styled(SlotLink)`
-  //margin-left: -2px;
+  margin-left: -2px;
 `;
 
 const MiddleSlotLink = styled(SlotLink)`
-  //margin-left: -10px;
+  margin-left: -10px;
 `;
 
 type PageLinkProps = {
@@ -243,9 +259,8 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
   const theme = useTheme();
   return (
     <MiddleSlotLink role="button" to={to} className={isCurrent && 'current'}>
-      {label}
-      {/*label && <div className="label">{label}</div>*/}
-      {/*<svg width="56" height="44" viewBox="0 0 56 44">
+      {label && <div className="label">{label}</div>}
+      <svg width="56" height="44" viewBox="0 0 56 44">
         <defs>
           <linearGradient
             id="normal_page_gradient"
@@ -299,7 +314,7 @@ const PageLink: FC<PageLinkProps> = ({ to, label, isCurrent }) => {
             points="40,21 31.6,12.6 30.6,13.6 37.2,20.3 23.4,20.3 23.4,21.7 37.2,21.7 30.6,28.3 31.6,29.4 "
           />
         )}
-        </svg>*/}
+      </svg>
     </MiddleSlotLink>
   );
 };
@@ -373,17 +388,6 @@ export type PaginationProps = {
   nextPagePath: string;
 };
 
-const Strip = styled.footer`
-  margin-top: ${(props) => props.theme.spacing};
-  margin-left: ${(props) => props.theme.spacingHalf};
-  margin-right: ${(props) => props.theme.spacingHalf};
-`;
-
-const BasicLink = styled(Link)`
-  display: inline;
-  margin: 20px;
-`;
-
 export const Pagination: FC<PaginationProps> = ({
   collection,
   numberOfPages,
@@ -392,21 +396,32 @@ export const Pagination: FC<PaginationProps> = ({
   nextPagePath,
 }) =>
   numberOfPages == 1 ? null : (
-    <Strip>
-      {humanPageNumber > 1 && <BasicLink to={previousPagePath}>Back</BasicLink>}
-      {getPages(numberOfPages, humanPageNumber).map((page, index) =>
-        page === BREAK ? (
-          <span key={index}>...</span>
-        ) : page === humanPageNumber.toString() ? (
-          <span key={index}>{page}</span>
-        ) : (
-          <BasicLink key={index} to={getPageUrl(page, collection)}>
-            {page}
-          </BasicLink>
-        )
-      )}
-      {humanPageNumber < numberOfPages && (
-        <BasicLink to={nextPagePath}>Next</BasicLink>
-      )}
-    </Strip>
+    <Navigation role="navigation" aria-label="pagination navigation">
+      <Strip>
+        {humanPageNumber > 1 && (
+          <Slot>
+            <BackLink to={previousPagePath} />
+          </Slot>
+        )}
+        {getPages(numberOfPages, humanPageNumber).map((page, index) => (
+          <Slot key={page}>
+            {page === BREAK ? (
+              '...'
+            ) : (
+              <PageLink
+                to={getPageUrl(page, collection)}
+                aria-label={`Go to page ${page}`}
+                label={page}
+                isCurrent={index + 1 === humanPageNumber}
+              />
+            )}
+          </Slot>
+        ))}
+        {humanPageNumber < numberOfPages && (
+          <Slot>
+            <PageLink to={nextPagePath} />
+          </Slot>
+        )}
+      </Strip>
+    </Navigation>
   );

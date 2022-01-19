@@ -396,9 +396,11 @@ export const Pagination: FC<PaginationProps> = ({
       {humanPageNumber > 1 && <BasicLink to={previousPagePath}>Back</BasicLink>}
       {getPages(numberOfPages, humanPageNumber).map((page, index) =>
         page === BREAK ? (
-          <span>...</span>
+          <span key={index}>...</span>
+        ) : page === humanPageNumber.toString() ? (
+          <span key={index}>{page}</span>
         ) : (
-          <BasicLink key={page} to={getPageUrl(page, collection)}>
+          <BasicLink key={index} to={getPageUrl(page, collection)}>
             {page}
           </BasicLink>
         )

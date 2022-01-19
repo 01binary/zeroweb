@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import FrameLight from '../images/url/frame-light.svg';
 import FrameDark from '../images/url/frame-dark.svg';
+import { MOBILE } from '../constants';
 
 const AlertBackground = styled.section`
   display: flex;
@@ -11,7 +12,7 @@ const AlertBackground = styled.section`
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingDouble};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     margin-right: ${(props) => props.theme.spacingQuarter};
   }
 `;

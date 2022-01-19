@@ -15,6 +15,7 @@ import GaugeIcon from '../../images/gauge.svg';
 import ClockIcon from '../../images/clock.svg';
 import { Heading } from '../Heading';
 import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
+import { MOBILE, WIDE } from '../../constants';
 
 export const Main = styled.main`
   margin-bottom: 3em;
@@ -152,7 +153,7 @@ export const Main = styled.main`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     h1,
     h2,
     h3,
@@ -170,7 +171,7 @@ export const Main = styled.main`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     margin-bottom: 1em;
 
     h1,
@@ -222,13 +223,13 @@ export const HeroImage = styled(Img)`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     &:after {
       display: none;
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     max-width: 100%;
     margin-top: 1em;
     margin-right: ${(props) => props.theme.spacingHalf};
@@ -261,7 +262,7 @@ export const Metadata = styled.section`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     max-width: 100%;
     margin-bottom: 0;
   }
@@ -315,7 +316,7 @@ export const Content = styled.section`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     max-width: 100%;
   }
 `;
@@ -323,7 +324,7 @@ export const Content = styled.section`
 export const SidebarPanel = styled.section`
   display: block;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -347,7 +348,7 @@ export const Sidebar = styled.aside`
   padding-top: ${(props) => props.theme.spacingThird};
   z-index: 1;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     position: relative;
     float: none;
     left: 0;
@@ -382,7 +383,7 @@ export const SidebarMetadata = styled.div`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     flex: 0 1 auto;
     margin-left: 1em;
   }
@@ -402,7 +403,7 @@ export const Gauge = styled(GaugeIcon)`
     transition: transform ${(props) => props.theme.animationFast} ease-in-out;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -411,7 +412,7 @@ export const Indicator = styled.span`
   font-size: 20pt;
   color: ${(props) => props.theme.foregroundColor};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     font-size: ${(props) => props.theme.smallFontSize};
   }
 `;
@@ -421,7 +422,7 @@ export const InlineIndicator = styled.span`
 `;
 
 export const IndicatorLabel = styled.div`
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: inline;
   }
 `;

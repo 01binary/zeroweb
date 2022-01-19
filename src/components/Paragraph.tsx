@@ -18,6 +18,7 @@ import RulerHighlightIcon from '../images/ruler-highlight.svg';
 import RulerCommentIcon from '../images/ruler-comment.svg';
 import AddCommentIcon from '../images/add-comment.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
+import { MOBILE, WIDE } from '../constants';
 
 const Text = styled.p`
   position: relative;
@@ -67,13 +68,13 @@ const Text = styled.p`
     padding: ${(props) => props.theme.spacingQuarter};
   }
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     &:after {
       display: none;
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     padding-right: 0;
     margin-right: ${(props) => props.theme.spacingHalf};
 
@@ -103,7 +104,7 @@ const InlineCommentButton = styled.button`
   transform-style: preserve-3d;
   backface-visibility: hidden;
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     display: none;
   }
 `;

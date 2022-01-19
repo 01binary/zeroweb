@@ -25,6 +25,7 @@ import ArticlesBackground from '../images/navigation-articles.svg';
 import ProjectsBackground from '../images/navigation-projects.svg';
 import AboutBackground from '../images/navigation-about.svg';
 import ROUTES from '../routes';
+import { MOBILE } from '../constants';
 
 const HEADER_HEIGHT = 250;
 
@@ -108,7 +109,7 @@ const Hero = styled.header`
     opacity: 0.6;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     z-index: 2;
     position: fixed;
     left: 0;
@@ -177,7 +178,7 @@ const Title = styled.h1`
     display: none;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -191,7 +192,7 @@ const Caret = styled.div`
   background: ${(props) => props.theme.primaryTextColor};
   animation: blink 1.1s linear infinite;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 
@@ -222,7 +223,7 @@ const Logo = styled(LogoImage)`
   height: 75px;
   font-size: 60pt;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     top: 10px;
     width: 45.5px;
     height: 37.5px;
@@ -245,7 +246,7 @@ const LogoLink = styled(Link)`
       ${(props) => props.theme.focusColor};
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     &:after {
       top: ${(props) => props.theme.border};
       left: 17px;
@@ -293,7 +294,7 @@ const Navigation = styled.nav`
     transform: skewX(45deg);
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     transition: opacity ${(props) => props.theme.animationFast} ease-out,
       height ${(props) => props.theme.animationFast} ease-out;
     overflow: hidden;
@@ -331,7 +332,7 @@ const Toolbar = styled.section`
   margin-right: ${(props) => props.theme.spacing};
   padding-top: ${(props) => props.theme.spacing};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     margin: 0;
     padding: 0;
   }
@@ -379,7 +380,7 @@ const Toggle = styled.button`
       ${(props) => props.theme.focusColor};
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     top: ${(props) => props.theme.border};
     width: ${(props) => props.theme.spacingDouble};
     height: calc(

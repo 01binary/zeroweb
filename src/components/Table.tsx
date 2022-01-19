@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 import styled from 'styled-components';
+import { WIDE } from '../constants';
 import { RULER_OFFSET } from './Ruler';
 
 export const Table = styled.table`
@@ -53,7 +54,7 @@ export const Table = styled.table`
     padding-right: 0;
   }
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     &:after {
       display: none;
     }

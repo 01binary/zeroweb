@@ -40,6 +40,7 @@ import ToolPremiere from '../images/tool-premiere.svg';
 import ToolRaspi from '../images/tool-raspi.svg';
 import Cell from '../images/cell.svg';
 import CONTENT from '../routes';
+import { MOBILE } from '../constants';
 
 // Expected tag icon size
 const ICON_SIZE = 36;
@@ -259,7 +260,7 @@ const TagListWrapper = styled.ul`
   width: ${(props) =>
     getWidth(props.Count, props.Inline, props.AlwaysInline)}px;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: ${({ Inline, AlwaysInline }) =>
       getDisplay(Inline, AlwaysInline, true)};
   }

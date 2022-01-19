@@ -16,6 +16,7 @@ import { useTooltip } from '../hooks/useTooltip';
 import { Tooltip, Arrow } from './Tooltip';
 import LinkIcon from '../images/link.svg';
 import MouseIcon from '../images/mouse.svg';
+import { MOBILE } from '../constants';
 
 interface StyledProps {
   level: number;
@@ -46,7 +47,7 @@ const PermaLinkAnchorInline = styled(Link)`
     fill: ${(props) => props.theme.secondaryTextColor};
   }
 
-  @media (min-width: ${(props) => props.theme.mobile}) {
+  @media (min-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -69,7 +70,7 @@ const PermaLinkAnchor = styled(Link)`
     fill: ${(props) => props.theme.secondaryTextColor};
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
 
     .permalink-icon {
@@ -92,7 +93,7 @@ const StyledMouseIcon = styled(MouseIcon)`
   margin-right: ${(props) => props.theme.spacingQuarter};
   top: ${(props) => props.theme.spacingMin};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;

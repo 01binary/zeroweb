@@ -12,33 +12,36 @@
 import React, { FunctionComponent, SVGProps } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import { MOBILE } from '../constants';
 
 const StyledLink = styled(Link)`
   flex: 110px 0;
   margin-left: -1px;
-  color: ${props => props.theme.primaryTextColor};
+  color: ${(props) => props.theme.primaryTextColor};
 
   &:first-child {
     margin-left: 0px;
   }
 
-  .navigation, .navigation-text, .navigation-icon {
-      display: inline;
-      position: absolute;
-      width: 110px;
+  .navigation,
+  .navigation-text,
+  .navigation-icon {
+    display: inline;
+    position: absolute;
+    width: 110px;
   }
 
   .navigation-background {
-      fill: ${props => props.theme.backgroundColor};
-      transition: opacity ${props => props.theme.animationFast} ease-out;
-      opacity: 0;
-      z-index: 5;
+    fill: ${(props) => props.theme.backgroundColor};
+    transition: opacity ${(props) => props.theme.animationFast} ease-out;
+    opacity: 0;
+    z-index: 5;
   }
 
   &:hover {
-      .navigation-background {
-          opacity: 0.20;
-      }
+    .navigation-background {
+      opacity: 0.2;
+    }
   }
 
   &:focus {
@@ -46,18 +49,18 @@ const StyledLink = styled(Link)`
   }
 
   .navigation-border {
-      fill: ${props => props.theme.accentTextColor};
-      z-index: 6;
+    fill: ${(props) => props.theme.accentTextColor};
+    z-index: 6;
   }
 
   .navigation-highlight {
-      fill: ${props => props.theme.primaryLightColor};
-      z-index: 7;
+    fill: ${(props) => props.theme.primaryLightColor};
+    z-index: 7;
   }
 
   .navigation-selection {
-      z-index: 6;
-      fill: ${props => props.theme.selectionColor};
+    z-index: 6;
+    fill: ${(props) => props.theme.selectionColor};
   }
 
   .navigation-unselected .navigation-selection {
@@ -82,17 +85,17 @@ const StyledLink = styled(Link)`
     margin-top: 25px;
   }
 
-  @media (max-width: ${props => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     position: relative;
     margin-left: initial;
     flex: 0 0;
 
-    color: ${props => props.theme.backgroundColor};
-    transition: color .3s ease-out;
+    color: ${(props) => props.theme.backgroundColor};
+    transition: color 0.3s ease-out;
     text-decoration: none;
 
     .navigation-selected {
-      color: ${props => props.theme.primaryTextColor};
+      color: ${(props) => props.theme.primaryTextColor};
 
       &:before {
         z-index: -1;
@@ -103,19 +106,20 @@ const StyledLink = styled(Link)`
         right: 0;
         top: -2px;
         bottom: -2px;
-        background: ${props => props.theme.focusColor};
+        background: ${(props) => props.theme.focusColor};
       }
     }
 
     .navigation-unselected {
-      color: ${props => props.theme.isDark
-    ? props.theme.primaryTextColor
-    : props.theme.accentTextColor};
+      color: ${(props) =>
+        props.theme.isDark
+          ? props.theme.primaryTextColor
+          : props.theme.accentTextColor};
     }
 
     &:hover {
       .navigation-unselected {
-        color: ${props => props.theme.primaryDarkShadowColor};
+        color: ${(props) => props.theme.primaryDarkShadowColor};
         text-decoration: underline;
       }
     }
@@ -132,7 +136,7 @@ const StyledLink = styled(Link)`
     }
 
     .navigation-icon {
-      margin: 0 0 0 ${props => props.theme.spacingHalf};
+      margin: 0 0 0 ${(props) => props.theme.spacingHalf};
       padding-left: 1em;
       height: 100%;
 
@@ -143,7 +147,7 @@ const StyledLink = styled(Link)`
 
         .stroke-background {
           stroke: white;
-          opacity: .7;
+          opacity: 0.7;
         }
       }
     }
@@ -156,14 +160,15 @@ const Text = styled.div`
   padding-top: 53px;
   height: auto;
   width: auto;
-  font-size: ${props => props.theme.navigationFontSize};
+  font-size: ${(props) => props.theme.navigationFontSize};
   z-index: 6;
 
-  @media (max-width: ${props => props.theme.mobile}) {
-    font-family: ${props => props.theme.headingFont};
-    font-size: ${props => props.theme.headingFontSizeLarge};
-    margin-left: ${props => props.theme.spacingDouble};
-    padding: ${props => props.theme.spacingThird} ${props => props.theme.spacingHalf};
+  @media (max-width: ${MOBILE}) {
+    font-family: ${(props) => props.theme.headingFont};
+    font-size: ${(props) => props.theme.headingFontSizeLarge};
+    margin-left: ${(props) => props.theme.spacingDouble};
+    padding: ${(props) => props.theme.spacingThird}
+      ${(props) => props.theme.spacingHalf};
   }
 `;
 
@@ -172,31 +177,26 @@ interface NavLinkProps {
   icon: FunctionComponent<SVGProps<SVGSVGElement>>;
   path: string;
   to: string;
-};
+}
 
 const NavLink: FunctionComponent<NavLinkProps> = ({
   children,
   background: Background,
   icon: Icon,
   path,
-  to
+  to,
 }) => {
   const selectedClass = getLinkClassName(path, to);
   return (
     <StyledLink to={to} className={selectedClass}>
       <Background className={`navigation ${selectedClass}`} />
       <Icon className={`navigation-icon ${selectedClass}`} />
-      <Text className={`navigation-text ${selectedClass}`}>
-        {children}
-      </Text>
+      <Text className={`navigation-text ${selectedClass}`}>{children}</Text>
     </StyledLink>
   );
 };
 
-const getLinkClassName = (path: string, to: string): string => (
-  path === to
-    ? 'navigation-selected'
-    : 'navigation-unselected'
-);
+const getLinkClassName = (path: string, to: string): string =>
+  path === to ? 'navigation-selected' : 'navigation-unselected';
 
 export default NavLink;

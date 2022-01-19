@@ -12,6 +12,7 @@ import ShareEmailIcon from '../images/share-email.svg';
 import SnapAnimation from './SnapAnimation';
 import { Menu, MenuItem, MenuItemIcon } from './Menu';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
+import { MOBILE } from '../constants';
 
 const StyledSnapAnimation = styled(SnapAnimation)`
   transform: scale(1.15);
@@ -26,7 +27,7 @@ const StyledShareIcon = styled(ShareIcon)`
 `;
 
 const Container = styled.section`
-  @media (min-width: ${(props) => props.theme.mobile}) {
+  @media (min-width: ${MOBILE}) {
     display: none;
   }
 `;

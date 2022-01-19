@@ -14,6 +14,7 @@ import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
 import HeadingQuery from '../types/HeadingQuery';
+import { MOBILE } from '../constants';
 
 const Toc = styled.section`
   font-family: ${(props) => props.theme.smallFont};
@@ -31,7 +32,7 @@ const TocTitle = styled.h2`
     display: none;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     position: relative;
     margin-top: -0.25em !important;
   }
@@ -48,7 +49,7 @@ const TocItem = styled.li`
 
 const TocItemLink = styled(AnchorLink)`
   ${(props) => props.active && `text-decoration: underline`};
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     text-decoration: underline;
   }
 `;

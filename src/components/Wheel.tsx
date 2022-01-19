@@ -27,6 +27,7 @@ import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 import { ShareType } from '../types/AllSharesQuery';
+import { MOBILE, WIDE } from '../constants';
 
 export const WHEEL_SIZE = 76;
 
@@ -85,12 +86,12 @@ const Wheelhouse = styled.aside`
   transition: opacity ${(props) => props.theme.animationFast} ease-out,
     transform ${(props) => props.theme.animationSlow} ease-out;
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     opacity: 0;
     transform: translateY(1.5em);
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;

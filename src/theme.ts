@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import { createGlobalStyle } from 'styled-components';
-import { MOBILE } from './constants';
+import { MOBILE, WIDE, DESKTOP } from './constants';
 
 const unit = 30;
 
@@ -33,10 +33,7 @@ const spacing = {
   spacingMin: `${unit / 12}px`,
   cornerSmall: `${unit / 3}px`,
   margin: `11.25pt`,
-  wide: '1200px',
-  desktop: '1080px',
   column: '950px',
-  mobile: MOBILE,
 };
 
 const typography = {
@@ -184,7 +181,7 @@ export const GlobalStyle = createGlobalStyle`
       props.theme.animationFast} ease-out;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     body {
       margin-top: ${unit * 2.5}px;
     }
@@ -246,7 +243,7 @@ export const GlobalStyle = createGlobalStyle`
       text-align: right;
     }
 
-    @media(max-width: ${(props) => props.theme.desktop}) {
+    @media(max-width: ${DESKTOP}) {
       font-size: ${(props) => props.theme.headingFontSizeSmaller};
 
       &:before, &:after {

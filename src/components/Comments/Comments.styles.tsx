@@ -3,6 +3,7 @@ import CommentMarkerIcon from '../../images/comment-marker.svg';
 import { RULER_ENDMARK_WIDTH } from '../Ruler';
 import { AVATAR_SIZE } from '../Avatar';
 import Error from '../Error';
+import { MOBILE } from '../../constants';
 
 const COMMENT_SCALE_BREAKPOINT = '1160px';
 const VOTE_SLOT_WIDTH = 12;
@@ -64,7 +65,7 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
     line-height: ${(props) => props.theme.smallFontLineHeight};
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     max-width: initial;
     margin-right: 0.25em;
     margin-top: 0;
@@ -91,7 +92,7 @@ const CommentsScaleDate = styled.div`
     padding-left: calc(100% - 2.5em);
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -132,7 +133,7 @@ export const DateMarker = styled.div<{ offset: number; show: boolean }>`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -150,7 +151,7 @@ export const DateMarkerLabel = styled.div`
     display: none;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -192,7 +193,7 @@ export const CommentsList = styled.ul`
       ${(props) => getLineColor(props)};
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
@@ -285,7 +286,7 @@ export const Comment = styled.li`
     display: none;
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     padding-left: calc(
       ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${AVATAR_SIZE}px +
         ${AVATAR_TILE_OFFSET}px + 1em
@@ -326,7 +327,7 @@ export const CommentAvatar = styled.div`
   transform-style: preserve-3d;
   backface-visibility: hidden;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     left: calc(
       ${(props) =>
         `${
@@ -346,7 +347,7 @@ export const CommentVotesScale = styled.div`
 
   transition: right 0.1s ease-out;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -391,7 +392,7 @@ const VoteButton = styled.button.attrs(() => ({
     stroke: ${(props) => props.theme.primaryColor};
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -442,7 +443,7 @@ export const CommentDate = styled.span`
   );
   width: 8em;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -500,7 +501,7 @@ export const CommentButton = styled.button.attrs(() => ({
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     opacity: 1;
   }
 `;
@@ -562,7 +563,7 @@ export const EditCommentButtonGroup = styled.div`
   left: calc(100% + ${(props) => props.theme.spacingDouble});
   top: 0;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     position: initial;
     left: initial;
     top: initial;
@@ -616,7 +617,7 @@ export const AddCommentForm = styled.form`
       props.count
     )}px;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     margin-left: 0;
   }
 `;
@@ -631,7 +632,7 @@ export const AddCommentRow = styled.div`
   justify-content: ${(props) =>
     props.align === 'right' ? 'flex-end' : 'flex-start'};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     width: calc(100% - ${(props) => props.theme.spacingHalf});
     ${(props) => props.distribute && 'justify-content: space-between'};
   }
@@ -643,7 +644,7 @@ export const AddCommentAvatar = styled.div`
     ${(props) => props.theme.spacing} + ${(props) => props.theme.border} * 2
   );
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     display: none;
   }
 `;
@@ -674,7 +675,7 @@ export const AddCommentInput = styled.textarea`
       ${(props) => props.theme.spacingQuarter} + ${AVATAR_SIZE}px
   );
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     margin-left: ${(props) => props.theme.spacingHalf};
   }
 `;

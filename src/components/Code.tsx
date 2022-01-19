@@ -21,6 +21,7 @@ import { RULER_ENDMARK_WIDTH } from './Ruler';
 import CopyIcon from '../images/copy.svg';
 import LightIcon from '../images/light.svg';
 import DarkIcon from '../images/dark.svg';
+import { MOBILE, WIDE } from '../constants';
 
 const DARK_MODE_OVERRIDE = 'darkCode';
 
@@ -38,7 +39,7 @@ const CodeToolbar = styled.div`
       ? `${props.theme.dropShadowDarkColor}D0`
       : `${props.theme.accentLightColor}D0`};
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     left: 0;
     right: 0;
     padding-right: ${(props) => props.theme.spacingQuarter};
@@ -62,7 +63,7 @@ const ToolButton = styled.button`
   opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     opacity: 1;
   }
 `;
@@ -159,13 +160,13 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
     }
   }
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     &:after {
       display: none;
     }
   }
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     margin-right: ${(props) => props.theme.spacingHalf};
     margin-left: ${(props) => props.theme.spacingHalf};
     padding-right: initial;
@@ -179,7 +180,7 @@ const Pre = styled.pre`
   overflow-x: auto;
   background: none;
 
-  @media (max-width: ${(props) => props.theme.mobile}) {
+  @media (max-width: ${MOBILE}) {
     padding-top: calc(
       ${(props) => props.theme.spacing} +
         ${(props) => props.theme.spacingQuarter}

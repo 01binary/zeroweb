@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 import styled from 'styled-components';
+import { WIDE } from '../constants';
 
 export const MARKER_SIZE = 36;
 
@@ -21,7 +22,7 @@ export const RulerMarker = styled.span`
   width: ${MARKER_SIZE}px;
   height: ${MARKER_SIZE}px;
 
-  @media (max-width: ${(props) => props.theme.wide}) {
+  @media (max-width: ${WIDE}) {
     right: 3em;
   }
 `;

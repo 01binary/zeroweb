@@ -373,7 +373,7 @@ export type PaginationProps = {
   nextPagePath: string;
 };
 
-const Strip = styled.div`
+const Strip = styled.footer`
   margin-top: ${(props) => props.theme.spacing};
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};

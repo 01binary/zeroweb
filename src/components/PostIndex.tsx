@@ -20,7 +20,15 @@ import { AllPostsQuery } from '../types/AllPostsQuery';
 import { Pagination, PaginationProps } from './Pagination';
 
 const Container = styled.main`
-  padding-bottom: ${(props) => props.theme.spacing};
+  padding-bottom: calc(
+    max(env(safe-area-inset-bottom), ${(props) => props.theme.spacingTriple})
+  );
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    padding-bottom: calc(
+      max(env(safe-area-inset-bottom), ${(props) => props.theme.spacing})
+    );
+  }
 `;
 
 type IndexQuery = {

@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useMemo } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
 import { useCommentsContext } from '../hooks/useComments';
@@ -68,6 +68,12 @@ const Text = styled.p`
     padding: ${(props) => props.theme.spacingQuarter};
   }
 
+  mark {
+    background-color: ${(props) => props.theme.secondaryColor};
+    color: ${(props) => props.theme.backgroundColor};
+    padding: 4px 1px;
+  }
+
   @media (max-width: ${WIDE}) {
     &:after {
       display: none;
@@ -109,25 +115,73 @@ const InlineCommentButton = styled.button`
   }
 `;
 
-const getHash = (children: any): string =>
-  typeof children === 'string'
-    ? `p${stringHash(children.toString())}`
-    : 'p-unknown';
+const getText = (children: any): string => {
+  if (typeof children === 'string') {
+    return children;
+  } else if (Array.isArray(children)) {
+    return children
+      .map((el) => {
+        if (typeof el === 'string') {
+          return el;
+        } else {
+          return '';
+        }
+      })
+      .join('');
+  } else {
+    return '';
+  }
+};
 
-const Paragraph: FC = (props) => {
-  const { comments: responses, showTipFor, hideTip } = useCommentsContext();
+const getHash = (text: string): string => `p${stringHash(text)}`;
+
+const markText = (text: string, start: number, end: number) => {
+  if (!text || start < 0 || end >= text.length)
+    return {
+      __html: `<mark>${text}</mark>`,
+    };
+
+  const before = text.slice(0, start);
+  const highlight = text.slice(start, end + 1);
+  const after = text.slice(end + 1);
+
+  return {
+    __html: `${before}<mark>${highlight}</mark>${after}`,
+  };
+};
+
+const Paragraph: FC = ({ children }) => {
   const commentButtonRef = useRef<HTMLElement>(null);
-  const hash = getHash(props.children);
-  const relevant = responses?.filter(({ paragraph }) => paragraph === hash);
+  const { comments: reactions, showTipFor, hideTip } = useCommentsContext();
+  const text = useMemo(() => getText(children), [children]);
+  const hash = getHash(text);
+  const relevant = reactions?.filter(({ paragraph }) => paragraph === hash);
   const highlights = relevant?.filter(({ rangeLength }) => rangeLength);
   const comments = relevant?.filter(({ markdown }) => markdown);
   const displayHighlight = Boolean(highlights?.length && !comments?.length);
   const displayComment = Boolean(comments?.length);
   const displayMarker = displayComment || displayHighlight;
+  const displayMark = Boolean(text.length && highlights?.length);
+
+  const { start, end } = useMemo(
+    () =>
+      (highlights ?? []).reduce(
+        ({ start, end }, { rangeStart, rangeLength }) => ({
+          start: Math.min(start, rangeStart),
+          end: Math.max(end, rangeStart + rangeLength - 1),
+        }),
+        { start: text.length - 1, end: 0 }
+      ),
+    [highlights, text]
+  );
 
   return (
     <Text id={hash}>
-      {props.children}
+      {displayMark ? (
+        <span dangerouslySetInnerHTML={markText(text, start, end)} />
+      ) : (
+        children
+      )}
 
       <InlineCommentButton
         ref={commentButtonRef}

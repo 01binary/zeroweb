@@ -10,12 +10,12 @@ import { CommentReactionDescription } from './Comments.styles';
 const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
   const [reaction, setReaction] = useState<string>(null);
   return (
-    <Menu vertical>
+    <Menu>
       <CommentReactionDescription>
         {reaction}
         {!reaction && 'choose a reaction'}
       </CommentReactionDescription>
-      <Menu>
+      <Menu horizontal>
         <MenuItem
           id="snap"
           onMouseOver={() => setReaction('snap!')}

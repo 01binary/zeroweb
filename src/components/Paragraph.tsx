@@ -9,13 +9,13 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useRef, useMemo } from 'react';
+import React, { FC, useRef, useMemo, useCallback, useState } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
 import { useCommentsContext } from '../hooks/useComments';
 import { RulerMarker, RulerMarkerBadge } from './RulerMarker';
-import RulerHighlightIcon from '../images/ruler-highlight.svg';
-import RulerCommentIcon from '../images/ruler-comment.svg';
+import RulerHighlightIcon from '../images/highlight.svg';
+import RulerCommentIcon from '../images/comment.svg';
 import AddCommentIcon from '../images/add-comment.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
 import { MOBILE, WIDE } from '../constants';
@@ -66,12 +66,14 @@ const Text = styled.p`
         ? props.theme.dropShadowDarkColor
         : props.theme.accentLightColor};
     padding: ${(props) => props.theme.spacingQuarter};
+    pointer-events: none;
   }
 
   mark {
     background-color: ${(props) => props.theme.secondaryColor};
     color: ${(props) => props.theme.backgroundColor};
-    padding: 4px 1px;
+    padding: 4px 0;
+    pointer-events: none;
   }
 
   @media (max-width: ${WIDE}) {
@@ -135,24 +137,58 @@ const getText = (children: any): string => {
 
 const getHash = (text: string): string => `p${stringHash(text)}`;
 
-const markText = (text: string, start: number, end: number) => {
-  if (!text || start < 0 || end >= text.length)
-    return {
-      __html: `<mark>${text}</mark>`,
-    };
-
-  const before = text.slice(0, start);
-  const highlight = text.slice(start, end + 1);
-  const after = text.slice(end + 1);
-
-  return {
-    __html: `${before}<mark>${highlight}</mark>${after}`,
-  };
+type TextSelection = {
+  start: number;
+  end: number;
 };
+
+type MarkedTextProps = {
+  text: string;
+  selection?: TextSelection;
+  start?: number;
+  end?: number;
+};
+
+const MarkedText = React.forwardRef<HTMLElement, MarkedTextProps>(
+  ({ text, selection, start, end }, ref) => {
+    const startSel = selection ? selection.start : start;
+    const endSel = selection ? selection.end : end;
+
+    if (
+      !text ||
+      startSel === undefined ||
+      endSel === undefined ||
+      startSel < 0 ||
+      endSel >= text.length
+    )
+      return <mark ref={ref}>{text}</mark>;
+
+    const before = text.slice(0, startSel);
+    const highlight = text.slice(startSel, endSel + 1);
+    const after = text.slice(endSel + 1);
+
+    return (
+      <span>
+        {before}
+        <mark ref={ref}>{highlight}</mark>
+        {after}
+      </span>
+    );
+  }
+);
 
 const Paragraph: FC = ({ children }) => {
   const commentButtonRef = useRef<HTMLElement>(null);
-  const { comments: reactions, showTipFor, hideTip } = useCommentsContext();
+  const paragraphRef = useRef<HTMLElement>(null);
+  const selectionRef = useRef<HTMLElement>(null);
+  const {
+    comments: reactions,
+    showTipFor,
+    hideTip,
+    showParagraphMenu,
+    hideParagraphMenu,
+  } = useCommentsContext();
+  const [selection, setSelection] = useState<TextSelection>(null);
   const text = useMemo(() => getText(children), [children]);
   const hash = getHash(text);
   const relevant = reactions?.filter(({ paragraph }) => paragraph === hash);
@@ -161,7 +197,7 @@ const Paragraph: FC = ({ children }) => {
   const displayHighlight = Boolean(highlights?.length && !comments?.length);
   const displayComment = Boolean(comments?.length);
   const displayMarker = displayComment || displayHighlight;
-  const displayMark = Boolean(text.length && highlights?.length);
+  const displayMark = Boolean(text.length && (highlights?.length || selection));
 
   const { start, end } = useMemo(
     () =>
@@ -175,10 +211,40 @@ const Paragraph: FC = ({ children }) => {
     [highlights, text]
   );
 
+  const handleShowParagraphMarkMenu = useCallback(() => {
+    if (selectionRef.current === null)
+      setTimeout(handleShowParagraphMarkMenu, 100);
+    else showParagraphMenu(null, selectionRef);
+  }, [showParagraphMenu]);
+
+  const handleShowParagraphMenu = useCallback(
+    (e: MouseEvent) => {
+      selectionRef.current = null;
+      setSelection(null);
+      hideParagraphMenu();
+
+      const { type, anchorOffset, extentOffset } = window.getSelection();
+
+      if (e.button || type !== 'Range' || !anchorOffset || !extentOffset)
+        return;
+
+      e.preventDefault();
+      setSelection({ start: anchorOffset, end: extentOffset });
+      handleShowParagraphMarkMenu();
+    },
+    [showParagraphMenu, hideParagraphMenu]
+  );
+
   return (
-    <Text id={hash}>
+    <Text id={hash} ref={paragraphRef} onMouseUp={handleShowParagraphMenu}>
       {displayMark ? (
-        <span dangerouslySetInnerHTML={markText(text, start, end)} />
+        <MarkedText
+          text={text}
+          selection={selection}
+          start={start}
+          end={end}
+          ref={selectionRef}
+        />
       ) : (
         children
       )}

@@ -696,13 +696,7 @@ const Comments: FC<CommentsProps> = ({
           </CommentsEndDate>
         </>
       )}
-      <ContextMenu
-        ref={menuRef}
-        className={
-          selectedComment ? 'comment-menu--open' : 'comment-menu--closed'
-        }
-        {...menuProps}
-      >
+      <ContextMenu ref={menuRef} {...menuProps}>
         {menuId === 'reaction' && (
           <ReactionMenu onSelect={handleReactToComment} />
         )}

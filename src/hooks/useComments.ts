@@ -26,12 +26,16 @@ type CommentsContextProps = {
   comments: CommentQuery[] | null;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
+  showParagraphMenu: ShowTipForHandler;
+  hideParagraphMenu: HideTipHandler;
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
   comments: null,
   showTipFor: () => {},
   hideTip: () => {},
+  showParagraphMenu: () => {},
+  hideParagraphMenu: () => {},
 });
 
 export const useCommentsContext: () => CommentsContextProps = () =>

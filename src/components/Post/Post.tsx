@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useCallback } from 'react';
+import React, { useState, FC, useCallback, useEffect } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
@@ -17,6 +17,7 @@ import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
+import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
 import Wheel from '../Wheel';
 import { Ruler } from '../Ruler';
 import TagList from '../TagList';
@@ -57,6 +58,7 @@ import {
 } from '../../utils';
 import { useTooltip } from '../../hooks/useTooltip';
 import { Arrow, Tooltip } from '../Tooltip';
+import ParagraphMenu from './ParagraphMenu';
 
 const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 
@@ -104,6 +106,17 @@ const Post: FC<PostProps> = ({
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 5,
     placement: 'top',
+  });
+
+  const {
+    hideTip: hideParagraphMenu,
+    showTipFor: showParagraphMenu,
+    tipProps: paragraphMenuProps,
+    tipRef: paragraphMenuRef,
+  } = useTooltip({
+    placement: 'top-start',
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6,
   });
 
   const { user } = useBlogData();
@@ -172,6 +185,13 @@ const Post: FC<PostProps> = ({
     },
     [handleAddShare]
   );
+
+  useEffect(() => {
+    document.body.addEventListener('mouseDown', hideParagraphMenu);
+    return () => {
+      document.body.removeEventListener('mouseDown', hideParagraphMenu);
+    };
+  });
 
   return (
     <MDXProvider
@@ -254,21 +274,27 @@ const Post: FC<PostProps> = ({
 
         <HeroImage fluid={fluid} />
 
-        <Tooltip ref={tipRef} {...tipProps}>
-          comment
-          <Arrow />
-        </Tooltip>
-
         <Content role="document">
           <CommentsContext.Provider
             value={{
               comments,
               showTipFor,
               hideTip,
+              showParagraphMenu,
+              hideParagraphMenu,
             }}
           >
             <MDXRenderer>{body}</MDXRenderer>
           </CommentsContext.Provider>
+
+          <ContextMenu ref={paragraphMenuRef} {...paragraphMenuProps}>
+            <ParagraphMenu onSelect={() => {}} />
+          </ContextMenu>
+
+          <Tooltip ref={tipRef} {...tipProps}>
+            comment
+            <Arrow />
+          </Tooltip>
         </Content>
 
         <Reactions

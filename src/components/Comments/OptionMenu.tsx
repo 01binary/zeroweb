@@ -4,7 +4,7 @@ import EditIcon from '../../images/edit.svg';
 import DeleteIcon from '../../images/delete.svg';
 
 const OptionMenu: FC<MenuProps> = ({ onSelect }) => (
-  <Menu vertical>
+  <Menu>
     <MenuItem id="editComment" onClick={onSelect}>
       <MenuItemIcon>
         <EditIcon />

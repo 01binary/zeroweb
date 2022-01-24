@@ -28,6 +28,8 @@ type CommentsContextProps = {
   hideTip: HideTipHandler;
   showParagraphMenu: ShowTipForHandler;
   hideParagraphMenu: HideTipHandler;
+  setHighlightedParagraph: (id: string) => void;
+  highlightedParagraph: string | null;
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
@@ -36,6 +38,8 @@ export const CommentsContext = createContext<CommentsContextProps>({
   hideTip: () => {},
   showParagraphMenu: () => {},
   hideParagraphMenu: () => {},
+  highlightedParagraph: null,
+  setHighlightedParagraph: () => {},
 });
 
 export const useCommentsContext: () => CommentsContextProps = () =>

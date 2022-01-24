@@ -9,7 +9,14 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useRef, useMemo, useCallback, useState } from 'react';
+import React, {
+  FC,
+  useRef,
+  useMemo,
+  useCallback,
+  useState,
+  useEffect,
+} from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
 import { useCommentsContext } from '../hooks/useComments';
@@ -149,10 +156,15 @@ type MarkedTextProps = {
   end?: number;
 };
 
+const NoSelect = styled.span`
+  user-select: none;
+`;
+
 const MarkedText = React.forwardRef<HTMLElement, MarkedTextProps>(
   ({ text, selection, start, end }, ref) => {
     const startSel = selection ? selection.start : start;
     const endSel = selection ? selection.end : end;
+    const Wrapper = selection ? NoSelect : 'span';
 
     if (
       !text ||
@@ -161,18 +173,22 @@ const MarkedText = React.forwardRef<HTMLElement, MarkedTextProps>(
       startSel < 0 ||
       endSel >= text.length
     )
-      return <mark ref={ref}>{text}</mark>;
+      return (
+        <Wrapper>
+          <mark ref={ref}>{text}</mark>
+        </Wrapper>
+      );
 
     const before = text.slice(0, startSel);
     const highlight = text.slice(startSel, endSel + 1);
     const after = text.slice(endSel + 1);
 
     return (
-      <span>
+      <Wrapper>
         {before}
         <mark ref={ref}>{highlight}</mark>
         {after}
-      </span>
+      </Wrapper>
     );
   }
 );
@@ -187,6 +203,8 @@ const Paragraph: FC = ({ children }) => {
     hideTip,
     showParagraphMenu,
     hideParagraphMenu,
+    highlightedParagraph,
+    setHighlightedParagraph,
   } = useCommentsContext();
   const [selection, setSelection] = useState<TextSelection>(null);
   const text = useMemo(() => getText(children), [children]);
@@ -198,7 +216,6 @@ const Paragraph: FC = ({ children }) => {
   const displayComment = Boolean(comments?.length);
   const displayMarker = displayComment || displayHighlight;
   const displayMark = Boolean(text.length && (highlights?.length || selection));
-
   const { start, end } = useMemo(
     () =>
       (highlights ?? []).reduce(
@@ -211,32 +228,48 @@ const Paragraph: FC = ({ children }) => {
     [highlights, text]
   );
 
-  const handleShowParagraphMarkMenu = useCallback(() => {
-    if (selectionRef.current === null)
-      setTimeout(handleShowParagraphMarkMenu, 100);
-    else showParagraphMenu(null, selectionRef);
-  }, [showParagraphMenu]);
-
-  const handleShowParagraphMenu = useCallback(
-    (e: MouseEvent) => {
-      selectionRef.current = null;
-      setSelection(null);
-      hideParagraphMenu();
-
-      const { type, anchorOffset, extentOffset } = window.getSelection();
-
-      if (e.button || type !== 'Range' || !anchorOffset || !extentOffset)
-        return;
+  const handleHighlight = useCallback(
+    (e) => {
+      if (e.button || window.getSelection().type !== 'Range') {
+        setHighlightedParagraph(null);
+        setSelection(null);
+      }
 
       e.preventDefault();
-      setSelection({ start: anchorOffset, end: extentOffset });
-      handleShowParagraphMarkMenu();
+
+      if (highlightedParagraph === hash) {
+        setSelection(null);
+        setHighlightedParagraph(null);
+      } else {
+        setHighlightedParagraph(hash);
+      }
     },
-    [showParagraphMenu, hideParagraphMenu]
+    [selection, highlightedParagraph, setSelection, setHighlightedParagraph]
   );
 
+  useEffect(() => {
+    if (highlightedParagraph !== hash) {
+      // Clear highlight when another paragraph was highlighted
+      setSelection(null);
+    } else {
+      // Set highlight when this paragraph was highlighted')
+      const { anchorOffset, extentOffset } = window.getSelection();
+      if (anchorOffset && extentOffset && anchorOffset !== extentOffset)
+        setSelection({ start: anchorOffset, end: extentOffset });
+    }
+  }, [highlightedParagraph, setSelection, setHighlightedParagraph]);
+
+  useEffect(() => {
+    // Toggle highlight menu
+    if (!selection && !highlightedParagraph) {
+      hideParagraphMenu();
+    } else {
+      showParagraphMenu(null, selectionRef);
+    }
+  }, [selection, highlightedParagraph, showParagraphMenu, hideParagraphMenu]);
+
   return (
-    <Text id={hash} ref={paragraphRef} onMouseUp={handleShowParagraphMenu}>
+    <Text id={hash} ref={paragraphRef} onMouseUp={handleHighlight}>
       {displayMark ? (
         <MarkedText
           text={text}

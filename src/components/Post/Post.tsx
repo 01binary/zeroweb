@@ -137,6 +137,10 @@ const Post: FC<PostProps> = ({
     handleAddShare,
   } = useUserContent(slug);
 
+  const [highlightedParagraph, setHighlightedParagraph] = useState<
+    string | null
+  >(null);
+
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
   const handleSnap = useCallback(() => {
@@ -186,12 +190,18 @@ const Post: FC<PostProps> = ({
     [handleAddShare]
   );
 
-  useEffect(() => {
-    document.body.addEventListener('mouseDown', hideParagraphMenu);
+  const handleClearHighlight = useCallback(() => {
+    setHighlightedParagraph(null);
+  }, [setHighlightedParagraph]);
+
+  /*useEffect(() => {
+    // Clear highlight when another body element was clicked
+    console.log('removing highlight because clicked body');
+    document.body.addEventListener('mouseDown', handleClearHighlight);
     return () => {
-      document.body.removeEventListener('mouseDown', hideParagraphMenu);
+      document.body.removeEventListener('mouseDown', handleClearHighlight);
     };
-  });
+  }, [handleClearHighlight]);*/
 
   return (
     <MDXProvider
@@ -282,6 +292,8 @@ const Post: FC<PostProps> = ({
               hideTip,
               showParagraphMenu,
               hideParagraphMenu,
+              highlightedParagraph,
+              setHighlightedParagraph,
             }}
           >
             <MDXRenderer>{body}</MDXRenderer>

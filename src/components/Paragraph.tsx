@@ -269,10 +269,7 @@ const Paragraph: FC = ({ children }) => {
 
   const handleHighlight = useCallback(
     (e) => {
-      if (
-        highlightedParagraph &&
-        (e.button > 0 || window.getSelection().type !== 'Range')
-      ) {
+      if (highlightedParagraph && window.getSelection().type !== 'Range') {
         setHighlightedParagraph(null);
         setHighlight(null);
         return;

@@ -166,11 +166,11 @@ const MarkedText = React.forwardRef<HTMLElement, MarkedTextProps>(
     const after = text.slice(end + 1);
 
     return (
-      <span>
+      <>
         {before}
         <mark ref={ref}>{highlight}</mark>
         {after}
-      </span>
+      </>
     );
   }
 );
@@ -302,6 +302,8 @@ const Paragraph: FC = ({ children }) => {
     if (highlightedParagraph === hash && highlight) {
       showParagraphMenu(null, selectionRef);
     } else if (lastHighlight === hash && !highlight) {
+      hideParagraphMenu();
+    } else if (highlightedParagraph === null) {
       hideParagraphMenu();
     }
 

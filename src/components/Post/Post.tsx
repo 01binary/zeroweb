@@ -192,7 +192,16 @@ const Post: FC<PostProps> = ({
 
   const handleClearHighlight = useCallback(
     (e) => {
-      if (!highlightedParagraph || highlightedParagraph === e.target.id) return;
+      if (!highlightedParagraph || e.target.id?.startsWith('p')) return;
+
+      console.log(
+        'setting highlight p to null after click on',
+        e.target,
+        'because highlightedParagraph',
+        highlightedParagraph,
+        'or target id starts with p',
+        e.target.id?.startsWith('p')
+      );
       setHighlightedParagraph(null);
     },
     [highlightedParagraph, setHighlightedParagraph]

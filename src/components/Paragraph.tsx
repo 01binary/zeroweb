@@ -144,59 +144,63 @@ const getText = (children: any): string => {
 
 const getHash = (text: string): string => `p${stringHash(text)}`;
 
-type TextSelection = {
-  start: number;
-  end: number;
-};
-
 type MarkedTextProps = {
   text: string;
-  selection?: TextSelection;
   start?: number;
   end?: number;
 };
 
-const NoSelect = styled.span`
-  user-select: none;
-`;
-
 const MarkedText = React.forwardRef<HTMLElement, MarkedTextProps>(
-  ({ text, selection, start, end }, ref) => {
-    const startSel = selection ? selection.start : start;
-    const endSel = selection ? selection.end : end;
-    const Wrapper = selection ? NoSelect : 'span';
-
+  ({ text, start, end }, ref) => {
     if (
       !text ||
-      startSel === undefined ||
-      endSel === undefined ||
-      startSel < 0 ||
-      endSel >= text.length
+      start === undefined ||
+      end === undefined ||
+      start < 0 ||
+      end >= text.length
     )
-      return (
-        <Wrapper>
-          <mark ref={ref}>{text}</mark>
-        </Wrapper>
-      );
+      return <mark ref={ref}>{text}</mark>;
 
-    const before = text.slice(0, startSel);
-    const highlight = text.slice(startSel, endSel + 1);
-    const after = text.slice(endSel + 1);
+    const before = text.slice(0, start);
+    const highlight = text.slice(start, end + 1);
+    const after = text.slice(end + 1);
 
     return (
-      <Wrapper>
+      <span>
         {before}
         <mark ref={ref}>{highlight}</mark>
         {after}
-      </Wrapper>
+      </span>
     );
   }
 );
+
+type TrackHighlight = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  start: number;
+  length: number;
+};
+
+const Selection = styled.span<TrackHighlight>`
+  display: block;
+  position: absolute;
+  left: ${(props) => props.left}px;
+  top: ${(props) => props.top}px;
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
+  background: none;
+  pointer-events: none;
+`;
 
 const Paragraph: FC = ({ children }) => {
   const commentButtonRef = useRef<HTMLElement>(null);
   const paragraphRef = useRef<HTMLElement>(null);
   const selectionRef = useRef<HTMLElement>(null);
+  const [highlight, setHighlight] = useState<TrackHighlight | null>(null);
+  const [lastHighlight, setLastHighlight] = useState<string | null>(null);
   const {
     comments: reactions,
     showTipFor,
@@ -206,7 +210,6 @@ const Paragraph: FC = ({ children }) => {
     highlightedParagraph,
     setHighlightedParagraph,
   } = useCommentsContext();
-  const [selection, setSelection] = useState<TextSelection>(null);
   const text = useMemo(() => getText(children), [children]);
   const hash = getHash(text);
   const relevant = reactions?.filter(({ paragraph }) => paragraph === hash);
@@ -215,7 +218,8 @@ const Paragraph: FC = ({ children }) => {
   const displayHighlight = Boolean(highlights?.length && !comments?.length);
   const displayComment = Boolean(comments?.length);
   const displayMarker = displayComment || displayHighlight;
-  const displayMark = Boolean(text.length && (highlights?.length || selection));
+  const displayMark = Boolean(text.length && highlights?.length);
+
   const { start, end } = useMemo(
     () =>
       (highlights ?? []).reduce(
@@ -228,59 +232,92 @@ const Paragraph: FC = ({ children }) => {
     [highlights, text]
   );
 
+  const updateHighlight = useCallback(() => {
+    const selection = window.getSelection();
+    const { anchorOffset, extentOffset, rangeCount } = selection;
+
+    if (
+      rangeCount &&
+      extentOffset &&
+      anchorOffset !== extentOffset &&
+      paragraphRef.current
+    ) {
+      const {
+        left: parentLeft,
+        top: parentTop,
+      } = paragraphRef.current.getBoundingClientRect();
+
+      const {
+        left: selLeft,
+        top: selTop,
+        width,
+        height,
+      } = selection.getRangeAt(0).getBoundingClientRect();
+
+      const track = {
+        left: selLeft - parentLeft,
+        top: selTop - parentTop,
+        width,
+        height,
+        start: anchorOffset,
+        length: extentOffset - anchorOffset,
+      };
+
+      setHighlight(track);
+    }
+  }, [setHighlight]);
+
   const handleHighlight = useCallback(
     (e) => {
-      if (e.button || window.getSelection().type !== 'Range') {
+      // Highlight paragraph
+      if (
+        highlightedParagraph &&
+        (e.button > 0 || window.getSelection().type !== 'Range')
+      ) {
         setHighlightedParagraph(null);
-        setSelection(null);
+        setHighlight(null);
+        return;
       }
 
       e.preventDefault();
 
-      if (highlightedParagraph === hash) {
-        setSelection(null);
-        setHighlightedParagraph(null);
-      } else {
+      if (highlightedParagraph !== hash) {
+        updateHighlight();
         setHighlightedParagraph(hash);
+      } else if (highlight) {
+        updateHighlight();
       }
     },
-    [selection, highlightedParagraph, setSelection, setHighlightedParagraph]
+    [highlightedParagraph, setHighlightedParagraph]
   );
 
   useEffect(() => {
-    if (highlightedParagraph !== hash) {
-      // Clear highlight when another paragraph was highlighted
-      setSelection(null);
-    } else {
-      // Set highlight when this paragraph was highlighted')
-      const { anchorOffset, extentOffset } = window.getSelection();
-      if (anchorOffset && extentOffset && anchorOffset !== extentOffset)
-        setSelection({ start: anchorOffset, end: extentOffset });
-    }
-  }, [highlightedParagraph, setSelection, setHighlightedParagraph]);
+    // Clear highlight when another paragraph was highlighted
+    if (highlightedParagraph !== hash) setHighlight(null);
+  }, [highlightedParagraph, setHighlight, setHighlightedParagraph]);
 
   useEffect(() => {
-    // Toggle highlight menu
-    if (!selection && !highlightedParagraph) {
-      hideParagraphMenu();
-    } else {
+    // Toggle paragraph menu
+    if (highlightedParagraph === lastHighlight) return;
+
+    if (highlightedParagraph === hash && highlight) {
       showParagraphMenu(null, selectionRef);
+    } else if (lastHighlight === hash && !highlightedParagraph && !highlight) {
+      hideParagraphMenu();
     }
-  }, [selection, highlightedParagraph, showParagraphMenu, hideParagraphMenu]);
+
+    setLastHighlight(highlightedParagraph);
+  }, [highlightedParagraph, showParagraphMenu, hideParagraphMenu]);
 
   return (
     <Text id={hash} ref={paragraphRef} onMouseUp={handleHighlight}>
       {displayMark ? (
-        <MarkedText
-          text={text}
-          selection={selection}
-          start={start}
-          end={end}
-          ref={selectionRef}
-        />
+        <MarkedText text={text} start={start} end={end} />
       ) : (
         children
       )}
+
+      {highlight && <Selection ref={selectionRef} {...highlight} />}
 
       <InlineCommentButton
         ref={commentButtonRef}

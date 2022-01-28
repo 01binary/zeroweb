@@ -190,18 +190,21 @@ const Post: FC<PostProps> = ({
     [handleAddShare]
   );
 
-  const handleClearHighlight = useCallback(() => {
-    setHighlightedParagraph(null);
-  }, [setHighlightedParagraph]);
+  const handleClearHighlight = useCallback(
+    (e) => {
+      if (!highlightedParagraph || highlightedParagraph === e.target.id) return;
+      setHighlightedParagraph(null);
+    },
+    [highlightedParagraph, setHighlightedParagraph]
+  );
 
-  /*useEffect(() => {
+  useEffect(() => {
     // Clear highlight when another body element was clicked
-    console.log('removing highlight because clicked body');
-    document.body.addEventListener('mouseDown', handleClearHighlight);
+    document.body.addEventListener('click', handleClearHighlight);
     return () => {
-      document.body.removeEventListener('mouseDown', handleClearHighlight);
+      document.body.removeEventListener('click', handleClearHighlight);
     };
-  }, [handleClearHighlight]);*/
+  }, [handleClearHighlight]);
 
   return (
     <MDXProvider

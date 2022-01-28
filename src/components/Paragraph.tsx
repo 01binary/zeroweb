@@ -269,7 +269,6 @@ const Paragraph: FC = ({ children }) => {
 
   const handleHighlight = useCallback(
     (e) => {
-      // Highlight paragraph
       if (
         highlightedParagraph &&
         (e.button > 0 || window.getSelection().type !== 'Range')
@@ -302,7 +301,7 @@ const Paragraph: FC = ({ children }) => {
 
     if (highlightedParagraph === hash && highlight) {
       showParagraphMenu(null, selectionRef);
-    } else if (lastHighlight === hash && !highlightedParagraph && !highlight) {
+    } else if (lastHighlight === hash && !highlight) {
       hideParagraphMenu();
     }
 

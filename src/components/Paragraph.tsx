@@ -234,37 +234,43 @@ const Paragraph: FC = ({ children }) => {
 
   const updateHighlight = useCallback(() => {
     const selection = window.getSelection();
-    const { anchorOffset, extentOffset, rangeCount } = selection;
+    if (selection.rangeCount !== 1 || !paragraphRef.current) return;
 
-    if (
-      rangeCount &&
-      extentOffset &&
-      anchorOffset !== extentOffset &&
-      paragraphRef.current
-    ) {
-      const {
-        left: parentLeft,
-        top: parentTop,
-      } = paragraphRef.current.getBoundingClientRect();
+    const {
+      startContainer,
+      startOffset,
+      endContainer,
+      endOffset,
+    } = selection.getRangeAt(0);
 
-      const {
-        left: selLeft,
-        top: selTop,
-        width,
-        height,
-      } = selection.getRangeAt(0).getBoundingClientRect();
+    const startText = startContainer.nodeValue;
+    const endText = endContainer.nodeValue;
+    const allText = paragraphRef.current.innerText;
+    const startIndex = allText.indexOf(startText);
+    const endIndex = allText.indexOf(endText);
+    if (startIndex < 0 || endIndex < 0) return;
 
-      const track = {
-        left: selLeft - parentLeft,
-        top: selTop - parentTop,
-        width,
-        height,
-        start: anchorOffset,
-        length: extentOffset - anchorOffset,
-      };
+    const start = startIndex + startOffset;
+    const end = endIndex + endOffset;
+    if (end <= start) return;
 
-      setHighlight(track);
-    }
+    const {
+      left: parentLeft,
+      top: parentTop,
+    } = paragraphRef.current.getBoundingClientRect();
+
+    const { left: selLeft, top: selTop, width, height } = selection
+      .getRangeAt(0)
+      .getBoundingClientRect();
+
+    setHighlight({
+      left: selLeft - parentLeft,
+      top: selTop - parentTop,
+      width,
+      height,
+      start,
+      length: end - start,
+    });
   }, [setHighlight]);
 
   const handleHighlight = useCallback(

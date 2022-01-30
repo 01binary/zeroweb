@@ -27,6 +27,42 @@ import AddCommentIcon from '../images/add-comment.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
 import { MOBILE, WIDE } from '../constants';
 
+const IGNORE_IDS = [
+  'paragraphSelectionAnchor',
+  'paragraphAddComment',
+  'paragraphMarker',
+];
+
+const getText = (children: any): string => {
+  if (typeof children === 'string') {
+    return children;
+  } else if (Array.isArray(children)) {
+    return children
+      .map((el) => {
+        if (typeof el === 'string') {
+          return el;
+        } else {
+          return '';
+        }
+      })
+      .join('');
+  } else {
+    return '';
+  }
+};
+
+const getHash = (text: string): string => `p${stringHash(text)}`;
+
+const contains = (parent: Node, child: Node): boolean => {
+  if (parent === child) return true;
+
+  for (let node of parent.childNodes) {
+    if (contains(node, child)) return true;
+  }
+
+  return false;
+};
+
 const Text = styled.p`
   position: relative;
 
@@ -124,33 +160,13 @@ const InlineCommentButton = styled.button`
   }
 `;
 
-const getText = (children: any): string => {
-  if (typeof children === 'string') {
-    return children;
-  } else if (Array.isArray(children)) {
-    return children
-      .map((el) => {
-        if (typeof el === 'string') {
-          return el;
-        } else {
-          return '';
-        }
-      })
-      .join('');
-  } else {
-    return '';
-  }
-};
-
-const getHash = (text: string): string => `p${stringHash(text)}`;
-
-type MarkedTextProps = {
+type HighlightProps = {
   text: string;
   start?: number;
   end?: number;
 };
 
-const MarkedText = React.forwardRef<HTMLElement, MarkedTextProps>(
+const Highlight = React.forwardRef<HTMLElement, HighlightProps>(
   ({ text, start, end }, ref) => {
     if (
       !text ||
@@ -175,7 +191,7 @@ const MarkedText = React.forwardRef<HTMLElement, MarkedTextProps>(
   }
 );
 
-type TrackHighlight = {
+type ParagraphSelection = {
   left: number;
   top: number;
   width: number;
@@ -184,7 +200,7 @@ type TrackHighlight = {
   length: number;
 };
 
-const Selection = styled.span<TrackHighlight>`
+const SelectionAnchor = styled.span<ParagraphSelection>`
   display: block;
   position: absolute;
   left: ${(props) => props.left}px;
@@ -199,7 +215,7 @@ const Paragraph: FC = ({ children }) => {
   const commentButtonRef = useRef<HTMLElement>(null);
   const paragraphRef = useRef<HTMLElement>(null);
   const selectionRef = useRef<HTMLElement>(null);
-  const [highlight, setHighlight] = useState<TrackHighlight | null>(null);
+  const [selection, setSelection] = useState<ParagraphSelection | null>(null);
   const [lastHighlight, setLastHighlight] = useState<string | null>(null);
   const {
     comments: reactions,
@@ -215,9 +231,11 @@ const Paragraph: FC = ({ children }) => {
   const relevant = reactions?.filter(({ paragraph }) => paragraph === hash);
   const highlights = relevant?.filter(({ rangeLength }) => rangeLength);
   const comments = relevant?.filter(({ markdown }) => markdown);
-  const displayHighlight = Boolean(highlights?.length && !comments?.length);
+  const displayHighlightMarker = Boolean(
+    highlights?.length && !comments?.length
+  );
   const displayComment = Boolean(comments?.length);
-  const displayMarker = displayComment || displayHighlight;
+  const displayMarker = displayComment || displayHighlightMarker;
   const displayMark = Boolean(text.length && highlights?.length);
 
   const { start, end } = useMemo(
@@ -232,7 +250,7 @@ const Paragraph: FC = ({ children }) => {
     [highlights, text]
   );
 
-  const updateHighlight = useCallback(() => {
+  const updateSelection = useCallback(() => {
     const selection = window.getSelection();
     if (selection.rangeCount !== 1 || !paragraphRef.current) return;
 
@@ -243,12 +261,30 @@ const Paragraph: FC = ({ children }) => {
       endOffset,
     } = selection.getRangeAt(0);
 
-    const startText = startContainer.nodeValue;
-    const endText = endContainer.nodeValue;
-    const allText = paragraphRef.current.innerText;
-    const startIndex = allText.indexOf(startText);
-    const endIndex = allText.indexOf(endText);
-    if (startIndex < 0 || endIndex < 0) return;
+    if (
+      !contains(paragraphRef.current, startContainer) ||
+      !contains(paragraphRef.current, endContainer)
+    )
+      return;
+
+    let pos = 0;
+    let startIndex = 0;
+    let endIndex = 0;
+
+    for (let node of paragraphRef.current.childNodes) {
+      if (contains(node, startContainer)) startIndex = pos;
+      if (contains(node, endContainer)) {
+        endIndex = pos;
+        break;
+      }
+
+      if (node.nodeType === 1) {
+        const el = node as HTMLElement;
+        if (IGNORE_IDS.indexOf(el.id) < 0) pos += el.innerText.length;
+      } else if (node.nodeType === 3) {
+        pos += node.nodeValue.length;
+      }
+    }
 
     const start = startIndex + startOffset;
     const end = endIndex + endOffset;
@@ -263,7 +299,7 @@ const Paragraph: FC = ({ children }) => {
       .getRangeAt(0)
       .getBoundingClientRect();
 
-    setHighlight({
+    setSelection({
       left: selLeft - parentLeft,
       top: selTop - parentTop,
       width,
@@ -271,42 +307,43 @@ const Paragraph: FC = ({ children }) => {
       start,
       length: end - start,
     });
-  }, [setHighlight]);
+  }, [setSelection]);
 
-  const handleHighlight = useCallback(
+  const handleSelection = useCallback(
     (e) => {
       if (highlightedParagraph && window.getSelection().type !== 'Range') {
         setHighlightedParagraph(null);
-        setHighlight(null);
+        setSelection(null);
         return;
       }
 
       e.preventDefault();
 
       if (highlightedParagraph !== hash) {
-        updateHighlight();
+        updateSelection();
         setHighlightedParagraph(hash);
-      } else if (highlight) {
-        updateHighlight();
+      } else if (selection) {
+        updateSelection();
       }
     },
     [highlightedParagraph, setHighlightedParagraph]
   );
 
   useEffect(() => {
-    // Clear highlight when another paragraph was highlighted
-    if (highlightedParagraph !== hash) setHighlight(null);
-  }, [highlightedParagraph, setHighlight, setHighlightedParagraph]);
+    // Clear selection when another paragraph was highlighted
+    if (highlightedParagraph !== hash) setSelection(null);
+  }, [highlightedParagraph, setSelection, setHighlightedParagraph]);
 
   useEffect(() => {
     // Toggle paragraph menu
     if (highlightedParagraph === lastHighlight) return;
 
-    if (highlightedParagraph === hash && highlight) {
+    if (highlightedParagraph === hash && selection) {
       showParagraphMenu(null, selectionRef);
-    } else if (lastHighlight === hash && !highlight) {
-      hideParagraphMenu();
-    } else if (highlightedParagraph === null) {
+    } else if (
+      highlightedParagraph === null ||
+      (lastHighlight === hash && !selection)
+    ) {
       hideParagraphMenu();
     }
 
@@ -314,16 +351,23 @@ const Paragraph: FC = ({ children }) => {
   }, [highlightedParagraph, showParagraphMenu, hideParagraphMenu]);
 
   return (
-    <Text id={hash} ref={paragraphRef} onMouseUp={handleHighlight}>
+    <Text id={hash} ref={paragraphRef} onMouseUp={handleSelection}>
       {displayMark ? (
-        <MarkedText text={text} start={start} end={end} />
+        <Highlight text={text} start={start} end={end} />
       ) : (
         children
       )}
 
-      {highlight && <Selection ref={selectionRef} {...highlight} />}
+      {selection && (
+        <SelectionAnchor
+          id="paragraphSelectionAnchor"
+          ref={selectionRef}
+          {...selection}
+        />
+      )}
 
       <InlineCommentButton
+        id="paragraphAddComment"
         ref={commentButtonRef}
         onMouseOver={() => showTipFor(null, commentButtonRef)}
         onMouseOut={() => hideTip()}
@@ -332,8 +376,8 @@ const Paragraph: FC = ({ children }) => {
       </InlineCommentButton>
 
       {displayMarker && (
-        <RulerMarker className="paragraph__ruler-marker">
-          {displayHighlight && (
+        <RulerMarker id="paragraphMarker" className="paragraph__ruler-marker">
+          {displayHighlightMarker && (
             <>
               <RulerHighlightIcon />
               {highlights.length > 1 && (

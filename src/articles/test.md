@@ -6,7 +6,7 @@ date: 2021-02-10
 tags: ['engineering-mechanical']
 ---
 
-Some smarty pants
+Some **smarty** pants
 
 > "Hello world, he said"
 

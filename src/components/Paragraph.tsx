@@ -27,37 +27,14 @@ import AddCommentIcon from '../images/add-comment.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
 import { MOBILE, WIDE } from '../constants';
 
-const IGNORE_IDS = [
-  'paragraphSelectionAnchor',
-  'paragraphAddComment',
-  'paragraphMarker',
-];
+const getHash = (text: string): string | undefined =>
+  text ? `p${stringHash(text)}` : undefined;
 
-const getText = (children: any): string => {
-  if (typeof children === 'string') {
-    return children;
-  } else if (Array.isArray(children)) {
-    return children
-      .map((el) => {
-        if (typeof el === 'string') {
-          return el;
-        } else {
-          return '';
-        }
-      })
-      .join('');
-  } else {
-    return '';
-  }
-};
-
-const getHash = (text: string): string => `p${stringHash(text)}`;
-
-const contains = (parent: Node, child: Node): boolean => {
+const nodeContains = (parent: Node, child: Node): boolean => {
   if (parent === child) return true;
 
   for (let node of parent.childNodes) {
-    if (contains(node, child)) return true;
+    if (nodeContains(node, child)) return true;
   }
 
   return false;
@@ -115,8 +92,11 @@ const Text = styled.p`
   mark {
     background-color: ${(props) => props.theme.secondaryColor};
     color: ${(props) => props.theme.backgroundColor};
-    padding: 4px 0;
-    pointer-events: none;
+
+    code {
+      color: ${(props) => props.theme.backgroundColor};
+      background: none;
+    }
   }
 
   @media (max-width: ${WIDE}) {
@@ -160,36 +140,47 @@ const InlineCommentButton = styled.button`
   }
 `;
 
-type HighlightProps = {
+type ParagraphFragment = {
+  tag?: string;
   text: string;
-  start?: number;
-  end?: number;
+  pos: number;
+  length: number;
 };
 
-const Highlight = React.forwardRef<HTMLElement, HighlightProps>(
-  ({ text, start, end }, ref) => {
-    if (
-      !text ||
-      start === undefined ||
-      end === undefined ||
-      start < 0 ||
-      end >= text.length
-    )
-      return <mark ref={ref}>{text}</mark>;
+type HighlightProps = {
+  text: string;
+  nodes: ParagraphFragment[];
+  start: number;
+  end: number;
+};
 
-    const before = text.slice(0, start);
-    const highlight = text.slice(start, end + 1);
-    const after = text.slice(end + 1);
+const Highlight: FC<HighlightProps> = ({ nodes, start, end }) => {
+  // Insert <mark> into span that may contain both text and HTML nodes
+  const __html = nodes.reduce((html, { tag, text, pos, length }) => {
+    if (start <= pos) {
+      if (end < pos + length) {
+        // End of highlight splits this node in half=
+        const before = text.substring(0, end - pos);
+        const after = text.substring(end - pos);
+        if (tag) return `${html}<${tag}>${before}</MARK>${after}</${tag}>`;
+        else return `${html}${before}</MARK>${after}`;
+      } else {
+        // Node does not interact with the highlight (appears before, after, or completely inside)
+        if (tag) return `${html}<${tag}>${text}</${tag}>`;
+        else return `${html}${text}`;
+      }
+    } else if (start > pos && start < pos + length) {
+      // Start of highlight splits this node in half
+      const before = text.substring(0, start - pos);
+      const after = text.substring(start - pos);
+      if (tag)
+        return `${html}<${tag}>${before}</${tag}><MARK><${tag}>${after}</${tag}>`;
+      else return `${html}${before}<MARK>${after}`;
+    }
+  }, '');
 
-    return (
-      <>
-        {before}
-        <mark ref={ref}>{highlight}</mark>
-        {after}
-      </>
-    );
-  }
-);
+  return <span id="highlightAnchor" dangerouslySetInnerHTML={{ __html }} />;
+};
 
 type ParagraphSelection = {
   left: number;
@@ -215,6 +206,8 @@ const Paragraph: FC = ({ children }) => {
   const commentButtonRef = useRef<HTMLElement>(null);
   const paragraphRef = useRef<HTMLElement>(null);
   const selectionRef = useRef<HTMLElement>(null);
+  const [innerText, setText] = useState<string | undefined>();
+  const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
   const [selection, setSelection] = useState<ParagraphSelection | null>(null);
   const [lastHighlight, setLastHighlight] = useState<string | null>(null);
   const {
@@ -226,31 +219,37 @@ const Paragraph: FC = ({ children }) => {
     highlightedParagraph,
     setHighlightedParagraph,
   } = useCommentsContext();
-  const text = useMemo(() => getText(children), [children]);
-  const hash = getHash(text);
-  const relevant = reactions?.filter(({ paragraph }) => paragraph === hash);
+  const hash = useMemo<string | undefined>(() => getHash(innerText), [
+    innerText,
+  ]);
+  const relevant = useMemo(
+    () => reactions?.filter(({ paragraph }) => paragraph === hash),
+    [reactions, hash]
+  );
   const highlights = relevant?.filter(({ rangeLength }) => rangeLength);
   const comments = relevant?.filter(({ markdown }) => markdown);
-  const displayHighlightMarker = Boolean(
-    highlights?.length && !comments?.length
-  );
-  const displayComment = Boolean(comments?.length);
-  const displayMarker = displayComment || displayHighlightMarker;
-  const displayMark = Boolean(text.length && highlights?.length);
+  const showHighlight = Boolean(highlights?.length && !comments?.length);
+  const showComment = Boolean(comments?.length);
+  const showMarker = showComment || showHighlight;
+  const showHighlightMark = Boolean(paragraphRef.current && highlights?.length);
 
-  const { start, end } = useMemo(
+  const { highlightStart, highlightEnd } = useMemo(
     () =>
       (highlights ?? []).reduce(
-        ({ start, end }, { rangeStart, rangeLength }) => ({
-          start: Math.min(start, rangeStart),
-          end: Math.max(end, rangeStart + rangeLength - 1),
+        ({ highlightStart, highlightEnd }, { rangeStart, rangeLength }) => ({
+          highlightStart: Math.min(highlightStart, rangeStart),
+          highlightEnd: Math.max(highlightEnd, rangeStart + rangeLength - 1),
         }),
-        { start: text.length - 1, end: 0 }
+        {
+          highlightStart: innerText ? innerText.length - 1 : 0,
+          highlightEnd: 0,
+        }
       ),
-    [highlights, text]
+    [highlights, innerText]
   );
 
   const updateSelection = useCallback(() => {
+    // Track selected text to enable highlighting or commenting on the selection
     const selection = window.getSelection();
     if (selection.rangeCount !== 1 || !paragraphRef.current) return;
 
@@ -262,8 +261,8 @@ const Paragraph: FC = ({ children }) => {
     } = selection.getRangeAt(0);
 
     if (
-      !contains(paragraphRef.current, startContainer) ||
-      !contains(paragraphRef.current, endContainer)
+      !nodeContains(paragraphRef.current, startContainer) ||
+      !nodeContains(paragraphRef.current, endContainer)
     )
       return;
 
@@ -272,18 +271,14 @@ const Paragraph: FC = ({ children }) => {
     let endIndex = 0;
 
     for (let node of paragraphRef.current.childNodes) {
-      if (contains(node, startContainer)) startIndex = pos;
-      if (contains(node, endContainer)) {
+      if (nodeContains(node, startContainer)) startIndex = pos;
+      if (nodeContains(node, endContainer)) {
         endIndex = pos;
         break;
       }
 
-      if (node.nodeType === 1) {
-        const el = node as HTMLElement;
-        if (IGNORE_IDS.indexOf(el.id) < 0) pos += el.innerText.length;
-      } else if (node.nodeType === 3) {
-        pos += node.nodeValue.length;
-      }
+      if (node.nodeType === 1) pos += (node as HTMLElement).innerText.length;
+      else if (node.nodeType === 3) pos += node.nodeValue.length;
     }
 
     const start = startIndex + startOffset;
@@ -310,6 +305,7 @@ const Paragraph: FC = ({ children }) => {
   }, [setSelection]);
 
   const handleSelection = useCallback(
+    // Let user select a portion of the paragraph to bring up the comment/highlight menu
     (e) => {
       if (highlightedParagraph && window.getSelection().type !== 'Range') {
         setHighlightedParagraph(null);
@@ -328,6 +324,40 @@ const Paragraph: FC = ({ children }) => {
     },
     [highlightedParagraph, setHighlightedParagraph]
   );
+
+  useEffect(() => {
+    // Capture text and children on mount so that we can display a Highlight
+    if (!paragraphRef.current || innerNodes.length) return;
+
+    const nodes = new Array(paragraphRef.current.childNodes.length);
+    let nodeIndex = 0;
+    let pos = 0;
+
+    for (let node of paragraphRef.current.childNodes) {
+      if (node.nodeType === 1) {
+        let element = node as HTMLElement;
+        const length = element.innerText.length;
+        nodes[nodeIndex++] = {
+          pos,
+          length,
+          text: element.innerText,
+          tag: element.tagName,
+        };
+        pos += length;
+      } else if (node.nodeType === 3) {
+        const length = node.nodeValue.length;
+        nodes[nodeIndex++] = {
+          pos,
+          length,
+          text: node.nodeValue,
+        };
+        pos += length;
+      }
+    }
+
+    setText(paragraphRef.current.innerText);
+    setInnerNodes(nodes);
+  }, [setText]);
 
   useEffect(() => {
     // Clear selection when another paragraph was highlighted
@@ -351,12 +381,19 @@ const Paragraph: FC = ({ children }) => {
   }, [highlightedParagraph, showParagraphMenu, hideParagraphMenu]);
 
   return (
-    <Text id={hash} ref={paragraphRef} onMouseUp={handleSelection}>
-      {displayMark ? (
-        <Highlight text={text} start={start} end={end} />
-      ) : (
-        children
-      )}
+    <Text id={hash} onMouseUp={handleSelection}>
+      <span ref={paragraphRef}>
+        {showHighlightMark ? (
+          <Highlight
+            text={innerText}
+            nodes={innerNodes}
+            start={highlightStart}
+            end={highlightEnd}
+          />
+        ) : (
+          children
+        )}
+      </span>
 
       {selection && (
         <SelectionAnchor
@@ -375,9 +412,9 @@ const Paragraph: FC = ({ children }) => {
         <AddCommentIcon />
       </InlineCommentButton>
 
-      {displayMarker && (
+      {showMarker && (
         <RulerMarker id="paragraphMarker" className="paragraph__ruler-marker">
-          {displayHighlightMarker && (
+          {showHighlight && (
             <>
               <RulerHighlightIcon />
               {highlights.length > 1 && (
@@ -387,7 +424,7 @@ const Paragraph: FC = ({ children }) => {
               )}
             </>
           )}
-          {displayComment && (
+          {showComment && (
             <>
               <RulerCommentIcon />
               {comments.length > 1 && (

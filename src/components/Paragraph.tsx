@@ -209,7 +209,6 @@ const Paragraph: FC = ({ children }) => {
   const [innerText, setText] = useState<string | undefined>();
   const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
   const [selection, setSelection] = useState<ParagraphSelection | null>(null);
-  const [lastHighlight, setLastHighlight] = useState<string | null>(null);
   const {
     comments: reactions,
     showTipFor,
@@ -248,10 +247,10 @@ const Paragraph: FC = ({ children }) => {
     [highlights, innerText]
   );
 
-  const updateSelection = useCallback(() => {
+  const updateSelection = useCallback((): boolean => {
     // Track selected text to enable highlighting or commenting on the selection
     const selection = window.getSelection();
-    if (selection.rangeCount !== 1 || !paragraphRef.current) return;
+    if (selection.rangeCount !== 1 || !paragraphRef.current) return false;
 
     const {
       startContainer,
@@ -264,7 +263,7 @@ const Paragraph: FC = ({ children }) => {
       !nodeContains(paragraphRef.current, startContainer) ||
       !nodeContains(paragraphRef.current, endContainer)
     )
-      return;
+      return false;
 
     let pos = 0;
     let startIndex = 0;
@@ -283,7 +282,7 @@ const Paragraph: FC = ({ children }) => {
 
     const start = startIndex + startOffset;
     const end = endIndex + endOffset;
-    if (end <= start) return;
+    if (end <= start) return false;
 
     const {
       left: parentLeft,
@@ -302,27 +301,55 @@ const Paragraph: FC = ({ children }) => {
       start,
       length: end - start,
     });
+
+    return true;
   }, [setSelection]);
+
+  const clearSelection = useCallback(() => {
+    setHighlightedParagraph(null);
+    setSelection(null);
+    hideParagraphMenu();
+  }, [setHighlightedParagraph, setSelection, hideParagraphMenu]);
 
   const handleSelection = useCallback(
     // Let user select a portion of the paragraph to bring up the comment/highlight menu
-    (e) => {
-      if (highlightedParagraph && window.getSelection().type !== 'Range') {
-        setHighlightedParagraph(null);
-        setSelection(null);
+    (e: MouseEvent) => {
+      if (window.getSelection().type !== 'Range') {
+        clearSelection();
         return;
       }
 
-      e.preventDefault();
-
       if (highlightedParagraph !== hash) {
-        updateSelection();
-        setHighlightedParagraph(hash);
+        // New selection
+        if (updateSelection()) setHighlightedParagraph(hash);
       } else if (selection) {
-        updateSelection();
+        const { left, top, width, height } = window
+          .getSelection()
+          .getRangeAt(0)
+          .getBoundingClientRect();
+
+        if (
+          e.clientX < left ||
+          e.clientY < top ||
+          e.clientX > left + width ||
+          e.clientY > top + height
+        ) {
+          // Clear existing selection on click outside
+          clearSelection();
+        } else {
+          // Update or clear existing selection
+          if (!updateSelection()) clearSelection();
+        }
       }
     },
-    [highlightedParagraph, setHighlightedParagraph]
+    [
+      highlightedParagraph,
+      hash,
+      selection,
+      setHighlightedParagraph,
+      updateSelection,
+      clearSelection,
+    ]
   );
 
   useEffect(() => {
@@ -360,25 +387,17 @@ const Paragraph: FC = ({ children }) => {
   }, [setText]);
 
   useEffect(() => {
-    // Clear selection when another paragraph was highlighted
-    if (highlightedParagraph !== hash) setSelection(null);
-  }, [highlightedParagraph, setSelection, setHighlightedParagraph]);
+    // Show menu when paragraph text is selected
+    if (selection) showParagraphMenu(null, selectionRef);
+  }, [selection, showParagraphMenu]);
 
   useEffect(() => {
-    // Toggle paragraph menu
-    if (highlightedParagraph === lastHighlight) return;
-
-    if (highlightedParagraph === hash && selection) {
-      showParagraphMenu(null, selectionRef);
-    } else if (
-      highlightedParagraph === null ||
-      (lastHighlight === hash && !selection)
-    ) {
+    // Clear selection and hide menu when paragraph no longer highlighted
+    if (selection && highlightedParagraph !== hash) {
+      setSelection(null);
       hideParagraphMenu();
     }
-
-    setLastHighlight(highlightedParagraph);
-  }, [highlightedParagraph, showParagraphMenu, hideParagraphMenu]);
+  }, [hash, highlightedParagraph, selection, setSelection, hideParagraphMenu]);
 
   return (
     <Text id={hash} onMouseUp={handleSelection}>
@@ -395,16 +414,9 @@ const Paragraph: FC = ({ children }) => {
         )}
       </span>
 
-      {selection && (
-        <SelectionAnchor
-          id="paragraphSelectionAnchor"
-          ref={selectionRef}
-          {...selection}
-        />
-      )}
+      {selection && <SelectionAnchor ref={selectionRef} {...selection} />}
 
       <InlineCommentButton
-        id="paragraphAddComment"
         ref={commentButtonRef}
         onMouseOver={() => showTipFor(null, commentButtonRef)}
         onMouseOut={() => hideTip()}
@@ -413,7 +425,7 @@ const Paragraph: FC = ({ children }) => {
       </InlineCommentButton>
 
       {showMarker && (
-        <RulerMarker id="paragraphMarker" className="paragraph__ruler-marker">
+        <RulerMarker className="paragraph__ruler-marker">
           {showHighlight && (
             <>
               <RulerHighlightIcon />

@@ -271,13 +271,14 @@ const Paragraph: FC = ({ children }) => {
 
     for (let node of paragraphRef.current.childNodes) {
       if (nodeContains(node, startContainer)) startIndex = pos;
+
+      if (node.nodeType === 1) pos += (node as HTMLElement).innerText.length;
+      else if (node.nodeType === 3) pos += node.nodeValue.length;
+
       if (nodeContains(node, endContainer)) {
         endIndex = pos;
         break;
       }
-
-      if (node.nodeType === 1) pos += (node as HTMLElement).innerText.length;
-      else if (node.nodeType === 3) pos += node.nodeValue.length;
     }
 
     const start = startIndex + startOffset;

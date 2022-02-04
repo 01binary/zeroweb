@@ -13,7 +13,7 @@ import React, { useState, FC, useCallback, useEffect } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
-import { CommentsContext } from '../../hooks/useComments';
+import { CommentsContext, ParagraphSelection } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
@@ -137,6 +137,10 @@ const Post: FC<PostProps> = ({
     handleAddShare,
   } = useUserContent(slug);
 
+  const [
+    paragraphSelection,
+    setParagraphSelection,
+  ] = useState<ParagraphSelection | null>(null);
   const [highlightedParagraph, setHighlightedParagraph] = useState<
     string | null
   >(null);
@@ -297,6 +301,8 @@ const Post: FC<PostProps> = ({
               hideParagraphMenu,
               highlightedParagraph,
               setHighlightedParagraph,
+              paragraphSelection,
+              setParagraphSelection,
             }}
           >
             <MDXRenderer>{body}</MDXRenderer>

@@ -22,6 +22,16 @@ import { VoteCommentQuery, Vote } from '../types/VoteCommentQuery';
 import ReactMutation from '../types/ReactMutation';
 import { HideTipHandler, ShowTipForHandler } from './useTooltip';
 
+export type ParagraphSelection = {
+  hash: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  start: number;
+  length: number;
+};
+
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
   showTipFor: ShowTipForHandler;
@@ -30,6 +40,8 @@ type CommentsContextProps = {
   hideParagraphMenu: HideTipHandler;
   setHighlightedParagraph: (id: string) => void;
   highlightedParagraph: string | null;
+  paragraphSelection: ParagraphSelection | null;
+  setParagraphSelection: (selection: ParagraphSelection) => void;
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
@@ -40,6 +52,8 @@ export const CommentsContext = createContext<CommentsContextProps>({
   hideParagraphMenu: () => {},
   highlightedParagraph: null,
   setHighlightedParagraph: () => {},
+  paragraphSelection: null,
+  setParagraphSelection: () => {},
 });
 
 export const useCommentsContext: () => CommentsContextProps = () =>

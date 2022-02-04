@@ -19,7 +19,7 @@ import React, {
 } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
-import { useCommentsContext } from '../hooks/useComments';
+import { ParagraphSelection, useCommentsContext } from '../hooks/useComments';
 import { RulerMarker, RulerMarkerBadge } from './RulerMarker';
 import RulerHighlightIcon from '../images/highlight.svg';
 import RulerCommentIcon from '../images/comment.svg';
@@ -182,15 +182,6 @@ const Highlight: FC<HighlightProps> = ({ nodes, start, end }) => {
   return <span id="highlightAnchor" dangerouslySetInnerHTML={{ __html }} />;
 };
 
-type ParagraphSelection = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-  start: number;
-  length: number;
-};
-
 const SelectionAnchor = styled.span<ParagraphSelection>`
   display: block;
   position: absolute;
@@ -206,9 +197,9 @@ const Paragraph: FC = ({ children }) => {
   const commentButtonRef = useRef<HTMLElement>(null);
   const paragraphRef = useRef<HTMLElement>(null);
   const selectionRef = useRef<HTMLElement>(null);
+  const highlightRef = useRef<HTMLElement>(null);
   const [innerText, setText] = useState<string | undefined>();
   const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
-  const [selection, setSelection] = useState<ParagraphSelection | null>(null);
   const {
     comments: reactions,
     showTipFor,
@@ -217,6 +208,8 @@ const Paragraph: FC = ({ children }) => {
     hideParagraphMenu,
     highlightedParagraph,
     setHighlightedParagraph,
+    paragraphSelection,
+    setParagraphSelection,
   } = useCommentsContext();
   const hash = useMemo<string | undefined>(() => getHash(innerText), [
     innerText,
@@ -294,7 +287,8 @@ const Paragraph: FC = ({ children }) => {
       .getRangeAt(0)
       .getBoundingClientRect();
 
-    setSelection({
+    setParagraphSelection({
+      hash,
       left: selLeft - parentLeft,
       top: selTop - parentTop,
       width,
@@ -304,13 +298,13 @@ const Paragraph: FC = ({ children }) => {
     });
 
     return true;
-  }, [setSelection]);
+  }, [hash, setParagraphSelection]);
 
   const clearSelection = useCallback(() => {
     setHighlightedParagraph(null);
-    setSelection(null);
+    setParagraphSelection(null);
     hideParagraphMenu();
-  }, [setHighlightedParagraph, setSelection, hideParagraphMenu]);
+  }, [setHighlightedParagraph, setParagraphSelection, hideParagraphMenu]);
 
   const handleSelection = useCallback(
     // Let user select a portion of the paragraph to bring up the comment/highlight menu
@@ -323,7 +317,7 @@ const Paragraph: FC = ({ children }) => {
       if (highlightedParagraph !== hash) {
         // New selection
         if (updateSelection()) setHighlightedParagraph(hash);
-      } else if (selection) {
+      } else if (paragraphSelection?.hash === hash) {
         const { left, top, width, height } = window
           .getSelection()
           .getRangeAt(0)
@@ -346,12 +340,20 @@ const Paragraph: FC = ({ children }) => {
     [
       highlightedParagraph,
       hash,
-      selection,
+      paragraphSelection,
       setHighlightedParagraph,
       updateSelection,
       clearSelection,
     ]
   );
+
+  const handleHighlightMouseOver = useCallback(() => {
+    if (!paragraphSelection) showParagraphMenu(null, highlightRef);
+  }, [paragraphSelection, showParagraphMenu]);
+
+  const handleHighlightMouseOut = useCallback(() => {
+    if (!paragraphSelection) hideParagraphMenu();
+  }, [paragraphSelection, hideParagraphMenu]);
 
   useEffect(() => {
     // Capture text and children on mount so that we can display a Highlight
@@ -388,17 +390,49 @@ const Paragraph: FC = ({ children }) => {
   }, [setText]);
 
   useEffect(() => {
+    // Set highlight ref after <mark> has been inserted for highlighted paragraph
+    if (showHighlightMark && paragraphRef.current) {
+      const element = paragraphRef.current.getElementsByTagName('mark')[0];
+      if (!element) return;
+      element.addEventListener('mouseover', handleHighlightMouseOver);
+      element.addEventListener('mouseout', handleHighlightMouseOut);
+      highlightRef.current = element;
+    }
+
+    return () => {
+      if (highlightRef.current) {
+        highlightRef.current.removeEventListener(
+          'mouseover',
+          handleHighlightMouseOver
+        );
+        highlightRef.current.removeEventListener(
+          'mouseout',
+          handleHighlightMouseOut
+        );
+        highlightRef.current = null;
+      }
+    };
+  }, [showHighlightMark, handleHighlightMouseOver, handleHighlightMouseOut]);
+
+  useEffect(() => {
     // Show menu when paragraph text is selected
-    if (selection) showParagraphMenu(null, selectionRef);
-  }, [selection, showParagraphMenu]);
+    if (paragraphSelection?.hash === hash)
+      showParagraphMenu(null, selectionRef);
+  }, [hash, paragraphSelection, showParagraphMenu]);
 
   useEffect(() => {
     // Clear selection and hide menu when paragraph no longer highlighted
-    if (selection && highlightedParagraph !== hash) {
-      setSelection(null);
+    if (paragraphSelection?.hash === hash && highlightedParagraph !== hash) {
+      setParagraphSelection(null);
       hideParagraphMenu();
     }
-  }, [hash, highlightedParagraph, selection, setSelection, hideParagraphMenu]);
+  }, [
+    hash,
+    highlightedParagraph,
+    paragraphSelection,
+    setParagraphSelection,
+    hideParagraphMenu,
+  ]);
 
   return (
     <Text id={hash} onMouseUp={handleSelection}>
@@ -415,7 +449,9 @@ const Paragraph: FC = ({ children }) => {
         )}
       </span>
 
-      {selection && <SelectionAnchor ref={selectionRef} {...selection} />}
+      {paragraphSelection?.hash === hash && (
+        <SelectionAnchor ref={selectionRef} {...paragraphSelection} />
+      )}
 
       <InlineCommentButton
         ref={commentButtonRef}

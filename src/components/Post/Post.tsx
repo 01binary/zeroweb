@@ -141,9 +141,28 @@ const Post: FC<PostProps> = ({
     paragraphSelection,
     setParagraphSelection,
   ] = useState<ParagraphSelection | null>(null);
+
   const [highlightedParagraph, setHighlightedParagraph] = useState<
     string | null
   >(null);
+
+  const paragraphMetadata = paragraphSelection?.hash || highlightedParagraph;
+
+  const paragraphHighlightCount =
+    comments && paragraphMetadata
+      ? comments?.filter(
+          ({ paragraph, markdown }) =>
+            paragraph === paragraphMetadata && !markdown
+        )?.length
+      : 0;
+
+  const paragraphCommentCount =
+    comments && paragraphMetadata
+      ? comments?.filter(
+          ({ paragraph, markdown }) =>
+            paragraph === paragraphMetadata && markdown
+        )?.length
+      : 0;
 
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
@@ -309,7 +328,11 @@ const Post: FC<PostProps> = ({
           </CommentsContext.Provider>
 
           <ContextMenu ref={paragraphMenuRef} {...paragraphMenuProps}>
-            <ParagraphMenu onSelect={() => {}} />
+            <ParagraphMenu
+              highlights={paragraphHighlightCount}
+              comments={paragraphCommentCount}
+              onSelect={() => {}}
+            />
           </ContextMenu>
 
           <Tooltip ref={tipRef} {...tipProps}>

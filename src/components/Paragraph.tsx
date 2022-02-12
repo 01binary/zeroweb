@@ -348,12 +348,18 @@ const Paragraph: FC = ({ children }) => {
   );
 
   const handleHighlightMouseOver = useCallback(() => {
-    if (!paragraphSelection) showParagraphMenu(null, highlightRef);
-  }, [paragraphSelection, showParagraphMenu]);
+    if (!paragraphSelection) {
+      setHighlightedParagraph(hash);
+      showParagraphMenu(null, highlightRef);
+    }
+  }, [paragraphSelection, showParagraphMenu, setHighlightedParagraph]);
 
   const handleHighlightMouseOut = useCallback(() => {
-    if (!paragraphSelection) hideParagraphMenu();
-  }, [paragraphSelection, hideParagraphMenu]);
+    if (!paragraphSelection) {
+      setHighlightedParagraph(null);
+      hideParagraphMenu();
+    }
+  }, [paragraphSelection, hideParagraphMenu, setHighlightedParagraph]);
 
   useEffect(() => {
     // Capture text and children on mount so that we can display a Highlight

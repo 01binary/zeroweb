@@ -13,11 +13,15 @@ import React, { useState, FC, useCallback, useEffect } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
-import { CommentsContext, ParagraphSelection } from '../../hooks/useComments';
+import {
+  CommentsContext,
+  ParagraphSelection,
+  ParagraphHighlight,
+} from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
-import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
+import { ContextMenu } from '../ContextMenu';
 import Wheel from '../Wheel';
 import { Ruler } from '../Ruler';
 import TagList from '../TagList';
@@ -142,11 +146,13 @@ const Post: FC<PostProps> = ({
     setParagraphSelection,
   ] = useState<ParagraphSelection | null>(null);
 
-  const [highlightedParagraph, setHighlightedParagraph] = useState<
-    string | null
-  >(null);
+  const [
+    highlightedParagraph,
+    setHighlightedParagraph,
+  ] = useState<ParagraphHighlight | null>(null);
 
-  const paragraphMetadata = paragraphSelection?.hash || highlightedParagraph;
+  const paragraphMetadata =
+    paragraphSelection?.hash || highlightedParagraph?.hash;
 
   const paragraphHighlightCount =
     comments && paragraphMetadata

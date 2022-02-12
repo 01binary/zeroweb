@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { createContext, useContext, useCallback } from 'react';
+import { createContext, useContext, useCallback } from 'react';
 import gql from 'graphql-tag';
 import { ApolloCache, FetchResult, useMutation } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
@@ -32,14 +32,19 @@ export type ParagraphSelection = {
   length: number;
 };
 
+export type ParagraphHighlight = {
+  hash: string;
+  hover: boolean;
+};
+
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
   showParagraphMenu: ShowTipForHandler;
   hideParagraphMenu: HideTipHandler;
-  setHighlightedParagraph: (id: string) => void;
-  highlightedParagraph: string | null;
+  setHighlightedParagraph: (highlight: ParagraphHighlight) => void;
+  highlightedParagraph: ParagraphHighlight | null;
   paragraphSelection: ParagraphSelection | null;
   setParagraphSelection: (selection: ParagraphSelection) => void;
 };

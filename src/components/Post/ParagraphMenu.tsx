@@ -5,6 +5,7 @@ import CommentIcon from '../../images/comment.svg';
 import HighlightIcon from '../../images/highlight.svg';
 
 type ParagraphMenuProps = {
+  loading: boolean;
   comments: number;
   highlights: number;
 } & MenuProps;
@@ -14,28 +15,27 @@ const ParagraphMenuItemBadge = styled.div`
 `;
 
 const ParagraphMenu: FC<ParagraphMenuProps> = ({
+  loading,
   comments,
   highlights,
   onSelect,
-}) => {
-  return (
-    <Menu horizontal>
-      <MenuItem id="paragraphHighlight" onClick={onSelect}>
-        <HighlightIcon />
-        Highlight
-        {highlights > 0 && (
-          <ParagraphMenuItemBadge>&nbsp;[{highlights}]</ParagraphMenuItemBadge>
-        )}
-      </MenuItem>
-      <MenuItem id="paragraphComment" onClick={onSelect}>
-        <CommentIcon />
-        Comment
-        {comments > 0 && (
-          <ParagraphMenuItemBadge>&nbsp;[{comments}]</ParagraphMenuItemBadge>
-        )}
-      </MenuItem>
-    </Menu>
-  );
-};
+}) => (
+  <Menu horizontal fade={loading}>
+    <MenuItem id="paragraphHighlight" onClick={onSelect}>
+      <HighlightIcon />
+      {highlights > 1 ? 'Highlights' : 'Highlight'}
+      {highlights > 0 && (
+        <ParagraphMenuItemBadge>&nbsp;[{highlights}]</ParagraphMenuItemBadge>
+      )}
+    </MenuItem>
+    <MenuItem id="paragraphComment" onClick={onSelect}>
+      <CommentIcon />
+      {comments > 1 ? 'Comments' : 'Comment'}
+      {comments > 0 && (
+        <ParagraphMenuItemBadge>&nbsp;[{comments}]</ParagraphMenuItemBadge>
+      )}
+    </MenuItem>
+  </Menu>
+);
 
 export default ParagraphMenu;

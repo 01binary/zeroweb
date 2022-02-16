@@ -4,7 +4,7 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Renders a paragraph of text
+|  Markdown paragraph with highlights and inline comments
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -242,10 +242,10 @@ const Paragraph: FC = ({ children }) => {
     [highlights, innerText]
   );
 
-  const updateSelection = useCallback((): boolean => {
+  const updateSelection = useCallback((): ParagraphSelection | undefined => {
     // Track selected text to enable highlighting or commenting on the selection
     const selection = window.getSelection();
-    if (selection.rangeCount !== 1 || !paragraphRef.current) return false;
+    if (selection.rangeCount !== 1 || !paragraphRef.current) return;
 
     const {
       startContainer,
@@ -258,27 +258,36 @@ const Paragraph: FC = ({ children }) => {
       !nodeContains(paragraphRef.current, startContainer) ||
       !nodeContains(paragraphRef.current, endContainer)
     )
-      return false;
+      return;
 
     let pos = 0;
     let startIndex = 0;
     let endIndex = 0;
 
-    for (let node of paragraphRef.current.childNodes) {
-      if (nodeContains(node, startContainer)) startIndex = pos;
+    const updateStartEnd = (nodes: NodeListOf<ChildNode>) => {
+      for (let node of nodes) {
+        if (node.childNodes.length) {
+          updateStartEnd(node.childNodes);
+          continue;
+        }
 
-      if (node.nodeType === 1) pos += (node as HTMLElement).innerText.length;
-      else if (node.nodeType === 3) pos += node.nodeValue.length;
+        if (nodeContains(node, startContainer)) startIndex = pos;
 
-      if (nodeContains(node, endContainer)) {
-        endIndex = pos;
-        break;
+        if (nodeContains(node, endContainer)) {
+          endIndex = pos;
+          break;
+        }
+
+        if (node.nodeType === 1) pos += (node as HTMLElement).innerText.length;
+        else if (node.nodeType === 3) pos += node.nodeValue.length;
       }
-    }
+    };
+
+    updateStartEnd(paragraphRef.current.childNodes);
 
     const start = startIndex + startOffset;
     const end = endIndex + endOffset;
-    if (end <= start) return false;
+    if (end <= start) return;
 
     const {
       left: parentLeft,
@@ -289,7 +298,7 @@ const Paragraph: FC = ({ children }) => {
       .getRangeAt(0)
       .getBoundingClientRect();
 
-    setParagraphSelection({
+    const paragraphSel = {
       hash,
       left: selLeft - parentLeft,
       top: selTop - parentTop,
@@ -297,9 +306,11 @@ const Paragraph: FC = ({ children }) => {
       height,
       start,
       length: end - start,
-    });
+    };
 
-    return true;
+    setParagraphSelection(paragraphSel);
+
+    return paragraphSel;
   }, [hash, setParagraphSelection]);
 
   const clearSelection = useCallback(() => {
@@ -318,7 +329,14 @@ const Paragraph: FC = ({ children }) => {
 
       if (highlightedParagraph?.hash !== hash || highlightedParagraph?.hover) {
         // New selection
-        if (updateSelection()) setHighlightedParagraph({ hash, hover: false });
+        const newSelection = updateSelection();
+        if (newSelection)
+          setHighlightedParagraph({
+            hash,
+            start: newSelection.start,
+            length: newSelection.length,
+            hover: false,
+          });
       } else if (paragraphSelection?.hash === hash) {
         const { left, top, width, height } = window
           .getSelection()
@@ -355,7 +373,12 @@ const Paragraph: FC = ({ children }) => {
       !paragraphSelection &&
       (!highlightedParagraph || highlightedParagraph?.hover)
     ) {
-      setHighlightedParagraph({ hash, hover: true });
+      setHighlightedParagraph({
+        hash,
+        start: highlightStart,
+        length: highlightEnd - highlightStart,
+        hover: true,
+      });
       showParagraphMenu(null, highlightRef);
     }
   }, [paragraphSelection, showParagraphMenu, setHighlightedParagraph]);
@@ -431,7 +454,7 @@ const Paragraph: FC = ({ children }) => {
 
   useEffect(() => {
     // Show menu when paragraph text is selected
-    if (paragraphSelection?.hash === hash)
+    if (paragraphSelection && paragraphSelection?.hash === hash)
       showParagraphMenu(null, selectionRef);
   }, [hash, paragraphSelection, showParagraphMenu]);
 

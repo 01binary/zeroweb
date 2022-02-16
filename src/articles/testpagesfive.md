@@ -6,11 +6,11 @@ date: 2021-02-10
 tags: ['engineering-mechanical']
 ---
 
-Some smarty pants
+Some **smarty** pants
 
 > "Hello world, he said"
 
-Some inline code
+Some _inline_ code
 
 ```javascript
 const text = 'World';

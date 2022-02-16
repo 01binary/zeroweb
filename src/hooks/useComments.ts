@@ -34,6 +34,8 @@ export type ParagraphSelection = {
 
 export type ParagraphHighlight = {
   hash: string;
+  start: number;
+  length: number;
   hover: boolean;
 };
 

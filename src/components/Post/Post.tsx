@@ -219,6 +219,24 @@ const Post: FC<PostProps> = ({
     [handleAddShare]
   );
 
+  const handleParagraphAction = useCallback(
+    (e) => {
+      if (e.target.id === 'paragraphHighlight') {
+        handleAdd({
+          userName: user.name,
+          avatarUrl: user.avatarUrl,
+          paragraph: highlightedParagraph?.hash || paragraphSelection?.hash,
+          rangeStart: highlightedParagraph?.start || paragraphSelection?.start,
+          rangeLength:
+            highlightedParagraph?.length || paragraphSelection?.length,
+        });
+      } else if (e.target.id == 'paragraphComment') {
+        // TODO: side comment edit mode
+      }
+    },
+    [highlightedParagraph, paragraphSelection, handleAdd]
+  );
+
   const handleClearHighlight = useCallback(
     (e) => {
       if (!highlightedParagraph || e.target.id?.startsWith('p')) return;
@@ -335,9 +353,10 @@ const Post: FC<PostProps> = ({
 
           <ContextMenu ref={paragraphMenuRef} {...paragraphMenuProps}>
             <ParagraphMenu
+              loading={loading}
               highlights={paragraphHighlightCount}
               comments={paragraphCommentCount}
-              onSelect={() => {}}
+              onSelect={handleParagraphAction}
             />
           </ContextMenu>
 

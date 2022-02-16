@@ -4,11 +4,13 @@ export type MenuProps = {
   onSelect?: (e: React.MouseEvent) => void;
 };
 
-export const Menu = styled.div<{ horizontal?: boolean }>`
+export const Menu = styled.div<{ horizontal?: boolean; fade?: boolean }>`
   display: flex;
   flex-direction: ${(props) => (props.horizontal === true ? 'row' : 'column')};
   min-width: 180px;
   padding-top: 4px;
+  opacity: ${(props) => (props.fade ? '0.7' : 'initial')};
+  pointer-events: ${(props) => (props.fade ? 'none' : 'initial')};
 `;
 
 export const MenuItemIcon = styled.div`

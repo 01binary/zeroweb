@@ -17,6 +17,7 @@ import {
   CommentsContext,
   ParagraphSelection,
   ParagraphHighlight,
+  ParagraphComment,
 } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
@@ -151,6 +152,13 @@ const Post: FC<PostProps> = ({
     setHighlightedParagraph,
   ] = useState<ParagraphHighlight | null>(null);
 
+  const [
+    inlineCommentParagraph,
+    setInlineCommentParagraph,
+  ] = useState<ParagraphComment | null>(null);
+
+  const [showCommentsSidebar, setShowCommentsSidebar] = useState(false);
+
   const paragraphMetadata =
     paragraphSelection?.hash || highlightedParagraph?.hash;
 
@@ -221,20 +229,64 @@ const Post: FC<PostProps> = ({
 
   const handleParagraphAction = useCallback(
     (e) => {
+      const paragraph = highlightedParagraph?.hash || paragraphSelection?.hash;
+
       if (e.target.id === 'paragraphHighlight') {
         handleAdd({
+          paragraph,
           userName: user.name,
           avatarUrl: user.avatarUrl,
-          paragraph: highlightedParagraph?.hash || paragraphSelection?.hash,
           rangeStart: highlightedParagraph?.start || paragraphSelection?.start,
           rangeLength:
             highlightedParagraph?.length || paragraphSelection?.length,
         });
       } else if (e.target.id == 'paragraphComment') {
-        // TODO: side comment edit mode
+        setShowCommentsSidebar(true);
+        setInlineCommentParagraph({
+          hash: paragraph,
+          start: paragraphSelection?.start,
+          length: paragraphSelection?.length,
+        });
       }
     },
-    [highlightedParagraph, paragraphSelection, handleAdd]
+    [
+      user,
+      highlightedParagraph,
+      paragraphSelection,
+      handleAdd,
+      setShowCommentsSidebar,
+      setInlineCommentParagraph,
+    ]
+  );
+
+  const handleAddInlineComment = useCallback(() => {
+    console.log('gonna add', inlineCommentParagraph);
+    if (inlineCommentParagraph?.markdown)
+      return handleAdd({
+        paragraph: inlineCommentParagraph.hash,
+        markdown: inlineCommentParagraph.markdown,
+        userName: user.name,
+        avatarUrl: user.avatarUrl,
+        rangeStart: inlineCommentParagraph.start,
+        rangeLength: inlineCommentParagraph.length,
+      })
+        .then(() => {
+          setInlineCommentParagraph(null);
+        })
+        .catch(() => {
+          setInlineCommentParagraph((prev) => ({
+            ...prev,
+            error: 'Could not comment inline',
+          }));
+        });
+  }, [inlineCommentParagraph, user, handleAdd, setInlineCommentParagraph]);
+
+  const handleToggleInlineComment = useCallback(
+    (paragraphHash) => {
+      setInlineCommentParagraph(paragraphHash);
+      setShowCommentsSidebar(Boolean(paragraphHash));
+    },
+    [setInlineCommentParagraph, setShowCommentsSidebar]
   );
 
   const handleClearHighlight = useCallback(
@@ -338,6 +390,7 @@ const Post: FC<PostProps> = ({
           <CommentsContext.Provider
             value={{
               comments,
+              loading,
               showTipFor,
               hideTip,
               showParagraphMenu,
@@ -346,6 +399,10 @@ const Post: FC<PostProps> = ({
               setHighlightedParagraph,
               paragraphSelection,
               setParagraphSelection,
+              inlineCommentParagraph,
+              setInlineCommentParagraph: handleToggleInlineComment,
+              addInlineComment: handleAddInlineComment,
+              showCommentsSidebar,
             }}
           >
             <MDXRenderer>{body}</MDXRenderer>

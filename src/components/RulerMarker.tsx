@@ -16,7 +16,7 @@ export const MARKER_SIZE = 36;
 
 export const RulerMarker = styled.span`
   position: absolute;
-  top: calc(50% - ${MARKER_SIZE + 4}px / 2);
+  top: calc(0px - ${(props) => props.theme.borderThick});
   right: ${(props) =>
     `calc(${props.theme.spacingHalf} + ${props.theme.borderThick} - ${MARKER_SIZE}px / 3)`};
   width: ${MARKER_SIZE}px;
@@ -30,7 +30,7 @@ export const RulerMarker = styled.span`
 export const RulerMarkerBadge = styled.span`
   position: absolute;
   right: calc(0px - ${(props) => props.theme.spacingHalf});
-  top: calc(50% - 1em);
+  top: 0.33em;
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};

@@ -39,8 +39,17 @@ export type ParagraphHighlight = {
   hover: boolean;
 };
 
+export type ParagraphComment = {
+  hash: string;
+  markdown?: string;
+  error?: string;
+  start?: number;
+  length?: number;
+};
+
 type CommentsContextProps = {
   comments: CommentQuery[] | null;
+  loading: boolean;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
   showParagraphMenu: ShowTipForHandler;
@@ -49,10 +58,17 @@ type CommentsContextProps = {
   highlightedParagraph: ParagraphHighlight | null;
   paragraphSelection: ParagraphSelection | null;
   setParagraphSelection: (selection: ParagraphSelection) => void;
+  inlineCommentParagraph: ParagraphComment | null;
+  setInlineCommentParagraph: (
+    paragraphComment: ParagraphComment | null
+  ) => void;
+  addInlineComment: () => Promise<void>;
+  showCommentsSidebar: boolean;
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
   comments: null,
+  loading: false,
   showTipFor: () => {},
   hideTip: () => {},
   showParagraphMenu: () => {},
@@ -61,6 +77,10 @@ export const CommentsContext = createContext<CommentsContextProps>({
   setHighlightedParagraph: () => {},
   paragraphSelection: null,
   setParagraphSelection: () => {},
+  inlineCommentParagraph: null,
+  setInlineCommentParagraph: () => {},
+  showCommentsSidebar: false,
+  addInlineComment: async () => {},
 });
 
 export const useCommentsContext: () => CommentsContextProps = () =>

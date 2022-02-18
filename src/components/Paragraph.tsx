@@ -19,11 +19,14 @@ import React, {
 } from 'react';
 import stringHash from 'string-hash';
 import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
 import { ParagraphSelection, useCommentsContext } from '../hooks/useComments';
 import { RulerMarker, RulerMarkerBadge } from './RulerMarker';
 import RulerHighlightIcon from '../images/highlight.svg';
 import RulerCommentIcon from '../images/comment.svg';
 import AddCommentIcon from '../images/add-comment.svg';
+import SaveIcon from '../images/accept.svg';
+import CancelIcon from '../images/cancel.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
 import { MOBILE, WIDE } from '../constants';
 import { useBlogData } from '../hooks/useBlogData';
@@ -41,16 +44,29 @@ const nodeContains = (parent: Node, child: Node): boolean => {
   return false;
 };
 
-const Text = styled.p`
+type ParagraphSectionProps = {
+  showCommentsSidebar: boolean;
+};
+
+const ParagraphSection = styled.section<ParagraphSectionProps>`
   position: relative;
 
   margin-right: calc(
     -30% - ${RULER_ENDMARK_WIDTH}px - ${(props) => props.theme.borderThick} - ${(props) => props.theme.spacingOneAndHalf}
   );
+
   padding-right: calc(
     30% + ${RULER_ENDMARK_WIDTH}px + ${(props) => props.theme.borderThick} +
       ${(props) => props.theme.spacingOneAndHalf}
   );
+
+  button {
+    opacity: 0;
+  }
+
+  .paragraph__ruler-marker__badge {
+    opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
+  }
 
   &:after {
     content: '';
@@ -77,6 +93,23 @@ const Text = styled.p`
     display: none;
   }
 
+  @media (max-width: ${WIDE}) {
+    &:after {
+      display: none;
+    }
+  }
+
+  @media (max-width: ${MOBILE}) {
+    padding-right: 0;
+    margin-right: ${(props) => props.theme.spacingHalf};
+
+    .paragraph__ruler-marker {
+      display: none;
+    }
+  }
+`;
+
+const ParagraphText = styled.p`
   code {
     position: relative;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
@@ -99,24 +132,9 @@ const Text = styled.p`
       background: none;
     }
   }
-
-  @media (max-width: ${WIDE}) {
-    &:after {
-      display: none;
-    }
-  }
-
-  @media (max-width: ${MOBILE}) {
-    padding-right: 0;
-    margin-right: ${(props) => props.theme.spacingHalf};
-
-    .paragraph__ruler-marker {
-      display: none;
-    }
-  }
 `;
 
-const InlineCommentButton = styled.button`
+const CommentButton = styled.button`
   position: absolute;
   width: 32px;
   height: 32px;
@@ -129,15 +147,109 @@ const InlineCommentButton = styled.button`
   -moz-appearance: none;
   background: none;
   padding: 0;
-  opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
   // Flickers on Safari due to opacity
   transform-style: preserve-3d;
   backface-visibility: hidden;
 
+  svg {
+    pointer-events: none;
+  }
+
   @media (max-width: ${WIDE}) {
     display: none;
+  }
+`;
+
+const InlineCommentsSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 15vw;
+  max-width: 15em;
+
+  font-family: ${(props) => props.theme.normalFont};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+  font-size: ${(props) => props.theme.normalFontSize};
+  color: ${(props) => props.theme.foregroundColor};
+`;
+
+const InlineComment = styled.div`
+  font-family: ${(props) => props.theme.smallFont};
+  font-weight: ${(props) => props.theme.smallFontWeight};
+  font-size: ${(props) => props.theme.smallFontSize};
+  color: ${(props) => props.theme.foregroundColor};
+
+  border: 1px;
+`;
+
+const InlineCommentForm = styled.form`
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  font-weight: ${(props) => props.theme.smallFontWeight};
+
+  width: 100%;
+`;
+
+const InlineCommentInput = styled.textarea`
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  font-weight: ${(props) => props.theme.smallFontWeight};
+
+  width: calc(100% - ${(props) => props.theme.spacing});
+  min-height: 1.5em;
+  max-height: 10em;
+  resize: vertical;
+
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.foregroundColor};
+  border: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+
+  padding: ${(props) => props.theme.spacingHalf};
+`;
+
+const InlineCommentFormGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const InlineCommentError = styled(Error)`
+  padding: ${(props) => props.theme.spacingQuarter} 0;
+`;
+
+const InlineCommentButton = styled.button`
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+
+  width: 32px;
+  height: 32px;
+
+  svg {
+    pointer-events: none;
+  }
+
+  &:hover {
+    .stroke-foreground {
+      stroke: ${(props) =>
+        props.theme.isDark
+          ? props.theme.primaryColor
+          : props.theme.primaryDarkColor};
+    }
+
+    .fill-foreground {
+      fill: ${(props) =>
+        props.theme.isDark
+          ? props.theme.primaryColor
+          : props.theme.primaryDarkColor};
+    }
   }
 `;
 
@@ -199,11 +311,14 @@ const Paragraph: FC = ({ children }) => {
   const paragraphRef = useRef<HTMLElement>(null);
   const selectionRef = useRef<HTMLElement>(null);
   const highlightRef = useRef<HTMLElement>(null);
+  const inlineCommentRef = useRef<HTMLTextAreaElement>(null);
+
   const [innerText, setText] = useState<string | undefined>();
   const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
   const { user } = useBlogData();
   const {
     comments: reactions,
+    loading,
     showTipFor,
     hideTip,
     showParagraphMenu,
@@ -212,20 +327,31 @@ const Paragraph: FC = ({ children }) => {
     setHighlightedParagraph,
     paragraphSelection,
     setParagraphSelection,
+    inlineCommentParagraph,
+    setInlineCommentParagraph,
+    addInlineComment,
+    showCommentsSidebar,
   } = useCommentsContext();
+
   const hash = useMemo<string | undefined>(() => getHash(innerText), [
     innerText,
   ]);
+
   const relevant = useMemo(
     () => reactions?.filter(({ paragraph }) => paragraph === hash),
     [reactions, hash]
   );
+
   const highlights = relevant?.filter(({ rangeLength }) => rangeLength);
   const comments = relevant?.filter(({ markdown }) => markdown);
-  const showHighlight = Boolean(highlights?.length && !comments?.length);
-  const showComment = Boolean(comments?.length);
-  const showMarker = showComment || showHighlight;
+  const showHighlights = Boolean(highlights?.length && !comments?.length);
+  const showComments = Boolean(comments?.length);
+  const showMarker = showComments || showHighlights;
   const showHighlightMark = Boolean(paragraphRef.current && highlights?.length);
+  const showInlineCommentForm = Boolean(inlineCommentParagraph?.hash === hash);
+  const showInlineCommentThread = Boolean(
+    (showComments && showCommentsSidebar) || showInlineCommentForm
+  );
 
   const { highlightStart, highlightEnd } = useMemo(
     () =>
@@ -393,6 +519,40 @@ const Paragraph: FC = ({ children }) => {
     }
   }, [paragraphSelection, hideParagraphMenu, setHighlightedParagraph]);
 
+  const handleToggleInlineComment = useCallback(() => {
+    setInlineCommentParagraph({
+      hash,
+      start: paragraphSelection?.start,
+      length: paragraphSelection?.length,
+    });
+  }, [hash, setInlineCommentParagraph]);
+
+  const handleEditInlineComment = useCallback(
+    (e) => {
+      setInlineCommentParagraph({
+        ...inlineCommentParagraph,
+        markdown: e.target.value,
+      });
+    },
+    [inlineCommentParagraph, setInlineCommentParagraph]
+  );
+
+  const handleCancelInlineComment = useCallback(() => {
+    setInlineCommentParagraph(null);
+  }, [setInlineCommentParagraph]);
+
+  const handleInlineCommentKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Escape') setInlineCommentParagraph(null);
+    },
+    [setInlineCommentParagraph]
+  );
+
+  useEffect(() => {
+    if (inlineCommentParagraph?.hash === hash && inlineCommentRef.current)
+      inlineCommentRef.current.focus();
+  }, [hash, inlineCommentParagraph]);
+
   useEffect(() => {
     // Capture text and children on mount so that we can display a Highlight
     if (!paragraphRef.current || innerNodes.length) return;
@@ -477,8 +637,8 @@ const Paragraph: FC = ({ children }) => {
   ]);
 
   return (
-    <Text id={hash} onMouseUp={handleSelection}>
-      <span ref={paragraphRef}>
+    <ParagraphSection showCommentsSidebar={showCommentsSidebar}>
+      <ParagraphText id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
         {showHighlightMark ? (
           <Highlight
             text={innerText}
@@ -489,23 +649,70 @@ const Paragraph: FC = ({ children }) => {
         ) : (
           children
         )}
-      </span>
+      </ParagraphText>
 
       {paragraphSelection?.hash === hash && (
         <SelectionAnchor ref={selectionRef} {...paragraphSelection} />
       )}
 
-      <InlineCommentButton
+      <CommentButton
         ref={commentButtonRef}
+        onClick={handleToggleInlineComment}
         onMouseOver={() => showTipFor(null, commentButtonRef)}
         onMouseOut={() => hideTip()}
       >
         <AddCommentIcon />
-      </InlineCommentButton>
+      </CommentButton>
+
+      {showInlineCommentThread && (
+        <InlineCommentsSection>
+          {comments?.map(({ userName, timestamp, markdown }) => (
+            <InlineComment>
+              by {userName} on {timestamp}
+              &nbsp;
+              <ReactMarkdown>{markdown}</ReactMarkdown>
+            </InlineComment>
+          ))}
+          {showInlineCommentForm && (
+            <InlineCommentForm onSubmit={(e) => e.preventDefault()}>
+              <InlineCommentInput
+                ref={inlineCommentRef}
+                onChange={handleEditInlineComment}
+                onKeyDown={handleInlineCommentKeyDown}
+              />
+              <InlineCommentFormGroup>
+                {inlineCommentParagraph?.error && (
+                  <InlineCommentError>
+                    {inlineCommentParagraph?.error}
+                  </InlineCommentError>
+                )}
+              </InlineCommentFormGroup>
+              <InlineCommentFormGroup>
+                <InlineCommentButton
+                  disabled={loading}
+                  onClick={addInlineComment}
+                  onMouseOver={null /*(e) => handleShowTip(e, 'save')*/}
+                  onMouseOut={hideTip}
+                >
+                  <SaveIcon />
+                </InlineCommentButton>
+                <InlineCommentButton
+                  disabled={loading}
+                  onClick={handleCancelInlineComment}
+                  onMouseOver={null /*(e) => handleShowTip(e, 'cancel')*/}
+                  onMouseOut={hideTip}
+                >
+                  <CancelIcon />
+                </InlineCommentButton>
+              </InlineCommentFormGroup>
+            </InlineCommentForm>
+          )}
+        </InlineCommentsSection>
+      )}
 
       {showMarker && (
         <RulerMarker className="paragraph__ruler-marker">
-          {showHighlight && (
+          {showHighlights && (
             <>
               <RulerHighlightIcon />
               {highlights.length > 1 && (
@@ -515,7 +722,7 @@ const Paragraph: FC = ({ children }) => {
               )}
             </>
           )}
-          {showComment && (
+          {showComments && (
             <>
               <RulerCommentIcon />
               {comments.length > 1 && (
@@ -527,7 +734,7 @@ const Paragraph: FC = ({ children }) => {
           )}
         </RulerMarker>
       )}
-    </Text>
+    </ParagraphSection>
   );
 };
 

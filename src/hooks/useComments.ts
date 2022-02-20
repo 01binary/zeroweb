@@ -48,6 +48,7 @@ export type ParagraphComment = {
 };
 
 type CommentsContextProps = {
+  postUrl: string;
   comments: CommentQuery[] | null;
   loading: boolean;
   showTipFor: ShowTipForHandler;
@@ -67,6 +68,7 @@ type CommentsContextProps = {
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
+  postUrl: '',
   comments: null,
   loading: false,
   showTipFor: () => {},

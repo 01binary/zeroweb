@@ -9,8 +9,18 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { getHeadingSlug, getHeadingUrl } from './components/Heading';
 import HeadingQuery from './types/HeadingQuery';
+
+dayjs.extend(relativeTime);
+
+export const formatCommentDate = (timestamp: string): string =>
+  dayjs(timestamp).fromNow();
+
+export const formatMarkerDate = (timestamp: string): string =>
+  dayjs(timestamp).format('MMM YYYY');
 
 export const slugifyHeadings = (baseUrl: string, headings: HeadingQuery[]) =>
   headings.map((heading) => {

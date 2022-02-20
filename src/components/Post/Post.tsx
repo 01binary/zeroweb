@@ -107,7 +107,7 @@ const Post: FC<PostProps> = ({
     [readPosition]
   );
 
-  const { showTipFor, hideTip, tipProps, tipRef } = useTooltip({
+  const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 5,
     placement: 'top',
@@ -389,6 +389,7 @@ const Post: FC<PostProps> = ({
         <Content role="document">
           <CommentsContext.Provider
             value={{
+              postUrl: relativePostUrl,
               comments,
               loading,
               showTipFor,
@@ -418,7 +419,7 @@ const Post: FC<PostProps> = ({
           </ContextMenu>
 
           <Tooltip ref={tipRef} {...tipProps}>
-            comment
+            {tooltipText}
             <Arrow />
           </Tooltip>
         </Content>

@@ -7,9 +7,8 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
-import dayjs from 'dayjs';
+
 import ReactMarkdown from 'react-markdown';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { FetchResult } from '@apollo/client';
 import Avatar from '../Avatar';
 import MetaLink from '../MetaLink';
@@ -27,6 +26,7 @@ import ReactionConfusedIcon from '../../images/reaction-confused.svg';
 import ReactionPartyIcon from '../../images/reaction-party.svg';
 import ReactionSnapIcon from '../../images/reaction-snap.svg';
 import { CommentQuery } from '../../types/AllCommentsQuery';
+import { formatCommentDate, formatMarkerDate } from '../../utils';
 import { Vote } from '../../types/VoteCommentQuery';
 import AddCommentMutation from '../../types/AddCommentMutation';
 import EditCommentMutation from '../../types/EditCommentMutation';
@@ -77,14 +77,6 @@ import {
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
 import Alert from '../Alert';
-
-dayjs.extend(relativeTime);
-
-const formatCommentDate = (timestamp: string): string =>
-  dayjs(timestamp).fromNow();
-
-const formatMarkerDate = (timestamp: string): string =>
-  dayjs(timestamp).format('MMM YYYY');
 
 const DATE_MARKER_THRESHOLD = 100;
 

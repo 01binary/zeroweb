@@ -30,6 +30,8 @@ import CancelIcon from '../images/cancel.svg';
 import { RULER_ENDMARK_WIDTH } from './Ruler';
 import { MOBILE, WIDE } from '../constants';
 import { useBlogData } from '../hooks/useBlogData';
+import MetaLink from './MetaLink';
+import { formatCommentDate } from '../utils';
 
 const getHash = (text: string): string | undefined =>
   text ? `p${stringHash(text)}` : undefined;
@@ -60,7 +62,7 @@ const ParagraphSection = styled.section<ParagraphSectionProps>`
       ${(props) => props.theme.spacingOneAndHalf}
   );
 
-  button {
+  .paragraph__comment {
     opacity: 0;
   }
 
@@ -253,6 +255,10 @@ const InlineCommentButton = styled.button`
   }
 `;
 
+const Me = styled.span`
+  color: ${(props) => props.theme.secondaryTextColor};
+`;
+
 type ParagraphFragment = {
   tag?: string;
   text: string;
@@ -312,11 +318,13 @@ const Paragraph: FC = ({ children }) => {
   const selectionRef = useRef<HTMLElement>(null);
   const highlightRef = useRef<HTMLElement>(null);
   const inlineCommentRef = useRef<HTMLTextAreaElement>(null);
+  const tipTargetRef = useRef<HTMLElement>(null);
 
   const [innerText, setText] = useState<string | undefined>();
   const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
-  const { user } = useBlogData();
+  const { user, credentials } = useBlogData();
   const {
+    postUrl,
     comments: reactions,
     loading,
     showTipFor,
@@ -656,9 +664,10 @@ const Paragraph: FC = ({ children }) => {
       )}
 
       <CommentButton
+        className="paragraph__comment"
         ref={commentButtonRef}
         onClick={handleToggleInlineComment}
-        onMouseOver={() => showTipFor(null, commentButtonRef)}
+        onMouseOver={() => showTipFor('comment', commentButtonRef)}
         onMouseOut={() => hideTip()}
       >
         <AddCommentIcon />
@@ -666,9 +675,33 @@ const Paragraph: FC = ({ children }) => {
 
       {showInlineCommentThread && (
         <InlineCommentsSection>
-          {comments?.map(({ userName, timestamp, markdown }) => (
+          {comments?.map(({ userId, userName, timestamp, markdown }) => (
             <InlineComment>
-              by {userName} on {timestamp}
+              by&nbsp;
+              {userId === credentials?.userId ? (
+                <Me>{userName}</Me>
+              ) : (
+                <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
+              )}
+              <br />
+              <MetaLink
+                to={`?comment=${encodeURIComponent(timestamp)}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.navigator.clipboard.writeText(
+                    `${postUrl}?comment=${encodeURIComponent(timestamp)}`
+                  );
+                  tipTargetRef.current = e.target;
+                  showTipFor('copied!', tipTargetRef);
+                }}
+                onMouseOver={(e) => {
+                  tipTargetRef.current = e.target;
+                  showTipFor('copy link', tipTargetRef);
+                }}
+                onMouseOut={hideTip}
+              >
+                {formatCommentDate(timestamp)}
+              </MetaLink>
               &nbsp;
               <ReactMarkdown>{markdown}</ReactMarkdown>
             </InlineComment>
@@ -691,7 +724,10 @@ const Paragraph: FC = ({ children }) => {
                 <InlineCommentButton
                   disabled={loading}
                   onClick={addInlineComment}
-                  onMouseOver={null /*(e) => handleShowTip(e, 'save')*/}
+                  onMouseOver={(e) => {
+                    tipTargetRef.current = e.target;
+                    showTipFor('save', tipTargetRef);
+                  }}
                   onMouseOut={hideTip}
                 >
                   <SaveIcon />
@@ -699,7 +735,10 @@ const Paragraph: FC = ({ children }) => {
                 <InlineCommentButton
                   disabled={loading}
                   onClick={handleCancelInlineComment}
-                  onMouseOver={null /*(e) => handleShowTip(e, 'cancel')*/}
+                  onMouseOver={(e) => {
+                    tipTargetRef.current = e.target;
+                    showTipFor('cancel', tipTargetRef);
+                  }}
                   onMouseOut={hideTip}
                 >
                   <CancelIcon />

@@ -25,7 +25,8 @@ import ArticlesBackground from '../images/navigation-articles.svg';
 import ProjectsBackground from '../images/navigation-projects.svg';
 import AboutBackground from '../images/navigation-about.svg';
 import ROUTES from '../routes';
-import { MOBILE } from '../constants';
+import { MOBILE, SLIDE_COMMENTS_SIDEBAR, WIDE } from '../constants';
+import { useBlogData } from '../hooks/useBlogData';
 
 const HEADER_HEIGHT = 250;
 
@@ -41,14 +42,20 @@ const ICONS = {
   about: AboutIcon,
 };
 
-const Hero = styled.header`
+type HeroProps = {
+  showCommentsSidebar: boolean;
+};
+
+const Hero = styled.header<HeroProps>`
   font-family: ${(props) => props.theme.titleFont};
   background: ${(props) => props.theme.primaryColor};
   color: ${(props) => props.theme.primaryTextColor};
+
+  position: relative;
   max-width: ${(props) => props.theme.column};
   margin: auto;
+  margin-top: ${(props) => props.theme.spacingTriple};
   height: ${HEADER_HEIGHT}px;
-  position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -58,10 +65,17 @@ const Hero = styled.header`
     ${(props) => props.theme.secondaryColor} 100%
   );
 
-  transition: margin ${(props) => props.theme.animationFast} ease-out,
-    height ${(props) => props.theme.animationFast} ease-out;
+  @media (min-width: ${SLIDE_COMMENTS_SIDEBAR}) {
+    left: ${(props) => (props.showCommentsSidebar ? `calc(0px - 11em)` : 0)};
+  }
 
-  margin-top: ${(props) => props.theme.spacingTriple};
+  @media (min-width: 1630px) {
+    left: 0;
+  }
+
+  transition: width ${(props) => props.theme.animationFast} ease-out,
+    left ${(props) => props.theme.animationFast} ease-out,
+    height ${(props) => props.theme.animationFast} ease-out;
 
   &:before {
     content: '';
@@ -396,11 +410,11 @@ const Toggle = styled.button`
   }
 `;
 
-interface ThemeToggleProps {
+type ThemeToggleProps = {
   isDark: boolean;
   toggleDark: () => void;
   forwardRef: React.MutableRefObject<HTMLElement>;
-}
+};
 
 const ThemeToggle: FC<ThemeToggleProps> = ({
   isDark,
@@ -417,12 +431,18 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ path }) => {
-  const [menuOpen, showMenu] = useState(false);
   const themeToggleRef = useRef<HTMLElement>(null);
+  const { showCommentsSidebar } = useBlogData();
   const { isDark, toggleDark } = useStyledDarkMode();
+  const [menuOpen, showMenu] = useState(false);
 
   return (
-    <Hero isDark={isDark} menuOpen={menuOpen} role="banner">
+    <Hero
+      role="banner"
+      isDark={isDark}
+      menuOpen={menuOpen}
+      showCommentsSidebar={showCommentsSidebar}
+    >
       <LogoLink to="/">
         <Logo />
       </LogoLink>

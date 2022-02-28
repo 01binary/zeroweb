@@ -4,7 +4,7 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Renders a paragraph of text
+|  Ruler for displaying paragraph markers
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
@@ -12,7 +12,7 @@
 import React, { FC, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import Measure from 'react-measure';
-import { WIDE } from '../constants';
+import { DESKTOP, WIDE } from '../constants';
 
 export const RULER_WIDTH = 24;
 export const RULER_SELECTION_GUTTER = 6;
@@ -40,7 +40,7 @@ const RulerTop = styled.div`
   border-top: ${(props) => props.theme.border} solid
     ${(props) => getLineColor(props)};
 
-  @media (max-width: ${WIDE}) {
+  @media (max-width: 1070px) {
     display: none;
   }
 `;
@@ -57,7 +57,7 @@ const RulerBottom = styled.div`
   border-bottom: ${(props) => props.theme.border} solid
     ${(props) => getLineColor(props)};
 
-  @media (max-width: ${WIDE}) {
+  @media (max-width: 1070px) {
     display: none;
   }
 `;
@@ -73,7 +73,7 @@ const RulerBase = styled.div`
   border-right: ${(props) => props.theme.border} solid
     ${(props) => getLineColor(props)};
 
-  @media (max-width: ${WIDE}) {
+  @media (max-width: 1070px) {
     display: none;
   }
 `;

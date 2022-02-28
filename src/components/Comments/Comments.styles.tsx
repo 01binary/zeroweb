@@ -35,6 +35,7 @@ type CommentsSectionProps = {
   isLoading: boolean;
   isUserLoggedIn: boolean;
   hasComments: boolean;
+  showCommentsSidebar: boolean;
 };
 
 export const CommentsSection = styled.footer<CommentsSectionProps>`
@@ -50,7 +51,18 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
     props.isUserLoggedIn && props.hasComments ? 4 : props.isLoading ? -1 : 0}em;
   margin-bottom: ${(props) => (props.isLoading ? 3 : 0)}em;
   opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
-  transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+  @media (min-width: 1330px) {
+    transform: ${(props) =>
+      props.showCommentsSidebar ? `translateX(-9em)` : 'none'};
+  }
+
+  @media (min-width: 1630px) {
+    transform: none;
+  }
+
+  transition: opacity ${(props) => props.theme.animationFast} ease-out,
+    transform ${(props) => props.theme.animationFast} ease-out;
 
   h2 {
     font-size: ${(props) => props.theme.headingFontSizeMedium};

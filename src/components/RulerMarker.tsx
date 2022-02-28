@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import styled from 'styled-components';
-import { WIDE } from '../constants';
+import { DESKTOP } from '../constants';
 
 export const MARKER_SIZE = 36;
 
@@ -21,9 +21,22 @@ export const RulerMarker = styled.span`
     `calc(${props.theme.spacingHalf} + ${props.theme.borderThick} - ${MARKER_SIZE}px / 3)`};
   width: ${MARKER_SIZE}px;
   height: ${MARKER_SIZE}px;
+  pointer-events: none;
 
-  @media (max-width: ${WIDE}) {
-    right: 3em;
+  svg {
+    pointer-events: none;
+  }
+
+  @media (max-width: 1195px) {
+    right: initial;
+    left: calc(0px - ${MARKER_SIZE}px - ${(props) => props.theme.spacingHalf});
+  }
+
+  @media (max-width: ${DESKTOP}) {
+    right: initial;
+    left: calc(
+      0px - ${MARKER_SIZE}px + ${(props) => props.theme.spacingQuarter}
+    );
   }
 `;
 
@@ -37,4 +50,8 @@ export const RulerMarkerBadge = styled.span`
   opacity: 1;
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
   pointer-events: none;
+
+  @media (max-width: ${DESKTOP}) {
+    display: none;
+  }
 `;

@@ -202,6 +202,7 @@ const Comments: FC<CommentsProps> = ({
     user,
     credentials,
     loginError,
+    showCommentsSidebar,
     handleFacebookLogin,
     handleTwitterLogin,
     handleGoogleLogin,
@@ -483,6 +484,7 @@ const Comments: FC<CommentsProps> = ({
       isUserLoggedIn={Boolean(user)}
       isLoading={loading}
       hasComments={Boolean(postComments && postComments.length)}
+      showCommentsSidebar={showCommentsSidebar}
     >
       {postComments && (
         <h2>

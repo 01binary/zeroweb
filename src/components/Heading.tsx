@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import { useBlogLocation } from '../hooks/useBlogLocation';
 import PermaLink from './PermaLink';
 
-const HeadingWrapper = styled.div`
+const HeadingWrapper = styled.section`
   position: relative;
   margin: 0;
   padding: 0;

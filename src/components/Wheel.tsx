@@ -27,13 +27,14 @@ import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
 import { ShareType } from '../types/AllSharesQuery';
-import { MOBILE, WIDE } from '../constants';
+import { MOBILE, SLIDE_COMMENTS_SIDEBAR } from '../constants';
 
 export const WHEEL_SIZE = 76;
 
 const CELL_WIDTH = 44;
 const CELL_HEIGHT = 38;
 const ICON_SIZE = 36;
+const MIN_SIZE_WHEEL = '1250px';
 
 const StyledCell = styled(Cell)`
   position: absolute;
@@ -57,14 +58,17 @@ const StyledSnapAnimation = styled(SnapAnimation)`
   left: -8px;
 `;
 
-const Wheelhouse = styled.aside`
+type WheelhouseProps = {
+  showCommentsSidebar?: boolean;
+};
+
+const Wheelhouse = styled.aside<WheelhouseProps>`
   display: block;
   position: sticky;
   float: left;
   width: ${WHEEL_SIZE}px;
   height: ${WHEEL_SIZE}px;
   margin-left: calc(0px - ${(props) => props.theme.spacing} - ${WHEEL_SIZE}px);
-  opacity: 1;
 
   animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
 
@@ -86,7 +90,11 @@ const Wheelhouse = styled.aside`
   transition: opacity ${(props) => props.theme.animationFast} ease-out,
     transform ${(props) => props.theme.animationSlow} ease-out;
 
-  @media (max-width: ${WIDE}) {
+  @media (min-width: ${SLIDE_COMMENTS_SIDEBAR}) {
+    opacity: ${(props) => (props.showCommentsSidebar ? '0' : '1')};
+  }
+
+  @media (max-width: ${MIN_SIZE_WHEEL}) {
     opacity: 0;
     transform: translateY(1.5em);
   }
@@ -237,6 +245,7 @@ const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
 );
 
 type WheelProps = {
+  showCommentsSidebar?: boolean;
   commentCount: number;
   reactionCount: number;
   shareCount: number;
@@ -248,6 +257,7 @@ type WheelProps = {
 
 const Wheel: FC<WheelProps> = ({
   postUrl,
+  showCommentsSidebar,
   commentCount,
   reactionCount,
   shareCount,
@@ -298,7 +308,10 @@ const Wheel: FC<WheelProps> = ({
   }, [hideMenu]);
 
   return (
-    <Wheelhouse lower={shareCount > 9}>
+    <Wheelhouse
+      lower={shareCount > 9}
+      showCommentsSidebar={showCommentsSidebar}
+    >
       <WheelWrapper>
         <SnapButton
           ref={snapRef}

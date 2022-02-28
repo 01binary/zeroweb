@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import { createGlobalStyle } from 'styled-components';
-import { MOBILE, WIDE, DESKTOP } from './constants';
+import { MOBILE, DESKTOP } from './constants';
 
 const unit = 30;
 

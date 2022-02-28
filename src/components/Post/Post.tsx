@@ -32,7 +32,7 @@ import MetaLink from '../MetaLink';
 import Comments from '../Comments/Comments';
 import Reactions from '../PostReactions';
 import Code from '../Code';
-import Paragraph from '../Paragraph';
+import Paragraph from '../Paragraph/Paragraph';
 import Blockquote from '../Blockquote';
 import {
   Main,
@@ -124,8 +124,6 @@ const Post: FC<PostProps> = ({
     verticalOffsetMobile: 6,
   });
 
-  const { user } = useBlogData();
-
   const {
     loading,
     error,
@@ -142,6 +140,8 @@ const Post: FC<PostProps> = ({
     handleAddShare,
   } = useUserContent(slug);
 
+  const { user, showCommentsSidebar, setShowCommentsSidebar } = useBlogData();
+
   const [
     paragraphSelection,
     setParagraphSelection,
@@ -156,8 +156,6 @@ const Post: FC<PostProps> = ({
     inlineCommentParagraph,
     setInlineCommentParagraph,
   ] = useState<ParagraphComment | null>(null);
-
-  const [showCommentsSidebar, setShowCommentsSidebar] = useState(false);
 
   const paragraphMetadata =
     paragraphSelection?.hash || highlightedParagraph?.hash;
@@ -260,7 +258,6 @@ const Post: FC<PostProps> = ({
   );
 
   const handleAddInlineComment = useCallback(() => {
-    console.log('gonna add', inlineCommentParagraph);
     if (inlineCommentParagraph?.markdown)
       return handleAdd({
         paragraph: inlineCommentParagraph.hash,
@@ -321,7 +318,7 @@ const Post: FC<PostProps> = ({
         blockquote: Blockquote,
       }}
     >
-      <Main>
+      <Main showCommentsSidebar={showCommentsSidebar}>
         <SEO
           title={title}
           description={description}
@@ -361,6 +358,7 @@ const Post: FC<PostProps> = ({
 
         <Wheel
           postUrl={relativePostUrl}
+          showCommentsSidebar={showCommentsSidebar}
           commentCount={commentCount}
           reactionCount={reactionCount}
           shareCount={shareCount}
@@ -369,7 +367,7 @@ const Post: FC<PostProps> = ({
           handleShare={handleShare}
         />
 
-        <Sidebar>
+        <Sidebar sendToBack={showCommentsSidebar}>
           <SidebarPanel>
             <SidebarMetadata>
               <Gauge position={readPosition} />
@@ -417,11 +415,6 @@ const Post: FC<PostProps> = ({
               onSelect={handleParagraphAction}
             />
           </ContextMenu>
-
-          <Tooltip ref={tipRef} {...tipProps}>
-            {tooltipText}
-            <Arrow />
-          </Tooltip>
         </Content>
 
         <Reactions
@@ -447,6 +440,11 @@ const Post: FC<PostProps> = ({
         readPosition={readPosition}
         scrollOffset={scrollOffset}
       />
+
+      <Tooltip ref={tipRef} {...tipProps}>
+        {tooltipText}
+        <Arrow />
+      </Tooltip>
     </MDXProvider>
   );
 };

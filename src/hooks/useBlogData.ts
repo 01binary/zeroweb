@@ -23,6 +23,9 @@ type BlogDataContextProps = {
   user: User | null;
   credentials: AWSSignature | null;
   loginError: string | null;
+  showCommentsSidebar: boolean;
+  setShowCommentsSidebar: (showCommentsSidebar: boolean) => void;
+  toggleCommentsSidebar: () => void;
   setUser: SetUserHandler;
   setCredentials: SetCredentialsHandler;
   handleFacebookLogin: () => void;
@@ -37,6 +40,9 @@ export const BlogDataContext = createContext<BlogDataContextProps>({
   credentials: null,
   loginError: null,
   setUser: null,
+  showCommentsSidebar: false,
+  setShowCommentsSidebar: () => {},
+  toggleCommentsSidebar: () => {},
   setCredentials: null,
   handleFacebookLogin: null,
   handleTwitterLogin: null,

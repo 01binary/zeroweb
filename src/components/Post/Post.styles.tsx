@@ -15,14 +15,37 @@ import GaugeIcon from '../../images/gauge.svg';
 import ClockIcon from '../../images/clock.svg';
 import { Heading } from '../Heading';
 import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
-import { MOBILE, WIDE } from '../../constants';
+import { DESKTOP, MOBILE, SLIDE_COMMENTS_SIDEBAR, WIDE } from '../../constants';
 
-export const Main = styled.main`
-  margin-bottom: 3em;
+type MainProps = {
+  showCommentsSidebar: boolean;
+};
 
-  &:after {
-    top: 0;
+export const Main = styled.main<MainProps>`
+  position: relative;
+  left: 0;
+
+  @media (min-width: ${SLIDE_COMMENTS_SIDEBAR}) {
+    left: ${(props) => (props.showCommentsSidebar ? `calc(0px - 9em)` : '0')};
+
+    &:before {
+      opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
+      transition: opacity 0.3s ease-out;
+    }
+
+    &:after {
+      top: 0;
+      opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
+      transition: opacity 0.3s ease-out;
+    }
   }
+
+  @media (min-width: 1630px) {
+    left: 0;
+  }
+
+  transition: left 0.3s ease-out;
+  margin-bottom: 3em;
 
   text-rendering: optimizeLegibility;
 
@@ -153,7 +176,7 @@ export const Main = styled.main`
     }
   }
 
-  @media (max-width: ${WIDE}) {
+  @media (max-width: ${DESKTOP}) {
     h1,
     h2,
     h3,
@@ -223,7 +246,7 @@ export const HeroImage = styled(Img)`
     }
   }
 
-  @media (max-width: ${WIDE}) {
+  @media (max-width: ${DESKTOP}) {
     &:after {
       display: none;
     }
@@ -270,6 +293,11 @@ export const Metadata = styled.section`
 
 export const Content = styled.section`
   max-width: calc(80% - 2em);
+  overflow-x: visible;
+
+  @media (max-width: ${MOBILE}) {
+    max-width: 100%;
+  }
 
   opacity: 0;
   animation: slideIn ${(props) => props.theme.animationSlow} 0.2s ease-out 1;
@@ -315,10 +343,6 @@ export const Content = styled.section`
       transform: translateY(0px);
     }
   }
-
-  @media (max-width: ${MOBILE}) {
-    max-width: 100%;
-  }
 `;
 
 export const SidebarPanel = styled.section`
@@ -337,7 +361,7 @@ export const SidebarPanel = styled.section`
   }
 `;
 
-export const Sidebar = styled.aside`
+export const Sidebar = styled.aside<{ sendToBack: boolean }>`
   position: sticky;
   float: right;
   top: 0;
@@ -347,6 +371,10 @@ export const Sidebar = styled.aside`
   margin-top: -5.25em;
   padding-top: ${(props) => props.theme.spacingThird};
   z-index: 1;
+
+  @media (max-width: ${SLIDE_COMMENTS_SIDEBAR}) {
+    z-index: ${(props) => (props.sendToBack ? 'initial' : 1)};
+  }
 
   @media (max-width: ${MOBILE}) {
     position: relative;

@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { MOBILE } from '../constants';
 
@@ -74,7 +74,7 @@ const HamburgerIcon = styled.svg`
   }
 
   .wave {
-    animation: loop 1s linear infinite;
+    animation: loop 2s linear infinite;
 
     @keyframes loop {
       0% {
@@ -116,15 +116,12 @@ const HamburgerIcon = styled.svg`
   }
 `;
 
-interface IHamburgerProps {
+type HamburgerProps = {
   menuOpen: boolean;
   showMenu: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
-const Hamburger: FunctionComponent<IHamburgerProps> = ({
-  menuOpen,
-  showMenu,
-}) => (
+const Hamburger: FC<HamburgerProps> = ({ menuOpen, showMenu }) => (
   <>
     <HamburgerButton />
     <HamburgerHelper menuOpen={menuOpen} onClick={() => showMenu(!menuOpen)}>

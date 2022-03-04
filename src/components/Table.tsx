@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import styled from 'styled-components';
-import { WIDE } from '../constants';
+import { NARROW_NO_RULERS } from '../constants';
 import { RULER_OFFSET } from './Ruler';
 
 export const Table = styled.table`
@@ -54,7 +54,7 @@ export const Table = styled.table`
     padding-right: 0;
   }
 
-  @media (max-width: ${WIDE}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     &:after {
       display: none;
     }

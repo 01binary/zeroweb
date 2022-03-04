@@ -3,9 +3,16 @@ import CommentMarkerIcon from '../../images/comment-marker.svg';
 import { RULER_ENDMARK_WIDTH } from '../Ruler';
 import { AVATAR_SIZE } from '../Avatar';
 import Error from '../Error';
-import { MOBILE } from '../../constants';
+import {
+  MOBILE,
+  NARROW_FLIP_MARKERS,
+  NARROW_INLINE_COMMENTS,
+  NARROW_NO_MARKER_LABELS,
+  NARROW_NO_RULERS,
+  NARROW_SIDE_COMMENTS,
+  SIDE_COMMENTS_WIDTH,
+} from '../../constants';
 
-const COMMENT_SCALE_BREAKPOINT = '1160px';
 const VOTE_SLOT_WIDTH = 12;
 const AVATAR_TILE_MAX_DIST = 30;
 const AVATAR_TILE_OFFSET = 19;
@@ -52,12 +59,14 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
   margin-bottom: ${(props) => (props.isLoading ? 3 : 0)}em;
   opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
 
-  @media (min-width: 1330px) {
+  @media (min-width: ${NARROW_SIDE_COMMENTS}) {
     transform: ${(props) =>
-      props.showCommentsSidebar ? `translateX(-9em)` : 'none'};
+      props.showCommentsSidebar
+        ? `translateX(-${SIDE_COMMENTS_WIDTH})`
+        : 'none'};
   }
 
-  @media (min-width: 1630px) {
+  @media (min-width: ${NARROW_INLINE_COMMENTS}) {
     transform: none;
   }
 
@@ -97,14 +106,10 @@ const CommentsScaleDate = styled.div`
   font-weight: ${(props) => props.theme.smallFontWeight};
   color: ${(props) => props.theme.secondaryTextColor};
   margin-top: -1em;
-  padding-left: calc(100% - 1em);
+  padding-left: calc(100% - ${(props) => props.theme.spacingOneAndHalf});
   width: 5em;
 
-  @media (max-width: ${COMMENT_SCALE_BREAKPOINT}) {
-    padding-left: calc(100% - 2.5em);
-  }
-
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     display: none;
   }
 `;
@@ -133,11 +138,9 @@ export const DateMarker = styled.div<{ offset: number; show: boolean }>`
   top: ${(props) => props.offset};
   color: ${(props) => props.theme.secondaryTextColor};
   height: 1em;
-  font-family: monospace;
-  font-size: 28pt;
   ${(props) => !props.show && 'display: none'};
 
-  @media (max-width: ${COMMENT_SCALE_BREAKPOINT}) {
+  @media (max-width: ${NARROW_FLIP_MARKERS}) {
     right: 1.25em;
 
     .comment-marker__arrow {
@@ -145,7 +148,7 @@ export const DateMarker = styled.div<{ offset: number; show: boolean }>`
     }
   }
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     display: none;
   }
 `;
@@ -159,11 +162,11 @@ export const DateMarkerLabel = styled.div`
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
 
-  @media (max-width: ${COMMENT_SCALE_BREAKPOINT}) {
+  @media (max-width: ${NARROW_FLIP_MARKERS}) {
     display: none;
   }
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     display: none;
   }
 `;
@@ -205,7 +208,7 @@ export const CommentsList = styled.ul`
       ${(props) => getLineColor(props)};
   }
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
@@ -247,7 +250,7 @@ export const Comment = styled.li`
       ${(props) => props.theme.borderColor};
     top: 28px;
     left: calc(
-      ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px +
+      ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${AVATAR_TILE_OFFSET}px +
         1em + ${(props) => props.theme.border} * 0.5
     );
     height: calc(100% - 17px);
@@ -298,6 +301,15 @@ export const Comment = styled.li`
     display: none;
   }
 
+  @media (max-width: ${NARROW_NO_RULERS}) {
+    margin-right: calc(0px - ${(props) => props.theme.spacing} * 4.5);
+    padding-right: 0;
+
+    &:after {
+      display: none;
+    }
+  }
+
   @media (max-width: ${MOBILE}) {
     padding-left: calc(
       ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${AVATAR_SIZE}px +
@@ -311,6 +323,7 @@ export const Comment = styled.li`
       ${(props) => props.theme.spacingHalf} +
         ${(props) => props.theme.borderThick} * 2
     );
+
     &:after {
       display: none;
     }
@@ -359,7 +372,7 @@ export const CommentVotesScale = styled.div`
 
   transition: right 0.1s ease-out;
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${NARROW_NO_MARKER_LABELS}) {
     display: none;
   }
 `;
@@ -449,11 +462,19 @@ export const CommentContent = styled.span`
 
 export const CommentDate = styled.span`
   position: absolute;
+  width: 8em;
   left: calc(
     80% - ${(props) => props.theme.spacingHalf} -
       ${(props) => props.theme.border}
   );
-  width: 8em;
+
+  @media (max-width: ${NARROW_NO_RULERS}) {
+    left: calc(
+      80% + ${(props) => props.theme.spacing} -
+        ${(props) => props.theme.spacingQuarter} +
+        ${(props) => props.theme.border}
+    );
+  }
 
   @media (max-width: ${MOBILE}) {
     display: none;

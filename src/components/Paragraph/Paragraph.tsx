@@ -40,7 +40,7 @@ import {
   InlineCommentForm,
   InlineCommentFormGroup,
   InlineCommentInput,
-  InlineCommentsSection,
+  InlineCommentThread,
   ParagraphSection,
   ParagraphText,
   SelectionAnchor,
@@ -478,7 +478,7 @@ const Paragraph: FC = ({ children }) => {
       </CommentButton>
 
       {showInlineCommentThread && (
-        <InlineCommentsSection current={showInlineCommentForm}>
+        <InlineCommentThread current={showInlineCommentForm}>
           {comments?.map(({ userId, userName, timestamp, markdown }) => (
             <InlineComment key={timestamp}>
               by&nbsp;
@@ -550,7 +550,7 @@ const Paragraph: FC = ({ children }) => {
               </InlineCommentFormGroup>
             </InlineCommentForm>
           )}
-        </InlineCommentsSection>
+        </InlineCommentThread>
       )}
 
       {showMarker && (

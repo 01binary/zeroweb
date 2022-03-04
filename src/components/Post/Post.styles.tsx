@@ -15,7 +15,15 @@ import GaugeIcon from '../../images/gauge.svg';
 import ClockIcon from '../../images/clock.svg';
 import { Heading } from '../Heading';
 import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
-import { DESKTOP, MOBILE, SLIDE_COMMENTS_SIDEBAR, WIDE } from '../../constants';
+import {
+  MOBILE,
+  MOBILE_MIN,
+  MOBILE_NARROW,
+  NARROW_INLINE_COMMENTS,
+  NARROW_NO_RULERS,
+  NARROW_SIDE_COMMENTS,
+  SIDE_COMMENTS_WIDTH,
+} from '../../constants';
 
 type MainProps = {
   showCommentsSidebar: boolean;
@@ -25,8 +33,9 @@ export const Main = styled.main<MainProps>`
   position: relative;
   left: 0;
 
-  @media (min-width: ${SLIDE_COMMENTS_SIDEBAR}) {
-    left: ${(props) => (props.showCommentsSidebar ? `calc(0px - 9em)` : '0')};
+  @media (min-width: ${NARROW_SIDE_COMMENTS}) {
+    left: ${(props) =>
+      props.showCommentsSidebar ? `calc(0px - ${SIDE_COMMENTS_WIDTH})` : '0'};
 
     &:before {
       opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
@@ -40,7 +49,7 @@ export const Main = styled.main<MainProps>`
     }
   }
 
-  @media (min-width: 1630px) {
+  @media (min-width: ${NARROW_INLINE_COMMENTS}) {
     left: 0;
   }
 
@@ -163,7 +172,8 @@ export const Main = styled.main<MainProps>`
       border-radius: ${(props) => props.theme.spacingOneAndThird};
       margin: 0 ${(props) => props.theme.spacingHalf} 0 0;
       text-align: center;
-      transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+      transition: color ${(props) => props.theme.animationFast} ease-in-out,
+        background-color ${(props) => props.theme.animationFast} ease-in-out;
     }
 
     &:hover:before,
@@ -176,7 +186,7 @@ export const Main = styled.main<MainProps>`
     }
   }
 
-  @media (max-width: ${DESKTOP}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     h1,
     h2,
     h3,
@@ -195,6 +205,8 @@ export const Main = styled.main<MainProps>`
   }
 
   @media (max-width: ${MOBILE}) {
+    margin-left: 0;
+    margin-right: 0;
     margin-bottom: 1em;
 
     h1,
@@ -246,7 +258,7 @@ export const HeroImage = styled(Img)`
     }
   }
 
-  @media (max-width: ${DESKTOP}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     &:after {
       display: none;
     }
@@ -372,7 +384,7 @@ export const Sidebar = styled.aside<{ sendToBack: boolean }>`
   padding-top: ${(props) => props.theme.spacingThird};
   z-index: 1;
 
-  @media (max-width: ${SLIDE_COMMENTS_SIDEBAR}) {
+  @media (max-width: ${NARROW_SIDE_COMMENTS}) {
     z-index: ${(props) => (props.sendToBack ? 'initial' : 1)};
   }
 
@@ -477,20 +489,20 @@ export const PostHeading = styled(Heading)`
 `;
 
 export const Location = styled.span`
-  @media (max-width: 540px) {
+  @media (max-width: ${MOBILE_NARROW}) {
     display: none;
   }
 `;
 
 export const Author = styled.span`
-  @media (max-width: 380px) {
+  @media (max-width: ${MOBILE_MIN}) {
     display: none;
   }
 `;
 
 export const InlineTimeToRead = styled.span`
   display: none;
-  @media (max-width: 380px) {
+  @media (max-width: ${MOBILE_MIN}) {
     display: block;
   }
 `;

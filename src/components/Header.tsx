@@ -25,7 +25,13 @@ import ArticlesBackground from '../images/navigation-articles.svg';
 import ProjectsBackground from '../images/navigation-projects.svg';
 import AboutBackground from '../images/navigation-about.svg';
 import ROUTES from '../routes';
-import { MOBILE, SLIDE_COMMENTS_SIDEBAR, WIDE } from '../constants';
+import {
+  MOBILE,
+  NARROW_INLINE_COMMENTS,
+  NARROW_NO_RULERS,
+  NARROW_SIDE_COMMENTS,
+  SIDE_COMMENTS_MIN_WIDTH,
+} from '../constants';
 import { useBlogData } from '../hooks/useBlogData';
 
 const HEADER_HEIGHT = 250;
@@ -42,11 +48,9 @@ const ICONS = {
   about: AboutIcon,
 };
 
-type HeroProps = {
+const Hero = styled.header<{
   showCommentsSidebar: boolean;
-};
-
-const Hero = styled.header<HeroProps>`
+}>`
   font-family: ${(props) => props.theme.titleFont};
   background: ${(props) => props.theme.primaryColor};
   color: ${(props) => props.theme.primaryTextColor};
@@ -65,12 +69,26 @@ const Hero = styled.header<HeroProps>`
     ${(props) => props.theme.secondaryColor} 100%
   );
 
-  @media (min-width: ${SLIDE_COMMENTS_SIDEBAR}) {
-    left: ${(props) => (props.showCommentsSidebar ? `calc(0px - 11em)` : 0)};
+  @media (min-width: ${NARROW_SIDE_COMMENTS}) {
+    // Slide to the left when displaying inline comments on the side
+    left: ${(props) =>
+      props.showCommentsSidebar
+        ? `calc(0px - ${SIDE_COMMENTS_MIN_WIDTH} - ${props.theme.spacingDouble})`
+        : '0'};
   }
 
-  @media (min-width: 1630px) {
+  @media (min-width: ${NARROW_INLINE_COMMENTS}) {
+    // Do not slide to the left when too narrow to display inline comments on the side
     left: 0;
+  }
+
+  @media (max-width: ${NARROW_NO_RULERS}) {
+    // Fixup to remove horizontal scrollbar when getting narrower
+    left: calc(0px - ${(props) => props.theme.spacingHalf} - 1px);
+    max-width: calc(
+      ${(props) => props.theme.column} - ${(props) => props.theme.spacing} +
+        ${(props) => props.theme.borderThick}
+    );
   }
 
   transition: width ${(props) => props.theme.animationFast} ease-out,

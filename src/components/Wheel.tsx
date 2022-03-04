@@ -17,6 +17,8 @@ import { useTooltip } from '../hooks/useTooltip';
 import { Tooltip, Arrow } from './Tooltip';
 import { Menu, MenuItem, MenuItemIcon, MenuProps } from './Menu';
 import SnapAnimation from './SnapAnimation';
+import { ShareType } from '../types/AllSharesQuery';
+import { MOBILE, NARROW_INLINE_COMMENTS } from '../constants';
 import Cell from '../images/cell.svg';
 import ShareIcon from '../images/share.svg';
 import CommentIcon from '../images/comment.svg';
@@ -26,8 +28,6 @@ import ShareLinkedInIcon from '../images/share-linkedin.svg';
 import ShareLinkIcon from '../images/share-link.svg';
 import ShareEmailIcon from '../images/share-email.svg';
 import { ContextMenu, ContextMenuArrow } from './ContextMenu';
-import { ShareType } from '../types/AllSharesQuery';
-import { MOBILE, SLIDE_COMMENTS_SIDEBAR } from '../constants';
 
 export const WHEEL_SIZE = 76;
 
@@ -58,11 +58,9 @@ const StyledSnapAnimation = styled(SnapAnimation)`
   left: -8px;
 `;
 
-type WheelhouseProps = {
+const Wheelhouse = styled.aside<{
   showCommentsSidebar?: boolean;
-};
-
-const Wheelhouse = styled.aside<WheelhouseProps>`
+}>`
   display: block;
   position: sticky;
   float: left;
@@ -90,7 +88,7 @@ const Wheelhouse = styled.aside<WheelhouseProps>`
   transition: opacity ${(props) => props.theme.animationFast} ease-out,
     transform ${(props) => props.theme.animationSlow} ease-out;
 
-  @media (min-width: ${SLIDE_COMMENTS_SIDEBAR}) {
+  @media (max-width: ${NARROW_INLINE_COMMENTS}) {
     opacity: ${(props) => (props.showCommentsSidebar ? '0' : '1')};
   }
 

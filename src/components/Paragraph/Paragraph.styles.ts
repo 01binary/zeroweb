@@ -1,14 +1,21 @@
 import styled from 'styled-components';
 import { RULER_ENDMARK_WIDTH } from '../Ruler';
-import { DESKTOP, MOBILE, SLIDE_COMMENTS_SIDEBAR, WIDE } from '../../constants';
+import {
+  MOBILE,
+  MOBILE_NARROW,
+  NARROW_FLIP_MARKERS,
+  NARROW_NO_MARKER_LABELS,
+  NARROW_NO_RULERS,
+  NARROW_SIDE_COMMENTS,
+  SIDE_COMMENTS_MAX_WIDTH,
+  SIDE_COMMENTS_MIN_WIDTH,
+} from '../../constants';
 import { ParagraphSelection } from '../../hooks/useComments';
 
-type ParagraphSectionProps = {
+export const ParagraphSection = styled.section<{
   showCommentsSidebar: boolean;
   editingComment: boolean;
-};
-
-export const ParagraphSection = styled.section<ParagraphSectionProps>`
+}>`
   position: relative;
 
   margin-right: calc(
@@ -57,30 +64,27 @@ export const ParagraphSection = styled.section<ParagraphSectionProps>`
     display: none;
   }
 
-  @media (max-width: 1070px) {
+  @media (max-width: ${NARROW_FLIP_MARKERS}) {
+    margin-right: calc(0px - 30% - ${RULER_ENDMARK_WIDTH}px);
+    padding-right: calc(30% + ${RULER_ENDMARK_WIDTH}px);
+
+    &:after {
+      right: calc(0px - ${(props) => props.theme.borderThick});
+    }
+  }
+
+  @media (max-width: ${NARROW_NO_RULERS}) {
+    margin-right: 0;
+    padding-right: 0;
+
     &:after {
       display: none;
     }
   }
 
-  @media (max-width: 1136px) {
-    margin-right: calc(
-      0px - 30% - ${RULER_ENDMARK_WIDTH}px -
-        ${(props) => props.theme.borderThick}
-    );
-
-    padding-right: calc(
-      30% + ${RULER_ENDMARK_WIDTH}px + ${(props) => props.theme.borderThick}
-    );
-
-    &:after {
-      right: 2px;
-    }
-  }
-
   @media (max-width: ${MOBILE}) {
     padding-right: 0;
-    margin-right: ${(props) => props.theme.spacingHalf};
+    margin-right: 0;
 
     .paragraph__ruler-marker {
       display: none;
@@ -92,7 +96,9 @@ export const ParagraphText = styled.p<{ editingComment: boolean }>`
   background: ${(props) =>
     props.editingComment ? props.theme.secondaryColor : 'initial'};
   color: ${(props) =>
-    props.editingComment ? props.theme.backgroundColor : 'initial'};
+    props.editingComment
+      ? props.theme.backgroundColor
+      : props.theme.foregroundColor};
 
   code {
     position: relative;
@@ -155,12 +161,11 @@ export const CommentButton = styled.button`
     pointer-events: none;
   }
 
-  @media (max-width: 1195px) {
+  @media (max-width: ${NARROW_NO_MARKER_LABELS}) {
     right: initial;
-    top: 0;
+    top: calc(0px - ${(props) => props.theme.border} * 2);
     left: calc(
-      0px - ${(props) => props.theme.spacing} -
-        ${(props) => props.theme.spacingHalf}
+      0px - ${(props) => props.theme.spacing} + ${(props) => props.theme.border}
     );
   }
 
@@ -169,15 +174,15 @@ export const CommentButton = styled.button`
   }
 `;
 
-export const InlineCommentsSection = styled.section<{ current: boolean }>`
+export const InlineCommentThread = styled.section<{ current: boolean }>`
   display: flex;
   flex-direction: column;
   position: absolute;
   top: 0;
   left: 100%;
-  min-width: 7em;
-  max-width: 15em;
-  width: calc(25% - 1em);
+  min-width: ${SIDE_COMMENTS_MIN_WIDTH};
+  max-width: ${SIDE_COMMENTS_MAX_WIDTH};
+  width: calc(30% - ${(props) => props.theme.spacingHalf});
   background: ${(props) => props.theme.backgroundColor};
 
   font-family: ${(props) => props.theme.normalFont};
@@ -190,20 +195,30 @@ export const InlineCommentsSection = styled.section<{ current: boolean }>`
     margin-right: 0;
   }
 
-  @media (max-width: ${SLIDE_COMMENTS_SIDEBAR}) {
+  @media (max-width: ${NARROW_SIDE_COMMENTS}) {
     ${(props) => props.current === false && 'display: none'};
-    border: 1px solid gray;
+    border: ${(props) => props.theme.border} solid
+      ${(props) => props.theme.borderColor};
     left: initial;
-    padding: 30px;
+    padding: ${(props) => props.theme.spacing};
     right: 0;
     width: 40%;
-    min-width: 7em;
-    max-width: 15em;
+    min-width: ${SIDE_COMMENTS_MIN_WIDTH};
+    max-width: ${SIDE_COMMENTS_MAX_WIDTH};
+    border-radius: ${(props) => props.theme.spacingSmall};
+    box-shadow: 0 0 10px
+      ${(props) =>
+        props.theme.isDark
+          ? `${props.theme.accentDarkShadowColor}66`
+          : `${props.theme.dropShadowLightColor}66`};
     z-index: 2;
   }
 
   @media (max-width: ${MOBILE}) {
-    right: 0;
+    right: ${(props) => props.theme.spacingHalf};
+    width: 70%;
+    min-width: ${SIDE_COMMENTS_MIN_WIDTH};
+    max-width: ${MOBILE_NARROW};
   }
 `;
 

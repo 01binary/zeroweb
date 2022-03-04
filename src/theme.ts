@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import { createGlobalStyle } from 'styled-components';
-import { MOBILE, DESKTOP } from './constants';
+import { MOBILE, NARROW_NO_RULERS } from './constants';
 
 const unit = 30;
 
@@ -243,9 +243,7 @@ export const GlobalStyle = createGlobalStyle`
       text-align: right;
     }
 
-    @media(max-width: ${DESKTOP}) {
-      font-size: ${(props) => props.theme.headingFontSizeSmaller};
-
+    @media(max-width: ${NARROW_NO_RULERS}) {
       &:before, &:after {
         content: '';
       }

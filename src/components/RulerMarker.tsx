@@ -10,7 +10,11 @@
 \*---------------------------------------------------------*/
 
 import styled from 'styled-components';
-import { DESKTOP } from '../constants';
+import {
+  NARROW_FLIP_MARKERS,
+  NARROW_NO_MARKER_LABELS,
+  NARROW_NO_RULERS,
+} from '../constants';
 
 export const MARKER_SIZE = 36;
 
@@ -27,15 +31,11 @@ export const RulerMarker = styled.span`
     pointer-events: none;
   }
 
-  @media (max-width: 1195px) {
-    right: initial;
-    left: calc(0px - ${MARKER_SIZE}px - ${(props) => props.theme.spacingHalf});
-  }
-
-  @media (max-width: ${DESKTOP}) {
+  @media (max-width: ${NARROW_FLIP_MARKERS}) {
     right: initial;
     left: calc(
-      0px - ${MARKER_SIZE}px + ${(props) => props.theme.spacingQuarter}
+      0px - ${(props) => props.theme.spacing} +
+        ${(props) => props.theme.borderThick}
     );
   }
 `;
@@ -51,7 +51,11 @@ export const RulerMarkerBadge = styled.span`
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
   pointer-events: none;
 
-  @media (max-width: ${DESKTOP}) {
+  @media (max-width: ${NARROW_NO_MARKER_LABELS}) {
+    display: none;
+  }
+
+  @media (max-width: ${NARROW_NO_RULERS}) {
     display: none;
   }
 `;

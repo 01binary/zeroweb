@@ -15,13 +15,13 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
 import light from 'prism-react-renderer/themes/github';
 import dark from 'prism-react-renderer/themes/vsDark';
-import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
 import { Tooltip, Arrow } from './Tooltip';
-import { RULER_ENDMARK_WIDTH } from './Ruler';
+import { RULER_ENDMARK_WIDTH, RULER_OFFSET } from './Ruler';
+import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
+import { MOBILE, NARROW_FLIP_MARKERS, NARROW_NO_RULERS } from '../constants';
 import CopyIcon from '../images/copy.svg';
 import LightIcon from '../images/light.svg';
 import DarkIcon from '../images/dark.svg';
-import { MOBILE, WIDE } from '../constants';
 
 const DARK_MODE_OVERRIDE = 'darkCode';
 
@@ -39,7 +39,7 @@ const CodeToolbar = styled.div`
       ? `${props.theme.dropShadowDarkColor}D0`
       : `${props.theme.accentLightColor}D0`};
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${NARROW_FLIP_MARKERS}) {
     left: 0;
     right: 0;
     padding-right: ${(props) => props.theme.spacingQuarter};
@@ -117,7 +117,7 @@ type CodeWrapperProps = {
   isCodeDark: boolean;
 };
 
-const CodeWrapper = styled.div<CodeWrapperProps>`
+const CodeWrapper = styled.section<CodeWrapperProps>`
   position: relative;
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: calc(
@@ -160,7 +160,20 @@ const CodeWrapper = styled.div<CodeWrapperProps>`
     }
   }
 
-  @media (max-width: ${WIDE}) {
+  @media (max-width: ${NARROW_FLIP_MARKERS}) {
+    margin-right: 0;
+    padding-right: 0;
+
+    &:after {
+      right: calc(
+        0px - ${RULER_OFFSET}px - ${(props) => props.theme.spacingHalf} -
+          ${(props) => props.theme.borderThick} -
+          ${(props) => props.theme.border}
+      );
+    }
+  }
+
+  @media (max-width: ${NARROW_NO_RULERS}) {
     &:after {
       display: none;
     }

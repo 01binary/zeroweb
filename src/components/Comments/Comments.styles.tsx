@@ -629,16 +629,6 @@ export const AddCommentForm = styled.form`
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
   margin-bottom: ${(props) => props.theme.spacing};
-  margin-left: ${({ tile }) =>
-    tile
-      ? // Tile avatars that are close together in a honeycomb pattern
-        -AVATAR_TILE_OFFSET
-      : // Center avatars that are too far apart
-        0}px;
-
-  @media (max-width: ${MOBILE}) {
-    margin-left: 0;
-  }
 `;
 
 export const AddCommentRow = styled.div`

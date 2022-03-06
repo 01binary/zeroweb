@@ -481,13 +481,6 @@ const Paragraph: FC = ({ children }) => {
         <InlineCommentThread current={showInlineCommentForm}>
           {comments?.map(({ userId, userName, timestamp, markdown }) => (
             <InlineComment key={timestamp}>
-              by&nbsp;
-              {userId === credentials?.userId ? (
-                <Me>{userName}</Me>
-              ) : (
-                <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
-              )}
-              <br />
               <MetaLink
                 to={`?comment=${encodeURIComponent(timestamp)}`}
                 onClick={(e) => {
@@ -506,14 +499,23 @@ const Paragraph: FC = ({ children }) => {
               >
                 {formatCommentDate(timestamp)}
               </MetaLink>
-              &nbsp;
+              {' by '}
+              {userId === credentials?.userId ? (
+                <Me>{userName}</Me>
+              ) : (
+                <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
+              )}
+              <br />
               <ReactMarkdown>{markdown}</ReactMarkdown>
             </InlineComment>
           ))}
           {showInlineCommentForm && (
             <InlineCommentForm onSubmit={(e) => e.preventDefault()}>
+              commenting as <MetaLink to="/profile">{user?.name}</MetaLink>:
+              <br />
               <InlineCommentInput
                 ref={inlineCommentRef}
+                placeholder="comment on this paragraph"
                 onChange={handleEditInlineComment}
                 onKeyDown={handleInlineCommentKeyDown}
               />

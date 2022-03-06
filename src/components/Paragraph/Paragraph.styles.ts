@@ -182,6 +182,7 @@ export const InlineCommentThread = styled.section<{ current: boolean }>`
   left: 100%;
   min-width: ${SIDE_COMMENTS_MIN_WIDTH};
   max-width: ${SIDE_COMMENTS_MAX_WIDTH};
+  ${(props) => (props.current ? 'z-index: 1' : 'opacity:.8')};
   width: calc(30% - ${(props) => props.theme.spacingHalf});
   background: ${(props) => props.theme.backgroundColor};
 
@@ -235,7 +236,6 @@ export const InlineCommentForm = styled.form`
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
-
   width: 100%;
 `;
 
@@ -255,11 +255,13 @@ export const InlineCommentInput = styled.textarea`
     ${(props) => props.theme.borderColor};
 
   padding: ${(props) => props.theme.spacingHalf};
+  margin-top: ${(props) => props.theme.spacingHalf};
 `;
 
 export const InlineCommentFormGroup = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: ${(props) => props.theme.borderThick};
 `;
 
 export const InlineCommentError = styled(Error)`

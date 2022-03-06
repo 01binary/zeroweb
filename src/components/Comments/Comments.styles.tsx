@@ -14,29 +14,12 @@ import {
 } from '../../constants';
 
 const VOTE_SLOT_WIDTH = 12;
-const AVATAR_TILE_MAX_DIST = 30;
 const AVATAR_TILE_OFFSET = 19;
 
 export const MAX_VOTE_SLOTS = 10;
 
 const getLineColor = (props) =>
   props.theme.isDark ? props.theme.accentShadowColor : props.theme.shadowColor;
-
-const getAvatarHorzOffset = (
-  index: number,
-  distance: number,
-  prevDistance: number,
-  count: number
-) => {
-  const prevTile = index > 1 && prevDistance < AVATAR_TILE_MAX_DIST;
-  const tile =
-    count === 1 || (index > 0 && distance < AVATAR_TILE_MAX_DIST && !prevTile);
-  return tile
-    ? // Tile avatars that are close together in a honeycomb pattern
-      -AVATAR_TILE_OFFSET
-    : // Center avatars that are too far apart
-      0;
-};
 
 type CommentsSectionProps = {
   isLoading: boolean;
@@ -303,6 +286,7 @@ export const Comment = styled.li`
 
   @media (max-width: ${NARROW_NO_RULERS}) {
     margin-right: calc(0px - ${(props) => props.theme.spacing} * 4.5);
+    margin-left: ${(props) => props.theme.spacingHalf};
     padding-right: 0;
 
     &:after {
@@ -316,12 +300,13 @@ export const Comment = styled.li`
         ${AVATAR_TILE_OFFSET}px + 1em
     );
     padding-right: 0;
+    margin-left: 0;
     margin-right: calc(
       -${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}px + ${(props) => props.theme.spacingHalf}
     );
     margin-bottom: calc(
       ${(props) => props.theme.spacingHalf} +
-        ${(props) => props.theme.borderThick} * 2
+        ${(props) => props.theme.borderThick} * 3
     );
 
     &:after {
@@ -337,13 +322,12 @@ export const Me = styled.span`
 export const CommentAvatar = styled.div`
   position: absolute;
   left: calc(
-    ${(props) =>
-        getAvatarHorzOffset(
-          props.index,
-          props.distance,
-          props.prevDistance,
-          props.count
-        )}px + ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX +
+    ${({ tile }) =>
+        tile
+          ? // Tile avatars that are close together in a honeycomb pattern
+            -AVATAR_TILE_OFFSET
+          : // Center avatars that are too far apart
+            0}px + ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX +
       ${AVATAR_TILE_OFFSET}px
   );
   top: -0.5em;
@@ -354,10 +338,7 @@ export const CommentAvatar = styled.div`
 
   @media (max-width: ${MOBILE}) {
     left: calc(
-      ${(props) =>
-        `${
-          MAX_VOTE_SLOTS + 1
-        } * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px`}
+      ${MAX_VOTE_SLOTS + 1} * ${VOTE_SLOT_WIDTH}PX + ${AVATAR_TILE_OFFSET}px
     );
   }
 `;
@@ -571,9 +552,20 @@ export const CommentReactionDescription = styled.div`
 
 export const EditCommentForm = styled.form`
   position: relative;
-  width: calc(100% - 3em);
+  width: calc(
+    100% - ${(props) => props.theme.spacing} -
+      ${(props) => props.theme.spacingQuarter}
+  );
   margin-top: ${(props) => props.theme.spacingHalf};
   margin-bottom: -${(props) => props.theme.spacing};
+
+  @media (max-width: ${NARROW_NO_RULERS}) {
+    width: calc(80% - ${(props) => props.theme.spacingTriple});
+  }
+
+  @media (max-width: ${MOBILE}) {
+    width: calc(100% - ${(props) => props.theme.spacing});
+  }
 `;
 
 export const EditCommentInput = styled.textarea`
@@ -593,10 +585,10 @@ export const EditCommentInput = styled.textarea`
 export const EditCommentButtonGroup = styled.div`
   display: flex;
   position: absolute;
-  left: calc(100% + ${(props) => props.theme.spacingDouble});
+  left: calc(100% + ${(props) => props.theme.spacingOneAndHalf});
   top: 0;
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${NARROW_NO_RULERS}) {
     position: initial;
     left: initial;
     top: initial;
@@ -640,15 +632,13 @@ export const AddCommentForm = styled.form`
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
-  margin-top: ${(props) => (props.hasComments ? 0 : -props.theme.spacing)};
   margin-bottom: ${(props) => props.theme.spacing};
-  margin-left: ${(props) =>
-    getAvatarHorzOffset(
-      props.lastIndex + 1,
-      1,
-      props.prevDistance,
-      props.count
-    )}px;
+  margin-left: ${({ tile }) =>
+    tile
+      ? // Tile avatars that are close together in a honeycomb pattern
+        -AVATAR_TILE_OFFSET
+      : // Center avatars that are too far apart
+        0}px;
 
   @media (max-width: ${MOBILE}) {
     margin-left: 0;
@@ -658,10 +648,7 @@ export const AddCommentForm = styled.form`
 export const AddCommentRow = styled.div`
   display: flex;
   align-items: center;
-  width: calc(
-    100% - ${(props) => props.theme.spacing} -
-      ${(props) => props.theme.borderThick}
-  );
+  width: calc(80% - ${(props) => props.theme.spacingOneAndHalf});
   justify-content: ${(props) =>
     props.align === 'right' ? 'flex-end' : 'flex-start'};
 
@@ -703,14 +690,7 @@ export const AddCommentInput = styled.textarea`
   padding: ${(props) => props.theme.spacingHalf};
   margin-top: ${(props) => props.theme.spacingHalf};
   margin-bottom: ${(props) => props.theme.spacingHalf};
-  margin-left: calc(
-    ${(props) => props.theme.spacingOneAndHalf} +
-      ${(props) => props.theme.spacingQuarter} + ${AVATAR_SIZE}px
-  );
-
-  @media (max-width: ${MOBILE}) {
-    margin-left: ${(props) => props.theme.spacingHalf};
-  }
+  margin-left: ${(props) => props.theme.spacingHalf};
 `;
 
 export const LoadCommentsError = styled(Error)`

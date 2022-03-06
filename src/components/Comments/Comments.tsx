@@ -210,7 +210,7 @@ const Comments: FC<CommentsProps> = ({
   } = useBlogData();
   const [commentError, setCommentError] = useState<string | null>();
   const [comment, setComment] = useState<string>('');
-  const [commentHeights, setCommentHeights] = useState<number[]>([]);
+  const [commentTiles, setCommentTiles] = useState<boolean[]>([]);
   const commentsMarkerOffsetRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);
   const commentSpansRef = useRef<number[]>([]);
@@ -266,6 +266,8 @@ const Comments: FC<CommentsProps> = ({
 
   useLayoutEffect(() => {
     // Calculate % scrolled through comments and which comment is in view
+    const AVATAR_TILE_MAX_DIST = 30;
+
     if (commentsRef.current && postComments && postComments.length > 0) {
       const commentsRect = commentsRef.current.getBoundingClientRect();
       const {
@@ -283,20 +285,33 @@ const Comments: FC<CommentsProps> = ({
           )
         ) / commentsRect.height;
 
-      const { current, spans, heights } = postComments.reduce(
-        ({ sum, current, spans, heights }, { timestamp }, index) => {
+      const { current, spans, tiles } = postComments.reduce(
+        (
+          { sum, current, spans, tiles, prevTile, dist },
+          { timestamp },
+          index,
+          items
+        ) => {
           const { height } = document
             .getElementById(`comment-${timestamp}`)
             .getBoundingClientRect();
+
           const nextSum = sum + height / commentsRect.height;
+
+          const tile =
+            items.length === 1 ||
+            (index > 0 && dist < AVATAR_TILE_MAX_DIST && !prevTile);
+
           return {
             sum: nextSum,
             current: offsetPercent > sum ? index : current,
             spans: [...spans, nextSum],
-            heights: [...heights, height],
+            tiles: [...tiles, tile],
+            prevTile: tile,
+            dist: height,
           };
         },
-        { sum: 0, current: 0, spans: [], heights: [] }
+        { sum: 0, current: 0, dist: 0, spans: [], tiles: [], prevTile: false }
       );
 
       const offsetPixels = commentsRect.height * offsetPercent;
@@ -309,9 +324,9 @@ const Comments: FC<CommentsProps> = ({
         readPosition > 0.99 ? postComments.length - 1 : current;
       commentSpansRef.current = spans;
 
-      setCommentHeights(heights);
+      setCommentTiles(tiles);
     }
-  }, [scrollOffset, postComments, setCommentHeights]);
+  }, [scrollOffset, postComments, setCommentTiles]);
 
   const handleChangeComment = useCallback(
     ({ target: { value } }) => {
@@ -521,6 +536,7 @@ const Comments: FC<CommentsProps> = ({
               (
                 {
                   timestamp,
+                  paragraph,
                   markdown,
                   avatarUrl,
                   userId,
@@ -545,8 +561,7 @@ const Comments: FC<CommentsProps> = ({
                   <CommentAvatar
                     index={index}
                     count={postComments.length}
-                    prevDistance={index > 1 ? commentHeights[index - 2] : -1}
-                    distance={index > 0 ? commentHeights[index - 1] : -1}
+                    tile={commentTiles[index]}
                   >
                     <Avatar avatarUrl={avatarUrl} />
                     <CommentVotes
@@ -584,6 +599,12 @@ const Comments: FC<CommentsProps> = ({
                     <Me>{userName}</Me>
                   ) : (
                     <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
+                  )}
+                  {paragraph && (
+                    <span>
+                      {' '}
+                      <MetaLink to={`#${paragraph}`}>inline</MetaLink>
+                    </span>
                   )}
                   <CommentDate>
                     <MetaLink
@@ -705,14 +726,9 @@ const Comments: FC<CommentsProps> = ({
         <AddCommentForm
           onSubmit={(e) => e.preventDefault()}
           hasComments={Boolean(postComments && postComments.length)}
-          lastIndex={postComments.length + 1}
-          count={postComments.length}
-          prevDistance={commentHeights[postComments.length - 1]}
+          tile={commentTiles.length && !commentTiles[postComments.length - 1]}
         >
-          <AddCommentRow distribute>
-            <AddCommentAvatar>
-              <Avatar avatarUrl={user.avatarUrl} />
-            </AddCommentAvatar>
+          <AddCommentRow>
             <AddCommentUser>
               commenting as <MetaLink to="/profile">{user.name}</MetaLink>
             </AddCommentUser>

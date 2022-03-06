@@ -37,7 +37,7 @@ const HeadingText = styled.span`
 `;
 
 export const getHeadingSlug = (main: boolean, text: string): string =>
-  main ? null : slugify(text, { lower: true });
+  main ? null : slugify(text, { lower: true, strict: true });
 
 export const getHeadingUrl = (baseUrl: string, slug?: string): string =>
   slug ? `${baseUrl}#${slug}` : baseUrl;

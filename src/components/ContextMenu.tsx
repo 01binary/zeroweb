@@ -16,6 +16,8 @@ export const ContextMenu = styled.div`
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
   text-transform: lowercase;
+
+  position: absolute;
   opacity: 0;
   transition: opacity ${(props) => props.theme.animationFast} ease-in-out;
 

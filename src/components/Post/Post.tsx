@@ -246,6 +246,10 @@ const Post: FC<PostProps> = ({
           length: paragraphSelection?.length,
         });
       }
+
+      hideParagraphMenu();
+      setParagraphSelection(null);
+      setHighlightedParagraph(null);
     },
     [
       user,
@@ -254,6 +258,9 @@ const Post: FC<PostProps> = ({
       handleAdd,
       setShowCommentsSidebar,
       setInlineCommentParagraph,
+      setParagraphSelection,
+      setHighlightedParagraph,
+      hideParagraphMenu,
     ]
   );
 

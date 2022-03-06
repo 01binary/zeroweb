@@ -25,7 +25,10 @@ import DarkIcon from '../images/dark.svg';
 
 const DARK_MODE_OVERRIDE = 'darkCode';
 
-const CodeToolbar = styled.div`
+const CodeToolbar = styled.div<{
+  isDark: boolean;
+  isCodeDark: boolean;
+}>`
   position: absolute;
   display: flex;
   flex-direction: row-reverse;
@@ -35,8 +38,8 @@ const CodeToolbar = styled.div`
 
   border-radius: ${(props) => props.theme.borderThick};
   background: ${(props) =>
-    props.theme.isDark
-      ? `${props.theme.dropShadowDarkColor}D0`
+    props.isDark || props.isCodeDark
+      ? `${props.theme.alwaysShadowColor}D0`
       : `${props.theme.accentLightColor}D0`};
 
   @media (max-width: ${NARROW_FLIP_MARKERS}) {
@@ -112,12 +115,10 @@ const CodeButton: FC<CodeButtonProps> = ({
   );
 };
 
-type CodeWrapperProps = {
+const CodeWrapper = styled.section<{
   isDark: boolean;
   isCodeDark: boolean;
-};
-
-const CodeWrapper = styled.section<CodeWrapperProps>`
+}>`
   position: relative;
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: calc(
@@ -282,7 +283,7 @@ const Code: FC = ({ children }) => {
                   ))}
               </span>
             </Pre>
-            <CodeToolbar>
+            <CodeToolbar isDark={isDark} isCodeDark={isCodeDark}>
               <CodeButton
                 tipId={'copy'}
                 tipRef={tipRef}

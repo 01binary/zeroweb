@@ -285,7 +285,7 @@ export const Comment = styled.li`
   }
 
   @media (max-width: ${NARROW_NO_RULERS}) {
-    margin-right: calc(0px - ${(props) => props.theme.spacing} * 4.5);
+    margin-right: calc(${(props) => props.theme.spacing} * 3.5);
     margin-left: ${(props) => props.theme.spacingHalf};
     padding-right: 0;
 
@@ -450,11 +450,7 @@ export const CommentDate = styled.span`
   );
 
   @media (max-width: ${NARROW_NO_RULERS}) {
-    left: calc(
-      80% + ${(props) => props.theme.spacing} -
-        ${(props) => props.theme.spacingQuarter} +
-        ${(props) => props.theme.border}
-    );
+    left: calc(100% + ${(props) => props.theme.spacingOneAndHalf});
   }
 
   @media (max-width: ${MOBILE}) {

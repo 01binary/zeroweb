@@ -9,8 +9,8 @@ export const Menu = styled.div<{ horizontal?: boolean; fade?: boolean }>`
   flex-direction: ${(props) => (props.horizontal === true ? 'row' : 'column')};
   min-width: 180px;
   padding-top: 4px;
-  opacity: ${(props) => (props.fade ? '0.7' : 'initial')};
-  pointer-events: ${(props) => (props.fade ? 'none' : 'initial')};
+  ${(props) => props.fade && 'pointer-events: none'}
+  ${(props) => props.fade && 'opacity: 0.7'}
 `;
 
 export const MenuItemIcon = styled.div`

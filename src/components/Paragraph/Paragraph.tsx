@@ -47,6 +47,10 @@ import {
   Me,
 } from './Paragraph.styles';
 
+// How long to wait before hiding paragraph highlight menu
+const HIGHLIGHT_MOUSEOVER_TIMEOUT = 1500;
+
+// Get unique paragraph identifier given paragraph text
 const getHash = (text: string): string | undefined =>
   text ? `p${stringHash(text)}` : undefined;
 
@@ -116,6 +120,7 @@ const Paragraph: FC = ({ children }) => {
   const {
     postUrl,
     comments: allReactions,
+    highlightTimerRef,
     loading,
     showTipFor,
     hideTip,
@@ -297,6 +302,11 @@ const Paragraph: FC = ({ children }) => {
       !paragraphSelection &&
       (!highlightedParagraph || highlightedParagraph?.hover)
     ) {
+      if (highlightTimerRef.current) {
+        window.clearTimeout(highlightTimerRef.current);
+        highlightTimerRef.current = 0;
+      }
+
       setHighlightedParagraph({
         hash,
         start: highlightStart,
@@ -312,8 +322,10 @@ const Paragraph: FC = ({ children }) => {
       !paragraphSelection &&
       (!highlightedParagraph || highlightedParagraph?.hover)
     ) {
-      setHighlightedParagraph(null);
-      hideParagraphMenu();
+      highlightTimerRef.current = window.setTimeout(() => {
+        setHighlightedParagraph(null);
+        hideParagraphMenu();
+      }, HIGHLIGHT_MOUSEOVER_TIMEOUT);
     }
   }, [paragraphSelection, hideParagraphMenu, setHighlightedParagraph]);
 

@@ -8,6 +8,8 @@ type ParagraphMenuProps = {
   loading: boolean;
   comments: number;
   highlights: number;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
 } & MenuProps;
 
 const ParagraphMenuItemBadge = styled.div`
@@ -19,8 +21,15 @@ const ParagraphMenu: FC<ParagraphMenuProps> = ({
   comments,
   highlights,
   onSelect,
+  onMouseOver,
+  onMouseOut,
 }) => (
-  <Menu horizontal fade={loading}>
+  <Menu
+    horizontal
+    fade={loading}
+    onMouseOver={onMouseOver}
+    onMouseOut={onMouseOut}
+  >
     <MenuItem id="paragraphHighlight" onClick={onSelect}>
       <HighlightIcon />
       {highlights > 1 ? 'Highlights' : 'Highlight'}

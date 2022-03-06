@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { createContext, useContext, useCallback } from 'react';
+import React, { createContext, useContext, useCallback } from 'react';
 import gql from 'graphql-tag';
 import { ApolloCache, FetchResult, useMutation } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
@@ -51,6 +51,7 @@ type CommentsContextProps = {
   postUrl: string;
   comments: CommentQuery[] | null;
   loading: boolean;
+  highlightTimerRef: React.MutableRefObject<number>;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
   showParagraphMenu: ShowTipForHandler;
@@ -71,6 +72,7 @@ export const CommentsContext = createContext<CommentsContextProps>({
   postUrl: '',
   comments: null,
   loading: false,
+  highlightTimerRef: null,
   showTipFor: () => {},
   hideTip: () => {},
   showParagraphMenu: () => {},

@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useCallback, useEffect } from 'react';
+import React, { useState, FC, useCallback, useEffect, useRef } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
@@ -65,15 +65,16 @@ import { useTooltip } from '../../hooks/useTooltip';
 import { Arrow, Tooltip } from '../Tooltip';
 import ParagraphMenu from './ParagraphMenu';
 
+// How long to wait before hiding paragraph highlight menu
+const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 1000;
+
 const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 
 const LocationLink = () => <MetaLink to="#">Portland, OR</MetaLink>;
 
-type PostProps = {
+const Post: FC<{
   data: PostQuery;
-};
-
-const Post: FC<PostProps> = ({
+}> = ({
   data: {
     site: {
       siteMetadata: { url: siteUrl },
@@ -96,6 +97,7 @@ const Post: FC<PostProps> = ({
     allMdx: { group },
   },
 }) => {
+  const highlightTimerRef = useRef<number>(0);
   const [readPosition, setReadPosition] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
 
@@ -264,6 +266,22 @@ const Post: FC<PostProps> = ({
     ]
   );
 
+  const handleParagraphMenuMouseOver = useCallback(() => {
+    if (highlightTimerRef.current) {
+      window.clearTimeout(highlightTimerRef.current);
+      highlightTimerRef.current = 0;
+    }
+  }, []);
+
+  const handleParagraphMenuMouseOut = useCallback(() => {
+    if (!highlightTimerRef.current) {
+      highlightTimerRef.current = window.setTimeout(() => {
+        setHighlightedParagraph(null);
+        hideParagraphMenu();
+      }, HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT);
+    }
+  }, [setHighlightedParagraph, hideParagraphMenu]);
+
   const handleAddInlineComment = useCallback(() => {
     if (inlineCommentParagraph?.markdown)
       return handleAdd({
@@ -409,6 +427,7 @@ const Post: FC<PostProps> = ({
               setInlineCommentParagraph: handleToggleInlineComment,
               addInlineComment: handleAddInlineComment,
               showCommentsSidebar,
+              highlightTimerRef,
             }}
           >
             <MDXRenderer>{body}</MDXRenderer>
@@ -420,6 +439,8 @@ const Post: FC<PostProps> = ({
               highlights={paragraphHighlightCount}
               comments={paragraphCommentCount}
               onSelect={handleParagraphAction}
+              onMouseOver={handleParagraphMenuMouseOver}
+              onMouseOut={handleParagraphMenuMouseOut}
             />
           </ContextMenu>
         </Content>

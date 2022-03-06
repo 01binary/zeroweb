@@ -76,8 +76,6 @@ const StyledLink = styled(Link)`
   }
 
   .navigation-icon {
-    z-index: 6;
-
     width: 24px;
     height: 24px;
 

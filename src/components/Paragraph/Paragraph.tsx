@@ -151,7 +151,9 @@ const Paragraph: FC = ({ children }) => {
   const showComments = Boolean(comments?.length);
   const showMarker = showComments || showHighlights;
   const showHighlightMark = Boolean(paragraphRef.current && highlights?.length);
-  const showInlineCommentForm = Boolean(inlineCommentParagraph?.hash === hash);
+  const showInlineCommentForm = Boolean(
+    user && inlineCommentParagraph?.hash === hash
+  );
   const showInlineCommentThread = Boolean(
     (showComments && showCommentsSidebar) || showInlineCommentForm
   );

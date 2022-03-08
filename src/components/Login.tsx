@@ -6,32 +6,42 @@ import Google from '../images/google.svg';
 import Twitter from '../images/twitter.svg';
 import Alert from './Alert';
 
-const Container = styled.section`
-  margin-bottom: ${(props) => props.theme.spacingHalf};
+const Container = styled.section<{ inline?: boolean }>`
+  ${(props) => !props.inline && `margin-bottom: ${props.theme.spacingHalf}`};
 `;
 
-const Prompt = styled.div`
+const Prompt = styled.div<{ inline?: boolean }>`
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: ${(props) => (props.inline ? 'flex-start' : 'center')};
 
-  font-family: ${(props) => props.theme.normalFont};
-  font-size: ${(props) => props.theme.normalFontSize};
-  font-weight: ${(props) => props.theme.normalFontWeight};
+  ${(props) => props.inline && 'flex-direction:column'};
+
+  font-family: ${(props) =>
+    props.inline ? props.theme.smallFont : props.theme.normalFont};
+  font-size: ${(props) =>
+    props.inline ? props.theme.smallFontSize : props.theme.normalFontSize};
+  font-weight: ${(props) =>
+    props.inline ? props.theme.smallFontWeight : props.theme.normalFontWeight};
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
-const Text = styled.p`
-  font-family: ${(props) => props.theme.normalFont};
-  font-size: ${(props) => props.theme.normalFontSize};
-  font-weight: ${(props) => props.theme.normalFontWeight};
+const Text = styled.p<{ inline?: boolean }>`
+  font-family: ${(props) =>
+    props.inline ? props.theme.smallFont : props.theme.normalFont};
+  font-size: ${(props) =>
+    props.inline ? props.theme.smallFontSize : props.theme.normalFontSize};
+  font-weight: ${(props) =>
+    props.inline ? props.theme.smallFontWeight : props.theme.normalFontWeight};
   color: ${(props) => props.theme.secondaryTextColor};
+  ${(props) => props.inline && 'margin:0'};
 `;
 
 const ProviderList = styled.ul`
   padding: 0;
   margin: 0;
   margin-right: ${(props) => props.theme.spacingHalf};
+  display: flex;
 `;
 
 const Provider = styled.li`
@@ -39,6 +49,7 @@ const Provider = styled.li`
 `;
 
 type LoginProps = {
+  inline?: boolean;
   loginError: string;
   handleFacebookLogin: () => void;
   handleGoogleLogin: () => void;
@@ -50,14 +61,15 @@ const Login: FC<LoginProps> = ({
   handleGoogleLogin,
   handleTwitterLogin,
   loginError,
+  inline,
 }) =>
   loginError ? (
     <Error>{loginError}</Error>
   ) : (
-    <Container>
-      <Alert>
-        <Prompt>
-          <Text>Please login to comment:</Text>
+    <Container inline={inline}>
+      <Alert inline={inline}>
+        <Prompt inline={inline}>
+          <Text inline={inline}>Please login to comment:</Text>
           <ProviderList>
             <Provider>
               <button onClick={handleFacebookLogin}>

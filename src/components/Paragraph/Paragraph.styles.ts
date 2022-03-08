@@ -29,7 +29,7 @@ export const ParagraphSection = styled.section<{
   );
 
   .paragraph__comment {
-    opacity: 0;
+    opacity: ${(props) => (props.editingComment ? 1 : 0)};
   }
 
   .paragraph__ruler-marker__badge {
@@ -182,7 +182,7 @@ export const InlineCommentThread = styled.section<{ current: boolean }>`
   left: 100%;
   min-width: ${SIDE_COMMENTS_MIN_WIDTH};
   max-width: ${SIDE_COMMENTS_MAX_WIDTH};
-  ${(props) => (props.current ? 'z-index: 1' : 'opacity:.8')};
+  ${(props) => props.current && 'z-index: 1'};
   width: calc(30% - ${(props) => props.theme.spacingHalf});
   background: ${(props) => props.theme.backgroundColor};
 

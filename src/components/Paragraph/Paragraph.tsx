@@ -31,6 +31,7 @@ import SaveIcon from '../../images/accept.svg';
 import CancelIcon from '../../images/cancel.svg';
 import { useBlogData } from '../../hooks/useBlogData';
 import MetaLink from '../MetaLink';
+import Login from '../Login';
 import { formatCommentDate } from '../../utils';
 import {
   CommentButton,
@@ -116,7 +117,14 @@ const Paragraph: FC = ({ children }) => {
 
   const [innerText, setText] = useState<string | undefined>();
   const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
-  const { user, credentials } = useBlogData();
+  const {
+    user,
+    credentials,
+    loginError,
+    handleFacebookLogin,
+    handleTwitterLogin,
+    handleGoogleLogin,
+  } = useBlogData();
   const {
     postUrl,
     comments: allReactions,
@@ -151,11 +159,9 @@ const Paragraph: FC = ({ children }) => {
   const showComments = Boolean(comments?.length);
   const showMarker = showComments || showHighlights;
   const showHighlightMark = Boolean(paragraphRef.current && highlights?.length);
-  const showInlineCommentForm = Boolean(
-    user && inlineCommentParagraph?.hash === hash
-  );
+  const showInlineCommentForm = Boolean(inlineCommentParagraph?.hash === hash);
   const showInlineCommentThread = Boolean(
-    (showComments && showCommentsSidebar) || showInlineCommentForm
+    showCommentsSidebar && (showComments || showInlineCommentForm)
   );
 
   const { highlightStart, highlightEnd } = useMemo(
@@ -525,8 +531,20 @@ const Paragraph: FC = ({ children }) => {
           ))}
           {showInlineCommentForm && (
             <InlineCommentForm onSubmit={(e) => e.preventDefault()}>
-              commenting as <MetaLink to="/profile">{user?.name}</MetaLink>:
-              <br />
+              {user && (
+                <span>
+                  commenting as <MetaLink to="/profile">{user?.name}</MetaLink>:
+                </span>
+              )}
+              {!user && (
+                <Login
+                  handleFacebookLogin={handleFacebookLogin}
+                  handleGoogleLogin={handleGoogleLogin}
+                  handleTwitterLogin={handleTwitterLogin}
+                  loginError={loginError}
+                  inline={true}
+                />
+              )}
               <InlineCommentInput
                 ref={inlineCommentRef}
                 placeholder="comment on this paragraph"

@@ -46,6 +46,7 @@ import {
   ParagraphText,
   SelectionAnchor,
   Me,
+  CurrentUser,
 } from './Paragraph.styles';
 
 // How long to wait before hiding paragraph highlight menu
@@ -532,9 +533,9 @@ const Paragraph: FC = ({ children }) => {
           {showInlineCommentForm && (
             <InlineCommentForm onSubmit={(e) => e.preventDefault()}>
               {user && (
-                <span>
+                <CurrentUser threadHasComments={Boolean(comments.length)}>
                   commenting as <MetaLink to="/profile">{user?.name}</MetaLink>:
-                </span>
+                </CurrentUser>
               )}
               {!user && (
                 <Login

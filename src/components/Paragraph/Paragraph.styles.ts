@@ -202,6 +202,7 @@ export const InlineCommentThread = styled.section<{ current: boolean }>`
       ${(props) => props.theme.borderColor};
     left: initial;
     padding: ${(props) => props.theme.spacing};
+    padding-bottom: ${(props) => props.theme.spacingHalf};
     right: 0;
     width: 40%;
     min-width: ${SIDE_COMMENTS_MIN_WIDTH};
@@ -237,6 +238,11 @@ export const InlineCommentForm = styled.form`
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
   width: 100%;
+`;
+
+export const CurrentUser = styled.section<{ threadHasComments: boolean }>`
+  ${(props) =>
+    props.threadHasComments && `margin-top: ${props.theme.spacingHalf}`};
 `;
 
 export const InlineCommentInput = styled.textarea`

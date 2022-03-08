@@ -10,6 +10,7 @@ import React, {
 
 import ReactMarkdown from 'react-markdown';
 import { FetchResult } from '@apollo/client';
+import { useTheme } from 'styled-components';
 import Avatar from '../Avatar';
 import MetaLink from '../MetaLink';
 import Login from '../Login';
@@ -198,6 +199,7 @@ const Comments: FC<CommentsProps> = ({
   readPosition,
   scrollOffset,
 }) => {
+  const theme = useTheme();
   const {
     user,
     credentials,
@@ -215,7 +217,6 @@ const Comments: FC<CommentsProps> = ({
   const commentsIndexRef = useRef<number>(0);
   const commentSpansRef = useRef<number[]>([]);
   const commentsRef = useRef<HTMLElement>();
-  const markerRef = useRef<HTMLElement>();
   const optionRef = useRef<HTMLElement>();
   const editRef = useRef<HTMLTextAreaElement>();
   const tipTargetRef = useRef<HTMLElement>();
@@ -270,9 +271,6 @@ const Comments: FC<CommentsProps> = ({
 
     if (commentsRef.current && postComments && postComments.length > 0) {
       const commentsRect = commentsRef.current.getBoundingClientRect();
-      const {
-        height: markerHeight,
-      } = markerRef.current.getBoundingClientRect();
       const bodyRect = document.body.getBoundingClientRect();
       const commentsTop = commentsRect.top - bodyRect.top;
 
@@ -316,10 +314,10 @@ const Comments: FC<CommentsProps> = ({
 
       const offsetPixels = commentsRect.height * offsetPercent;
 
-      commentsMarkerOffsetRef.current =
-        offsetPixels > markerHeight
-          ? offsetPixels - markerHeight
-          : offsetPixels;
+      commentsMarkerOffsetRef.current = Math.max(
+        0,
+        offsetPixels - theme.unit * 1.5
+      );
       commentsIndexRef.current =
         readPosition > 0.99 ? postComments.length - 1 : current;
       commentSpansRef.current = spans;
@@ -694,7 +692,7 @@ const Comments: FC<CommentsProps> = ({
               offset={`${commentsMarkerOffsetRef.current}px`}
             >
               <CommentMarker />
-              <DateMarkerLabel ref={markerRef}>
+              <DateMarkerLabel>
                 <MarkerCount>
                   {commentsIndexRef.current + 1}
                   {' / '}

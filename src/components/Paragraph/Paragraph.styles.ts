@@ -24,12 +24,24 @@ export const ParagraphWrapper = styled.section<{
       ${(props) => props.theme.spacingOneAndHalf}
   );
 
-  .paragraph__comment {
+  .paragraph__comment-button {
     opacity: ${(props) => (props.editingComment ? 1 : 0)};
+  }
+
+  .paragraph__ruler-marker {
+    ${(props) => props.editingComment && 'display:none'};
+  }
+
+  &:hover .paragraph__comment-button {
+    opacity: 1;
   }
 
   .paragraph__ruler-marker__badge {
     opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
+  }
+
+  &:hover .paragraph__ruler-marker {
+    display: none;
   }
 
   &:after {
@@ -50,14 +62,6 @@ export const ParagraphWrapper = styled.section<{
 
   &:hover:after {
     opacity: 1;
-  }
-
-  &:hover button {
-    opacity: 1;
-  }
-
-  &:hover .paragraph__ruler-marker {
-    display: none;
   }
 
   @media (max-width: ${NARROW_FLIP_MARKERS}) {

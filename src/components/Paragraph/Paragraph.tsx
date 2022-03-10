@@ -446,7 +446,7 @@ const Paragraph: FC = ({ children }) => {
       )}
 
       <CommentButton
-        className="paragraph__comment"
+        className="paragraph__comment-button"
         ref={commentButtonRef}
         onClick={handleToggleInlineComment}
         onMouseOver={() => showTipFor('comment', commentButtonRef)}

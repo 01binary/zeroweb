@@ -299,6 +299,14 @@ const Post: FC<{
     };
   }, [handleClearHighlight]);
 
+  useEffect(
+    () => () => {
+      // Hide comment sidebar on unmount
+      setShowCommentsSidebar(false);
+    },
+    [setShowCommentsSidebar]
+  );
+
   return (
     <MDXProvider
       components={{

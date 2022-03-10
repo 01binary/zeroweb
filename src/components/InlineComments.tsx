@@ -9,7 +9,13 @@
 |  Copyright(C) 2022 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useRef, useCallback } from 'react';
+import React, {
+  FC,
+  useRef,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import { ParagraphComment } from '../hooks/useComments';
@@ -29,7 +35,10 @@ import {
   SIDE_COMMENTS_MIN_WIDTH,
 } from '../constants';
 
-const InlineCommentThread = styled.section<{ current: boolean }>`
+const InlineCommentThread = styled.section<{
+  current: boolean;
+  alignBottom: boolean;
+}>`
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -53,6 +62,9 @@ const InlineCommentThread = styled.section<{ current: boolean }>`
 
   @media (max-width: ${NARROW_SIDE_COMMENTS}) {
     ${(props) => props.current === false && 'display: none'};
+    ${(props) =>
+      props.alignBottom && `top: initial; bottom: -${props.theme.spacingHalf}`};
+
     border: ${(props) => props.theme.border} solid
       ${(props) => props.theme.borderColor};
     left: initial;
@@ -202,6 +214,8 @@ export const InlineComments: FC<InlineCommentsProps> = ({
     handleGoogleLogin,
   } = useBlogData();
 
+  const [alignBottom, setAlignBottom] = useState<boolean>(false);
+  const commentThreadRef = useRef<HTMLElement>(null);
   const tipTargetRef = useRef<HTMLElement>(null);
 
   const handleAddInlineComment = useCallback(() => {
@@ -231,8 +245,25 @@ export const InlineComments: FC<InlineCommentsProps> = ({
     [setInlineCommentParagraph]
   );
 
+  useLayoutEffect(() => {
+    if (postContentRef.current && commentThreadRef.current) {
+      const {
+        bottom: postBottom,
+      } = postContentRef.current.getBoundingClientRect();
+      const {
+        bottom: threadBottom,
+      } = commentThreadRef.current.getBoundingClientRect();
+
+      setAlignBottom(threadBottom > postBottom);
+    }
+  }, [setAlignBottom]);
+
   return (
-    <InlineCommentThread current={showInlineCommentForm}>
+    <InlineCommentThread
+      ref={commentThreadRef}
+      current={showInlineCommentForm}
+      alignBottom={alignBottom}
+    >
       {paragraphComments?.map(({ userId, userName, timestamp, markdown }) => (
         <InlineComment key={timestamp}>
           <MetaLink

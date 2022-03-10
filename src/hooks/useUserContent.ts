@@ -17,6 +17,9 @@ import { COMMENTS, useComments } from './useComments';
 import { SHARES, useShares } from './useShares';
 import AllSharesQuery, { ShareQuery } from '../types/AllSharesQuery';
 
+// Refresh user-created content every 30 minutes
+const USER_CONTENT_POLL_INTERVAL_MS = 30 * 60 * 1000;
+
 const USER_CONTENT = gql`
   query userContent ($slug: String!) {
     ${COMMENTS}
@@ -28,6 +31,7 @@ const useUserContent = (slug: string) => {
     AllCommentsQuery & AllSharesQuery
   >(USER_CONTENT, {
     variables: { slug },
+    pollInterval: USER_CONTENT_POLL_INTERVAL_MS,
   });
 
   const setComments = useCallback(

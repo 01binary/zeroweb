@@ -13,12 +13,7 @@ import React, { useState, FC, useCallback, useEffect, useRef } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
-import {
-  CommentsContext,
-  ParagraphSelection,
-  ParagraphHighlight,
-  ParagraphComment,
-} from '../../hooks/useComments';
+import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
@@ -55,15 +50,15 @@ import {
 import { Heading1, Heading2, Heading3, Heading4 } from '../Heading';
 import { Table, TableHeading, TableRow, TableCell } from '../Table';
 import useUserContent from '../../hooks/useUserContent';
+import { useTooltip } from '../../hooks/useTooltip';
+import { Arrow, Tooltip } from '../Tooltip';
+import ParagraphMenu from './ParagraphMenu';
 import {
   getDateUnits,
   getDateValue,
   openUrl,
   slugifyHeadings,
 } from '../../utils';
-import { useTooltip } from '../../hooks/useTooltip';
-import { Arrow, Tooltip } from '../Tooltip';
-import ParagraphMenu from './ParagraphMenu';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 1000;
@@ -97,6 +92,32 @@ const Post: FC<{
     allMdx: { group },
   },
 }) => {
+  const { user, showCommentsSidebar, setShowCommentsSidebar } = useBlogData();
+  const {
+    loading,
+    error,
+    comments,
+    commentCount,
+    reactionCount,
+    handleAdd,
+    handleEdit,
+    handleDelete,
+    handleVote,
+    handleReact,
+    shareCount,
+    sharesByType,
+    handleAddShare,
+    paragraphSelection,
+    highlightedParagraph,
+    inlineCommentParagraph,
+    paragraphHighlightCount,
+    paragraphCommentCount,
+    setParagraphSelection,
+    setHighlightedParagraph,
+    setInlineCommentParagraph,
+  } = useUserContent(slug);
+
+  const postContentRef = useRef<HTMLElement>(null);
   const highlightTimerRef = useRef<number>(0);
   const [readPosition, setReadPosition] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -125,58 +146,6 @@ const Post: FC<{
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
-
-  const {
-    loading,
-    error,
-    comments,
-    commentCount,
-    reactionCount,
-    handleAdd,
-    handleEdit,
-    handleDelete,
-    handleVote,
-    handleReact,
-    shareCount,
-    sharesByType,
-    handleAddShare,
-  } = useUserContent(slug);
-
-  const { user, showCommentsSidebar, setShowCommentsSidebar } = useBlogData();
-
-  const [
-    paragraphSelection,
-    setParagraphSelection,
-  ] = useState<ParagraphSelection | null>(null);
-
-  const [
-    highlightedParagraph,
-    setHighlightedParagraph,
-  ] = useState<ParagraphHighlight | null>(null);
-
-  const [
-    inlineCommentParagraph,
-    setInlineCommentParagraph,
-  ] = useState<ParagraphComment | null>(null);
-
-  const paragraphMetadata =
-    paragraphSelection?.hash || highlightedParagraph?.hash;
-
-  const paragraphHighlightCount =
-    comments && paragraphMetadata
-      ? comments?.filter(
-          ({ paragraph, markdown }) =>
-            paragraph === paragraphMetadata && !markdown
-        )?.length
-      : 0;
-
-  const paragraphCommentCount =
-    comments && paragraphMetadata
-      ? comments?.filter(
-          ({ paragraph, markdown }) =>
-            paragraph === paragraphMetadata && markdown
-        )?.length
-      : 0;
 
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
@@ -220,11 +189,14 @@ const Post: FC<{
           break;
         case 'emailShare':
           handleAddShare('email');
-          window.open(`mailto:?subject=${title}&body=${absolutePostUrl}`);
+          openUrl('mailto:', {
+            subject: title,
+            body: absolutePostUrl,
+          });
           break;
       }
     },
-    [handleAddShare]
+    [handleAddShare, absolutePostUrl]
   );
 
   const handleParagraphAction = useCallback(
@@ -409,7 +381,7 @@ const Post: FC<{
 
         <HeroImage fluid={fluid} />
 
-        <Content role="document">
+        <Content role="document" ref={postContentRef}>
           <CommentsContext.Provider
             value={{
               postUrl: relativePostUrl,
@@ -428,6 +400,7 @@ const Post: FC<{
               addInlineComment: handleAddInlineComment,
               showCommentsSidebar,
               highlightTimerRef,
+              postContentRef,
             }}
           >
             <MDXRenderer>{body}</MDXRenderer>

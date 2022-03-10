@@ -9,11 +9,17 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import gql from 'graphql-tag';
 import { ApolloCache, useQuery } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
-import { COMMENTS, useComments } from './useComments';
+import {
+  COMMENTS,
+  ParagraphComment,
+  ParagraphHighlight,
+  ParagraphSelection,
+  useComments,
+} from './useComments';
 import { SHARES, useShares } from './useShares';
 import AllSharesQuery, { ShareQuery } from '../types/AllSharesQuery';
 
@@ -102,6 +108,40 @@ const useUserContent = (slug: string) => {
     [comments]
   );
 
+  const [
+    paragraphSelection,
+    setParagraphSelection,
+  ] = useState<ParagraphSelection | null>(null);
+
+  const [
+    highlightedParagraph,
+    setHighlightedParagraph,
+  ] = useState<ParagraphHighlight | null>(null);
+
+  const [
+    inlineCommentParagraph,
+    setInlineCommentParagraph,
+  ] = useState<ParagraphComment | null>(null);
+
+  const paragraphMetadata =
+    paragraphSelection?.hash || highlightedParagraph?.hash;
+
+  const paragraphHighlightCount =
+    comments && paragraphMetadata
+      ? comments?.filter(
+          ({ paragraph, markdown }) =>
+            paragraph === paragraphMetadata && !markdown
+        )?.length
+      : 0;
+
+  const paragraphCommentCount =
+    comments && paragraphMetadata
+      ? comments?.filter(
+          ({ paragraph, markdown }) =>
+            paragraph === paragraphMetadata && markdown
+        )?.length
+      : 0;
+
   return {
     loading: loadingComments || mutatingComments,
     error: apolloError ? 'Could not load comments' : null,
@@ -119,6 +159,15 @@ const useUserContent = (slug: string) => {
     shareCount,
     sharesByType,
     handleAddShare,
+
+    paragraphSelection,
+    highlightedParagraph,
+    inlineCommentParagraph,
+    paragraphHighlightCount,
+    paragraphCommentCount,
+    setParagraphSelection,
+    setHighlightedParagraph,
+    setInlineCommentParagraph,
   };
 };
 

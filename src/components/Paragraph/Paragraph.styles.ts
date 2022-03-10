@@ -1,18 +1,14 @@
 import styled from 'styled-components';
 import { RULER_ENDMARK_WIDTH } from '../Ruler';
+import { ParagraphSelection } from '../../hooks/useComments';
 import {
   MOBILE,
-  MOBILE_NARROW,
   NARROW_FLIP_MARKERS,
   NARROW_NO_MARKER_LABELS,
   NARROW_NO_RULERS,
-  NARROW_SIDE_COMMENTS,
-  SIDE_COMMENTS_MAX_WIDTH,
-  SIDE_COMMENTS_MIN_WIDTH,
 } from '../../constants';
-import { ParagraphSelection } from '../../hooks/useComments';
 
-export const ParagraphSection = styled.section<{
+export const ParagraphWrapper = styled.section<{
   showCommentsSidebar: boolean;
   editingComment: boolean;
 }>`
@@ -172,140 +168,4 @@ export const CommentButton = styled.button`
   @media (max-width: ${MOBILE}) {
     display: none;
   }
-`;
-
-export const InlineCommentThread = styled.section<{ current: boolean }>`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  min-width: ${SIDE_COMMENTS_MIN_WIDTH};
-  max-width: ${SIDE_COMMENTS_MAX_WIDTH};
-  ${(props) => props.current && 'z-index: 1'};
-  width: calc(30% - ${(props) => props.theme.spacingHalf});
-  background: ${(props) => props.theme.backgroundColor};
-
-  font-family: ${(props) => props.theme.normalFont};
-  font-weight: ${(props) => props.theme.normalFontWeight};
-  font-size: ${(props) => props.theme.normalFontSize};
-  color: ${(props) => props.theme.foregroundColor};
-
-  p {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  @media (max-width: ${NARROW_SIDE_COMMENTS}) {
-    ${(props) => props.current === false && 'display: none'};
-    border: ${(props) => props.theme.border} solid
-      ${(props) => props.theme.borderColor};
-    left: initial;
-    padding: ${(props) => props.theme.spacing};
-    padding-bottom: ${(props) => props.theme.spacingHalf};
-    right: 0;
-    width: 40%;
-    min-width: ${SIDE_COMMENTS_MIN_WIDTH};
-    max-width: ${SIDE_COMMENTS_MAX_WIDTH};
-    border-radius: ${(props) => props.theme.spacingSmall};
-    box-shadow: 0 0 10px
-      ${(props) =>
-        props.theme.isDark
-          ? `${props.theme.accentDarkShadowColor}66`
-          : `${props.theme.dropShadowLightColor}66`};
-    z-index: 2;
-  }
-
-  @media (max-width: ${MOBILE}) {
-    right: ${(props) => props.theme.spacingHalf};
-    width: 70%;
-    min-width: ${SIDE_COMMENTS_MIN_WIDTH};
-    max-width: ${MOBILE_NARROW};
-  }
-`;
-
-export const InlineComment = styled.div`
-  font-family: ${(props) => props.theme.smallFont};
-  font-weight: ${(props) => props.theme.smallFontWeight};
-  font-size: ${(props) => props.theme.smallFontSize};
-  color: ${(props) => props.theme.foregroundColor};
-
-  border: 1px;
-`;
-
-export const InlineCommentForm = styled.form`
-  font-family: ${(props) => props.theme.smallFont};
-  font-size: ${(props) => props.theme.smallFontSize};
-  font-weight: ${(props) => props.theme.smallFontWeight};
-  width: 100%;
-`;
-
-export const CurrentUser = styled.section<{ threadHasComments: boolean }>`
-  ${(props) =>
-    props.threadHasComments && `margin-top: ${props.theme.spacingHalf}`};
-`;
-
-export const InlineCommentInput = styled.textarea`
-  font-family: ${(props) => props.theme.smallFont};
-  font-size: ${(props) => props.theme.smallFontSize};
-  font-weight: ${(props) => props.theme.smallFontWeight};
-
-  width: calc(100% - ${(props) => props.theme.spacing});
-  min-height: 1.5em;
-  max-height: 10em;
-  resize: vertical;
-
-  background: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.foregroundColor};
-  border: ${(props) => props.theme.border} solid
-    ${(props) => props.theme.borderColor};
-
-  padding: ${(props) => props.theme.spacingHalf};
-  margin-top: ${(props) => props.theme.spacingHalf};
-`;
-
-export const InlineCommentFormGroup = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: ${(props) => props.theme.borderThick};
-`;
-
-export const InlineCommentError = styled(Error)`
-  padding: ${(props) => props.theme.spacingQuarter} 0;
-`;
-
-export const InlineCommentButton = styled.button`
-  border: none;
-  cursor: pointer;
-  fill: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: none;
-
-  width: 32px;
-  height: 32px;
-
-  svg {
-    pointer-events: none;
-  }
-
-  &:hover {
-    .stroke-foreground {
-      stroke: ${(props) =>
-        props.theme.isDark
-          ? props.theme.primaryColor
-          : props.theme.primaryDarkColor};
-    }
-
-    .fill-foreground {
-      fill: ${(props) =>
-        props.theme.isDark
-          ? props.theme.primaryColor
-          : props.theme.primaryDarkColor};
-    }
-  }
-`;
-
-export const Me = styled.span`
-  color: ${(props) => props.theme.secondaryTextColor};
 `;

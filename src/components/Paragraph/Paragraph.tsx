@@ -18,36 +18,21 @@ import React, {
   useEffect,
 } from 'react';
 import stringHash from 'string-hash';
-import ReactMarkdown from 'react-markdown';
+import RulerHighlightIcon from '../../images/highlight.svg';
+import RulerCommentIcon from '../../images/comment.svg';
+import AddCommentIcon from '../../images/add-comment.svg';
+import { RulerMarker, RulerMarkerBadge } from '../RulerMarker';
+import { InlineComments } from '../InlineComments';
+import {
+  CommentButton,
+  ParagraphWrapper,
+  ParagraphText,
+  SelectionAnchor,
+} from './Paragraph.styles';
 import {
   ParagraphSelection,
   useCommentsContext,
 } from '../../hooks/useComments';
-import { RulerMarker, RulerMarkerBadge } from '../RulerMarker';
-import RulerHighlightIcon from '../../images/highlight.svg';
-import RulerCommentIcon from '../../images/comment.svg';
-import AddCommentIcon from '../../images/add-comment.svg';
-import SaveIcon from '../../images/accept.svg';
-import CancelIcon from '../../images/cancel.svg';
-import { useBlogData } from '../../hooks/useBlogData';
-import MetaLink from '../MetaLink';
-import Login from '../Login';
-import { formatCommentDate } from '../../utils';
-import {
-  CommentButton,
-  InlineComment,
-  InlineCommentButton,
-  InlineCommentError,
-  InlineCommentForm,
-  InlineCommentFormGroup,
-  InlineCommentInput,
-  InlineCommentThread,
-  ParagraphSection,
-  ParagraphText,
-  SelectionAnchor,
-  Me,
-  CurrentUser,
-} from './Paragraph.styles';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MOUSEOVER_TIMEOUT = 1500;
@@ -56,6 +41,7 @@ const HIGHLIGHT_MOUSEOVER_TIMEOUT = 1500;
 const getHash = (text: string): string | undefined =>
   text ? `p${stringHash(text)}` : undefined;
 
+// Determine if a text node contains another text node
 const nodeContains = (parent: Node, child: Node): boolean => {
   if (parent === child) return true;
 
@@ -73,14 +59,12 @@ type ParagraphFragment = {
   length: number;
 };
 
-type HighlightProps = {
+const ParagraphHighlight: FC<{
   text: string;
   nodes: ParagraphFragment[];
   start: number;
   end: number;
-};
-
-const Highlight: FC<HighlightProps> = ({ nodes, start, end }) => {
+}> = ({ nodes, start, end }) => {
   // Insert <mark> into span that may contain both text and HTML nodes
   const __html = nodes.reduce((html, { tag, text, pos, length }) => {
     if (start <= pos) {
@@ -114,22 +98,14 @@ const Paragraph: FC = ({ children }) => {
   const selectionRef = useRef<HTMLElement>(null);
   const highlightRef = useRef<HTMLElement>(null);
   const inlineCommentRef = useRef<HTMLTextAreaElement>(null);
-  const tipTargetRef = useRef<HTMLElement>(null);
-
   const [innerText, setText] = useState<string | undefined>();
   const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
-  const {
-    user,
-    credentials,
-    loginError,
-    handleFacebookLogin,
-    handleTwitterLogin,
-    handleGoogleLogin,
-  } = useBlogData();
+
   const {
     postUrl,
     comments: allReactions,
     highlightTimerRef,
+    postContentRef,
     loading,
     showTipFor,
     hideTip,
@@ -181,7 +157,7 @@ const Paragraph: FC = ({ children }) => {
   );
 
   const updateSelection = useCallback((): ParagraphSelection | undefined => {
-    // Track selected text to enable highlighting or commenting on the selection
+    // Track selected text to enable highlighting or commenting on this paragraph
     const selection = window.getSelection();
     if (selection.rangeCount !== 1 || !paragraphRef.current) return;
 
@@ -252,15 +228,16 @@ const Paragraph: FC = ({ children }) => {
   }, [hash, setParagraphSelection]);
 
   const clearSelection = useCallback(() => {
+    // Hide paragraph menu when text selection is cleared
     setHighlightedParagraph(null);
     setParagraphSelection(null);
     hideParagraphMenu();
   }, [setHighlightedParagraph, setParagraphSelection, hideParagraphMenu]);
 
   const handleSelection = useCallback(
-    // Let user select a portion of the paragraph to bring up the comment/highlight menu
+    // Let user select a portion of the paragraph to show paragraph comment/highlight menu
     (e: MouseEvent) => {
-      if (!user || window.getSelection().type !== 'Range') {
+      if (window.getSelection().type !== 'Range') {
         clearSelection();
         return;
       }
@@ -276,6 +253,7 @@ const Paragraph: FC = ({ children }) => {
             hover: false,
           });
       } else if (paragraphSelection?.hash === hash) {
+        // Has existing selection
         const { left, top, width, height } = window
           .getSelection()
           .getRangeAt(0)
@@ -296,7 +274,6 @@ const Paragraph: FC = ({ children }) => {
       }
     },
     [
-      user,
       hash,
       highlightedParagraph,
       paragraphSelection,
@@ -324,7 +301,13 @@ const Paragraph: FC = ({ children }) => {
       });
       showParagraphMenu(null, highlightRef);
     }
-  }, [paragraphSelection, showParagraphMenu, setHighlightedParagraph]);
+  }, [
+    paragraphSelection,
+    highlightStart,
+    highlightEnd,
+    showParagraphMenu,
+    setHighlightedParagraph,
+  ]);
 
   const handleHighlightMouseOut = useCallback(() => {
     if (
@@ -346,34 +329,8 @@ const Paragraph: FC = ({ children }) => {
     });
   }, [hash, setInlineCommentParagraph]);
 
-  const handleEditInlineComment = useCallback(
-    (e) => {
-      setInlineCommentParagraph({
-        ...inlineCommentParagraph,
-        markdown: e.target.value,
-      });
-    },
-    [inlineCommentParagraph, setInlineCommentParagraph]
-  );
-
-  const handleAddInlineComment = useCallback(() => {
-    addInlineComment();
-    hideTip();
-  }, [addInlineComment, hideTip]);
-
-  const handleCancelInlineComment = useCallback(() => {
-    setInlineCommentParagraph(null);
-    hideTip();
-  }, [setInlineCommentParagraph, hideTip]);
-
-  const handleInlineCommentKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Escape') setInlineCommentParagraph(null);
-    },
-    [setInlineCommentParagraph]
-  );
-
   useEffect(() => {
+    // Set focus on inline comment textbox when adding inline comment
     if (inlineCommentParagraph?.hash === hash && inlineCommentRef.current)
       inlineCommentRef.current.focus();
   }, [hash, inlineCommentParagraph]);
@@ -413,7 +370,7 @@ const Paragraph: FC = ({ children }) => {
   }, [setText]);
 
   useEffect(() => {
-    // Set highlight ref after <mark> has been inserted for highlighted paragraph
+    // Show paragraph menu on mouse over if this paragraph is highlighted
     if (showHighlightMark && paragraphRef.current) {
       const element = paragraphRef.current.getElementsByTagName('mark')[0];
       if (!element) return;
@@ -438,13 +395,13 @@ const Paragraph: FC = ({ children }) => {
   }, [showHighlightMark, handleHighlightMouseOver, handleHighlightMouseOut]);
 
   useEffect(() => {
-    // Show menu when paragraph text is selected
+    // Show paragraph menu when text is selected
     if (paragraphSelection && paragraphSelection?.hash === hash)
       showParagraphMenu(null, selectionRef);
   }, [hash, paragraphSelection, showParagraphMenu]);
 
   useEffect(() => {
-    // Clear selection and hide menu when paragraph no longer highlighted
+    // Clear selection and hide paragraph menu when no longer highlighted
     if (
       paragraphSelection?.hash === hash &&
       highlightedParagraph?.hash !== hash &&
@@ -462,7 +419,7 @@ const Paragraph: FC = ({ children }) => {
   ]);
 
   return (
-    <ParagraphSection
+    <ParagraphWrapper
       showCommentsSidebar={showCommentsSidebar}
       editingComment={showInlineCommentForm}
     >
@@ -473,7 +430,7 @@ const Paragraph: FC = ({ children }) => {
         ref={paragraphRef}
       >
         {showHighlightMark ? (
-          <Highlight
+          <ParagraphHighlight
             text={innerText}
             nodes={innerNodes}
             start={highlightStart}
@@ -499,93 +456,21 @@ const Paragraph: FC = ({ children }) => {
       </CommentButton>
 
       {showInlineCommentThread && (
-        <InlineCommentThread current={showInlineCommentForm}>
-          {comments?.map(({ userId, userName, timestamp, markdown }) => (
-            <InlineComment key={timestamp}>
-              <MetaLink
-                to={`?comment=${encodeURIComponent(timestamp)}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.navigator.clipboard.writeText(
-                    `${postUrl}?comment=${encodeURIComponent(timestamp)}`
-                  );
-                  tipTargetRef.current = e.target;
-                  showTipFor('copied!', tipTargetRef);
-                }}
-                onMouseOver={(e) => {
-                  tipTargetRef.current = e.target;
-                  showTipFor('copy link', tipTargetRef);
-                }}
-                onMouseOut={hideTip}
-              >
-                {formatCommentDate(timestamp)}
-              </MetaLink>
-              {' by '}
-              {userId === credentials?.userId ? (
-                <Me>{userName}</Me>
-              ) : (
-                <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
-              )}
-              <br />
-              <ReactMarkdown>{markdown}</ReactMarkdown>
-            </InlineComment>
-          ))}
-          {showInlineCommentForm && (
-            <InlineCommentForm onSubmit={(e) => e.preventDefault()}>
-              {user && (
-                <CurrentUser threadHasComments={Boolean(comments.length)}>
-                  commenting as <MetaLink to="/profile">{user?.name}</MetaLink>:
-                </CurrentUser>
-              )}
-              {!user && (
-                <Login
-                  handleFacebookLogin={handleFacebookLogin}
-                  handleGoogleLogin={handleGoogleLogin}
-                  handleTwitterLogin={handleTwitterLogin}
-                  loginError={loginError}
-                  inline={true}
-                />
-              )}
-              <InlineCommentInput
-                ref={inlineCommentRef}
-                placeholder="comment on this paragraph"
-                onChange={handleEditInlineComment}
-                onKeyDown={handleInlineCommentKeyDown}
-              />
-              <InlineCommentFormGroup>
-                {inlineCommentParagraph?.error && (
-                  <InlineCommentError>
-                    {inlineCommentParagraph?.error}
-                  </InlineCommentError>
-                )}
-              </InlineCommentFormGroup>
-              <InlineCommentFormGroup>
-                <InlineCommentButton
-                  disabled={loading}
-                  onClick={handleAddInlineComment}
-                  onMouseOver={(e) => {
-                    tipTargetRef.current = e.target;
-                    showTipFor('save', tipTargetRef);
-                  }}
-                  onMouseOut={hideTip}
-                >
-                  <SaveIcon />
-                </InlineCommentButton>
-                <InlineCommentButton
-                  disabled={loading}
-                  onClick={handleCancelInlineComment}
-                  onMouseOver={(e) => {
-                    tipTargetRef.current = e.target;
-                    showTipFor('cancel', tipTargetRef);
-                  }}
-                  onMouseOut={hideTip}
-                >
-                  <CancelIcon />
-                </InlineCommentButton>
-              </InlineCommentFormGroup>
-            </InlineCommentForm>
-          )}
-        </InlineCommentThread>
+        <InlineComments
+          {...{
+            postUrl,
+            loading,
+            paragraphComments: comments,
+            showInlineCommentForm,
+            inlineCommentParagraph,
+            inlineCommentRef,
+            postContentRef,
+            setInlineCommentParagraph,
+            addInlineComment,
+            showTipFor,
+            hideTip,
+          }}
+        />
       )}
 
       {showMarker && (
@@ -612,7 +497,7 @@ const Paragraph: FC = ({ children }) => {
           )}
         </RulerMarker>
       )}
-    </ParagraphSection>
+    </ParagraphWrapper>
   );
 };
 

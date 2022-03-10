@@ -52,6 +52,7 @@ type CommentsContextProps = {
   comments: CommentQuery[] | null;
   loading: boolean;
   highlightTimerRef: React.MutableRefObject<number>;
+  postContentRef: React.MutableRefObject<HTMLElement>;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
   showParagraphMenu: ShowTipForHandler;
@@ -73,6 +74,7 @@ export const CommentsContext = createContext<CommentsContextProps>({
   comments: null,
   loading: false,
   highlightTimerRef: null,
+  postContentRef: null,
   showTipFor: () => {},
   hideTip: () => {},
   showParagraphMenu: () => {},

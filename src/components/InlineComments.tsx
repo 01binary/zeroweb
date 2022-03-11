@@ -60,6 +60,16 @@ const InlineCommentThread = styled.section<{
     margin-right: 0;
   }
 
+  ul {
+    &:before {
+      content: initial;
+    }
+
+    &:after {
+      content: initial;
+    }
+  }
+
   @media (max-width: ${NARROW_SIDE_COMMENTS}) {
     ${(props) => props.current === false && 'display: none'};
     ${(props) =>

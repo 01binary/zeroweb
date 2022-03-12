@@ -87,6 +87,7 @@ const CommentsScaleDate = styled.div`
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
+  text-align: right;
   color: ${(props) => props.theme.secondaryTextColor};
   margin-top: -1em;
   padding-left: calc(100% - ${(props) => props.theme.spacingOneAndHalf});

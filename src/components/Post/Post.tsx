@@ -9,7 +9,14 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useCallback, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  FC,
+  useCallback,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+} from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
@@ -110,11 +117,13 @@ const Post: FC<{
     paragraphSelection,
     highlightedParagraph,
     inlineCommentParagraph,
+    inlineCommentSingleMode,
     paragraphHighlightCount,
     paragraphCommentCount,
     setParagraphSelection,
     setHighlightedParagraph,
     setInlineCommentParagraph,
+    setInlineCommentSingleMode,
   } = useUserContent(slug);
 
   const postContentRef = useRef<HTMLElement>(null);
@@ -149,17 +158,21 @@ const Post: FC<{
 
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
-  const handleSnap = useCallback(() => {
-    handleReact({
-      userName: user?.name || '',
-      avatarUrl: user?.avatarUrl || '',
-      parentTimestamp: null,
-      reaction: 'snap',
-    });
-  }, [user, handleReact]);
+  const handleSnap = useCallback(
+    () =>
+      // React to a post
+      handleReact({
+        userName: user?.name || '',
+        avatarUrl: user?.avatarUrl || '',
+        parentTimestamp: null,
+        reaction: 'snap',
+      }),
+    [user, handleReact]
+  );
 
   const handleShare = useCallback(
     (shareType) => {
+      // Share a post
       switch (shareType) {
         case 'linkShare':
           handleAddShare('link');
@@ -199,11 +212,35 @@ const Post: FC<{
     [handleAddShare, absolutePostUrl]
   );
 
+  const handleToggleInlineComment = useCallback(
+    (paragraphHash) => {
+      // Toggle inline comment on paragraph in the post
+      setShowCommentsSidebar(Boolean(paragraphHash));
+      setInlineCommentParagraph(
+        paragraphHash
+          ? {
+              hash: paragraphHash,
+              start: paragraphSelection?.start,
+              length: paragraphSelection?.length,
+            }
+          : null
+      );
+    },
+    [
+      setInlineCommentParagraph,
+      setShowCommentsSidebar,
+      paragraphSelection,
+      comments,
+    ]
+  );
+
   const handleParagraphAction = useCallback(
     (e) => {
+      // Handle paragraph context menu command
       const paragraph = highlightedParagraph?.hash || paragraphSelection?.hash;
 
       if (e.target.id === 'paragraphHighlight') {
+        // Add paragraph highlight immediately
         handleAdd({
           paragraph,
           userName: user.name,
@@ -213,12 +250,8 @@ const Post: FC<{
             highlightedParagraph?.length || paragraphSelection?.length,
         });
       } else if (e.target.id == 'paragraphComment') {
-        setShowCommentsSidebar(true);
-        setInlineCommentParagraph({
-          hash: paragraph,
-          start: paragraphSelection?.start,
-          length: paragraphSelection?.length,
-        });
+        // Show inline comment form for the paragraph
+        handleToggleInlineComment(paragraph);
       }
 
       hideParagraphMenu();
@@ -230,8 +263,7 @@ const Post: FC<{
       highlightedParagraph,
       paragraphSelection,
       handleAdd,
-      setShowCommentsSidebar,
-      setInlineCommentParagraph,
+      handleToggleInlineComment,
       setParagraphSelection,
       setHighlightedParagraph,
       hideParagraphMenu,
@@ -239,6 +271,7 @@ const Post: FC<{
   );
 
   const handleParagraphMenuMouseOver = useCallback(() => {
+    // Show paragraph menu when mouse is over a highlighted paragraph
     if (highlightTimerRef.current) {
       window.clearTimeout(highlightTimerRef.current);
       highlightTimerRef.current = 0;
@@ -246,6 +279,7 @@ const Post: FC<{
   }, []);
 
   const handleParagraphMenuMouseOut = useCallback(() => {
+    // Hide paragraph menu when mouse leaves highlighted paragraphs
     if (!highlightTimerRef.current) {
       highlightTimerRef.current = window.setTimeout(() => {
         setHighlightedParagraph(null);
@@ -255,6 +289,7 @@ const Post: FC<{
   }, [setHighlightedParagraph, hideParagraphMenu]);
 
   const handleAddInlineComment = useCallback(() => {
+    // Request server to add a new inline comment
     if (inlineCommentParagraph?.markdown)
       return handleAdd({
         paragraph: inlineCommentParagraph.hash,
@@ -275,15 +310,8 @@ const Post: FC<{
         });
   }, [inlineCommentParagraph, user, handleAdd, setInlineCommentParagraph]);
 
-  const handleToggleInlineComment = useCallback(
-    (paragraphHash) => {
-      setInlineCommentParagraph(paragraphHash);
-      setShowCommentsSidebar(Boolean(paragraphHash));
-    },
-    [setInlineCommentParagraph, setShowCommentsSidebar]
-  );
-
   const handleClearHighlight = useCallback(
+    // Clear highlighted paragraph
     (e) => {
       if (!highlightedParagraph || e.target.id?.startsWith('p')) return;
       setHighlightedParagraph(null);
@@ -306,6 +334,30 @@ const Post: FC<{
     },
     [setShowCommentsSidebar]
   );
+
+  useLayoutEffect(() => {
+    // Collapse inline comments except one being edited if they overlap each other
+    if (showCommentsSidebar && comments?.length) {
+      let prevBottom = 0;
+
+      const threads = postContentRef.current.querySelectorAll(
+        '.paragraph__comment-thread'
+      );
+
+      for (let n = 0; n < threads.length; ++n) {
+        const { top, bottom } = threads[n].getBoundingClientRect();
+
+        if (top <= prevBottom && prevBottom) {
+          setInlineCommentSingleMode(true);
+          break;
+        }
+
+        prevBottom = bottom;
+      }
+    } else if (!showCommentsSidebar) {
+      setInlineCommentSingleMode(false);
+    }
+  }, [showCommentsSidebar, inlineCommentParagraph, setInlineCommentSingleMode]);
 
   return (
     <MDXProvider
@@ -387,6 +439,8 @@ const Post: FC<{
           <TOC headings={slugifyHeadings(relativePostUrl, headings)} />
         </Sidebar>
 
+        <div>{inlineCommentSingleMode ? 'SINGLE MODE' : 'MULTI MODE'}</div>
+
         <HeroImage fluid={fluid} />
 
         <Content role="document" ref={postContentRef}>
@@ -404,9 +458,11 @@ const Post: FC<{
               paragraphSelection,
               setParagraphSelection,
               inlineCommentParagraph,
-              setInlineCommentParagraph: handleToggleInlineComment,
+              setInlineCommentParagraph,
+              toggleInlineComment: handleToggleInlineComment,
               addInlineComment: handleAddInlineComment,
               showCommentsSidebar,
+              inlineCommentSingleMode,
               highlightTimerRef,
               postContentRef,
             }}

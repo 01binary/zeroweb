@@ -187,6 +187,8 @@ const Me = styled.span`
 `;
 
 type InlineCommentsProps = {
+  className: string;
+
   postUrl: string;
   loading: boolean;
   paragraphComments: CommentQuery[];
@@ -196,6 +198,7 @@ type InlineCommentsProps = {
   inlineCommentRef: React.MutableRefObject<HTMLTextAreaElement>;
   postContentRef: React.MutableRefObject<HTMLElement>;
   addInlineComment: () => Promise<void>;
+  toggleInlineComment: (paragraphHash: string) => void;
   setInlineCommentParagraph: (paragraphComment: ParagraphComment) => void;
 
   showTipFor: ShowTipForHandler;
@@ -203,6 +206,7 @@ type InlineCommentsProps = {
 };
 
 export const InlineComments: FC<InlineCommentsProps> = ({
+  className,
   postUrl,
   loading,
   paragraphComments,
@@ -211,6 +215,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
   inlineCommentRef,
   postContentRef,
   addInlineComment,
+  toggleInlineComment,
   setInlineCommentParagraph,
   showTipFor,
   hideTip,
@@ -244,15 +249,15 @@ export const InlineComments: FC<InlineCommentsProps> = ({
   );
 
   const handleCancelInlineComment = useCallback(() => {
-    setInlineCommentParagraph(null);
+    toggleInlineComment(null);
     hideTip();
-  }, [setInlineCommentParagraph, hideTip]);
+  }, [toggleInlineComment, hideTip]);
 
   const handleInlineCommentKeyDown = useCallback(
     (e) => {
-      if (e.key === 'Escape') setInlineCommentParagraph(null);
+      if (e.key === 'Escape') toggleInlineComment(null);
     },
-    [setInlineCommentParagraph]
+    [toggleInlineComment]
   );
 
   useLayoutEffect(() => {
@@ -271,6 +276,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
   return (
     <InlineCommentThread
       ref={commentThreadRef}
+      className={className}
       current={showInlineCommentForm}
       alignBottom={alignBottom}
     >

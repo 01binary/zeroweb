@@ -117,8 +117,10 @@ const Paragraph: FC = ({ children }) => {
     setParagraphSelection,
     inlineCommentParagraph,
     setInlineCommentParagraph,
+    toggleInlineComment,
     addInlineComment,
     showCommentsSidebar,
+    inlineCommentSingleMode,
   } = useCommentsContext();
 
   const hash = useMemo<string | undefined>(() => getHash(innerText), [
@@ -132,13 +134,17 @@ const Paragraph: FC = ({ children }) => {
 
   const highlights = reactions?.filter(({ rangeLength }) => rangeLength);
   const comments = reactions?.filter(({ markdown }) => markdown);
-  const showHighlights = Boolean(highlights?.length && !comments?.length);
-  const showComments = Boolean(comments?.length);
-  const showMarker = showComments || showHighlights;
+  const hasHighlights = Boolean(highlights?.length && !comments?.length);
+  const hasComments = Boolean(comments?.length);
+  const showMarker = hasComments || hasHighlights;
   const showHighlightMark = Boolean(paragraphRef.current && highlights?.length);
+  const anotherCommentThreadPinned =
+    inlineCommentSingleMode && inlineCommentParagraph?.hash !== hash;
   const showInlineCommentForm = Boolean(inlineCommentParagraph?.hash === hash);
   const showInlineCommentThread = Boolean(
-    showCommentsSidebar && (showComments || showInlineCommentForm)
+    showCommentsSidebar &&
+      !anotherCommentThreadPinned &&
+      (hasComments || showInlineCommentForm)
   );
 
   const { highlightStart, highlightEnd } = useMemo(
@@ -321,14 +327,6 @@ const Paragraph: FC = ({ children }) => {
     }
   }, [paragraphSelection, hideParagraphMenu, setHighlightedParagraph]);
 
-  const handleToggleInlineComment = useCallback(() => {
-    setInlineCommentParagraph({
-      hash,
-      start: paragraphSelection?.start,
-      length: paragraphSelection?.length,
-    });
-  }, [hash, setInlineCommentParagraph]);
-
   useEffect(() => {
     // Set focus on inline comment textbox when adding inline comment
     if (inlineCommentParagraph?.hash === hash && inlineCommentRef.current)
@@ -448,7 +446,7 @@ const Paragraph: FC = ({ children }) => {
       <CommentButton
         className="paragraph__comment-button"
         ref={commentButtonRef}
-        onClick={handleToggleInlineComment}
+        onClick={() => toggleInlineComment(hash)}
         onMouseOver={() => showTipFor('comment', commentButtonRef)}
         onMouseOut={() => hideTip()}
       >
@@ -458,6 +456,7 @@ const Paragraph: FC = ({ children }) => {
       {showInlineCommentThread && (
         <InlineComments
           {...{
+            className: 'paragraph__comment-thread',
             postUrl,
             loading,
             paragraphComments: comments,
@@ -465,8 +464,9 @@ const Paragraph: FC = ({ children }) => {
             inlineCommentParagraph,
             inlineCommentRef,
             postContentRef,
-            setInlineCommentParagraph,
+            toggleInlineComment,
             addInlineComment,
+            setInlineCommentParagraph,
             showTipFor,
             hideTip,
           }}
@@ -475,7 +475,7 @@ const Paragraph: FC = ({ children }) => {
 
       {showMarker && (
         <RulerMarker className="paragraph__ruler-marker">
-          {showHighlights && (
+          {hasHighlights && (
             <>
               <RulerHighlightIcon />
               {highlights.length > 1 && (
@@ -485,7 +485,7 @@ const Paragraph: FC = ({ children }) => {
               )}
             </>
           )}
-          {showComments && (
+          {hasComments && (
             <>
               <RulerCommentIcon />
               {comments.length > 1 && (

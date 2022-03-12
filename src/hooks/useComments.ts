@@ -65,8 +65,10 @@ type CommentsContextProps = {
   setInlineCommentParagraph: (
     paragraphComment: ParagraphComment | null
   ) => void;
+  toggleInlineComment: (paragraphHash: string) => void;
   addInlineComment: () => Promise<void>;
   showCommentsSidebar: boolean;
+  inlineCommentSingleMode: boolean;
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
@@ -86,6 +88,8 @@ export const CommentsContext = createContext<CommentsContextProps>({
   inlineCommentParagraph: null,
   setInlineCommentParagraph: () => {},
   showCommentsSidebar: false,
+  inlineCommentSingleMode: false,
+  toggleInlineComment: () => {},
   addInlineComment: async () => {},
 });
 

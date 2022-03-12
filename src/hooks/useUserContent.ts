@@ -123,6 +123,11 @@ const useUserContent = (slug: string) => {
     setInlineCommentParagraph,
   ] = useState<ParagraphComment | null>(null);
 
+  const [
+    inlineCommentSingleMode,
+    setInlineCommentSingleMode,
+  ] = useState<boolean>(false);
+
   const paragraphMetadata =
     paragraphSelection?.hash || highlightedParagraph?.hash;
 
@@ -163,11 +168,13 @@ const useUserContent = (slug: string) => {
     paragraphSelection,
     highlightedParagraph,
     inlineCommentParagraph,
+    inlineCommentSingleMode,
     paragraphHighlightCount,
     paragraphCommentCount,
     setParagraphSelection,
     setHighlightedParagraph,
     setInlineCommentParagraph,
+    setInlineCommentSingleMode,
   };
 };
 

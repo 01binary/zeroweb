@@ -18,30 +18,21 @@ import LinkIcon from '../images/link.svg';
 import MouseIcon from '../images/mouse.svg';
 import { MOBILE } from '../constants';
 
-interface StyledProps {
-  level: number;
-  theme: { [key: string]: string };
-}
+const PERMALINK_SIZES = ['32px', '30px', '30px', '28px'];
+const PERMALINK_OFFSETS = ['0', '-4px', '-4px', '-4px'];
+const PERMALINK_INLINE_OFFSETS = ['3px', '3.5px', '4px', '3px'];
 
-const getLinkIconSize = ({
-  level,
-  theme: { headingFontSizeLarge, headingFontSizeMedium, headingFontSizeSmall },
-}: StyledProps): string => {
-  const sizeWithUnits =
-    level === 1
-      ? headingFontSizeLarge
-      : level === 2
-      ? headingFontSizeMedium
-      : headingFontSizeSmall;
-
-  return `calc(${sizeWithUnits} + 2pt)`;
-};
+const StyledLinkIcon = styled(LinkIcon).attrs((props) => ({
+  className: props.inline ? 'permalink-icon--inline' : 'permalink-icon',
+}))`
+  height: ${(props) => PERMALINK_SIZES[props.level - 1]};
+`;
 
 const PermaLinkAnchorInline = styled(Link)`
   position: relative;
   display: inline;
   color: ${(props) => props.theme.secondaryTextColor};
-  top: 2px;
+  top: ${(props) => PERMALINK_INLINE_OFFSETS[props.level - 1]};
 
   .fill-foreground {
     fill: ${(props) => props.theme.secondaryTextColor};
@@ -54,12 +45,12 @@ const PermaLinkAnchorInline = styled(Link)`
 
 const PermaLinkAnchor = styled(Link)`
   position: absolute;
-  top: 0;
+  top: ${(props) => PERMALINK_OFFSETS[props.level - 1]};
   left: calc(
-    0px - ${(props) => getLinkIconSize(props)} +
-      ${(props) => props.theme.spacingSmall}
+    0px - ${(props) => PERMALINK_SIZES[props.level - 1]} +
+      ${(props) => props.theme.borderThick}
   );
-  height: ${(props) => getLinkIconSize(props)};
+  height: ${(props) => PERMALINK_SIZES[props.level - 1]};
   opacity: 1;
   color: ${(props) => props.theme.secondaryTextColor};
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
@@ -79,12 +70,6 @@ const PermaLinkAnchor = styled(Link)`
   }
 `;
 
-const StyledLinkIcon = styled(LinkIcon).attrs((props) => ({
-  className: props.inline ? 'permalink-icon--inline' : 'permalink-icon',
-}))`
-  height: ${(props) => getLinkIconSize(props)};
-`;
-
 const StyledMouseIcon = styled(MouseIcon)`
   position: relative;
   width: 1.3em;
@@ -102,11 +87,11 @@ const NoWrap = styled.span`
   white-space: nowrap;
 `;
 
-interface PermaLinkProps {
+type PermaLinkProps = {
   url: string;
   level: number;
   inline?: boolean;
-}
+};
 
 const PermaLink: FC<PermaLinkProps> = ({ url, level, inline }) => {
   const { showTip, hideTip, tipProps, tipRef, targetRef } = useTooltip({

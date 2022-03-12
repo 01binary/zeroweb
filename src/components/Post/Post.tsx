@@ -439,8 +439,6 @@ const Post: FC<{
           <TOC headings={slugifyHeadings(relativePostUrl, headings)} />
         </Sidebar>
 
-        <div>{inlineCommentSingleMode ? 'SINGLE MODE' : 'MULTI MODE'}</div>
-
         <HeroImage fluid={fluid} />
 
         <Content role="document" ref={postContentRef}>

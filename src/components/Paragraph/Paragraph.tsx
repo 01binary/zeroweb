@@ -384,7 +384,10 @@ const Paragraph: FC = ({ children }) => {
       }
     }
 
-    setText(paragraphRef.current.innerText);
+    if (paragraphRef.current.innerText.length)
+      setText(paragraphRef.current.innerText);
+    else setText(paragraphRef.current.innerHTML);
+
     setInnerNodes(nodes);
   }, [setText]);
 

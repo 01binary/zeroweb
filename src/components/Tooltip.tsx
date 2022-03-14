@@ -22,6 +22,7 @@ export const Tooltip = styled.div.attrs(() => ({
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
   text-transform: lowercase;
+  white-space: pre;
 
   color: ${(props) =>
     props.theme.isDark

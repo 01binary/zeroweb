@@ -57,7 +57,11 @@ import {
 import { Heading1, Heading2, Heading3, Heading4 } from '../Heading';
 import { Table, TableHeading, TableRow, TableCell } from '../Table';
 import useUserContent from '../../hooks/useUserContent';
-import { useTooltip } from '../../hooks/useTooltip';
+import {
+  HideTipHandler,
+  ShowTipForHandler,
+  useTooltip,
+} from '../../hooks/useTooltip';
 import { Arrow, Tooltip } from '../Tooltip';
 import ParagraphMenu from './ParagraphMenu';
 import {
@@ -70,9 +74,48 @@ import {
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 1000;
 
-const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
+type AuthorLinkProps = {
+  showTipFor: ShowTipForHandler;
+  hideTip: HideTipHandler;
+};
 
-const LocationLink = () => <MetaLink to="#">Portland, OR</MetaLink>;
+const AuthorLink: FC<AuthorLinkProps> = ({ showTipFor, hideTip }) => {
+  const authorLinkRef = useRef<HTMLElement>(null);
+  return (
+    <MetaLink
+      ref={authorLinkRef}
+      to="/about"
+      onMouseOver={() =>
+        showTipFor(
+          'boba tea enjoyer 🌸\r\nsonic the hedgehog denier 🦔',
+          authorLinkRef
+        )
+      }
+      onMouseOut={hideTip}
+    >
+      Valeriy Novytskyy
+    </MetaLink>
+  );
+};
+
+type LocationLinkProps = {
+  location: string;
+  locationUrl: string;
+};
+
+const LocationLink: FC<LocationLinkProps> = ({ location, locationUrl }) => {
+  const locationRef = useRef<HTMLElement>(null);
+  return (
+    <MetaLink
+      ref={locationRef}
+      target="_blank"
+      rel="noopener noreferrer"
+      to={locationUrl}
+    >
+      {location}
+    </MetaLink>
+  );
+};
 
 const ExternalLink: FC<{ href: string }> = ({ href, children }) => {
   if (href[0] === '/') return <a href={href}>{children}</a>;
@@ -101,6 +144,8 @@ const Post: FC<{
           childImageSharp: { fluid },
         },
         relativeDate,
+        location,
+        locationUrl,
       },
       fields: { url: relativePostUrl, collection, tags },
       headings,
@@ -407,13 +452,13 @@ const Post: FC<{
           <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
           &nbsp;
           <Author>
-            {' '}
-            by <AuthorLink />
+            {' by '}
+            <AuthorLink {...{ showTipFor, hideTip }} />
           </Author>
           &nbsp;
           <Location>
-            {' '}
-            in <LocationLink />
+            {' at '}
+            <LocationLink {...{ location, locationUrl }} />
           </Location>
           <InlineTimeToRead>
             {'/ '}
@@ -545,6 +590,8 @@ export const pageQuery = graphql`
         }
         relativeDate: date(fromNow: true)
         date(formatString: "MMM DD, YYYY")
+        location
+        locationUrl
         tags
       }
       fields {

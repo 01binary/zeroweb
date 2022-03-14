@@ -10,19 +10,19 @@
 \*---------------------------------------------------------*/
 
 interface Fluid {
-  base64: string,
-  aspectRatio: number,
-  src: string,
-  srcSet: string,
-  sizes: string
+  base64: string;
+  aspectRatio: number;
+  src: string;
+  srcSet: string;
+  sizes: string;
 }
 
 interface ImageSharp {
-  fluid: Fluid
+  fluid: Fluid;
 }
 
 interface PostImage {
-  childImageSharp: ImageSharp
+  childImageSharp: ImageSharp;
 }
 
 interface PostMetadataQuery {
@@ -31,6 +31,8 @@ interface PostMetadataQuery {
   image: PostImage;
   relativeDate: string;
   date: string;
+  location: string;
+  locationUrl: string;
 }
 
 export default PostMetadataQuery;

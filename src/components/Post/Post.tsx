@@ -74,6 +74,15 @@ const AuthorLink = () => <MetaLink to="/about">Valeriy Novytskyy</MetaLink>;
 
 const LocationLink = () => <MetaLink to="#">Portland, OR</MetaLink>;
 
+const ExternalLink: FC<{ href: string }> = ({ href, children }) => {
+  if (href[0] === '/') return <a href={href}>{children}</a>;
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  );
+};
+
 const Post: FC<{
   data: PostQuery;
 }> = ({
@@ -373,6 +382,7 @@ const Post: FC<{
         td: TableCell,
         p: Paragraph,
         blockquote: Blockquote,
+        a: ExternalLink,
       }}
     >
       <Main showCommentsSidebar={showCommentsSidebar}>

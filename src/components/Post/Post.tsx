@@ -31,6 +31,8 @@ import TagList from '../TagList';
 import SEO from '../SEO';
 import TOC from '../TOC';
 import MetaLink from '../MetaLink';
+import ExternalMetaLink from '../ExternalMetaLink';
+import ExternalLink from '../ExternalLink';
 import Comments from '../Comments/Comments';
 import Reactions from '../PostReactions';
 import Code from '../Code';
@@ -106,23 +108,14 @@ type LocationLinkProps = {
 const LocationLink: FC<LocationLinkProps> = ({ location, locationUrl }) => {
   const locationRef = useRef<HTMLElement>(null);
   return (
-    <MetaLink
+    <ExternalMetaLink
       ref={locationRef}
       target="_blank"
       rel="noopener noreferrer"
-      to={locationUrl}
+      href={locationUrl}
     >
       {location}
-    </MetaLink>
-  );
-};
-
-const ExternalLink: FC<{ href: string }> = ({ href, children }) => {
-  if (href[0] === '/') return <a href={href}>{children}</a>;
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer">
-      {children}
-    </a>
+    </ExternalMetaLink>
   );
 };
 
@@ -568,7 +561,7 @@ const Post: FC<{
 };
 
 export const pageQuery = graphql`
-  query($slug: String!, $collection: String!) {
+  query ($slug: String!, $collection: String!) {
     site {
       siteMetadata {
         url

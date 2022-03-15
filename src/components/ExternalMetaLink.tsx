@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { Link } from 'gatsby';
 
-const MetaLink = styled(Link)`
+const ExternalMetaLink = styled.a`
   border-bottom-width: ${(props) => props.theme.border};
   border-bottom-style: dotted;
   border-bottom-color: ${(props) =>
@@ -30,4 +29,4 @@ const MetaLink = styled(Link)`
   }
 `;
 
-export default MetaLink;
+export default ExternalMetaLink;

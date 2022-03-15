@@ -114,6 +114,12 @@ module.exports = {
               maxWidth: 920
             }
           },
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+            options: {
+              destinationDir: `downloads`
+            },
+          },
           `gatsby-remark-smartypants`
         ]
       },

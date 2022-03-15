@@ -92,14 +92,7 @@ export const ParagraphWrapper = styled.section<{
   }
 `;
 
-export const ParagraphText = styled.p<{ editingComment: boolean }>`
-  background: ${(props) =>
-    props.editingComment ? props.theme.secondaryColor : 'initial'};
-  color: ${(props) =>
-    props.editingComment
-      ? props.theme.backgroundColor
-      : props.theme.foregroundColor};
-
+export const ParagraphText = styled.p`
   code {
     position: relative;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
@@ -122,6 +115,11 @@ export const ParagraphText = styled.p<{ editingComment: boolean }>`
       background: none;
     }
   }
+`;
+
+export const ActiveParagraphHighlight = styled.span`
+  background: ${(props) => props.theme.secondaryColor};
+  color: ${(props) => props.theme.foregroundColor};
 `;
 
 export const SelectionAnchor = styled.span<ParagraphSelection>`

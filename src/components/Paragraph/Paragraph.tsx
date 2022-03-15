@@ -28,6 +28,7 @@ import {
   ParagraphWrapper,
   ParagraphText,
   SelectionAnchor,
+  ActiveParagraphHighlight,
 } from './Paragraph.styles';
 import {
   ParagraphSelection,
@@ -445,13 +446,10 @@ const Paragraph: FC = ({ children }) => {
       showCommentsSidebar={showCommentsSidebar}
       editingComment={showInlineCommentForm}
     >
-      <ParagraphText
-        id={hash}
-        editingComment={showInlineCommentForm}
-        onMouseUp={handleSelection}
-        ref={paragraphRef}
-      >
-        {showHighlightMark ? (
+      <ParagraphText id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
+        {showInlineCommentForm ? (
+          <ActiveParagraphHighlight>{children}</ActiveParagraphHighlight>
+        ) : showHighlightMark ? (
           <ParagraphHighlight
             text={innerText}
             nodes={innerNodes}

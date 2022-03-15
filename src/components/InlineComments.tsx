@@ -313,7 +313,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
       {showInlineCommentForm && (
         <InlineCommentForm onSubmit={(e) => e.preventDefault()}>
           {user && (
-            <CurrentUser threadHasComments={Boolean(paragraphComments.length)}>
+            <CurrentUser threadHasComments={Boolean(paragraphComments?.length)}>
               commenting as <MetaLink to="/profile">{user?.name}</MetaLink>:
             </CurrentUser>
           )}

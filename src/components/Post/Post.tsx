@@ -32,7 +32,7 @@ import SEO from '../SEO';
 import TOC from '../TOC';
 import MetaLink from '../MetaLink';
 import ExternalMetaLink from '../ExternalMetaLink';
-import ExternalLink from '../ExternalLink';
+import ExternalLink from '../PostLink';
 import Comments from '../Comments/Comments';
 import Reactions from '../PostReactions';
 import Code from '../Code';

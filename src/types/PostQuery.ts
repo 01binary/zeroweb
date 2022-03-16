@@ -14,18 +14,16 @@ import HeadingQuery from './HeadingQuery';
 import TagsQuery from './TagsQuery';
 import SiteMetadataQuery from './SiteMetadataQuery';
 
-type PostFieldsQuery = {
-  url: string;
-  collection: string;
-  tags: Array<string>;
-};
-
 type PostDetailsQuery = {
   slug: string;
   body: string;
   timeToRead?: number;
   frontmatter: PostMetadataQuery;
-  fields: PostFieldsQuery;
+  fields: {
+    url: string;
+    collection: string;
+    tags: Array<string>;
+  };
   headings: Array<HeadingQuery>;
   mdx: PostDetailsQuery;
   allMdx: TagsQuery;

@@ -28,15 +28,15 @@ Switchback is a double-neck guitar with keyboard for playing [neurometal](https:
 
 Switchback is being built by [Claas Guitars](https://claasguitars.com/) in Germany, a luthier that specializes in custom shop headless guitars.
 
-TODO finished
+![finished guitar](./images/finished.jpg)
 
 The luthier had to make many adjustments to make the guitar playable, such as customizing pickup positions and increasing the space between the two necks.
 
-TODO frets
+![fret lighting](./images/frets.jpg)
 
 The body has extra space to fit in electronics for the Seaboard, and both the built-in keyboard and oscilloscope will communicate with a computer running Ableton by using Bluetooth.
 
-TODO body
+![machining body](./images/cnc.jpg)
 
 ## instructions
 

@@ -1,12 +1,27 @@
 ---
 title: Drumming robot
-description: MIDI drumming robot
+description: Robotic drummer designed in Autodesk Inventor
 image: ./images/drumming-robot.png
 date: 2021-02-11
-tags: ["engineering-robotics", "engineering-electrical", "engineering-mechanical", "engineering-software", "design-industrial", "tool-raspi", "tool-inventor"]
+location: ^H Hackerspace
+locationUrl: https://www.google.com/maps/place/Ctrl-H/@45.5780926,-122.6819841,20.57z
+tags:
+  [
+    'engineering-robotics',
+    'engineering-electrical',
+    'engineering-mechanical',
+    'engineering-software',
+    'design-industrial',
+    'tool-raspi',
+    'tool-inventor',
+  ]
 ---
 
-Four armed drumming robot with raspi
+Robotic drummer designed in Autodesk Inventor and built with a combination of metal casting, 3D printing, CNC machining, sheet metal fabrication, and pre-made components from McMaster Carr, Grainger, and GoBilda.
+
+## Overview
+
+For this project my goal is to learn [::ROS](https://www.ros.org/), create parts that look organic by using Generative Design functionality in [Autodesk Inventor](https://www.autodesk.com/products/inventor/), get experience with modern servos and linear actuators, and finally build a robotic drummer for my neurometal band.
 
 ## This is heading two
 

@@ -5,7 +5,7 @@ cache:
   directories:
   - node_modules
 before_install:
-  apt-get install automake libtool dpkg pkgconfig nasm libpng
+  apt-get install automake libtool dpkg pkgconfig nasm 'libpng*'
 script:
 - yarn build
 deploy:

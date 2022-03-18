@@ -48,9 +48,7 @@ const ICONS = {
   about: AboutIcon,
 };
 
-const Hero = styled.header<{
-  showCommentsSidebar: boolean;
-}>`
+const Hero = styled.header`
   font-family: ${(props) => props.theme.titleFont};
   background: ${(props) => props.theme.primaryColor};
   color: ${(props) => props.theme.primaryTextColor};
@@ -68,19 +66,6 @@ const Hero = styled.header<{
     ${(props) => props.theme.primaryColor} 0%,
     ${(props) => props.theme.secondaryColor} 100%
   );
-
-  @media (min-width: ${NARROW_SIDE_COMMENTS}) {
-    // Slide to the left when displaying inline comments on the side
-    left: ${(props) =>
-      props.showCommentsSidebar
-        ? `calc(0px - ${SIDE_COMMENTS_MIN_WIDTH} - ${props.theme.spacingDouble})`
-        : '0'};
-  }
-
-  @media (min-width: ${NARROW_INLINE_COMMENTS}) {
-    // Do not slide to the left when too narrow to display inline comments on the side
-    left: 0;
-  }
 
   @media (max-width: ${NARROW_NO_RULERS}) {
     // Fixup to remove horizontal scrollbar when getting narrower
@@ -450,7 +435,6 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ path }) => {
   const themeToggleRef = useRef<HTMLElement>(null);
-  const { showCommentsSidebar } = useBlogData();
   const { isDark, toggleDark } = useStyledDarkMode();
   const [menuOpen, showMenu] = useState(false);
 
@@ -459,7 +443,6 @@ const Header: FC<HeaderProps> = ({ path }) => {
       role="banner"
       isDark={isDark}
       menuOpen={menuOpen}
-      showCommentsSidebar={showCommentsSidebar}
     >
       <LogoLink to="/">
         <Logo />

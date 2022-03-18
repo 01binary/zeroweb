@@ -497,7 +497,6 @@ const Comments: FC<CommentsProps> = ({
       isUserLoggedIn={Boolean(user)}
       isLoading={loading}
       hasComments={Boolean(postComments && postComments.length)}
-      showCommentsSidebar={showCommentsSidebar}
     >
       {postComments && (
         <h2>

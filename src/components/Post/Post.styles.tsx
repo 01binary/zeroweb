@@ -25,18 +25,13 @@ import {
   SIDE_COMMENTS_WIDTH,
 } from '../../constants';
 
-type MainProps = {
+export const Main = styled.main<{
   showCommentsSidebar: boolean;
-};
-
-export const Main = styled.main<MainProps>`
+}>`
   position: relative;
   left: 0;
 
   @media (min-width: ${NARROW_SIDE_COMMENTS}) {
-    left: ${(props) =>
-      props.showCommentsSidebar ? `calc(0px - ${SIDE_COMMENTS_WIDTH})` : '0'};
-
     &:before {
       opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
       transition: opacity 0.3s ease-out;

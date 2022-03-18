@@ -97,18 +97,19 @@ export const ParagraphText = styled.p`
     position: relative;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
       'Courier New', monospace;
-    font-size: medium;
+    font-size: 18px;
     background: ${(props) =>
       props.theme.isDark
         ? props.theme.dropShadowDarkColor
         : props.theme.accentLightColor};
-    padding: ${(props) => props.theme.spacingQuarter};
+    padding: 6px;
     pointer-events: none;
   }
 
   mark {
     background-color: ${(props) => props.theme.secondaryColor};
     color: ${(props) => props.theme.backgroundColor};
+    padding: 2px;
 
     code {
       color: ${(props) => props.theme.backgroundColor};
@@ -120,10 +121,11 @@ export const ParagraphText = styled.p`
 export const ActiveParagraphHighlight = styled.span`
   background: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.backgroundColor};
+  padding: 2px;
 
   code {
     color: ${(props) => props.theme.backgroundColor};
-    background: ${(props) => props.theme.secondaryColor};
+    background: none;
   }
 
   a {

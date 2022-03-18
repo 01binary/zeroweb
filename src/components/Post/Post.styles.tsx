@@ -19,38 +19,14 @@ import {
   MOBILE,
   MOBILE_MIN,
   MOBILE_NARROW,
-  NARROW_INLINE_COMMENTS,
   NARROW_NO_RULERS,
   NARROW_SIDE_COMMENTS,
-  SIDE_COMMENTS_WIDTH,
 } from '../../constants';
 
 export const Main = styled.main<{
   showCommentsSidebar: boolean;
 }>`
-  position: relative;
-  left: 0;
-
-  @media (min-width: ${NARROW_SIDE_COMMENTS}) {
-    &:before {
-      opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
-      transition: opacity 0.3s ease-out;
-    }
-
-    &:after {
-      top: 0;
-      opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
-      transition: opacity 0.3s ease-out;
-    }
-  }
-
-  @media (min-width: ${NARROW_INLINE_COMMENTS}) {
-    left: 0;
-  }
-
-  transition: left 0.3s ease-out;
   margin-bottom: 3em;
-
   text-rendering: optimizeLegibility;
 
   h1 {
@@ -199,9 +175,21 @@ export const Main = styled.main<{
     }
   }
 
+  @media (min-width: ${NARROW_SIDE_COMMENTS}) {
+    &:before {
+      opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
+      transition: opacity 0.3s ease-out;
+    }
+
+    &:after {
+      top: 0;
+      opacity: ${(props) => (props.showCommentsSidebar ? 0 : 1)};
+      transition: opacity 0.3s ease-out;
+    }
+  }
+
   @media (max-width: ${MOBILE}) {
-    margin-left: 0;
-    margin-right: 0;
+    max-width: initial;
     margin-bottom: 1em;
 
     h1,

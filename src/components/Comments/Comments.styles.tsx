@@ -113,7 +113,7 @@ export const DateMarker = styled.div<{ offset: number; show: boolean }>`
   ${(props) => !props.show && 'display: none'};
 
   @media (max-width: ${NARROW_FLIP_MARKERS}) {
-    right: 1.25em;
+    right: ${props => props.theme.spacingOneAndHalf};
 
     .comment-marker__arrow {
       display: none;

@@ -4,17 +4,13 @@ import Error from '../components/Error';
 import Facebook from '../images/facebook.svg';
 import Google from '../images/google.svg';
 import Twitter from '../images/twitter.svg';
-import Alert from './Alert';
-
-const Container = styled.section<{ inline?: boolean }>`
-  ${(props) => !props.inline && `margin-bottom: ${props.theme.spacingHalf}`};
-`;
 
 const Prompt = styled.div<{ inline?: boolean }>`
   position: relative;
   display: flex;
   align-items: ${(props) => (props.inline ? 'flex-start' : 'center')};
 
+  ${(props) => !props.inline && `margin-bottom: ${props.theme.spacingHalf}`};
   ${(props) => props.inline && 'flex-direction:column'};
 
   font-family: ${(props) =>
@@ -42,6 +38,14 @@ const ProviderList = styled.ul`
   margin: 0;
   margin-right: ${(props) => props.theme.spacingHalf};
   display: flex;
+
+  &:after {
+    content: initial !important;
+  }
+
+  &:before {
+    content: initial !important;
+  }
 `;
 
 const Provider = styled.li`
@@ -66,33 +70,29 @@ const Login: FC<LoginProps> = ({
   loginError ? (
     <Error>{loginError}</Error>
   ) : (
-    <Container inline={inline}>
-      <Alert inline={inline}>
-        <Prompt inline={inline}>
-          <Text inline={inline}>Please login to comment:</Text>
-          <ProviderList>
-            <Provider>
-              <button onClick={handleFacebookLogin}>
-                <Facebook />
-                Facebook
-              </button>
-            </Provider>
-            <Provider>
-              <button onClick={handleGoogleLogin}>
-                <Google />
-                Google
-              </button>
-            </Provider>
-            <Provider>
-              <button onClick={handleTwitterLogin}>
-                <Twitter />
-                Twitter
-              </button>
-            </Provider>
-          </ProviderList>
-        </Prompt>
-      </Alert>
-    </Container>
+    <Prompt inline={inline}>
+      <Text inline={inline}>Please login to comment:</Text>
+      <ProviderList>
+        <Provider>
+          <button onClick={handleFacebookLogin}>
+            <Facebook />
+            Facebook
+          </button>
+        </Provider>
+        <Provider>
+          <button onClick={handleGoogleLogin}>
+            <Google />
+            Google
+          </button>
+        </Provider>
+        <Provider>
+          <button onClick={handleTwitterLogin}>
+            <Twitter />
+            Twitter
+          </button>
+        </Provider>
+      </ProviderList>
+    </Prompt>
   );
 
 export default Login;

@@ -119,7 +119,16 @@ export const ParagraphText = styled.p`
 
 export const ActiveParagraphHighlight = styled.span`
   background: ${(props) => props.theme.secondaryColor};
-  color: ${(props) => props.theme.foregroundColor};
+  color: ${(props) => props.theme.backgroundColor};
+
+  code {
+    color: ${(props) => props.theme.backgroundColor};
+    background: ${(props) => props.theme.secondaryColor};
+  }
+
+  a {
+    color: ${(props) => props.theme.backgroundColor};
+  }
 `;
 
 export const SelectionAnchor = styled.span<ParagraphSelection>`

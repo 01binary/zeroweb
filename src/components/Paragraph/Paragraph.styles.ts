@@ -118,7 +118,9 @@ export const ParagraphText = styled.p`
   }
 `;
 
-export const ActiveParagraphHighlight = styled.span`
+export const ActiveParagraphHighlight = styled.span.attrs(() => ({
+  className: 'paragraph__highlight',
+}))`
   background: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.backgroundColor};
   padding: 2px;

@@ -18,7 +18,7 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import { graphql } from 'gatsby';
+import { graphql, navigate } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
 import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
@@ -287,6 +287,12 @@ const Post: FC<{
       const paragraph = highlightedParagraph?.hash || paragraphSelection?.hash;
 
       if (e.target.id === 'paragraphHighlight') {
+        if (!user) {
+          // Scroll to login
+          navigate('#comments');
+          return;
+        }
+
         // Add paragraph highlight immediately
         handleAdd({
           paragraph,
@@ -561,7 +567,7 @@ const Post: FC<{
 };
 
 export const pageQuery = graphql`
-  query ($slug: String!, $collection: String!) {
+  query($slug: String!, $collection: String!) {
     site {
       siteMetadata {
         url

@@ -115,17 +115,5 @@ module.exports = {
       },
       __key: `projects`,
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `./src/articles/images/`,
-      }
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `./src/projects/images/`,
-      }
-    },
   ],
 };

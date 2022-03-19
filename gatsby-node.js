@@ -13,15 +13,37 @@ import { paginate } from 'gatsby-awesome-pagination';
 import { createFilePath } from 'gatsby-source-filesystem';
 import { CONTENT } from './src/routes';
 
+const getPageUrl = (collection, relativeFilePath) => {
+  if (collection === 'projects' && relativeFilePath.startsWith('/logs/')) {
+    return `/projects${relativeFilePath}`;
+  }
+
+  const [, projectPath, logPath] = relativeFilePath;
+  return `/projects/${projectPath}/${logPath}`;
+};
+
+const getPagePath = (collection, slug) => {
+  if (collection === 'logs') {
+    const [, projectPath, logPath] = slug.split('/');
+    return `/projects/${projectPath}/${logPath}`;
+  }
+
+  return `${collection}/${slug}`;
+};
+
+const getPageCollection = (collection, relativeFilePath) =>
+  collection === 'projects' && relativeFilePath.startsWith('/logs/')
+    ? 'logs' : collection;
+
 exports.createPages = async ({
-    actions: { createPage },
-    graphql,
-    reporter
+  actions: { createPage },
+  graphql,
+  reporter
 }) => {
-    const {
-        data: { allMdx: { nodes } },
-        errprs: postErrors,
-    } = await graphql(`
+  const {
+    data: { allMdx: { nodes } },
+    errprs: postErrors,
+  } = await graphql(`
     {
         allMdx {
             nodes {
@@ -33,10 +55,10 @@ exports.createPages = async ({
           }
     }`);
 
-    const {
-        data: { allMdx: { group: tags } },
-        errors: tagErrors,
-    } = await graphql(`
+  const {
+    data: { allMdx: { group: tags } },
+    errors: tagErrors,
+  } = await graphql(`
     {
         allMdx {
           group(field: frontmatter___tags) {
@@ -45,89 +67,92 @@ exports.createPages = async ({
         }
     }`);
 
-    if (postErrors || tagErrors) {
-        reporter.panicOnBuild(`Error while running GraphQL queries`);
-        return;
+  if (postErrors || tagErrors) {
+    reporter.panicOnBuild(`Error while running GraphQL queries`);
+    return;
+  }
+
+  // Generate posts (both articles and projects)
+  const post = require.resolve('./src/components/Post/Post.tsx');
+
+  nodes.forEach(({
+    slug,
+    fields: {
+      collection,
     }
-
-    // Generate posts (both articles and projects)
-    const post = require.resolve('./src/components/Post/Post.tsx');
-
-    nodes.forEach(({
+  }) => {
+    createPage({
+      path: getPagePath(collection, slug),
+      component: post,
+      context: {
         slug,
-        fields: {
-            collection
+        collection
+      },
+    });
+  });
+
+  // Generate index pages (all posts for tag)
+  const postIndex = require.resolve('./src/components/PostIndex.tsx');
+
+  CONTENT.forEach(({ path, collection }) => {
+    paginate({
+      createPage,
+      items: nodes
+        .filter(node => node.fields.collection === collection),
+      itemsPerPage: 5,
+      pathPrefix: path,
+      component: postIndex,
+      context: {
+        collection
+      }
+    });
+  });
+
+  // Generate tags pages
+  CONTENT.forEach(({ path, collection }) => {
+    tags.forEach(({ tag }) => {
+      createPage({
+        path: `${path.substring(1)}/tags/${tag}`,
+        component: postIndex,
+        context: {
+          collection,
+          tag
         }
-    }) => {
-        createPage({
-            path: `${collection}/${slug}`,
-            component: post,
-            context: {
-                slug,
-                collection
-            },
-        });
+      });
     });
-
-    // Generate index pages (all posts for tag)
-    const postIndex = require.resolve('./src/components/PostIndex.tsx');
-
-    CONTENT.forEach(({ path, collection }) => {
-        paginate({
-            createPage,
-            items: nodes
-                .filter(node => node.fields.collection === collection),
-            itemsPerPage: 5,
-            pathPrefix: path,
-            component: postIndex,
-            context: {
-                collection
-            }
-        });
-    });
-
-    // Generate tags pages
-    CONTENT.forEach(({ path, collection }) => {
-        tags.forEach(({ tag }) => {
-            createPage({
-                path: `${path.substring(1)}/tags/${tag}`,
-                component: postIndex,
-                context: {
-                    collection,
-                    tag
-                }
-            });
-        });
-    });
+  });
 };
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
-    const { createNodeField } = actions;
+  const { createNodeField } = actions;
 
-    if (node.internal.type === `Mdx`) {
-        const collection = getNode(node.parent).sourceInstanceName;
-        const relativeFilePath = createFilePath({
-            node,
-            getNode,
-            basePath: collection
-        });
+  if (node.internal.type === `Mdx`) {
+    const collection = getPageCollection(getNode(node.parent).sourceInstanceName, createFilePath({
+      node,
+      getNode
+    }));
+    const relativeFilePath = createFilePath({
+      node,
+      getNode,
+      basePath: collection
+    });
 
-        createNodeField({
-            node,
-            name: 'url',
-            value: `/${collection}${relativeFilePath}`
-        });
+    createNodeField({
+      node,
+      name: 'collection',
+      value: collection
+    });
 
-        createNodeField({
-            node,
-            name: 'collection',
-            value: collection
-        });
+    createNodeField({
+      node,
+      name: 'url',
+      value: getPageUrl(collection, relativeFilePath)
+    });
 
-        createNodeField({
-            node,
-            name: 'tags',
-            value: node.frontmatter.tags ? node.frontmatter.tags.map(t => t.trim().toLowerCase()) : []
-        });
-    }
+    createNodeField({
+      node,
+      name: 'tags',
+      value: node.frontmatter.tags ? node.frontmatter.tags.map(t => t.trim().toLowerCase()) : []
+    });
+  }
 };

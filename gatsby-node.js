@@ -87,7 +87,7 @@ exports.createPages = async ({
     });
 
     // Generate tags pages
-    CONTENT.forEach(({ path, collection}) => {
+    CONTENT.forEach(({ path, collection }) => {
         tags.forEach(({ tag }) => {
             createPage({
                 path: `${path.substring(1)}/tags/${tag}`,
@@ -127,7 +127,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
         createNodeField({
             node,
             name: 'tags',
-            value: node.frontmatter.tags.map(t => t.trim().toLowerCase())
+            value: node.frontmatter.tags ? node.frontmatter.tags.map(t => t.trim().toLowerCase()) : []
         });
     }
 };

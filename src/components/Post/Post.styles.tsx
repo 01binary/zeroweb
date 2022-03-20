@@ -298,6 +298,10 @@ export const Content = styled.section`
   animation: slideIn ${(props) => props.theme.animationSlow} 0.2s ease-out 1;
   animation-fill-mode: forwards;
 
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+
   ul {
     position: relative;
 

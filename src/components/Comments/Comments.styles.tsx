@@ -6,11 +6,8 @@ import Error from '../Error';
 import {
   MOBILE,
   NARROW_FLIP_MARKERS,
-  NARROW_INLINE_COMMENTS,
   NARROW_NO_MARKER_LABELS,
   NARROW_NO_RULERS,
-  NARROW_SIDE_COMMENTS,
-  SIDE_COMMENTS_WIDTH,
 } from '../../constants';
 
 const VOTE_SLOT_WIDTH = 12;
@@ -39,9 +36,13 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
   margin-top: ${(props) =>
     props.isUserLoggedIn && props.hasComments ? 4 : props.isLoading ? -1 : 0}em;
   margin-bottom: ${(props) => (props.isLoading ? 3 : 0)}em;
-  opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
 
+  opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 
   h2 {
     font-size: ${(props) => props.theme.headingFontSizeMedium};

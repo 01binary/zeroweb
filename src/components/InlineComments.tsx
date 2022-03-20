@@ -340,17 +340,19 @@ export const InlineComments: FC<InlineCommentsProps> = ({
             )}
           </InlineCommentFormGroup>
           <InlineCommentFormGroup>
-            <InlineCommentButton
-              disabled={loading}
-              onClick={handleAddInlineComment}
-              onMouseOver={(e) => {
-                tipTargetRef.current = e.target;
-                showTipFor('save', tipTargetRef);
-              }}
-              onMouseOut={hideTip}
-            >
-              <SaveIcon />
-            </InlineCommentButton>
+            {user && (
+              <InlineCommentButton
+                disabled={loading}
+                onClick={handleAddInlineComment}
+                onMouseOver={(e) => {
+                  tipTargetRef.current = e.target;
+                  showTipFor('save', tipTargetRef);
+                }}
+                onMouseOut={hideTip}
+              >
+                <SaveIcon />
+              </InlineCommentButton>
+            )}
             <InlineCommentButton
               disabled={loading}
               onClick={handleCancelInlineComment}

@@ -13,6 +13,7 @@ import PostMetadataQuery from './PostMetadataQuery';
 import HeadingQuery from './HeadingQuery';
 import TagsQuery from './TagsQuery';
 import SiteMetadataQuery from './SiteMetadataQuery';
+import LogQuery from './LogQuery';
 
 type PostDetailsQuery = {
   slug: string;
@@ -22,11 +23,23 @@ type PostDetailsQuery = {
   fields: {
     url: string;
     collection: string;
+    subCollection?: string;
     tags: Array<string>;
   };
   headings: Array<HeadingQuery>;
-  mdx: PostDetailsQuery;
-  allMdx: TagsQuery;
+  post: PostDetailsQuery;
+  tagGroups: TagsQuery;
+  project?: {
+    frontmatter: {
+      title: string;
+    };
+    fields: {
+      url: string;
+    };
+  };
+  logs: {
+    nodes: LogQuery[];
+  };
   site: {
     siteMetadata: SiteMetadataQuery;
   };

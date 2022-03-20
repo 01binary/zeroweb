@@ -14,13 +14,20 @@ import { createFilePath } from 'gatsby-source-filesystem';
 import { CONTENT } from './src/routes';
 
 const getPageUrl = (collection, relativeFilePath) => {
-  if (collection === 'projects' && relativeFilePath.startsWith('/logs/')) {
-    return `/projects${relativeFilePath}`;
+  if (collection === 'logs') {
+    const [, projectPath, logPath] = relativeFilePath.split('/');
+    return `/projects/${projectPath}/${logPath}`;
   }
 
-  const [, projectPath, logPath] = relativeFilePath;
-  return `/projects/${projectPath}/${logPath}`;
+  return `/${collection}${relativeFilePath}`;
 };
+
+const getPageSubcollection = (relativeFilePath) => {
+  if (relativeFilePath.indexOf('/logs/') >= 0) {
+    const [, , projectPath] = relativeFilePath.split('/');
+    return projectPath;
+  }
+}
 
 const getPagePath = (collection, slug) => {
   if (collection === 'logs') {
@@ -50,6 +57,7 @@ exports.createPages = async ({
                 slug,
                 fields {
                     collection
+                    subCollection
                 }
             }
           }
@@ -72,26 +80,29 @@ exports.createPages = async ({
     return;
   }
 
-  // Generate posts (both articles and projects)
+  // Generate posts
   const post = require.resolve('./src/components/Post/Post.tsx');
 
   nodes.forEach(({
     slug,
     fields: {
       collection,
+      subCollection,
     }
   }) => {
+    const path = getPagePath(collection, slug);
     createPage({
-      path: getPagePath(collection, slug),
+      path,
       component: post,
       context: {
         slug,
-        collection
+        collection,
+        subCollection
       },
     });
   });
 
-  // Generate index pages (all posts for tag)
+  // Generate top-level index pages
   const postIndex = require.resolve('./src/components/PostIndex.tsx');
 
   CONTENT.forEach(({ path, collection }) => {
@@ -127,10 +138,9 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
 
   if (node.internal.type === `Mdx`) {
-    const collection = getPageCollection(getNode(node.parent).sourceInstanceName, createFilePath({
-      node,
-      getNode
-    }));
+    const relativeRootPath = createFilePath({ node, getNode });
+    const collection = getPageCollection(getNode(node.parent).sourceInstanceName, relativeRootPath);
+    const subCollection = getPageSubcollection(relativeRootPath);
     const relativeFilePath = createFilePath({
       node,
       getNode,
@@ -141,6 +151,12 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       node,
       name: 'collection',
       value: collection
+    });
+
+    createNodeField({
+      node,
+      name: 'subCollection',
+      value: subCollection
     });
 
     createNodeField({

@@ -14,11 +14,9 @@ Created in Autodesk Inventor using prop auction photographs and screen captures.
 
 The pistons were machined on a metal lathe, and then the exosuit was assembled by using metal rod ends from McMaster Carr and screws from MSC Direct, Fastenall, and Lynx Heli.
 
-## build
+## instructions
 
 See the [GitHub repository](https://github.com/01binary/elysium-max-exoskeleton), the [Hackaday project](https://hackaday.io/project/19830-elysium-max-exoskeleton/) or the [RPF build log](http://www.therpf.com/showthread.php?t=212832) for details.
-
-## instructions
 
 - [Assembly Instructions - Default (Light)](exoskeleton-instructions-light.pdf)
 - [Assembly Instructions - Hackaday (Dark)](exoskeleton-instructions-dark.pdf)

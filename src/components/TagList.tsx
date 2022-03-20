@@ -238,8 +238,9 @@ const getDisplay = (
 };
 
 const getTagUrl = (collection: string, id: string) => {
+  const searchCollection = collection === 'logs' ? 'projects' : collection;
   const { path } = CONTENT.find(
-    ({ collection: routeCollection }) => routeCollection === collection
+    ({ collection: routeCollection }) => routeCollection === searchCollection
   );
   return `${path}${path.endsWith('/') ? '' : '/'}tags/${id}`;
 };

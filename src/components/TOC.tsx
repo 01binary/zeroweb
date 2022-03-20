@@ -55,17 +55,20 @@ const TocItemLink = styled(AnchorLink)`
 `;
 
 type TocProps = {
-  headings: Array<HeadingQuery>;
+  postUrl: string;
+  headings: HeadingQuery[];
+  isProject: boolean;
+  showLogs: boolean;
 };
 
-const TOC: FC<TocProps> = ({ headings }) => {
+const TOC: FC<TocProps> = ({ postUrl, headings, isProject, showLogs }) => {
   if (headings.length === 0) return null;
 
   const active = useActiveHeading(headings);
 
   return (
     <Toc>
-      <TocTitle>Contents</TocTitle>
+      <TocTitle>{isProject ? 'project' : 'contents'}</TocTitle>
       <TocList>
         {headings.map(({ value, url, slug, depth }) => (
           <TocItem key={url} depth={depth - 2}>
@@ -74,6 +77,11 @@ const TOC: FC<TocProps> = ({ headings }) => {
             </TocItemLink>
           </TocItem>
         ))}
+        {showLogs && (
+          <TocItem depth={0}>
+            <TocItemLink to={`${postUrl}#logs`}>logs</TocItemLink>
+          </TocItem>
+        )}
       </TocList>
     </Toc>
   );

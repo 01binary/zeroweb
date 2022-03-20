@@ -252,14 +252,14 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
-  main p, footer p {
+  main p, footer p, article p {
     color: ${(props) => props.theme.foregroundColor};
     line-height: ${(props) => props.theme.normalFontLineHeight};
     margin-left: ${(props) => props.theme.spacingHalf};
     margin-right: ${(props) => props.theme.spacingHalf};
   }
 
-  main a, footer a {
+  main a, footer a, article a {
     position: relative;
     color: ${(props) =>
       props.theme.isDark

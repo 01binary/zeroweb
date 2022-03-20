@@ -18,7 +18,7 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import { graphql, navigate } from 'gatsby';
+import { graphql, Link, navigate } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
 import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
@@ -55,6 +55,7 @@ import {
   Gauge,
   HeroImage,
   Content,
+  Breadcrumb,
 } from './Post.styles';
 import { Heading1, Heading2, Heading3, Heading4 } from '../Heading';
 import { Table, TableHeading, TableRow, TableCell } from '../Table';
@@ -72,6 +73,7 @@ import {
   openUrl,
   slugifyHeadings,
 } from '../../utils';
+import Logs from './Logs';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 1000;
@@ -126,7 +128,7 @@ const Post: FC<{
     site: {
       siteMetadata: { url: siteUrl },
     },
-    mdx: {
+    post: {
       slug,
       body,
       timeToRead,
@@ -140,10 +142,12 @@ const Post: FC<{
         location,
         locationUrl,
       },
-      fields: { url: relativePostUrl, collection, tags },
+      fields: { url: relativePostUrl, collection, subCollection, tags },
       headings,
     },
-    allMdx: { group },
+    project,
+    tagGroups: { group },
+    logs: { nodes: logs },
   },
 }) => {
   const { user, showCommentsSidebar, setShowCommentsSidebar } = useBlogData();
@@ -439,7 +443,16 @@ const Post: FC<{
 
         <Ruler />
 
-        <PostHeading>{title}</PostHeading>
+        <PostHeading>
+          {subCollection && project ? (
+            <Breadcrumb>
+              <Link to={project?.fields.url}>{project?.frontmatter.title}</Link>
+              {' / '}
+            </Breadcrumb>
+          ) : null}
+          {title}
+          {subCollection && ' '}
+        </PostHeading>
 
         <Metadata>
           <Clock />
@@ -490,7 +503,12 @@ const Post: FC<{
             <TagList tags={tags} stats={group} collection={collection} inline />
           </SidebarPanel>
 
-          <TOC headings={slugifyHeadings(relativePostUrl, headings)} />
+          <TOC
+            postUrl={relativePostUrl}
+            headings={slugifyHeadings(relativePostUrl, headings)}
+            isProject={collection === 'projects'}
+            showLogs={Boolean(logs?.length)}
+          />
         </Sidebar>
 
         <HeroImage fluid={fluid} />
@@ -543,6 +561,13 @@ const Post: FC<{
         />
       </Main>
 
+      <Logs
+        postUrl={absolutePostUrl}
+        logs={logs}
+        showTipFor={showTipFor}
+        hideTip={hideTip}
+      />
+
       <Comments
         slug={slug}
         postUrl={relativePostUrl}
@@ -567,13 +592,13 @@ const Post: FC<{
 };
 
 export const pageQuery = graphql`
-  query($slug: String!, $collection: String!) {
+  query($slug: String!, $collection: String!, $subCollection: String) {
     site {
       siteMetadata {
         url
       }
     }
-    mdx(slug: { eq: $slug }) {
+    post: mdx(slug: { eq: $slug }) {
       slug
       body
       timeToRead
@@ -596,6 +621,7 @@ export const pageQuery = graphql`
       fields {
         url
         collection
+        subCollection
         tags
       }
       headings {
@@ -603,10 +629,40 @@ export const pageQuery = graphql`
         depth
       }
     }
-    allMdx(filter: { fields: { collection: { eq: $collection } } }) {
+    project: mdx(slug: { eq: $subCollection }) {
+      frontmatter {
+        title
+      }
+      fields {
+        url
+      }
+    }
+    tagGroups: allMdx(filter: { fields: { collection: { eq: $collection } } }) {
       group(field: frontmatter___tags) {
         tag: fieldValue
         totalCount
+      }
+    }
+    logs: allMdx(filter: { fields: { subCollection: { eq: $slug } } }) {
+      nodes {
+        slug
+        timeToRead
+        frontmatter {
+          title
+          description
+          relativeDate: date(fromNow: true)
+          date(formatString: "MMM DD, YYYY")
+          image {
+            childImageSharp {
+              fluid(maxWidth: 768, maxHeight: 280) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+        fields {
+          url
+        }
       }
     }
   }

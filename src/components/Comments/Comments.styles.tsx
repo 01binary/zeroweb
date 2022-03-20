@@ -41,8 +41,7 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
   margin-bottom: ${(props) => (props.isLoading ? 3 : 0)}em;
   opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
 
-  transition: opacity ${(props) => props.theme.animationFast} ease-out,
-    transform ${(props) => props.theme.animationFast} ease-out;
+  transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
   h2 {
     font-size: ${(props) => props.theme.headingFontSizeMedium};
@@ -113,7 +112,7 @@ export const DateMarker = styled.div<{ offset: number; show: boolean }>`
   ${(props) => !props.show && 'display: none'};
 
   @media (max-width: ${NARROW_FLIP_MARKERS}) {
-    right: ${props => props.theme.spacingOneAndHalf};
+    right: ${(props) => props.theme.spacingOneAndHalf};
 
     .comment-marker__arrow {
       display: none;
@@ -630,17 +629,6 @@ export const AddCommentRow = styled.div`
   @media (max-width: ${MOBILE}) {
     width: calc(100% - ${(props) => props.theme.spacingHalf});
     ${(props) => props.distribute && 'justify-content: space-between'};
-  }
-`;
-
-export const AddCommentAvatar = styled.div`
-  display: inline;
-  margin-left: calc(
-    ${(props) => props.theme.spacing} + ${(props) => props.theme.border} * 2
-  );
-
-  @media (max-width: ${MOBILE}) {
-    display: none;
   }
 `;
 

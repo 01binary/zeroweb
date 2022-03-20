@@ -22,6 +22,9 @@ export const formatCommentDate = (timestamp: string): string =>
 export const formatMarkerDate = (timestamp: string): string =>
   dayjs(timestamp).format('MMM YYYY');
 
+export const formatAbsDate = (timestamp: string): string =>
+  dayjs(timestamp).format('MMM DD, YYYY');
+
 export const slugifyHeadings = (baseUrl: string, headings: HeadingQuery[]) =>
   headings.map((heading) => {
     const slug = getHeadingSlug(false, heading.value);

@@ -471,6 +471,10 @@ export const PostHeading = styled(Heading)`
   }
 `;
 
+export const Breadcrumb = styled.span`
+  display: block;
+`;
+
 export const Location = styled.span`
   @media (max-width: ${MOBILE_NARROW}) {
     display: none;

@@ -27,7 +27,11 @@ import ReactionConfusedIcon from '../../images/reaction-confused.svg';
 import ReactionPartyIcon from '../../images/reaction-party.svg';
 import ReactionSnapIcon from '../../images/reaction-snap.svg';
 import { CommentQuery } from '../../types/AllCommentsQuery';
-import { formatCommentDate, formatMarkerDate } from '../../utils';
+import {
+  formatAbsDate,
+  formatCommentDate,
+  formatMarkerDate,
+} from '../../utils';
 import { Vote } from '../../types/VoteCommentQuery';
 import AddCommentMutation from '../../types/AddCommentMutation';
 import EditCommentMutation from '../../types/EditCommentMutation';
@@ -68,7 +72,6 @@ import {
   EditCommentButton,
   AddCommentForm,
   AddCommentRow,
-  AddCommentAvatar,
   AddCommentUser,
   AddCommentInput,
   LoadCommentsError,
@@ -204,7 +207,6 @@ const Comments: FC<CommentsProps> = ({
     user,
     credentials,
     loginError,
-    showCommentsSidebar,
     handleFacebookLogin,
     handleTwitterLogin,
     handleGoogleLogin,
@@ -502,7 +504,7 @@ const Comments: FC<CommentsProps> = ({
         <h2>
           Comments
           {postComments.length ? (
-            <span>&nbsp;[&nbsp;{postComments.length}&nbsp;]</span>
+            <span>{` [ ${postComments.length} ]`}</span>
           ) : null}
         </h2>
       )}
@@ -613,7 +615,9 @@ const Comments: FC<CommentsProps> = ({
                         );
                         handleShowTip(e, 'copied!');
                       }}
-                      onMouseOver={(e) => handleShowTip(e, 'copy link')}
+                      onMouseOver={(e) =>
+                        handleShowTip(e, formatAbsDate(timestamp))
+                      }
                       onMouseOut={hideTip}
                     >
                       {' '}

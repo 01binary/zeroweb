@@ -115,6 +115,10 @@ export const ParagraphText = styled.p`
       color: ${(props) => props.theme.backgroundColor};
       background: none;
     }
+
+    a {
+      color: ${(props) => props.theme.backgroundColor};
+    }
   }
 `;
 

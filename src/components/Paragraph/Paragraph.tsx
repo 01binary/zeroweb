@@ -34,10 +34,9 @@ import {
   ParagraphSelection,
   useCommentsContext,
 } from '../../hooks/useComments';
-import { ParagraphFragment, ParagraphHighlight } from './ParagraphHighlight';
 
 // How long to wait before hiding paragraph highlight menu
-const HIGHLIGHT_MOUSEOVER_TIMEOUT = 1500;
+const HIGHLIGHT_MOUSEOVER_TIMEOUT = 1000;
 
 // Get unique paragraph identifier given paragraph text
 const getHash = (text: string): string | undefined =>
@@ -54,6 +53,43 @@ const nodeContains = (parent: Node, child: Node): boolean => {
   return false;
 };
 
+// Highlight text in paragraph given mark start and end
+const ParagraphHighlight: FC<{
+  innerHtml: string;
+  start: number;
+  end: number;
+}> = ({ innerHtml, start, end }) => {
+  let htmlStart, htmlEnd;
+  let openTag = false;
+  let pos = 0;
+
+  for (let n = 0; n < innerHtml.length; n++) {
+    if (innerHtml[n] === '<') openTag = true;
+    else if (innerHtml[n] === '>') openTag = false;
+
+    if (pos === start) htmlStart = n;
+    if (pos === end) htmlEnd = n + 1;
+
+    if (!openTag) pos++;
+  }
+
+  if (htmlStart === undefined) htmlStart = 0;
+  if (htmlEnd === undefined) htmlEnd = pos;
+
+  const before = innerHtml.substring(0, htmlStart);
+  const highlight = innerHtml.substring(htmlStart, htmlEnd);
+  const after = innerHtml.substring(htmlEnd);
+
+  return (
+    <span
+      id="highlightAnchor"
+      dangerouslySetInnerHTML={{
+        __html: `${before}<MARK>${highlight}</MARK>${after}`,
+      }}
+    />
+  );
+};
+
 const Paragraph: FC = ({ children }) => {
   const commentButtonRef = useRef<HTMLElement>(null);
   const paragraphRef = useRef<HTMLElement>(null);
@@ -61,7 +97,7 @@ const Paragraph: FC = ({ children }) => {
   const highlightRef = useRef<HTMLElement>(null);
   const inlineCommentRef = useRef<HTMLTextAreaElement>(null);
   const [innerText, setText] = useState<string | undefined>();
-  const [innerNodes, setInnerNodes] = useState<ParagraphFragment[]>([]);
+  const [innerHtml, setInnerHtml] = useState<string | undefined>();
 
   const {
     postUrl,
@@ -114,10 +150,10 @@ const Paragraph: FC = ({ children }) => {
       (highlights ?? []).reduce(
         ({ highlightStart, highlightEnd }, { rangeStart, rangeLength }) => ({
           highlightStart: Math.min(highlightStart, rangeStart),
-          highlightEnd: Math.max(highlightEnd, rangeStart + rangeLength - 1),
+          highlightEnd: Math.max(highlightEnd, rangeStart + rangeLength),
         }),
         {
-          highlightStart: innerText ? innerText.length - 1 : 0,
+          highlightStart: innerText?.length ?? 0,
           highlightEnd: 0,
         }
       ),
@@ -297,47 +333,18 @@ const Paragraph: FC = ({ children }) => {
 
   useEffect(() => {
     // Capture text and children on mount so that we can display a Highlight
-    if (!paragraphRef.current || innerNodes.length) return;
+    if (!paragraphRef.current || innerHtml) return;
 
-    let childNodes = paragraphRef.current.childNodes;
+    let paragraphTextNode = paragraphRef.current;
 
-    if (
-      (childNodes[0] as HTMLElement).classList.contains('paragraph__highlight')
-    ) {
-      childNodes = childNodes[0].childNodes;
-    }
+    if (paragraphTextNode.firstChild.classList.contains('paragraph__highlight'))
+      paragraphTextNode = paragraphTextNode.childNodes[0] as HTMLElement;
 
-    const nodes = new Array(childNodes.length);
-    let nodeIndex = 0;
-    let pos = 0;
+    if (paragraphTextNode.innerText.length)
+      setText(paragraphTextNode.innerText);
+    else setText(paragraphTextNode.innerHTML);
 
-    for (let node of childNodes) {
-      if (node.nodeType === 1) {
-        let element = node as HTMLElement;
-        const length = element.innerText.length;
-        nodes[nodeIndex++] = {
-          pos,
-          length,
-          text: element.innerText,
-          tag: element.tagName,
-        };
-        pos += length;
-      } else if (node.nodeType === 3) {
-        const length = node.nodeValue.length;
-        nodes[nodeIndex++] = {
-          pos,
-          length,
-          text: node.nodeValue,
-        };
-        pos += length;
-      }
-    }
-
-    if (paragraphRef.current.innerText.length)
-      setText(paragraphRef.current.innerText);
-    else setText(paragraphRef.current.innerHTML);
-
-    setInnerNodes(nodes);
+    setInnerHtml(paragraphTextNode.innerHTML);
   }, [setText]);
 
   useEffect(() => {
@@ -399,8 +406,7 @@ const Paragraph: FC = ({ children }) => {
           <ActiveParagraphHighlight>{children}</ActiveParagraphHighlight>
         ) : showHighlightMark ? (
           <ParagraphHighlight
-            text={innerText}
-            nodes={innerNodes}
+            innerHtml={innerHtml}
             start={highlightStart}
             end={highlightEnd}
           />

@@ -76,7 +76,7 @@ import {
 import Logs from './Logs';
 
 // How long to wait before hiding paragraph highlight menu
-const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 1000;
+const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
 
 type AuthorLinkProps = {
   showTipFor: ShowTipForHandler;

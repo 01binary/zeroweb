@@ -37,8 +37,23 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
     props.isUserLoggedIn && props.hasComments ? 4 : props.isLoading ? -1 : 0}em;
   margin-bottom: ${(props) => (props.isLoading ? 3 : 0)}em;
 
+  animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+
   opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
-  transition: opacity ${(props) => props.theme.animationFast} ease-out;
+  transition: opacity ${(props) => props.theme.animationSlow} ease-in-out;
 
   // Flickers on Safari due to opacity
   transform-style: preserve-3d;

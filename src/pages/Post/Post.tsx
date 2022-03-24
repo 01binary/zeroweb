@@ -24,20 +24,20 @@ import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
-import { ContextMenu } from '../ContextMenu';
-import Wheel from '../Wheel';
-import { Ruler } from '../Ruler';
-import TagList from '../TagList';
-import SEO from '../SEO';
-import TOC from '../TOC';
-import MetaLink from '../MetaLink';
-import ExternalMetaLink from '../ExternalMetaLink';
-import ExternalLink from '../PostLink';
-import Comments from '../Comments/Comments';
-import Reactions from '../PostReactions';
-import Code from '../Code';
-import Paragraph from '../Paragraph/Paragraph';
-import Blockquote from '../Blockquote';
+import { ContextMenu } from '../../components/ContextMenu';
+import Wheel from './Wheel';
+import { Ruler } from '../../components/Ruler';
+import TagList from '../../components/TagList';
+import SEO from '../../components/SEO';
+import TOC from '../../components/TOC';
+import MetaLink from '../../components/MetaLink';
+import ExternalMetaLink from '../../components/ExternalMetaLink';
+import Paragraph from './Paragraph/Paragraph';
+import Comments from './Comments/Comments';
+import Reactions from './PostReactions';
+import ExternalLink from './ExternalLink';
+import Blockquote from './Blockquote';
+import Code from './Code';
 import {
   Main,
   PostHeading,
@@ -57,16 +57,21 @@ import {
   Content,
   Breadcrumb,
 } from './Post.styles';
-import { Heading1, Heading2, Heading3, Heading4 } from '../Heading';
-import { Table, TableHeading, TableRow, TableCell } from '../Table';
+import {
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+} from '../../components/Heading';
+import { Table, TableHeading, TableRow, TableCell } from './Table';
+import ParagraphMenu from './Paragraph/ParagraphMenu';
+import { Arrow, Tooltip } from '../../components/Tooltip';
 import useUserContent from '../../hooks/useUserContent';
 import {
   HideTipHandler,
   ShowTipForHandler,
   useTooltip,
 } from '../../hooks/useTooltip';
-import { Arrow, Tooltip } from '../Tooltip';
-import ParagraphMenu from './ParagraphMenu';
 import {
   getDateUnits,
   getDateValue,

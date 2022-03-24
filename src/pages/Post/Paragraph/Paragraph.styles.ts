@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { RULER_ENDMARK_WIDTH } from '../Ruler';
-import { ParagraphSelection } from '../../hooks/useComments';
+import { RULER_ENDMARK_WIDTH } from '../../../components/Ruler';
+import { ParagraphSelection } from '../../../hooks/useComments';
 import {
   MOBILE,
   NARROW_FLIP_MARKERS,
   NARROW_NO_MARKER_LABELS,
   NARROW_NO_RULERS,
-} from '../../constants';
+} from '../../../constants';
 
 export const ParagraphWrapper = styled.section<{
   showCommentsSidebar: boolean;

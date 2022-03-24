@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import SnapIcon from '../images/snap.svg';
+import SnapIcon from '../../images/snap.svg';
 
 const StaticSnapIcon = styled(SnapIcon)`
   #frame4 {

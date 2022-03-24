@@ -10,8 +10,8 @@
 \*---------------------------------------------------------*/
 
 import styled from 'styled-components';
-import { NARROW_NO_RULERS } from '../constants';
-import { RULER_OFFSET } from './Ruler';
+import { NARROW_NO_RULERS } from '../../constants';
+import { RULER_OFFSET } from '../../components/Ruler';
 
 export const Table = styled.table`
   font-size: ${(props) => props.theme.normalFontSize};

@@ -13,8 +13,8 @@ import styled from 'styled-components';
 import Img from 'gatsby-image';
 import GaugeIcon from '../../images/gauge.svg';
 import ClockIcon from '../../images/clock.svg';
-import { Heading } from '../Heading';
-import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../Ruler';
+import { Heading } from '../../components/Heading';
+import { RULER_OFFSET, RULER_SELECTION_GUTTER } from '../../components/Ruler';
 import {
   MOBILE,
   MOBILE_MIN,

@@ -12,15 +12,19 @@
 import React, { FC, useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { BlogLocationContext } from '../hooks/useBlogLocation';
-import { GlobalStyle } from '../theme';
-import SEO from './SEO';
+import { BlogLocationContext } from '../../hooks/useBlogLocation';
+import { GlobalStyle } from '../../theme';
+import SEO from '../SEO';
 import Header from './Header';
-import { useBlogData } from '../hooks/useBlogData';
-import { NARROW_INLINE_COMMENTS, NARROW_SIDE_COMMENTS, SIDE_COMMENTS_WIDTH } from '../constants';
+import { useBlogData } from '../../hooks/useBlogData';
+import {
+  NARROW_INLINE_COMMENTS,
+  NARROW_SIDE_COMMENTS,
+  SIDE_COMMENTS_WIDTH,
+} from '../../constants';
 
 const Site = styled.div<{ showCommentsSidebar: true }>`
-  transition: transform ${props => props.theme.animationFast} ease-in-out;
+  transition: transform ${(props) => props.theme.animationFast} ease-in-out;
 
   @media (min-width: ${NARROW_SIDE_COMMENTS}) {
     transform: ${(props) =>
@@ -46,7 +50,7 @@ const Layout: FC<RouteComponentProps> = ({ children, location }) => {
     >
       <SEO />
       <GlobalStyle theme={theme} />
-      <Site {...{showCommentsSidebar}}>
+      <Site {...{ showCommentsSidebar }}>
         <Header path={location.pathname} />
         {children}
       </Site>

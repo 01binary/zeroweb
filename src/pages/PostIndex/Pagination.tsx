@@ -12,7 +12,7 @@
 import React, { FC } from 'react';
 import { Link } from 'gatsby';
 import styled, { useTheme } from 'styled-components';
-import { getPathForCollection } from '../routes';
+import { getPathForCollection } from '../../routes';
 
 const MAX_SLOTS = 8;
 const RESERVED_1BREAK = 2;

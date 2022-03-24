@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
-import { Menu, MenuItem, MenuProps } from '../Menu';
-import ReactionLolIcon from '../../images/reaction-lol.svg';
-import ReactionWowIcon from '../../images/reaction-wow.svg';
-import ReactionConfusedIcon from '../../images/reaction-confused.svg';
-import ReactionPartyIcon from '../../images/reaction-party.svg';
-import ReactionSnapIcon from '../../images/reaction-snap.svg';
+import { Menu, MenuItem, MenuProps } from '../../../components/Menu';
+import ReactionLolIcon from '../../../images/reaction-lol.svg';
+import ReactionWowIcon from '../../../images/reaction-wow.svg';
+import ReactionConfusedIcon from '../../../images/reaction-confused.svg';
+import ReactionPartyIcon from '../../../images/reaction-party.svg';
+import ReactionSnapIcon from '../../../images/reaction-snap.svg';
 import { CommentReactionDescription } from './Comments.styles';
 
 const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {

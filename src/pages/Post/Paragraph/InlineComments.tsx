@@ -18,22 +18,22 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
-import { ParagraphComment } from '../hooks/useComments';
-import SaveIcon from '../images/accept.svg';
-import CancelIcon from '../images/cancel.svg';
-import { useBlogData } from '../hooks/useBlogData';
-import MetaLink from './MetaLink';
-import Login from './Login';
-import { formatCommentDate } from '../utils';
-import { CommentQuery } from '../types/AllCommentsQuery';
-import { HideTipHandler, ShowTipForHandler } from '../hooks/useTooltip';
+import { ParagraphComment } from '../../../hooks/useComments';
+import SaveIcon from '../../../images/accept.svg';
+import CancelIcon from '../../../images/cancel.svg';
+import { useBlogData } from '../../../hooks/useBlogData';
+import MetaLink from '../../../components/MetaLink';
+import Login from '../../../components/Login';
+import { formatCommentDate } from '../../../utils';
+import { CommentQuery } from '../../../types/AllCommentsQuery';
+import { HideTipHandler, ShowTipForHandler } from '../../../hooks/useTooltip';
 import {
   MOBILE,
   MOBILE_NARROW,
   NARROW_SIDE_COMMENTS,
   SIDE_COMMENTS_MAX_WIDTH,
   SIDE_COMMENTS_MIN_WIDTH,
-} from '../constants';
+} from '../../../constants';
 
 const InlineCommentThread = styled.section<{
   current: boolean;

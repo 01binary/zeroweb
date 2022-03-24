@@ -11,7 +11,7 @@
 
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { MOBILE } from '../constants';
+import { MOBILE } from '../../constants';
 
 const HamburgerButton = styled.input.attrs(() => ({
   id: 'hamburger',

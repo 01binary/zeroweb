@@ -15,13 +15,13 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
 import light from 'prism-react-renderer/themes/github';
 import dark from 'prism-react-renderer/themes/vsDark';
-import { Tooltip, Arrow } from './Tooltip';
-import { RULER_ENDMARK_WIDTH, RULER_OFFSET } from './Ruler';
-import { useTooltipController, useTooltipTarget } from '../hooks/useTooltip';
-import { MOBILE, NARROW_FLIP_MARKERS, NARROW_NO_RULERS } from '../constants';
-import CopyIcon from '../images/copy.svg';
-import LightIcon from '../images/light.svg';
-import DarkIcon from '../images/dark.svg';
+import { Tooltip, Arrow } from '../../components/Tooltip';
+import { RULER_ENDMARK_WIDTH, RULER_OFFSET } from '../../components/Ruler';
+import { useTooltipController, useTooltipTarget } from '../../hooks/useTooltip';
+import { MOBILE, NARROW_FLIP_MARKERS, NARROW_NO_RULERS } from '../../constants';
+import CopyIcon from '../../images/copy.svg';
+import LightIcon from '../../images/light.svg';
+import DarkIcon from '../../images/dark.svg';
 
 const DARK_MODE_OVERRIDE = 'darkCode';
 

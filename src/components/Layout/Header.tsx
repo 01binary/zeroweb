@@ -15,24 +15,17 @@ import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
 import { Link } from 'gatsby';
 import NavLink from './NavLink';
 import Hamburger from './Hamburger';
-import LogoImage from '../images/logo.svg';
-import ArticlesIcon from '../images/articles.svg';
-import ProjectsIcon from '../images/projects.svg';
-import AboutIcon from '../images/about.svg';
-import LightIcon from '../images/light.svg';
-import DarkIcon from '../images/dark.svg';
-import ArticlesBackground from '../images/navigation-articles.svg';
-import ProjectsBackground from '../images/navigation-projects.svg';
-import AboutBackground from '../images/navigation-about.svg';
-import ROUTES from '../routes';
-import {
-  MOBILE,
-  NARROW_INLINE_COMMENTS,
-  NARROW_NO_RULERS,
-  NARROW_SIDE_COMMENTS,
-  SIDE_COMMENTS_MIN_WIDTH,
-} from '../constants';
-import { useBlogData } from '../hooks/useBlogData';
+import LogoImage from '../../images/logo.svg';
+import ArticlesIcon from '../../images/articles.svg';
+import ProjectsIcon from '../../images/projects.svg';
+import AboutIcon from '../../images/about.svg';
+import LightIcon from '../../images/light.svg';
+import DarkIcon from '../../images/dark.svg';
+import ArticlesBackground from '../../images/navigation-articles.svg';
+import ProjectsBackground from '../../images/navigation-projects.svg';
+import AboutBackground from '../../images/navigation-about.svg';
+import ROUTES from '../../routes';
+import { MOBILE, NARROW_NO_RULERS } from '../../constants';
 
 const HEADER_HEIGHT = 250;
 
@@ -439,11 +432,7 @@ const Header: FC<HeaderProps> = ({ path }) => {
   const [menuOpen, showMenu] = useState(false);
 
   return (
-    <Hero
-      role="banner"
-      isDark={isDark}
-      menuOpen={menuOpen}
-    >
+    <Hero role="banner" isDark={isDark} menuOpen={menuOpen}>
       <LogoLink to="/">
         <Logo />
       </LogoLink>

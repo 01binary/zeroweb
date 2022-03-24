@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import { MOBILE } from '../../constants';
 import LogQuery from '../../types/LogQuery';
-import MetaLink from '../MetaLink';
+import MetaLink from '../../components/MetaLink';
 import { HideTipHandler, ShowTipForHandler } from '../../hooks/useTooltip';
 
 const LogsHeading = styled.h2`

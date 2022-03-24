@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { Menu, MenuItem, MenuProps } from '../Menu';
-import CommentIcon from '../../images/comment.svg';
-import HighlightIcon from '../../images/highlight.svg';
+import { Menu, MenuItem, MenuProps } from '../../../components/Menu';
+import CommentIcon from '../../../images/comment.svg';
+import HighlightIcon from '../../../images/highlight.svg';
 
 type ParagraphMenuProps = {
   loading: boolean;

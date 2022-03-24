@@ -10,12 +10,12 @@
 \*---------------------------------------------------------*/
 
 import React, { FC } from 'react';
-import styled from 'styled-components';
-import { PostsQuery } from '../types/AllPostsQuery';
-import { getDateValue, getDateUnits } from '../utils';
-import ClockIcon from '../images/clock.svg';
 import { Link } from 'gatsby';
-import TagList from './TagList';
+import styled from 'styled-components';
+import { PostsQuery } from '../../types/AllPostsQuery';
+import { getDateValue, getDateUnits } from '../../utils';
+import TagList from '../../components/TagList';
+import ClockIcon from '../../images/clock.svg';
 
 const Article = styled.article`
   margin-left: ${(props) => props.theme.spacingHalf};

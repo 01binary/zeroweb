@@ -11,35 +11,35 @@ import React, {
 import ReactMarkdown from 'react-markdown';
 import { FetchResult } from '@apollo/client';
 import { useTheme } from 'styled-components';
-import Avatar from '../Avatar';
-import MetaLink from '../MetaLink';
-import Login from '../Login';
-import { useBlogData } from '../../hooks/useBlogData';
-import UpVoteIcon from '../../images/upvote.svg';
-import DownVoteIcon from '../../images/downvote.svg';
-import ReactionIcon from '../../images/reaction.svg';
-import MenuIcon from '../../images/comment-menu.svg';
-import SaveIcon from '../../images/accept.svg';
-import CancelIcon from '../../images/cancel.svg';
-import ReactionLolIcon from '../../images/reaction-lol.svg';
-import ReactionWowIcon from '../../images/reaction-wow.svg';
-import ReactionConfusedIcon from '../../images/reaction-confused.svg';
-import ReactionPartyIcon from '../../images/reaction-party.svg';
-import ReactionSnapIcon from '../../images/reaction-snap.svg';
-import { CommentQuery } from '../../types/AllCommentsQuery';
+import Avatar from './Avatar';
+import MetaLink from '../../../components/MetaLink';
+import Login from '../../../components/Login';
+import { useBlogData } from '../../../hooks/useBlogData';
+import UpVoteIcon from '../../../images/upvote.svg';
+import DownVoteIcon from '../../../images/downvote.svg';
+import ReactionIcon from '../../../images/reaction.svg';
+import MenuIcon from '../../../images/comment-menu.svg';
+import SaveIcon from '../../../images/accept.svg';
+import CancelIcon from '../../../images/cancel.svg';
+import ReactionLolIcon from '../../../images/reaction-lol.svg';
+import ReactionWowIcon from '../../../images/reaction-wow.svg';
+import ReactionConfusedIcon from '../../../images/reaction-confused.svg';
+import ReactionPartyIcon from '../../../images/reaction-party.svg';
+import ReactionSnapIcon from '../../../images/reaction-snap.svg';
+import { CommentQuery } from '../../../types/AllCommentsQuery';
 import {
   formatAbsDate,
   formatCommentDate,
   formatMarkerDate,
-} from '../../utils';
-import { Vote } from '../../types/VoteCommentQuery';
-import AddCommentMutation from '../../types/AddCommentMutation';
-import EditCommentMutation from '../../types/EditCommentMutation';
-import ReactCommentMutation from '../../types/ReactMutation';
-import { useTooltip } from '../../hooks/useTooltip';
-import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
-import { Tooltip, Arrow } from '../Tooltip';
-import PrimaryButton from '../PrimaryButton';
+} from '../../../utils';
+import { Vote } from '../../../types/VoteCommentQuery';
+import AddCommentMutation from '../../../types/AddCommentMutation';
+import EditCommentMutation from '../../../types/EditCommentMutation';
+import ReactCommentMutation from '../../../types/ReactMutation';
+import { useTooltip } from '../../../hooks/useTooltip';
+import { ContextMenu, ContextMenuArrow } from '../../../components/ContextMenu';
+import { Tooltip, Arrow } from '../../../components/Tooltip';
+import PrimaryButton from '../../../components/PrimaryButton';
 import {
   CommentsList,
   CommentsSection,
@@ -80,7 +80,7 @@ import {
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
-import Alert from '../Alert';
+import Alert from '../../../components/Alert';
 
 const DATE_MARKER_THRESHOLD = 100;
 

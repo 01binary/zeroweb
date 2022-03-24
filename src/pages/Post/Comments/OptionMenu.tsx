@@ -1,7 +1,12 @@
 import React, { FC } from 'react';
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../Menu';
-import EditIcon from '../../images/edit.svg';
-import DeleteIcon from '../../images/delete.svg';
+import {
+  Menu,
+  MenuItem,
+  MenuItemIcon,
+  MenuProps,
+} from '../../../components/Menu';
+import EditIcon from '../../../images/edit.svg';
+import DeleteIcon from '../../../images/delete.svg';
 
 const OptionMenu: FC<MenuProps> = ({ onSelect }) => (
   <Menu>

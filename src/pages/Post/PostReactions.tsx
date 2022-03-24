@@ -1,18 +1,18 @@
 import React, { FC, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import { ShareType } from '../types/AllSharesQuery';
-import { useTooltip } from '../hooks/useTooltip';
-import useSnap from '../hooks/useSnap';
-import ShareIcon from '../images/share.svg';
-import ShareFacebookIcon from '../images/share-facebook.svg';
-import ShareTwitterIcon from '../images/share-twitter.svg';
-import ShareLinkedInIcon from '../images/share-linkedin.svg';
-import ShareLinkIcon from '../images/share-link.svg';
-import ShareEmailIcon from '../images/share-email.svg';
+import { ShareType } from '../../types/AllSharesQuery';
+import { useTooltip } from '../../hooks/useTooltip';
+import useSnap from '../../hooks/useSnap';
+import ShareIcon from '../../images/share.svg';
+import ShareFacebookIcon from '../../images/share-facebook.svg';
+import ShareTwitterIcon from '../../images/share-twitter.svg';
+import ShareLinkedInIcon from '../../images/share-linkedin.svg';
+import ShareLinkIcon from '../../images/share-link.svg';
+import ShareEmailIcon from '../../images/share-email.svg';
 import SnapAnimation from './SnapAnimation';
-import { Menu, MenuItem, MenuItemIcon } from './Menu';
-import { ContextMenu, ContextMenuArrow } from './ContextMenu';
-import { MOBILE } from '../constants';
+import { Menu, MenuItem, MenuItemIcon } from '../../components/Menu';
+import { ContextMenu, ContextMenuArrow } from '../../components/ContextMenu';
+import { MOBILE } from '../../constants';
 
 const StyledSnapAnimation = styled(SnapAnimation)`
   transform: scale(1.15);

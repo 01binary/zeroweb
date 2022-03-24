@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import CommentMarkerIcon from '../../images/comment-marker.svg';
-import { RULER_ENDMARK_WIDTH } from '../Ruler';
-import { AVATAR_SIZE } from '../Avatar';
-import Error from '../Error';
+import CommentMarkerIcon from '../../../images/comment-marker.svg';
+import { RULER_ENDMARK_WIDTH } from '../../../components/Ruler';
+import { AVATAR_SIZE } from './Avatar';
+import Error from '../../../components/Error';
 import {
   MOBILE,
   NARROW_FLIP_MARKERS,
   NARROW_NO_MARKER_LABELS,
   NARROW_NO_RULERS,
-} from '../../constants';
+} from '../../../constants';
 
 const VOTE_SLOT_WIDTH = 12;
 const AVATAR_TILE_OFFSET = 19;

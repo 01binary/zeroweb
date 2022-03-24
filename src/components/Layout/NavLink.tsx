@@ -12,7 +12,7 @@
 import React, { FunctionComponent, SVGProps } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { MOBILE } from '../constants';
+import { MOBILE } from '../../constants';
 
 const StyledLink = styled(Link)`
   flex: 110px 0;

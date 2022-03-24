@@ -81,7 +81,7 @@ exports.createPages = async ({
   }
 
   // Generate posts
-  const post = require.resolve('./src/pages/Post/Post.tsx');
+  const post = require.resolve('./src/components/Post/Post.tsx');
 
   nodes.forEach(({
     slug,
@@ -103,7 +103,7 @@ exports.createPages = async ({
   });
 
   // Generate top-level index pages
-  const postIndex = require.resolve('./src/pages/PostIndex/PostIndex.tsx');
+  const postIndex = require.resolve('./src/components/PostIndex/PostIndex.tsx');
 
   CONTENT.forEach(({ path, collection }) => {
     paginate({

@@ -284,6 +284,10 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  main li {
+    line-height: ${(props) => props.theme.normalFontLineHeight};
+  }
+
   ::selection {
     color: ${(props) => props.theme.backgroundColor};
     background: ${(props) => props.theme.focusColor};

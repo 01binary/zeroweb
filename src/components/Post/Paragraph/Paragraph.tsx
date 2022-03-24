@@ -137,8 +137,10 @@ const Paragraph: FC = ({ children }) => {
   const showMarker = hasComments || hasHighlights;
   const showHighlightMark = Boolean(paragraphRef.current && highlights?.length);
   const anotherCommentThreadPinned =
-    inlineCommentSingleMode && inlineCommentParagraph?.hash !== hash;
-  const showInlineCommentForm = Boolean(inlineCommentParagraph?.hash === hash);
+    hash && inlineCommentSingleMode && inlineCommentParagraph?.hash !== hash;
+  const showInlineCommentForm = Boolean(
+    hash && inlineCommentParagraph?.hash === hash
+  );
   const showInlineCommentThread = Boolean(
     showCommentsSidebar &&
       !anotherCommentThreadPinned &&
@@ -336,9 +338,10 @@ const Paragraph: FC = ({ children }) => {
     if (!paragraphRef.current || innerHtml) return;
 
     let paragraphTextNode = paragraphRef.current;
+    const firstChild = paragraphTextNode?.firstChild as HTMLElement;
 
-    if (paragraphTextNode.firstChild.classList.contains('paragraph__highlight'))
-      paragraphTextNode = paragraphTextNode.childNodes[0] as HTMLElement;
+    if (firstChild?.classList?.contains?.('paragraph__highlight'))
+      paragraphTextNode = firstChild;
 
     if (paragraphTextNode.innerText.length)
       setText(paragraphTextNode.innerText);

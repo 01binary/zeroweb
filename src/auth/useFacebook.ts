@@ -15,45 +15,48 @@ import {
   Providers,
   SetCredentialsHandler,
   SetErrorHandler,
-  SetUserHandler
+  SetUserHandler,
 } from './types';
 import { authenticate } from './cognito';
 
 enum LoginStatus {
   Connected = 'connected',
   NotAuthorized = 'not_authorized',
-  Unknown = 'unknown'
-};
+  Unknown = 'unknown',
+}
 
 interface AuthResponse {
   userID: string;
   accessToken: string;
   expiresIn: number;
-};
+}
 
 interface LoginResponse {
   status: LoginStatus;
   authResponse: AuthResponse;
-};
+}
 
 const useFacebook = (
   setUser: SetUserHandler,
   setCredentials: SetCredentialsHandler,
   setError: SetErrorHandler
 ) => {
-  const handleLogin = (
-    { status, authResponse }: LoginResponse
-  ) => {
+  const handleLogin = ({ status, authResponse }: LoginResponse) => {
     if (status === LoginStatus.Connected) {
       const {
         userID: providerUserId,
         accessToken: token,
-        expiresIn
+        expiresIn,
       } = authResponse;
-  
+
       FB.api(
         '/me?fields=name,picture',
-        ({ name, picture: { data: { url }} }) => {
+        ({
+          name,
+          picture: {
+            data: { url },
+          },
+        }) => {
           authenticate(Providers.Facebook, token)
             .then((awsSignature) => {
               setCredentials(awsSignature);
@@ -68,53 +71,56 @@ const useFacebook = (
             })
             .catch((error) => {
               console.error(error);
-              setError('Could not sign in with your Facebook account, please try again later!');
+              setError(
+                'Could not sign in with your Facebook account, please try again later!'
+              );
             });
-        });
+        }
+      );
     }
   };
 
-  const facebookInit = (): Promise<boolean> => (
+  const facebookInit = (): Promise<boolean> =>
     new Promise((resolve, reject) => {
-      loadScript(
-        'facebookapi',
-        'https://connect.facebook.net/en_US/sdk.js'
-      )
-      .then(() => {
-        FB.init({
-          appId: '528437335196727',
-          // Persist login in cookie
-          cookie: true,
-          // Parse social logins
-          xfbml: true,
-          version: 'v10.0'
-        });
-    
-        FB.getLoginStatus(res => {
-          if (res && res.status !== 'unknown') {
-            handleLogin(res);
-            resolve(true);
-          } else {
-            resolve(false);
-          }
-        });
-      })
-      .catch(error => reject(error));
-    })
-  );
+      loadScript('facebookapi', 'https://connect.facebook.net/en_US/sdk.js')
+        .then(() => {
+          FB.init({
+            appId: '528437335196727',
+            // Persist login in cookie
+            cookie: true,
+            // Parse social logins
+            xfbml: true,
+            version: 'v13.0',
+          });
+
+          FB.getLoginStatus((res) => {
+            if (res && res.status !== 'unknown') {
+              handleLogin(res);
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          });
+        })
+        .catch((error) => reject(error));
+    });
 
   const facebookLogin = () => {
-    FB.login(res => res && handleLogin(res),
-    {
-      scope: 'public_profile'
+    FB.login((res) => res && handleLogin(res), {
+      scope: 'public_profile',
     });
   };
-  
+
   const facebookLogout = () => {
-    FB.logout(() => {
+    try {
+      FB.logout(() => {
+        setUser(null);
+        setCredentials(null);
+      });
+    } catch {
       setUser(null);
       setCredentials(null);
-    });
+    }
   };
 
   return {

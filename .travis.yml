@@ -1,22 +1,21 @@
 language: node_js
 node_js:
-- stable
+  - stable
 cache:
   directories:
-  - node_modules
-before_install:
-  sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev
+    - node_modules
+before_install: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev
 script:
-- yarn build
+  - yarn build
 deploy:
   provider: s3
   access_key_id: AKIAQZRIRXETD574TZ6N
   secret_access_key:
     secure: U7Hpt4gd6t1FarZobNoi8u7nQfIMpjrIFTYMU2yf2EeMIov91Q8EVjAOiMTaydkuTsEzTUnyFL8mmrXeG+ff/pHpv0hnTVKS4UeQmHts01kr/N4lA/vv6wbPdZr4hsrTzogJMOsgTKrZFxhiZ3wvrWq1EaoAWRpThNegyd5ocmF499ZvSiU1sE7oOw7gaMHsdbtQUBBpWnVBHi5BLnkOzmiKvb9VVvVHDgyCdUFzDZWFXiJwfMc9U0NmNln1UoPOKGWD+I536/tXR8pFfcrtj1zbY/2pIWsdORTxoPmfAq8VS5G1J8jmHXqppThIWYOUrhfQWezfjlFsI0EDJWkBQbJoJW6HjGEsc/vBNDpwjq4dBWjrGZfKiuBNvP2ntTtOgKaYPClSHPnPr4t+K/n/7f/N2qEovqfh6WOU3pOP53LmmGSu/xi5pezlzR+vh+/Y058WyYN0yMoTyftAqYA70RHTGRE/Q1ScXN7HTNLEG7k6zYlMwLYqGhhBxFhHBaqgF7jlG1K7eB7wFL5+H7n2WEFhSJ2Wlyzh6KSQqnOYNNmIeEmADcdsZkGN2Mt0cyrDFP7XiLae2YHhpmq/avQ+n4lBZ5mlUJtbNxeTmz/DsopqABsTQ0VEBDBSBYKQx+xrcB/GpScMLHrPXjvJdHNCck/BG3a0I0lm7KMVOZb41Zo=
-  bucket: zeroweb
-  region: us-west-2
+  bucket: zeroweb-dist
+  region: us-east-1
   acl: public_read
   skip_cleanup: true
-  local_dir: "./public"
+  local_dir: './public'
   on:
     branch: master

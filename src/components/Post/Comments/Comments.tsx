@@ -518,10 +518,14 @@ const Comments: FC<CommentsProps> = ({
 
       {showLogin && (
         <Login
-          handleFacebookLogin={handleFacebookLogin}
-          handleGoogleLogin={handleGoogleLogin}
-          handleTwitterLogin={handleTwitterLogin}
-          loginError={loginError}
+          {...{
+            handleFacebookLogin,
+            handleGoogleLogin,
+            handleTwitterLogin,
+            loginError,
+            showTipFor,
+            hideTip,
+          }}
         />
       )}
 

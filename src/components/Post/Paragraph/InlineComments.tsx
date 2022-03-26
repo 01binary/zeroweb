@@ -319,11 +319,15 @@ export const InlineComments: FC<InlineCommentsProps> = ({
           )}
           {!user && (
             <Login
-              handleFacebookLogin={handleFacebookLogin}
-              handleGoogleLogin={handleGoogleLogin}
-              handleTwitterLogin={handleTwitterLogin}
-              loginError={loginError}
-              inline={true}
+              inline
+              {...{
+                handleFacebookLogin,
+                handleGoogleLogin,
+                handleTwitterLogin,
+                loginError,
+                showTipFor,
+                hideTip,
+              }}
             />
           )}
           <InlineCommentInput

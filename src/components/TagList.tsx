@@ -9,17 +9,11 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import styled from 'styled-components';
 import { TagGroup } from '../types/TagsQuery';
 import { Link } from 'gatsby';
-import { Tooltip, Arrow } from './Tooltip';
-import {
-  useTooltipController,
-  useTooltipTarget,
-  ShowTipHandler,
-  HideTipHandler,
-} from '../hooks/useTooltip';
+import { HideTipHandler, ShowTipForHandler } from '../hooks/useTooltip';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -40,40 +34,15 @@ import ToolPremiere from '../images/tool-premiere.svg';
 import ToolRaspi from '../images/tool-raspi.svg';
 import Cell from '../images/cell.svg';
 import CONTENT from '../routes';
-import { MOBILE } from '../constants';
-
-// Expected tag icon size
-const ICON_SIZE = 36;
-
-// Honeycomb cell border width and height
-const CELL_WIDTH = 44;
-const CELL_HEIGHT = 38;
-
-// Width of a single interweaved repeat of 4 honeycomb cells
-const ROW_WIDTH = 140;
-
-// Height of two interweaved rows of honeycomb cells
-const STRIP_HEIGHT = 56.5;
-
-// Pixel offsets in multi-row honeycomb pattern
-type CellOffset = {
-  x: number;
-  y: number;
-};
-
-const PATTERN: CellOffset[] = [
-  { x: 0, y: 38 },
-  { x: 32, y: 56.5 },
-  { x: 64, y: 38 },
-  { x: 96, y: 56.5 },
-  { x: 0, y: 75 },
-  { x: 96, y: 19.5 },
-  { x: 32, y: 19.5 },
-  { x: 64, y: 75 },
-  { x: 0, y: 1 },
-  { x: 64, y: 1 },
-  // more than 10 tags would be visual overload for the user
-];
+import {
+  CELL_HEIGHT,
+  CELL_WIDTH,
+  CELL_ROW_WIDTH,
+  CELL_STRIP_HEIGHT,
+  CELL_ICON_SIZE,
+  CELL_PATTERN,
+  MOBILE,
+} from '../constants';
 
 type Category = {
   [key: string]: CategoryInfo;
@@ -177,8 +146,8 @@ const denormalizeTag = (
   tags: string[]
 ): DisplayTag => ({
   ...mapTag(tag),
-  x: tags.length === 1 ? 0 : PATTERN[index].x,
-  y: tags.length === 1 ? 0 : PATTERN[index].y,
+  x: tags.length === 1 ? 0 : CELL_PATTERN[index].x,
+  y: tags.length === 1 ? 0 : CELL_PATTERN[index].y,
 });
 
 const denormalizeInlineTag = (
@@ -189,8 +158,8 @@ const denormalizeInlineTag = (
   const repeats = Math.ceil(tags.length / 4) - 1;
   return {
     ...mapTag(tag),
-    x: PATTERN[index % 4].x + (index > 3 ? repeats * 128 : 0),
-    y: PATTERN[index % 4].y - CELL_HEIGHT,
+    x: CELL_PATTERN[index % 4].x + (index > 3 ? repeats * 128 : 0),
+    y: CELL_PATTERN[index % 4].y - CELL_HEIGHT,
   };
 };
 
@@ -210,7 +179,7 @@ const getWidth = (
   count: number,
   inline?: boolean,
   alwaysInline?: boolean
-): number => (inline || alwaysInline ? count * 32 + 12 : ROW_WIDTH);
+): number => (inline || alwaysInline ? count * 32 + 12 : CELL_ROW_WIDTH);
 
 const getHeight = (
   inline: boolean,
@@ -220,7 +189,7 @@ const getHeight = (
   denormTags.length === 1
     ? CELL_HEIGHT
     : inline || alwaysInline
-    ? STRIP_HEIGHT
+    ? CELL_STRIP_HEIGHT
     : denormTags.reduce((acc, { y }) => Math.max(acc, y), 0) + CELL_HEIGHT;
 
 const getDisplay = (
@@ -275,8 +244,8 @@ const TagWrapper = styled.li`
   height: ${CELL_HEIGHT}px;
 
   opacity: 0;
-  animation: slideIn 0.3s ${(props) => 0.1 * ((props.Index % 2) + 1)}s ease-out
-    1;
+  animation: slideIn ${(props) => props.theme.animationFast}
+    ${(props) => 0.1 * ((props.Index % 2) + 1)}s ease-out 1;
   animation-fill-mode: forwards;
 
   @keyframes slideIn {
@@ -291,19 +260,19 @@ const TagWrapper = styled.li`
     }
   }
 
-  .tag-border {
+  .tag__icon {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    left: ${(CELL_WIDTH - CELL_ICON_SIZE) / 2}px;
+    top: ${(CELL_HEIGHT - CELL_ICON_SIZE) / 2}px;
   }
+`;
 
-  .tag-icon {
-    position: absolute;
-    left: ${(CELL_WIDTH - ICON_SIZE) / 2}px;
-    top: ${(CELL_HEIGHT - ICON_SIZE) / 2}px;
-  }
+const TagBorder = styled(Cell)`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 const TagLink = styled(Link)`
@@ -311,13 +280,13 @@ const TagLink = styled(Link)`
   width: 100%;
   height: 100%;
 
-  .tag-icon {
+  .tag__icon {
     opacity: 0.85;
     transition: opacity ${(props) => props.theme.animationFast} ease-out;
   }
 
   &:hover {
-    .tag-icon {
+    .tag__icon {
       opacity: 1;
     }
   }
@@ -334,13 +303,15 @@ const TagLink = styled(Link)`
   }
 `;
 
-interface TagListProps {
+type TagListProps = {
   tags: string[];
   stats: TagGroup[];
   collection: string;
   inline?: boolean;
   alwaysInline?: boolean;
-}
+  showTipFor: ShowTipForHandler;
+  hideTip: HideTipHandler;
+};
 
 const TagList: FC<TagListProps> = ({
   tags,
@@ -348,6 +319,8 @@ const TagList: FC<TagListProps> = ({
   collection,
   alwaysInline,
   inline,
+  showTipFor,
+  hideTip,
 }) => {
   const denorm = tags.map(
     inline || alwaysInline ? denormalizeInlineTag : denormalizeTag
@@ -358,43 +331,26 @@ const TagList: FC<TagListProps> = ({
     return acc;
   }, {});
 
-  const {
-    showTip,
-    hideTip,
-    tooltipText,
-    tipProps,
-    tipRef,
-  } = useTooltipController();
-
-  const lines = tooltipText?.split('\n');
-
   return (
-    <>
-      <TagListWrapper
-        Count={denorm.length}
-        Height={getHeight(inline, alwaysInline, denorm)}
-        Inline={inline}
-        AlwaysInline={alwaysInline}
-      >
-        {denorm.map((tag, index) => (
-          <Tag
-            key={tag.id}
-            index={index}
-            tooltipElement={tipRef.current}
-            showTip={showTip}
-            hideTip={hideTip}
-            inline={inline || alwaysInline}
-            group={collection}
-            groupCount={counts[tag.id]}
-            {...tag}
-          />
-        ))}
-      </TagListWrapper>
-      <Tooltip {...tipProps} role="tooltip">
-        {lines && lines.map((line, index) => <div key={index}>{line}</div>)}
-        <Arrow />
-      </Tooltip>
-    </>
+    <TagListWrapper
+      Count={denorm.length}
+      Height={getHeight(inline, alwaysInline, denorm)}
+      Inline={inline}
+      AlwaysInline={alwaysInline}
+    >
+      {denorm.map((tag, index) => (
+        <Tag
+          key={tag.id}
+          index={index}
+          showTipFor={showTipFor}
+          hideTip={hideTip}
+          inline={inline || alwaysInline}
+          group={collection}
+          groupCount={counts[tag.id]}
+          {...tag}
+        />
+      ))}
+    </TagListWrapper>
   );
 };
 
@@ -417,8 +373,7 @@ type TagProps = {
   groupCount: number;
   inline: boolean;
   index: number;
-  tooltipElement: HTMLElement;
-  showTip: ShowTipHandler;
+  showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
 };
 
@@ -426,36 +381,28 @@ const Tag: FC<TagProps> = ({
   id,
   x,
   y,
-  icon: Icon,
+  icon: TagIcon,
   description,
   group,
   groupCount,
   inline,
   index,
-  tooltipElement,
-  showTip,
+  showTipFor,
   hideTip,
 }) => {
-  const { showTip: showTargetTip, targetRef } = useTooltipTarget({
-    tooltipElement,
-    showTip,
-    verticalOffsetDesktop: 10,
-    verticalOffsetMobile: 10,
-    placement: 'top',
-  });
-
+  const targetRef = useRef<HTMLElement>(null);
   return (
     <TagWrapper X={x} Y={y} Inline={inline ? 1 : 0} Index={index}>
       <TagLink
         to={getTagUrl(group, id)}
         ref={targetRef}
         onMouseOver={() =>
-          showTargetTip(getTooltipText(description, group, groupCount))
+          showTipFor(getTooltipText(description, group, groupCount), targetRef)
         }
         onMouseOut={hideTip}
       >
-        <Cell className="tag-border" />
-        <Icon className="tag-icon" />
+        <TagBorder />
+        <TagIcon className="tag__icon" />
       </TagLink>
     </TagWrapper>
   );

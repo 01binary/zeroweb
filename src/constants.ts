@@ -27,10 +27,34 @@ export const MOBILE_NARROW = '540px';
 export const MOBILE_MIN = '380px';
 
 // Inline comment sidebar sizes
-const SIDE_COMMENTS_SIZE = 7;
+export const SIDE_COMMENTS_SIZE = 7;
 export const SIDE_COMMENTS_MIN_WIDTH = `${SIDE_COMMENTS_SIZE}em`;
 export const SIDE_COMMENTS_WIDTH = `${SIDE_COMMENTS_SIZE + 2}em`;
 export const SIDE_COMMENTS_MAX_WIDTH = '25em';
+
+// Honeycomb cell pattern
+export const CELL_WIDTH = 44;
+export const CELL_HEIGHT = 38;
+// Expected cell icon size
+export const CELL_ICON_SIZE = 36;
+// Width of a single interweaved repeat of 4 honeycomb cells
+export const CELL_ROW_WIDTH = 140;
+// Height of two interweaved rows of honeycomb cells
+export const CELL_STRIP_HEIGHT = 56.5;
+// Pixel offsets in multi-row honeycomb pattern
+export const CELL_PATTERN: { x: number; y: number }[] = [
+  { x: 0, y: 38 },
+  { x: 32, y: 56.5 },
+  { x: 64, y: 38 },
+  { x: 96, y: 56.5 },
+  { x: 0, y: 75 },
+  { x: 96, y: 19.5 },
+  { x: 32, y: 19.5 },
+  { x: 64, y: 75 },
+  { x: 0, y: 1 },
+  { x: 64, y: 1 },
+  // more than 10 tags would be visual overload for the user
+];
 
 // Authentication endpoint URL
 export const AUTH_URL =

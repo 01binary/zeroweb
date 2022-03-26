@@ -1,9 +1,40 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import Error from '../components/Error';
-import Facebook from '../images/facebook.svg';
-import Google from '../images/google.svg';
-import Twitter from '../images/twitter.svg';
+import FacebookIcon from '../images/facebook.svg';
+import GoogleIcon from '../images/google.svg';
+import TwitterIcon from '../images/twitter.svg';
+import GithubIcon from '../images/github.svg';
+import Cell from '../images/cell.svg';
+import {
+  CELL_HEIGHT,
+  CELL_PATTERN,
+  CELL_ROW_WIDTH,
+  CELL_STRIP_HEIGHT,
+  CELL_WIDTH,
+} from '../constants';
+import { HideTipHandler, ShowTipForHandler } from '../hooks/useTooltip';
+
+const PROVIDER_ICON_SIZE = 36;
+
+const PROVIDERS = [
+  {
+    name: 'facebook',
+    icon: FacebookIcon,
+  },
+  {
+    name: 'google',
+    icon: GoogleIcon,
+  },
+  {
+    name: 'twitter',
+    icon: TwitterIcon,
+  },
+  /*{
+    name: 'github',
+    icon: GithubIcon,
+  },*/
+];
 
 const Prompt = styled.div<{ inline?: boolean }>`
   position: relative;
@@ -34,27 +65,133 @@ const Text = styled.p<{ inline?: boolean }>`
 `;
 
 const ProviderList = styled.ul`
+  position: relative;
+  list-style-type: none;
+  margin-block-end: 0;
+  overflow: hidden;
+
+  height: ${CELL_STRIP_HEIGHT}px;
+  width: ${CELL_ROW_WIDTH}px;
+
   padding: 0;
-  margin: 0;
-  margin-right: ${(props) => props.theme.spacingHalf};
-  display: flex;
+  margin: ${(props) => props.theme.spacingHalf};
+  margin-left: 0;
+`;
 
-  &:after {
-    content: initial !important;
+const ProviderBorder = styled(Cell)`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+`;
+
+const ProviderWrapper = styled.li`
+  position: absolute;
+  left: ${(props) => CELL_PATTERN[props.index].x}px;
+  top: ${(props) => CELL_PATTERN[props.index].y - CELL_HEIGHT}px;
+  width: ${CELL_WIDTH}px;
+  height: ${CELL_HEIGHT}px;
+  margin: 0 !important;
+
+  opacity: 0;
+  animation: slideIn ${(props) => props.theme.animationFast}
+    ${(props) => 0.1 * ((props.index % 2) + 1)}s ease-out 1;
+  animation-fill-mode: forwards;
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translate(8px, 8px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(0px, 0px);
+    }
   }
 
-  &:before {
-    content: initial !important;
+  svg {
+    pointer-events: none;
   }
 `;
 
-const Provider = styled.li`
-  display: inline;
+const ProviderButton = styled.button`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+
+  cursor: pointer;
+
+  .provider__icon {
+    position: absolute;
+    left: ${(CELL_WIDTH - PROVIDER_ICON_SIZE) / 2}px;
+    top: ${(CELL_HEIGHT - PROVIDER_ICON_SIZE) / 2}px;
+
+    opacity: 0.85;
+    transition: opacity ${(props) => props.theme.animationFast} ease-out;
+  }
+
+  &:hover {
+    .provider__icon {
+      opacity: 1;
+    }
+  }
+
+  &:focus {
+    z-index: 1;
+    outline: none;
+    border-radius: initial;
+    box-shadow: initial;
+
+    .stroke-border {
+      stroke: ${(props) => props.theme.focusColor};
+    }
+  }
 `;
+
+const Provider: FC<{
+  providerName: string;
+  providerIndex: number;
+  ProviderIcon: FC<{ className: string }>;
+  onClick: () => void;
+  showTipFor: ShowTipForHandler;
+  hideTip: HideTipHandler;
+}> = ({
+  providerIndex,
+  providerName,
+  ProviderIcon,
+  onClick,
+  showTipFor,
+  hideTip,
+}) => {
+  const targetRef = useRef<HTMLElement>(null);
+  return (
+    <ProviderWrapper index={providerIndex}>
+      <ProviderButton
+        ref={targetRef}
+        onClick={onClick}
+        onMouseOver={() => showTipFor(`login with ${providerName}`, targetRef)}
+        onMouseOut={hideTip}
+      >
+        <ProviderBorder />
+        <ProviderIcon className="provider__icon" />
+      </ProviderButton>
+    </ProviderWrapper>
+  );
+};
 
 type LoginProps = {
   inline?: boolean;
   loginError: string;
+  showTipFor: ShowTipForHandler;
+  hideTip: HideTipHandler;
   handleFacebookLogin: () => void;
   handleGoogleLogin: () => void;
   handleTwitterLogin: () => void;
@@ -64,35 +201,52 @@ const Login: FC<LoginProps> = ({
   handleFacebookLogin,
   handleGoogleLogin,
   handleTwitterLogin,
+  showTipFor,
+  hideTip,
   loginError,
   inline,
-}) =>
-  loginError ? (
+}) => {
+  const handleLogin = useCallback(
+    (providerName: string) => {
+      switch (providerName) {
+        case 'facebook':
+          handleFacebookLogin();
+          break;
+        case 'google':
+          handleGoogleLogin();
+          break;
+        case 'twitter':
+          handleTwitterLogin();
+          break;
+      }
+    },
+    [handleFacebookLogin, handleGoogleLogin, handleTwitterLogin]
+  );
+
+  return loginError ? (
     <Error>{loginError}</Error>
   ) : (
     <Prompt inline={inline}>
       <Text inline={inline}>Please login to comment:</Text>
       <ProviderList>
-        <Provider>
-          <button onClick={handleFacebookLogin}>
-            <Facebook />
-            Facebook
-          </button>
-        </Provider>
-        <Provider>
-          <button onClick={handleGoogleLogin}>
-            <Google />
-            Google
-          </button>
-        </Provider>
-        <Provider>
-          <button onClick={handleTwitterLogin}>
-            <Twitter />
-            Twitter
-          </button>
-        </Provider>
+        {PROVIDERS.map(
+          ({ name: providerName, icon: ProviderIcon }, providerIndex) => (
+            <Provider
+              key={providerName}
+              onClick={() => handleLogin(providerName)}
+              {...{
+                providerName,
+                providerIndex,
+                ProviderIcon,
+                showTipFor,
+                hideTip,
+              }}
+            />
+          )
+        )}
       </ProviderList>
     </Prompt>
   );
+};
 
 export default Login;

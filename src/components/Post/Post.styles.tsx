@@ -277,6 +277,10 @@ export const PostSummary = styled.p`
       transform: translateY(0px);
     }
   }
+
+  @media (max-width: ${MOBILE}) {
+    max-width: 100%;
+  }
 `;
 
 export const Metadata = styled.section`

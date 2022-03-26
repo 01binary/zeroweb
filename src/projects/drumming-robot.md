@@ -19,9 +19,9 @@ tags:
 
 ## overview
 
-Str1ker is a robotic drummer designed in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) and built with a combination of metal casting, 3D printing, CNC machining, sheet metal fabrication, and pre-made components. It uses [Raspberry Pi 4B](https://www.adafruit.com/product/4296) as a controller and can integrate with a sequencer to receive MIDI commands.
+Str1ker is a robotic drummer built with a combination of metal casting, 3D printing, CNC machining, sheet metal fabrication and pre-made components. Performance, movement, and facial expressions are controlled by MIDI, and the position of each drum is determined by using a night-vision stereo camera.
 
-For this project my goal is to learn [::ROS](https://www.ros.org/), create parts that look organic by using Generative Design functionality in [Autodesk Inventor](https://www.autodesk.com/products/inventor/), get experience with modern servos and linear actuators, and finally build a robotic drummer for my neurometal band.
+For this project my goal is to learn [::ROS](https://www.ros.org/), create parts that look organic by using Generative Design functionality in [Autodesk Inventor](https://www.autodesk.com/products/inventor/), get experience with [Raspberry Pi 4](https://www.adafruit.com/product/4296) microcontroller, modern servos and linear actuators, and finally build a robotic drummer for my [neurometal](https://www.youtube.com/playlist?list=PL2ZwTvIdYJGJxl1kszP3a_z6O4DcHwvok) band.
 
 ## This is heading two
 

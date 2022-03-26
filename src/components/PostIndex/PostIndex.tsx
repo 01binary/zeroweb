@@ -83,6 +83,7 @@ export const pageQuery = graphql`
           title
           relativeDate: date(fromNow: true)
           date(formatString: "MMMM DD, YYYY")
+          description
         }
         fields {
           url

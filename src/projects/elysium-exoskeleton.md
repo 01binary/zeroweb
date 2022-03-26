@@ -1,6 +1,6 @@
 ---
 title: Elysium Exoskeleton
-description: A full-scale replica of the exoskeleton frame worn in the movie Elysium (2013) by Max Da Costa.
+description: A full-scale replica of the exosuit from the movie Elysium (2013)
 image: ./images/elysium-exoskeleton.png
 date: 2021-02-11
 location: ^H Hackerspace
@@ -10,7 +10,7 @@ tags: ['engineering-mechanical', 'design-industrial', 'tool-inventor']
 
 ## overview
 
-Created in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) using photographs of the movie props built by [Weta Workshop](https://wetaworkshopdesignstudio.artstation.com/). The original concept art was drawn by [Aaron Beck](http://skul4aface.blogspot.com/).
+This exoskeleton suit was created in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) using photographs of the movie props built by [Weta Workshop](https://wetaworkshopdesignstudio.artstation.com/). The original concept art was drawn by [Aaron Beck](http://skul4aface.blogspot.com/).
 
 Some parts were 3D-printed with [Protolabs](https://www.protolabs.com/) and then re-cast out of Aluminum 356 in my metal foundry at [Ctrl^H hackerspace](https://pdxhackerspace.org/), others were machined by Protolabs CNC machining service out of Aluminum 6061.
 

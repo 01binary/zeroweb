@@ -12,11 +12,11 @@
 import PostQuery from './PostQuery';
 import { TagGroup } from './TagsQuery';
 
-export interface PostsQuery {
+export type PostsQuery = {
   nodes: Array<Partial<PostQuery>>;
   group: Array<TagGroup>;
 };
 
-export interface AllPostsQuery {
+export type AllPostsQuery = {
   allMdx: PostsQuery;
 };

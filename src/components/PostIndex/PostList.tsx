@@ -14,8 +14,8 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import { PostsQuery } from '../../types/AllPostsQuery';
 import { getDateValue, getDateUnits } from '../../utils';
-import TagList from '../../components/TagList';
 import ClockIcon from '../../images/clock.svg';
+import TagList from '../TagList';
 
 const Article = styled.article`
   margin-left: ${(props) => props.theme.spacingHalf};
@@ -55,6 +55,16 @@ const Title = styled.h2`
   font-weight: ${(props) => props.theme.headingFontWeight};
   margin-left: 0;
   margin-bottom: ${(props) => props.theme.spacingHalf};
+`;
+
+const ArticleSummary = styled.p`
+  font-family: 'Roboto', sans-serif;
+  font-size: 15pt;
+  font-weight: 300;
+  font-style: italic;
+  max-width: calc(80% - 3em);
+  color: ${(props) => props.theme.secondaryTextColor};
+  margin-left: 0;
 `;
 
 const Meta = styled.section`
@@ -107,7 +117,7 @@ const PostList: FC<PostsQuery> = ({ nodes, group }) => (
         {
           slug,
           timeToRead,
-          frontmatter: { title, relativeDate },
+          frontmatter: { title, relativeDate, description },
           fields: { tags, collection, url },
         },
         index
@@ -129,6 +139,7 @@ const PostList: FC<PostsQuery> = ({ nodes, group }) => (
                 <MetaIndicator>{timeToRead}</MetaIndicator> min to read
               </span>
             )}
+            <ArticleSummary>{description}</ArticleSummary>
           </Meta>
 
           <InlineTags>

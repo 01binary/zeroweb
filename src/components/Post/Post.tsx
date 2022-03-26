@@ -505,21 +505,8 @@ const Post: FC<{
               <span> min </span>
               <IndicatorLabel>to read</IndicatorLabel>
             </SidebarMetadata>
-            <TagList
-              tags={tags}
-              stats={group}
-              collection={collection}
-              showTipFor={showTipFor}
-              hideTip={hideTip}
-            />
-            <TagList
-              tags={tags}
-              stats={group}
-              collection={collection}
-              showTipFor={showTipFor}
-              hideTip={hideTip}
-              inline
-            />
+            <TagList tags={tags} stats={group} collection={collection} />
+            <TagList tags={tags} stats={group} collection={collection} inline />
           </SidebarPanel>
 
           <TOC

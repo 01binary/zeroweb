@@ -13,7 +13,13 @@ import React, { FC, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { TagGroup } from '../types/TagsQuery';
 import { Link } from 'gatsby';
-import { HideTipHandler, ShowTipForHandler } from '../hooks/useTooltip';
+import { Tooltip, Arrow } from './Tooltip';
+import {
+  useTooltipController,
+  useTooltipTarget,
+  ShowTipHandler,
+  HideTipHandler,
+} from '../hooks/useTooltip';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -309,8 +315,6 @@ type TagListProps = {
   collection: string;
   inline?: boolean;
   alwaysInline?: boolean;
-  showTipFor: ShowTipForHandler;
-  hideTip: HideTipHandler;
 };
 
 const TagList: FC<TagListProps> = ({
@@ -319,8 +323,6 @@ const TagList: FC<TagListProps> = ({
   collection,
   alwaysInline,
   inline,
-  showTipFor,
-  hideTip,
 }) => {
   const denorm = tags.map(
     inline || alwaysInline ? denormalizeInlineTag : denormalizeTag
@@ -331,26 +333,43 @@ const TagList: FC<TagListProps> = ({
     return acc;
   }, {});
 
+  const {
+    showTip,
+    hideTip,
+    tooltipText,
+    tipProps,
+    tipRef,
+  } = useTooltipController();
+
+  const lines = tooltipText?.split('\n');
+
   return (
-    <TagListWrapper
-      Count={denorm.length}
-      Height={getHeight(inline, alwaysInline, denorm)}
-      Inline={inline}
-      AlwaysInline={alwaysInline}
-    >
-      {denorm.map((tag, index) => (
-        <Tag
-          key={tag.id}
-          index={index}
-          showTipFor={showTipFor}
-          hideTip={hideTip}
-          inline={inline || alwaysInline}
-          group={collection}
-          groupCount={counts[tag.id]}
-          {...tag}
-        />
-      ))}
-    </TagListWrapper>
+    <>
+      <TagListWrapper
+        Count={denorm.length}
+        Height={getHeight(inline, alwaysInline, denorm)}
+        Inline={inline}
+        AlwaysInline={alwaysInline}
+      >
+        {denorm.map((tag, index) => (
+          <Tag
+            key={tag.id}
+            index={index}
+            tooltipElement={tipRef.current}
+            showTip={showTip}
+            hideTip={hideTip}
+            inline={inline || alwaysInline}
+            group={collection}
+            groupCount={counts[tag.id]}
+            {...tag}
+          />
+        ))}
+      </TagListWrapper>
+      <Tooltip {...tipProps} role="tooltip">
+        {lines && lines.map((line, index) => <div key={index}>{line}</div>)}
+        <Arrow />
+      </Tooltip>
+    </>
   );
 };
 
@@ -373,7 +392,8 @@ type TagProps = {
   groupCount: number;
   inline: boolean;
   index: number;
-  showTipFor: ShowTipForHandler;
+  tooltipElement: HTMLElement;
+  showTip: ShowTipHandler;
   hideTip: HideTipHandler;
 };
 
@@ -387,22 +407,26 @@ const Tag: FC<TagProps> = ({
   groupCount,
   inline,
   index,
-  showTipFor,
+  tooltipElement,
+  showTip,
   hideTip,
 }) => {
-  const targetRef = useRef<HTMLElement>(null);
-  const handleShowTip = useCallback(
-    () =>
-      showTipFor &&
-      showTipFor(getTooltipText(description, group, groupCount), targetRef),
-    [showTipFor]
-  );
+  const { showTip: showTargetTip, targetRef } = useTooltipTarget({
+    tooltipElement,
+    showTip,
+    verticalOffsetDesktop: 10,
+    verticalOffsetMobile: 10,
+    placement: 'top',
+  });
+
   return (
     <TagWrapper X={x} Y={y} Inline={inline ? 1 : 0} Index={index}>
       <TagLink
         to={getTagUrl(group, id)}
         ref={targetRef}
-        onMouseOver={handleShowTip}
+        onMouseOver={() =>
+          showTargetTip(getTooltipText(description, group, groupCount))
+        }
         onMouseOut={hideTip}
       >
         <TagBorder />

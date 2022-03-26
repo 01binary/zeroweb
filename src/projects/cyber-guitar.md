@@ -1,6 +1,6 @@
 ---
 title: Cyber guitar
-description: Custom guitar for playing neurometal
+description: Headless double-neck guitar with multi-touch keyboard and oscilloscope
 image: ./images/cyber-guitar.png
 date: 2021-02-11
 location: ^H Hackerspace
@@ -15,7 +15,7 @@ tags:
   ]
 ---
 
-Switchback is a double-neck guitar with keyboard for playing [neurometal](https://www.youtube.com/playlist?list=PL2ZwTvIdYJGJxl1kszP3a_z6O4DcHwvok). Ableton integration supports sending MIDI and receiving a waveform to display in a built-in oscilloscope.
+Switchback is a double-neck guitar with a built-in keyboard for playing [neurometal](https://www.youtube.com/playlist?list=PL2ZwTvIdYJGJxl1kszP3a_z6O4DcHwvok). It can integrate with a sequencer to perform a software synth and display the waveform in onboard oscilloscope built into the handle.
 
 ## overview
 

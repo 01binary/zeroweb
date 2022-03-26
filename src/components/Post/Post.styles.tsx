@@ -254,6 +254,31 @@ export const HeroImage = styled(Img)`
   }
 `;
 
+export const PostSummary = styled.p`
+  font-family: 'Roboto', sans-serif;
+  font-size: 15pt;
+  font-weight: 300;
+  font-style: italic;
+  max-width: calc(80% - 3em);
+  color: ${(props) => props.theme.secondaryTextColor};
+
+  opacity: 0;
+  animation: slideIn ${(props) => props.theme.animationSlow} 0.2s ease-out 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+`;
+
 export const Metadata = styled.section`
   display: flex;
 

@@ -41,6 +41,7 @@ import Code from './Code';
 import {
   Main,
   PostHeading,
+  PostSummary,
   Metadata,
   Clock,
   InlineIndicator,
@@ -530,6 +531,8 @@ const Post: FC<{
         </Sidebar>
 
         <HeroImage fluid={fluid} />
+
+        <PostSummary>{description}</PostSummary>
 
         <Content role="document" ref={postContentRef}>
           <CommentsContext.Provider

@@ -18,7 +18,7 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
   title: pageTitle,
   description,
   url: pageUrl,
-  image: pageImage
+  image: pageImage,
 }) => {
   const {
     site: {
@@ -26,8 +26,8 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
         title: siteTitle,
         description: siteDesc,
         url: siteUrl,
-        image: siteImage
-      }
+        image: siteImage,
+      },
     },
   } = useStaticQuery(graphql`
     {
@@ -39,7 +39,8 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
           image
         }
       }
-    }`);
+    }
+  `);
 
   const title = pageTitle ? `${pageTitle} - 01 Binary` : siteTitle;
   const url = pageUrl ? `${siteUrl}/${pageUrl}` : siteUrl;
@@ -66,7 +67,10 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
 
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="1" />
-      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:ital@0;1&display=swap" rel="stylesheet" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:ital@0;1&family=Roboto:ital,wght@1,300&display=swap"
+        rel="stylesheet"
+      />
     </Helmet>
   );
 };

@@ -1,6 +1,6 @@
 ---
 title: Drumming robot
-description: Robotic drummer designed in Autodesk Inventor
+description: A four-armed robotic drummer with stereoscopic infrared vision
 image: ./images/drumming-robot.png
 date: 2021-02-11
 location: ^H Hackerspace
@@ -17,9 +17,9 @@ tags:
   ]
 ---
 
-Robotic drummer designed in Autodesk Inventor and built with a combination of metal casting, 3D printing, CNC machining, sheet metal fabrication, and pre-made components from McMaster Carr, Grainger, and GoBilda.
+## overview
 
-## Overview
+Str1ker is a robotic drummer designed in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) and built with a combination of metal casting, 3D printing, CNC machining, sheet metal fabrication, and pre-made components. It uses [Raspberry Pi 4B](https://www.adafruit.com/product/4296) as a controller and can integrate with a sequencer to receive MIDI commands.
 
 For this project my goal is to learn [::ROS](https://www.ros.org/), create parts that look organic by using Generative Design functionality in [Autodesk Inventor](https://www.autodesk.com/products/inventor/), get experience with modern servos and linear actuators, and finally build a robotic drummer for my neurometal band.
 

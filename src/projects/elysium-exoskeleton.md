@@ -8,8 +8,6 @@ locationUrl: https://www.google.com/maps/place/Ctrl-H/@45.5780926,-122.6819841,2
 tags: ['engineering-mechanical', 'design-industrial', 'tool-inventor']
 ---
 
-A full-scale replica of the exoskeleton frame worn in the movie [Elysium (2013)](https://www.imdb.com/title/tt1535108/) by Max Da Costa.
-
 ## overview
 
 Created in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) using photographs of the movie props built by [Weta Workshop](https://wetaworkshopdesignstudio.artstation.com/). The original concept art was drawn by [Aaron Beck](http://skul4aface.blogspot.com/).

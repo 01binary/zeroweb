@@ -80,7 +80,7 @@ const InlineCommentThread = styled.section<{
     left: initial;
     padding: ${(props) => props.theme.spacing};
     padding-bottom: ${(props) => props.theme.spacingHalf};
-    right: 0;
+    right: 4px;
     width: 40%;
     min-width: ${SIDE_COMMENTS_MIN_WIDTH};
     max-width: ${SIDE_COMMENTS_MAX_WIDTH};

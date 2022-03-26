@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useRef } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { TagGroup } from '../types/TagsQuery';
 import { Link } from 'gatsby';
@@ -391,14 +391,18 @@ const Tag: FC<TagProps> = ({
   hideTip,
 }) => {
   const targetRef = useRef<HTMLElement>(null);
+  const handleShowTip = useCallback(
+    () =>
+      showTipFor &&
+      showTipFor(getTooltipText(description, group, groupCount), targetRef),
+    [showTipFor]
+  );
   return (
     <TagWrapper X={x} Y={y} Inline={inline ? 1 : 0} Index={index}>
       <TagLink
         to={getTagUrl(group, id)}
         ref={targetRef}
-        onMouseOver={() =>
-          showTipFor(getTooltipText(description, group, groupCount), targetRef)
-        }
+        onMouseOver={handleShowTip}
         onMouseOut={hideTip}
       >
         <TagBorder />

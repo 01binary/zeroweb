@@ -84,6 +84,13 @@ export const pageQuery = graphql`
           relativeDate: date(fromNow: true)
           date(formatString: "MMMM DD, YYYY")
           description
+          image {
+            childImageSharp {
+              fluid(maxWidth: 320) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
         }
         fields {
           url

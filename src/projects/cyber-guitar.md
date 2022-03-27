@@ -1,6 +1,6 @@
 ---
 title: Cyber guitar
-description: A headless double-neck guitar with multi-touch keyboard and oscilloscope
+description: A headless double-neck guitar with keyboard and oscilloscope
 image: ./images/cyber-guitar.png
 date: 2021-02-11
 location: ^H Hackerspace

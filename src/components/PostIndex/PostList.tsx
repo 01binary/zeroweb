@@ -22,7 +22,7 @@ const ARTICLE_THUMBNAIL_WIDTH = 320;
 const ARTICLE_THUMBNAIL_HEIGHT = 170;
 
 const Article = styled.article`
-  display: flex;
+  position: relative;
   margin-top: ${(props) => props.theme.spacingHalf};
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};
@@ -48,10 +48,6 @@ const Article = styled.article`
   }
 `;
 
-const ArticleText = styled.section`
-  flex: 1 1;
-`;
-
 const ArticleThumbnail = styled.section`
   width: ${ARTICLE_THUMBNAIL_WIDTH}px;
   margin: ${(props) => props.theme.spacing}
@@ -59,6 +55,16 @@ const ArticleThumbnail = styled.section`
 
   @media (max-width: ${MOBILE}) {
     margin-right: 0;
+  }
+`;
+
+const ArticleThumbnailLink = styled(Link)`
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  @media (max-width: ${MOBILE}) {
+    position: initial;
   }
 `;
 
@@ -102,6 +108,13 @@ const Title = styled.h2`
   margin-left: 0;
   margin-bottom: ${(props) => props.theme.spacingHalf};
   margin-block-start: 0;
+  max-width: calc(
+    100% - ${ARTICLE_THUMBNAIL_WIDTH}px - ${(props) => props.theme.spacing}
+  );
+
+  @media (max-width: ${MOBILE}) {
+    max-width: initial;
+  }
 `;
 
 const ArticleSummary = styled.p`
@@ -116,6 +129,13 @@ const ArticleSummary = styled.p`
 const Meta = styled.section`
   color: ${(props) => props.theme.secondaryTextColor};
   margin-bottom: ${(props) => props.theme.spacingHalf};
+  max-width: calc(
+    100% - ${ARTICLE_THUMBNAIL_WIDTH}px - ${(props) => props.theme.spacing}
+  );
+
+  @media (max-width: ${MOBILE}) {
+    max-width: initial;
+  }
 `;
 
 const MetaIndicator = styled.span`
@@ -176,42 +196,41 @@ const PostList: FC<PostsQuery> = ({ nodes, group }) => (
         index
       ) => (
         <Article key={slug} Index={index}>
-          <ArticleText>
-            <ArticleTitleLink to={url}>
-              <Title>{title}</Title>
-            </ArticleTitleLink>
+          <ArticleTitleLink to={url}>
+            <Title>{title}</Title>
+          </ArticleTitleLink>
 
-            <Meta>
-              <Clock />
-              {Boolean(getDateValue(relativeDate).length) && (
-                <MetaIndicator>
-                  {getDateValue(relativeDate)}&nbsp;
-                </MetaIndicator>
-              )}
-              {getDateUnits(relativeDate)}
-              {timeToRead && (
-                <span>
-                  {' / '}
-                  <MetaIndicator>{timeToRead}</MetaIndicator> min to read
-                </span>
-              )}
-              <ArticleSummary>{description}</ArticleSummary>
-            </Meta>
+          <Meta>
+            <Clock />
+            {Boolean(getDateValue(relativeDate).length) && (
+              <MetaIndicator>{getDateValue(relativeDate)}&nbsp;</MetaIndicator>
+            )}
+            {getDateUnits(relativeDate)}
+            {timeToRead && (
+              <span>
+                {' / '}
+                <MetaIndicator>{timeToRead}</MetaIndicator> min to read
+              </span>
+            )}
+            <ArticleThumbnailLink to={url}>
+              <ArticleThumbnail>
+                <ArticleImage src={fluid.src} />
+              </ArticleThumbnail>
+            </ArticleThumbnailLink>
 
-            <InlineTags>
-              <TagList
-                tags={tags}
-                stats={group}
-                collection={collection}
-                alwaysInline
-              />
-            </InlineTags>
+            <ArticleSummary>{description}</ArticleSummary>
+          </Meta>
 
-            <ArticleLink to={url}>Read more...</ArticleLink>
-          </ArticleText>
-          <ArticleThumbnail>
-            <ArticleImage src={fluid.src} />
-          </ArticleThumbnail>
+          <InlineTags>
+            <TagList
+              tags={tags}
+              stats={group}
+              collection={collection}
+              alwaysInline
+            />
+          </InlineTags>
+
+          <ArticleLink to={url}>Read more...</ArticleLink>
         </Article>
       )
     )}

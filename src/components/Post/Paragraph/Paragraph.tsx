@@ -36,7 +36,7 @@ import {
 } from '../../../hooks/useComments';
 
 // How long to wait before hiding paragraph highlight menu
-const HIGHLIGHT_MOUSEOVER_TIMEOUT = 1000;
+const HIGHLIGHT_MOUSEOVER_TIMEOUT = 100;
 
 // Get unique paragraph identifier given paragraph text
 const getHash = (text: string): string | undefined =>

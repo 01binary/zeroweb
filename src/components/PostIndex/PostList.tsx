@@ -54,6 +54,7 @@ const ArticleThumbnail = styled.section`
     ${(props) => props.theme.spacingHalf};
 
   @media (max-width: ${MOBILE}) {
+    margin-left: 0;
     margin-right: 0;
   }
 `;

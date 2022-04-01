@@ -127,7 +127,7 @@ export const ActiveParagraphHighlight = styled.span.attrs(() => ({
 }))`
   background: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.backgroundColor};
-  padding: 2px;
+  ${(props) => !props.noPadding && `padding: 2px`};
 
   code {
     color: ${(props) => props.theme.backgroundColor};

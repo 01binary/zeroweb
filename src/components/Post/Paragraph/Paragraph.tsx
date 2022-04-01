@@ -53,6 +53,9 @@ const nodeContains = (parent: Node, child: Node): boolean => {
   return false;
 };
 
+const containsImage = (html: string): boolean =>
+  html.indexOf('gatsby-resp-image-wrapper') >= 0;
+
 // Highlight text in paragraph given mark start and end
 const ParagraphHighlight: FC<{
   innerHtml: string;
@@ -411,7 +414,9 @@ const Paragraph: FC = ({ children }) => {
     >
       <ParagraphText id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
         {showInlineCommentForm ? (
-          <ActiveParagraphHighlight>{children}</ActiveParagraphHighlight>
+          <ActiveParagraphHighlight noPadding={containsImage(innerText)}>
+            {children}
+          </ActiveParagraphHighlight>
         ) : showHighlightMark ? (
           <ParagraphHighlight
             innerHtml={innerHtml}

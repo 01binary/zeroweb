@@ -373,7 +373,12 @@ const Paragraph: FC = ({ children }) => {
         highlightRef.current = null;
       }
     };
-  }, [showHighlightMark, handleHighlightMouseOver, handleHighlightMouseOut]);
+  }, [
+    showHighlightMark,
+    inlineCommentParagraph,
+    handleHighlightMouseOver,
+    handleHighlightMouseOut,
+  ]);
 
   useEffect(() => {
     // Show paragraph menu when text is selected

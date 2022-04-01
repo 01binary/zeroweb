@@ -125,7 +125,28 @@ export const ParagraphText = styled.p`
 export const ActiveParagraphListHighlight = styled.div.attrs(() => ({
   className: 'paragraph__highlight',
 }))`
+  position: relative;
   background: ${(props) => props.theme.secondaryColor};
+
+  &:before {
+    content: '';
+    position: absolute;
+    background: ${(props) => props.theme.secondaryColor};
+    top: calc(0px - ${(props) => props.theme.spacingQuarter});
+    height: ${(props) => props.theme.spacingQuarter};
+    left: 0;
+    right: 0;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    background: ${(props) => props.theme.secondaryColor};
+    bottom: calc(0px - ${(props) => props.theme.spacingQuarter});
+    height: ${(props) => props.theme.spacingQuarter};
+    left: 0;
+    right: 0;
+  }
 
   li {
     color: ${(props) => props.theme.backgroundColor};

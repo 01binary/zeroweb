@@ -57,9 +57,10 @@ const nodeContains = (parent: Node, child: Node): boolean => {
 const containsText = (el: HTMLElement): boolean => Boolean(el.innerText.length);
 
 const containsList = (el: HTMLElement): boolean =>
-  el.innerHTML.indexOf('<ul') >= 0;
+  el.innerHTML.indexOf('<ul') >= 0 || el.innerHTML.indexOf('<ol') >= 0;
 
-const textContainsList = (text: string): boolean => text.indexOf('<ul') >= 0;
+const textContainsList = (text: string): boolean =>
+  text.indexOf('<ul') >= 0 || text.indexOf('<ol') >= 0;
 
 const textContainsImage = (html: string): boolean =>
   html.indexOf('gatsby-resp-image-wrapper') >= 0;

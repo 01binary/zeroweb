@@ -98,65 +98,6 @@ export const Main = styled.main<{
     }
   }
 
-  ol {
-    position: relative;
-    list-style: none;
-    counter-reset: listCounter;
-    padding-left: ${(props) => props.theme.spacingHalf};
-
-    &:after {
-      content: '';
-      position: absolute;
-      left: calc(
-        100% + ${(props) => props.theme.spacingHalf} +
-          ${(props) => props.theme.border} + ${RULER_OFFSET}px
-      );
-      top: 0;
-      width: calc(${(props) => props.theme.border} * 1.5);
-      height: 100%;
-      background: ${(props) => props.theme.foregroundColor};
-      opacity: 0.4;
-      transition: opacity ${(props) => props.theme.animationFast} ease-out;
-    }
-
-    &:hover {
-      &:after {
-        opacity: 1;
-      }
-    }
-  }
-
-  ol > li {
-    margin: 0 0 ${(props) => props.theme.spacingHalf} 0;
-    &:before {
-      display: inline-block;
-      content: counter(listCounter);
-      color: ${(props) => props.theme.foregroundColor};
-      counter-increment: listCounter;
-      line-height: ${(props) => props.theme.spacingOneAndThird};
-      background: ${(props) =>
-        props.theme.isDark
-          ? props.theme.alwaysDarkColor
-          : props.theme.accentLightShadowColor};
-      width: ${(props) => props.theme.spacingOneAndThird};
-      height: ${(props) => props.theme.spacingOneAndThird};
-      border-radius: ${(props) => props.theme.spacingOneAndThird};
-      margin: 0 ${(props) => props.theme.spacingHalf} 0 0;
-      text-align: center;
-      transition: color ${(props) => props.theme.animationFast} ease-in-out,
-        background-color ${(props) => props.theme.animationFast} ease-in-out;
-    }
-
-    &:hover:before,
-    &:focus:before {
-      color: ${(props) => props.theme.backgroundColor};
-      background: ${(props) =>
-        props.theme.isDark
-          ? props.theme.accentColor
-          : props.theme.accentShadowColor};
-    }
-  }
-
   @media (max-width: ${NARROW_NO_RULERS}) {
     h1,
     h2,

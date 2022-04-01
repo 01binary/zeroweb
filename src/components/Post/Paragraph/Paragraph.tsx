@@ -28,7 +28,8 @@ import {
   ParagraphWrapper,
   ParagraphText,
   SelectionAnchor,
-  ActiveParagraphHighlight,
+  ActiveParagraphTextHighlight,
+  ActiveParagraphListHighlight,
 } from './Paragraph.styles';
 import {
   ParagraphSelection,
@@ -53,8 +54,29 @@ const nodeContains = (parent: Node, child: Node): boolean => {
   return false;
 };
 
-const containsImage = (html: string): boolean =>
+const containsText = (el: HTMLElement): boolean => Boolean(el.innerText.length);
+
+const containsList = (el: HTMLElement): boolean =>
+  el.innerHTML.indexOf('<ul') >= 0;
+
+const textContainsList = (text: string): boolean => text.indexOf('<ul') >= 0;
+
+const textContainsImage = (html: string): boolean =>
   html.indexOf('gatsby-resp-image-wrapper') >= 0;
+
+const ActiveParagraphHighlight: FC<{
+  isList: boolean;
+  isImage: boolean;
+}> = ({ children, isList, isImage }) =>
+  isList ? (
+    <ActiveParagraphListHighlight>{children}</ActiveParagraphListHighlight>
+  ) : isImage ? (
+    <ActiveParagraphTextHighlight noPadding>
+      {children}
+    </ActiveParagraphTextHighlight>
+  ) : (
+    <ActiveParagraphTextHighlight>{children}</ActiveParagraphTextHighlight>
+  );
 
 // Highlight text in paragraph given mark start and end
 const ParagraphHighlight: FC<{
@@ -346,7 +368,7 @@ const Paragraph: FC = ({ children }) => {
     if (firstChild?.classList?.contains?.('paragraph__highlight'))
       paragraphTextNode = firstChild;
 
-    if (paragraphTextNode.innerText.length)
+    if (containsText(paragraphTextNode) && !containsList(paragraphTextNode))
       setText(paragraphTextNode.innerText);
     else setText(paragraphTextNode.innerHTML);
 
@@ -414,7 +436,10 @@ const Paragraph: FC = ({ children }) => {
     >
       <ParagraphText id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
         {showInlineCommentForm ? (
-          <ActiveParagraphHighlight noPadding={containsImage(innerText)}>
+          <ActiveParagraphHighlight
+            isList={textContainsList(innerText)}
+            isImage={textContainsImage(innerText)}
+          >
             {children}
           </ActiveParagraphHighlight>
         ) : showHighlightMark ? (

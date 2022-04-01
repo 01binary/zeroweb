@@ -122,7 +122,21 @@ export const ParagraphText = styled.p`
   }
 `;
 
-export const ActiveParagraphHighlight = styled.span.attrs(() => ({
+export const ActiveParagraphListHighlight = styled.div.attrs(() => ({
+  className: 'paragraph__highlight',
+}))`
+  background: ${(props) => props.theme.secondaryColor};
+
+  li {
+    color: ${(props) => props.theme.backgroundColor};
+  }
+
+  a {
+    color: ${(props) => props.theme.backgroundColor};
+  }
+`;
+
+export const ActiveParagraphTextHighlight = styled.span.attrs(() => ({
   className: 'paragraph__highlight',
 }))`
   background: ${(props) => props.theme.secondaryColor};

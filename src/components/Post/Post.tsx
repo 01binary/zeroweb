@@ -58,6 +58,7 @@ import {
   Content,
   Breadcrumb,
 } from './Post.styles';
+import UnorderedList from './UnorderedList';
 import { Heading1, Heading2, Heading3, Heading4 } from '../Heading';
 import { Table, TableHeading, TableRow, TableCell } from './Table';
 import ParagraphMenu from './Paragraph/ParagraphMenu';
@@ -430,6 +431,7 @@ const Post: FC<{
         tr: TableRow,
         td: TableCell,
         p: Paragraph,
+        ul: UnorderedList,
         blockquote: Blockquote,
         a: ExternalLink,
       }}

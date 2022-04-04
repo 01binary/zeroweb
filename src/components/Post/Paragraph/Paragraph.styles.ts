@@ -154,6 +154,15 @@ export const ActiveParagraphListHighlight = styled.div.attrs(() => ({
 
   li {
     color: ${(props) => props.theme.backgroundColor};
+
+    &:before {
+      background: none !important;
+      color: ${(props) => props.theme.backgroundColor} !important;
+    }
+
+    &:after {
+      content: initial !important;
+    }
   }
 
   a {

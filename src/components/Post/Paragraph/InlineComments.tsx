@@ -217,6 +217,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
     handleFacebookLogin,
     handleTwitterLogin,
     handleGoogleLogin,
+    handleGithubLogin,
   } = useBlogData();
 
   const [alignBottom, setAlignBottom] = useState<boolean>(false);
@@ -314,6 +315,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
                 handleFacebookLogin,
                 handleGoogleLogin,
                 handleTwitterLogin,
+                handleGithubLogin,
                 loginError,
                 showTipFor,
                 hideTip,

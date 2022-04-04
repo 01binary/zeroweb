@@ -78,13 +78,13 @@ exports.getTwitterResource = (
       oauth_access_token_secret,
       (error, data, response) => {
         if (error) {
-          console.error('getProtectedResource failure', error);
+          console.error('get resource failure', error);
           reject(error);
         } else {
           resolve({ data, response });
         }
       });
-    })
+  })
 );
 
 exports.validateTwitterToken = async (access_token, access_token_secret) => (
@@ -97,14 +97,14 @@ exports.validateTwitterToken = async (access_token, access_token_secret) => (
         access_token,
         access_token_secret
       )
-      .then(({ data }) => {
-        const { id_str } = JSON.parse(data);
-        resolve({
-          id: id_str,
-          valid: true
-        });
-      })
-      .catch((error) => reject(error));
+        .then(({ data }) => {
+          const { id_str } = JSON.parse(data);
+          resolve({
+            id: id_str,
+            valid: true
+          });
+        })
+        .catch((error) => reject(error));
     } catch (error) {
       console.error('validateTwitterToken failure', error);
       reject(error);

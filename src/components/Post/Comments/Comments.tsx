@@ -210,6 +210,7 @@ const Comments: FC<CommentsProps> = ({
     handleFacebookLogin,
     handleTwitterLogin,
     handleGoogleLogin,
+    handleGithubLogin,
     handleLogout,
   } = useBlogData();
   const [commentError, setCommentError] = useState<string | null>();
@@ -522,6 +523,7 @@ const Comments: FC<CommentsProps> = ({
             handleFacebookLogin,
             handleGoogleLogin,
             handleTwitterLogin,
+            handleGithubLogin,
             loginError,
             showTipFor,
             hideTip,

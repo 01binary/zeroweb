@@ -27,6 +27,7 @@ import {
   CommentButton,
   ParagraphWrapper,
   ParagraphText,
+  ParagraphNonText,
   SelectionAnchor,
   ActiveParagraphTextHighlight,
   ActiveParagraphListHighlight,
@@ -60,10 +61,10 @@ const containsList = (el: HTMLElement): boolean =>
   el.innerHTML.indexOf('<ul') >= 0 || el.innerHTML.indexOf('<ol') >= 0;
 
 const textContainsList = (text: string): boolean =>
-  text.indexOf('<ul') >= 0 || text.indexOf('<ol') >= 0;
+  text?.indexOf('<ul') >= 0 || text?.indexOf('<ol') >= 0;
 
 const textContainsImage = (html: string): boolean =>
-  html.indexOf('gatsby-resp-image-wrapper') >= 0;
+  html?.indexOf('gatsby-resp-image-wrapper') >= 0;
 
 const ActiveParagraphHighlight: FC<{
   isList: boolean;
@@ -150,6 +151,10 @@ const Paragraph: FC = ({ children }) => {
   const hash = useMemo<string | undefined>(() => getHash(innerText), [
     innerText,
   ]);
+
+  const isList = useMemo(() => textContainsList(innerText), [innerText]);
+  const isImage = useMemo(() => textContainsImage(innerText), [innerText]);
+  const isText = !isList && !isImage;
 
   const reactions = useMemo(
     () => allReactions?.filter(({ paragraph }) => paragraph === hash),
@@ -430,17 +435,16 @@ const Paragraph: FC = ({ children }) => {
     hideParagraphMenu,
   ]);
 
+  const ParagraphBlock = isText ? ParagraphText : ParagraphNonText;
+
   return (
     <ParagraphWrapper
       showCommentsSidebar={showCommentsSidebar}
       editingComment={showInlineCommentForm}
     >
-      <ParagraphText id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
+      <ParagraphBlock id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
         {showInlineCommentForm ? (
-          <ActiveParagraphHighlight
-            isList={textContainsList(innerText)}
-            isImage={textContainsImage(innerText)}
-          >
+          <ActiveParagraphHighlight isList={isList} isImage={isImage}>
             {children}
           </ActiveParagraphHighlight>
         ) : showHighlightMark ? (
@@ -452,7 +456,7 @@ const Paragraph: FC = ({ children }) => {
         ) : (
           children
         )}
-      </ParagraphText>
+      </ParagraphBlock>
 
       {paragraphSelection?.hash === hash && (
         <SelectionAnchor ref={selectionRef} {...paragraphSelection} />

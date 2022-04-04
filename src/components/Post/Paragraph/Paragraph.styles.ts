@@ -92,6 +92,10 @@ export const ParagraphWrapper = styled.section<{
   }
 `;
 
+export const ParagraphNonText = styled.div`
+  margin: 0 ${(props) => props.theme.spacingHalf};
+`;
+
 export const ParagraphText = styled.p`
   code {
     position: relative;

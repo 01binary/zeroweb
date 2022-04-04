@@ -1,6 +1,7 @@
 const { validateFacebookToken } = require('./facebook');
 const { validateGoogleToken } = require('./google');
 const { validateTwitterToken } = require('./twitter');
+const { validateGitHubToken } = require('./github');
 
 const MAX_PROVIDER_LENGTH = 16;
 
@@ -8,6 +9,7 @@ const PROVIDERS = {
   facebook: validateFacebookToken,
   twitter: validateTwitterToken,
   google: validateGoogleToken,
+  github: validateGitHubToken,
 };
 
 exports.validateProvider = provider => (

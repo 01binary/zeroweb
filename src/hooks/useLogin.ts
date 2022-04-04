@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { authenticate } from '../auth/cognito';
 import {
   Providers,
@@ -9,6 +9,7 @@ import {
 import useTwitter from '../auth/useTwitter';
 import useFacebook from '../auth/useFacebook';
 import useGoogle from '../auth/useGoogle';
+import useGitHub from '../auth/useGithub';
 
 export const useLogin = (
   user: User,
@@ -30,6 +31,12 @@ export const useLogin = (
   );
 
   const { twitterInit, twitterLogin, twitterLogout } = useTwitter(
+    setUser,
+    setCredentials,
+    setLoginError
+  );
+
+  const { gitHubInit, gitHubLogin, gitHubLogout } = useGitHub(
     setUser,
     setCredentials,
     setLoginError
@@ -58,6 +65,13 @@ export const useLogin = (
         console.error('Twitter auth failed to initialize');
       }
 
+      try {
+        const hasGithub = await gitHubInit();
+        if (hasGithub) return true;
+      } catch (e) {
+        console.error('Github auth failed to initialize');
+      }
+
       return false;
     };
 
@@ -70,14 +84,15 @@ export const useLogin = (
         }
       })
       .catch((error) => console.error(error));
-  }, [setCredentials]);
+  }, [setCredentials, authenticate]);
 
   const handleLogoutAll = useCallback(() => {
     facebookLogout();
     googleLogout();
     twitterLogout();
+    gitHubLogout();
     return true;
-  }, [facebookLogout, googleLogout, twitterLogout]);
+  }, [facebookLogout, googleLogout, twitterLogout, gitHubLogout]);
 
   const handleFacebookLogin = useCallback(
     () => handleLogoutAll() && facebookLogin(),
@@ -94,6 +109,11 @@ export const useLogin = (
     [handleLogoutAll, twitterLogin]
   );
 
+  const handleGithubLogin = useCallback(
+    () => handleLogoutAll() && gitHubLogin(),
+    [handleLogoutAll, gitHubLogin]
+  );
+
   const handleLogout = () => {
     if (user) {
       switch (user.provider) {
@@ -106,6 +126,9 @@ export const useLogin = (
         case Providers.Twitter:
           twitterLogout();
           break;
+        case Providers.GitHub:
+          gitHubLogout();
+          break;
       }
     }
   };
@@ -114,6 +137,7 @@ export const useLogin = (
     handleFacebookLogin,
     handleGoogleLogin,
     handleTwitterLogin,
+    handleGithubLogin,
     handleLogout,
     loginError,
   };

@@ -31,6 +31,7 @@ type BlogDataContextProps = {
   handleFacebookLogin: () => void;
   handleTwitterLogin: () => void;
   handleGoogleLogin: () => void;
+  handleGithubLogin: () => void;
   handleLogout: () => void;
 };
 
@@ -47,6 +48,7 @@ export const BlogDataContext = createContext<BlogDataContextProps>({
   handleFacebookLogin: null,
   handleTwitterLogin: null,
   handleGoogleLogin: null,
+  handleGithubLogin: null,
   handleLogout: null,
 });
 

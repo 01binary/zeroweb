@@ -30,13 +30,13 @@ const PROVIDERS = [
     name: 'twitter',
     icon: TwitterIcon,
   },
-  /*{
+  {
     name: 'github',
     icon: GithubIcon,
-  },*/
+  },
 ];
 
-const Prompt = styled.div<{ inline?: boolean }>`
+const Prompt = styled.section<{ inline?: boolean }>`
   position: relative;
   display: flex;
   align-items: ${(props) => (props.inline ? 'flex-start' : 'center')};
@@ -195,12 +195,14 @@ type LoginProps = {
   handleFacebookLogin: () => void;
   handleGoogleLogin: () => void;
   handleTwitterLogin: () => void;
+  handleGithubLogin: () => void;
 };
 
 const Login: FC<LoginProps> = ({
   handleFacebookLogin,
   handleGoogleLogin,
   handleTwitterLogin,
+  handleGithubLogin,
   showTipFor,
   hideTip,
   loginError,
@@ -218,9 +220,17 @@ const Login: FC<LoginProps> = ({
         case 'twitter':
           handleTwitterLogin();
           break;
+        case 'github':
+          handleGithubLogin();
+          break;
       }
     },
-    [handleFacebookLogin, handleGoogleLogin, handleTwitterLogin]
+    [
+      handleFacebookLogin,
+      handleGoogleLogin,
+      handleTwitterLogin,
+      handleGithubLogin,
+    ]
   );
 
   return loginError ? (

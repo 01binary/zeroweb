@@ -15,6 +15,11 @@ const {
   getTwitterAccessToken,
   getTwitterResource,
 } = require('./providers/twitter');
+const {
+  initGitHub,
+  getGitHubAccessToken,
+  getGitHubResource,
+} = require('./providers/github');
 
 const app = express();
 const router = express.Router();
@@ -122,6 +127,45 @@ router.post('/twitter/user', async (req, res) => {
       'https://api.twitter.com/1.1/account/verify_credentials.json',
       oauth_access_token,
       oauth_access_token_secret
+    );
+
+    res.status(200).send(data);
+  } catch (error) {
+    console.error('user endpoint failed to retrieve user', error);
+    res.status(403).json({ message: error.message });
+  }
+});
+
+router.post('/github/oauth/access_token', async (req, res) => {
+  try {
+    if (!initGitHub()) throw new Error('failed to initialize github auth');
+
+    const { oauth_token } = req.body;
+
+    const {
+      oauth_access_token,
+      oauth_refresh_token,
+    } = await getGitHubAccessToken(
+      oauth_token,
+    );
+
+    res.json({ oauth_access_token, oauth_refresh_token });
+
+  } catch ({ errors }) {
+    console.error('access token endpoint failure', error);
+    res.status(403).json({ errors });
+  }
+});
+
+router.post('/github/user', async (req, res) => {
+  try {
+    if (!initGitHub()) throw new Error('failed to initialize github auth');
+
+    const { oauth_access_token } = req.body;
+
+    const { data } = await getGitHubResource(
+      'https://api.github.com/user',
+      oauth_access_token,
     );
 
     res.status(200).send(data);

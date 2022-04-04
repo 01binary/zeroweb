@@ -27,6 +27,7 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
     handleFacebookLogin,
     handleGoogleLogin,
     handleTwitterLogin,
+    handleGithubLogin,
     handleLogout,
     loginError,
   } = useLogin(user, setUser, setCredentials);
@@ -54,6 +55,7 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
         handleFacebookLogin,
         handleGoogleLogin,
         handleTwitterLogin,
+        handleGithubLogin,
         handleLogout,
       }}
     >

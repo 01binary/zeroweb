@@ -16,7 +16,7 @@ export enum Providers {
   Twitter = 'twitter',
   Google = 'google',
   GitHub = 'github',
-};
+}
 
 export type AWSSignature = {
   userId: string;
@@ -32,6 +32,7 @@ export type User = {
   providerUserId: string;
   token: string;
   expires?: dayjs.Dayjs;
+  refreshToken?: string;
   avatarUrl?: string;
 };
 

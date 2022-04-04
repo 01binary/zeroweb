@@ -25,3 +25,7 @@ And of course a table
 | Data One    | Data Two    | Data Three    |
 | Data Four   | Data Five   | Data Six      |
 | Data Seven  | Data Eight  | Data Nine     |
+
+End of story
+
+---

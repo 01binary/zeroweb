@@ -10,7 +10,7 @@ tags: ['engineering-mechanical']
 
 Some **smarty** pants
 
-> "Hello world, he said"
+> Hello world, he said -- Unknown Author
 
 Some _inline_ code
 

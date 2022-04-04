@@ -2,14 +2,13 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const Quote = styled.blockquote`
-  font-weight: 300;
-  font-style: italic;
-
   margin: 0;
   padding: 0;
 
-  p {
+  & > section > p {
     padding-left: 1em;
+    font-weight: 300;
+    font-style: italic;
   }
 `;
 

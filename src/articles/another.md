@@ -18,6 +18,6 @@ Here's an un-ordered list that appears in an article:
 
 Here's an ordered list that appears in the article:
 
-1. Item one
+1. Donec molestie imperdiet faucibus. Pellentesque libero eros, fermentum a risus quis, fermentum convallis ipsum. Nulla vitae lacus quis libero facilisis feugiat sed in lacus. Curabitur eu sagittis leo, at lacinia nisi. Sed sed nibh et nisi porta malesuada sed at velit. Fusce at erat elit. Nullam finibus diam turpis, eget pretium lacus consectetur egestas.
 2. Item two
-3. Item three
+3. Donec molestie imperdiet faucibus. Pellentesque libero eros, fermentum a risus quis, fermentum convallis ipsum. Nulla vitae lacus quis libero facilisis feugiat sed in lacus. Curabitur eu sagittis leo, at lacinia nisi. Sed sed nibh et nisi porta malesuada sed at velit. Fusce at erat elit. Nullam finibus diam turpis, eget pretium lacus consectetur egestas.

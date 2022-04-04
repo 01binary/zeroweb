@@ -40,6 +40,10 @@ Assembly instructions were created for the [Hackaday 2017 Sci-Fi Contest](https:
 
 ## details
 
-The process I followed to build this exosuit is summarized in this [presentation](https://docs.google.com/presentation/d/19_l0XWe4A3Xc64K67Ak3zYep9TedVx4DBbwqQECWMyE/edit?usp=sharing).
+The process I followed to build this exosuit is summarized in this presentation:
+
+<a href="https://docs.google.com/presentation/d/19_l0XWe4A3Xc64K67Ak3zYep9TedVx4DBbwqQECWMyE/edit?usp=sharing">
+    <img src="./images/exoskeleton-presentation.jpg"></img>
+</a>
 
 See the [Hackaday project](https://hackaday.io/project/19830-elysium-max-exoskeleton/) and the [RPF build log](http://www.therpf.com/showthread.php?t=212832) for a journal of this build.

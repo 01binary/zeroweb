@@ -1,41 +1,51 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import Paragraph from './Paragraph/Paragraph';
+import Number from '../../images/url/list-number.svg';
 
 const List = styled.ol`
-  position: relative;
   list-style: none;
   counter-reset: listCounter;
-  padding-left: ${(props) => props.theme.spacingHalf};
+  padding-left: calc(${(props) => props.theme.spacingDouble} + ${(props) =>
+  props.theme.spacingHalf});
 
   li {
+    position: relative;
     margin: 0 0 ${(props) => props.theme.spacingHalf} 0;
+  
     &:before {
-      display: inline-block;
       content: counter(listCounter);
-      color: ${(props) => props.theme.foregroundColor};
       counter-increment: listCounter;
-      line-height: ${(props) => props.theme.spacingOneAndThird};
-      background: ${(props) =>
-        props.theme.isDark
-          ? props.theme.alwaysDarkColor
-          : props.theme.accentLightShadowColor};
-      width: ${(props) => props.theme.spacingOneAndThird};
-      height: ${(props) => props.theme.spacingOneAndThird};
-      border-radius: ${(props) => props.theme.spacingOneAndThird};
-      margin: 0 ${(props) => props.theme.spacingHalf} 0 0;
+      display: inline-block;
+      color: ${(props) => props.theme.foregroundColor};
+      line-height: ${(props) => props.theme.normalFontLineHeight};
+      background: url(${Number});
+      background-position: top 0px right 0px;
+      width: 60px;
+      height: 28px;
       text-align: center;
-      transition: color ${(props) => props.theme.animationFast} ease-in-out,
-        background-color ${(props) => props.theme.animationFast} ease-in-out;
+      margin-left: calc(0px - 60px - ${(props) => props.theme.spacingHalf});
+      margin-right: ${(props) => props.theme.spacingHalf};
     }
 
-    &:hover:before,
-    &:focus:before {
-      color: ${(props) => props.theme.backgroundColor};
-      background: ${(props) =>
-        props.theme.isDark
-          ? props.theme.accentColor
-          : props.theme.accentShadowColor};
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: calc(0px - ${(props) => props.theme.spacing});
+      width: 55px;
+      height: calc(100% + ${(props) => props.theme.spacingHalf});
+      left: calc(0px - 60px - ${(props) => props.theme.spacingHalf});
+      border-left: ${(props) => props.theme.border} dotted
+        ${(props) => props.theme.borderColor};
+      border-right: ${(props) => props.theme.border} dotted
+        ${(props) => props.theme.borderColor};
+    }
+
+    &:last-of-type {
+      &:after {
+        content: initial;
+      }
     }
 `;
 

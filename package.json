@@ -29,7 +29,7 @@
     "gatsby-awesome-pagination": "^0.3.8",
     "gatsby-image": "^2.11.0",
     "gatsby-plugin-anchor-links": "^1.2.1",
-    "gatsby-plugin-google-analytics": "^2.11.0",
+    "gatsby-plugin-google-gtag": "^4.11.0",
     "gatsby-plugin-manifest": "^2.12.0",
     "gatsby-plugin-mdx": "^1.10.0",
     "gatsby-plugin-offline": "^3.10.0",

@@ -327,6 +327,10 @@ export const GlobalStyle = createGlobalStyle`
     stroke: ${(props) => props.theme.borderColor};
   }
 
+  .stroke-secondary {
+    stroke: ${(props) => props.theme.secondaryTextColor};
+  }
+
   .fill-border {
     fill: ${(props) =>
       props.theme.isDark

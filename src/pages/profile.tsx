@@ -24,14 +24,15 @@ import Alert from '../components/Alert';
 import Error from '../components/Error';
 import { CommentQuery, Reaction } from '../types/AllCommentsQuery';
 import MetaLink from '../components/MetaLink';
-import CommentIcon from '../images/add-comment.svg';
-import HighlightIcon from '../images/highlight.svg';
+import CommentIcon from '../images/reaction-comment.svg';
+import HighlightIcon from '../images/reaction-highlight.svg';
 import ReactionLolIcon from '../images/reaction-lol.svg';
 import ReactionPartyIcon from '../images/reaction-party.svg';
 import ReactionSnapIcon from '../images/reaction-snap.svg';
 import ReactionWowIcon from '../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionGenericIcon from '../images/reaction.svg';
+import LocationIcon from '../images/location.svg';
 
 type ReactionType =
   | 'CommentReaction'
@@ -203,7 +204,7 @@ const ProfileBlurbs = styled.section`
 
 const ProfileBlurb = styled.section<{ deEmphasize: boolean }>`
   ${(props) => props.deEmphasize && `color: ${props.theme.secondaryTextColor}`};
-  margin-bottom: ${(props) => props.theme.spacingQuarter};
+  margin-bottom: ${(props) => props.theme.spacingHalf};
 `;
 
 const UserAvatar = ({ avatarUrl }) => (
@@ -234,10 +235,17 @@ const ReactionList = styled.section`
 
 const ReactionRow = styled.div`
   display: flex;
+  margin-bottom: ${(props) => props.theme.spacingQuarter};
 `;
 
 const ReactionType = styled.div`
   margin-right: ${(props) => props.theme.spacingHalf};
+
+  svg {
+    path {
+      stroke-width: 1 !important;
+    }
+  }
 `;
 
 const ReactionDescription = styled.div`
@@ -250,6 +258,47 @@ const ReactionDate = styled.div`
 
 const StaticDate = styled.span`
   color: ${(props) => props.theme.secondaryTextColor};
+`;
+
+const MoreButton = styled.button`
+  font-family: ${(props) => props.theme.normalFont};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+  font-size: ${(props) => props.theme.normalFontSize};
+
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+  transition: color ${(props) => props.theme.animationFast} ease-out;
+
+  color: ${(props) =>
+    props.theme.isDark
+      ? props.theme.primaryColor
+      : props.theme.accentTextColor};
+
+  &:focus {
+    border-radius: ${(props) => props.theme.borderRadius};
+    box-shadow: 0 0 0 ${(props) => props.theme.border}
+      ${(props) => props.theme.focusColor};
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+    color: ${(props) =>
+      props.theme.isDark
+        ? props.theme.primaryLightColor
+        : props.theme.primaryDarkColor};
+  }
+`;
+
+const StyledLocationIcon = styled(LocationIcon)``;
+
+const LocationRow = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Profile: FC = () => {
@@ -293,7 +342,12 @@ const Profile: FC = () => {
           <ProfileBlurbs>
             {profile?.bio && <ProfileBlurb>{profile.bio}</ProfileBlurb>}
             {profile?.locationName && (
-              <ProfileBlurb deEmphasize>{profile.locationName}</ProfileBlurb>
+              <ProfileBlurb deEmphasize>
+                <LocationRow>
+                  <StyledLocationIcon />
+                  {profile.locationName}
+                </LocationRow>
+              </ProfileBlurb>
             )}
           </ProfileBlurbs>
 
@@ -351,7 +405,9 @@ const Profile: FC = () => {
                   );
                 })}
               {showMore && !more && (
-                <button onClick={() => setMore(true)}>See more...</button>
+                <MoreButton onClick={() => setMore(true)}>
+                  See more...
+                </MoreButton>
               )}
             </ReactionList>
           )}

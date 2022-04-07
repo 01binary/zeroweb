@@ -17,6 +17,8 @@ const {
   getShares,
   getShare,
   addShare,
+  getProfile,
+  editProfile,
 } = require('./database');
 
 exports.resolvers = {
@@ -50,6 +52,10 @@ exports.resolvers = {
 
     shares: async (root, { slug }) => {
       return getShares(slug);
+    },
+
+    profile: async (root, { userId }) => {
+      return getProfile(userId);
     },
   },
   Mutation: {
@@ -131,6 +137,14 @@ exports.resolvers = {
       await addShare(share);
 
       return share;
+    },
+
+    editProfile: async (
+      root,
+      { profile },
+    ) => {
+      const updated = await editProfile(profile);
+      return updated;
     },
 
     voteComment: async (

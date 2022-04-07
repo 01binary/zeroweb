@@ -293,9 +293,9 @@ export const InlineComments: FC<InlineCommentsProps> = ({
           </MetaLink>
           {' by '}
           {userId === credentials?.userId ? (
-            <Me>{userName}</Me>
+            <MetaLink to={`/profile`}>{userName}</MetaLink>
           ) : (
-            <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
+            <MetaLink to={`/profile?user=${userId}`}>{userName}</MetaLink>
           )}
           <br />
           <ReactMarkdown>{markdown}</ReactMarkdown>

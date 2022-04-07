@@ -16,6 +16,9 @@ import HeadingQuery from './types/HeadingQuery';
 
 dayjs.extend(relativeTime);
 
+export const getCommentId = (timestamp: string) =>
+  `c${new Date(timestamp).valueOf()}`;
+
 export const formatCommentDate = (timestamp: string): string =>
   dayjs(timestamp).fromNow();
 

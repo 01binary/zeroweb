@@ -86,15 +86,33 @@ exports.typeDefs = gql`
     reaction: Reaction
   }
 
+  input EditProfileInput {
+    userId: String
+    bio: String
+    locationName: String
+  }
+
   input ShareInput {
     slug: String!
     shareType: ShareType!
+  }
+
+  type UserProfile {
+    userId: String!
+    userName: String
+    avatarUrl: String
+    bio: String
+    locationName: String
+    lastActivity: String
+    reactions: [Comment!]!
+    voteCount: Int!
   }
 
   type Query {
     comments(slug: String!): [Comment!]!
     comment(slug: String!, timestamp: String!): Comment
     shares(slug:String!): [Share!]!
+    profile(userId: String!): UserProfile
   }
 
   type Mutation {
@@ -103,6 +121,7 @@ exports.typeDefs = gql`
     voteComment(comment: VoteCommentInput!): Comment!
     deleteComment(comment: DeleteCommentInput!): DeleteComment
     addShare(share: ShareInput!): Share!
+    editProfile(profile: EditProfileInput!): UserProfile!
   }
 
   schema {

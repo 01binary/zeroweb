@@ -31,6 +31,7 @@ import {
   formatAbsDate,
   formatCommentDate,
   formatMarkerDate,
+  getCommentId,
 } from '../../../utils';
 import { Vote } from '../../../types/VoteCommentQuery';
 import AddCommentMutation from '../../../types/AddCommentMutation';
@@ -294,7 +295,7 @@ const Comments: FC<CommentsProps> = ({
           items
         ) => {
           const { height } = document
-            .getElementById(`comment-${timestamp}`)
+            .getElementById(getCommentId(timestamp))
             .getBoundingClientRect();
 
           const nextSum = sum + height / commentsRect.height;
@@ -537,165 +538,182 @@ const Comments: FC<CommentsProps> = ({
             {formatMarkerDate(postComments[0].timestamp)}
           </CommentsStartDate>
           <CommentsList ref={commentsRef} isUserLoggedIn={Boolean(user)}>
-            {postComments.map(
-              (
-                {
-                  timestamp,
-                  paragraph,
-                  markdown,
-                  avatarUrl,
-                  userId,
-                  userName,
-                  upVotes,
-                  downVotes,
-                  voted,
-                },
-                index
-              ) => (
-                <Comment
-                  key={`${timestamp}${voted ? 'v' : ''}`}
-                  id={`comment-${timestamp}`}
-                  scrollHighlight={index === commentsIndexRef.current}
-                  className={
-                    voted || !user || userId === currentUserId
-                      ? 'comment-unvotable'
-                      : 'comment--votable'
-                  }
-                  single={postComments.length === 1}
-                >
-                  <CommentAvatar
-                    index={index}
-                    count={postComments.length}
-                    tile={commentTiles[index]}
+            {postComments
+              .map(({ timestamp, ...rest }) => ({
+                id: getCommentId(timestamp),
+                timestamp,
+                ...rest,
+              }))
+              .map(
+                (
+                  {
+                    id,
+                    timestamp,
+                    paragraph,
+                    markdown,
+                    avatarUrl,
+                    userId,
+                    userName,
+                    upVotes,
+                    downVotes,
+                    voted,
+                  },
+                  index
+                ) => (
+                  <Comment
+                    key={`${timestamp}${voted ? 'v' : ''}`}
+                    id={id}
+                    scrollHighlight={index === commentsIndexRef.current}
+                    className={
+                      voted || !user || userId === currentUserId
+                        ? 'comment-unvotable'
+                        : 'comment--votable'
+                    }
+                    single={postComments.length === 1}
                   >
-                    <Avatar avatarUrl={avatarUrl} />
-                    <CommentVotes
-                      upVotes={upVotes}
-                      downVotes={downVotes}
-                      maxVotes={maxVotes}
-                      maxSlots={MAX_VOTE_SLOTS}
-                    />
-                    {user && userId !== currentUserId && !voted && (
-                      <>
-                        <UpVoteButton
-                          onClick={() => {
-                            hideTip();
-                            handleVote(timestamp, 'upVote');
-                          }}
-                          onMouseOver={(e) => handleShowTip(e, 'up vote')}
-                          onMouseOut={hideTip}
-                        >
-                          <UpVoteIcon />
-                        </UpVoteButton>
-                        <DownVoteButton
-                          onClick={() => {
-                            hideTip();
-                            handleVote(timestamp, 'downVote');
-                          }}
-                          onMouseOver={(e) => handleShowTip(e, 'down vote')}
-                          onMouseOut={hideTip}
-                        >
-                          <DownVoteIcon />
-                        </DownVoteButton>
-                      </>
-                    )}
-                  </CommentAvatar>
-                  {userId === currentUserId ? (
-                    <Me>{userName}</Me>
-                  ) : (
-                    <MetaLink to={`/profile/${userId}`}>{userName}</MetaLink>
-                  )}
-                  {paragraph && (
-                    <span>
-                      {' '}
-                      <MetaLink to={`#${paragraph}`}>inline</MetaLink>
-                    </span>
-                  )}
-                  <CommentDate>
-                    <MetaLink
-                      to={`?comment=${encodeURIComponent(timestamp)}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.navigator.clipboard.writeText(
-                          `${postUrl}?comment=${encodeURIComponent(timestamp)}`
-                        );
-                        handleShowTip(e, 'copied!');
-                      }}
-                      onMouseOver={(e) =>
-                        handleShowTip(e, formatAbsDate(timestamp))
-                      }
-                      onMouseOut={hideTip}
+                    <CommentAvatar
+                      index={index}
+                      count={postComments.length}
+                      tile={commentTiles[index]}
                     >
-                      {' '}
-                      {formatCommentDate(timestamp)}
-                    </MetaLink>
-                  </CommentDate>
-                  <CommentContent>
-                    {editingComment === timestamp ? (
-                      <EditCommentForm onSubmit={(e) => e.preventDefault()}>
-                        <EditCommentInput
-                          ref={editRef}
-                          value={editMarkdown}
-                          placeholder="edit your comment"
-                          onChange={handleEditCommentChange}
-                        />
-                        <EditCommentButtonGroup>
-                          {showEditError && (
-                            <EditCommentError>{commentError}</EditCommentError>
-                          )}
-                        </EditCommentButtonGroup>
-                        <EditCommentButtonGroup>
-                          <EditCommentButton
-                            disabled={loading}
-                            onClick={handleEditCommentSave}
-                            onMouseOver={(e) => handleShowTip(e, 'save')}
+                      <Avatar avatarUrl={avatarUrl} />
+                      <CommentVotes
+                        upVotes={upVotes}
+                        downVotes={downVotes}
+                        maxVotes={maxVotes}
+                        maxSlots={MAX_VOTE_SLOTS}
+                      />
+                      {user && userId !== currentUserId && !voted && (
+                        <>
+                          <UpVoteButton
+                            onClick={() => {
+                              hideTip();
+                              handleVote(timestamp, 'upVote');
+                            }}
+                            onMouseOver={(e) => handleShowTip(e, 'up vote')}
                             onMouseOut={hideTip}
                           >
-                            <SaveIcon />
-                          </EditCommentButton>
-                          <EditCommentButton
-                            disabled={loading}
-                            onClick={handleEditCommentCancel}
-                            onMouseOver={(e) => handleShowTip(e, 'cancel')}
+                            <UpVoteIcon />
+                          </UpVoteButton>
+                          <DownVoteButton
+                            onClick={() => {
+                              hideTip();
+                              handleVote(timestamp, 'downVote');
+                            }}
+                            onMouseOver={(e) => handleShowTip(e, 'down vote')}
                             onMouseOut={hideTip}
                           >
-                            <CancelIcon />
-                          </EditCommentButton>
-                        </EditCommentButtonGroup>
-                      </EditCommentForm>
+                            <DownVoteIcon />
+                          </DownVoteButton>
+                        </>
+                      )}
+                    </CommentAvatar>
+                    {userId === currentUserId ? (
+                      <MetaLink to={`/profile`}>{userName}</MetaLink>
                     ) : (
-                      <ReactMarkdown>{markdown}</ReactMarkdown>
+                      <MetaLink to={`/profile?user=${userId}`}>
+                        {userName}
+                      </MetaLink>
                     )}
-                  </CommentContent>
-                  <CommentMetadata>
-                    <CommentReactions
-                      timestamp={timestamp}
-                      comments={comments}
-                    />
-                    <CommentActions>
-                      {userId === currentUserId && !editingComment && (
-                        <CommentButton
-                          onClick={handleShowCommentMenu('options', timestamp)}
-                          onMouseOver={(e) => handleShowTip(e, 'actions')}
-                          onMouseOut={hideTip}
-                        >
-                          <MenuIcon />
-                        </CommentButton>
+                    {paragraph && (
+                      <span>
+                        {' '}
+                        <MetaLink to={`#${paragraph}`}>inline</MetaLink>
+                      </span>
+                    )}
+                    <CommentDate>
+                      <MetaLink
+                        to={`?comment=${id}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.navigator.clipboard.writeText(
+                            `${postUrl}?comment=${id}`
+                          );
+                          handleShowTip(e, 'copied!');
+                        }}
+                        onMouseOver={(e) =>
+                          handleShowTip(e, formatAbsDate(timestamp))
+                        }
+                        onMouseOut={hideTip}
+                      >
+                        {' '}
+                        {formatCommentDate(timestamp)}
+                      </MetaLink>
+                    </CommentDate>
+                    <CommentContent>
+                      {editingComment === timestamp ? (
+                        <EditCommentForm onSubmit={(e) => e.preventDefault()}>
+                          <EditCommentInput
+                            ref={editRef}
+                            value={editMarkdown}
+                            placeholder="edit your comment"
+                            onChange={handleEditCommentChange}
+                          />
+                          <EditCommentButtonGroup>
+                            {showEditError && (
+                              <EditCommentError>
+                                {commentError}
+                              </EditCommentError>
+                            )}
+                          </EditCommentButtonGroup>
+                          <EditCommentButtonGroup>
+                            <EditCommentButton
+                              disabled={loading}
+                              onClick={handleEditCommentSave}
+                              onMouseOver={(e) => handleShowTip(e, 'save')}
+                              onMouseOut={hideTip}
+                            >
+                              <SaveIcon />
+                            </EditCommentButton>
+                            <EditCommentButton
+                              disabled={loading}
+                              onClick={handleEditCommentCancel}
+                              onMouseOver={(e) => handleShowTip(e, 'cancel')}
+                              onMouseOut={hideTip}
+                            >
+                              <CancelIcon />
+                            </EditCommentButton>
+                          </EditCommentButtonGroup>
+                        </EditCommentForm>
+                      ) : (
+                        <ReactMarkdown>{markdown}</ReactMarkdown>
                       )}
-                      {user && userId !== currentUserId && (
-                        <CommentButton
-                          onClick={handleShowCommentMenu('reaction', timestamp)}
-                          onMouseOver={(e) => handleShowTip(e, 'react')}
-                          onMouseOut={hideTip}
-                        >
-                          <ReactionIcon />
-                        </CommentButton>
-                      )}
-                    </CommentActions>
-                  </CommentMetadata>
-                </Comment>
-              )
-            )}
+                    </CommentContent>
+                    <CommentMetadata>
+                      <CommentReactions
+                        timestamp={timestamp}
+                        comments={comments}
+                      />
+                      <CommentActions>
+                        {userId === currentUserId && !editingComment && (
+                          <CommentButton
+                            onClick={handleShowCommentMenu(
+                              'options',
+                              timestamp
+                            )}
+                            onMouseOver={(e) => handleShowTip(e, 'actions')}
+                            onMouseOut={hideTip}
+                          >
+                            <MenuIcon />
+                          </CommentButton>
+                        )}
+                        {user && userId !== currentUserId && (
+                          <CommentButton
+                            onClick={handleShowCommentMenu(
+                              'reaction',
+                              timestamp
+                            )}
+                            onMouseOver={(e) => handleShowTip(e, 'react')}
+                            onMouseOut={hideTip}
+                          >
+                            <ReactionIcon />
+                          </CommentButton>
+                        )}
+                      </CommentActions>
+                    </CommentMetadata>
+                  </Comment>
+                )
+              )}
             <DateMarker
               show={showDateMarker}
               offset={`${commentsMarkerOffsetRef.current}px`}

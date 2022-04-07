@@ -3,9 +3,11 @@ const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-west-2' });
 
 const COMMENTS_TABLE = 'zeroweb-comments';
+const COMMENTS_USER_INDEX = 'userId-index';
 const VOTES_TABLE = 'zeroweb-votes';
 const REACTIONS_TABLE = 'zeroweb-reactions';
 const SHARES_TABLE = 'zeroweb-shares';
+const PROFILES_TABLE = 'zeroweb-profiles';
 
 const db = new AWS.DynamoDB.DocumentClient();
 
@@ -20,19 +22,19 @@ const getUpdateExpression = (fields) => (
 const getUpdateAttributes = (fields) => (
   Object.keys(fields).reduce((attributes, key) => (
     fields[key] !== undefined
-    ? {
+      ? {
         ...attributes,
-        [`:${key}`]: fields[key] 
+        [`:${key}`]: fields[key]
       }
-    : attributes
+      : attributes
   ), {})
 );
 
 const getUpdateResult = (original, update) => (
   Object.keys(update).reduce((merged, key) => (
     update[key] !== undefined
-    ? { ...merged, [key]: update[key] }
-    : merged
+      ? { ...merged, [key]: update[key] }
+      : merged
   ), original)
 );
 
@@ -142,7 +144,7 @@ exports.deleteComment = async ({
   };
 };
 
-exports.getVotes = async(
+exports.getVotes = async (
   userId
 ) => {
   const { Items } = await db
@@ -230,7 +232,7 @@ exports.getShares = async (
       }
     })
     .promise();
-  
+
   return Items;
 }
 
@@ -258,6 +260,79 @@ exports.addShare = async ({
 }) => {
   await db.put({
     TableName: SHARES_TABLE,
-    Item: { slug, shareType, count } }
+    Item: { slug, shareType, count }
+  }
   ).promise();
 };
+
+exports.editProfile = async ({
+  userId,
+  bio,
+  locationName,
+  ...rest
+}) => {
+  const original = await this.getProfile(userId);
+  const update = { bio, locationName };
+  await db
+    .update({
+      TableName: PROFILES_TABLE,
+      Key: {
+        userId,
+      },
+      UpdateExpression: getUpdateExpression(update),
+      ExpressionAttributeValues: getUpdateAttributes(update),
+    })
+    .promise();
+
+  return getUpdateResult(original, update);
+}
+
+exports.getProfile = async (userId) => {
+  const { Items: reactions } = await db
+    .query({
+      TableName: COMMENTS_TABLE,
+      IndexName: COMMENTS_USER_INDEX,
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':userId': userId
+      }
+    })
+    .promise();
+
+  const { Items: votes } = await db
+    .scan({
+      TableName: VOTES_TABLE,
+      FilterExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':userId': userId
+      }
+    })
+    .promise();
+
+  const { Item: profile } = await db
+    .get({
+      TableName: PROFILES_TABLE,
+      Key: {
+        userId
+      }
+    })
+    .promise();
+
+  const anyReaction = reactions.filter(({ userName, avatarUrl }) => userName && avatarUrl)[0] ?? null
+  const userName = anyReaction?.userName ?? null;
+  const avatarUrl = anyReaction?.avatarUrl ?? null;
+  const reactionTimestamps = reactions.map(({ timestamp }) => timestamp).sort();
+
+  return {
+    userId,
+    userName,
+    avatarUrl,
+    bio: profile?.bio,
+    locationName: profile?.locationName,
+    lastActivity: reactionTimestamps.length
+      ? reactionTimestamps[reactionTimestamps.length - 1]
+      : null,
+    reactions: reactions || [],
+    voteCount: votes.length,
+  }
+}

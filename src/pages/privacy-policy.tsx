@@ -12,8 +12,10 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import Title from '../components/Title';
+import { List } from '../components/Post/UnorderedList';
+import PrivacyPolicyIcon from '../images/privacy.svg';
 
-export const Policy = styled.section`
+const Policy = styled.section`
   margin-right: ${(props) => props.theme.spacingHalf};
 
   opacity: 0;
@@ -37,16 +39,29 @@ export const Policy = styled.section`
   }
 `;
 
+const PolicyHeader = styled.section`
+  display: flex;
+  align-items: center;
+  margin-left: ${(props) => props.theme.spacingHalf};
+`;
+
+const StyledPolicyIcon = styled(PrivacyPolicyIcon)`
+  margin-right: ${(props) => props.theme.spacingHalf};
+`;
+
 const PrivacyPolicy: FC = () => (
   <main>
     <Title collection="about">Privacy Policy</Title>
     <Policy>
-      <p>Hi there!</p>
+      <PolicyHeader>
+        <StyledPolicyIcon />
+        Hi there!
+      </PolicyHeader>
       <p>
         On this site I collect only the minimum information used to display
         social content.
       </p>
-      <ul>
+      <List>
         <li>
           <strong>User ID</strong> from your social provider like Facebook (a
           number that doesn't contain your name or email) is associated with
@@ -62,7 +77,7 @@ const PrivacyPolicy: FC = () => (
           your comments on this site. This is recorded only when you post at
           least one comment
         </li>
-      </ul>
+      </List>
       <p>
         You can delete your comments any time by clicking the ellipsis ("...")
         button that appears when you hover over one of your own comments while
@@ -79,18 +94,17 @@ const PrivacyPolicy: FC = () => (
         to get all records containing your information erased.
       </p>
       <p>I do not collect the following without your permission:</p>
-      <ul>
+      <List>
         <li>
           <strong>Email</strong> - I ask for this specifically when you click
           Subscribe to receive regular updates about new content on the site
         </li>
         <li>
-          <strong>Your location or any other personal information</strong>. I
-          know you heard this before but random people on the Internet can be
-          crazy and find a way to track you down! Keep your personal information
-          including first and last name private
+          <strong>Your location or any other personal information</strong>. You
+          can edit location and bio in your profile at any time but these fields
+          are never set automatically.
         </li>
-      </ul>
+      </List>
     </Policy>
   </main>
 );

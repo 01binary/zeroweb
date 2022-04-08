@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Paragraph from './Paragraph/Paragraph';
 import Bullet from '../../images/url/list-bullet.svg';
 
-const List = styled.ul`
+export const List = styled.ul`
   list-style-image: url(${Bullet});
   list-style-type: 'circle';
 

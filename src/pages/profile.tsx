@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 import React, { FC, useState } from 'react';
-import { Link } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
 import { useLocation } from '@reach/router';
 import { parse } from 'query-string';
@@ -32,7 +32,6 @@ import ReactionSnapIcon from '../images/reaction-snap.svg';
 import ReactionWowIcon from '../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionGenericIcon from '../images/reaction.svg';
-import LocationIcon from '../images/location.svg';
 
 type ReactionType =
   | 'CommentReaction'
@@ -131,6 +130,15 @@ const reactionType = (comment: CommentQuery) => {
     ...comment,
     type,
   };
+};
+
+const getPagePath = (collection, slug) => {
+  if (collection === 'logs') {
+    const [, projectPath, logPath] = slug.split('/');
+    return `../projects/${projectPath}/${logPath}`;
+  }
+
+  return `../${collection}/${slug}`;
 };
 
 const ProfilePage = styled.main`
@@ -252,6 +260,10 @@ const ReactionDescription = styled.div`
   flex: 1 1;
 `;
 
+const ReactionSecondary = styled.span`
+  color: ${(props) => props.theme.secondaryTextColor};
+`;
+
 const ReactionDate = styled.div`
   min-width: 7em;
 `;
@@ -294,14 +306,26 @@ const MoreButton = styled.button`
   }
 `;
 
-const StyledLocationIcon = styled(LocationIcon)``;
+type ProfileQuery = {
+  data: {
+    allMdx: {
+      nodes: [
+        {
+          slug: string;
+          fields: {
+            collection: string;
+          };
+        }
+      ];
+    };
+  };
+};
 
-const LocationRow = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Profile: FC = () => {
+const Profile: FC<ProfileQuery> = ({
+  data: {
+    allMdx: { nodes },
+  },
+}) => {
   const { credentials, user } = useBlogData();
   const location = useLocation();
   const [more, setMore] = useState<boolean>(false);
@@ -342,12 +366,7 @@ const Profile: FC = () => {
           <ProfileBlurbs>
             {profile?.bio && <ProfileBlurb>{profile.bio}</ProfileBlurb>}
             {profile?.locationName && (
-              <ProfileBlurb deEmphasize>
-                <LocationRow>
-                  <StyledLocationIcon />
-                  {profile.locationName}
-                </LocationRow>
-              </ProfileBlurb>
+              <ProfileBlurb deEmphasize>{profile.locationName}</ProfileBlurb>
             )}
           </ProfileBlurbs>
 
@@ -378,7 +397,14 @@ const Profile: FC = () => {
                   const reactionDate = formatCommentDate(timestamp);
                   const GenericIcon = reactionTypeIcons[type];
                   const Icon = emoji ? reactionIcons[emoji] : GenericIcon;
-                  const postLink = `/articles/${slug}`;
+                  const textPrimary = reactionText[type].split(' ')[0];
+                  const textSecondary = reactionText[type].substring(
+                    textPrimary.length + 1
+                  );
+                  const collection = nodes.find(
+                    ({ slug: nodeSlug }) => nodeSlug === slug
+                  )?.fields?.collection;
+                  const postLink = getPagePath(collection, slug);
                   const commentLink =
                     type === 'PostComment' ||
                     type === 'ParagraphComment' ||
@@ -392,7 +418,9 @@ const Profile: FC = () => {
                         <Icon />
                       </ReactionType>
                       <ReactionDescription>
-                        {reactionText[type]} <Link to={postLink}>{slug}</Link>
+                        {textPrimary}{' '}
+                        <ReactionSecondary>{textSecondary}</ReactionSecondary>{' '}
+                        <Link to={postLink}>{slug}</Link>
                       </ReactionDescription>
                       <ReactionDate>
                         {commentLink ? (
@@ -423,3 +451,17 @@ const Profile: FC = () => {
 };
 
 export default Profile;
+
+export const pageQuery = graphql`
+  query {
+    allMdx {
+      nodes {
+        slug
+        fields {
+          url
+          collection
+        }
+      }
+    }
+  }
+`;

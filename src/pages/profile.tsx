@@ -385,13 +385,22 @@ const Profile: FC<ProfileQuery> = ({
     ? formatCommentDate(profile.lastActivity).split(' ')
     : [];
 
-  const reactionSummary: Record<Reaction, number> = profile?.reactions?.reduce(
-    (sum, { reaction: emoji }) => ({
-      ...sum,
-      [emoji]: sum[emoji] + 1,
-    }),
-    { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
-  );
+  const reactionSummary: Record<Reaction, number> = profile?.reactions
+    ?.filter(({ reaction }) => reaction)
+    ?.reduce(
+      (sum, { reaction: emoji }) => ({
+        ...sum,
+        [emoji]: sum[emoji] + 1,
+      }),
+      { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
+    );
+
+  const reactionCount = reactionSummary
+    ? Object.keys(reactionSummary).reduce(
+        (count, emoji) => count + reactionSummary[emoji],
+        0
+      )
+    : 0;
 
   return (
     <ProfilePage>
@@ -420,6 +429,10 @@ const Profile: FC<ProfileQuery> = ({
               <ProfileTile>
                 <ProfileTileBorder />
                 <ProfileHeading>Reactions</ProfileHeading>
+
+                {reactionCount == 0 && (
+                  <SecondaryText>nopity nope</SecondaryText>
+                )}
 
                 {Object.keys(reactionSummary)
                   .filter((r) => reactionSummary[r])
@@ -461,7 +474,13 @@ const Profile: FC<ProfileQuery> = ({
               <ProfileTile>
                 <ProfileTileBorder />
                 <ProfileHeading>Voted</ProfileHeading>
-                {profile.voteCount} <SecondaryText>times</SecondaryText>
+                {profile.voteCount === 0 ? (
+                  <SecondaryText>like never</SecondaryText>
+                ) : (
+                  <>
+                    {profile.voteCount} <SecondaryText>times</SecondaryText>
+                  </>
+                )}
               </ProfileTile>
             )}
           </ProfileRow>

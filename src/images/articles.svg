@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" xml:space="preserve">
-    <path class="stroke-foreground fill-none" d="M17.7,6.2H5.3c-0.5,0-1-0.5-1-1V2.7c0-0.6,0.5-1,1-1h12.4c0.5,0,1,0.4,1,1v2.5C18.7,5.7,18.2,6.2,17.7,6.2z"/>
-    <path class="stroke-foreground fill-none" d="M17.7,14.2H5.3c-0.5,0-1-0.4-1-1v-2.5c0-0.6,0.5-1,1-1h12.4c0.5,0,1,0.4,1,1v2.5C18.7,13.8,18.2,14.2,17.7,14.2z"/>
-    <path class="stroke-foreground fill-none" d="M17.7,22.4H5.3c-0.5,0-1-0.5-1-1v-2.5c0-0.6,0.5-1,1-1h12.4c0.5,0,1,0.4,1,1v2.5C18.7,21.9,18.2,22.4,17.7,22.4z"/>
-    <path class="stroke-background fill-none" d="M19.4,16H3.5c-0.5,0-1-0.4-1-1V8.9c0-0.6,0.5-1,1-1h15.9c0.6,0,1,0.4,1,1v6.1C20.4,15.6,20,16,19.4,16z"/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+	<g class="fill-none stroke-foreground">
+		<line x1="3.3" y1="6.9" x2="15.4" y2="6.9"/>
+		<line x1="3.3" y1="12.1" x2="21.5" y2="12.1"/>
+		<line x1="3.3" y1="17.1" x2="12.4" y2="17.1"/>
+	</g>
 </svg>
-

@@ -32,6 +32,7 @@ import ReactionSnapIcon from '../images/reaction-snap.svg';
 import ReactionWowIcon from '../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionGenericIcon from '../images/reaction.svg';
+import Frame from '../images/frame.svg';
 
 type ReactionType =
   | 'CommentReaction'
@@ -188,9 +189,9 @@ const ProfileRow = styled.section<{ horizontal: boolean }>`
 `;
 
 const ProfileTile = styled.section`
-  border: 1px solid gray;
-
-  padding: ${(props) => props.theme.spacingHalf};
+  position: relative;
+  padding: ${(props) => props.theme.spacingHalf}
+    ${(props) => props.theme.spacing};
   margin: ${(props) => props.theme.spacingHalf};
   margin-top: 0;
   margin-left: 0;
@@ -198,6 +199,12 @@ const ProfileTile = styled.section`
   &:last-of-type {
     margin-right: 0;
   }
+`;
+
+const ProfileTileBorder = styled(Frame)`
+  position: absolute;
+  left: 0;
+  top: 0;
 `;
 
 const ProfileHeading = styled.h2`
@@ -373,6 +380,7 @@ const Profile: FC<ProfileQuery> = ({
           <ProfileRow horizontal>
             {profile?.lastActivity && (
               <ProfileTile>
+                <ProfileTileBorder />
                 <ProfileHeading>Last reaction</ProfileHeading>
                 {formatCommentDate(profile.lastActivity)}
               </ProfileTile>
@@ -380,6 +388,7 @@ const Profile: FC<ProfileQuery> = ({
 
             {profile?.voteCount >= 0 && (
               <ProfileTile>
+                <ProfileTileBorder />
                 <ProfileHeading>Votes</ProfileHeading>
                 {profile.voteCount}
               </ProfileTile>

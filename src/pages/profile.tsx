@@ -42,19 +42,26 @@ type ReactionType =
   | 'PostComment'
   | 'ParagraphHighlight';
 
-const reactionText: Record<ReactionType, string> = {
-  CommentReaction: 'reacted to a comment on',
-  PostReaction: 'reacted to',
+const reactionDetail: Record<ReactionType, string> = {
+  CommentReaction: ':reaction a comment on',
+  PostReaction: ':reaction',
   CommentReply: 'replied to a comment on',
   ParagraphComment: 'commented on paragraph in',
   PostComment: 'commented on',
   ParagraphHighlight: 'highlighted a paragraph on',
 };
 
+const reactionName: Record<Reaction, string> = {
+  snap: 'snapped to',
+  party: 'popped a four loko to',
+  lol: 'lolled about',
+  wow: 'lost his diddly about',
+  confused: 'yeeted wildly to',
+};
+
 const reactionTypeIcons: Record<ReactionType, React.FunctionComponent> = {
   CommentReaction: CommentIcon,
   PostReaction: ReactionGenericIcon,
-  // TODO: the two-comment icon
   CommentReply: CommentIcon,
   ParagraphComment: CommentIcon,
   PostComment: CommentIcon,
@@ -184,6 +191,7 @@ const ProfileDetails = styled(ProfileSection)``;
 
 const ProfileRow = styled.section<{ horizontal: boolean }>`
   display: flex;
+  flex-wrap: wrap;
   ${(props) =>
     props.horizontal ? 'flex-direction:row' : 'flex-direction:column'};
 `;
@@ -263,11 +271,29 @@ const ReactionType = styled.div`
   }
 `;
 
+const ReactionFilterButton = styled.button`
+  font-family: ${(props) => props.theme.normalFont};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+  font-size: ${(props) => props.theme.normalFontSize};
+  color: ${(props) => props.theme.secondaryTextColor};
+
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+`;
+
+const ReactionBadge = styled.span`
+  margin-left: ${(props) => props.theme.spacingQuarter};
+`;
+
 const ReactionDescription = styled.div`
   flex: 1 1;
 `;
 
-const ReactionSecondary = styled.span`
+const SecondaryText = styled.span`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
@@ -279,7 +305,7 @@ const StaticDate = styled.span`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
-const MoreButton = styled.button`
+const LinkButton = styled.button`
   font-family: ${(props) => props.theme.normalFont};
   font-weight: ${(props) => props.theme.normalFontWeight};
   font-size: ${(props) => props.theme.normalFontSize};
@@ -336,6 +362,7 @@ const Profile: FC<ProfileQuery> = ({
   const { credentials, user } = useBlogData();
   const location = useLocation();
   const [more, setMore] = useState<boolean>(false);
+  const [reactionFilter, setReactionFilter] = useState<Reaction | null>(null);
   const search = parse(location.search);
   const userId = search.user ?? credentials?.userId;
   const isLoggedIn = Boolean(user);
@@ -354,6 +381,17 @@ const Profile: FC<ProfileQuery> = ({
   const hasDetails = Boolean(profile);
   const notLoggedIn = !isLoggedIn && !isForAnotherUser;
   const showMore = data?.profile?.reactions?.length > 5;
+  const formattedLastActivity = profile?.lastActivity
+    ? formatCommentDate(profile.lastActivity).split(' ')
+    : [];
+
+  const reactionSummary: Record<Reaction, number> = profile?.reactions?.reduce(
+    (sum, { reaction: emoji }) => ({
+      ...sum,
+      [emoji]: sum[emoji] + 1,
+    }),
+    { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
+  );
 
   return (
     <ProfilePage>
@@ -378,19 +416,52 @@ const Profile: FC<ProfileQuery> = ({
           </ProfileBlurbs>
 
           <ProfileRow horizontal>
+            {reactionSummary && (
+              <ProfileTile>
+                <ProfileTileBorder />
+                <ProfileHeading>Reactions</ProfileHeading>
+
+                {Object.keys(reactionSummary)
+                  .filter((r) => reactionSummary[r])
+                  .map((emoji) => {
+                    const ReactionFilterIcon = reactionIcons[emoji];
+                    return (
+                      <ReactionFilterButton
+                        key={emoji}
+                        onClick={() => setReactionFilter(emoji as Reaction)}
+                      >
+                        <ReactionFilterIcon />
+                        <ReactionBadge>{reactionSummary[emoji]}</ReactionBadge>
+                      </ReactionFilterButton>
+                    );
+                  })}
+                {reactionFilter && (
+                  <>
+                    {' / '}
+                    <LinkButton onClick={() => setReactionFilter(null)}>
+                      clear filter
+                    </LinkButton>
+                  </>
+                )}
+              </ProfileTile>
+            )}
+
             {profile?.lastActivity && (
               <ProfileTile>
                 <ProfileTileBorder />
                 <ProfileHeading>Last reaction</ProfileHeading>
-                {formatCommentDate(profile.lastActivity)}
+                {formattedLastActivity[0]}{' '}
+                <SecondaryText>
+                  {formattedLastActivity.slice(1).join(' ')}
+                </SecondaryText>
               </ProfileTile>
             )}
 
             {profile?.voteCount >= 0 && (
               <ProfileTile>
                 <ProfileTileBorder />
-                <ProfileHeading>Votes</ProfileHeading>
-                {profile.voteCount}
+                <ProfileHeading>Voted</ProfileHeading>
+                {profile.voteCount} <SecondaryText>times</SecondaryText>
               </ProfileTile>
             )}
           </ProfileRow>
@@ -399,15 +470,28 @@ const Profile: FC<ProfileQuery> = ({
             <ReactionList>
               {profile.reactions
                 .map(reactionType)
-                .filter(({ type }) => type)
+                .filter(
+                  // Displayable and not filtered if filter is on
+                  ({ type, reaction }) =>
+                    type && (!reactionFilter || reactionFilter === reaction)
+                )
+                .sort(
+                  // Descending by date time
+                  ({ timestamp: t1 }, { timestamp: t2 }) =>
+                    new Date(t2).valueOf() - new Date(t1).valueOf()
+                )
                 .slice(0, more ? undefined : MAX_ITEMS)
                 .map((reaction) => {
                   const { slug, timestamp, reaction: emoji, type } = reaction;
                   const reactionDate = formatCommentDate(timestamp);
                   const GenericIcon = reactionTypeIcons[type];
                   const Icon = emoji ? reactionIcons[emoji] : GenericIcon;
-                  const textPrimary = reactionText[type].split(' ')[0];
-                  const textSecondary = reactionText[type].substring(
+                  const detail = reactionDetail[type].replace(
+                    ':reaction',
+                    reactionName[emoji] ?? ''
+                  );
+                  const textPrimary = detail.split(' ')[0];
+                  const textSecondary = detail.substring(
                     textPrimary.length + 1
                   );
                   const collection = nodes.find(
@@ -428,7 +512,7 @@ const Profile: FC<ProfileQuery> = ({
                       </ReactionType>
                       <ReactionDescription>
                         {textPrimary}{' '}
-                        <ReactionSecondary>{textSecondary}</ReactionSecondary>{' '}
+                        <SecondaryText>{textSecondary}</SecondaryText>{' '}
                         <Link to={postLink}>{slug}</Link>
                       </ReactionDescription>
                       <ReactionDate>
@@ -442,9 +526,9 @@ const Profile: FC<ProfileQuery> = ({
                   );
                 })}
               {showMore && !more && (
-                <MoreButton onClick={() => setMore(true)}>
+                <LinkButton onClick={() => setMore(true)}>
                   See more...
-                </MoreButton>
+                </LinkButton>
               )}
             </ReactionList>
           )}

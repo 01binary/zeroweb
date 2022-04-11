@@ -265,9 +265,10 @@ const ProfileInput = styled.input`
   font-weight: ${(props) => props.theme.normalFontWeight};
 
   min-width: calc(${MOBILE_MIN});
+  margin: calc(0px - ${(props) => props.theme.border} / 2)
+    ${(props) => props.theme.spacingHalf} 0
+    calc(0px - ${(props) => props.theme.border});
   padding: 8px;
-  margin-right: ${(props) => props.theme.spacingHalf};
-  margin-left: -2px;
 
   border: ${(props) => props.theme.border} solid
     ${(props) => props.theme.borderColor};

@@ -9,21 +9,21 @@
 |  Copyright(C) 2022 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useCallback, useRef, useState } from 'react';
+import gql from 'graphql-tag';
+import { parse } from 'query-string';
 import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
-import { useLocation } from '@reach/router';
-import { parse } from 'query-string';
-import { useBlogData } from '../hooks/useBlogData';
-import Title from '../components/Title';
 import { FetchResult, useMutation, useQuery } from '@apollo/client';
+import React, { FC, useCallback, useRef, useState } from 'react';
+import { useLocation } from '@reach/router';
+import { useBlogData } from '../hooks/useBlogData';
+import { formatCommentDate, getCommentId } from '../utils';
 import UserProfileQuery from '../types/UserProfileQuery';
 import EditProfileMutation from '../types/EditProfileMutation';
-import gql from 'graphql-tag';
-import { formatCommentDate, getCommentId } from '../utils';
+import { CommentQuery, Reaction } from '../types/AllCommentsQuery';
+import Title from '../components/Title';
 import Alert from '../components/Alert';
 import Error from '../components/Error';
-import { CommentQuery, Reaction } from '../types/AllCommentsQuery';
 import MetaLink from '../components/MetaLink';
 import CommentIcon from '../images/reaction-comment.svg';
 import HighlightIcon from '../images/reaction-highlight.svg';
@@ -33,6 +33,8 @@ import ReactionSnapIcon from '../images/reaction-snap.svg';
 import ReactionWowIcon from '../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionGenericIcon from '../images/reaction.svg';
+import LocationIcon from '../images/location.svg';
+import BlurbIcon from '../images/blurb.svg';
 import Frame from '../images/frame.svg';
 import { MOBILE, MOBILE_MIN } from '../constants';
 
@@ -247,7 +249,7 @@ const ProfileBlurbs = styled.section<{ isLoading: boolean }>`
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 
   @media (max-width: ${MOBILE}) {
-    margin-left: calc(0px - ${(props) => props.theme.spacingQuarter});
+    margin-left: ${(props) => props.theme.spacingQuarter};
   }
 `;
 
@@ -344,6 +346,9 @@ const ReactionFilterButton = styled.button`
 `;
 
 const ReactionBadge = styled.span`
+  font-family: ${(props) => props.theme.smallFont};
+  font-weight: ${(props) => props.theme.smallFontWeight};
+  font-size: ${(props) => props.theme.smallFontSize};
   margin-left: ${(props) => props.theme.spacingQuarter};
 `;
 
@@ -356,7 +361,8 @@ const SecondaryText = styled.span`
 `;
 
 const ReactionDate = styled.div`
-  min-width: 7em;
+  margin-left: ${(props) => props.theme.spacing};
+  min-width: 6em;
 `;
 
 const StaticDate = styled.span`
@@ -410,6 +416,32 @@ const InlineLinkButton = styled(LinkButton)`
 const BlockLinkButton = styled(LinkButton)`
   margin-left: ${(props) => props.theme.spacing};
   margin-top: ${(props) => props.theme.spacingHalf};
+`;
+
+const StyledBlurbIcon = styled(BlurbIcon)`
+  position: absolute;
+  left: 22.5px;
+  padding-top: 7.5px;
+
+  @media (max-width: ${MOBILE}) {
+    display: inline-block;
+    position: initial;
+    padding-top: initial;
+    margin-bottom: -4.5px;
+  }
+`;
+
+const StyledLocationIcon = styled(LocationIcon)`
+  position: absolute;
+  left: 22.5px;
+  padding-top: 7.5px;
+
+  @media (max-width: ${MOBILE}) {
+    display: inline-block;
+    position: initial;
+    padding-top: initial;
+    margin-bottom: -4.5px;
+  }
 `;
 
 type ProfileQuery = {
@@ -514,7 +546,7 @@ const Profile: FC<ProfileQuery> = ({
         refetch();
       },
     });
-  }, [profile, bioText, locationText, editProfile, refetch]);
+  }, [profile, bioText, locationText, editProfile]);
 
   const handleEditBio = useCallback(
     (isEditing: boolean, isSaving: boolean = false) => {
@@ -582,6 +614,7 @@ const Profile: FC<ProfileQuery> = ({
         <ProfileSection>
           <ProfileBlurbs isLoading={isSaving}>
             <ProfileRow>
+              <StyledBlurbIcon />
               <ProfileField>
                 {editingBio ? (
                   <ProfileInput
@@ -594,7 +627,7 @@ const Profile: FC<ProfileQuery> = ({
                 ) : profile?.bio ? (
                   <ProfileBlurb>{profile.bio}</ProfileBlurb>
                 ) : (
-                  <ProfileBlurb deEmphasize>no bio entered</ProfileBlurb>
+                  <ProfileBlurb deEmphasize>no bio</ProfileBlurb>
                 )}
               </ProfileField>
 
@@ -607,7 +640,7 @@ const Profile: FC<ProfileQuery> = ({
                     cancel
                   </InlineLinkButton>
                 </>
-              ) : (
+              ) : isForAnotherUser ? null : (
                 <InlineLinkButton
                   disabled={isSaving}
                   onClick={() => handleEditBio(true)}
@@ -618,6 +651,7 @@ const Profile: FC<ProfileQuery> = ({
             </ProfileRow>
 
             <ProfileRow>
+              <StyledLocationIcon />
               <ProfileField>
                 {editingLocation ? (
                   <ProfileInput
@@ -632,7 +666,7 @@ const Profile: FC<ProfileQuery> = ({
                     {profile.locationName}
                   </ProfileBlurb>
                 ) : (
-                  <ProfileBlurb deEmphasize>no location entered</ProfileBlurb>
+                  <ProfileBlurb deEmphasize>no location</ProfileBlurb>
                 )}
               </ProfileField>
 
@@ -645,7 +679,7 @@ const Profile: FC<ProfileQuery> = ({
                     cancel
                   </LinkButton>
                 </>
-              ) : (
+              ) : isForAnotherUser ? null : (
                 <InlineLinkButton
                   disabled={isSaving}
                   onClick={() => handleEditLocation(true)}
@@ -662,9 +696,7 @@ const Profile: FC<ProfileQuery> = ({
                 <ProfileTileBorder />
                 <ProfileHeading>reactions</ProfileHeading>
 
-                {reactionCount == 0 && (
-                  <SecondaryText>nopity nope</SecondaryText>
-                )}
+                {reactionCount == 0 && <SecondaryText>none</SecondaryText>}
 
                 {Object.keys(reactionSummary)
                   .filter((r) => reactionSummary[r])
@@ -707,7 +739,7 @@ const Profile: FC<ProfileQuery> = ({
                 <ProfileTileBorder />
                 <ProfileHeading>Voted</ProfileHeading>
                 {profile.voteCount === 0 ? (
-                  <SecondaryText>like never</SecondaryText>
+                  <SecondaryText>never</SecondaryText>
                 ) : (
                   <>
                     {profile.voteCount} <SecondaryText>times</SecondaryText>

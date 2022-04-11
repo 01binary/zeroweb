@@ -22,10 +22,10 @@ const BULLET_HEIGHT = 20;
 const BULLET_TOP = Math.ceil(NAVLINK_HEIGHT / 2 - NAVLINK_HEIGHT * 0.1);
 const CALLOUT_TOP = Math.ceil(BULLET_TOP / 2) + 0.5;
 
-interface CalloutProps {
+type CalloutProps = {
   offset: number;
   className?: string;
-}
+};
 
 const getGeometry = (points: Array<Array<number>>): string =>
   points.reduce(
@@ -102,12 +102,12 @@ const Heading = styled.h1`
   }
 `;
 
-interface TitleProps {
+type TitleProps = {
   collection: string;
-}
+};
 
 const Title: FC<TitleProps> = ({ collection, children }) => (
-  <div>
+  <section>
     <Decorator
       offset={
         NAVLINK_WIDTH *
@@ -119,7 +119,7 @@ const Title: FC<TitleProps> = ({ collection, children }) => (
       }
     />
     <Heading>{children}</Heading>
-  </div>
+  </section>
 );
 
 export default Title;

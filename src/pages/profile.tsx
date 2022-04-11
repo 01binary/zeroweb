@@ -189,6 +189,8 @@ const ProfileSection = styled.section`
   }
 `;
 
+const ProfileRow = styled.section``;
+
 const ProfileStatus = styled(ProfileSection)`
   margin-bottom: ${(props) => props.theme.spacing};
 `;
@@ -208,7 +210,7 @@ const ProfileGroup = styled.section<{ horizontal: boolean }>`
   flex-wrap: wrap;
   align-items: center;
   ${(props) =>
-    props.horizontal ? 'flex-direction:row' : 'flex-direction:column'};]
+    props.horizontal ? 'flex-direction:row' : 'flex-direction:column'};
 `;
 
 const ProfileTile = styled.section`
@@ -250,9 +252,11 @@ const ProfileBlurbs = styled.section<{ isLoading: boolean }>`
 `;
 
 const ProfileBlurb = styled.section<{ deEmphasize: boolean }>`
+  display: inline-block;
   ${(props) => props.deEmphasize && `color: ${props.theme.secondaryTextColor}`};
+  line-height: ${(props) => props.theme.normalFontLineHight};
   padding: 8px;
-  margin: 4px;
+  margin-right: ${(props) => props.theme.spacingQuarter};
 `;
 
 const ProfileInput = styled.input`
@@ -263,6 +267,7 @@ const ProfileInput = styled.input`
   min-width: calc(${MOBILE_MIN});
   padding: 8px;
   margin-right: ${(props) => props.theme.spacingHalf};
+  margin-left: -2px;
 
   border: ${(props) => props.theme.border} solid
     ${(props) => props.theme.borderColor};
@@ -280,6 +285,11 @@ const ProfileInput = styled.input`
   @media (max-width: ${MOBILE}) {
     min-width: initial;
   }
+`;
+
+const ProfileField = styled.section`
+  display: inline-block;
+  height: ${(props) => props.theme.spacingOneAndHalf};
 `;
 
 const ProfileAvatar = ({ avatarUrl }) => (
@@ -356,6 +366,8 @@ const LinkButton = styled.button`
   font-family: ${(props) => props.theme.normalFont};
   font-weight: ${(props) => props.theme.normalFontWeight};
   font-size: ${(props) => props.theme.normalFontSize};
+
+  padding: ${(props) => props.theme.spacingQuarter};
 
   border: none;
   cursor: pointer;
@@ -568,95 +580,79 @@ const Profile: FC<ProfileQuery> = ({
       {hasDetails && (
         <ProfileSection>
           <ProfileBlurbs isLoading={isSaving}>
-            {editingBio ? (
-              <ProfileInput
-                type="text"
-                placeholder="bio"
-                ref={editBioRef}
-                value={bioText ?? ''}
-                onChange={(e) => setBioText(e.target.value)}
-              />
-            ) : profile?.bio ? (
-              <ProfileBlurb>
-                {profile.bio}
-                {!editingBio && (
-                  <InlineLinkButton
-                    disabled={isSaving}
-                    onClick={() => handleEditBio(true)}
-                  >
-                    edit
-                  </InlineLinkButton>
+            <ProfileRow>
+              <ProfileField>
+                {editingBio ? (
+                  <ProfileInput
+                    type="text"
+                    placeholder="bio"
+                    ref={editBioRef}
+                    value={bioText ?? ''}
+                    onChange={(e) => setBioText(e.target.value)}
+                  />
+                ) : profile?.bio ? (
+                  <ProfileBlurb>{profile.bio}</ProfileBlurb>
+                ) : (
+                  <ProfileBlurb deEmphasize>no bio entered</ProfileBlurb>
                 )}
-              </ProfileBlurb>
-            ) : (
-              <ProfileBlurb deEmphasize>
-                no bio entered
-                {!editingBio && (
-                  <InlineLinkButton
-                    disabled={isSaving}
-                    onClick={() => handleEditBio(true)}
-                  >
-                    add
-                  </InlineLinkButton>
-                )}
-              </ProfileBlurb>
-            )}
+              </ProfileField>
 
-            {editingBio && (
-              <>
-                <InlineLinkButton onClick={() => handleEditBio(false, true)}>
-                  save
+              {editingBio ? (
+                <>
+                  <InlineLinkButton onClick={() => handleEditBio(false, true)}>
+                    save
+                  </InlineLinkButton>
+                  <InlineLinkButton onClick={() => handleEditBio(false)}>
+                    cancel
+                  </InlineLinkButton>
+                </>
+              ) : (
+                <InlineLinkButton
+                  disabled={isSaving}
+                  onClick={() => handleEditBio(true)}
+                >
+                  edit
                 </InlineLinkButton>
-                <InlineLinkButton onClick={() => handleEditBio(false)}>
-                  cancel
+              )}
+            </ProfileRow>
+
+            <ProfileRow>
+              <ProfileField>
+                {editingLocation ? (
+                  <ProfileInput
+                    type="text"
+                    placeholder="location"
+                    ref={editLocationRef}
+                    value={locationText ?? ''}
+                    onChange={(e) => setLocationText(e.target.value)}
+                  />
+                ) : profile?.locationName ? (
+                  <ProfileBlurb deEmphasize>
+                    {profile.locationName}
+                  </ProfileBlurb>
+                ) : (
+                  <ProfileBlurb deEmphasize>no location entered</ProfileBlurb>
+                )}
+              </ProfileField>
+
+              {editingLocation ? (
+                <>
+                  <LinkButton onClick={() => handleEditLocation(false, true)}>
+                    save
+                  </LinkButton>
+                  <LinkButton onClick={() => handleEditLocation(false)}>
+                    cancel
+                  </LinkButton>
+                </>
+              ) : (
+                <InlineLinkButton
+                  disabled={isSaving}
+                  onClick={() => handleEditLocation(true)}
+                >
+                  edit
                 </InlineLinkButton>
-              </>
-            )}
-
-            {editingLocation ? (
-              <ProfileInput
-                type="text"
-                placeholder="location"
-                ref={editLocationRef}
-                value={locationText ?? ''}
-                onChange={(e) => setLocationText(e.target.value)}
-              />
-            ) : profile?.locationName ? (
-              <ProfileBlurb deEmphasize>
-                {profile.locationName}
-                {!editingLocation && (
-                  <InlineLinkButton
-                    disabled={isSaving}
-                    onClick={() => handleEditLocation(true)}
-                  >
-                    edit
-                  </InlineLinkButton>
-                )}
-              </ProfileBlurb>
-            ) : (
-              <ProfileBlurb deEmphasize>
-                no location entered
-                {!editingLocation && (
-                  <InlineLinkButton
-                    disabled={isSaving}
-                    onClick={() => handleEditLocation(true)}
-                  >
-                    add
-                  </InlineLinkButton>
-                )}
-              </ProfileBlurb>
-            )}
-
-            {editingLocation && (
-              <>
-                <LinkButton onClick={() => handleEditLocation(false, true)}>
-                  save
-                </LinkButton>
-                <LinkButton onClick={() => handleEditLocation(false)}>
-                  cancel
-                </LinkButton>
-              </>
-            )}
+              )}
+            </ProfileRow>
           </ProfileBlurbs>
 
           <ProfileGroup horizontal>

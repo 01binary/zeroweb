@@ -9,15 +9,16 @@
 |  Copyright(C) 2022 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useRef, useState } from 'react';
 import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
 import { useLocation } from '@reach/router';
 import { parse } from 'query-string';
 import { useBlogData } from '../hooks/useBlogData';
 import Title from '../components/Title';
-import { useQuery } from '@apollo/client';
+import { FetchResult, useMutation, useQuery } from '@apollo/client';
 import UserProfileQuery from '../types/UserProfileQuery';
+import EditProfileMutation from '../types/EditProfileMutation';
 import gql from 'graphql-tag';
 import { formatCommentDate, getCommentId } from '../utils';
 import Alert from '../components/Alert';
@@ -33,48 +34,15 @@ import ReactionWowIcon from '../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionGenericIcon from '../images/reaction.svg';
 import Frame from '../images/frame.svg';
+import { MOBILE, MOBILE_MIN } from '../constants';
 
-type ReactionType =
+type GenericReactionType =
   | 'CommentReaction'
   | 'PostReaction'
   | 'CommentReply'
   | 'ParagraphComment'
   | 'PostComment'
   | 'ParagraphHighlight';
-
-const reactionDetail: Record<ReactionType, string> = {
-  CommentReaction: ':reaction a comment on',
-  PostReaction: ':reaction',
-  CommentReply: 'replied to a comment on',
-  ParagraphComment: 'commented on paragraph in',
-  PostComment: 'commented on',
-  ParagraphHighlight: 'highlighted a paragraph on',
-};
-
-const reactionName: Record<Reaction, string> = {
-  snap: 'snapped to',
-  party: 'popped a four loko to',
-  lol: 'lolled about',
-  wow: 'lost his diddly about',
-  confused: 'yeeted wildly to',
-};
-
-const reactionTypeIcons: Record<ReactionType, React.FunctionComponent> = {
-  CommentReaction: CommentIcon,
-  PostReaction: ReactionGenericIcon,
-  CommentReply: CommentIcon,
-  ParagraphComment: CommentIcon,
-  PostComment: CommentIcon,
-  ParagraphHighlight: HighlightIcon,
-};
-
-const reactionIcons: Record<Reaction, React.FunctionComponent> = {
-  snap: ReactionSnapIcon,
-  party: ReactionPartyIcon,
-  lol: ReactionLolIcon,
-  wow: ReactionWowIcon,
-  confused: ReactionConfusedIcon,
-};
 
 // Refresh user-created content every 30 minutes
 const USER_CONTENT_POLL_INTERVAL_MS = 30 * 60 * 1000;
@@ -85,7 +53,8 @@ const AVATAR_WIDTH = 38;
 // Max reactions to show
 const MAX_ITEMS = 5;
 
-const USER_PROFILE = gql`
+// User profile query
+const GET_PROFILE = gql`
   query userProfile($userId: String!) {
     profile(userId: $userId) {
       userName
@@ -107,7 +76,54 @@ const USER_PROFILE = gql`
   }
 `;
 
-const reactionType = (comment: CommentQuery) => {
+const EDIT_PROFILE = gql`
+  mutation($profile: EditProfileInput!) {
+    editProfile(profile: $profile) {
+      userId
+      bio
+      locationName
+    }
+  }
+`;
+
+const reactionDetail: Record<GenericReactionType, string> = {
+  CommentReaction: ':reaction a comment on',
+  PostReaction: ':reaction',
+  CommentReply: 'replied to a comment on',
+  ParagraphComment: 'commented on paragraph in',
+  PostComment: 'commented on',
+  ParagraphHighlight: 'highlighted a paragraph on',
+};
+
+const reactionName: Record<Reaction, string> = {
+  snap: 'snapped to',
+  party: 'popped a four loko to',
+  lol: 'lolled about',
+  wow: 'lost his diddly about',
+  confused: 'yeeted to',
+};
+
+const reactionTypeIcons: Record<
+  GenericReactionType,
+  React.FunctionComponent
+> = {
+  CommentReaction: CommentIcon,
+  PostReaction: ReactionGenericIcon,
+  CommentReply: CommentIcon,
+  ParagraphComment: CommentIcon,
+  PostComment: CommentIcon,
+  ParagraphHighlight: HighlightIcon,
+};
+
+const reactionIcons: Record<Reaction, React.FunctionComponent> = {
+  snap: ReactionSnapIcon,
+  party: ReactionPartyIcon,
+  lol: ReactionLolIcon,
+  wow: ReactionWowIcon,
+  confused: ReactionConfusedIcon,
+};
+
+const mapGenericReactionType = (comment: CommentQuery) => {
   const {
     parentTimestamp,
     markdown,
@@ -115,14 +131,11 @@ const reactionType = (comment: CommentQuery) => {
     paragraph,
     reaction,
   } = comment;
-  let type: ReactionType | undefined;
+  let type: GenericReactionType | undefined;
 
   if (reaction && !markdown) {
-    if (parentTimestamp) {
-      type = 'CommentReaction';
-    } else {
-      type = 'PostReaction';
-    }
+    if (parentTimestamp) type = 'CommentReaction';
+    else type = 'PostReaction';
   } else if (markdown) {
     if (parentTimestamp) {
       type = 'CommentReply';
@@ -150,7 +163,7 @@ const getPagePath = (collection, slug) => {
 };
 
 const ProfilePage = styled.main`
-  margin-bottom: ${(props) => props.theme.spacing};
+  margin-bottom: calc(${(props) => props.theme.spacing} * 4);
 `;
 
 const ProfileError = styled(Error)`
@@ -176,24 +189,26 @@ const ProfileSection = styled.section`
   }
 `;
 
+const ProfileStatus = styled(ProfileSection)`
+  margin-bottom: ${(props) => props.theme.spacing};
+`;
+
 const ProfileHeader = styled(ProfileSection)`
   display: flex;
   align-items: center;
-  margin-bottom: ${(props) => props.theme.spacingHalf};
 `;
 
-const UserName = styled.span`
+const ProfileName = styled.span`
   font-size: ${(props) => props.theme.headingFontSizeMedium};
   margin-left: ${(props) => props.theme.spacingHalf};
 `;
 
-const ProfileDetails = styled(ProfileSection)``;
-
-const ProfileRow = styled.section<{ horizontal: boolean }>`
+const ProfileGroup = styled.section<{ horizontal: boolean }>`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   ${(props) =>
-    props.horizontal ? 'flex-direction:row' : 'flex-direction:column'};
+    props.horizontal ? 'flex-direction:row' : 'flex-direction:column'};]
 `;
 
 const ProfileTile = styled.section`
@@ -220,17 +235,54 @@ const ProfileHeading = styled.h2`
   margin: 0 0 ${(props) => props.theme.spacingHalf} 0;
 `;
 
-const ProfileBlurbs = styled.section`
+const ProfileBlurbs = styled.section<{ isLoading: boolean }>`
   margin: ${(props) => props.theme.spacingHalf} 0
-    ${(props) => props.theme.spacing} 0;
+    ${(props) => props.theme.spacing}
+    ${(props) => props.theme.spacingOneAndHalf};
+
+  ${(props) => props.isLoading && `opacity: .7`};
+
+  transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+  @media (max-width: ${MOBILE}) {
+    margin-left: calc(0px - ${(props) => props.theme.spacingQuarter});
+  }
 `;
 
 const ProfileBlurb = styled.section<{ deEmphasize: boolean }>`
   ${(props) => props.deEmphasize && `color: ${props.theme.secondaryTextColor}`};
-  margin-bottom: ${(props) => props.theme.spacingHalf};
+  padding: 8px;
+  margin: 4px;
 `;
 
-const UserAvatar = ({ avatarUrl }) => (
+const ProfileInput = styled.input`
+  font-family: ${(props) => props.theme.normalFont};
+  font-size: ${(props) => props.theme.normalFontSize};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+
+  min-width: calc(${MOBILE_MIN});
+  padding: 8px;
+  margin-right: ${(props) => props.theme.spacingHalf};
+
+  border: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.foregroundColor};
+
+  &:focus {
+    outline: none;
+    border: ${(props) => props.theme.border} solid
+      ${(props) => props.theme.backgroundColor};
+    box-shadow: 0 0 0 ${(props) => props.theme.border}
+      ${(props) => props.theme.focusColor};
+  }
+
+  @media (max-width: ${MOBILE}) {
+    min-width: initial;
+  }
+`;
+
+const ProfileAvatar = ({ avatarUrl }) => (
   <svg width="38" height="44" viewBox="0 0 38 44">
     <defs>
       <clipPath id="avatar-clip">
@@ -254,6 +306,7 @@ const UserAvatar = ({ avatarUrl }) => (
 
 const ReactionList = styled.section`
   margin-top: ${(props) => props.theme.spacingHalf};
+  margin-bottom: ${(props) => props.theme.spacingHalf};
 `;
 
 const ReactionRow = styled.div`
@@ -261,14 +314,8 @@ const ReactionRow = styled.div`
   margin-bottom: ${(props) => props.theme.spacingQuarter};
 `;
 
-const ReactionType = styled.div`
+const GenericReactionType = styled.div`
   margin-right: ${(props) => props.theme.spacingHalf};
-
-  svg {
-    path {
-      stroke-width: 1 !important;
-    }
-  }
 `;
 
 const ReactionFilterButton = styled.button`
@@ -339,6 +386,19 @@ const LinkButton = styled.button`
   }
 `;
 
+const InlineLinkButton = styled(LinkButton)`
+  display: inline-block;
+
+  [disabled] {
+    opacity: 0.5;
+  }
+`;
+
+const BlockLinkButton = styled(LinkButton)`
+  margin-left: ${(props) => props.theme.spacing};
+  margin-top: ${(props) => props.theme.spacingHalf};
+`;
+
 type ProfileQuery = {
   data: {
     allMdx: {
@@ -361,18 +421,32 @@ const Profile: FC<ProfileQuery> = ({
 }) => {
   const { credentials, user } = useBlogData();
   const location = useLocation();
-  const [more, setMore] = useState<boolean>(false);
+  const [editingBio, setEditingBio] = useState<boolean>(false);
+  const [editingLocation, setEditingLocation] = useState<boolean>(false);
+  const [bioText, setBioText] = useState<string | undefined>();
+  const [locationText, setLocationText] = useState<string | undefined>();
   const [reactionFilter, setReactionFilter] = useState<Reaction | null>(null);
+  const [more, setMore] = useState<boolean>(false);
+  const editBioRef = useRef<HTMLInputElement | null>(null);
+  const editLocationRef = useRef<HTMLInputElement | null>(null);
   const search = parse(location.search);
   const userId = search.user ?? credentials?.userId;
   const isLoggedIn = Boolean(user);
   const isForAnotherUser = Boolean(search.user);
 
-  const { loading, error, data } = useQuery<UserProfileQuery>(USER_PROFILE, {
-    variables: { userId },
-    pollInterval: USER_CONTENT_POLL_INTERVAL_MS,
-    skip: !Boolean(isLoggedIn || isForAnotherUser),
-  });
+  const { loading, error, data, refetch } = useQuery<UserProfileQuery>(
+    GET_PROFILE,
+    {
+      variables: { userId },
+      pollInterval: USER_CONTENT_POLL_INTERVAL_MS,
+      skip: !Boolean(isLoggedIn || isForAnotherUser),
+    }
+  );
+
+  const [
+    editProfile,
+    { loading: isSaving, error: editError },
+  ] = useMutation<EditProfileMutation>(EDIT_PROFILE);
 
   const profile = data?.profile;
   const userName = isForAnotherUser ? profile?.userName : user?.name;
@@ -402,33 +476,194 @@ const Profile: FC<ProfileQuery> = ({
       )
     : 0;
 
+  const saveProfile = useCallback((): Promise<FetchResult> => {
+    if (!credentials?.userId) return Promise.reject('not logged in');
+    const updatedProfile = {
+      bio: bioText ?? profile?.bio,
+      locationName: locationText ?? profile?.locationName,
+    };
+    return editProfile({
+      variables: {
+        profile: updatedProfile,
+      },
+      update(cache, { data: updatedProfile }) {
+        if (!credentials?.userId) return;
+        cache.writeQuery({
+          query: GET_PROFILE,
+          variables: { userId: credentials.userId },
+          data: {
+            profile: {
+              ...profile,
+              updatedProfile,
+            },
+          },
+        });
+        refetch();
+      },
+    });
+  }, [profile, bioText, locationText, editProfile, refetch]);
+
+  const handleEditBio = useCallback(
+    (isEditing: boolean, isSaving: boolean = false) => {
+      if (isSaving) saveProfile();
+      setBioText(isEditing ? profile?.bio ?? '' : undefined);
+      setEditingBio(isEditing);
+      setEditingLocation(false);
+      setLocationText(undefined);
+      if (isEditing)
+        setTimeout(() => {
+          editBioRef?.current?.select();
+          editBioRef?.current?.focus();
+        });
+    },
+    [
+      profile,
+      saveProfile,
+      setBioText,
+      setLocationText,
+      setEditingBio,
+      setEditingLocation,
+    ]
+  );
+
+  const handleEditLocation = useCallback(
+    (isEditing: boolean, isSaving: boolean = false) => {
+      if (isSaving) saveProfile();
+      setLocationText(isEditing ? profile?.locationName ?? '' : undefined);
+      setEditingLocation(isEditing);
+      setEditingBio(false);
+      setBioText(undefined);
+      if (isEditing)
+        setTimeout(() => {
+          editLocationRef?.current?.select();
+          editLocationRef?.current?.focus();
+        });
+    },
+    [
+      profile,
+      saveProfile,
+      setLocationText,
+      setBioText,
+      setEditingBio,
+      setEditingLocation,
+    ]
+  );
+
   return (
     <ProfilePage>
       <Title collection="about">
         {isForAnotherUser ? 'Profile' : 'Your Profile'}
       </Title>
-      {loading && <ProfileSection>loading profile...</ProfileSection>}
-      {notLoggedIn && <ProfileSection>you are not logged in</ProfileSection>}
+      {!credentials && <ProfileStatus>loading account...</ProfileStatus>}
+      {loading && <ProfileStatus>loading profile...</ProfileStatus>}
+      {credentials && notLoggedIn && (
+        <ProfileSection>you are not logged in</ProfileSection>
+      )}
       {hasHeader && (
         <ProfileHeader>
-          <UserAvatar avatarUrl={avatarUrl} />
-          <UserName>{userName}</UserName>
+          <ProfileAvatar avatarUrl={avatarUrl} />
+          <ProfileName>{userName}</ProfileName>
         </ProfileHeader>
       )}
       {hasDetails && (
-        <ProfileDetails>
-          <ProfileBlurbs>
-            {profile?.bio && <ProfileBlurb>{profile.bio}</ProfileBlurb>}
-            {profile?.locationName && (
-              <ProfileBlurb deEmphasize>{profile.locationName}</ProfileBlurb>
+        <ProfileSection>
+          <ProfileBlurbs isLoading={isSaving}>
+            {editingBio ? (
+              <ProfileInput
+                type="text"
+                placeholder="bio"
+                ref={editBioRef}
+                value={bioText ?? ''}
+                onChange={(e) => setBioText(e.target.value)}
+              />
+            ) : profile?.bio ? (
+              <ProfileBlurb>
+                {profile.bio}
+                {!editingBio && (
+                  <InlineLinkButton
+                    disabled={isSaving}
+                    onClick={() => handleEditBio(true)}
+                  >
+                    edit
+                  </InlineLinkButton>
+                )}
+              </ProfileBlurb>
+            ) : (
+              <ProfileBlurb deEmphasize>
+                no bio entered
+                {!editingBio && (
+                  <InlineLinkButton
+                    disabled={isSaving}
+                    onClick={() => handleEditBio(true)}
+                  >
+                    add
+                  </InlineLinkButton>
+                )}
+              </ProfileBlurb>
+            )}
+
+            {editingBio && (
+              <>
+                <InlineLinkButton onClick={() => handleEditBio(false, true)}>
+                  save
+                </InlineLinkButton>
+                <InlineLinkButton onClick={() => handleEditBio(false)}>
+                  cancel
+                </InlineLinkButton>
+              </>
+            )}
+
+            {editingLocation ? (
+              <ProfileInput
+                type="text"
+                placeholder="location"
+                ref={editLocationRef}
+                value={locationText ?? ''}
+                onChange={(e) => setLocationText(e.target.value)}
+              />
+            ) : profile?.locationName ? (
+              <ProfileBlurb deEmphasize>
+                {profile.locationName}
+                {!editingLocation && (
+                  <InlineLinkButton
+                    disabled={isSaving}
+                    onClick={() => handleEditLocation(true)}
+                  >
+                    edit
+                  </InlineLinkButton>
+                )}
+              </ProfileBlurb>
+            ) : (
+              <ProfileBlurb deEmphasize>
+                no location entered
+                {!editingLocation && (
+                  <InlineLinkButton
+                    disabled={isSaving}
+                    onClick={() => handleEditLocation(true)}
+                  >
+                    add
+                  </InlineLinkButton>
+                )}
+              </ProfileBlurb>
+            )}
+
+            {editingLocation && (
+              <>
+                <LinkButton onClick={() => handleEditLocation(false, true)}>
+                  save
+                </LinkButton>
+                <LinkButton onClick={() => handleEditLocation(false)}>
+                  cancel
+                </LinkButton>
+              </>
             )}
           </ProfileBlurbs>
 
-          <ProfileRow horizontal>
+          <ProfileGroup horizontal>
             {reactionSummary && (
               <ProfileTile>
                 <ProfileTileBorder />
-                <ProfileHeading>Reactions</ProfileHeading>
+                <ProfileHeading>reactions</ProfileHeading>
 
                 {reactionCount == 0 && (
                   <SecondaryText>nopity nope</SecondaryText>
@@ -462,7 +697,7 @@ const Profile: FC<ProfileQuery> = ({
             {profile?.lastActivity && (
               <ProfileTile>
                 <ProfileTileBorder />
-                <ProfileHeading>Last reaction</ProfileHeading>
+                <ProfileHeading>last reaction</ProfileHeading>
                 {formattedLastActivity[0]}{' '}
                 <SecondaryText>
                   {formattedLastActivity.slice(1).join(' ')}
@@ -483,12 +718,12 @@ const Profile: FC<ProfileQuery> = ({
                 )}
               </ProfileTile>
             )}
-          </ProfileRow>
+          </ProfileGroup>
 
           {profile?.reactions?.length > 0 && (
             <ReactionList>
               {profile.reactions
-                .map(reactionType)
+                .map(mapGenericReactionType)
                 .filter(
                   // Displayable and not filtered if filter is on
                   ({ type, reaction }) =>
@@ -526,9 +761,9 @@ const Profile: FC<ProfileQuery> = ({
 
                   return (
                     <ReactionRow key={timestamp}>
-                      <ReactionType>
+                      <GenericReactionType>
                         <Icon />
-                      </ReactionType>
+                      </GenericReactionType>
                       <ReactionDescription>
                         {textPrimary}{' '}
                         <SecondaryText>{textSecondary}</SecondaryText>{' '}
@@ -545,17 +780,22 @@ const Profile: FC<ProfileQuery> = ({
                   );
                 })}
               {showMore && !more && (
-                <LinkButton onClick={() => setMore(true)}>
-                  See more...
-                </LinkButton>
+                <BlockLinkButton onClick={() => setMore(true)}>
+                  see more...
+                </BlockLinkButton>
               )}
             </ReactionList>
           )}
-        </ProfileDetails>
+        </ProfileSection>
       )}
       {error && (
         <Alert fullWidth>
-          <ProfileError>Error loading profile</ProfileError>
+          <ProfileError>error loading profile</ProfileError>
+        </Alert>
+      )}
+      {editError && (
+        <Alert fullWidth>
+          <ProfileError>error saving profile</ProfileError>
         </Alert>
       )}
     </ProfilePage>

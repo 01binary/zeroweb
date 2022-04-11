@@ -142,9 +142,12 @@ exports.resolvers = {
     editProfile: async (
       root,
       { profile },
+      { user },
     ) => {
-      const updated = await editProfile(profile);
-      return updated;
+      if (!user?.authenticated) throw new AuthenticationError(
+        'must be logged in with a social provider to edit your profile'
+      );
+      return editProfile(user.id, profile);
     },
 
     voteComment: async (

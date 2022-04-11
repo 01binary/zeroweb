@@ -87,7 +87,6 @@ exports.typeDefs = gql`
   }
 
   input EditProfileInput {
-    userId: String
     bio: String
     locationName: String
   }

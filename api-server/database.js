@@ -265,11 +265,9 @@ exports.addShare = async ({
   ).promise();
 };
 
-exports.editProfile = async ({
-  userId,
+exports.editProfile = async (userId, {
   bio,
   locationName,
-  ...rest
 }) => {
   const original = await this.getProfile(userId);
   const update = { bio, locationName };

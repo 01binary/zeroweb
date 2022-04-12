@@ -37,6 +37,7 @@ import LocationIcon from '../images/location.svg';
 import BlurbIcon from '../images/blurb.svg';
 import Frame from '../images/frame.svg';
 import { MOBILE, MOBILE_MIN } from '../constants';
+import Avatar from '../components/Avatar';
 
 type GenericReactionType =
   | 'CommentReaction'
@@ -48,9 +49,6 @@ type GenericReactionType =
 
 // Refresh user-created content every 30 minutes
 const USER_CONTENT_POLL_INTERVAL_MS = 30 * 60 * 1000;
-
-// With of user avatar on this page
-const AVATAR_WIDTH = 38;
 
 // Max reactions to show
 const MAX_ITEMS = 5;
@@ -191,7 +189,9 @@ const ProfileSection = styled.section`
   }
 `;
 
-const ProfileRow = styled.section``;
+const ProfileRow = styled.section`
+  position: relative;
+`;
 
 const ProfileStatus = styled(ProfileSection)`
   margin-bottom: ${(props) => props.theme.spacing};
@@ -295,28 +295,6 @@ const ProfileField = styled.section`
   height: ${(props) => props.theme.spacingOneAndHalf};
 `;
 
-const ProfileAvatar = ({ avatarUrl }) => (
-  <svg width="38" height="44" viewBox="0 0 38 44">
-    <defs>
-      <clipPath id="avatar-clip">
-        <polygon points="0.5,11.3 0.5,32.7 19,43.3 37.5,32.7 37.5,11.3 19,0.6" />
-      </clipPath>
-    </defs>
-    <polygon
-      className="stroke-border fill-opaque"
-      points="0.5,11.3 0.5,32.7 19,43.3 37.5,32.7 37.5,11.3 19,0.6"
-    />
-    <image
-      clipPath="url(#avatar-clip)"
-      x="-2"
-      y="1"
-      width={`${AVATAR_WIDTH + 4}px`}
-      height={`${AVATAR_WIDTH + 4}px`}
-      xlinkHref={avatarUrl}
-    />
-  </svg>
-);
-
 const ReactionList = styled.section`
   margin-top: ${(props) => props.theme.spacingHalf};
   margin-bottom: ${(props) => props.theme.spacingHalf};
@@ -327,7 +305,7 @@ const ReactionRow = styled.div`
   margin-bottom: ${(props) => props.theme.spacingQuarter};
 `;
 
-const GenericReactionType = styled.div`
+const ReactionTypeIcon = styled.div`
   margin-right: ${(props) => props.theme.spacingHalf};
 `;
 
@@ -420,7 +398,10 @@ const BlockLinkButton = styled(LinkButton)`
 
 const StyledBlurbIcon = styled(BlurbIcon)`
   position: absolute;
-  left: 22.5px;
+  left: calc(
+    0px - ${(props) => props.theme.spacing} -
+      ${(props) => props.theme.spacingQuarter}
+  );
   padding-top: 7.5px;
 
   @media (max-width: ${MOBILE}) {
@@ -433,7 +414,10 @@ const StyledBlurbIcon = styled(BlurbIcon)`
 
 const StyledLocationIcon = styled(LocationIcon)`
   position: absolute;
-  left: 22.5px;
+  left: calc(
+    0px - ${(props) => props.theme.spacing} -
+      ${(props) => props.theme.spacingQuarter}
+  );
   padding-top: 7.5px;
 
   @media (max-width: ${MOBILE}) {
@@ -606,7 +590,7 @@ const Profile: FC<ProfileQuery> = ({
       )}
       {hasHeader && (
         <ProfileHeader>
-          <ProfileAvatar avatarUrl={avatarUrl} />
+          <Avatar avatarUrl={avatarUrl} />
           <ProfileName>{userName}</ProfileName>
         </ProfileHeader>
       )}
@@ -790,9 +774,9 @@ const Profile: FC<ProfileQuery> = ({
 
                   return (
                     <ReactionRow key={timestamp}>
-                      <GenericReactionType>
+                      <ReactionTypeIcon>
                         <Icon />
-                      </GenericReactionType>
+                      </ReactionTypeIcon>
                       <ReactionDescription>
                         {textPrimary}{' '}
                         <SecondaryText>{textSecondary}</SecondaryText>{' '}

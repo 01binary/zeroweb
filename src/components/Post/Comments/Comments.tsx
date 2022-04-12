@@ -7,11 +7,10 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
-
 import ReactMarkdown from 'react-markdown';
 import { FetchResult } from '@apollo/client';
 import { useTheme } from 'styled-components';
-import Avatar from './Avatar';
+import Avatar from '../../Avatar';
 import MetaLink from '../../../components/MetaLink';
 import Login from '../../../components/Login';
 import { useBlogData } from '../../../hooks/useBlogData';
@@ -21,11 +20,6 @@ import ReactionIcon from '../../../images/reaction.svg';
 import MenuIcon from '../../../images/comment-menu.svg';
 import SaveIcon from '../../../images/accept.svg';
 import CancelIcon from '../../../images/cancel.svg';
-import ReactionLolIcon from '../../../images/reaction-lol.svg';
-import ReactionWowIcon from '../../../images/reaction-wow.svg';
-import ReactionConfusedIcon from '../../../images/reaction-confused.svg';
-import ReactionPartyIcon from '../../../images/reaction-party.svg';
-import ReactionSnapIcon from '../../../images/reaction-snap.svg';
 import { CommentQuery } from '../../../types/AllCommentsQuery';
 import {
   formatAbsDate,
@@ -41,6 +35,8 @@ import { useTooltip } from '../../../hooks/useTooltip';
 import { ContextMenu, ContextMenuArrow } from '../../../components/ContextMenu';
 import { Tooltip, Arrow } from '../../../components/Tooltip';
 import PrimaryButton from '../../../components/PrimaryButton';
+import CommentVotes from './CommentVotes';
+import CommentReactions from './CommentReactions';
 import {
   CommentsList,
   CommentsSection,
@@ -60,12 +56,6 @@ import {
   DateMarkerLabel,
   MarkerCount,
   CommentsEndDate,
-  CommentReactionGroup,
-  CommentReaction,
-  CommentReactionBadge,
-  CommentVotesScale,
-  DownVote,
-  UpVote,
   Me,
   EditCommentForm,
   EditCommentInput,
@@ -81,98 +71,10 @@ import {
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
+import ProfileTip from '../ProfileTip';
 import Alert from '../../../components/Alert';
 
 const DATE_MARKER_THRESHOLD = 100;
-
-type CommentReactionsProps = {
-  timestamp: string;
-  comments: CommentQuery[];
-};
-
-const CommentReactions: FC<CommentReactionsProps> = ({
-  timestamp,
-  comments,
-}) => {
-  const reactions = useMemo(
-    () =>
-      comments.filter(
-        ({ parentTimestamp, reaction }) =>
-          reaction && parentTimestamp === timestamp
-      ),
-    [timestamp, comments]
-  );
-
-  const count = useMemo(
-    () =>
-      reactions.reduce(
-        (count, { reaction }) => ({
-          ...count,
-          [reaction]: (count[reaction] || 0) + 1,
-        }),
-        {}
-      ),
-    [reactions]
-  );
-
-  return reactions.length === 0 ? null : (
-    <CommentReactionGroup>
-      {Object.keys(count).map((reaction) => (
-        <CommentReaction key={reaction}>
-          {reaction === 'lol' ? (
-            <ReactionLolIcon />
-          ) : reaction === 'wow' ? (
-            <ReactionWowIcon />
-          ) : reaction === 'confused' ? (
-            <ReactionConfusedIcon />
-          ) : reaction === 'party' ? (
-            <ReactionPartyIcon />
-          ) : reaction === 'snap' ? (
-            <ReactionSnapIcon />
-          ) : null}
-          {count[reaction] > 1 && (
-            <CommentReactionBadge>{count[reaction]}</CommentReactionBadge>
-          )}
-        </CommentReaction>
-      ))}
-    </CommentReactionGroup>
-  );
-};
-
-type CommentVotesProps = {
-  upVotes: number;
-  downVotes: number;
-  maxVotes: number;
-  maxSlots: number;
-};
-
-const CommentVotes: FC<CommentVotesProps> = ({
-  upVotes,
-  downVotes,
-  maxVotes,
-  maxSlots,
-}) => {
-  const upVoteCount =
-    maxVotes <= maxSlots
-      ? upVotes
-      : Math.round((upVotes / maxVotes) * maxSlots);
-
-  const downVoteCount =
-    maxVotes <= maxSlots
-      ? downVotes
-      : Math.round((downVotes / maxVotes) * maxSlots);
-
-  return (
-    <CommentVotesScale className="comment-votes__scale">
-      {Array.apply(null, Array(downVoteCount)).map((_, index) => (
-        <DownVote key={index}>-</DownVote>
-      ))}
-      {Array.apply(null, Array(upVoteCount)).map((_, index) => (
-        <UpVote key={index}>+</UpVote>
-      ))}
-    </CommentVotesScale>
-  );
-};
 
 type CommentsProps = {
   slug: string;
@@ -246,6 +148,17 @@ const Comments: FC<CommentsProps> = ({
     verticalOffsetMobile: 6,
   });
 
+  const {
+    hideTip: hideProfileTip,
+    showTipFor: showProfileTipFor,
+    tipProps: profileTipProps,
+    tipRef: profileTipRef,
+    tooltipText: profileTimestamp,
+  } = useTooltip({
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6,
+  });
+
   const postComments = useMemo(
     () =>
       comments
@@ -257,6 +170,20 @@ const Comments: FC<CommentsProps> = ({
         ),
     [comments]
   );
+
+  const profile = useMemo(() => {
+    const commentForProfile =
+      profileTimestamp &&
+      postComments?.find(({ timestamp }) => timestamp === profileTimestamp);
+
+    return (
+      commentForProfile && {
+        userId: commentForProfile.userId,
+        userName: commentForProfile.userName,
+        avatarUrl: commentForProfile.avatarUrl,
+      }
+    );
+  }, [profileTimestamp, postComments]);
 
   const maxVotes = useMemo(
     () =>
@@ -609,9 +536,16 @@ const Comments: FC<CommentsProps> = ({
                       )}
                     </CommentAvatar>
                     {userId === currentUserId ? (
-                      <MetaLink to={`/profile`}>{userName}</MetaLink>
+                      <Me>{userName}</Me>
                     ) : (
-                      <MetaLink to={`/profile?user=${userId}`}>
+                      <MetaLink
+                        to={`/profile?user=${userId}`}
+                        onMouseOver={(e) => {
+                          tipTargetRef.current = e.target;
+                          showProfileTipFor(timestamp, tipTargetRef);
+                        }}
+                        onMouseOut={hideProfileTip}
+                      >
                         {userName}
                       </MetaLink>
                     )}
@@ -745,6 +679,10 @@ const Comments: FC<CommentsProps> = ({
       </ContextMenu>
       <Tooltip ref={tipRef} {...tipProps}>
         {tooltipText}
+        <Arrow />
+      </Tooltip>
+      <Tooltip ref={profileTipRef} {...profileTipProps}>
+        {profile && <ProfileTip {...profile} />}
         <Arrow />
       </Tooltip>
       {user && comments && (

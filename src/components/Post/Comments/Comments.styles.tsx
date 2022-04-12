@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import CommentMarkerIcon from '../../../images/comment-marker.svg';
 import { RULER_ENDMARK_WIDTH } from '../../../components/Ruler';
-import { AVATAR_SIZE } from './Avatar';
+import { AVATAR_SIZE } from '../../Avatar';
 import Error from '../../../components/Error';
 import {
   MOBILE,

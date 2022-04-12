@@ -432,11 +432,13 @@ const BlockLinkButton = styled(LinkButton)`
 `;
 
 const StyledBlurbIcon = styled(BlurbIcon)`
-  margin-top: calc(0px - ${(props) => props.theme.border});
+  @media (max-width: ${MOBILE}) {
+    margin-top: calc(0px - ${(props) => props.theme.border});
+  }
 `;
 
 const StyledLocationIcon = styled(LocationIcon)`
-  margin-top: calc(0px - ${(props) => props.theme.border} * 2);
+  margin-top: calc(0px - ${(props) => props.theme.border});
 `;
 
 type ProfileQuery = {

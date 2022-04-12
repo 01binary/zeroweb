@@ -6,12 +6,13 @@ import Avatar from '../Avatar';
 import UserProfileQuery from '../../types/UserProfileQuery';
 import LocationIcon from '../../images/location.svg';
 import BlurbIcon from '../../images/blurb.svg';
+import { formatCommentDate } from '../../utils';
 
 // How often to refresh user profile data in tip
 const PROFILE_REFRESH_INTERVAL = 8 * 60 * 60 * 1000;
 
 const ProfileMessage = styled.section`
-  margin: ${(props) => props.theme.spacingQuarter} 0
+  margin: ${(props) => props.theme.spacingHalf} 0
     ${(props) => props.theme.spacingQuarter}
     calc(
       ${(props) => props.theme.spacingQuarter} +
@@ -37,10 +38,18 @@ const ProfileGroup = styled(ProfileInfo)`
 const ProfileText = styled.span<{ secondary: boolean }>`
   ${(props) => props.secondary && `opacity: .7`};
   margin: 0 0 0 ${(props) => props.theme.spacingHalf};
+  max-width: 15em;
+  white-space: pre-wrap;
 `;
 
-// User profile short query
-// TODO: can the server not return user name and avatar so this query is faster?
+const StyledBlurbIcon = styled(BlurbIcon)`
+  margin-right: ${(props) => props.theme.spacingQuarter};
+`;
+
+const StyledLocationIcon = styled(LocationIcon)`
+  margin-right: ${(props) => props.theme.spacingQuarter};
+`;
+
 const GET_PROFILE = gql`
   query userProfile($userId: String!) {
     profile(userId: $userId) {
@@ -76,17 +85,22 @@ const ProfileTip: FC<ProfileTipProps> = ({ userId, userName, avatarUrl }) => {
         <ProfileDetails>
           {profile.bio && (
             <ProfileGroup>
-              <BlurbIcon />
+              <StyledBlurbIcon />
               <ProfileText>{profile.bio}</ProfileText>
             </ProfileGroup>
           )}
           {profile.locationName && (
             <ProfileGroup>
-              <LocationIcon />
+              <StyledLocationIcon />
               <ProfileText secondary>{profile.locationName}</ProfileText>
             </ProfileGroup>
           )}
         </ProfileDetails>
+      )}
+      {profile.lastActivity && (
+        <ProfileMessage>
+          last active {formatCommentDate(profile.lastActivity)}
+        </ProfileMessage>
       )}
     </>
   );

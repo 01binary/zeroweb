@@ -33,6 +33,8 @@ import ReactionSnapIcon from '../images/reaction-snap.svg';
 import ReactionWowIcon from '../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionGenericIcon from '../images/reaction.svg';
+import SaveIcon from '../images/accept.svg';
+import CancelIcon from '../images/cancel.svg';
 import LocationIcon from '../images/location.svg';
 import BlurbIcon from '../images/blurb.svg';
 import Frame from '../images/frame.svg';
@@ -190,7 +192,8 @@ const ProfileSection = styled.section`
 `;
 
 const ProfileRow = styled.section`
-  position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 const ProfileStatus = styled(ProfileSection)`
@@ -241,16 +244,10 @@ const ProfileHeading = styled.h2`
 
 const ProfileBlurbs = styled.section<{ isLoading: boolean }>`
   margin: ${(props) => props.theme.spacingHalf} 0
-    ${(props) => props.theme.spacing}
-    ${(props) => props.theme.spacingOneAndHalf};
+    ${(props) => props.theme.spacing} ${(props) => props.theme.spacingQuarter};
 
   ${(props) => props.isLoading && `opacity: .7`};
-
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
-
-  @media (max-width: ${MOBILE}) {
-    margin-left: ${(props) => props.theme.spacingQuarter};
-  }
 `;
 
 const ProfileBlurb = styled.section<{ deEmphasize: boolean }>`
@@ -292,7 +289,13 @@ const ProfileInput = styled.input`
 
 const ProfileField = styled.section`
   display: inline-block;
-  height: ${(props) => props.theme.spacingOneAndHalf};
+  height: calc(
+    ${(props) => props.theme.spacing} + ${(props) => props.theme.spacingThird}
+  );
+
+  @media (max-width: ${MOBILE}) {
+    height: initial;
+  }
 `;
 
 const ReactionList = styled.section`
@@ -391,41 +394,49 @@ const InlineLinkButton = styled(LinkButton)`
   }
 `;
 
+const ImageLinkButton = styled.button`
+  border: none;
+  cursor: pointer;
+  fill: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+
+  width: 32px;
+  height: 32px;
+
+  svg {
+    pointer-events: none;
+  }
+
+  &:hover {
+    .stroke-foreground {
+      stroke: ${(props) =>
+        props.theme.isDark
+          ? props.theme.primaryColor
+          : props.theme.primaryDarkColor};
+    }
+
+    .fill-foreground {
+      fill: ${(props) =>
+        props.theme.isDark
+          ? props.theme.primaryColor
+          : props.theme.primaryDarkColor};
+    }
+  }
+`;
+
 const BlockLinkButton = styled(LinkButton)`
   margin-left: ${(props) => props.theme.spacing};
   margin-top: ${(props) => props.theme.spacingHalf};
 `;
 
 const StyledBlurbIcon = styled(BlurbIcon)`
-  position: absolute;
-  left: calc(
-    0px - ${(props) => props.theme.spacing} -
-      ${(props) => props.theme.spacingQuarter}
-  );
-  padding-top: 7.5px;
-
-  @media (max-width: ${MOBILE}) {
-    display: inline-block;
-    position: initial;
-    padding-top: initial;
-    margin-bottom: -4.5px;
-  }
+  margin-top: calc(0px - ${(props) => props.theme.border});
 `;
 
 const StyledLocationIcon = styled(LocationIcon)`
-  position: absolute;
-  left: calc(
-    0px - ${(props) => props.theme.spacing} -
-      ${(props) => props.theme.spacingQuarter}
-  );
-  padding-top: 7.5px;
-
-  @media (max-width: ${MOBILE}) {
-    display: inline-block;
-    position: initial;
-    padding-top: initial;
-    margin-bottom: -4.5px;
-  }
+  margin-top: calc(0px - ${(props) => props.theme.border} * 2);
 `;
 
 type ProfileQuery = {
@@ -617,12 +628,12 @@ const Profile: FC<ProfileQuery> = ({
 
               {editingBio ? (
                 <>
-                  <InlineLinkButton onClick={() => handleEditBio(false, true)}>
-                    save
-                  </InlineLinkButton>
-                  <InlineLinkButton onClick={() => handleEditBio(false)}>
-                    cancel
-                  </InlineLinkButton>
+                  <ImageLinkButton onClick={() => handleEditBio(false, true)}>
+                    <SaveIcon />
+                  </ImageLinkButton>
+                  <ImageLinkButton onClick={() => handleEditBio(false)}>
+                    <CancelIcon />
+                  </ImageLinkButton>
                 </>
               ) : isForAnotherUser ? null : (
                 <InlineLinkButton
@@ -656,12 +667,14 @@ const Profile: FC<ProfileQuery> = ({
 
               {editingLocation ? (
                 <>
-                  <LinkButton onClick={() => handleEditLocation(false, true)}>
-                    save
-                  </LinkButton>
-                  <LinkButton onClick={() => handleEditLocation(false)}>
-                    cancel
-                  </LinkButton>
+                  <ImageLinkButton
+                    onClick={() => handleEditLocation(false, true)}
+                  >
+                    <SaveIcon />
+                  </ImageLinkButton>
+                  <ImageLinkButton onClick={() => handleEditLocation(false)}>
+                    <CancelIcon />
+                  </ImageLinkButton>
                 </>
               ) : isForAnotherUser ? null : (
                 <InlineLinkButton

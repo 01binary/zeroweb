@@ -36,6 +36,7 @@ import Paragraph from './Paragraph/Paragraph';
 import Comments from './Comments/Comments';
 import Reactions from './PostReactions';
 import ExternalLink from './ExternalLink';
+import ThematicBreak from './ThematicBreak';
 import Blockquote from './Blockquote';
 import Code from './Code';
 import {
@@ -436,6 +437,7 @@ const Post: FC<{
         ol: OrderedList,
         blockquote: Blockquote,
         a: ExternalLink,
+        hr: ThematicBreak,
       }}
     >
       <Main showCommentsSidebar={showCommentsSidebar}>

@@ -26,6 +26,6 @@ And of course a table
 | Data Four   | Data Five   | Data Six      |
 | Data Seven  | Data Eight  | Data Nine     |
 
-End of story
-
 ---
+
+End of story after thematic break

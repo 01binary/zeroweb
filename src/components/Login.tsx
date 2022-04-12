@@ -69,6 +69,7 @@ const ProviderList = styled.ul`
   list-style-type: none;
   margin-block-end: 0;
   overflow: hidden;
+  flex-shrink: 0;
 
   height: ${CELL_STRIP_HEIGHT}px;
   width: ${CELL_ROW_WIDTH}px;

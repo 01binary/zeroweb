@@ -178,11 +178,9 @@ const Me = styled.span`
 
 type InlineCommentsProps = {
   className: string;
-
   postUrl: string;
   loading: boolean;
   paragraphComments: CommentQuery[];
-
   showInlineCommentForm: boolean;
   inlineCommentParagraph: ParagraphComment;
   inlineCommentRef: React.MutableRefObject<HTMLTextAreaElement>;
@@ -190,9 +188,10 @@ type InlineCommentsProps = {
   addInlineComment: () => Promise<void>;
   toggleInlineComment: (paragraphHash: string) => void;
   setInlineCommentParagraph: (paragraphComment: ParagraphComment) => void;
-
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
+  showProfileTipFor: ShowTipForHandler;
+  hideProfileTip: HideTipHandler;
 };
 
 export const InlineComments: FC<InlineCommentsProps> = ({
@@ -209,6 +208,8 @@ export const InlineComments: FC<InlineCommentsProps> = ({
   setInlineCommentParagraph,
   showTipFor,
   hideTip,
+  showProfileTipFor,
+  hideProfileTip,
 }) => {
   const {
     user,
@@ -293,9 +294,18 @@ export const InlineComments: FC<InlineCommentsProps> = ({
           </MetaLink>
           {' by '}
           {userId === credentials?.userId ? (
-            <MetaLink to={`/profile`}>{userName}</MetaLink>
+            <Me>{userName}</Me>
           ) : (
-            <MetaLink to={`/profile?user=${userId}`}>{userName}</MetaLink>
+            <MetaLink
+              to={`/profile?user=${userId}`}
+              onMouseOver={(e) => {
+                tipTargetRef.current = e.target;
+                showProfileTipFor(timestamp, tipTargetRef);
+              }}
+              onMouseOut={hideProfileTip}
+            >
+              {userName}
+            </MetaLink>
           )}
           <br />
           <ReactMarkdown>{markdown}</ReactMarkdown>

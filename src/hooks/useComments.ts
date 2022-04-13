@@ -69,6 +69,8 @@ type CommentsContextProps = {
   addInlineComment: () => Promise<void>;
   showCommentsSidebar: boolean;
   inlineCommentSingleMode: boolean;
+  showProfileTipFor: ShowTipForHandler;
+  hideProfileTip: HideTipHandler;
 };
 
 export const CommentsContext = createContext<CommentsContextProps>({
@@ -91,6 +93,8 @@ export const CommentsContext = createContext<CommentsContextProps>({
   inlineCommentSingleMode: false,
   toggleInlineComment: () => {},
   addInlineComment: async () => {},
+  showProfileTipFor: () => {},
+  hideProfileTip: () => {},
 });
 
 export const useCommentsContext: () => CommentsContextProps = () =>

@@ -16,6 +16,7 @@ import React, {
   useEffect,
   useRef,
   useLayoutEffect,
+  useMemo,
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql, Link, navigate } from 'gatsby';
@@ -78,6 +79,7 @@ import {
   slugifyHeadings,
 } from '../../utils';
 import Logs from './Logs';
+import ProfileTip from './ProfileTip';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
@@ -210,6 +212,31 @@ const Post: FC<{
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
+
+  const {
+    hideTip: hideProfileTip,
+    showTipFor: showProfileTipFor,
+    tipProps: profileTipProps,
+    tipRef: profileTipRef,
+    tooltipText: profileTimestamp,
+  } = useTooltip({
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6,
+  });
+
+  const profile = useMemo(() => {
+    const commentForProfile =
+      profileTimestamp &&
+      comments?.find(({ timestamp }) => timestamp === profileTimestamp);
+
+    return (
+      commentForProfile && {
+        userId: commentForProfile.userId,
+        userName: commentForProfile.userName,
+        avatarUrl: commentForProfile.avatarUrl,
+      }
+    );
+  }, [profileTimestamp, comments]);
 
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
@@ -528,8 +555,6 @@ const Post: FC<{
               postUrl: relativePostUrl,
               comments,
               loading,
-              showTipFor,
-              hideTip,
               showParagraphMenu,
               hideParagraphMenu,
               highlightedParagraph,
@@ -544,6 +569,10 @@ const Post: FC<{
               inlineCommentSingleMode,
               highlightTimerRef,
               postContentRef,
+              showProfileTipFor,
+              hideProfileTip,
+              showTipFor,
+              hideTip,
             }}
           >
             <MDXRenderer>{body}</MDXRenderer>
@@ -590,10 +619,19 @@ const Post: FC<{
         handleReact={handleReact}
         readPosition={readPosition}
         scrollOffset={scrollOffset}
+        showProfileTipFor={showProfileTipFor}
+        hideProfileTip={hideProfileTip}
+        showTipFor={showTipFor}
+        hideTip={hideTip}
       />
 
       <Tooltip ref={tipRef} {...tipProps}>
         {tooltipText}
+        <Arrow />
+      </Tooltip>
+
+      <Tooltip ref={profileTipRef} {...profileTipProps}>
+        {profile && <ProfileTip {...profile} />}
         <Arrow />
       </Tooltip>
     </MDXProvider>

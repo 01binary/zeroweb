@@ -31,9 +31,12 @@ import { Vote } from '../../../types/VoteCommentQuery';
 import AddCommentMutation from '../../../types/AddCommentMutation';
 import EditCommentMutation from '../../../types/EditCommentMutation';
 import ReactCommentMutation from '../../../types/ReactMutation';
-import { useTooltip } from '../../../hooks/useTooltip';
+import {
+  HideTipHandler,
+  ShowTipForHandler,
+  useTooltip,
+} from '../../../hooks/useTooltip';
 import { ContextMenu, ContextMenuArrow } from '../../../components/ContextMenu';
-import { Tooltip, Arrow } from '../../../components/Tooltip';
 import PrimaryButton from '../../../components/PrimaryButton';
 import CommentVotes from './CommentVotes';
 import CommentReactions from './CommentReactions';
@@ -71,7 +74,6 @@ import {
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
-import ProfileTip from '../ProfileTip';
 import Alert from '../../../components/Alert';
 
 const DATE_MARKER_THRESHOLD = 100;
@@ -87,6 +89,10 @@ type CommentsProps = {
   handleEdit: (comment: EditCommentMutation) => Promise<FetchResult>;
   handleDelete: (timestamp: string) => void;
   handleReact: (comment: ReactCommentMutation) => void;
+  showProfileTipFor: ShowTipForHandler;
+  hideProfileTip: HideTipHandler;
+  showTipFor: ShowTipForHandler;
+  hideTip: HideTipHandler;
   readPosition: number;
   scrollOffset: number;
 };
@@ -102,6 +108,10 @@ const Comments: FC<CommentsProps> = ({
   handleEdit,
   handleDelete,
   handleReact,
+  showProfileTipFor,
+  hideProfileTip,
+  showTipFor,
+  hideTip,
   readPosition,
   scrollOffset,
 }) => {
@@ -143,22 +153,6 @@ const Comments: FC<CommentsProps> = ({
     verticalOffsetMobile: 6,
   });
 
-  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({
-    verticalOffsetDesktop: 6,
-    verticalOffsetMobile: 6,
-  });
-
-  const {
-    hideTip: hideProfileTip,
-    showTipFor: showProfileTipFor,
-    tipProps: profileTipProps,
-    tipRef: profileTipRef,
-    tooltipText: profileTimestamp,
-  } = useTooltip({
-    verticalOffsetDesktop: 6,
-    verticalOffsetMobile: 6,
-  });
-
   const postComments = useMemo(
     () =>
       comments
@@ -170,20 +164,6 @@ const Comments: FC<CommentsProps> = ({
         ),
     [comments]
   );
-
-  const profile = useMemo(() => {
-    const commentForProfile =
-      profileTimestamp &&
-      postComments?.find(({ timestamp }) => timestamp === profileTimestamp);
-
-    return (
-      commentForProfile && {
-        userId: commentForProfile.userId,
-        userName: commentForProfile.userName,
-        avatarUrl: commentForProfile.avatarUrl,
-      }
-    );
-  }, [profileTimestamp, postComments]);
 
   const maxVotes = useMemo(
     () =>
@@ -374,7 +354,7 @@ const Comments: FC<CommentsProps> = ({
   }, [hideMenu, setSelectedComment]);
 
   const handleShowCommentMenu = (id: string, timestamp: string) => (e) => {
-    hideTip();
+    hideMenu();
 
     if (commentMenu === id && selectedComment === timestamp) {
       // Toggle comment menu when clicked on same menu, same comment
@@ -677,14 +657,6 @@ const Comments: FC<CommentsProps> = ({
         {menuId === 'options' && <OptionMenu onSelect={handleCommentOption} />}
         <ContextMenuArrow />
       </ContextMenu>
-      <Tooltip ref={tipRef} {...tipProps}>
-        {tooltipText}
-        <Arrow />
-      </Tooltip>
-      <Tooltip ref={profileTipRef} {...profileTipProps}>
-        {profile && <ProfileTip {...profile} />}
-        <Arrow />
-      </Tooltip>
       {user && comments && (
         <AddCommentForm
           onSubmit={(e) => e.preventDefault()}

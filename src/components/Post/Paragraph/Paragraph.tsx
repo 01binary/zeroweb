@@ -146,6 +146,8 @@ const Paragraph: FC = ({ children }) => {
     addInlineComment,
     showCommentsSidebar,
     inlineCommentSingleMode,
+    showProfileTipFor,
+    hideProfileTip,
   } = useCommentsContext();
 
   const hash = useMemo<string | undefined>(() => getHash(innerText), [
@@ -486,6 +488,8 @@ const Paragraph: FC = ({ children }) => {
             toggleInlineComment,
             addInlineComment,
             setInlineCommentParagraph,
+            showProfileTipFor,
+            hideProfileTip,
             showTipFor,
             hideTip,
           }}

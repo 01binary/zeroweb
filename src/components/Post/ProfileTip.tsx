@@ -97,7 +97,7 @@ const ProfileTip: FC<ProfileTipProps> = ({ userId, userName, avatarUrl }) => {
           )}
         </ProfileDetails>
       )}
-      {profile.lastActivity && (
+      {profile?.lastActivity && (
         <ProfileMessage>
           last active {formatCommentDate(profile.lastActivity)}
         </ProfileMessage>

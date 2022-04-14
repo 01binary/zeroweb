@@ -35,7 +35,7 @@ export const Tooltip = styled.div.attrs(() => ({
   transition: opacity ${(props) => props.theme.animationFast} ease-in-out;
   padding: ${(props) => props.theme.spacingHalf};
   pointer-events: none;
-  z-index: 3;
+  z-index: 10;
   opacity: 0;
   box-shadow: 0 0 10px
     ${(props) =>

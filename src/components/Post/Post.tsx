@@ -80,7 +80,9 @@ import {
 } from '../../utils';
 import Logs from './Logs';
 import ProfileTip from './ProfileTip';
+import LocationTip from './LocationTip';
 import authors from '../../../authors.json';
+import locations from '../../../locations.json';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
@@ -110,20 +112,30 @@ const AuthorLink: FC<AuthorLinkProps> = ({
 };
 
 type LocationLinkProps = {
-  location: string;
+  displayName: string;
   locationUrl: string;
+  showLocationTipFor: ShowTipForHandler;
+  hideLocationTip: HideTipHandler;
 };
 
-const LocationLink: FC<LocationLinkProps> = ({ location, locationUrl }) => {
+const LocationLink: FC<LocationLinkProps> = ({
+  displayName,
+  locationUrl,
+  showLocationTipFor,
+  hideLocationTip,
+}) => {
   const locationRef = useRef<HTMLElement>(null);
+
   return (
     <ExternalMetaLink
       ref={locationRef}
       target="_blank"
       rel="noopener noreferrer"
       href={locationUrl}
+      onMouseOver={() => showLocationTipFor(displayName, locationRef)}
+      onMouseOut={hideLocationTip}
     >
-      {location}
+      {displayName}
     </ExternalMetaLink>
   );
 };
@@ -147,8 +159,7 @@ const Post: FC<{
         },
         author,
         relativeDate,
-        location,
-        locationUrl,
+        location: locationDisplayName,
       },
       fields: { url: relativePostUrl, collection, subCollection, tags },
       headings,
@@ -226,6 +237,16 @@ const Post: FC<{
     verticalOffsetMobile: 6,
   });
 
+  const {
+    hideTip: hideLocationTip,
+    showTipFor: showLocationTipFor,
+    tipProps: locationTipProps,
+    tipRef: locationTipRef,
+  } = useTooltip({
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6,
+  });
+
   const profile = useMemo(() => {
     if (profileFor === author)
       return {
@@ -245,6 +266,14 @@ const Post: FC<{
       }
     );
   }, [profileFor, comments]);
+
+  const location = locationDisplayName && {
+    displayName: locationDisplayName,
+    avatarUrl: locations[locationDisplayName]?.avatarUrl,
+    locationName: locations[locationDisplayName]?.locationName,
+    locationUrl: locations[locationDisplayName]?.locationUrl,
+    description: locations[locationDisplayName]?.description,
+  };
 
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
@@ -512,7 +541,9 @@ const Post: FC<{
           &nbsp;
           <LocationMeta>
             {' at '}
-            <LocationLink {...{ location, locationUrl }} />
+            <LocationLink
+              {...{ ...location, showLocationTipFor, hideLocationTip }}
+            />
           </LocationMeta>
           <InlineTimeToRead>
             {'/ '}
@@ -642,6 +673,11 @@ const Post: FC<{
         {profile && <ProfileTip {...profile} />}
         <Arrow />
       </Tooltip>
+
+      <Tooltip ref={locationTipRef} {...locationTipProps}>
+        <LocationTip {...location} />
+        <Arrow />
+      </Tooltip>
     </MDXProvider>
   );
 };
@@ -671,7 +707,6 @@ export const pageQuery = graphql`
         relativeDate: date(fromNow: true)
         date(formatString: "MMM DD, YYYY")
         location
-        locationUrl
         tags
       }
       fields {

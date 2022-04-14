@@ -5,7 +5,6 @@ image: ./images/drumming-robot.png
 author: Valeriy Novytskyy
 date: 2021-02-11
 location: ^H Hackerspace
-locationUrl: https://www.google.com/maps/place/Ctrl-H/@45.5780926,-122.6819841,20.57z
 tags:
   [
     'engineering-robotics',

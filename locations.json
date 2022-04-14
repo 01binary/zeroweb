@@ -1,0 +1,20 @@
+{
+  "Sisters Coffee": {
+    "avatarUrl": "https://oldmilldistrict.com/wp-content/uploads/2021/09/21758_sisters-coffee-co-logo.png",
+    "locationName": "Portland, OR",
+    "locationUrl": "https://www.sisterscoffee.com/pearl-cafe",
+    "description": "Ask for the 'Naughty Uncle' breakfast bar"
+  },
+  "^H Hackerspace": {
+    "avatarUrl": "https://avatars.githubusercontent.com/u/11034600?s=200&v=4",
+    "locationName": "Portland, OR",
+    "locationUrl": "https://pdxhackerspace.org/",
+    "description": "Non-profit educational community space"
+  },
+  "Barista Pearl": {
+    "avatarUrl": "https://pbs.twimg.com/profile_images/1046501522761105409/deKLGAKv_400x400.jpg",
+    "locationName": "Portland, OR",
+    "locationUrl": "https://baristapdx.com/pages/the-pearl",
+    "description": "Best lattes around"
+  }
+}

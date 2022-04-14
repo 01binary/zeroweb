@@ -40,6 +40,7 @@ const ProfileText = styled.span<{ secondary: boolean }>`
   margin: 0 0 0 ${(props) => props.theme.spacingHalf};
   max-width: 15em;
   white-space: pre-wrap;
+  text-transform: initial;
 `;
 
 const StyledBlurbIcon = styled(BlurbIcon)`

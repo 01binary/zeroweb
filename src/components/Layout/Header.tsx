@@ -422,9 +422,9 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
   </Toggle>
 );
 
-interface HeaderProps {
+type HeaderProps = {
   path: string;
-}
+};
 
 const Header: FC<HeaderProps> = ({ path }) => {
   const themeToggleRef = useRef<HTMLElement>(null);

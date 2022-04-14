@@ -210,6 +210,10 @@ const ProfileName = styled.span`
   margin-left: ${(props) => props.theme.spacingHalf};
 `;
 
+const ProfileAvatar = styled(Avatar)`
+  flex-shrink: 0;
+`;
+
 const ProfileGroup = styled.section<{ horizontal: boolean }>`
   display: flex;
   flex-wrap: wrap;
@@ -244,17 +248,18 @@ const ProfileHeading = styled.h2`
 
 const ProfileBlurbs = styled.section<{ isLoading: boolean }>`
   margin: ${(props) => props.theme.spacingHalf} 0
-    ${(props) => props.theme.spacing} ${(props) => props.theme.spacingQuarter};
+    ${(props) => props.theme.spacing} 0;
 
   ${(props) => props.isLoading && `opacity: .7`};
   transition: opacity ${(props) => props.theme.animationFast} ease-out;
 `;
 
-const ProfileBlurb = styled.section<{ deEmphasize: boolean }>`
+const ProfileBlurb = styled.section<{ secondary: boolean }>`
   display: inline-block;
-  ${(props) => props.deEmphasize && `color: ${props.theme.secondaryTextColor}`};
+  ${(props) => props.secondary && `color: ${props.theme.secondaryTextColor}`};
   line-height: ${(props) => props.theme.normalFontLineHight};
   padding: 8px;
+  padding-left: 15px;
   margin-right: ${(props) => props.theme.spacingQuarter};
 `;
 
@@ -432,12 +437,21 @@ const BlockLinkButton = styled(LinkButton)`
 `;
 
 const StyledBlurbIcon = styled(BlurbIcon)`
+  flex-shrink: 0;
+  flex-basis: calc(
+    ${(props) => props.theme.spacing} + ${(props) => props.theme.spacingQuarter}
+  );
+
   @media (max-width: ${MOBILE}) {
     margin-top: calc(0px - ${(props) => props.theme.border});
   }
 `;
 
 const StyledLocationIcon = styled(LocationIcon)`
+  flex-shrink: 0;
+  flex-basis: calc(
+    ${(props) => props.theme.spacing} + ${(props) => props.theme.spacingQuarter}
+  );
   margin-top: calc(0px - ${(props) => props.theme.border});
 `;
 
@@ -603,7 +617,7 @@ const Profile: FC<ProfileQuery> = ({
       )}
       {hasHeader && (
         <ProfileHeader>
-          <Avatar avatarUrl={avatarUrl} />
+          <ProfileAvatar avatarUrl={avatarUrl} />
           <ProfileName>{userName}</ProfileName>
         </ProfileHeader>
       )}
@@ -624,7 +638,7 @@ const Profile: FC<ProfileQuery> = ({
                 ) : profile?.bio ? (
                   <ProfileBlurb>{profile.bio}</ProfileBlurb>
                 ) : (
-                  <ProfileBlurb deEmphasize>no bio</ProfileBlurb>
+                  <ProfileBlurb secondary>no bio</ProfileBlurb>
                 )}
               </ProfileField>
 
@@ -659,11 +673,9 @@ const Profile: FC<ProfileQuery> = ({
                     onChange={(e) => setLocationText(e.target.value)}
                   />
                 ) : profile?.locationName ? (
-                  <ProfileBlurb deEmphasize>
-                    {profile.locationName}
-                  </ProfileBlurb>
+                  <ProfileBlurb secondary>{profile.locationName}</ProfileBlurb>
                 ) : (
-                  <ProfileBlurb deEmphasize>no location</ProfileBlurb>
+                  <ProfileBlurb secondary>no location</ProfileBlurb>
                 )}
               </ProfileField>
 

@@ -87,10 +87,30 @@ export const useLogin = (
   }, [setCredentials, authenticate]);
 
   const handleLogoutAll = useCallback(() => {
-    facebookLogout();
-    googleLogout();
-    twitterLogout();
-    gitHubLogout();
+    try {
+      facebookLogout();
+    } catch (e) {
+      console.error('failed facebook logout', e);
+    }
+
+    try {
+      googleLogout();
+    } catch (e) {
+      console.error('failed google logout', e);
+    }
+
+    try {
+      twitterLogout();
+    } catch (e) {
+      console.error('failed twitter logout', e);
+    }
+
+    try {
+      gitHubLogout();
+    } catch (e) {
+      console.error('failed github logout', e);
+    }
+
     return true;
   }, [facebookLogout, googleLogout, twitterLogout, gitHubLogout]);
 

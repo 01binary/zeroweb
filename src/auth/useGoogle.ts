@@ -55,6 +55,11 @@ const useGoogle = (
     new Promise<boolean>((resolve, reject) => {
       loadScript('googleapi', 'https://apis.google.com/js/platform.js')
         .then(() => {
+          if (!gapi) {
+            console.error('google api failed to load, cannot initialize');
+            return;
+          }
+
           gapi.load('auth2', () => {
             gapi.auth2
               .init({
@@ -78,22 +83,30 @@ const useGoogle = (
     });
 
   const googleLogin = () => {
-    gapi.auth2
-      .getAuthInstance()
-      .signIn({
-        scope: 'profile',
-      })
-      .then((guser) => handleLogin(guser));
+    try {
+      gapi.auth2
+        .getAuthInstance()
+        .signIn({
+          scope: 'profile',
+        })
+        .then((guser) => handleLogin(guser));
+    } catch (e) {
+      console.error('google login error', e);
+    }
   };
 
   const googleLogout = () => {
-    gapi.auth2
-      .getAuthInstance()
-      .signOut()
-      .then(() => {
-        setUser(null);
-        setCredentials(null);
-      });
+    try {
+      gapi.auth2
+        .getAuthInstance()
+        .signOut()
+        .then(() => {
+          setUser(null);
+          setCredentials(null);
+        });
+    } catch (e) {
+      console.error('google logout error', e);
+    }
   };
 
   return {

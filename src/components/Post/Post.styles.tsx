@@ -420,13 +420,13 @@ export const Breadcrumb = styled.span`
   display: block;
 `;
 
-export const Location = styled.span`
+export const LocationMeta = styled.span`
   @media (max-width: ${MOBILE_NARROW}) {
     display: none;
   }
 `;
 
-export const Author = styled.span`
+export const AuthorMeta = styled.span`
   @media (max-width: ${MOBILE_MIN}) {
     display: none;
   }

@@ -9,30 +9,25 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-interface Fluid {
-  base64: string;
-  aspectRatio: number;
-  src: string;
-  srcSet: string;
-  sizes: string;
-}
-
-interface ImageSharp {
-  fluid: Fluid;
-}
-
-interface PostImage {
-  childImageSharp: ImageSharp;
-}
-
-interface PostMetadataQuery {
+type PostMetadataQuery = {
   title: string;
   description: string;
-  image: PostImage;
+  image: {
+    childImageSharp: {
+      fluid: {
+        base64: string;
+        aspectRatio: number;
+        src: string;
+        srcSet: string;
+        sizes: string;
+      };
+    };
+  };
+  author: string;
   relativeDate: string;
   date: string;
   location: string;
   locationUrl: string;
-}
+};
 
 export default PostMetadataQuery;

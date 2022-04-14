@@ -48,8 +48,8 @@ import {
   Clock,
   InlineIndicator,
   IndicatorLabel,
-  Author,
-  Location,
+  AuthorMeta,
+  LocationMeta,
   InlineTimeToRead,
   Indicator,
   Sidebar,
@@ -80,30 +80,31 @@ import {
 } from '../../utils';
 import Logs from './Logs';
 import ProfileTip from './ProfileTip';
+import authors from '../../../authors.json';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
 
 type AuthorLinkProps = {
-  showTipFor: ShowTipForHandler;
-  hideTip: HideTipHandler;
+  author: string;
+  showProfileTipFor: ShowTipForHandler;
+  hideProfileTip: HideTipHandler;
 };
 
-const AuthorLink: FC<AuthorLinkProps> = ({ showTipFor, hideTip }) => {
+const AuthorLink: FC<AuthorLinkProps> = ({
+  author,
+  showProfileTipFor,
+  hideProfileTip,
+}) => {
   const authorLinkRef = useRef<HTMLElement>(null);
   return (
     <MetaLink
       ref={authorLinkRef}
       to="/about"
-      onMouseOver={() =>
-        showTipFor(
-          'boba tea enjoyer 🌸\r\nsonic the hedgehog denier 🦔',
-          authorLinkRef
-        )
-      }
-      onMouseOut={hideTip}
+      onMouseOver={() => showProfileTipFor(author, authorLinkRef)}
+      onMouseOut={hideProfileTip}
     >
-      Valeriy Novytskyy
+      {author}
     </MetaLink>
   );
 };
@@ -144,6 +145,7 @@ const Post: FC<{
         image: {
           childImageSharp: { fluid },
         },
+        author,
         relativeDate,
         location,
         locationUrl,
@@ -163,14 +165,8 @@ const Post: FC<{
     comments,
     commentCount,
     reactionCount,
-    handleAdd,
-    handleEdit,
-    handleDelete,
-    handleVote,
-    handleReact,
     shareCount,
     sharesByType,
-    handleAddShare,
     paragraphSelection,
     highlightedParagraph,
     inlineCommentParagraph,
@@ -181,6 +177,12 @@ const Post: FC<{
     setHighlightedParagraph,
     setInlineCommentParagraph,
     setInlineCommentSingleMode,
+    handleAddShare,
+    handleAdd,
+    handleEdit,
+    handleDelete,
+    handleVote,
+    handleReact,
   } = useUserContent(slug);
 
   const postContentRef = useRef<HTMLElement>(null);
@@ -218,16 +220,22 @@ const Post: FC<{
     showTipFor: showProfileTipFor,
     tipProps: profileTipProps,
     tipRef: profileTipRef,
-    tooltipText: profileTimestamp,
+    tooltipText: profileFor,
   } = useTooltip({
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
   });
 
   const profile = useMemo(() => {
+    if (profileFor === author)
+      return {
+        userName: author,
+        userId: authors[author].userId,
+        avatarUrl: authors[author].avatarUrl,
+      };
+
     const commentForProfile =
-      profileTimestamp &&
-      comments?.find(({ timestamp }) => timestamp === profileTimestamp);
+      profileFor && comments?.find(({ timestamp }) => timestamp === profileFor);
 
     return (
       commentForProfile && {
@@ -236,7 +244,7 @@ const Post: FC<{
         avatarUrl: commentForProfile.avatarUrl,
       }
     );
-  }, [profileTimestamp, comments]);
+  }, [profileFor, comments]);
 
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
@@ -497,15 +505,15 @@ const Post: FC<{
           )}
           <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
           &nbsp;
-          <Author>
+          <AuthorMeta>
             {' by '}
-            <AuthorLink {...{ showTipFor, hideTip }} />
-          </Author>
+            <AuthorLink {...{ author, showProfileTipFor, hideProfileTip }} />
+          </AuthorMeta>
           &nbsp;
-          <Location>
+          <LocationMeta>
             {' at '}
             <LocationLink {...{ location, locationUrl }} />
-          </Location>
+          </LocationMeta>
           <InlineTimeToRead>
             {'/ '}
             <Indicator>{timeToRead}</Indicator>
@@ -659,6 +667,7 @@ export const pageQuery = graphql`
             }
           }
         }
+        author
         relativeDate: date(fromNow: true)
         date(formatString: "MMM DD, YYYY")
         location

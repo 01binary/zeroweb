@@ -47,36 +47,27 @@ const LocationTip: FC<LocationTipProps> = ({
   locationName,
   avatarUrl,
   description,
-}) => {
-  console.log(
-    'location tip',
-    displayName,
-    locationName,
-    avatarUrl,
-    description
-  );
-  return (
-    <>
-      <LocationInfo>
-        <Avatar avatarUrl={avatarUrl} />
-        <LocationText>{displayName}</LocationText>
-      </LocationInfo>
-      <LocationDetails>
-        {description && (
-          <LocationGroup>
-            <StyledBlurbIcon />
-            <LocationText>{description}</LocationText>
-          </LocationGroup>
-        )}
-        {locationName && (
-          <LocationGroup>
-            <StyledLocationIcon />
-            <LocationText secondary>{locationName}</LocationText>
-          </LocationGroup>
-        )}
-      </LocationDetails>
-    </>
-  );
-};
+}) => (
+  <>
+    <LocationInfo>
+      <Avatar avatarUrl={avatarUrl} />
+      <LocationText>{displayName}</LocationText>
+    </LocationInfo>
+    <LocationDetails>
+      {description && (
+        <LocationGroup>
+          <StyledBlurbIcon />
+          <LocationText>{description}</LocationText>
+        </LocationGroup>
+      )}
+      {locationName && (
+        <LocationGroup>
+          <StyledLocationIcon />
+          <LocationText secondary>{locationName}</LocationText>
+        </LocationGroup>
+      )}
+    </LocationDetails>
+  </>
+);
 
 export default LocationTip;

@@ -55,7 +55,7 @@ export const useLogin = (
         const hasGoogle = await googleInit();
         if (hasGoogle) return true;
       } catch (e) {
-        console.error('Google auth failed to initialize');
+        console.error('Google auth failed to initialize', e);
       }
 
       try {
@@ -116,19 +116,23 @@ export const useLogin = (
 
   const handleLogout = () => {
     if (user) {
-      switch (user.provider) {
-        case Providers.Facebook:
-          facebookLogout();
-          break;
-        case Providers.Google:
-          googleLogout();
-          break;
-        case Providers.Twitter:
-          twitterLogout();
-          break;
-        case Providers.GitHub:
-          gitHubLogout();
-          break;
+      try {
+        switch (user.provider) {
+          case Providers.Facebook:
+            facebookLogout();
+            break;
+          case Providers.Google:
+            googleLogout();
+            break;
+          case Providers.Twitter:
+            twitterLogout();
+            break;
+          case Providers.GitHub:
+            gitHubLogout();
+            break;
+        }
+      } catch (e) {
+        console.error('logout failed', e);
       }
     }
   };

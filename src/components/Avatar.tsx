@@ -4,7 +4,7 @@ export const AVATAR_SIZE = 38;
 
 type AvatarProps = {
   avatarUrl: string;
-  className: string;
+  className?: string;
 };
 
 const Avatar: FC<AvatarProps> = ({ avatarUrl, className }) => (

@@ -37,7 +37,7 @@ import {
   useTooltip,
 } from '../../../hooks/useTooltip';
 import { ContextMenu, ContextMenuArrow } from '../../../components/ContextMenu';
-import PrimaryButton from '../../../components/PrimaryButton';
+import Button from '../../../components/Button';
 import CommentVotes from './CommentVotes';
 import CommentReactions from './CommentReactions';
 import {
@@ -667,7 +667,7 @@ const Comments: FC<CommentsProps> = ({
             <AddCommentUser>
               commenting as <MetaLink to="/profile">{user.name}</MetaLink>
             </AddCommentUser>
-            <PrimaryButton onClick={handleLogout}>logout</PrimaryButton>
+            <Button onClick={handleLogout}>logout</Button>
           </AddCommentRow>
           <AddCommentRow>
             <AddCommentInput
@@ -678,13 +678,14 @@ const Comments: FC<CommentsProps> = ({
           </AddCommentRow>
           {showAddError && <PostCommentError>{commentError}</PostCommentError>}
           <AddCommentRow align="right">
-            <PrimaryButton
+            <Button
+              primary
               type="submit"
               disabled={loading}
               onClick={handlePostComment}
             >
               comment
-            </PrimaryButton>
+            </Button>
           </AddCommentRow>
         </AddCommentForm>
       )}

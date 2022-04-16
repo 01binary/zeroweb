@@ -126,6 +126,13 @@ const InlineCommentInput = styled.textarea`
   border: ${(props) => props.theme.border} solid
     ${(props) => props.theme.borderColor};
 
+  &:focus {
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-style: solid;
+    outline-width: medium;
+    border-radius: 1px;
+  }
+
   padding: ${(props) => props.theme.spacingHalf};
   margin-top: ${(props) => props.theme.spacingHalf};
 `;

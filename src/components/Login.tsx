@@ -244,7 +244,10 @@ const Login: FC<LoginProps> = ({
           ({ name: providerName, icon: ProviderIcon }, providerIndex) => (
             <Provider
               key={providerName}
-              onClick={() => handleLogin(providerName)}
+              onClick={() => {
+                hideTip();
+                handleLogin(providerName);
+              }}
               {...{
                 providerName,
                 providerIndex,

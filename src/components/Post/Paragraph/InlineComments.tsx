@@ -322,7 +322,18 @@ export const InlineComments: FC<InlineCommentsProps> = ({
         <InlineCommentForm onSubmit={(e) => e.preventDefault()}>
           {user && (
             <CurrentUser threadHasComments={Boolean(paragraphComments?.length)}>
-              commenting as <MetaLink to="/profile">{user?.name}</MetaLink>:
+              commenting as{' '}
+              <MetaLink
+                to="/profile"
+                onMouseOver={(e) => {
+                  tipTargetRef.current = e.target;
+                  showTipFor('edit your profile', tipTargetRef);
+                }}
+                onMouseOut={hideTip}
+              >
+                {user?.name}
+              </MetaLink>
+              :
             </CurrentUser>
           )}
           {!user && (

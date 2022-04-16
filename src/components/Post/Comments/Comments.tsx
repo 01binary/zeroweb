@@ -665,7 +665,14 @@ const Comments: FC<CommentsProps> = ({
         >
           <AddCommentRow>
             <AddCommentUser>
-              commenting as <MetaLink to="/profile">{user.name}</MetaLink>
+              commenting as{' '}
+              <MetaLink
+                to="/profile"
+                onMouseOver={(e) => handleShowTip(e, 'edit your profile')}
+                onMouseOut={hideTip}
+              >
+                {user.name}
+              </MetaLink>
             </AddCommentUser>
             <Button onClick={handleLogout}>logout</Button>
           </AddCommentRow>

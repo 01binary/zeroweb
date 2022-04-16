@@ -49,6 +49,7 @@ export type ParagraphComment = {
 
 type CommentsContextProps = {
   postUrl: string;
+  absolutePostUrl: string;
   comments: CommentQuery[] | null;
   loading: boolean;
   highlightTimerRef: React.MutableRefObject<number>;
@@ -75,6 +76,7 @@ type CommentsContextProps = {
 
 export const CommentsContext = createContext<CommentsContextProps>({
   postUrl: '',
+  absolutePostUrl: '',
   comments: null,
   loading: false,
   highlightTimerRef: null,

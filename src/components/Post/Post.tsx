@@ -592,6 +592,7 @@ const Post: FC<{
           <CommentsContext.Provider
             value={{
               postUrl: relativePostUrl,
+              absolutePostUrl,
               comments,
               loading,
               showParagraphMenu,
@@ -648,6 +649,7 @@ const Post: FC<{
       <Comments
         slug={slug}
         postUrl={relativePostUrl}
+        absolutePostUrl={absolutePostUrl}
         loading={loading}
         error={error}
         comments={comments}

@@ -128,6 +128,7 @@ const Paragraph: FC = ({ children }) => {
 
   const {
     postUrl,
+    absolutePostUrl,
     comments: allReactions,
     highlightTimerRef,
     postContentRef,
@@ -479,6 +480,7 @@ const Paragraph: FC = ({ children }) => {
           {...{
             className: 'paragraph__comment-thread',
             postUrl,
+            absolutePostUrl,
             loading,
             paragraphComments: comments,
             showInlineCommentForm,

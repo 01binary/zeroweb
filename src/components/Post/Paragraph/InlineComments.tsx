@@ -24,7 +24,7 @@ import CancelIcon from '../../../images/cancel.svg';
 import { useBlogData } from '../../../hooks/useBlogData';
 import MetaLink from '../../../components/MetaLink';
 import Login from '../../../components/Login';
-import { formatCommentDate } from '../../../utils';
+import { formatCommentDate, getCommentId } from '../../../utils';
 import { CommentQuery } from '../../../types/AllCommentsQuery';
 import { HideTipHandler, ShowTipForHandler } from '../../../hooks/useTooltip';
 import {
@@ -186,6 +186,7 @@ const Me = styled.span`
 type InlineCommentsProps = {
   className: string;
   postUrl: string;
+  absolutePostUrl: string;
   loading: boolean;
   paragraphComments: CommentQuery[];
   showInlineCommentForm: boolean;
@@ -203,7 +204,7 @@ type InlineCommentsProps = {
 
 export const InlineComments: FC<InlineCommentsProps> = ({
   className,
-  postUrl,
+  absolutePostUrl,
   loading,
   paragraphComments,
   showInlineCommentForm,
@@ -286,7 +287,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
             onClick={(e) => {
               e.preventDefault();
               window.navigator.clipboard.writeText(
-                `${postUrl}?comment=${encodeURIComponent(timestamp)}`
+                `${absolutePostUrl}?comment=${getCommentId(timestamp)}`
               );
               tipTargetRef.current = e.target;
               showTipFor('copied!', tipTargetRef);

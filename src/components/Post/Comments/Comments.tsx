@@ -8,6 +8,9 @@ import React, {
   useEffect,
 } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { navigate } from 'gatsby';
+import { parse } from 'query-string';
+import { useLocation } from '@reach/router';
 import { FetchResult } from '@apollo/client';
 import { useTheme } from 'styled-components';
 import Avatar from '../../Avatar';
@@ -81,6 +84,7 @@ const DATE_MARKER_THRESHOLD = 100;
 type CommentsProps = {
   slug: string;
   postUrl: string;
+  absolutePostUrl: string;
   comments: CommentQuery[] | null;
   loading: boolean;
   error: string | null;
@@ -99,7 +103,7 @@ type CommentsProps = {
 
 const Comments: FC<CommentsProps> = ({
   slug,
-  postUrl,
+  absolutePostUrl,
   comments,
   loading,
   error: loadCommentsError,
@@ -140,6 +144,8 @@ const Comments: FC<CommentsProps> = ({
   const [commentMenu, setCommentMenu] = useState<string | null>(null);
   const [editingComment, setEditingComment] = useState<string | null>(null);
   const [editMarkdown, setEditMarkdown] = useState<string>('');
+  const navLocation = useLocation();
+  const query = useMemo(() => parse(navLocation.search), [navLocation.search]);
 
   const {
     hideTip: hideMenu,
@@ -236,6 +242,12 @@ const Comments: FC<CommentsProps> = ({
       setCommentTiles(tiles);
     }
   }, [scrollOffset, postComments, setCommentTiles]);
+
+  useEffect(() => {
+    if (comments && comments.length && query.comment) {
+      navigate(`#${query.comment}`);
+    }
+  }, [query, comments]);
 
   const handleChangeComment = useCallback(
     ({ target: { value } }) => {
@@ -541,7 +553,7 @@ const Comments: FC<CommentsProps> = ({
                         onClick={(e) => {
                           e.preventDefault();
                           window.navigator.clipboard.writeText(
-                            `${postUrl}?comment=${id}`
+                            `${absolutePostUrl}?comment=${id}`
                           );
                           handleShowTip(e, 'copied!');
                         }}

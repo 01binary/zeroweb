@@ -93,6 +93,13 @@ module.exports = {
             }
           },
           {
+            resolve: `gatsby-remark-embed-youtube`,
+            options: {
+              width: '100%',
+              height: 400,
+            }
+          },
+          {
             resolve: `gatsby-remark-copy-linked-files`,
             options: {
               destinationDir: `downloads`

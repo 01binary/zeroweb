@@ -25,6 +25,8 @@ Str1ker is a robotic drummer built with a combination of metal casting, 3D print
 
 For this project my goal is to learn [::ROS](https://www.ros.org/), create parts that look organic by using Generative Design functionality in [Autodesk Inventor](https://www.autodesk.com/products/inventor/), get experience with [Raspberry Pi 4](https://www.adafruit.com/product/4296) microcontroller, modern servos and linear actuators, and finally build a robotic drummer for my [neurometal](https://www.youtube.com/playlist?list=PL2ZwTvIdYJGJxl1kszP3a_z6O4DcHwvok) band.
 
+`youtube:https://www.youtube.com/embed/Abf0k5A4z88`
+
 ## this is heading two
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam facilisis ante ut sem consectetur ultricies. Sed vehicula eu lorem at iaculis. Nullam bibendum ipsum eu suscipit porta. Aliquam non leo at leo dignissim malesuada eget quis metus. Vivamus euismod odio vel odio porttitor, nec lacinia arcu maximus. In mattis, turpis at bibendum euismod, dolor dolor vestibulum sem, bibendum facilisis libero libero in nisl. Sed et massa sagittis, dictum purus eu, fringilla urna. Cras urna neque, placerat id finibus a, rhoncus dapibus lorem. Curabitur at venenatis purus, vitae tempor mi. Fusce congue metus ac tortor venenatis, eu malesuada est sagittis. Morbi elit risus, tincidunt vel tristique eu, tempus sed lectus.

@@ -53,6 +53,27 @@ const ArticleThumbnail = styled.section`
   margin: ${(props) => props.theme.spacing}
     ${(props) => props.theme.spacingHalf};
 
+  .thumbnail__border {
+    fill: ${(props) => props.theme.accentShadowColor};
+    opacity: 0.5;
+    transition: opacity ${(props) => props.theme.animationFast} ease-out;
+  }
+
+  image {
+    transform: translate(0, 0) scale(1);
+    transition: transform ${(props) => props.theme.animationFast} ease-out;
+  }
+
+  &:hover {
+    .thumbnail__border {
+      opacity: 1;
+    }
+
+    image {
+      transform: translate(-1.5%, -3%) scale(1.05);
+    }
+  }
+
   @media (max-width: ${MOBILE}) {
     margin-left: 0;
     margin-right: 0;
@@ -88,7 +109,7 @@ const ArticleImage = ({ src }) => (
       height={`${ARTICLE_THUMBNAIL_HEIGHT}px`}
       xlinkHref={src}
     />
-    <g className="fill-border">
+    <g className="thumbnail__border">
       <polygon points="314,116.4 320,116.4 320,170 266.4,170 266.4,164 314,164 " />
       <polygon points="0,53.6 6,53.6 6,22.9 22.9,6 53.6,6 53.6,0 20.4,0 0,20.4 " />
     </g>

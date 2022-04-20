@@ -44,6 +44,11 @@ export const ParagraphWrapper = styled.section<{
     display: none;
   }
 
+  iframe {
+    border: ${(props) => props.theme.border} solid
+      ${(props) => props.theme.borderColor};
+  }
+
   &:after {
     content: '';
     position: absolute;

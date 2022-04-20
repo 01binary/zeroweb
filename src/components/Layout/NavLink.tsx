@@ -45,9 +45,7 @@ const StyledLink = styled(Link)`
   }
 
   &:focus {
-    outline-color: ${(props) => props.theme.focusColor};
-    outline-style: solid;
-    outline-width: medium;
+    outline: none;
   }
 
   .navigation-border {

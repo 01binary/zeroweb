@@ -698,7 +698,6 @@ const Comments: FC<CommentsProps> = ({
           {showAddError && <PostCommentError>{commentError}</PostCommentError>}
           <AddCommentRow align="right">
             <Button
-              primary
               type="submit"
               disabled={loading}
               onClick={handlePostComment}

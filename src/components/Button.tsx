@@ -75,45 +75,30 @@ const ButtonWrapper = styled.button`
   .button__label {
     z-index: 1;
     padding: 0 15px;
-    color: ${(props) =>
-      props.primary
-        ? props.theme.backgroundColor
-        : props.theme.foregroundColor};
+    color: ${(props) => props.theme.foregroundColor};
   }
 
   .highlight {
     fill: none;
-    stroke: ${(props) =>
-      props.primary
-        ? props.theme.primaryLightColor
-        : props.theme.accentLightColor};
+    stroke: ${(props) => props.theme.accentLightColor};
   }
 
   .shadow {
     fill: none;
     stroke: ${(props) =>
-      props.primary
-        ? props.theme.primaryDarkColor
-        : props.theme.isDark
+      props.theme.isDark
         ? props.theme.dropShadowDarkColor
         : props.theme.dropShadowLightColor};
   }
 
   .border {
     fill: none;
-    stroke: ${(props) =>
-      props.primary
-        ? props.theme.primaryDarkShadowColor
-        : props.theme.dropShadowDarkColor};
+    stroke: ${(props) => props.theme.dropShadowDarkColor};
   }
 
   .border-background {
-    fill: ${(props) =>
-      `url('#${props.primary ? 'primary_' : ''}normal_button_gradient')`};
-    stroke: ${(props) =>
-      props.primary
-        ? props.theme.primaryDarkShadowColor
-        : props.theme.dropShadowDarkColor};
+    fill: url('#normal_button_gradient');
+    stroke: ${(props) => props.theme.dropShadowDarkColor};
   }
 
   .focus {
@@ -142,12 +127,10 @@ const ButtonWrapper = styled.button`
         props.theme.isDark
           ? props.theme.secondaryTextColor
           : props.theme.backgroundColor};
-      ${(props) => props.primary && 'opacity: .8'};
     }
 
     .border-background {
-      fill: ${(props) =>
-        `url('#${props.primary ? 'primary_' : ''}pushed_button_gradient')`};
+      fill: url('#pushed_button_gradient');
     }
 
     .button__middle-normal {
@@ -160,18 +143,13 @@ const ButtonWrapper = styled.button`
 
     .highlight {
       stroke: ${(props) =>
-        props.primary
-          ? props.theme.primaryDarkColor
-          : props.theme.isDark
+        props.theme.isDark
           ? props.theme.dropShadowDarkColor
           : props.theme.dropShadowLightColor};
     }
 
     .shadow {
-      stroke: ${(props) =>
-        props.primary
-          ? props.theme.primaryLightColor
-          : props.theme.accentLightColor};
+      stroke: ${(props) => props.theme.accentLightColor};
     }
   }
 `;
@@ -179,13 +157,11 @@ const ButtonWrapper = styled.button`
 type ButtonProps = {
   type?: string;
   disabled?: boolean;
-  primary?: boolean;
   onClick: (e: any) => void;
 };
 
 const Button: FC<ButtonProps> = ({ children, ...props }) => {
   const theme = useTheme();
-  const { primary } = props;
   return (
     <ButtonWrapper {...props}>
       <svg className="offscreen">
@@ -203,20 +179,6 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => {
           >
             <stop offset="0%" stopColor={theme.accentDarkShadowColor} />
             <stop offset="100%" stopColor={theme.accentLightShadowColor} />
-          </linearGradient>
-          <linearGradient
-            id="primary_normal_button_gradient"
-            gradientTransform="rotate(90)"
-          >
-            <stop offset="0%" stopColor={theme.primaryColor} />
-            <stop offset="100%" stopColor={theme.primaryDarkColor} />
-          </linearGradient>
-          <linearGradient
-            id="primary_pushed_button_gradient"
-            gradientTransform="rotate(90)"
-          >
-            <stop offset="0%" stopColor={theme.primaryDarkColor} />
-            <stop offset="100%" stopColor={theme.primaryColor} />
           </linearGradient>
         </defs>
       </svg>
@@ -257,16 +219,7 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => {
       <svg className="button__middle-normal" height="44px">
         <symbol id="middleNormalRef">
           <rect
-            fill="url('#normal_button_gradient')"
-            y="4"
-            x="0%"
-            width="100%"
-            height="36"
-          />
-        </symbol>
-        <symbol id="middlePrimaryNormalRef">
-          <rect
-            fill="url('#primary_normal_button_gradient')"
+            fill="url(#normal_button_gradient)"
             y="4"
             x="0%"
             width="100%"
@@ -311,58 +264,15 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => {
             y2="41.5"
           />
         </symbol>
-        <symbol id="middleRefPrimaryBorderNormal">
-          <line
-            stroke={theme.primaryDarkColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="40.5"
-            x2="100%"
-            y2="40.5"
-          />
-          <line
-            stroke={theme.primaryLightColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="3.5"
-            x2="100%"
-            y2="3.5"
-          />
-          <line
-            stroke={theme.primaryDarkShadowColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="2.5"
-            x2="100%"
-            y2="2.5"
-          />
-          <line
-            stroke={theme.primaryDarkShadowColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="41.5"
-            x2="100%"
-            y2="41.5"
-          />
-        </symbol>
 
-        <use xlinkHref={`#middleRef${primary ? 'Primary' : ''}BorderNormal`} />
-        <use xlinkHref={`#middle${primary ? 'Primary' : ''}NormalRef`} />
+        <use xlinkHref={`#middleRefBorderNormal`} />
+        <use xlinkHref={`#middleNormalRef`} />
       </svg>
 
       <svg className="button__middle-pushed" height="44px">
         <symbol id="middlePushedRef">
           <rect
-            fill="url('#pushed_button_gradient')"
-            y="4"
-            x="0%"
-            width="100%"
-            height="36"
-          />
-        </symbol>
-        <symbol id="middlePrimaryPushedRef">
-          <rect
-            fill="url('#primary_pushed_button_gradient')"
+            fill="url(#pushed_button_gradient)"
             y="4"
             x="0%"
             width="100%"
@@ -407,43 +317,9 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => {
             y2="41.5"
           />
         </symbol>
-        <symbol id="middleRefPrimaryBorderPushed">
-          <line
-            stroke={theme.primaryLightColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="40.5"
-            x2="100%"
-            y2="40.5"
-          />
-          <line
-            stroke={theme.primaryDarkColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="3.5"
-            x2="100%"
-            y2="3.5"
-          />
-          <line
-            stroke={theme.primaryDarkShadowColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="2.5"
-            x2="100%"
-            y2="2.5"
-          />
-          <line
-            stroke={theme.primaryDarkShadowColor}
-            strokeMiterlimit="10"
-            x1="0%"
-            y1="41.5"
-            x2="100%"
-            y2="41.5"
-          />
-        </symbol>
 
-        <use xlinkHref={`#middleRef${primary ? 'Primary' : ''}BorderPushed`} />
-        <use xlinkHref={`#middle${primary ? 'Primary' : ''}PushedRef`} />
+        <use xlinkHref={`#middleRefBorderPushed`} />
+        <use xlinkHref={`#middlePushedRef`} />
       </svg>
 
       <svg className="button__middle-focus" height="44px">

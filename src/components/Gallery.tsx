@@ -90,35 +90,35 @@ const GalleryRow = styled.section`
   }
 
   &:nth-child(even) {
-    .border-odd {
+    .border--odd {
       display: block;
     }
 
-    .border-even {
+    .border--even {
       display: none;
     }
   }
 
   &:nth-child(odd) {
-    .border-odd {
+    .border--odd {
       display: none;
     }
 
-    .border-even {
+    .border--even {
       display: block;
     }
   }
 
-  .border-narrow {
+  .border--narrow {
     display: none;
   }
 
   @media ${WIDE_MEDIA} {
-    .border-narrow {
+    .border--narrow {
       display: block;
     }
 
-    .border-wide {
+    .border--wide {
       display: none !important;
     }
   }
@@ -458,7 +458,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
       {rows.map((imagesInRow, rowIndex) => (
         <GalleryRow key={`row${rowIndex}`} index={rowIndex} coords={coords}>
           <svg
-            className="border border-wide border-odd fill-none stroke-border"
+            className="border border--wide border--odd fill-none stroke-border"
             width="610.5px"
             height="224px"
             viewBox="0 0 610.5 224"
@@ -466,7 +466,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             <use xlinkHref="#row_wide_odd" />
           </svg>
           <svg
-            className="border border-wide border-even fill-none stroke-border"
+            className="border border--wide border--even fill-none stroke-border"
             width="610.5px"
             height="224px"
             viewBox="0 0 610.5 224"
@@ -474,7 +474,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             <use xlinkHref="#row_wide_even" />
           </svg>
           <svg
-            className="border border-narrow border-odd fill-none stroke-border"
+            className="border border--narrow border--odd fill-none stroke-border"
             width="388.5px"
             height="224px"
             viewBox="0 0 388.5 224"
@@ -482,7 +482,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             <use xlinkHref="#row_narrow_odd" />
           </svg>
           <svg
-            className="border border-narrow border-even fill-none stroke-border"
+            className="border border--narrow border--even fill-none stroke-border"
             width="388.5px"
             height="224px"
             viewBox="0 0 388.5 224"

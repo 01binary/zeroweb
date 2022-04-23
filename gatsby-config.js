@@ -22,7 +22,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-styled-components`,
-    {
+    /*{
       resolve: `gatsby-plugin-google-gtag`,
       options: {
         // You can add multiple tracking ids and a pageview event will be fired for all of them.
@@ -46,7 +46,7 @@ module.exports = {
           origin: "https://www.01binary.us",
         },
       },
-    },
+    },*/
     {
       resolve: `gatsby-plugin-anchor-links`,
       options: {
@@ -105,7 +105,10 @@ module.exports = {
               destinationDir: `downloads`
             },
           },
-          `gatsby-remark-smartypants`
+          `gatsby-remark-smartypants`,
+          {
+            resolve: require.resolve(`./plugins/zero-remark-gallery`)
+          },
         ]
       },
     },

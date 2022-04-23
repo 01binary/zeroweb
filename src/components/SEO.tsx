@@ -68,7 +68,7 @@ const SEO: FC<Partial<SiteMetadataQuery>> = ({
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="1" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:ital@0;1&family=Roboto:ital,wght@1,300&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:ital@0;1&family=Roboto:ital,wght@1,300&family=Roboto+Mono:wght@500&display=swap"
         rel="stylesheet"
       />
     </Helmet>

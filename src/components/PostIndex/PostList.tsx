@@ -59,9 +59,9 @@ const ArticleThumbnail = styled.section`
     transition: opacity ${(props) => props.theme.animationFast} ease-out;
   }
 
-  image {
-    transform: translate(0, 0) scale(1);
-    transition: transform ${(props) => props.theme.animationFast} ease-out;
+  .thumbnail__hover {
+    opacity: 0;
+    transition: opacity ${(props) => props.theme.animationFast} ease-out;
   }
 
   &:hover {
@@ -69,8 +69,8 @@ const ArticleThumbnail = styled.section`
       opacity: 1;
     }
 
-    image {
-      transform: translate(-1.5%, -3%) scale(1.05);
+    .thumbnail__hover {
+      opacity: 0.15;
     }
   }
 
@@ -100,6 +100,24 @@ const ArticleImage = ({ src }) => (
       <clipPath id="thumbnail-clip">
         <polygon points="320,170 0,170 0,20.4 20.4,0 320,0 " />
       </clipPath>
+      <linearGradient
+        id="thumbnail-gradient"
+        gradientUnits="userSpaceOnUse"
+        x1="0"
+        y1="0"
+        x2="112"
+        y2="130"
+      >
+        <stop offset="0" stopColor="#40A7F0" />
+        <stop offset="0.1171" stopColor="#788BED" />
+        <stop offset="0.2466" stopColor="#AE6FE9" />
+        <stop offset="0.3585" stopColor="#D65AE7" />
+        <stop offset="0.447" stopColor="#EF4EE6" />
+        <stop offset="0.6011" stopColor="#F849E5" />
+        <stop offset="0.8" stopColor="#F94CD2" />
+        <stop offset="0.9095" stopColor="#FF5D71" />
+        <stop offset="1" stopColor="#FF5E6D" />
+      </linearGradient>
     </defs>
     <image
       clipPath="url(#thumbnail-clip)"
@@ -108,6 +126,14 @@ const ArticleImage = ({ src }) => (
       width={`${ARTICLE_THUMBNAIL_WIDTH}px`}
       height={`${ARTICLE_THUMBNAIL_HEIGHT}px`}
       xlinkHref={src}
+    />
+    <rect
+      className="thumbnail__hover"
+      clipPath="url(#thumbnail-clip)"
+      fill="url(#thumbnail-gradient)"
+      style={{ mixBlendMode: 'overlay' }}
+      width={ARTICLE_THUMBNAIL_WIDTH}
+      height={ARTICLE_THUMBNAIL_HEIGHT}
     />
     <g className="thumbnail__border">
       <polygon points="314,116.4 320,116.4 320,170 266.4,170 266.4,164 314,164 " />

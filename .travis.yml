@@ -4,7 +4,7 @@ node_js:
 cache:
   directories:
     - node_modules
-before_install: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev
+before_install: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev wget make g++
 script:
   - yarn build
 deploy:

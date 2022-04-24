@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-  - stable
+  - 16.13.0
 cache:
   directories:
     - node_modules
-before_install: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev libstdc++6-2.28-dev
+before_install: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev
 script:
   - yarn build
 deploy:

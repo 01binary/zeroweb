@@ -37,7 +37,7 @@ import Paragraph from './Paragraph/Paragraph';
 import Comments from './Comments/Comments';
 import Reactions from './PostReactions';
 import ExternalLink from './ExternalLink';
-import ThematicBreak from './ThematicBreak';
+import ThematicBreak from '../ThematicBreak';
 import Blockquote from './Blockquote';
 import Code from './Code';
 import {

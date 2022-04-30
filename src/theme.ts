@@ -303,6 +303,13 @@ export const GlobalStyle = createGlobalStyle`
     fill: ${(props) => props.theme.accentShadowColor};
   }
 
+  .fill-background--light {
+    fill: ${(props) =>
+      props.theme.isDark
+        ? props.theme.dropShadowDarkColor
+        : props.theme.accentLightShadowColor};
+  }
+
   .fill-foreground {
     fill: ${(props) => props.theme.foregroundColor};
   }
@@ -329,6 +336,14 @@ export const GlobalStyle = createGlobalStyle`
 
   .stroke-secondary {
     stroke: ${(props) => props.theme.secondaryTextColor};
+  }
+
+  .stroke-primary {
+    stroke: ${(props) => props.theme.primaryColor};
+  }
+
+  .stroke-alternate {
+    stroke: ${(props) => props.theme.secondaryColor};
   }
 
   .fill-border {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36">
+	<polygon class="fill-border" points="24.1,26.6 24.1,21 26,21 26,28.4 9.1,28.4 9.1,21 11.1,21 11.1,26.6 	"/>
+	<path class="fill-foreground" d="M13,20.4l9.1,1.9l0.4-1.8l-9.1-1.9L13,20.4z M14.2,16.1l8.5,3.9l0.7-1.7l-8.4-3.9L14.2,16.1z M16.7,11.9l7.2,6
+		l1.2-1.5l-7.2-6L16.7,11.9z M21.3,7.6l-1.5,1.1l5.6,7.5l1.5-1.1L21.3,7.6z M12.9,24.7h9.4v-1.8h-9.4V24.7z"/>
+</svg>

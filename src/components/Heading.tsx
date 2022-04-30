@@ -42,10 +42,10 @@ export const getHeadingSlug = (main: boolean, text: string): string =>
 export const getHeadingUrl = (baseUrl: string, slug?: string): string =>
   slug ? `${baseUrl}#${slug}` : baseUrl;
 
-interface HeadingProps {
+type HeadingProps = {
   level?: number;
   className?: string;
-}
+};
 
 export const Heading: FC<HeadingProps> = ({
   level = 1,
@@ -68,18 +68,38 @@ export const Heading: FC<HeadingProps> = ({
   );
 };
 
-export const Heading1: FC = ({ children }) => (
-  <Heading level={1}>{children}</Heading>
+export const Heading1: FC<Omit<HeadingProps, 'level'>> = ({
+  children,
+  className,
+}) => (
+  <Heading level={1} className={className}>
+    {children}
+  </Heading>
 );
 
-export const Heading2: FC = ({ children }) => (
-  <Heading level={2}>{children}</Heading>
+export const Heading2: FC<Omit<HeadingProps, 'level'>> = ({
+  children,
+  className,
+}) => (
+  <Heading level={2} className={className}>
+    {children}
+  </Heading>
 );
 
-export const Heading3: FC = ({ children }) => (
-  <Heading level={3}>{children}</Heading>
+export const Heading3: FC<Omit<HeadingProps, 'level'>> = ({
+  children,
+  className,
+}) => (
+  <Heading level={3} className={className}>
+    {children}
+  </Heading>
 );
 
-export const Heading4: FC = ({ children }) => (
-  <Heading level={4}>{children}</Heading>
+export const Heading4: FC<Omit<HeadingProps, 'level'>> = ({
+  children,
+  className,
+}) => (
+  <Heading level={4} className={className}>
+    {children}
+  </Heading>
 );

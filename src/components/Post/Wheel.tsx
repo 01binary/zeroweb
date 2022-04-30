@@ -16,7 +16,7 @@ import useSnap from '../../hooks/useSnap';
 import { useTooltip } from '../../hooks/useTooltip';
 import { Tooltip, Arrow } from '../../components/Tooltip';
 import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../../components/Menu';
-import SnapAnimation from './SnapAnimation';
+import SnapAnimation from '../Animations/SnapAnimation';
 import { ShareType } from '../../types/AllSharesQuery';
 import { MOBILE, NARROW_INLINE_COMMENTS } from '../../constants';
 import Cell from '../../images/cell.svg';

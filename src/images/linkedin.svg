@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36">
+	<g class="fill-foreground">
+		<rect x="9.4" y="13.1" width="3.6" height="11.5"/>
+		<path d="M22.3,13.1c-1.7,0-2.8,0.4-3.6,1v-1h-3.6v11.5h3.6v-7.2c0,0,0-2.2,2.2-2.2S23,16,23,16v8.6h3.6V16
+			C26.6,16,26.6,13.1,22.3,13.1z"/>
+		<circle cx="11.2" cy="9.2" r="1.8"/>
+	</g>
+</svg>

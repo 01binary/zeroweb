@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="229px" height="168px" viewBox="0 0 229 168">
+<defs>
+	<symbol id="frame14">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c11.9-0.8,24.9-18.7,27-25.3c0,0,3,2.7,4.8-0.3c2.9-4.7-1.8-15.7-11.8-15.8
+			c-5.4-0.1-11.1,2.2-12.7,7.2c-1.7,5.1,1.8,13.1,5.7,13.7c2.4,0.4,4.5-1.7,4-4.3"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.7-2.1,5.2-3.8,5.2-3.8c5.2-1.7,6.3-1.3,9.1-5"/>
+		<path class="fill-opaque stroke-foreground" d="M117.3,65.7c0.1,2.7-1.5,5.1-4.7,5.2c-2.3,0.1-4.8-1.5-5.4-4.7"/>
+	</symbol>
+	<symbol id="frame13">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c11.9-0.8,23.8-18.4,27-25.3c0,0,2.7,2.4,4.5-0.6c2.9-4.7-1.4-16.5-11.4-16.6
+			c-5.4-0.1-11.4,1.8-13,6.8c-1.7,5.1,1.5,13.7,5.4,14.3c2.4,0.4,5-0.8,4.5-3.4"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.3-2.4,5.2-3.8,5.2-3.8c5.2-1.7,6.9-0.9,9-5.7"/>
+		<path class="fill-opaque stroke-foreground" d="M117.3,65.7c0.1,2.7-1.8,4.1-4.9,4.2c-2.3,0.1-4.5-0.5-5.1-3.7"/>
+	</symbol>
+	<symbol id="frame12">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c12.1-2,23.9-16.1,26.2-27.8c0,0,2.2,4.3,4.7,0.6c3.1-4.6-0.9-15.1-10.8-15.2
+			c-5.4-0.1-11.4,1.8-13,6.8c-1.7,5.1,1.1,12.9,5,12.9c3.2,0,5-1.4,4.5-3.9"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.3-2.4,5.2-3.8,5.2-3.8c5.2-1.7,6.9-0.9,9-5.7"/>
+		<path class="fill-opaque stroke-foreground" d="M116.4,63.2c0.2,2.7-1,5.9-4.3,5.9c-2.3,0-4.6-1.6-5.2-4.8"/>
+	</symbol>
+	<symbol id="frame11">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c12.1-2,23.7-16.8,25.9-28.5c0,0,2.4,3.9,4.9,0.2c3.1-4.6-1-14.5-11-14.7c-5.4-0.1-11.2,1.9-12.8,6.8
+			c-1.7,5.1,2.1,12,4.7,12.3c2.4,0.3,4.3-1.7,3.8-4.2"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.3-2.4,5.2-3.8,5.2-3.8c5.6-1.6,8.1-0.9,8.8-7.3"/>
+		<path class="fill-opaque stroke-foreground" d="M116.2,62.5c0.2,2.7-1,5.7-3.8,5.8c-2.3,0.1-6.1-2-6.7-5.2"/>
+	</symbol>
+	<symbol id="frame10">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c12.1-2,25.2-15.4,25.1-29.3c0,0,2.4,4.5,5.9-0.1c2.8-3.7-2.2-13-11.4-14.2c-5.5-0.7-12.2,2-13.5,7
+			c-1.4,5.2,2.4,11.6,5,11.9c2.4,0.3,4.8-0.6,4.3-3.1"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.3-2.4,5.2-3.8,5.2-3.8c5.6-1.6,7.5-2,8.7-6.7"/>
+		<path class="fill-opaque stroke-foreground" d="M115.4,61.6c0.2,2.7-0.8,5-3.6,5.2c-2.3,0.1-5.5-0.5-6.1-3.8"/>
+	</symbol>
+	<symbol id="frame9">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c12.1-2,25.2-15.4,25.1-29.3c0,0,3.9,3.3,5.5-2c1.4-4.7-1.9-11.3-11-12.9c-5.4-1-12.6,2-13.9,7
+			c-1.4,5.2,2.1,11.5,4.7,11.9c2.4,0.3,5.2-1.1,4.7-3.6"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.3-2.4,5.2-3.8,5.2-3.8c5.6-1.6,7.5-1.7,8.8-6.4"/>
+		<path class="fill-opaque stroke-foreground" d="M115.5,61.4c0.2,2.7-1.4,4.5-4.2,4.7c-2.3,0.1-5.2-1-5.9-4.2"/>
+	</symbol>
+	<symbol id="frame8">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.2-16.6,24.2-30.5c0,0,4.2,3.6,5.8-1.8c1.4-4.7-1-10.8-10-12.7
+			c-5.9-1.3-13.1,1.6-14.7,7.1c-1.4,5.2,2.6,10.3,5.2,10.7c2.4,0.3,4.7-1,4.2-3.5"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.5-2.1,5.2-3.8,5.2-3.8c5.7-1.5,8-3.1,9.1-7.2"/>
+		<path class="fill-opaque stroke-foreground" d="M114.4,58.9c0.6,3.2-1,6-3.7,6.1c-2.3,0.1-5.2-1.6-5.8-4.8"/>
+	</symbol>
+	<symbol id="frame7">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.2-16.6,24.2-30.5c0,0,4.3,1.7,5.9-3.6c1.4-4.7-3.4-10.1-10.2-11.5
+			c-6.9-1.4-13.4,2.1-14.9,7.6c-1.4,5.2,3,10.3,5.7,10.1c2.9-0.2,4-1.9,3.5-4.5"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.9-1.9,5.4-3.5,5.4-3.5c5.7-1.5,7.4-3.9,8.9-7.8"/>
+		<path class="fill-opaque stroke-foreground" d="M114.2,57.9c0.6,3.2-1.3,5.7-4.1,5.9c-2.3,0.1-5.1-1.9-5.7-5.1"/>
+	</symbol>
+	<symbol id="frame6">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.6-17.7,24.2-30.5c0,0,4.3,0.4,5.9-3.6c1.8-4.5-3.3-10.6-10.1-12
+			c-6.9-1.4-13.7,2.2-15.2,7.7c-1.4,5.2,2.9,10,5.5,9.8c2.4-0.3,4-2.2,3.6-4.7"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.6-1.5,5.4-3.5,5.4-3.5c5.7-1.5,7.8-4.1,8.9-8.2"/>
+		<path class="fill-opaque stroke-foreground" d="M113.9,55.7c0.6,3.2-1.1,6.5-3.8,7c-2.7,0.5-5.4-1.9-6-5.1"/>
+	</symbol>
+	<symbol id="frame5">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.4-19.1,24-31.9c0,0,3,0.7,4.4-2c2-3.9-1.6-10.8-8.4-12.2c-6.9-1.4-14.9,2-16.4,7.5
+			c-1.5,5.8,4.4,9.7,6.5,9.3c2.1-0.4,3.2-3,2.7-5.5"/>
+		<path class="fill-none stroke-foreground" d="M83.6,73c0.6-1.5,5.4-3,5.4-3c5.7-1.5,7.2-4.9,8.3-9"/>
+		<path class="fill-opaque stroke-foreground" d="M112.9,54.3c0.6,3.2-1.1,6.3-3.8,6.8s-5.4-1.7-6-4.9"/>
+	</symbol>
+	<symbol id="frame4">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.4-19.1,24-31.9c0,0,2.8,0.6,4.4-2c2.6-4.3-0.8-10.8-8-12.3c-6.9-1.4-14.8,2-16.3,7.5
+			c-1.5,5.8,3.5,8.4,5.6,8c2.1-0.4,3.8-2.2,3.3-4.7"/>
+		<path class="fill-none stroke-foreground" d="M83.8,73.3C84.4,71.8,89,70,89,70c5.7-1.5,7.2-4.9,8.3-9"/>
+		<path class="fill-opaque stroke-foreground" d="M112.9,54.3c0.6,3.2-1,5.9-3.7,6.4s-5.2-2.3-5.9-5.5"/>
+	</symbol>
+	<symbol id="frame3">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.9-19.6,24.5-32.4c0,0,2.5,1,4.1-1.6c2.6-4.3-0.9-11.2-8.6-12.5
+			c-6.9-1.2-14.1,2.3-15.5,7.8c-1.5,5.8,3,8.3,5.1,7.9c2.1-0.4,3.4-2.7,2.9-5.3"/>
+		<path class="fill-none stroke-foreground" d="M83.8,73.3c0.6-1.5,5-3.3,5-3.3c5.7-1.5,8.3-4.7,8.7-9.3"/>
+		<path class="fill-opaque stroke-foreground" d="M113.1,54.2c0.6,3.2-1.2,5.3-4,5.9c-2.7,0.5-5.9-2.2-6.6-5.4"/>
+	</symbol>
+	<symbol id="frame2">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.9-19.6,24.5-32.4c0,0,2.7,0.7,4.3-1.8c2.9-4.5-1.3-11-8.9-12.3
+			c-6.9-1.2-13.9,2.2-15.3,7.7c-1.5,5.8,2.8,8.1,4.8,7.7c2.1-0.4,3.5-3,3-5.5"/>
+		<path class="fill-none stroke-foreground" d="M83.8,73.3c0.6-1.5,5-3.3,5-3.3c5.7-1.5,9.1-5.5,9.5-10.1"/>
+		<path class="fill-opaque stroke-foreground" d="M113.3,54c0.6,3.2-1.5,5.2-4.2,5.7s-5.8-2.1-6.5-5.3"/>
+	</symbol>
+	<symbol id="frame1">
+		<path class="fill-opaque stroke-foreground" d="M90.3,91c13.5-1.1,24.9-19.6,24.5-32.4c0,0,2.7,0.7,4.3-1.8c2.9-4.5-1.3-11.1-9-12.2
+			c-6.7-0.9-13.7,2-15.1,7.5c-1.5,5.8,2.6,8.2,4.7,7.8c2.1-0.4,3.2-3.6,2.7-6.1"/>
+		<path class="fill-none stroke-foreground" d="M83.8,73.3c0.6-1.5,5-3.3,5-3.3c5.7-1.5,9.5-4.4,9.5-10.1"/>
+		<path class="fill-opaque stroke-foreground" d="M112.9,52.6c0.6,3.2-1.5,5.8-4.2,6.3c-2.7,0.5-5.7-1.9-6.3-5.1"/>
+	</symbol>
+</defs>
+<g>
+	<path class="fill-background--light" d="M211.5,47.7h-44.9h-60H88.1c-6.6,0-12-5.4-12-12s5.4-12,12-12h18.5h1.6c6.6,0,12-5.4,12-12s-5.4-12-12-12H30.8
+		c-6.6,0-12,5.4-12,12s5.4,12,12,12h9.3c6.6,0,12,5.4,12,12s-5.4,12-12,12h-12H14.6c-6.6,0-12,5.4-12,12s5.4,12,12,12h9.9h39.6
+		c6.6,0,12,5.4,12,12s-5.4,12-12,12h-36c-6.6,0-12,5.4-12,12s5.4,12,12,12h36c6.6,0,12,5.4,12,12s-5.4,12-12,12h-8.3
+		c-6.6,0-12,5.4-12,12s5.4,12,12,12h65.1c6.6,0,12-5.4,12-12s-5.4-12-12-12h-8.8c-6.6,0-12-5.4-12-12s5.4-12,12-12h31.4H178
+		c6.6,0,12-5.4,12-12s-5.4-12-12-12h-34.5h-31.4c-6.6,0-12-5.4-12-12s5.4-12,12-12h31.4h47.1h20.9c6.6,0,12-5.4,12-12
+		S218.1,47.7,211.5,47.7z"/>
+</g>
+<g stroke-width="1.5" stroke-miterlimit="10" stroke-linejoin="round" stroke-linecap="round">
+	<path class="fill-opaque" d="M83.8,68.9l-1.6,2.9c0,0,8.9,14,8.8,24.8S88.7,120,88.7,120l-5.3,10l-30.3,3.3l-19-20.9l4.3-33.8l3.7-6.4
+		c0,0-11.6-10.6-10.2-16.8s0.8-9.1,0.8-9.1s-2.3-10.6,0.8-16.6s3.1-6,3.1-6l9.2,9.9c0,0,8.2-4,13.9-3.9c5.7,0.2,7.4,0,7.4,0
+		l8.9-12.2c0,0,6.9,3.9,7.4,10.1c0.5,6.2,0,10.2,0,10.2s3.8,4.1,5.1,7.8c1.3,3.7,2,7,2,7s4,4.9,0.5,10S83.8,68.9,83.8,68.9z"/>
+	<path class="fill-opaque" d="M83.9,72.6c0,0,8.3-3.3,9.8-4.8s3.9-6.9,3.9-6.9l8.8-11.6l7.9,10.8c0,0-0.5,12.5-7.6,20.5S90.3,91,90.3,91
+		L83.9,72.6z"/>
+	<path class="fill-none stroke-foreground" d="M82.2,70.8c4.7,7,8,17,8.6,28.1c0.6,9.9-1,19.1-4,26.4l-1.5,2.8"/>
+	<ellipse class="fill-opaque stroke-foreground" cx="89" cy="125.6" rx="4.5" ry="5.5"/>
+	<ellipse class="fill-opaque stroke-foreground" cx="95.6" cy="123.2" rx="4.5" ry="5.5"/>
+	<ellipse transform="matrix(0.396 -0.9182 0.9182 0.396 -77.7784 134.6222)" class="fill-opaque stroke-foreground" cx="63.4" cy="126.4" rx="5.5" ry="4.5"/>
+	<ellipse transform="matrix(9.643532e-02 -0.9953 0.9953 9.643532e-02 -61.2111 184.6491)" class="fill-opaque stroke-foreground" cx="71.1" cy="126" rx="5.5" ry="4.5"/>
+	<ellipse transform="matrix(0.3335 -0.9427 0.9427 0.3335 -67.3119 157.4096)" class="fill-opaque stroke-foreground" cx="77.7" cy="126.3" rx="5.5" ry="4.5"/>
+	<ellipse transform="matrix(0.3092 -0.951 0.951 0.3092 -48.6967 183.155)" class="fill-opaque stroke-foreground" cx="101.7" cy="125.1" rx="5.5" ry="4.5"/>
+	<path class="fill-opaque stroke-foreground" d="M30.8,104.5c-5.4,2.3-5.1,7.7-5.1,7.7c0,19.2,20.6,34.8,46.1,34.8c11.8,0,22.5-3.5,30.7-9.1
+		c1.5-1.5,2.5-3.6,2.5-5.9c0-4.6-3.8-8.4-8.4-8.4c-1.6,0-3.1,0.5-4.4,1.2l0,0c-6,3.4-13.1,5.4-20.7,5.4c-11,0-21-4.2-28-10.9"/>
+	<line class="fill-none stroke-foreground" x1="89.1" y1="61.2" x2="104.7" y2="63.9"/>
+	<path class="fill-none stroke-foreground" d="M33.3,47.1c-1.4,3.6-1.8,7.5-0.8,11.4c3.1,12.1,16.3,20.1,32.1,19.2c14.1-0.9,19.2-8.8,19.2-8.8
+		c2.4-0.1,5.3-2.1,7.2-5.4c2.4-4.2,2.3-8.9-0.3-10.4c-2.6-1.5-7.2-0.2-9.7,4.1c-2.1,3.6-1.8,8.3-0.3,10.3"/>
+	<path class="fill-none stroke-foreground" d="M90.4,52.4c-0.1-0.5-0.1-1-0.2-1.6C87.4,36.8,74,28.4,58.1,29.8c-4.4,0.4-8.6,1.7-12.3,3.8"/>
+	<path class="fill-none stroke-foreground" d="M67.1,77.2c-7,1.4-13.4-1.7-14.4-6.8c-1-5.1,3.8-10.4,10.8-11.8c7-1.4,13.4,1.7,14.4,6.8
+		c0.4,2.2-0.2,4.5-1.7,6.5"/>
+	<path class="fill-opaque stroke-foreground" d="M73,55.7c-0.8-1.6,5.2-3.7,9.7-3.3c1.2,0.1-1,5-2,7.1C79.8,61.6,73.7,57.3,73,55.7z"/>
+	<path class="fill-none stroke-foreground" d="M89.1,47.9c-3.9-0.3-8.5,3.3-10.4,0.1c-2.5-4.3-2.4-8.5-0.6-10.7c1-1.3,2.9-1,4-0.4"/>
+	<path class="fill-none stroke-foreground" d="M83.4,37.6c0.3-1.3,0.5-2.6,0.5-4c0.4-7.8-3.1-14.5-8-16.2l-8.6,12.7"/>
+	<path class="fill-none stroke-foreground" d="M33.1,48.1c-0.5-1.8-0.9-3.8-1.1-5.8c-0.7-7.6,1.2-14.6,4.9-19.3l13.8,16.5c0,0-0.6,1.9-2.7,3.2"/>
+	<path class="fill-none stroke-foreground" d="M39.2,48c0,0-4,0.8-6-1"/>
+	<path class="fill-none stroke-foreground" d="M54.7,105.3c-4-7.2-5.9-15-5.9-23.6c0-0.4,0-0.7,0-1.1"/>
+	<path class="fill-none stroke-foreground" d="M69.9,45.1c4.8,6.1,1.6,7.7-1.8,9.4c-3.8,1.8-9.1,0.7-9.7-3.2c-0.6-3.6-0.6-7.4,2.4-9.4
+		C62.8,40.5,67,41.5,69.9,45.1z"/>
+	<path class="fill-none stroke-foreground" d="M65.4,51.9c-0.4-0.5-2.9-4.1-1.1-5.5c1.9-1.3,4.1,3.4,4.2,3.8c0.1,0.4,0.2,1-1,1.7
+		C66.7,52.3,65.8,52.4,65.4,51.9z"/>
+	<path class="fill-none stroke-foreground" d="M81.7,46.7c-0.4-0.5-2.9-4.1-1.1-5.5c1.9-1.3,4.1,3.4,4.2,3.8c0.1,0.4,0.2,1-1,1.7
+		C83,47.1,82.1,47.2,81.7,46.7z"/>
+	<line class="fill-none stroke-foreground" x1="65.2" y1="66.2" x2="45.4" y2="67.3"/>
+	<line class="fill-none stroke-foreground" x1="65.5" y1="69.3" x2="45.4" y2="77.8"/>
+	<line class="fill-none stroke-foreground" x1="66.2" y1="63.4" x2="45.3" y2="59.1"/>
+	<line class="fill-none stroke-foreground" x1="89.1" y1="57.5" x2="99.5" y2="55.3"/>
+	<path class="fill-none stroke-foreground" d="M69,119.6c-2.6-3.2,1-6.3,1.9-10.7c0.7-3-0.7-11.6-0.7-11.6c-1.2-10.7,2.9-17.4,8.6-17.2
+		c4.2,0.1,7.3,5.2,8.4,14.9c0,0,3,17.8-5.1,28.9"/>
+	<path class="fill-opaque stroke-foreground" d="M42,72.2c-9.4,11.8-17.4,30-4,44.3"/>
+	<path class="fill-opaque stroke-foreground" d="M57.4,117.1c0,0,5.1-0.1,5.9-3.5c1.1-4.9-3.8-9.4-11.5-8c-7.9,1.4-13.7,4.3-13.7,10.9c0,6.9,4.3,8.1,6.5,7
+		c2.2-1,3-2.5,1.8-5.2"/>
+	<path class="fill-none stroke-foreground" d="M56.6,113.3c1.6,3.4,0.6,7.3-2.2,8.6c-2.9,1.4-6.5-0.3-8.1-3.7"/>
+	<use id="arm1" xlink:href="#frame1" />
+	<use id="arm2" xlink:href="#frame2" />
+	<use id="arm3" xlink:href="#frame3" />
+	<use id="arm4" xlink:href="#frame4" />
+	<use id="arm5" xlink:href="#frame5" />
+	<use id="arm6" xlink:href="#frame6" />
+	<use id="arm7" xlink:href="#frame7" />
+	<use id="arm8" xlink:href="#frame8" />
+	<use id="arm9" xlink:href="#frame9" />
+	<use id="arm10" xlink:href="#frame10" />
+	<use id="arm11" xlink:href="#frame11" />
+	<use id="arm12" xlink:href="#frame12" />
+	<use id="arm13" xlink:href="#frame13" />
+	<use id="arm14" xlink:href="#frame14" />
+	<use id="arm15" xlink:href="#frame13" />
+	<use id="arm16" xlink:href="#frame12" />
+	<use id="arm17" xlink:href="#frame11" />
+	<use id="arm18" xlink:href="#frame10" />
+	<use id="arm19" xlink:href="#frame9" />
+	<use id="arm20" xlink:href="#frame8" />
+	<use id="arm21" xlink:href="#frame7" />
+	<use id="arm22" xlink:href="#frame6" />
+	<use id="arm23" xlink:href="#frame5" />
+	<use id="arm24" xlink:href="#frame4" />
+	<use id="arm25" xlink:href="#frame3" />
+	<use id="arm26" xlink:href="#frame2" />
+	<use id="arm27" xlink:href="#frame1" />
+	<g class="fill-none stroke-border">
+		<path id="motionline1" d="M108.8,36.5c5.8,2,10.6,5.8,13.6,10.7"/>
+		<path id="motionline2" d="M112.3,29.7c7.4,2.5,13.6,7.4,17.4,13.6"/>
+	</g>
+	<circle class="stroke-focus fill-none" cx="97.2" cy="21.3" r="6.8"/>
+	<g class="stroke-alternate fill-opaque">
+		<polygon points="115,153 108,146.9 119,141.6 126,147.8"/>
+		<polygon points="115,143.4 108,137.2 119,132 126,138.1"/>
+		<polygon points="108,137.2 108,147.8 115,153 115,143.4"/>
+		<polygon points="126,138.5 126,147.5 115,152.5 115,143.5"/>
+	</g>
+	<g class="stroke-alternate">
+		<line x1="23" y1="77.2" x2="10" y2="90.3"/>
+		<line x1="10.3" y1="77.2" x2="23" y2="89.9"/>
+	</g>
+	<g class="fill-opaque stroke-primary">
+		<polyline points="20.3,134.7 32.6,148.7 20.7,154.3"/>
+		<polygon points="20.3,134.7 8.6,148.3 20.7,154.3"/>
+	</g>
+</g>
+</svg>

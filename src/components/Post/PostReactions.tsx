@@ -9,7 +9,7 @@ import ShareTwitterIcon from '../../images/share-twitter.svg';
 import ShareLinkedInIcon from '../../images/share-linkedin.svg';
 import ShareLinkIcon from '../../images/share-link.svg';
 import ShareEmailIcon from '../../images/share-email.svg';
-import SnapAnimation from './SnapAnimation';
+import SnapAnimation from '../Animations/SnapAnimation';
 import { Menu, MenuItem, MenuItemIcon } from '../../components/Menu';
 import { ContextMenu, ContextMenuArrow } from '../../components/ContextMenu';
 import { MOBILE } from '../../constants';

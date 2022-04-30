@@ -103,8 +103,6 @@ const Highlight = styled.span`
 `;
 
 const Heading = styled(Heading3)`
-  margin-left: calc(${(props) => props.theme.spacing} * 4.5);
-
   @media (max-width: ${MOBILE}) {
     margin-left: initial;
   }
@@ -260,8 +258,7 @@ const SocialLink = styled.a`
 `;
 
 const AboutList = styled(List)`
-  max-width: calc(80% - 3em - ${(props) => props.theme.spacing} * 5);
-  margin-left: calc(${(props) => props.theme.spacing} * 4.25);
+  max-width: calc(80% - 3em - ${(props) => props.theme.spacing});
 
   @media (max-width: ${MOBILE}) {
     margin-left: 0;
@@ -347,7 +344,7 @@ const About: FC = () => {
             Deliver <Highlight>practical solutions</Highlight> with{' '}
             <Highlight>clear value</Highlight> by growing a deep understanding
             of the business domain through <Highlight>research</Highlight> and
-            relentless <Highlight>iteration</Highlight>.
+            relentless <Highlight>experimentation</Highlight>.
           </li>
           <li>
             Believe that developing <Highlight>capable leaders</Highlight> is

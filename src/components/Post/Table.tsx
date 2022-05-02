@@ -79,4 +79,5 @@ export const TableCell = styled.td`
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
   transition: background-color ${(props) => props.theme.animationFast}
     ease-in-out;
+  vertical-align: top;
 `;

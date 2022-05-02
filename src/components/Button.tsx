@@ -23,12 +23,6 @@ const ButtonWrapper = styled.button`
     pointer-events: none;
   }
 
-  .offscreen {
-    position: absolute;
-    width: 0;
-    height: 0;
-  }
-
   .button__left {
     position: absolute;
     top: 0;
@@ -164,7 +158,7 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => {
   const theme = useTheme();
   return (
     <ButtonWrapper {...props}>
-      <svg className="offscreen">
+      <svg className="hide">
         <defs>
           <linearGradient
             id="normal_button_gradient"

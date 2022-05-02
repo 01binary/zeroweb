@@ -75,8 +75,7 @@ const GalleryWrapper = styled.section`
 
   @media (max-width: ${MOBILE_MIN}) {
     width: ${NARROW_WIDTH}px;
-    margin-left: -65px;
-    margin-right: -65px;
+    margin: 0 calc(0px - ${(props) => props.theme.spacing});
   }
 `;
 
@@ -268,7 +267,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
 
   return (
     <GalleryWrapper>
-      <svg>
+      <svg className="hide">
         <defs>
           <clipPath id="gallery-mask">
             <polygon points="0,32.1 55.5,0 111,32.1 111,96 55.5,128.1 0,96 " />

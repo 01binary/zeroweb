@@ -14,6 +14,8 @@ import Gallery from '../components/Gallery';
 
 This exosuit was designed in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) using photographs of the movie props built by [Weta Workshop](https://wetaworkshopdesignstudio.artstation.com/) (original concept art drawn by [Aaron Beck](http://skul4aface.blogspot.com/)).
 
+`youtube:https://www.youtube.com/embed/J7dyjE7jP0k`
+
 Some parts were 3D-printed with [Protolabs](https://www.protolabs.com/) and re-cast out of Alumimum 356 at [Ctrl^H](https://pdxhackerspace.org/) foundry, others machined by Protolabs out of Aluminum 6061. The pistons were machined on a metal lathe, and then the exosuit was assembled by using [metal rod ends](https://www.mcmaster.com/rod-ends/ball-joint-rod-ends-10/shank-thread-size~m6/) from McMaster Carr and fasteners from Fastenall.
 
 <Gallery>
@@ -30,7 +32,7 @@ Some parts were 3D-printed with [Protolabs](https://www.protolabs.com/) and re-c
 Completing this project presented significant challenges, but members of [The Home Foundry](http://forums.thehomefoundry.org/index.php?threads/help-me-make-another-attempt-at-shell-casting.373) forum helped me learn investment casting and [Panurgic](https://yellow.place/es/panurgic-portland-usa) jewelry shop taught small-scale autoclaving. Everything I learned is [documented](https://github.com/01binary/investment-casting) and the foundry I setup for this project is available to [Ctrl^H hackerspace](https://pdxhackerspace.org/) members.
 
 <Gallery>
-  <img alt="model" src="./images/elysium-exoskeleton-moldmaking.jpg"/>
+  <img alt="print" src="./images/elysium-exoskeleton-moldmaking.jpg"/>
   <img alt="mold" src="./images/elysium-exoskeleton-chest-mold.jpg"/>
   <img alt="shells" src="./images/elysium-exoskeleton-shells.jpg"/>
   <img alt="bake" src="./images/elysium-exoskeleton-chest-bake.jpg" />
@@ -50,6 +52,8 @@ Assembly instructions created for the [Hackaday 2017 Sci-Fi Contest](https://hac
 
 - [Assembly Instructions (Light)](exoskeleton-instructions-light.pdf)
 - [Assembly Instructions (Dark)](exoskeleton-instructions-dark.pdf)
+
+![3d rendering](./images/elysium-exoskeleton-3d.png)
 
 ## downloads
 

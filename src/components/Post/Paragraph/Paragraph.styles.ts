@@ -49,17 +49,6 @@ export const ParagraphWrapper = styled.section<{
       ${(props) => props.theme.borderColor};
   }
 
-  img {
-    max-width: 480px;
-    margin: auto;
-    height: initial !important;
-    position: initial !important;
-  }
-
-  .gatsby-resp-image-background-image {
-    padding-bottom: 0 !important;
-  }
-
   &:after {
     content: '';
     position: absolute;

@@ -10,6 +10,19 @@ export const List = styled.ul`
   li {
     margin: 0.5em 0;
     padding-left: ${(props) => props.theme.border};
+
+    code {
+      position: relative;
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+        'Courier New', monospace;
+      font-size: 18px;
+      background: ${(props) =>
+        props.theme.isDark
+          ? props.theme.dropShadowDarkColor
+          : props.theme.accentLightColor};
+      padding: 6px;
+      pointer-events: none;
+    }
   }
 `;
 

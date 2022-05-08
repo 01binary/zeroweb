@@ -13,7 +13,7 @@ import { Definition, Property, Value } from '../components/DefinitionList'
 
 ## overview
 
-Investment casting is a great choice for projects that require large, complex, or detailed metal parts on a budget. The comparison chart below can help you decide if investment casting is the right process for your project.
+Investment casting (or _lost wax casting_) is a great choice for projects that require large, complex, or detailed metal parts on a budget. The comparison chart below should help you decide if this is the right process for your project.
 
 <Tabs>
 	<Tab label="investment casting">
@@ -21,9 +21,9 @@ Investment casting is a great choice for projects that require large, complex, o
 			<b>pros</b>
 		</p>
 		<ul>
-			<li>Highly detailed parts, little finishing required</li>
-			<li>Temperature resistant (starts deforming at 500°F)</li>
-			<li>Mechanically strong (3.5% elongation)</li>
+			<li>Preserves polished surfaces and reproduces tiny, sharp details</li>
+			<li>Temperature resistant (starts deforming at <code>500°F</code>)</li>
+			<li>Mechanically strong (<code>3.5%</code> elongation at break)</li>
 		</ul>
 		<p>
 			<b>cons</b>
@@ -45,7 +45,7 @@ Investment casting is a great choice for projects that require large, complex, o
 		</p>
 		<ul>
 			<li>Grainy surface, requires advanced techniques and extensive finishing</li>
-			<li>Does not reproduce very small or complex details</li>
+			<li>Parts come out "blurry", does not reproduce very small or complex details</li>
 		</ul>
 	</Tab>
 	<Tab label="cold casting">
@@ -60,7 +60,7 @@ Investment casting is a great choice for projects that require large, complex, o
 			<b>cons</b>
 		</p>
 		<ul>
-			<li>Partially composed of resin, deforms at 90°F, not fire proof</li>
+			<li>Partially composed of resin, deforms at <code>90°F</code>, not fire proof</li>
 			<li>Requires finishing for seamless metal appearance</li>
 	 	</ul>
 	</Tab>
@@ -76,8 +76,8 @@ Investment casting is a great choice for projects that require large, complex, o
 			<b>cons</b>
 		</p>
 		<ul>
-			<li>Grainy surface requires finishing</li>
-			<li>Mechanically weaker than cast metal parts (1% elongation *)</li>
+			<li>Equipment and service too expensive for a large number of parts</li>
+			<li>Still requires finishing and weaker than cast parts (<code>1%</code> elongation)</li>
 		</ul>
 	</Tab>
 </Tabs>
@@ -86,63 +86,70 @@ Investment casting is a great choice for projects that require large, complex, o
 
 The original model is cast four times (two positives and two negatives), with the final positive cast out of the chosen alloy.
 
-1. The first negative is a rubber mold, with the original model released and the resulting cavity filled with wax.
-2. The wax positive is removed from the rubber mold, attached to a rubber base with sprues, and put inside of a steel container called "flask". The flask is filled with specially formulated plaster called "investment".
-3. When the investment sets, the wax is steamed or flash-fired, leaving a hard negative mold. This mold, still inside a flask, is fired in a kiln to evacuate water and strengthen the investment.
-4. Metal is poured to cast the final positive. Flasks used in investment casting are perforated to enable vacuum-assist casting, which forces the air out of the mold and pulls the metal in to fill intricate details.
+1. The first negative is a _rubber mold_, with the original model released and the resulting cavity filled with wax.
+2. The _wax pattern_ is removed from the rubber mold, attached to a rubber base with sprues, and put inside of a steel cylinder called a _flask_. The flask is filled with specially formulated plaster called _investment_.
+3. When the investment sets, the wax is steamed or flash-fired, leaving a hard _ceramic mold_. This mold, still inside a flask, is fired in a kiln to evacuate water and strengthen the investment.
+4. Metal is poured to cast the final positive. Flasks used in investment casting are perforated to enable _vacuum-assist casting_, which forces the air out of the mold and pulls the metal in to fill intricate details.
 
-Aluminum casts can be up to 5% smaller than the original, depending on the alloy. This only matters when they are combined with other parts produced through a different method.
+Aluminum casts can be up to `5%` smaller than the original. This only matters when they are combined with other parts produced through a different method.
 
 ## making a rubber mold
 
-To make a rubber mold, build a box slightly larger than the model, fix the model in the box, and pour rubber over it. Mold rubbers vulcanize at room temperature.
+To make a rubber mold, build a box slightly larger than the model, fix the model in the box, and fill it with room temperature vulcanization (RTV) rubber.
 
-If you simply cut the master model out of the mold with an X-Acto knife you will produce a one-part mold, but releasing a fragile wax pattern cast from this mold could be next to impossible without breaking it. For this reason, complex models require [two-part molds](https://www.youtube.com/watch?v=DEVi0mEaJJQ).
+![making a rubber mold](./images/investment-casting-rubber.gif)
 
-You can also create additional geometry at this stage to aid degassing or to add strength to the wax pattern cast from the mold:
+If you simply cut the master model out of the mold you will produce a _one-part mold_. Releasing a fragile wax pattern from this mold could be next to impossible without breaking it. For this reason, complex models require [two-part molds](https://www.youtube.com/watch?v=DEVi0mEaJJQ).
 
-- Cut vents directly into the rubber mold in concave areas where you find large bubbles collecting and preventing a complete fill.
-- Add supports to strengthen thin areas that would break when de-molding.
+You can also create additional geometry at this stage to _aid degassing_ or to _add strength_ to the wax pattern cast from the mold.
 
-Entrapped gas is a concern with rubber molds as any bubbles held at the surface of the model by surface tension will become filled spheres on a cast positive. To prevent this, spray the model with a mold release compound before pouring the rubber.
+- Cut _vents_ directly into the rubber mold in concave areas where you find large bubbles collecting and preventing a complete fill.
+- Add _supports_ to strengthen thin areas that would break when de-molding.
+
+Entrapped gas is a concern with rubber molds as any bubbles at the surface of the model will become filled spheres on a cast positive. To prevent this, spray the model with a _mold release_ compound before pouring.
 
 ## casting a wax pattern
 
-Select a pattern wax based on mechanical strength and expansion ratio, which are directly related. Investment will be cracked by expanding wax during flash-firing or autoclaving if the wax has a high enough expansion ratio. If the expansion ratio is too low, a wax cast will be brittle and difficult to remove from its rubber mold without breaking.
+The wax copy of your model is called a _pattern_. Select the wax for your pattern by experimenting with different **expansion ratios**.
+
+![casting a wax pattern](./images/investment-casting-wax.gif)
+
+- If the expansion ratio is _too high_, investment could be cracked by expanding wax during autoclaving.
+- If the expansion ratio is _too low_, wax casts will be brittle and difficult to remove from rubbere molds without breaking
 
 The tools and process required to cast wax patterns from rubber molds depend on the size of the parts:
 
-- Small parts can be cast with a wax injector used for jewelry casting.
-- Large parts require several iterations of pouring wax into the mold and degassing in a vacuum oven. Wax can be melted in a Presto pot and poured into a pre-heated mold.
+- _Small_ parts can be cast with a wax injector used for jewelry casting.
+- _Large_ parts require several iterations of pouring wax into the mold and degassing in a vacuum oven. Wax can be melted in a Presto pot and poured into a pre-heated mold.
 
 ## spruing and gating
 
-After you "chase" the wax pattern by removing any vents and supports with a wax pen, attach it to a rubber base using sprues. When you invest the flask later, the rubber base will give the top of the flask a funnel shape for pouring metal.
+After you _chase_ the wax pattern by removing any vents and supports with a wax pen, attach it to a rubber base using _sprues_. When you _invest_ the flask later, the rubber base will give the top of the flask a funnel shape for pouring metal.
 
-You can sprue patterns faster by using bulk-extruded wax sprues and breaking off pieces of any required length. Connecting sprues to the rubber base and the model with "sticky wax" will also reduce re-work and form stronger connections. A poorly attached wax pattern will break off the base and float to the surface as the flask is being invested.
+Connecting sprues to the rubber base and the model with _sticky wax_ will also reduce re-work and form stronger connections. A poorly attached wax pattern will break off the base and float to the surface as the flask is being invested.
 
-Use fewer sprues and place them at strategic points ("gates") following thin sections, which will give the metal alternate pathways for filling the mold before solidifying. Placing too many gates in close proximity will cause turbulence from several streams of molten metal colliding under pressure and wasting energy otherwise used to fill mold details, which will result in incomplete fills. Turbulence can also break off small internal features of the mold and they will end up being embedded in the casting as "inclusions".
+Use fewer sprues and place them at strategic points (_gates_) following thin sections, which will give the metal alternate pathways for filling the mold before solidifying. Placing too many gates in close proximity will cause turbulence from several streams of molten metal colliding under pressure and wasting energy otherwise used to fill mold details, which will result in incomplete fills. Turbulence can also break off small internal features of the mold and they will end up being embedded in the casting as "inclusions".
 
 ## mixing investment
 
 Select investment based on the size of the parts to be cast:
 
 - [UltraVest](https://www.riogrande.com/Product/ransom--randolph-ultra-vest-investment-100-lbs/702313) is a good choice for small to medium size aluminum parts that could fit into 6" diameter by 9" high flask.
-- [SuspendaSlurry FS](https://www.ransom-randolph.com/suspendaslurry) is great for larger aluminum parts. Each part is dipped into a bucket of slurry, with two grades of sand sifted over it in at least 9 iterations (3 times with fine sand and 6 with coarse sand, drying in between).
-
-Deionize the water before mixing it with investment to filter out mineral particles that weaken the mold. Portable deionizers are easy to get because they are also used for washing cars.
+- [SuspendaSlurry FS](https://www.ransom-randolph.com/suspendaslurry) is great for larger aluminum parts that could be dipped into a bucket of slurry.
 
 When several investment mix ratios are available, start in the middle and then select a ratio resulting in the strongest mold (more investment) while providing enough working time (more water).
 
-Degass the liquid investment in a vacuum chamber twice while vibrating it with an oscillator: first after mixing and then after pouring into the flask.
+Deionize the water before mixing it with investment to filter out mineral particles that weaken the mold. Portable deionizers are easy to get because they are also used for washing cars.
 
-If the investment molds still have bubbles after vacuuming, spray a layer of anti-sticking compound such as VacuFilm on the wax patterns before investing.
+Degass the liquid investment in a vacuum chamber twice while vibrating it with an oscillator: first after mixing and then after pouring into the flask. If the investment molds still have bubbles after vacuuming, spray a layer of anti-sticking compound such as VacuFilm on the wax patterns before investing.
 
 ## investing
 
-Place the flask on top of a rubber base with a wax pattern, and attach it using enough painter’s tape to ensure it won’t detach when vibrated. You can wind the rest of the flask with the same tape, or purchase a sleeve along with the flask and use it to immediately cover the whole flask.
+Place the flask on top of a rubber base with a wax pattern, and attach it using enough painter’s tape to ensure it won’t detach when vibrated. You can wind the rest of the flask with the same tape.
 
-Pour investment into the flask at an angle to avoid creating more bubbles and use a funnel to reduce spillage. After the investment sets, scrape the flask with a fettling knife to remove any overhangs that could cause it to get stuck in the vacuum-assist chamber.
+![investing a flask](./images/investment-casting-invest.gif)
+
+Pour investment into the flask at an angle to avoid creating more bubbles. After the investment sets, scrape the flask with a fettling knife to remove any overhangs that could cause it to get stuck in the vacuum-assist chamber.
 
 ## autoclaving
 
@@ -150,7 +157,9 @@ You can remove the wax from from the mold by autoclaving. This requires a pressu
 
 ## burnout
 
-Following autoclaving or flash-firing, burn out the molds in a kiln using the schedule provided by the investment supplier in order to evacuate water and fuse fibers in the micro-structure of the mold. Transfer autoclaved molds directly into a pre-heated kiln to avoid cracking from rapid cool-down.
+Following wax removal, burn out the ceramic molds in a kiln using the schedule provided by the investment supplier in order to evacuate water and fuse fibers in the micro-structure of the mold. Transfer autoclaved molds directly into a pre-heated kiln to avoid cracking from rapid cool-down.
+
+![investing a flask](./images/investment-casting-burnout.gif)
 
 Running a kiln requires a metal desk, a room with a stone floor, all non-ceramic surfaces covered with sheet rock, corners sealed with fire foam, and a ventilation system. Large kilns run on 220-240V similar to washers and dryers.
 
@@ -534,7 +543,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					table top 2.56" x 4.92"
 				</a>
 			</Property>
-			<Value>$745.50</Value>
+			<Value>$746</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -547,7 +556,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					table top crucible
 				</a>
 			</Property>
-			<Value>$16.90</Value>
+			<Value>$17</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -557,7 +566,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					table top crucible
 				</a>
 			</Property>
-			<Value>$33.99</Value>
+			<Value>$35</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -567,7 +576,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					outdoor crucible
 				</a>
 			</Property>
-			<Value>$39.95</Value>
+			<Value>$40</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -577,7 +586,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					table top crucible
 				</a>
 			</Property>
-			<Value>$48.47</Value>
+			<Value>$50</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -587,7 +596,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					outdoor crucible
 				</a>
 			</Property>
-			<Value>$92.87</Value>
+			<Value>$93</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -600,7 +609,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					10” 500 cfm
 				</a>
 			</Property>
-			<Value>$66.85</Value>
+			<Value>$67</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -610,7 +619,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					4” 172 cfm
 				</a>
 			</Property>
-			<Value>$115.94</Value>
+			<Value>$116</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -620,7 +629,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					4” 100 cfm
 				</a>
 			</Property>
-			<Value>$147.75</Value>
+			<Value>$148</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -653,7 +662,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					vibratory tumbler
 				</a>
 			</Property>
-			<Value>$39.99</Value>
+			<Value>$40</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -683,7 +692,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					355mm x 235mm platform
 				</a>
 			</Property>
-			<Value>$678.83</Value>
+			<Value>$679</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -693,7 +702,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					355mm x 235mm platform
 				</a>
 			</Property>
-			<Value>$909.22</Value>
+			<Value>$909</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -706,7 +715,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					digital kitchen scale
 				</a>
 			</Property>
-			<Value>$8.99</Value>
+			<Value>$9</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -726,7 +735,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					digital investment scale
 				</a>
 			</Property>
-			<Value>$54.25</Value>
+			<Value>$55</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -736,7 +745,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					large capacity platform
 				</a>
 			</Property>
-			<Value>$94.97</Value>
+			<Value>$95</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -746,7 +755,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					digital shipping scale
 				</a>
 			</Property>
-			<Value>$139.99</Value>
+			<Value>$140</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -759,7 +768,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					22 quart
 				</a>
 			</Property>
-			<Value>$61.99</Value>
+			<Value>$62</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -769,7 +778,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					23 quart
 				</a>
 			</Property>
-			<Value>$70.39</Value>
+			<Value>$70</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -779,7 +788,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					25 quart
 				</a>
 			</Property>
-			<Value>$29.99</Value>
+			<Value>$30</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -789,7 +798,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					30 quart
 				</a>
 			</Property>
-			<Value>$349.99</Value>
+			<Value>$350</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -799,7 +808,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					41.5 quart
 				</a>
 			</Property>
-			<Value>$499.99</Value>
+			<Value>$500</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -812,7 +821,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					mini inline RV water filter
 				</a>
 			</Property>
-			<Value>$17.64</Value>
+			<Value>$18</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -822,7 +831,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					RV water filter
 				</a>
 			</Property>
-			<Value>$44.94</Value>
+			<Value>$45</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -832,7 +841,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					480 gal under-sink water filter
 				</a>
 			</Property>
-			<Value>$99.95</Value>
+			<Value>$100</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -842,7 +851,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					car wash deionizer
 				</a>
 			</Property>
-			<Value>$249.88</Value>
+			<Value>$250</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -893,7 +902,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 		<Definition>
 			<Property>
 				<a target="__blank" href="https://www.ebay.com/itm/New-10cm-Dental-Lab-Hygienist-Flexible-Mixing-Bowl-Rubber-Dental-Emporium/152860196168">
-					$5.00
+					$5
 				</a>
 			</Property>
 			<Value>$17.64</Value>
@@ -906,7 +915,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1 pint
 				</a>
 			</Property>
-			<Value>$6.00</Value>
+			<Value>$6</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -916,7 +925,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1 pint
 				</a>
 			</Property>
-			<Value>$10.15</Value>
+			<Value>$10</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -926,7 +935,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1.5 quart
 				</a>
 			</Property>
-			<Value>$14.25</Value>
+			<Value>$15</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -936,7 +945,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1 gallon
 				</a>
 			</Property>
-			<Value>$22.75</Value>
+			<Value>$23</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -979,7 +988,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					foredom wax carving pen
 				</a>
 			</Property>
-			<Value>$203.50</Value>
+			<Value>$204</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -1032,7 +1041,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					wax pot with compartments
 				</a>
 			</Property>
-			<Value>$117.50</Value>
+			<Value>$118</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -1042,7 +1051,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					multi wax pot
 				</a>
 			</Property>
-			<Value>$167.99</Value>
+			<Value>$168</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1055,7 +1064,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					presto pot wax melter
 				</a>
 			</Property>
-			<Value>$62.95</Value>
+			<Value>$63</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1065,7 +1074,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					melting pot with spout
 				</a>
 			</Property>
-			<Value>$78.83</Value>
+			<Value>$79</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1075,7 +1084,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					wax pot with compartments
 				</a>
 			</Property>
-			<Value>$99.95</Value>
+			<Value>$100</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -1085,7 +1094,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					large pot with spout
 				</a>
 			</Property>
-			<Value>$199.95</Value>
+			<Value>$200</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1098,7 +1107,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					graphite ingot mold
 				</a>
 			</Property>
-			<Value>$9.05</Value>
+			<Value>$9</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1108,7 +1117,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					precision ingot mold
 				</a>
 			</Property>
-			<Value>$13.81</Value>
+			<Value>$14</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1207,7 +1216,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					stainless steel crucible tongs
 				</a>
 			</Property>
-			<Value>$19.99</Value>
+			<Value>$20</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1230,7 +1239,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					2.5”x4” with cross bar
 				</a>
 			</Property>
-			<Value>$42.25</Value>
+			<Value>$43</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1250,7 +1259,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					4" x 9" with cross bar
 				</a>
 			</Property>
-			<Value>$67.75</Value>
+			<Value>$68</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -1260,7 +1269,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					5" x 9" with cross bar
 				</a>
 			</Property>
-			<Value>$86.90</Value>
+			<Value>$87</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -1283,7 +1292,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					2.5” diameter
 				</a>
 			</Property>
-			<Value>$11.50</Value>
+			<Value>$12</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1293,7 +1302,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					3.5" diameter
 				</a>
 			</Property>
-			<Value>$11.75</Value>
+			<Value>$12</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1303,7 +1312,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					4" diameter
 				</a>
 			</Property>
-			<Value>$12.05</Value>
+			<Value>$12</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -1313,7 +1322,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					5" diameter
 				</a>
 			</Property>
-			<Value>$12.95</Value>
+			<Value>$13</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -1323,7 +1332,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					6" diameter
 				</a>
 			</Property>
-			<Value>$17.50</Value>
+			<Value>$18</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1336,7 +1345,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					2.5” diameter
 				</a>
 			</Property>
-			<Value>$52.50</Value>
+			<Value>$53</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1346,7 +1355,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					3.5" diameter
 				</a>
 			</Property>
-			<Value>$61.50</Value>
+			<Value>$62</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1356,7 +1365,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					4" diameter
 				</a>
 			</Property>
-			<Value>$67.50</Value>
+			<Value>$68</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -1366,7 +1375,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					5" diameter
 				</a>
 			</Property>
-			<Value>$67.50</Value>
+			<Value>$68</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -1376,7 +1385,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					6" diameter
 				</a>
 			</Property>
-			<Value>$69.00</Value>
+			<Value>$69</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1389,7 +1398,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1/4" diameter
 				</a>
 			</Property>
-			<Value>$28.25</Value>
+			<Value>$30</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1399,7 +1408,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1/2" diameter
 				</a>
 			</Property>
-			<Value>$28.25</Value>
+			<Value>$30</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1409,7 +1418,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					3/8" diameter
 				</a>
 			</Property>
-			<Value>$30.25</Value>
+			<Value>$31</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1422,7 +1431,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					flexshaft system (EuroTool)
 				</a>
 			</Property>
-			<Value>$93.25</Value>
+			<Value>$95</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1442,7 +1451,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					flexshaft system (Foredom)
 				</a>
 			</Property>
-			<Value>$318.15</Value>
+			<Value>$320</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$">
@@ -1452,7 +1461,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					industrial flexshaft system (Foredom)
 				</a>
 			</Property>
-			<Value>$402.30</Value>
+			<Value>$403</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$$$">
@@ -1462,7 +1471,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					hi-HP motor
 				</a>
 			</Property>
-			<Value>$536.60</Value>
+			<Value>$537</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1475,7 +1484,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1/8" shank (EuroTool)
 				</a>
 			</Property>
-			<Value>$18.97</Value>
+			<Value>$20</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1485,7 +1494,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1/8" shank (Foredom)
 				</a>
 			</Property>
-			<Value>$36.50</Value>
+			<Value>$40</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1498,7 +1507,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					50lb box
 				</a>
 			</Property>
-			<Value>$55.65</Value>
+			<Value>$56</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1508,7 +1517,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					100lb drum
 				</a>
 			</Property>
-			<Value>$90.00</Value>
+			<Value>$90</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1518,7 +1527,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					100lb drum
 				</a>
 			</Property>
-			<Value>$128.00</Value>
+			<Value>$128</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1531,7 +1540,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					14lb box
 				</a>
 			</Property>
-			<Value>$51.00</Value>
+			<Value>$51</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1541,7 +1550,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					28lb box
 				</a>
 			</Property>
-			<Value>$90.00</Value>
+			<Value>$90</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1551,7 +1560,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					43lb box
 				</a>
 			</Property>
-			<Value>$125.00</Value>
+			<Value>$125</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1574,7 +1583,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					16 lb of DragonSkin medium-setting high-temp rubber
 				</a>
 			</Property>
-			<Value>$90.00</Value>
+			<Value>$90</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$$">
@@ -1584,7 +1593,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					8 lb of LiquaFast fast-setting rubber
 				</a>
 			</Property>
-			<Value>$226.85</Value>
+			<Value>$227</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1597,7 +1606,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					small box of pellets
 				</a>
 			</Property>
-			<Value>$35.75</Value>
+			<Value>$36</Value>
 		</Definition>
 	</Tab>
 	<Tab label="$$">
@@ -1607,7 +1616,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					50 lb bag
 				</a>
 			</Property>
-			<Value>$85.65</Value>
+			<Value>$86</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1620,7 +1629,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					1 quart (you won't need even this much)
 				</a>
 			</Property>
-			<Value>$20.00</Value>
+			<Value>$20</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1633,7 +1642,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					10.95 ounces (you won't need much)
 				</a>
 			</Property>
-			<Value>$59.89</Value>
+			<Value>$60</Value>
 		</Definition>
 	</Tab>
 </Tabs>
@@ -1646,7 +1655,7 @@ Tools and consumables mentioned throughout the article are listed here with a fe
 					box of ceramic fiber risers w/filters
 				</a>
 			</Property>
-			<Value>$277.00</Value>
+			<Value>$277</Value>
 		</Definition>
 	</Tab>
 </Tabs>

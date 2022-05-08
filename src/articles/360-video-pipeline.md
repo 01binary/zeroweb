@@ -15,13 +15,13 @@ tags:
   ]
 ---
 
-import Timeline from './timeline-360-video';
+import Pipeline from './components/360-video-pipeline';
 
 ## overview
 
 360 videography is an exciting but new field, with little information available for advanced users. I hope to help other aspiring videographers avoid the trial and error when building a video processing pipeline to handle large projects.
 
-<Timeline />
+<Pipeline />
 
 ## equipment
 

@@ -10,6 +10,7 @@ tags: ['engineering-mechanical', 'design-industrial']
 
 import { Tabs, Tab } from '../components/Tabs'
 import { Definition, Property, Value } from '../components/DefinitionList'
+import InvestmentCastingProcess from './components/investment-casting-process';
 
 ## overview
 
@@ -86,9 +87,11 @@ Investment casting (or _lost wax casting_) is a great choice for projects that r
 
 The original model is cast four times (two positives and two negatives), with the final positive cast out of the chosen alloy.
 
+<InvestmentCastingProcess />
+
 1. The first negative is a _rubber mold_, with the original model released and the resulting cavity filled with wax.
-2. The _wax pattern_ is removed from the rubber mold, attached to a rubber base with sprues, and put inside of a steel cylinder called a _flask_. The flask is filled with specially formulated plaster called _investment_.
-3. When the investment sets, the wax is steamed or flash-fired, leaving a hard _ceramic mold_. This mold, still inside a flask, is fired in a kiln to evacuate water and strengthen the investment.
+2. The _wax pattern_ is removed from the rubber mold, attached to a rubber base with sprues, and put inside of a steel cylinder called a _flask_. The flask is filled with specially formulated plaster called _investment_. If the part is too large to fit in a flask, it can be invested by building a ceramic shell over several iterations of dipping in slurry and sifting sand.
+3. When the investment sets, the wax is steamed out, leaving a hard _ceramic mold_. This mold is fired in a kiln to evacuate water and strengthen the investment.
 4. Metal is poured to cast the final positive. Flasks used in investment casting are perforated to enable _vacuum-assist casting_, which forces the air out of the mold and pulls the metal in to fill intricate details.
 
 Aluminum casts can be up to `5%` smaller than the original. This only matters when they are combined with other parts produced through a different method.
@@ -161,7 +164,7 @@ Following wax removal, burn out the ceramic molds in a kiln using the schedule p
 
 ![investing a flask](./images/investment-casting-burnout.gif)
 
-Running a kiln requires a metal desk, a room with a stone floor, all non-ceramic surfaces covered with sheet rock, corners sealed with fire foam, and a ventilation system. Large kilns run on 220-240V similar to washers and dryers.
+Running a kiln requires a metal desk, a room with a stone floor, all non-ceramic surfaces covered with sheet rock, corners sealed with fire foam, and a ventilation system. Large kilns run on `220-240V` similar to washers and dryers.
 
 ## metal casting
 

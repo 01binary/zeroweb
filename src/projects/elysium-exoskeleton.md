@@ -29,7 +29,7 @@ Some parts were 3D-printed with [Protolabs](https://www.protolabs.com/) and re-c
   <img alt="pistons" src="./images/elysium-exoskeleton-pistons.jpg"/>
 </Gallery>
 
-Completing this project presented significant challenges, but members of [The Home Foundry](http://forums.thehomefoundry.org/index.php?threads/help-me-make-another-attempt-at-shell-casting.373) forum helped me learn investment casting and [Panurgic](https://yellow.place/es/panurgic-portland-usa) jewelry shop taught small-scale autoclaving. Everything I learned is [documented](https://github.com/01binary/investment-casting) and the foundry I setup for this project is available to [Ctrl^H hackerspace](https://pdxhackerspace.org/) members.
+Completing this project presented significant challenges, but members of [The Home Foundry](http://forums.thehomefoundry.org/index.php?threads/help-me-make-another-attempt-at-shell-casting.373) forum helped me learn investment casting and [Panurgic](https://yellow.place/es/panurgic-portland-usa) jewelry shop taught small-scale autoclaving. Everything I learned is [documented](../../articles/investment-casting) and the foundry I setup for this project is available to [Ctrl^H hackerspace](https://pdxhackerspace.org/) members.
 
 <Gallery>
   <img alt="print" src="./images/elysium-exoskeleton-moldmaking.jpg"/>

@@ -338,6 +338,10 @@ export const GlobalStyle = createGlobalStyle`
     stroke: ${(props) => props.theme.secondaryTextColor};
   }
 
+  .fill-secondary {
+    fill: ${(props) => props.theme.secondaryTextColor};
+  }
+
   .stroke-primary {
     stroke: ${(props) => props.theme.primaryColor};
   }

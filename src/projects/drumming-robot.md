@@ -67,3 +67,5 @@ The project files can be downloaded by cloning the [GitHub repository](https://g
 | Documentation for components used | [doc](https://github.com/01binary/drummingrobot/tree/master/doc)               |
 | Insipration                       | [references](https://github.com/01binary/drummingrobot/tree/master/references) |
 | 3D renders                        | [render](https://github.com/01binary/drummingrobot/tree/master/render)         |
+
+![str1ker head](./images/drumming-robot-head.png)

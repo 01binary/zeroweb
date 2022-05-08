@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.section`
+  padding-left: ${(props) => props.theme.spacingHalf};
+  stroke-linecap: round;
+
   .st0 {
     fill: none;
     stroke: url(#SVGID_1_);
@@ -37,8 +40,8 @@ const Wrapper = styled.section`
   }
   .st6 {
     font-family: ${(props) => props.theme.smallFont};
-    font-size: 12px;
-    fill: ${(props) => props.theme.foregroundColor};
+    font-size: 11px;
+    fill: ${(props) => props.theme.secondaryTextColor};
   }
   .st8 {
     fill: url(#SVGID_6_);
@@ -119,7 +122,6 @@ const Wrapper = styled.section`
     fill: none;
     stroke: #e3e3e3;
     stroke-width: 0.9016;
-    stroke-linecap: round;
     stroke-miterlimit: 10;
   }
   .st29 {
@@ -163,75 +165,15 @@ const Wrapper = styled.section`
     stroke-width: 4;
     stroke-miterlimit: 10;
   }
-  .st38 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_17_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
   .st39 {
-    fill: #f5f5f5;
+    fill: ${(props) => props.theme.backgroundColor};
     stroke: url(#SVGID_18_);
     stroke-width: 2;
     stroke-miterlimit: 10;
   }
-  .st40 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_19_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st41 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_20_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st42 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_21_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st43 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_22_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st44 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_23_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st45 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_24_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st46 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_25_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st47 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_26_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
   .st48 {
-    fill: #f5f5f5;
+    fill: ${(props) => props.theme.backgroundColor};
     stroke: url(#SVGID_27_);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-  }
-  .st49 {
-    fill: #f5f5f5;
-    stroke: url(#SVGID_28_);
     stroke-width: 2;
     stroke-miterlimit: 10;
   }
@@ -736,7 +678,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#3FD1FF' }} />
         <stop offset="1" style={{ stopColor: '#3FD17D' }} />
       </linearGradient>
-      <circle className="st38" cx="122.3" cy="83" r="6.8" />
+      <circle className="st48" cx="122.3" cy="83" r="6.8" />
       <linearGradient
         id="SVGID_18_"
         gradientUnits="userSpaceOnUse"
@@ -760,7 +702,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#3FD1FF' }} />
         <stop offset="1" style={{ stopColor: '#3FD17D' }} />
       </linearGradient>
-      <circle className="st40" cx="225.4" cy="83" r="6.8" />
+      <circle className="st39" cx="225.4" cy="83" r="6.8" />
       <linearGradient
         id="SVGID_20_"
         gradientUnits="userSpaceOnUse"
@@ -772,7 +714,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#3FD1FF' }} />
         <stop offset="1" style={{ stopColor: '#3FD17D' }} />
       </linearGradient>
-      <circle className="st41" cx="285.4" cy="83" r="6.8" />
+      <circle className="st39" cx="285.4" cy="83" r="6.8" />
       <linearGradient
         id="SVGID_21_"
         gradientUnits="userSpaceOnUse"
@@ -784,7 +726,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#3FD1FF' }} />
         <stop offset="1" style={{ stopColor: '#3FD17D' }} />
       </linearGradient>
-      <circle className="st42" cx="345.4" cy="83" r="6.8" />
+      <circle className="st39" cx="345.4" cy="83" r="6.8" />
       <linearGradient
         id="SVGID_22_"
         gradientUnits="userSpaceOnUse"
@@ -796,7 +738,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#FF3BB8' }} />
         <stop offset="1" style={{ stopColor: '#8F35FF' }} />
       </linearGradient>
-      <circle className="st43" cx="165.5" cy="49.5" r="6.8" />
+      <circle className="st48" cx="165.5" cy="49.5" r="6.8" />
       <linearGradient
         id="SVGID_23_"
         gradientUnits="userSpaceOnUse"
@@ -808,7 +750,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#FF3BB8' }} />
         <stop offset="1" style={{ stopColor: '#8F35FF' }} />
       </linearGradient>
-      <circle className="st44" cx="225.4" cy="49.5" r="6.8" />
+      <circle className="st48" cx="225.4" cy="49.5" r="6.8" />
       <linearGradient
         id="SVGID_24_"
         gradientUnits="userSpaceOnUse"
@@ -820,7 +762,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#FF3BB8' }} />
         <stop offset="1" style={{ stopColor: '#8F35FF' }} />
       </linearGradient>
-      <circle className="st45" cx="285.4" cy="49.5" r="6.8" />
+      <circle className="st48" cx="285.4" cy="49.5" r="6.8" />
       <linearGradient
         id="SVGID_25_"
         gradientUnits="userSpaceOnUse"
@@ -832,7 +774,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#FF3BB8' }} />
         <stop offset="1" style={{ stopColor: '#8F35FF' }} />
       </linearGradient>
-      <circle className="st46" cx="345.4" cy="49.5" r="6.8" />
+      <circle className="st48" cx="345.4" cy="49.5" r="6.8" />
       <linearGradient
         id="SVGID_26_"
         gradientUnits="userSpaceOnUse"
@@ -844,7 +786,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#FF3BB8' }} />
         <stop offset="1" style={{ stopColor: '#8F35FF' }} />
       </linearGradient>
-      <circle className="st47" cx="396.9" cy="83" r="6.8" />
+      <circle className="st48" cx="396.9" cy="83" r="6.8" />
       <linearGradient
         id="SVGID_27_"
         gradientUnits="userSpaceOnUse"
@@ -868,7 +810,7 @@ const Timeline360Video = () => (
         <stop offset="0" style={{ stopColor: '#FF3BB8' }} />
         <stop offset="1" style={{ stopColor: '#8F35FF' }} />
       </linearGradient>
-      <circle className="st49" cx="80.9" cy="50.7" r="6.8" />
+      <circle className="st48" cx="80.9" cy="50.7" r="6.8" />
     </svg>
   </Wrapper>
 );

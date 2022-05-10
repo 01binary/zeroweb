@@ -15,7 +15,7 @@ deploy:
   bucket: zeroweb-dist
   region: us-east-1
   acl: public_read
-  skip_cleanup: false
+  skip_cleanup: true
   local_dir: './public'
   on:
     branch: master

@@ -1,7 +1,7 @@
 ---
 title: Investment Casting
 description: How to cast mechanical parts out of aluminum on a budget
-image: ./images/blank.png
+image: ./images/investment-casting-process.png
 author: Valeriy Novytskyy
 date: 2021-02-11
 location: ^H Hackerspace
@@ -158,6 +158,8 @@ Pour investment into the flask at an angle to avoid creating more bubbles. After
 
 You can remove the wax from from the mold by autoclaving. This requires a pressure cooker filled with an inch of water and a stove to steam the wax out of the mold through the pouring cup. The steam causes the outer layer of wax to permeate into the mold, leaving enough space for the wax to expand and trickle out. Evacuated wax then collects on the bottom of the pressure cooker.
 
+![autoclaving](./images/investment-casting-autoclaving.gif)
+
 ## burnout
 
 Following wax removal, burn out the ceramic molds in a kiln using the schedule provided by the investment supplier in order to evacuate water and fuse fibers in the micro-structure of the mold. Transfer autoclaved molds directly into a pre-heated kiln to avoid cracking from rapid cool-down.
@@ -171,6 +173,8 @@ Running a kiln requires a metal desk, a room with a stone floor, all non-ceramic
 Use an alloy designed for casting rather than machining. The [356](https://www.makeitfrom.com/material-properties/356.0-SG70A-A03560-Cast-Aluminum) alloy is used for car engine blocks and computer heat sinks, so it’s easy to acquire on the Internet in the form of de-drossed and degassed ingots.
 
 Your goal when casting is to transfer the flask from the kiln to the vacuum assist chamber and pour metal in 2 minutes or less. This avoids a thermal shock that can destroy intricate mold details as the flask rapidly cools to room temperature, causing them to break off and become embedded in the casting.
+
+![metal casting](./images/investment-casting-pour.gif)
 
 Once the metal in the crucible reaches the casting temperature, transfer the flask into the [vacuum-assist chamber](<(https://www.youtube.com/watch?v=3BikL2yIDic)>) with a running vacuum pump. Use a temperature resistant O-ring to seal the flask flange to the top of the chamber. This will generate vacuum around the outside of the flask, drawing gases inside the flask out through the walls. While the small gas particles can permeate the mold due to its porous microstructure, the metal cannot. Instead the metal will be pulled toward the walls of the mold, precisely capturing surface details.
 

@@ -1,7 +1,7 @@
 ---
 title: 360 Video Pipeline
 description: How to capture and process high-quality 360 video
-image: ./images/blank.png
+image: ./images/360-video-pipeline.png
 author: Valeriy Novytskyy
 date: 2021-02-11
 location: ^H Hackerspace

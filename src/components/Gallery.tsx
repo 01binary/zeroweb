@@ -54,6 +54,8 @@ const COORDS_NARROW = [
   },
 ];
 
+const getThumbnail = (set: string[]): string => set[1];
+
 const GalleryWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -201,8 +203,13 @@ const GalleryImageLink = styled.a`
 `;
 
 type GalleryImage = {
+  // Alternative text
   title: string;
+  // Full size
   src: string;
+  // All available sizes
+  set: string;
+  // Link target to see full image
   href: string;
 };
 
@@ -488,7 +495,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
           >
             <use xlinkHref="#row_narrow_even" />
           </svg>
-          {imagesInRow.map(({ src, title, href }, imageIndex) => (
+          {imagesInRow.map(({ set, title, href }, imageIndex) => (
             <>
               <GalleryLabelLink
                 index={imageIndex}
@@ -517,7 +524,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                   <image
                     clipPath="url(#gallery-mask)"
                     height="128.5px"
-                    xlinkHref={src}
+                    xlinkHref={getThumbnail(set)}
                   />
                   <rect
                     className="hover"

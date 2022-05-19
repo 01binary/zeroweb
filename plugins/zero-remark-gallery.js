@@ -12,10 +12,12 @@ module.exports = ({
 
     $('.gatsby-resp-image-wrapper').each(function () {
       const container = $(this);
-      const title = container.find(`img`).attr('alt');
-      const src = container.find(`img`).attr('src');
+      const img = container.find(`img`);
+      const title = img.attr('alt');
+      const src = img.attr('src');
+      const srcSet = img.attr('srcset').split(',');
       const href = container.find(`.gatsby-resp-image-link`).attr('href');
-      images.push({ title, src, href });
+      images.push({ title, src, href, set: srcSet.map(entry => entry.split(' ')[0]) });
     });
 
     node.type = 'jsx';

@@ -94,7 +94,7 @@ The original model is cast four times (two positives and two negatives), with th
 3. When the investment sets, the wax is steamed out, leaving a hard _ceramic mold_. This mold is fired in a kiln to evacuate water and strengthen the investment.
 4. Metal is poured to cast the final positive. Flasks used in investment casting are perforated to enable _vacuum-assist casting_, which forces the air out of the mold and pulls the metal in to fill intricate details.
 
-Aluminum casts can be up to `5%` smaller than the original. This only matters when they are combined with other parts produced through a different method.
+Aluminum casts can be up to `5%` smaller than the original model.
 
 ## making a rubber mold
 
@@ -103,7 +103,7 @@ To make a rubber mold, build a box slightly larger than the model, fix the model
 <img class="light-only" alt="making a rubber mold" src="./images/investment-casting-rubber.gif"/>
 <img class="dark-only" alt="making a rubber mold" src="./images/investment-casting-rubber-dark.gif"/>
 
-If you simply cut the master model out of the mold you will produce a _one-part mold_. Releasing a fragile wax pattern from this mold could be next to impossible without breaking it. For this reason, complex models require [two-part molds](https://www.youtube.com/watch?v=DEVi0mEaJJQ).
+If you cut the model out of the mold you will produce a _one-part mold_. Releasing a fragile wax pattern from this mold could be next to impossible without breaking it. For this reason, complex models require [two-part molds](https://www.youtube.com/watch?v=DEVi0mEaJJQ).
 
 You can also create additional geometry at this stage to _aid degassing_ or to _add strength_ to the wax pattern cast from the mold.
 
@@ -119,8 +119,8 @@ The wax copy of your model is called a _pattern_. Select the wax for your patter
 <img class="light-only" alt="casting a wax pattern" src="./images/investment-casting-wax.gif"/>
 <img class="dark-only" alt="casting a wax pattern" src="./images/investment-casting-wax-dark.gif"/>
 
-- If the expansion ratio is _too high_, investment could be cracked by expanding wax during autoclaving.
-- If the expansion ratio is _too low_, wax casts will be brittle and difficult to remove from rubbere molds without breaking
+- If the expansion ratio is _too high_, investment could be cracked by expanding wax during autoclaving
+- If the expansion ratio is _too low_, wax casts will be brittle and difficult to remove from rubber molds without breaking
 
 The tools and process required to cast wax patterns from rubber molds depend on the size of the parts:
 
@@ -139,27 +139,28 @@ Use fewer sprues and place them at strategic points (_gates_) following thin sec
 
 Select investment based on the size of the parts to be cast:
 
-- [UltraVest](https://www.riogrande.com/Product/ransom--randolph-ultra-vest-investment-100-lbs/702313) is a good choice for small to medium size aluminum parts that could fit into 6" diameter by 9" high flask.
-- [SuspendaSlurry FS](https://www.ransom-randolph.com/suspendaslurry) is great for larger aluminum parts that could be dipped into a bucket of slurry.
+- [UltraVest](https://www.riogrande.com/Product/ransom--randolph-ultra-vest-investment-100-lbs/702313) is a good choice for small to medium size aluminum parts that could fit into `6" x 9"` (or smaller) flask
+- [SuspendaSlurry FS](https://www.ransom-randolph.com/suspendaslurry) is great for larger aluminum parts that could be dipped into a bucket of slurry
 
-When several investment mix ratios are available, start in the middle and then select a ratio resulting in the strongest mold (more investment) while providing enough working time (more water).
+_Deionize_ the water before mixing it with investment to filter out mineral particles that weaken the mold. A few portable deionizers are listed in [tools & supplies](#tools--supplies).
 
-Deionize the water before mixing it with investment to filter out mineral particles that weaken the mold. Portable deionizers are easy to get because they are also used for washing cars.
+- When investing a flask and several investment mix ratios are available, select a ratio resulting in the _strongest mold_ (more investment) while providing enough _working time_ (more water). Degass the investment in a vacuum chamber while vibrating it with an oscillator
+- When investing with slurry no mixing is needed. Stir the slurry before every use and add water only if the slurry becomes too thick
 
-Degass the liquid investment in a vacuum chamber twice while vibrating it with an oscillator: first after mixing and then after pouring into the flask. If the investment molds still have bubbles after vacuuming, spray a layer of anti-sticking compound such as VacuFilm on the wax patterns before investing.
+If the investment molds have bubbles, spray a layer of anti-sticking compound such as VacuFilm on the wax patterns before investing.
 
 ## investing
 
-Place the flask on top of a rubber base with a wax pattern, and attach it using enough painter’s tape to ensure it won’t detach when vibrated. You can wind the rest of the flask with the same tape.
+If casting in a flask, place the flask on top of a rubber base with the wax pattern, attach it with painter's tape, and use the same tape to cover flask perforations.
 
 <img class="light-only" alt="investing a flask" src="./images/investment-casting-invest.gif"/>
 <img class="dark-only" alt="investing a flask" src="./images/investment-casting-invest-dark.gif"/>
 
-Pour investment into the flask at an angle to avoid creating more bubbles. After the investment sets, scrape the flask with a fettling knife to remove any overhangs that could cause it to get stuck in the vacuum-assist chamber.
+If dipping in slurry, it takes about `11` dips to create a strong mold. One layer of slurry dries in about `1.5 hours` when heat and fans are used to speed up the process. Sift fine silica sand on the first `3` layers and course sand on the other layers after each dip.
 
 ## autoclaving
 
-You can remove the wax from from the mold by autoclaving. This requires a pressure cooker filled with an inch of water and a stove to steam the wax out of the mold through the pouring cup. The steam causes the outer layer of wax to permeate into the mold, leaving enough space for the wax to expand and trickle out. Evacuated wax then collects on the bottom of the pressure cooker.
+Wax is evacuated from from the mold by _autoclaving_. This requires a pressure cooker filled with an inch of water and a stove to steam the wax out of the mold through the pouring cup. The steam causes the outer layer of wax to permeate into the mold, leaving space for the wax to expand and trickle out.
 
 <img class="light-only" alt="autoclaving" src="./images/investment-casting-autoclaving.gif"/>
 <img class="dark-only" alt="autoclaving" src="./images/investment-casting-autoclaving-dark.gif"/>
@@ -177,12 +178,14 @@ Running a kiln requires a metal desk, a room with a stone floor, all non-ceramic
 
 Use an alloy designed for casting rather than machining. The [356](https://www.makeitfrom.com/material-properties/356.0-SG70A-A03560-Cast-Aluminum) alloy is used for car engine blocks and computer heat sinks, so it’s easy to acquire on the Internet in the form of de-drossed and degassed ingots.
 
-Your goal when casting is to transfer the flask from the kiln to the vacuum assist chamber and pour metal in 2 minutes or less. This avoids a thermal shock that can destroy intricate mold details as the flask rapidly cools to room temperature, causing them to break off and become embedded in the casting.
+Your goal when casting is to transfer the flask from the kiln to the vacuum assist chamber and pour metal in `2 minutes` or less. This avoids a _thermal shock_ that can destroy intricate mold details as the flask rapidly cools to room temperature, causing them to break off and become embedded in the casting.
 
 <img class="light-only" alt="metal casting" src="./images/investment-casting-pour.gif"/>
 <img class="dark-only" alt="metal casting" src="./images/investment-casting-pour-dark.gif"/>
 
-Once the metal in the crucible reaches the casting temperature, transfer the flask into the [vacuum-assist chamber](<(https://www.youtube.com/watch?v=3BikL2yIDic)>) with a running vacuum pump. Use a temperature resistant O-ring to seal the flask flange to the top of the chamber. This will generate vacuum around the outside of the flask, drawing gases inside the flask out through the walls. While the small gas particles can permeate the mold due to its porous microstructure, the metal cannot. Instead the metal will be pulled toward the walls of the mold, precisely capturing surface details.
+Once the metal in the crucible reaches the casting temperature, transfer the flask into the [vacuum-assist chamber](<(https://www.youtube.com/watch?v=3BikL2yIDic)>) with a running vacuum pump. Use a temperature resistant O-ring to seal the flask flange to the top of the chamber.
+
+This will generate vacuum around the outside of the flask, drawing gases inside the flask out through the walls. While the small gas particles can permeate the mold due to its porous microstructure, the metal cannot. Instead the metal will be pulled toward the walls of the mold, precisely capturing surface details.
 
 If the vacuum is not enough to achieve a complete fill, you can attach a "riser" to the top of the flask to increase the weight of metal pushing down into the mold. Risers also let you pour quickly and avoid dangerous spills because they buffer the metal and feed it at a slower rate while keeping it hot. Install a ceramic filter inside the riser to prevent pieces of forge refractory, dust, and other unwanted particles from entering the mold and becoming inclusions.
 

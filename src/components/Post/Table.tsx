@@ -80,4 +80,16 @@ export const TableCell = styled.td`
   transition: background-color ${(props) => props.theme.animationFast}
     ease-in-out;
   vertical-align: top;
+
+  code {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
+    font-size: 18px;
+    background: ${(props) =>
+      props.theme.isDark
+        ? props.theme.dropShadowDarkColor
+        : props.theme.accentLightColor};
+    padding: 6px;
+    pointer-events: none;
+  }
 `;

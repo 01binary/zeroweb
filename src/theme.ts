@@ -368,4 +368,12 @@ export const GlobalStyle = createGlobalStyle`
   .stroke-none {
     stroke: none;
   }
+
+  .light-only {
+    display: ${(props) => (props.theme.isDark ? `none` : `block`)};
+  }
+
+  .dark-only {
+    display: ${(props) => (props.theme.isDark ? `block` : `none`)};
+  }
 `;

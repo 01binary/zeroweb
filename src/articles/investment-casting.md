@@ -100,7 +100,8 @@ Aluminum casts can be up to `5%` smaller than the original. This only matters wh
 
 To make a rubber mold, build a box slightly larger than the model, fix the model in the box, and fill it with room temperature vulcanization (RTV) rubber.
 
-![making a rubber mold](./images/investment-casting-rubber.gif)
+<img class="light-only" alt="making a rubber mold" src="./images/investment-casting-rubber.gif"/>
+<img class="dark-only" alt="making a rubber mold" src="./images/investment-casting-rubber-dark.gif"/>
 
 If you simply cut the master model out of the mold you will produce a _one-part mold_. Releasing a fragile wax pattern from this mold could be next to impossible without breaking it. For this reason, complex models require [two-part molds](https://www.youtube.com/watch?v=DEVi0mEaJJQ).
 
@@ -115,7 +116,8 @@ Entrapped gas is a concern with rubber molds as any bubbles at the surface of th
 
 The wax copy of your model is called a _pattern_. Select the wax for your pattern by experimenting with different **expansion ratios**.
 
-![casting a wax pattern](./images/investment-casting-wax.gif)
+<img class="light-only" alt="casting a wax pattern" src="./images/investment-casting-wax.gif"/>
+<img class="dark-only" alt="casting a wax pattern" src="./images/investment-casting-wax-dark.gif"/>
 
 - If the expansion ratio is _too high_, investment could be cracked by expanding wax during autoclaving.
 - If the expansion ratio is _too low_, wax casts will be brittle and difficult to remove from rubbere molds without breaking
@@ -150,7 +152,8 @@ Degass the liquid investment in a vacuum chamber twice while vibrating it with a
 
 Place the flask on top of a rubber base with a wax pattern, and attach it using enough painter’s tape to ensure it won’t detach when vibrated. You can wind the rest of the flask with the same tape.
 
-![investing a flask](./images/investment-casting-invest.gif)
+<img class="light-only" alt="investing a flask" src="./images/investment-casting-invest.gif"/>
+<img class="dark-only" alt="investing a flask" src="./images/investment-casting-invest-dark.gif"/>
 
 Pour investment into the flask at an angle to avoid creating more bubbles. After the investment sets, scrape the flask with a fettling knife to remove any overhangs that could cause it to get stuck in the vacuum-assist chamber.
 
@@ -158,13 +161,15 @@ Pour investment into the flask at an angle to avoid creating more bubbles. After
 
 You can remove the wax from from the mold by autoclaving. This requires a pressure cooker filled with an inch of water and a stove to steam the wax out of the mold through the pouring cup. The steam causes the outer layer of wax to permeate into the mold, leaving enough space for the wax to expand and trickle out. Evacuated wax then collects on the bottom of the pressure cooker.
 
-![autoclaving](./images/investment-casting-autoclaving.gif)
+<img class="light-only" alt="autoclaving" src="./images/investment-casting-autoclaving.gif"/>
+<img class="dark-only" alt="autoclaving" src="./images/investment-casting-autoclaving-dark.gif"/>
 
 ## burnout
 
 Following wax removal, burn out the ceramic molds in a kiln using the schedule provided by the investment supplier in order to evacuate water and fuse fibers in the micro-structure of the mold. Transfer autoclaved molds directly into a pre-heated kiln to avoid cracking from rapid cool-down.
 
-![investing a flask](./images/investment-casting-burnout.gif)
+<img class="light-only" alt="investing a flask" src="./images/investment-casting-burnout.gif"/>
+<img class="dark-only" alt="investing a flask" src="./images/investment-casting-burnout-dark.gif"/>
 
 Running a kiln requires a metal desk, a room with a stone floor, all non-ceramic surfaces covered with sheet rock, corners sealed with fire foam, and a ventilation system. Large kilns run on `220-240V` similar to washers and dryers.
 
@@ -174,7 +179,8 @@ Use an alloy designed for casting rather than machining. The [356](https://www.m
 
 Your goal when casting is to transfer the flask from the kiln to the vacuum assist chamber and pour metal in 2 minutes or less. This avoids a thermal shock that can destroy intricate mold details as the flask rapidly cools to room temperature, causing them to break off and become embedded in the casting.
 
-![metal casting](./images/investment-casting-pour.gif)
+<img class="light-only" alt="metal casting" src="./images/investment-casting-pour.gif"/>
+<img class="dark-only" alt="metal casting" src="./images/investment-casting-pour-dark.gif"/>
 
 Once the metal in the crucible reaches the casting temperature, transfer the flask into the [vacuum-assist chamber](<(https://www.youtube.com/watch?v=3BikL2yIDic)>) with a running vacuum pump. Use a temperature resistant O-ring to seal the flask flange to the top of the chamber. This will generate vacuum around the outside of the flask, drawing gases inside the flask out through the walls. While the small gas particles can permeate the mold due to its porous microstructure, the metal cannot. Instead the metal will be pulled toward the walls of the mold, precisely capturing surface details.
 

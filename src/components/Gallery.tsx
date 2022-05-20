@@ -77,7 +77,7 @@ const GalleryWrapper = styled.section`
 
   @media (max-width: ${MOBILE_MIN}) {
     width: ${NARROW_WIDTH}px;
-    margin: 0 calc(0px - ${(props) => props.theme.spacing});
+    margin: 0 calc(0px - ${(props) => props.theme.spacingHalf});
   }
 `;
 
@@ -91,27 +91,45 @@ const GalleryRow = styled.section`
   }
 
   &:nth-child(even) {
-    .border--odd {
+    .border--even {
       display: block;
     }
 
-    .border--even {
+    .border--odd {
+      display: none;
+    }
+
+    .border--odd--middle {
       display: none;
     }
   }
 
   &:nth-child(odd) {
+    .border--even {
+      display: none;
+    }
+
     .border--odd {
       display: none;
     }
 
-    .border--even {
+    .border--odd--middle {
       display: block;
     }
   }
 
-  .border--narrow {
-    display: none;
+  &:nth-child(odd):last-child {
+    .border--even {
+      display: none;
+    }
+
+    .border--odd {
+      display: block;
+    }
+
+    .border--odd--middle {
+      display: none;
+    }
   }
 
   @media ${WIDE_MEDIA} {
@@ -311,6 +329,17 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             <stop offset="1" stopColor="#FF5E6D" />
           </linearGradient>
 
+          <g id="row_narrow_even_middle">
+            <polyline points="332.9,192 332.9,128.1 388.4,96 " />
+            <polyline points="221.9,128.1 277.4,96 332.9,128.1 332.9,192 " />
+            <polyline points="111,192 111,128.1 166.5,96 221.9,128.1 221.9,192 " />
+            <polyline points="0,128.1 55.5,96 111,128.1 111,192 " />
+            <polyline points="55.5,224.1 111,192 166.5,224.1 " />
+            <polyline points="388.4,96 332.9,128.1 277.4,96 277.4,32.1 " />
+            <polyline points="0,128.1 55.5,96 55.5,32.1 111,0 166.5,32.1 166.5,96 111,128.1 55.5,96 55.5,32.1 " />
+            <polyline points="166.5,32.1 221.9,0 277.4,32.1 277.4,96 221.9,128.1 166.5,96 166.5,32.1 " />
+            <line x1="277.4" y1="32.1" x2="332.9" y2="0" />
+          </g>
           <g id="row_narrow_even">
             <polyline
               strokeMiterlimit="10"
@@ -464,7 +493,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
       {rows.map((imagesInRow, rowIndex) => (
         <GalleryRow key={`row${rowIndex}`} index={rowIndex} coords={coords}>
           <svg
-            className="border border--wide border--odd fill-none stroke-border"
+            className="border border--wide border--even fill-none stroke-border"
             width="610.5px"
             height="224px"
             viewBox="0 0 610.5 224"
@@ -472,7 +501,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             <use xlinkHref="#row_wide_odd" />
           </svg>
           <svg
-            className="border border--wide border--even fill-none stroke-border"
+            className="border border--wide border--odd fill-none stroke-border"
             width="610.5px"
             height="224px"
             viewBox="0 0 610.5 224"
@@ -480,7 +509,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             <use xlinkHref="#row_wide_even" />
           </svg>
           <svg
-            className="border border--narrow border--odd fill-none stroke-border"
+            className="border border--narrow border--even fill-none stroke-border"
             width="388.5px"
             height="224px"
             viewBox="0 0 388.5 224"
@@ -488,12 +517,20 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             <use xlinkHref="#row_narrow_odd" />
           </svg>
           <svg
-            className="border border--narrow border--even fill-none stroke-border"
+            className="border border--narrow border--odd fill-none stroke-border"
             width="388.5px"
             height="224px"
             viewBox="0 0 388.5 224"
           >
             <use xlinkHref="#row_narrow_even" />
+          </svg>
+          <svg
+            className="border border--narrow border--odd--middle fill-none stroke-border"
+            width="388.5px"
+            height="224px"
+            viewBox="0 0 388.5 224"
+          >
+            <use xlinkHref="#row_narrow_even_middle" />
           </svg>
           {imagesInRow.map(({ set, title, href }, imageIndex) => (
             <>

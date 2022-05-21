@@ -40,11 +40,20 @@ import {
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MOUSEOVER_TIMEOUT = 100;
 
-// Get unique paragraph identifier given paragraph text
+/**
+ * Get unique paragraph identifier given paragraph text
+ * @param text - The paragraph text or html
+ * @returns The hash of the text or html
+ */
 const getHash = (text: string): string | undefined =>
   text ? `p${stringHash(text)}` : undefined;
 
-// Determine if a text node contains another text node
+/**
+ * Determine if a text node contains another text node
+ * @param parent - The parent to search
+ * @param child - The child to find in parent
+ * @returns Whether parent node contains a given child node
+ */
 const nodeContains = (parent: Node, child: Node): boolean => {
   if (parent === child) return true;
 
@@ -55,17 +64,43 @@ const nodeContains = (parent: Node, child: Node): boolean => {
   return false;
 };
 
+/**
+ * Determine whether an element has text content
+ * @param el - The element to inspect
+ * @returns Whether element has text
+ */
 const containsText = (el: HTMLElement): boolean => Boolean(el.innerText.length);
 
+/**
+ * Determine whether an element contains a list
+ * @param el - The element to inspect
+ * @returns Whether the element contains a list
+ */
 const containsList = (el: HTMLElement): boolean =>
   el.innerHTML.indexOf('<ul') >= 0 || el.innerHTML.indexOf('<ol') >= 0;
 
+/**
+ * Determine whether inner HTML contains a list
+ * @param text - The element HTML
+ * @returns Whether the element HTML contains a list
+ */
 const textContainsList = (text: string): boolean =>
   text?.indexOf('<ul') >= 0 || text?.indexOf('<ol') >= 0;
 
+/**
+ * Determimne wither inner HTML contains an image
+ * @param html - The element HTML
+ * @returns Whether the element HTML contains an image
+ */
 const textContainsImage = (html: string): boolean =>
   html?.indexOf('gatsby-resp-image-wrapper') >= 0;
 
+/**
+ * Highlights a paragraph currently being manipulated by user
+ * @param isList: whether the paragraph contains an ordered or unordered list
+ * @param isImage: whether the paragraph contains an image
+ * @returns The paragraph contents wrapped in a highlight
+ */
 const ActiveParagraphHighlight: FC<{
   isList: boolean;
   isImage: boolean;
@@ -80,24 +115,35 @@ const ActiveParagraphHighlight: FC<{
     <ActiveParagraphTextHighlight>{children}</ActiveParagraphTextHighlight>
   );
 
-// Highlight text in paragraph given mark start and end
+/**
+ * Highlight text in a paragraph given original inner html and selected range
+ * @param props.innerHtml - The original inner html
+ * @param props.start - The highlight range start
+ * @param props.end - The highlight range end
+ * @returns A span containing the highlighted html
+ */
 const ParagraphHighlight: FC<{
   innerHtml: string;
   start: number;
   end: number;
 }> = ({ innerHtml, start, end }) => {
-  let htmlStart, htmlEnd;
+  let htmlStart: number | undefined, htmlEnd: number | undefined;
   let openTag = false;
   let pos = 0;
 
   for (let n = 0; n < innerHtml.length; n++) {
-    if (innerHtml[n] === '<') openTag = true;
-    else if (innerHtml[n] === '>') openTag = false;
+    if (innerHtml[n] === '<') {
+      openTag = true;
+    } else if (innerHtml[n] === '>') {
+      openTag = false;
+    } else if (!openTag) {
+      if (htmlStart === undefined && pos >= start) htmlStart = n;
 
-    if (pos === start) htmlStart = n;
-    if (pos === end) htmlEnd = n + 1;
+      if (htmlEnd === undefined && pos >= end)
+        htmlEnd = innerHtml[n + 1] === ' ' ? n + 1 : n;
 
-    if (!openTag) pos++;
+      pos++;
+    }
   }
 
   if (htmlStart === undefined) htmlStart = 0;

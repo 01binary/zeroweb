@@ -23,6 +23,21 @@ export const List = styled.ul`
       padding: 6px;
       pointer-events: none;
     }
+
+    mark {
+      background-color: ${(props) => props.theme.secondaryColor};
+      color: ${(props) => props.theme.backgroundColor};
+      padding: 2px;
+
+      code {
+        color: ${(props) => props.theme.backgroundColor};
+        background: none;
+      }
+
+      a {
+        color: ${(props) => props.theme.backgroundColor};
+      }
+    }
   }
 `;
 

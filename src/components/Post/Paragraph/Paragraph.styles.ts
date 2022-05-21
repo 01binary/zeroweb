@@ -173,6 +173,11 @@ export const ActiveParagraphListHighlight = styled.div.attrs(() => ({
   a {
     color: ${(props) => props.theme.backgroundColor};
   }
+
+  code {
+    color: ${(props) => props.theme.backgroundColor};
+    background: none !important;
+  }
 `;
 
 export const ActiveParagraphTextHighlight = styled.span.attrs(() => ({

@@ -21,7 +21,12 @@ module.exports = {
     image: `/images/icon.png`
   },
   plugins: [
-    `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {
+        displayName: false
+      },
+    },
     /*{
       resolve: `gatsby-plugin-google-gtag`,
       options: {

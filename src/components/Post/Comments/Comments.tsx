@@ -606,10 +606,12 @@ const Comments: FC<CommentsProps> = ({
                       )}
                     </CommentContent>
                     <CommentMetadata>
-                      <CommentReactions
-                        timestamp={timestamp}
-                        comments={comments}
-                      />
+                      {editingComment !== timestamp && (
+                        <CommentReactions
+                          timestamp={timestamp}
+                          comments={comments}
+                        />
+                      )}
                       <CommentActions>
                         {userId === currentUserId && !editingComment && (
                           <CommentButton

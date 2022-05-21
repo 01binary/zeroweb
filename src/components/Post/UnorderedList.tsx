@@ -31,7 +31,7 @@ export const List = styled.ul`
 
       code {
         color: ${(props) => props.theme.backgroundColor};
-        background: none;
+        background: none !important;
       }
 
       a {

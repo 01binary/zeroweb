@@ -88,12 +88,20 @@ const textContainsList = (text: string): boolean =>
   text?.indexOf('<ul') >= 0 || text?.indexOf('<ol') >= 0;
 
 /**
- * Determimne wither inner HTML contains an image
+ * Determine whether inner HTML contains an image
  * @param html - The element HTML
  * @returns Whether the element HTML contains an image
  */
 const textContainsImage = (html: string): boolean =>
   html?.indexOf('gatsby-resp-image-wrapper') >= 0;
+
+/**
+ * Determine whether inner HTML contains video
+ * @param html - The element HTML
+ * @returns Whether the element HTML contains a video
+ */
+const textContainsVideo = (html: string): boolean =>
+  html?.indexOf('iframe') >= 0;
 
 /**
  * Highlights a paragraph currently being manipulated by user
@@ -104,10 +112,11 @@ const textContainsImage = (html: string): boolean =>
 const ActiveParagraphHighlight: FC<{
   isList: boolean;
   isImage: boolean;
-}> = ({ children, isList, isImage }) =>
+  isVideo: boolean;
+}> = ({ children, isList, isImage, isVideo }) =>
   isList ? (
     <ActiveParagraphListHighlight>{children}</ActiveParagraphListHighlight>
-  ) : isImage ? (
+  ) : isImage || isVideo ? (
     <ActiveParagraphTextHighlight noPadding>
       {children}
     </ActiveParagraphTextHighlight>
@@ -203,15 +212,24 @@ const Paragraph: FC = ({ children }) => {
 
   const isList = useMemo(() => textContainsList(innerText), [innerText]);
   const isImage = useMemo(() => textContainsImage(innerText), [innerText]);
-  const isText = !isList && !isImage;
+  const isVideo = useMemo(() => textContainsVideo(innerText), [innerText]);
+  const isText = !isList && !isImage && !isVideo;
 
   const reactions = useMemo(
     () => allReactions?.filter(({ paragraph }) => paragraph === hash),
     [allReactions, hash]
   );
 
-  const highlights = reactions?.filter(({ rangeLength }) => rangeLength);
-  const comments = reactions?.filter(({ markdown }) => markdown);
+  const highlights = useMemo(
+    () => reactions?.filter(({ rangeLength }) => rangeLength),
+    [reactions]
+  );
+
+  const comments = useMemo(
+    () => reactions?.filter(({ markdown }) => markdown),
+    [reactions]
+  );
+
   const hasHighlights = Boolean(highlights?.length && !comments?.length);
   const hasComments = Boolean(comments?.length);
   const showMarker = hasComments || hasHighlights;
@@ -493,7 +511,11 @@ const Paragraph: FC = ({ children }) => {
     >
       <ParagraphBlock id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
         {showInlineCommentForm ? (
-          <ActiveParagraphHighlight isList={isList} isImage={isImage}>
+          <ActiveParagraphHighlight
+            isList={isList}
+            isImage={isImage}
+            isVideo={isVideo}
+          >
             {children}
           </ActiveParagraphHighlight>
         ) : showHighlightMark ? (

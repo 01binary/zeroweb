@@ -191,6 +191,7 @@ const Provider: FC<{
 type LoginProps = {
   inline?: boolean;
   loginError: string;
+  action?: string;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
   handleFacebookLogin: () => void;
@@ -208,6 +209,7 @@ const Login: FC<LoginProps> = ({
   hideTip,
   loginError,
   inline,
+  action,
 }) => {
   const handleLogin = useCallback(
     (providerName: string) => {
@@ -238,7 +240,7 @@ const Login: FC<LoginProps> = ({
     <Error>{loginError}</Error>
   ) : (
     <Prompt inline={inline}>
-      <Text inline={inline}>Please login to comment:</Text>
+      <Text inline={inline}>Please login to {action ?? 'comment'}:</Text>
       <ProviderList>
         {PROVIDERS.map(
           ({ name: providerName, icon: ProviderIcon }, providerIndex) => (

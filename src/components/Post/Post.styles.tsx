@@ -438,3 +438,8 @@ export const InlineTimeToRead = styled.span`
     display: block;
   }
 `;
+
+export const LoginPopup = styled.div`
+  padding: ${(props) => props.theme.spacing};
+  padding-bottom: ${(props) => props.theme.spacingHalf};
+`;

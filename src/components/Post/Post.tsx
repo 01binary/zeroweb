@@ -59,6 +59,7 @@ import {
   HeroImage,
   Content,
   Breadcrumb,
+  LoginPopup,
 } from './Post.styles';
 import OrderedList from './OrderedList';
 import UnorderedList from './UnorderedList';
@@ -83,6 +84,7 @@ import ProfileTip from './ProfileTip';
 import LocationTip from './LocationTip';
 import authors from '../../../authors.json';
 import locations from '../../../locations.json';
+import Login from '../Login';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
@@ -169,7 +171,17 @@ const Post: FC<{
     logs: { nodes: logs },
   },
 }) => {
-  const { user, showCommentsSidebar, setShowCommentsSidebar } = useBlogData();
+  const {
+    user,
+    loginError,
+    showCommentsSidebar,
+    setShowCommentsSidebar,
+    handleFacebookLogin,
+    handleTwitterLogin,
+    handleGoogleLogin,
+    handleGithubLogin,
+  } = useBlogData();
+
   const {
     loading,
     error,
@@ -220,6 +232,18 @@ const Post: FC<{
     showTipFor: showParagraphMenu,
     tipProps: paragraphMenuProps,
     tipRef: paragraphMenuRef,
+    targetRef: highlightedParagraphRef,
+  } = useTooltip({
+    placement: 'top-start',
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6,
+  });
+
+  const {
+    hideTip: hideLoginPopup,
+    showTipFor: showLoginPopup,
+    tipProps: loginPopupProps,
+    tipRef: loginPopupRef,
   } = useTooltip({
     placement: 'top-start',
     verticalOffsetDesktop: 6,
@@ -360,8 +384,9 @@ const Post: FC<{
 
       if (e.target.id === 'paragraphHighlight') {
         if (!user) {
-          // Scroll to login
-          navigate('#comments');
+          // Direct user to login
+          hideParagraphMenu();
+          showLoginPopup(null, highlightedParagraphRef);
           return;
         }
 
@@ -379,6 +404,7 @@ const Post: FC<{
         handleToggleInlineComment(paragraph);
       }
 
+      hideLoginPopup();
       hideParagraphMenu();
       setParagraphSelection(null);
       setHighlightedParagraph(null);
@@ -392,6 +418,8 @@ const Post: FC<{
       setParagraphSelection,
       setHighlightedParagraph,
       hideParagraphMenu,
+      showLoginPopup,
+      hideLoginPopup,
     ]
   );
 
@@ -435,22 +463,30 @@ const Post: FC<{
         });
   }, [inlineCommentParagraph, user, handleAdd, setInlineCommentParagraph]);
 
-  const handleClearHighlight = useCallback(
-    // Clear highlighted paragraph
+  const handleClearOverlays = useCallback(
     (e) => {
+      // Clear login popup
+      hideLoginPopup();
+
+      // Clear highlighted paragraph
       if (!highlightedParagraph || e.target.id?.startsWith('p')) return;
       setHighlightedParagraph(null);
     },
-    [highlightedParagraph, setHighlightedParagraph]
+    [highlightedParagraph, setHighlightedParagraph, hideLoginPopup]
   );
 
   useEffect(() => {
     // Clear highlight when another body element was clicked
-    document.body.addEventListener('click', handleClearHighlight);
+    document.body.addEventListener('click', handleClearOverlays);
     return () => {
-      document.body.removeEventListener('click', handleClearHighlight);
+      document.body.removeEventListener('click', handleClearOverlays);
     };
-  }, [handleClearHighlight]);
+  }, [handleClearOverlays]);
+
+  useEffect(() => {
+    // Hide login popup when user is logged in
+    if (user) hideLoginPopup();
+  }, [user]);
 
   useEffect(
     () => () => {
@@ -680,6 +716,24 @@ const Post: FC<{
         <LocationTip {...location} />
         <Arrow />
       </Tooltip>
+
+      <ContextMenu ref={loginPopupRef} {...loginPopupProps}>
+        <LoginPopup>
+          <Login
+            inline
+            action={'highlight'}
+            {...{
+              handleFacebookLogin,
+              handleGoogleLogin,
+              handleTwitterLogin,
+              handleGithubLogin,
+              loginError,
+              showTipFor,
+              hideTip,
+            }}
+          />
+        </LoginPopup>
+      </ContextMenu>
     </MDXProvider>
   );
 };

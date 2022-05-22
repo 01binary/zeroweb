@@ -23,6 +23,24 @@ const Toc = styled.section`
   line-height: ${(props) => props.theme.smallFontLineHeight};
   list-style-type: none;
   margin-top: ${(props) => props.theme.spacing};
+
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+
+  animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
 `;
 
 const TocTitle = styled.h2`

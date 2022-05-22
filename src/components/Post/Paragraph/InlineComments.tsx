@@ -254,9 +254,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
   }, [toggleInlineComment, hideTip]);
 
   const handleInlineCommentKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Escape') toggleInlineComment(null);
-    },
+    (e) => e.key === 'Escape' && toggleInlineComment(null),
     [toggleInlineComment]
   );
 
@@ -379,7 +377,6 @@ export const InlineComments: FC<InlineCommentsProps> = ({
               </InlineCommentButton>
             )}
             <InlineCommentButton
-              disabled={loading}
               onClick={handleCancelInlineComment}
               onMouseOver={(e) => {
                 tipTargetRef.current = e.target;

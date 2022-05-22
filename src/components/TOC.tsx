@@ -50,7 +50,7 @@ const TocItem = styled.li`
 const TocItemLink = styled(AnchorLink)`
   ${(props) => props.active && `text-decoration: underline`};
   @media (max-width: ${MOBILE}) {
-    text-decoration: underline;
+    text-decoration: none;
   }
 `;
 

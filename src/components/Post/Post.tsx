@@ -19,7 +19,7 @@ import React, {
   useMemo,
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import { graphql, Link, navigate } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
 import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
@@ -31,13 +31,13 @@ import { Ruler } from '../Ruler';
 import TagList from '../TagList';
 import SEO from '../SEO';
 import TOC from '../TOC';
-import MetaLink from '../MetaLink';
-import ExternalMetaLink from '../ExternalMetaLink';
 import Paragraph from './Paragraph/Paragraph';
 import Comments from './Comments/Comments';
 import Reactions from './PostReactions';
 import ExternalLink from './ExternalLink';
 import ThematicBreak from '../ThematicBreak';
+import AuthorLink from './AuthorLink';
+import LocationLink from './LocationLink';
 import Blockquote from './Blockquote';
 import Code from './Code';
 import {
@@ -68,11 +68,7 @@ import { Table, TableHeading, TableRow, TableCell } from './Table';
 import ParagraphMenu from './Paragraph/ParagraphMenu';
 import { Arrow, Tooltip } from '../../components/Tooltip';
 import useUserContent from '../../hooks/useUserContent';
-import {
-  HideTipHandler,
-  ShowTipForHandler,
-  useTooltip,
-} from '../../hooks/useTooltip';
+import { useTooltip } from '../../hooks/useTooltip';
 import {
   getDateUnits,
   getDateValue,
@@ -88,59 +84,6 @@ import Login from '../Login';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
-
-type AuthorLinkProps = {
-  author: string;
-  showProfileTipFor: ShowTipForHandler;
-  hideProfileTip: HideTipHandler;
-};
-
-const AuthorLink: FC<AuthorLinkProps> = ({
-  author,
-  showProfileTipFor,
-  hideProfileTip,
-}) => {
-  const authorLinkRef = useRef<HTMLElement>(null);
-  return (
-    <MetaLink
-      ref={authorLinkRef}
-      to="/about"
-      onMouseOver={() => showProfileTipFor(author, authorLinkRef)}
-      onMouseOut={hideProfileTip}
-    >
-      {author}
-    </MetaLink>
-  );
-};
-
-type LocationLinkProps = {
-  displayName: string;
-  locationUrl: string;
-  showLocationTipFor: ShowTipForHandler;
-  hideLocationTip: HideTipHandler;
-};
-
-const LocationLink: FC<LocationLinkProps> = ({
-  displayName,
-  locationUrl,
-  showLocationTipFor,
-  hideLocationTip,
-}) => {
-  const locationRef = useRef<HTMLElement>(null);
-
-  return (
-    <ExternalMetaLink
-      ref={locationRef}
-      target="_blank"
-      rel="noopener noreferrer"
-      href={locationUrl}
-      onMouseOver={() => showLocationTipFor(displayName, locationRef)}
-      onMouseOut={hideLocationTip}
-    >
-      {displayName}
-    </ExternalMetaLink>
-  );
-};
 
 const Post: FC<{
   data: PostQuery;

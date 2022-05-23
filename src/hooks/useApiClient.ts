@@ -22,61 +22,92 @@ import { AWSSignature } from '../auth/types';
 // https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-generate-sdk-javascript.html
 declare var apigClientFactory: any;
 
-const useApiClient = (
-  signature: AWSSignature
-): ApolloClient<NormalizedCacheObject> => {
-  const [client, setClient] = useState(
-    new ApolloClient({
-      cache: new InMemoryCache(),
-    })
-  );
+/**
+ * Use AWS API Gateway client to make web requests
+ * @param signature - The authentication tokens to make requests with
+ * @returns API Gateway Apollo Link
+ * @remarks If authentication is missing, don't create a link (this will return site info from cache)
+ */
+const configureApiGatewayLink = (signature?: AWSSignature) => {
+  if (!signature) return;
 
-  useEffect(() => {
-    if (!signature) return;
+  const apigClient = apigClientFactory.newClient({
+    accessKey: signature.accessKeyId,
+    secretKey: signature.secretKey,
+    sessionToken: signature.sessionToken,
+    region: 'us-west-2',
+  });
 
-    const apigClient = apigClientFactory.newClient({
-      accessKey: signature.accessKeyId,
-      secretKey: signature.secretKey,
-      sessionToken: signature.sessionToken,
-      region: 'us-west-2',
-    });
+  return new HttpLink({
+    fetch: (uri, { headers, body }) =>
+      apigClient
+        .graphqlPost({ headers }, JSON.parse(body.toString()))
+        .then((res) => {
+          const data = res.data;
 
-    const link = new HttpLink({
-      fetch: (uri, { headers, body }) =>
-        apigClient
-          .graphqlPost({ headers }, JSON.parse(body.toString()))
-          .then((res) => {
-            const data = res.data;
+          if (res.status === 401 || res.status === 403) {
+            apigClient.authenticationExpired();
+          } else if (res.status >= 300) {
+            throw new Error(
+              `Network request failed with ${res.status} (${res.statusText})`
+            );
+          } else if (
+            !data.hasOwnProperty('data') &&
+            !data.hasOwnProperty('errors')
+          ) {
+            throw new Error('Invalid GraphQL server response');
+          }
 
-            if (res.status === 401 || res.status === 403) {
-              apigClient.authenticationExpired();
-            } else if (res.status >= 300) {
-              throw new Error(
-                `Network request failed with ${res.status} (${res.statusText})`
-              );
-            } else if (
-              !data.hasOwnProperty('data') &&
-              !data.hasOwnProperty('errors')
-            ) {
-              throw new Error('Invalid GraphQL server response');
-            }
+          return new Response(JSON.stringify(res.data));
+        }),
+  });
+};
 
-            return new Response(JSON.stringify(res.data));
-          }),
-    });
+/**
+ * Use Local Storage to save the cache of API responses
+ * @returns Local storage Apollo Storage
+ */
+const configureLocalStorage = () =>
+  new LocalStorageWrapper(window.localStorage);
 
-    const storage = new LocalStorageWrapper(window.localStorage);
-    const cache = new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            comments: {
-              merge: (first, second) => second,
-            },
+/**
+ * Use In-Memory Cache to cache API responses
+ * @returns In-memory cache as Apollo Cache
+ */
+const configureInMemoryCache = () =>
+  new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          comments: {
+            merge: (first, second) => second,
           },
         },
       },
-    });
+    },
+  });
+
+/**
+ * Configure empty Apollo Client
+ * Used to avoid "ApolloProvider was not passed a client instance" from <ApolloProvider>
+ */
+const configureEmptyClient = () =>
+  new ApolloClient({ cache: configureInMemoryCache() });
+
+/**
+ * Re-creates Apollo Client when authenticated
+ * @param signature - The authentication tokens
+ * @returns Apollo Client that can be used to make requests
+ */
+const useApiClient = (
+  signature?: AWSSignature
+): ApolloClient<NormalizedCacheObject> => {
+  const [client, setClient] = useState(configureEmptyClient());
+
+  useEffect(() => {
+    const link = configureApiGatewayLink(signature);
+    const storage = configureLocalStorage();
+    const cache = configureInMemoryCache();
 
     persistCache({ cache, storage }).then(() =>
       setClient(new ApolloClient({ cache, link }))

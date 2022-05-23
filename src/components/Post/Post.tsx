@@ -9,15 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, {
-  useState,
-  FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-  useMemo,
-} from 'react';
+import React, { useState, FC, useRef } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql, Link } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
@@ -69,21 +61,15 @@ import ParagraphMenu from './Paragraph/ParagraphMenu';
 import { Arrow, Tooltip } from '../../components/Tooltip';
 import useUserContent from '../../hooks/useUserContent';
 import { useTooltip } from '../../hooks/useTooltip';
-import {
-  getDateUnits,
-  getDateValue,
-  openUrl,
-  slugifyHeadings,
-} from '../../utils';
-import Logs from './Logs';
+import { getDateUnits, getDateValue, slugifyHeadings } from '../../utils';
+import useInlineComments from '../../hooks/useInlineComments';
+import useAuthorLocation from '../../hooks/useAuthorLocation';
+import usePostReactions from '../../hooks/usePostReactions';
+import useAuthor from '../../hooks/useAuthor';
 import ProfileTip from './ProfileTip';
 import LocationTip from './LocationTip';
-import authors from '../../../authors.json';
-import locations from '../../../locations.json';
 import Login from '../Login';
-
-// How long to wait before hiding paragraph highlight menu
-const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
+import Logs from './Logs';
 
 const Post: FC<{
   data: PostQuery;
@@ -114,6 +100,18 @@ const Post: FC<{
     logs: { nodes: logs },
   },
 }) => {
+  const postContentRef = useRef<HTMLElement>(null);
+  const [readPosition, setReadPosition] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
+
+  useScrollPosition(
+    (position, offset) => {
+      setReadPosition(position);
+      setScrollOffset(offset);
+    },
+    [readPosition]
+  );
+
   const {
     user,
     loginError,
@@ -151,57 +149,10 @@ const Post: FC<{
     handleReact,
   } = useUserContent(slug);
 
-  const postContentRef = useRef<HTMLElement>(null);
-  const highlightTimerRef = useRef<number>(0);
-  const [readPosition, setReadPosition] = useState(0);
-  const [scrollOffset, setScrollOffset] = useState(0);
-
-  useScrollPosition(
-    (position, offset) => {
-      setReadPosition(position);
-      setScrollOffset(offset);
-    },
-    [readPosition]
-  );
-
   const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 5,
     placement: 'top',
-  });
-
-  const {
-    hideTip: hideParagraphMenu,
-    showTipFor: showParagraphMenu,
-    tipProps: paragraphMenuProps,
-    tipRef: paragraphMenuRef,
-    targetRef: highlightedParagraphRef,
-  } = useTooltip({
-    placement: 'top-start',
-    verticalOffsetDesktop: 6,
-    verticalOffsetMobile: 6,
-  });
-
-  const {
-    hideTip: hideLoginPopup,
-    showTipFor: showLoginPopup,
-    tipProps: loginPopupProps,
-    tipRef: loginPopupRef,
-  } = useTooltip({
-    placement: 'top-start',
-    verticalOffsetDesktop: 6,
-    verticalOffsetMobile: 6,
-  });
-
-  const {
-    hideTip: hideProfileTip,
-    showTipFor: showProfileTipFor,
-    tipProps: profileTipProps,
-    tipRef: profileTipRef,
-    tooltipText: profileFor,
-  } = useTooltip({
-    verticalOffsetDesktop: 6,
-    verticalOffsetMobile: 6,
   });
 
   const {
@@ -214,254 +165,55 @@ const Post: FC<{
     verticalOffsetMobile: 6,
   });
 
-  const profile = useMemo(() => {
-    if (profileFor === author)
-      return {
-        userName: author,
-        userId: authors[author].userId,
-        avatarUrl: authors[author].avatarUrl,
-      };
+  const {
+    profile,
+    profileTipRef,
+    profileTipProps,
+    showProfileTipFor,
+    hideProfileTip,
+  } = useAuthor(author, comments);
 
-    const commentForProfile =
-      profileFor && comments?.find(({ timestamp }) => timestamp === profileFor);
-
-    return (
-      commentForProfile && {
-        userId: commentForProfile.userId,
-        userName: commentForProfile.userName,
-        avatarUrl: commentForProfile.avatarUrl,
-      }
-    );
-  }, [profileFor, comments]);
-
-  const location = locationDisplayName && {
-    displayName: locationDisplayName,
-    avatarUrl: locations[locationDisplayName]?.avatarUrl,
-    locationName: locations[locationDisplayName]?.locationName,
-    locationUrl: locations[locationDisplayName]?.locationUrl,
-    description: locations[locationDisplayName]?.description,
-  };
+  const location = useAuthorLocation(locationDisplayName);
 
   const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
-  const handleSnap = useCallback(
-    () =>
-      // React to a post
-      handleReact({
-        userName: user?.name || '',
-        avatarUrl: user?.avatarUrl || '',
-        parentTimestamp: null,
-        reaction: 'snap',
-      }),
-    [user, handleReact]
-  );
+  const { handleSnap, handleShare } = usePostReactions({
+    user,
+    title,
+    description,
+    absolutePostUrl,
+    handleReact,
+    handleAddShare,
+  });
 
-  const handleShare = useCallback(
-    (shareType) => {
-      // Share a post
-      switch (shareType) {
-        case 'linkShare':
-          handleAddShare('link');
-          window.navigator.clipboard.writeText(absolutePostUrl);
-          break;
-        case 'facebookShare':
-          handleAddShare('facebook');
-          openUrl('https://www.facebook.com/sharer.php', {
-            u: absolutePostUrl,
-          });
-          break;
-        case 'twitterShare':
-          handleAddShare('twitter');
-          openUrl('https://twitter.com/intent/tweet', {
-            text: title,
-            url: absolutePostUrl,
-          });
-          break;
-        case 'linkedInShare':
-          handleAddShare('linkedIn');
-          openUrl('https://www.linkedin.com/shareArticle', {
-            title,
-            url: absolutePostUrl,
-            summary: description,
-            mini: true,
-          });
-          break;
-        case 'emailShare':
-          handleAddShare('email');
-          openUrl('mailto:', {
-            subject: title,
-            body: absolutePostUrl,
-          });
-          break;
-      }
-    },
-    [handleAddShare, absolutePostUrl]
-  );
-
-  const handleToggleInlineComment = useCallback(
-    (paragraphHash) => {
-      // Toggle inline comment on paragraph in the post
-      setShowCommentsSidebar(Boolean(paragraphHash));
-      setInlineCommentParagraph(
-        paragraphHash
-          ? {
-              hash: paragraphHash,
-              start: paragraphSelection?.start,
-              length: paragraphSelection?.length,
-            }
-          : null
-      );
-    },
-    [
-      setInlineCommentParagraph,
-      setShowCommentsSidebar,
-      paragraphSelection,
-      comments,
-    ]
-  );
-
-  const handleParagraphAction = useCallback(
-    (e) => {
-      // Handle paragraph context menu command
-      const paragraph = highlightedParagraph?.hash || paragraphSelection?.hash;
-
-      if (e.target.id === 'paragraphHighlight') {
-        if (!user) {
-          // Direct user to login
-          hideParagraphMenu();
-          showLoginPopup(null, highlightedParagraphRef);
-          return;
-        }
-
-        // Add paragraph highlight immediately
-        handleAdd({
-          paragraph,
-          userName: user.name,
-          avatarUrl: user.avatarUrl,
-          rangeStart: highlightedParagraph?.start || paragraphSelection?.start,
-          rangeLength:
-            highlightedParagraph?.length || paragraphSelection?.length,
-        });
-      } else if (e.target.id == 'paragraphComment') {
-        // Show inline comment form for the paragraph
-        handleToggleInlineComment(paragraph);
-      }
-
-      hideLoginPopup();
-      hideParagraphMenu();
-      setParagraphSelection(null);
-      setHighlightedParagraph(null);
-    },
-    [
-      user,
-      highlightedParagraph,
-      paragraphSelection,
-      handleAdd,
-      handleToggleInlineComment,
-      setParagraphSelection,
-      setHighlightedParagraph,
-      hideParagraphMenu,
-      showLoginPopup,
-      hideLoginPopup,
-    ]
-  );
-
-  const handleParagraphMenuMouseOver = useCallback(() => {
-    // Show paragraph menu when mouse is over a highlighted paragraph
-    if (highlightTimerRef.current) {
-      window.clearTimeout(highlightTimerRef.current);
-      highlightTimerRef.current = 0;
-    }
-  }, []);
-
-  const handleParagraphMenuMouseOut = useCallback(() => {
-    // Hide paragraph menu when mouse leaves highlighted paragraphs
-    if (!highlightTimerRef.current) {
-      highlightTimerRef.current = window.setTimeout(() => {
-        setHighlightedParagraph(null);
-        hideParagraphMenu();
-      }, HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT);
-    }
-  }, [setHighlightedParagraph, hideParagraphMenu]);
-
-  const handleAddInlineComment = useCallback(() => {
-    // Request server to add a new inline comment
-    if (inlineCommentParagraph?.markdown)
-      return handleAdd({
-        paragraph: inlineCommentParagraph.hash,
-        markdown: inlineCommentParagraph.markdown,
-        userName: user.name,
-        avatarUrl: user.avatarUrl,
-        rangeStart: inlineCommentParagraph.start,
-        rangeLength: inlineCommentParagraph.length,
-      })
-        .then(() => {
-          setInlineCommentParagraph(null);
-        })
-        .catch(() => {
-          setInlineCommentParagraph((prev) => ({
-            ...prev,
-            error: 'Could not comment inline',
-          }));
-        });
-  }, [inlineCommentParagraph, user, handleAdd, setInlineCommentParagraph]);
-
-  const handleClearOverlays = useCallback(
-    (e) => {
-      // Clear login popup
-      hideLoginPopup();
-
-      // Clear highlighted paragraph
-      if (!highlightedParagraph || e.target.id?.startsWith('p')) return;
-      setHighlightedParagraph(null);
-    },
-    [highlightedParagraph, setHighlightedParagraph, hideLoginPopup]
-  );
-
-  useEffect(() => {
-    // Clear highlight when another body element was clicked
-    document.body.addEventListener('click', handleClearOverlays);
-    return () => {
-      document.body.removeEventListener('click', handleClearOverlays);
-    };
-  }, [handleClearOverlays]);
-
-  useEffect(() => {
-    // Hide login popup when user is logged in
-    if (user) hideLoginPopup();
-  }, [user]);
-
-  useEffect(
-    () => () => {
-      // Hide comment sidebar on unmount
-      setShowCommentsSidebar(false);
-    },
-    [setShowCommentsSidebar]
-  );
-
-  useLayoutEffect(() => {
-    // Collapse inline comments except one being edited if they overlap each other
-    if (showCommentsSidebar && comments?.length) {
-      let prevBottom = 0;
-
-      const threads = postContentRef.current.querySelectorAll(
-        '.paragraph__comment-thread'
-      );
-
-      for (let n = 0; n < threads.length; ++n) {
-        const { top, bottom } = threads[n].getBoundingClientRect();
-
-        if (top <= prevBottom && prevBottom) {
-          setInlineCommentSingleMode(true);
-          break;
-        }
-
-        prevBottom = bottom;
-      }
-    } else if (!showCommentsSidebar) {
-      setInlineCommentSingleMode(false);
-    }
-  }, [showCommentsSidebar, inlineCommentParagraph, setInlineCommentSingleMode]);
+  const {
+    showParagraphMenu,
+    hideParagraphMenu,
+    handleToggleInlineComment,
+    handleAddInlineComment,
+    highlightTimerRef,
+    paragraphMenuRef,
+    paragraphMenuProps,
+    loginPopupRef,
+    loginPopupProps,
+    handleParagraphAction,
+    handleParagraphMenuMouseOver,
+    handleParagraphMenuMouseOut,
+  } = useInlineComments({
+    user,
+    comments,
+    postContentRef,
+    showCommentsSidebar,
+    highlightedParagraph,
+    inlineCommentParagraph,
+    paragraphSelection,
+    setShowCommentsSidebar,
+    setInlineCommentParagraph,
+    setInlineCommentSingleMode,
+    setParagraphSelection,
+    setHighlightedParagraph,
+    handleAdd,
+  });
 
   return (
     <MDXProvider

@@ -30,6 +30,7 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
   font-size: ${(props) => props.theme.normalFontSize};
   color: ${(props) => props.theme.foregroundColor};
 
+  position: relative;
   max-width: ${(props) => props.theme.column};
   margin-left: auto;
   margin-right: auto;

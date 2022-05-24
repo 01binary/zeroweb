@@ -249,10 +249,11 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
     if (typeof window === `undefined`) return;
 
     const media = window.matchMedia(WIDE_MEDIA);
-    media.addEventListener('change', handleWatchNarrow);
+    media.addEventListener?.('change', handleWatchNarrow);
 
     setNarrow(media.matches);
 
+    if (!media.addEventListener) return;
     return () =>
       window
         .matchMedia(WIDE_MEDIA)

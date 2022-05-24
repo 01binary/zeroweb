@@ -17,7 +17,7 @@ import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
-import { ContextMenu } from '../ContextMenu';
+import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
 import Wheel from './Wheel';
 import { Ruler } from '../Ruler';
 import TagList from '../TagList';
@@ -428,6 +428,7 @@ const Post: FC<{
             }}
           />
         </LoginPopup>
+        <ContextMenuArrow />
       </ContextMenu>
     </MDXProvider>
   );

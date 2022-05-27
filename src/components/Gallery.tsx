@@ -1,9 +1,17 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import PhotoSwipeLightbox from 'photoswipe/dist/photoswipe-lightbox.esm';
+import 'photoswipe/dist/photoswipe.css';
 import styled from 'styled-components';
 import { MOBILE_MIN } from '../constants';
 import Alert from '../components/Alert';
 import Error from '../components/Error';
-import { Link } from 'gatsby';
 
 const ROW_HEIGHT = 191.952;
 const WIDE_WIDTH = 610.5;
@@ -53,8 +61,6 @@ const COORDS_NARROW = [
     imageY: 95.976,
   },
 ];
-
-const getThumbnail = (set: string[]): string => set[1];
 
 const GalleryWrapper = styled.section`
   display: flex;
@@ -147,10 +153,9 @@ const GalleryError = styled(Error)`
   padding: ${(props) => props.theme.spacingHalf};
 `;
 
-const GalleryLabelLink = styled(Link)`
+const GalleryLabel = styled.span`
+  display: block;
   position: absolute;
-  left: ${(props) => props.coords[props.index].titleX}px;
-  top: ${(props) => props.coords[props.index].titleY}px;
 
   display: flex;
   justify-content: center;
@@ -160,7 +165,6 @@ const GalleryLabelLink = styled(Link)`
 
   font-family: 'Roboto Mono', monospace;
   font-size: 18px;
-  font-weight: ${(props) => props.theme.smallFontWeight};
 
   width: calc(111px - ${(props) => props.theme.spacingHalf});
   height: calc(64px - ${(props) => props.theme.spacingHalf});
@@ -188,8 +192,6 @@ const GalleryLabelLink = styled(Link)`
 
 const GalleryImageLink = styled.a`
   position: absolute;
-  left: ${(props) => props.coords[props.index].imageX}px;
-  top: ${(props) => props.coords[props.index].imageY}px;
 
   .hover {
     opacity: 0;
@@ -221,22 +223,40 @@ const GalleryImageLink = styled.a`
 `;
 
 type GalleryImage = {
-  // Alternative text
   title: string;
-  // Full size
   src: string;
-  // All available sizes
-  set: string;
-  // Link target to see full image
+  set: string[];
   href: string;
+  original: string;
+};
+
+type SourceImage = {
+  source: string;
+  width: number;
+  height: number;
 };
 
 type GalleryProps = {
+  galleryId: string;
   images: GalleryImage[];
 };
 
-const Gallery: FC<GalleryProps> = ({ images }) => {
+type GalleryContextProps = {
+  sourceImages: SourceImage[];
+};
+
+export const GalleryContext = React.createContext<GalleryContextProps>({
+  sourceImages: [],
+});
+
+const getSourceSize = (match: string, sourceImages: SourceImage[]) =>
+  sourceImages.find(({ source }) => source === match);
+
+const getThumbnail = (set: string[]): string => set[1];
+
+const Gallery: FC<GalleryProps> = ({ galleryId, images }) => {
   const [isNarrow, setNarrow] = useState<boolean>(false);
+  const { sourceImages } = useContext(GalleryContext);
 
   const handleWatchNarrow = useCallback(
     (ev: MediaQueryListEvent) => {
@@ -244,6 +264,21 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
     },
     [setNarrow]
   );
+
+  useEffect(() => {
+    let lightbox = new PhotoSwipeLightbox({
+      gallery: `#${galleryId}`,
+      children: 'a',
+      pswpModule: () => import('photoswipe'),
+    });
+
+    lightbox.init();
+
+    return () => {
+      lightbox.destroy();
+      lightbox = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === `undefined`) return;
@@ -292,7 +327,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
   );
 
   return (
-    <GalleryWrapper>
+    <GalleryWrapper id={galleryId}>
       <svg className="hide">
         <defs>
           <clipPath id="gallery-mask">
@@ -492,7 +527,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
         </defs>
       </svg>
       {rows.map((imagesInRow, rowIndex) => (
-        <GalleryRow key={`row${rowIndex}`} index={rowIndex} coords={coords}>
+        <GalleryRow key={`row${rowIndex}`}>
           <svg
             className="border border--wide border--even fill-none stroke-border"
             width="610.5px"
@@ -533,51 +568,64 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
           >
             <use xlinkHref="#row_narrow_even_middle" />
           </svg>
-          {imagesInRow.map(({ set, title, href }, imageIndex) => (
-            <>
-              <GalleryLabelLink
-                index={imageIndex}
-                coords={coords}
-                href={href}
-                target="_blank"
-              >
-                {'+ '}
-                {title}
-                <svg
-                  className="focus"
-                  width="112px"
-                  height="128.1px"
-                  viewBox="0 0 112 128.1"
-                >
-                  <use xlinkHref="#gallery-focus" />
-                </svg>
-              </GalleryLabelLink>
-              <GalleryImageLink
-                index={imageIndex}
-                coords={coords}
-                href={href}
-                target="_blank"
-              >
-                <svg width="112px" height="128.1px" viewBox="0 0 112 128.1">
-                  <image
-                    clipPath="url(#gallery-mask)"
-                    height="128.5px"
-                    xlinkHref={getThumbnail(set)}
-                  />
-                  <rect
-                    className="hover"
-                    clipPath="url(#gallery-mask)"
-                    fill="url(#gallery-gradient)"
-                    style={{ mixBlendMode: 'soft-light' }}
-                    width="111"
-                    height="128.1"
-                  />
-                  <use className="border" xlinkHref="#gallery-border" />
-                  <use className="focus" xlinkHref="#gallery-focus" />
-                </svg>
-              </GalleryImageLink>
-            </>
-          ))}
+          {imagesInRow.map(
+            ({ set, title, href, original, srcSet }, imageIndex) => {
+              const labelLeft = `${coords[imageIndex].titleX}px`;
+              const labelTop = `${coords[imageIndex].titleY}px`;
+              const imageLeft = `${coords[imageIndex].imageX}px`;
+              const imageTop = `${coords[imageIndex].imageY}px`;
+              return (
+                <div key={original}>
+                  <GalleryLabel
+                    index={imageIndex}
+                    style={{ left: labelLeft, top: labelTop }}
+                  >
+                    {title}
+                    <svg
+                      className="focus"
+                      width="112px"
+                      height="128.1px"
+                      viewBox="0 0 112 128.1"
+                    >
+                      <use xlinkHref="#gallery-focus" />
+                    </svg>
+                  </GalleryLabel>
+                  <GalleryImageLink
+                    index={imageIndex}
+                    coords={coords}
+                    href={href}
+                    target="_blank"
+                    data-pswp-width={
+                      getSourceSize(original, sourceImages).width
+                    }
+                    data-pswp-height={
+                      getSourceSize(original, sourceImages).height
+                    }
+                    data-pswp-srcset={srcSet}
+                    style={{ left: imageLeft, top: imageTop }}
+                  >
+                    <svg width="112px" height="128.1px" viewBox="0 0 112 128.1">
+                      <image
+                        clipPath="url(#gallery-mask)"
+                        height="128.5px"
+                        xlinkHref={getThumbnail(set)}
+                      />
+                      <rect
+                        className="hover"
+                        clipPath="url(#gallery-mask)"
+                        fill="url(#gallery-gradient)"
+                        style={{ mixBlendMode: 'soft-light' }}
+                        width="111"
+                        height="128.1"
+                      />
+                      <use className="border" xlinkHref="#gallery-border" />
+                      <use className="focus" xlinkHref="#gallery-focus" />
+                    </svg>
+                  </GalleryImageLink>
+                </div>
+              );
+            }
+          )}
         </GalleryRow>
       ))}
     </GalleryWrapper>

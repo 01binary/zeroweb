@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useRef } from 'react';
+import React, { useState, FC, useRef, useMemo } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql, Link } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';
@@ -32,6 +32,7 @@ import AuthorLink from './AuthorLink';
 import LocationLink from './LocationLink';
 import Blockquote from './Blockquote';
 import Code from './Code';
+import { GalleryContext } from '../Gallery';
 import {
   Main,
   PostHeading,
@@ -98,6 +99,7 @@ const Post: FC<{
     project,
     tagGroups: { group },
     logs: { nodes: logs },
+    images: { edges: siteImages },
   },
 }) => {
   const postContentRef = useRef<HTMLElement>(null);
@@ -214,6 +216,18 @@ const Post: FC<{
     setHighlightedParagraph,
     handleAdd,
   });
+
+  const sourceImages = useMemo(
+    () =>
+      siteImages.map(
+        ({
+          node: {
+            original: { src: source, width, height },
+          },
+        }) => ({ source, width, height })
+      ),
+    [siteImages]
+  );
 
   return (
     <MDXProvider
@@ -346,7 +360,9 @@ const Post: FC<{
               hideTip,
             }}
           >
-            <MDXRenderer>{body}</MDXRenderer>
+            <GalleryContext.Provider value={{ sourceImages }}>
+              <MDXRenderer>{body}</MDXRenderer>
+            </GalleryContext.Provider>
           </CommentsContext.Provider>
 
           <ContextMenu ref={paragraphMenuRef} {...paragraphMenuProps}>
@@ -505,6 +521,17 @@ export const pageQuery = graphql`
         }
         fields {
           url
+        }
+      }
+    }
+    images: allImageSharp {
+      edges {
+        node {
+          original {
+            src
+            width
+            height
+          }
         }
       }
     }

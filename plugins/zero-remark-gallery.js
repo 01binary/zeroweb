@@ -1,5 +1,7 @@
 const cheerio = require(`cheerio`);
 
+let nextGalleryId = 1;
+
 module.exports = ({
   markdownAST,
 }) => {
@@ -15,13 +17,17 @@ module.exports = ({
       const img = container.find(`img`);
       const title = img.attr('alt');
       const src = img.attr('src');
-      const srcSet = img.attr('srcset').split(',');
+      const srcSet = img.attr('srcset');
+      const set = srcSet.split(',').map(entry => entry.split(' ')[0]);
       const href = container.find(`.gatsby-resp-image-link`).attr('href');
-      images.push({ title, src, href, set: srcSet.map(entry => entry.split(' ')[0]) });
+      const [root, dir, id, sizeId, nameAndExtension] = href.split('/');
+      const [name, extension] = nameAndExtension.split('.');
+      const original = `/${dir}/${name}-${id}.${extension}`;
+      images.push({ title, src, href, set, original, srcSet });
     });
 
     node.type = 'jsx';
-    node.value = `<Gallery images={${JSON.stringify(images)}} />`;
+    node.value = `<Gallery galleryId="gallery${nextGalleryId++}" images={${JSON.stringify(images)}} />`;
     node.children = undefined;
   });
 

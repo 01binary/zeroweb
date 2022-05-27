@@ -43,6 +43,17 @@ type PostDetailsQuery = {
   site: {
     siteMetadata: SiteMetadataQuery;
   };
+  images: {
+    edges: {
+      node: {
+        original: {
+          src: string;
+          width: number;
+          height: number;
+        };
+      };
+    }[];
+  };
 };
 
 export default PostDetailsQuery;

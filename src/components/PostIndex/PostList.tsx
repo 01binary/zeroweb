@@ -87,6 +87,14 @@ const ArticleThumbnailLink = styled(Link)`
 
   @media (max-width: ${MOBILE}) {
     position: initial;
+    right: initial;
+    top: initial;
+
+    &:focus {
+      border-radius: ${(props) => props.theme.borderRadius};
+      box-shadow: none;
+      outline: initial;
+    }
   }
 `;
 

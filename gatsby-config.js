@@ -13,6 +13,7 @@
 require(`ts-node`).register({ files: true });
 
 module.exports = {
+  flags: { PRESERVE_WEBPACK_CACHE: true },
   siteMetadata: {
     title: `01 Binary: tech art`,
     titleTemplate: `%s - 01 Binary`,

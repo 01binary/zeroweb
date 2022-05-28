@@ -393,26 +393,6 @@ const Post: FC<{
         hideTip={hideTip}
       />
 
-      <Comments
-        slug={slug}
-        postUrl={relativePostUrl}
-        absolutePostUrl={absolutePostUrl}
-        loading={loading}
-        error={error}
-        comments={comments}
-        handleVote={handleVote}
-        handleAdd={handleAdd}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-        handleReact={handleReact}
-        readPosition={readPosition}
-        scrollOffset={scrollOffset}
-        showProfileTipFor={showProfileTipFor}
-        hideProfileTip={hideProfileTip}
-        showTipFor={showTipFor}
-        hideTip={hideTip}
-      />
-
       <Tooltip ref={tipRef} {...tipProps}>
         {tooltipText}
         <Arrow />
@@ -446,6 +426,26 @@ const Post: FC<{
         </LoginPopup>
         <ContextMenuArrow />
       </ContextMenu>
+
+      <Comments
+        slug={slug}
+        postUrl={relativePostUrl}
+        absolutePostUrl={absolutePostUrl}
+        loading={loading}
+        error={error}
+        comments={comments}
+        handleVote={handleVote}
+        handleAdd={handleAdd}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        handleReact={handleReact}
+        readPosition={readPosition}
+        scrollOffset={scrollOffset}
+        showProfileTipFor={showProfileTipFor}
+        hideProfileTip={hideProfileTip}
+        showTipFor={showTipFor}
+        hideTip={hideTip}
+      />
     </MDXProvider>
   );
 };

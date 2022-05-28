@@ -9,22 +9,22 @@
 |  Copyright(C) 2022 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import gql from 'graphql-tag';
-import { parse } from 'query-string';
-import { graphql, Link } from 'gatsby';
+import React, { FC } from 'react';
 import styled from 'styled-components';
-import { FetchResult, useMutation, useQuery } from '@apollo/client';
-import React, { FC, useCallback, useRef, useState } from 'react';
-import { useLocation } from '@reach/router';
-import { useBlogData } from '../hooks/useBlogData';
+import { graphql, Link } from 'gatsby';
 import { formatCommentDate, getCommentId } from '../utils';
-import UserProfileQuery from '../types/UserProfileQuery';
-import EditProfileMutation from '../types/EditProfileMutation';
 import { CommentQuery, Reaction } from '../types/AllCommentsQuery';
+import useProfile, { GenericReactionType } from '../hooks/useProfile';
+import { MOBILE, MOBILE_MIN } from '../constants';
 import Title from '../components/Title';
 import Alert from '../components/Alert';
 import Error from '../components/Error';
 import MetaLink from '../components/MetaLink';
+import SaveIcon from '../images/accept.svg';
+import CancelIcon from '../images/cancel.svg';
+import LocationIcon from '../images/location.svg';
+import BlurbIcon from '../images/blurb.svg';
+import Frame from '../images/frame.svg';
 import CommentIcon from '../images/reaction-comment.svg';
 import HighlightIcon from '../images/reaction-highlight.svg';
 import ReactionLolIcon from '../images/reaction-lol.svg';
@@ -33,62 +33,20 @@ import ReactionSnapIcon from '../images/reaction-snap.svg';
 import ReactionWowIcon from '../images/reaction-wow.svg';
 import ReactionConfusedIcon from '../images/reaction-confused.svg';
 import ReactionGenericIcon from '../images/reaction.svg';
-import SaveIcon from '../images/accept.svg';
-import CancelIcon from '../images/cancel.svg';
-import LocationIcon from '../images/location.svg';
-import BlurbIcon from '../images/blurb.svg';
-import Frame from '../images/frame.svg';
-import { MOBILE, MOBILE_MIN } from '../constants';
 import Avatar from '../components/Avatar';
 
-type GenericReactionType =
-  | 'CommentReaction'
-  | 'PostReaction'
-  | 'CommentReply'
-  | 'ParagraphComment'
-  | 'PostComment'
-  | 'ParagraphHighlight';
-
-// Refresh user-created content every 30 minutes
-const USER_CONTENT_POLL_INTERVAL_MS = 30 * 60 * 1000;
-
-// Max reactions to show
+// Max reactions to show until user clicks show more
 const MAX_ITEMS = 5;
 
-// User profile query
-const GET_PROFILE = gql`
-  query userProfile($userId: String!) {
-    profile(userId: $userId) {
-      userName
-      avatarUrl
-      bio
-      locationName
-      lastActivity
-      reactions {
-        slug
-        timestamp
-        parentTimestamp
-        markdown
-        rangeLength
-        reaction
-        paragraph
-      }
-      voteCount
-    }
-  }
-`;
+const REACTION_NAMES: Record<Reaction, string> = {
+  snap: 'snapped to',
+  party: 'popped a four loko to',
+  lol: 'lolled about',
+  wow: 'lost his diddly about',
+  confused: 'yeeted to',
+};
 
-const EDIT_PROFILE = gql`
-  mutation($profile: EditProfileInput!) {
-    editProfile(profile: $profile) {
-      userId
-      bio
-      locationName
-    }
-  }
-`;
-
-const reactionDetail: Record<GenericReactionType, string> = {
+const REACTION_DETAILS: Record<GenericReactionType, string> = {
   CommentReaction: ':reaction a comment on',
   PostReaction: ':reaction',
   CommentReply: 'replied to a comment on',
@@ -97,15 +55,7 @@ const reactionDetail: Record<GenericReactionType, string> = {
   ParagraphHighlight: 'highlighted a paragraph on',
 };
 
-const reactionName: Record<Reaction, string> = {
-  snap: 'snapped to',
-  party: 'popped a four loko to',
-  lol: 'lolled about',
-  wow: 'lost his diddly about',
-  confused: 'yeeted to',
-};
-
-const reactionTypeIcons: Record<
+const REACTION_TYPE_ICONS: Record<
   GenericReactionType,
   React.FunctionComponent
 > = {
@@ -117,7 +67,7 @@ const reactionTypeIcons: Record<
   ParagraphHighlight: HighlightIcon,
 };
 
-const reactionIcons: Record<Reaction, React.FunctionComponent> = {
+const REACTION_ICONS: Record<Reaction, React.FunctionComponent> = {
   snap: ReactionSnapIcon,
   party: ReactionPartyIcon,
   lol: ReactionLolIcon,
@@ -125,6 +75,26 @@ const reactionIcons: Record<Reaction, React.FunctionComponent> = {
   confused: ReactionConfusedIcon,
 };
 
+/**
+ * Gets a relative page path for gatsby link
+ * @param collection - The collection the page is in
+ * @param slug - The page slug
+ * @returns The relative path to a blog page
+ */
+const getPagePath = (collection, slug) => {
+  if (collection === 'logs') {
+    const [, projectPath, logPath] = slug.split('/');
+    return `../projects/${projectPath}/${logPath}`;
+  }
+
+  return `../${collection}/${slug}`;
+};
+
+/**
+ * Map a reaction type for a comment
+ * @param comment - The comment to analyze
+ * @returns The reaction type
+ */
 const mapGenericReactionType = (comment: CommentQuery) => {
   const {
     parentTimestamp,
@@ -153,15 +123,6 @@ const mapGenericReactionType = (comment: CommentQuery) => {
     ...comment,
     type,
   };
-};
-
-const getPagePath = (collection, slug) => {
-  if (collection === 'logs') {
-    const [, projectPath, logPath] = slug.split('/');
-    return `../projects/${projectPath}/${logPath}`;
-  }
-
-  return `../${collection}/${slug}`;
 };
 
 const ProfilePage = styled.main`
@@ -194,6 +155,7 @@ const ProfileSection = styled.section`
 const ProfileRow = styled.section`
   display: flex;
   align-items: center;
+  max-width: 19.5rem;
 `;
 
 const ProfileStatus = styled(ProfileSection)`
@@ -268,6 +230,8 @@ const ProfileInput = styled.input`
   font-size: ${(props) => props.theme.normalFontSize};
   font-weight: ${(props) => props.theme.normalFontWeight};
 
+  box-sizing: border-box;
+  width: 100%;
   min-width: calc(${MOBILE_MIN});
   margin: calc(0px - ${(props) => props.theme.border} / 2)
     ${(props) => props.theme.spacingHalf} 0
@@ -300,6 +264,7 @@ const ProfileField = styled.section`
 
   @media (max-width: ${MOBILE}) {
     height: initial;
+    flex: 1;
   }
 `;
 
@@ -385,9 +350,9 @@ const LinkButton = styled.button`
   &:hover {
     text-decoration: underline;
     color: ${(props) =>
-      props.theme.isDark
-        ? props.theme.primaryLightColor
-        : props.theme.primaryDarkColor};
+    props.theme.isDark
+      ? props.theme.primaryLightColor
+      : props.theme.primaryDarkColor};
   }
 `;
 
@@ -407,6 +372,7 @@ const ImageLinkButton = styled.button`
   -moz-appearance: none;
   background: none;
 
+  align-self: flex-start;
   width: 32px;
   height: 32px;
 
@@ -417,16 +383,16 @@ const ImageLinkButton = styled.button`
   &:hover {
     .stroke-foreground {
       stroke: ${(props) =>
-        props.theme.isDark
-          ? props.theme.primaryColor
-          : props.theme.primaryDarkColor};
+    props.theme.isDark
+      ? props.theme.primaryColor
+      : props.theme.primaryDarkColor};
     }
 
     .fill-foreground {
       fill: ${(props) =>
-        props.theme.isDark
-          ? props.theme.primaryColor
-          : props.theme.primaryDarkColor};
+    props.theme.isDark
+      ? props.theme.primaryColor
+      : props.theme.primaryDarkColor};
     }
   }
 `;
@@ -475,135 +441,38 @@ const Profile: FC<ProfileQuery> = ({
     allMdx: { nodes },
   },
 }) => {
-  const { credentials, user } = useBlogData();
-  const location = useLocation();
-  const [editingBio, setEditingBio] = useState<boolean>(false);
-  const [editingLocation, setEditingLocation] = useState<boolean>(false);
-  const [bioText, setBioText] = useState<string | undefined>();
-  const [locationText, setLocationText] = useState<string | undefined>();
-  const [reactionFilter, setReactionFilter] = useState<Reaction | null>(null);
-  const [more, setMore] = useState<boolean>(false);
-  const editBioRef = useRef<HTMLInputElement | null>(null);
-  const editLocationRef = useRef<HTMLInputElement | null>(null);
-  const search = parse(location.search);
-  const userId = search.user ?? credentials?.userId;
-  const isLoggedIn = Boolean(user);
-  const isForAnotherUser = Boolean(search.user);
-
-  const { loading, error, data, refetch } = useQuery<UserProfileQuery>(
-    GET_PROFILE,
-    {
-      variables: { userId },
-      pollInterval: USER_CONTENT_POLL_INTERVAL_MS,
-      skip: !Boolean(isLoggedIn || isForAnotherUser),
-    }
-  );
-
-  const [
-    editProfile,
-    { loading: isSaving, error: editError },
-  ] = useMutation<EditProfileMutation>(EDIT_PROFILE);
-
-  const profile = data?.profile;
-  const userName = isForAnotherUser ? profile?.userName : user?.name;
-  const avatarUrl = isForAnotherUser ? profile?.avatarUrl : user?.avatarUrl;
-  const hasHeader = Boolean(userName || avatarUrl);
-  const hasDetails = Boolean(profile);
-  const notLoggedIn = !isLoggedIn && !isForAnotherUser;
-  const showMore = data?.profile?.reactions?.length > 5;
-  const formattedLastActivity = profile?.lastActivity
-    ? formatCommentDate(profile.lastActivity).split(' ')
-    : [];
-
-  const reactionSummary: Record<Reaction, number> = profile?.reactions
-    ?.filter(({ reaction }) => reaction)
-    ?.reduce(
-      (sum, { reaction: emoji }) => ({
-        ...sum,
-        [emoji]: sum[emoji] + 1,
-      }),
-      { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
-    );
-
-  const reactionCount = reactionSummary
-    ? Object.keys(reactionSummary).reduce(
-        (count, emoji) => count + reactionSummary[emoji],
-        0
-      )
-    : 0;
-
-  const saveProfile = useCallback((): Promise<FetchResult> => {
-    if (!credentials?.userId) return Promise.reject('not logged in');
-    const updatedProfile = {
-      bio: bioText ?? profile?.bio,
-      locationName: locationText ?? profile?.locationName,
-    };
-    return editProfile({
-      variables: {
-        profile: updatedProfile,
-      },
-      update(cache, { data: updatedProfile }) {
-        if (!credentials?.userId) return;
-        cache.writeQuery({
-          query: GET_PROFILE,
-          variables: { userId: credentials.userId },
-          data: {
-            profile: {
-              ...profile,
-              updatedProfile,
-            },
-          },
-        });
-        refetch();
-      },
-    });
-  }, [profile, bioText, locationText, editProfile]);
-
-  const handleEditBio = useCallback(
-    (isEditing: boolean, isSaving: boolean = false) => {
-      if (isSaving) saveProfile();
-      setBioText(isEditing ? profile?.bio ?? '' : undefined);
-      setEditingBio(isEditing);
-      setEditingLocation(false);
-      setLocationText(undefined);
-      if (isEditing)
-        setTimeout(() => {
-          editBioRef?.current?.select();
-          editBioRef?.current?.focus();
-        });
-    },
-    [
-      profile,
-      saveProfile,
-      setBioText,
-      setLocationText,
-      setEditingBio,
-      setEditingLocation,
-    ]
-  );
-
-  const handleEditLocation = useCallback(
-    (isEditing: boolean, isSaving: boolean = false) => {
-      if (isSaving) saveProfile();
-      setLocationText(isEditing ? profile?.locationName ?? '' : undefined);
-      setEditingLocation(isEditing);
-      setEditingBio(false);
-      setBioText(undefined);
-      if (isEditing)
-        setTimeout(() => {
-          editLocationRef?.current?.select();
-          editLocationRef?.current?.focus();
-        });
-    },
-    [
-      profile,
-      saveProfile,
-      setLocationText,
-      setBioText,
-      setEditingBio,
-      setEditingLocation,
-    ]
-  );
+  const {
+    error,
+    loading,
+    profile,
+    credentials,
+    isForAnotherUser,
+    hasHeader,
+    hasDetails,
+    notLoggedIn,
+    userName,
+    avatarUrl,
+    editError,
+    editBioRef,
+    editingBio,
+    bioText,
+    setBioText,
+    handleEditBio,
+    editLocationRef,
+    editingLocation,
+    locationText,
+    setLocationText,
+    handleEditLocation,
+    reactionFilter,
+    setReactionFilter,
+    formattedLastActivity,
+    reactionSummary,
+    reactionCount,
+    isSaving,
+    more,
+    setMore,
+    showMore,
+  } = useProfile();
 
   return (
     <ProfilePage>
@@ -712,7 +581,7 @@ const Profile: FC<ProfileQuery> = ({
                 {Object.keys(reactionSummary)
                   .filter((r) => reactionSummary[r])
                   .map((emoji) => {
-                    const ReactionFilterIcon = reactionIcons[emoji];
+                    const ReactionFilterIcon = REACTION_ICONS[emoji];
                     return (
                       <ReactionFilterButton
                         key={emoji}
@@ -778,11 +647,11 @@ const Profile: FC<ProfileQuery> = ({
                 .map((reaction) => {
                   const { slug, timestamp, reaction: emoji, type } = reaction;
                   const reactionDate = formatCommentDate(timestamp);
-                  const GenericIcon = reactionTypeIcons[type];
-                  const Icon = emoji ? reactionIcons[emoji] : GenericIcon;
-                  const detail = reactionDetail[type].replace(
+                  const GenericIcon = REACTION_TYPE_ICONS[type];
+                  const Icon = emoji ? REACTION_ICONS[emoji] : GenericIcon;
+                  const detail = REACTION_DETAILS[type].replace(
                     ':reaction',
-                    reactionName[emoji] ?? ''
+                    REACTION_NAMES[emoji] ?? ''
                   );
                   const textPrimary = detail.split(' ')[0];
                   const textSecondary = detail.substring(
@@ -794,8 +663,8 @@ const Profile: FC<ProfileQuery> = ({
                   const postLink = getPagePath(collection, slug);
                   const commentLink =
                     type === 'PostComment' ||
-                    type === 'ParagraphComment' ||
-                    type === 'CommentReply'
+                      type === 'ParagraphComment' ||
+                      type === 'CommentReply'
                       ? `${postLink}?comment=${getCommentId(timestamp)}`
                       : null;
 

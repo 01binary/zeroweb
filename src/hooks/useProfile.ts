@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import gql from 'graphql-tag';
 import { parse } from 'query-string';
 import { useLocation } from '@reach/router';
@@ -10,7 +10,7 @@ import { useBlogData } from './useBlogData';
 import { formatCommentDate } from '../utils';
 
 // Map all reactions to this type
-export type GenericReactionType =
+export type ReactionDisplayType =
   | 'CommentReaction'
   | 'PostReaction'
   | 'CommentReply'
@@ -96,7 +96,7 @@ const useProfile = () => {
     ? formatCommentDate(profile.lastActivity).split(' ')
     : [];
 
-  const reactionSummary: Record<Reaction, number> = profile?.reactions
+  const reactionSummary: Record<Reaction, number> = useMemo(() => profile?.reactions
     ?.filter(({ reaction }) => reaction)
     ?.reduce(
       (sum, { reaction: emoji }) => ({
@@ -104,7 +104,7 @@ const useProfile = () => {
         [emoji]: sum[emoji] + 1,
       }),
       { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
-    );
+    ), [profile]);
 
   const reactionCount = reactionSummary
     ? Object.keys(reactionSummary).reduce(

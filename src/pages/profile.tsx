@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { graphql, Link } from 'gatsby';
 import { formatCommentDate, getCommentId } from '../utils';
 import { CommentQuery, Reaction } from '../types/AllCommentsQuery';
-import useProfile, { GenericReactionType } from '../hooks/useProfile';
+import useProfile, { ReactionDisplayType } from '../hooks/useProfile';
 import { MOBILE, MOBILE_MIN } from '../constants';
 import Title from '../components/Title';
 import Alert from '../components/Alert';
@@ -46,7 +46,7 @@ const REACTION_NAMES: Record<Reaction, string> = {
   confused: 'yeeted to',
 };
 
-const REACTION_DETAILS: Record<GenericReactionType, string> = {
+const REACTION_DETAILS: Record<ReactionDisplayType, string> = {
   CommentReaction: ':reaction a comment on',
   PostReaction: ':reaction',
   CommentReply: 'replied to a comment on',
@@ -56,7 +56,7 @@ const REACTION_DETAILS: Record<GenericReactionType, string> = {
 };
 
 const REACTION_TYPE_ICONS: Record<
-  GenericReactionType,
+  ReactionDisplayType,
   React.FunctionComponent
 > = {
   CommentReaction: CommentIcon,
@@ -91,11 +91,29 @@ const getPagePath = (collection, slug) => {
 };
 
 /**
- * Map a reaction type for a comment
- * @param comment - The comment to analyze
+ * Sort reactions by date/time in ascending order
+ * @param first - The first reaction 
+ * @param second - The second reaction 
+ * @returns Comparison result
+ */
+const sortByDateTimeDescending = ({ timestamp: t1 }: CommentQuery, { timestamp: t2 }: CommentQuery) =>
+  new Date(t2).valueOf() - new Date(t1).valueOf()
+
+/**
+ * Filter reactions by displayable and matching search filter
+ * @param reactionFilter - The search filter
+ * @returns Whether a reaction is filtered
+ */
+const filterDisplayableAndMatchingSearch = (reactionFilter: string | null) =>
+  ({ type, reaction }: ReturnType<typeof mapReactionDisplayType>) =>
+    type && (!reactionFilter || reactionFilter === reaction)
+
+/**
+ * Map a display type for a reaction
+ * @param comment - The reaction to analyze
  * @returns The reaction type
  */
-const mapGenericReactionType = (comment: CommentQuery) => {
+const mapReactionDisplayType = (comment: CommentQuery) => {
   const {
     parentTimestamp,
     markdown,
@@ -103,7 +121,7 @@ const mapGenericReactionType = (comment: CommentQuery) => {
     paragraph,
     reaction,
   } = comment;
-  let type: GenericReactionType | undefined;
+  let type: ReactionDisplayType | undefined;
 
   if (reaction && !markdown) {
     if (parentTimestamp) type = 'CommentReaction';
@@ -124,6 +142,20 @@ const mapGenericReactionType = (comment: CommentQuery) => {
     type,
   };
 };
+
+/**
+ * Create a map preducate for mapping a collection for a reaction's post
+ * @param nodes 
+ * @returns 
+ */
+const mapReactionCollection = (
+  nodes: { slug: string, fields: { collection: string } }[]
+) => <ExtendedComment extends CommentQuery>(comment: ExtendedComment) => ({
+  ...comment,
+  collection: nodes.find(
+    ({ slug: nodeSlug }) => nodeSlug === comment.slug
+  )?.fields?.collection,
+});
 
 const ProfilePage = styled.main`
   margin-bottom: calc(${(props) => props.theme.spacing} * 4);
@@ -436,6 +468,53 @@ type ProfileQuery = {
   };
 };
 
+const ProfileReaction: FC<CommentQuery & { type: ReactionDisplayType, collection: string }> = ({
+  slug,
+  collection,
+  timestamp,
+  reaction: emoji,
+  type
+}) => {
+  const reactionDate = formatCommentDate(timestamp);
+  const GenericIcon = REACTION_TYPE_ICONS[type];
+  const Icon = emoji ? REACTION_ICONS[emoji] : GenericIcon;
+  const detail = REACTION_DETAILS[type].replace(
+    ':reaction',
+    REACTION_NAMES[emoji] ?? ''
+  );
+  const textPrimary = detail.split(' ')[0];
+  const textSecondary = detail.substring(
+    textPrimary.length + 1
+  );
+  const postLink = getPagePath(collection, slug);
+  const commentLink =
+    type === 'PostComment' ||
+      type === 'ParagraphComment' ||
+      type === 'CommentReply'
+      ? `${postLink}?comment=${getCommentId(timestamp)}`
+      : null;
+
+  return (
+    <ReactionRow key={timestamp}>
+      <ReactionTypeIcon>
+        <Icon />
+      </ReactionTypeIcon>
+      <ReactionDescription>
+        {textPrimary}{' '}
+        <SecondaryText>{textSecondary}</SecondaryText>{' '}
+        <Link to={postLink}>{slug}</Link>
+      </ReactionDescription>
+      <ReactionDate>
+        {commentLink ? (
+          <MetaLink to={commentLink}>{reactionDate}</MetaLink>
+        ) : (
+          <StaticDate>{reactionDate}</StaticDate>
+        )}
+      </ReactionDate>
+    </ReactionRow>
+  );
+};
+
 const Profile: FC<ProfileQuery> = ({
   data: {
     allMdx: { nodes },
@@ -632,62 +711,13 @@ const Profile: FC<ProfileQuery> = ({
           {profile?.reactions?.length > 0 && (
             <ReactionList>
               {profile.reactions
-                .map(mapGenericReactionType)
-                .filter(
-                  // Displayable and not filtered if filter is on
-                  ({ type, reaction }) =>
-                    type && (!reactionFilter || reactionFilter === reaction)
-                )
-                .sort(
-                  // Descending by date time
-                  ({ timestamp: t1 }, { timestamp: t2 }) =>
-                    new Date(t2).valueOf() - new Date(t1).valueOf()
-                )
+                .map(mapReactionDisplayType)
+                .filter(filterDisplayableAndMatchingSearch(reactionFilter))
+                .map(mapReactionCollection(nodes))
+                .sort(sortByDateTimeDescending)
                 .slice(0, more ? undefined : MAX_ITEMS)
-                .map((reaction) => {
-                  const { slug, timestamp, reaction: emoji, type } = reaction;
-                  const reactionDate = formatCommentDate(timestamp);
-                  const GenericIcon = REACTION_TYPE_ICONS[type];
-                  const Icon = emoji ? REACTION_ICONS[emoji] : GenericIcon;
-                  const detail = REACTION_DETAILS[type].replace(
-                    ':reaction',
-                    REACTION_NAMES[emoji] ?? ''
-                  );
-                  const textPrimary = detail.split(' ')[0];
-                  const textSecondary = detail.substring(
-                    textPrimary.length + 1
-                  );
-                  const collection = nodes.find(
-                    ({ slug: nodeSlug }) => nodeSlug === slug
-                  )?.fields?.collection;
-                  const postLink = getPagePath(collection, slug);
-                  const commentLink =
-                    type === 'PostComment' ||
-                      type === 'ParagraphComment' ||
-                      type === 'CommentReply'
-                      ? `${postLink}?comment=${getCommentId(timestamp)}`
-                      : null;
-
-                  return (
-                    <ReactionRow key={timestamp}>
-                      <ReactionTypeIcon>
-                        <Icon />
-                      </ReactionTypeIcon>
-                      <ReactionDescription>
-                        {textPrimary}{' '}
-                        <SecondaryText>{textSecondary}</SecondaryText>{' '}
-                        <Link to={postLink}>{slug}</Link>
-                      </ReactionDescription>
-                      <ReactionDate>
-                        {commentLink ? (
-                          <MetaLink to={commentLink}>{reactionDate}</MetaLink>
-                        ) : (
-                          <StaticDate>{reactionDate}</StaticDate>
-                        )}
-                      </ReactionDate>
-                    </ReactionRow>
-                  );
-                })}
+                .map((reaction) => <ProfileReaction key={reaction.timestamp} {...reaction} />)
+              }
               {showMore && !more && (
                 <BlockLinkButton onClick={() => setMore(true)}>
                   see more...

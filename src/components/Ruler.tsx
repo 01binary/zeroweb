@@ -89,6 +89,10 @@ const RulerMark = styled.div`
     width: ${RULER_LONGMARK_WIDTH}px;
     margin-left: -${RULER_LONGMARK_WIDTH - RULER_SHORTMARK_WIDTH}px;
   }
+
+  &:last-of-type {
+    border-bottom: none;
+  }
 `;
 
 const getRulerMarks = (height: number): string[] => {

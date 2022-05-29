@@ -18,6 +18,7 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
 import useScrollPosition from '../../hooks/useScrollPosition';
 import { ContextMenu, ContextMenuArrow } from '../ContextMenu';
+import GalleryContext from '../Gallery/GalleryContext';
 import Wheel from './Wheel';
 import { Ruler } from '../Ruler';
 import TagList from '../TagList';
@@ -32,7 +33,6 @@ import AuthorLink from './AuthorLink';
 import LocationLink from './LocationLink';
 import Blockquote from './Blockquote';
 import Code from './Code';
-import { GalleryContext } from '../Gallery';
 import {
   Main,
   PostHeading,

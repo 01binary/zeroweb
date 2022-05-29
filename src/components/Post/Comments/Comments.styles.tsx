@@ -702,4 +702,6 @@ export const EditCommentError = styled(Error)`
 export const PostCommentError = styled(Error)`
   margin-top: 0;
   margin-bottom: 0;
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingHalf};
 `;

@@ -15,6 +15,7 @@ const AlertBackground = styled.section<{ inline?: boolean }>`
 
   margin-left: ${(props) => (props.inline ? 0 : props.theme.spacingHalf)};
   margin-right: ${(props) => (props.inline ? 0 : props.theme.spacingDouble)};
+  margin-bottom: ${(props) => (props.inline ? 0 : props.theme.spacingHalf)};
 
   @media (max-width: ${MOBILE}) {
     margin-right: ${(props) => props.theme.spacingQuarter};

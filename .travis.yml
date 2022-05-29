@@ -6,7 +6,7 @@ cache:
     - node_modules
 before_install: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev
 script:
-  - yarn build
+  - yarn build-ci
 deploy:
   provider: s3
   access_key_id: AKIAQZRIRXETD574TZ6N

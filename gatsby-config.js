@@ -19,22 +19,20 @@ module.exports = {
     titleTemplate: `%s - 01 Binary`,
     description: `Engineering and robotics projects.`,
     url: `https://www.01binary.us`,
-    image: `/images/icon.png`
+    image: `/images/icon.png`,
   },
   plugins: [
     {
       resolve: `gatsby-plugin-styled-components`,
       options: {
-        displayName: false
+        displayName: false,
       },
     },
-    /*{
+    {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
         // You can add multiple tracking ids and a pageview event will be fired for all of them.
-        trackingIds: [
-          `G-38HNLDCS3F`
-        ],
+        trackingIds: [`G-38HNLDCS3F`],
         // This object gets passed directly to the gtag config command
         // This config will be shared across all trackingIds
         gtagConfig: {
@@ -49,23 +47,23 @@ module.exports = {
           // Avoids sending pageview hits from custom paths
           exclude: [],
           // Defaults to https://www.googletagmanager.com
-          origin: "https://www.01binary.us",
+          origin: 'https://www.01binary.us',
         },
       },
-    },*/
+    },
     {
       resolve: `gatsby-plugin-anchor-links`,
       options: {
-        offset: -100
-      }
+        offset: -100,
+      },
     },
     {
       resolve: `gatsby-plugin-react-svg`,
       options: {
         rule: {
-          include: /^((?!url).)*$/
-        }
-      }
+          include: /^((?!url).)*$/,
+        },
+      },
     },
     {
       resolve: `gatsby-styled-components-dark-mode`,
@@ -95,27 +93,27 @@ module.exports = {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 920,
-              disableBgImageOnAlpha: true
-            }
+              disableBgImageOnAlpha: true,
+            },
           },
           {
             resolve: `gatsby-remark-embed-youtube`,
             options: {
               width: '100%',
               height: 400,
-            }
+            },
           },
           {
             resolve: `gatsby-remark-copy-linked-files`,
             options: {
-              destinationDir: `downloads`
+              destinationDir: `downloads`,
             },
           },
           `gatsby-remark-smartypants`,
           {
-            resolve: require.resolve(`./plugins/zero-remark-gallery`)
+            resolve: require.resolve(`./plugins/zero-remark-gallery`),
           },
-        ]
+        ],
       },
     },
     {

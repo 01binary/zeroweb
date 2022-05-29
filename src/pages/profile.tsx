@@ -240,7 +240,7 @@ const ProfileHeading = styled.h2`
   margin: 0 0 ${(props) => props.theme.spacingHalf} 0;
 `;
 
-const ProfileBlurbs = styled.section<{ isLoading: boolean }>`
+const ProfileBlurbsSection = styled.section<{ isLoading: boolean }>`
   margin: ${(props) => props.theme.spacingHalf} 0
     ${(props) => props.theme.spacing} 0;
 
@@ -404,7 +404,7 @@ const ImageLinkButton = styled.button`
   -moz-appearance: none;
   background: none;
 
-  align-self: flex-start;
+  align-self: center;
   width: 32px;
   height: 32px;
 
@@ -467,6 +467,114 @@ type ProfileQuery = {
     };
   };
 };
+
+const ProfileBlurbs: FC<{
+  profile: ReturnType<typeof useProfile>['profile'];
+  isForAnotherUser: boolean;
+  isSaving: boolean;
+  editBioRef: React.MutableRefObject<HTMLInputElement>;
+  editingBio: boolean;
+  bioText: string;
+  setBioText: (text: string) => void;
+  handleEditBio: ReturnType<typeof useProfile>['handleEditBio'];
+  editLocationRef: React.MutableRefObject<HTMLInputElement>;
+  editingLocation: boolean;
+  locationText: string;
+  setLocationText: (text: string) => void;
+  handleEditLocation: ReturnType<typeof useProfile>['handleEditLocation'];
+}> = ({
+  profile,
+  isForAnotherUser,
+  isSaving,
+  editBioRef,
+  editingBio,
+  bioText,
+  setBioText,
+  handleEditBio,
+  editLocationRef,
+  editingLocation,
+  locationText,
+  setLocationText,
+  handleEditLocation,
+}) => (
+    <ProfileBlurbsSection isLoading={isSaving}>
+      <ProfileRow>
+        <StyledBlurbIcon />
+        <ProfileField>
+          {editingBio ? (
+            <ProfileInput
+              type="text"
+              placeholder="bio"
+              ref={editBioRef}
+              value={bioText ?? ''}
+              onChange={(e) => setBioText(e.target.value)}
+            />
+          ) : profile?.bio ? (
+            <ProfileBlurb>{profile.bio}</ProfileBlurb>
+          ) : (
+            <ProfileBlurb secondary>no bio</ProfileBlurb>
+          )}
+        </ProfileField>
+
+        {editingBio ? (
+          <>
+            <ImageLinkButton onClick={() => handleEditBio(false, true)}>
+              <SaveIcon />
+            </ImageLinkButton>
+            <ImageLinkButton onClick={() => handleEditBio(false)}>
+              <CancelIcon />
+            </ImageLinkButton>
+          </>
+        ) : isForAnotherUser ? null : (
+          <InlineLinkButton
+            disabled={isSaving}
+            onClick={() => handleEditBio(true)}
+          >
+            edit
+          </InlineLinkButton>
+        )}
+      </ProfileRow>
+
+      <ProfileRow>
+        <StyledLocationIcon />
+        <ProfileField>
+          {editingLocation ? (
+            <ProfileInput
+              type="text"
+              placeholder="location"
+              ref={editLocationRef}
+              value={locationText ?? ''}
+              onChange={(e) => setLocationText(e.target.value)}
+            />
+          ) : profile?.locationName ? (
+            <ProfileBlurb secondary>{profile.locationName}</ProfileBlurb>
+          ) : (
+            <ProfileBlurb secondary>no location</ProfileBlurb>
+          )}
+        </ProfileField>
+
+        {editingLocation ? (
+          <>
+            <ImageLinkButton
+              onClick={() => handleEditLocation(false, true)}
+            >
+              <SaveIcon />
+            </ImageLinkButton>
+            <ImageLinkButton onClick={() => handleEditLocation(false)}>
+              <CancelIcon />
+            </ImageLinkButton>
+          </>
+        ) : isForAnotherUser ? null : (
+          <InlineLinkButton
+            disabled={isSaving}
+            onClick={() => handleEditLocation(true)}
+          >
+            edit
+          </InlineLinkButton>
+        )}
+      </ProfileRow>
+    </ProfileBlurbsSection>
+  );
 
 const ProfileReaction: FC<CommentQuery & { type: ReactionDisplayType, collection: string }> = ({
   slug,
@@ -571,83 +679,21 @@ const Profile: FC<ProfileQuery> = ({
       )}
       {hasDetails && (
         <ProfileSection>
-          <ProfileBlurbs isLoading={isSaving}>
-            <ProfileRow>
-              <StyledBlurbIcon />
-              <ProfileField>
-                {editingBio ? (
-                  <ProfileInput
-                    type="text"
-                    placeholder="bio"
-                    ref={editBioRef}
-                    value={bioText ?? ''}
-                    onChange={(e) => setBioText(e.target.value)}
-                  />
-                ) : profile?.bio ? (
-                  <ProfileBlurb>{profile.bio}</ProfileBlurb>
-                ) : (
-                  <ProfileBlurb secondary>no bio</ProfileBlurb>
-                )}
-              </ProfileField>
-
-              {editingBio ? (
-                <>
-                  <ImageLinkButton onClick={() => handleEditBio(false, true)}>
-                    <SaveIcon />
-                  </ImageLinkButton>
-                  <ImageLinkButton onClick={() => handleEditBio(false)}>
-                    <CancelIcon />
-                  </ImageLinkButton>
-                </>
-              ) : isForAnotherUser ? null : (
-                <InlineLinkButton
-                  disabled={isSaving}
-                  onClick={() => handleEditBio(true)}
-                >
-                  edit
-                </InlineLinkButton>
-              )}
-            </ProfileRow>
-
-            <ProfileRow>
-              <StyledLocationIcon />
-              <ProfileField>
-                {editingLocation ? (
-                  <ProfileInput
-                    type="text"
-                    placeholder="location"
-                    ref={editLocationRef}
-                    value={locationText ?? ''}
-                    onChange={(e) => setLocationText(e.target.value)}
-                  />
-                ) : profile?.locationName ? (
-                  <ProfileBlurb secondary>{profile.locationName}</ProfileBlurb>
-                ) : (
-                  <ProfileBlurb secondary>no location</ProfileBlurb>
-                )}
-              </ProfileField>
-
-              {editingLocation ? (
-                <>
-                  <ImageLinkButton
-                    onClick={() => handleEditLocation(false, true)}
-                  >
-                    <SaveIcon />
-                  </ImageLinkButton>
-                  <ImageLinkButton onClick={() => handleEditLocation(false)}>
-                    <CancelIcon />
-                  </ImageLinkButton>
-                </>
-              ) : isForAnotherUser ? null : (
-                <InlineLinkButton
-                  disabled={isSaving}
-                  onClick={() => handleEditLocation(true)}
-                >
-                  edit
-                </InlineLinkButton>
-              )}
-            </ProfileRow>
-          </ProfileBlurbs>
+          <ProfileBlurbs {...{
+            profile,
+            isSaving,
+            isForAnotherUser,
+            editBioRef,
+            editingBio,
+            bioText,
+            setBioText,
+            handleEditBio,
+            editLocationRef,
+            editingLocation,
+            locationText,
+            setLocationText,
+            handleEditLocation,
+          }} />
 
           <ProfileGroup horizontal>
             {reactionSummary && (

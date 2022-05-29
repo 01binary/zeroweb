@@ -4,17 +4,17 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  User profile page.
+|  User profile.
 |----------------------------------------------------------
 |  Copyright(C) 2022 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 import React, { FC } from 'react';
-import { graphql } from 'gatsby';
 import { Reaction } from '../../types/AllCommentsQuery';
 import useProfile from '../../hooks/useProfile';
 import Title from '../../components/Title';
 import Alert from '../../components/Alert';
+import PostDetailsQuery from '../../types/PostQuery';
 import ProfileReaction from './ProfileReaction';
 import ProfileBlurbs from './ProfileBlurbs';
 import {
@@ -47,26 +47,7 @@ import {
 // Max reactions to show until user clicks show more
 const MAX_ITEMS = 5;
 
-type ProfileQuery = {
-  data: {
-    allMdx: {
-      nodes: [
-        {
-          slug: string;
-          fields: {
-            collection: string;
-          };
-        }
-      ];
-    };
-  };
-};
-
-const Profile: FC<ProfileQuery> = ({
-  data: {
-    allMdx: { nodes },
-  },
-}) => {
+const Profile: FC<{ pages: PostDetailsQuery[] }> = ({ pages }) => {
   const {
     error,
     loading,
@@ -200,7 +181,7 @@ const Profile: FC<ProfileQuery> = ({
               {profile.reactions
                 .map(mapReactionDisplayType)
                 .filter(filterDisplayableAndMatchingSearch(reactionFilter))
-                .map(mapReactionCollection(nodes))
+                .map(mapReactionCollection(pages))
                 .sort(sortByDateTimeDescending)
                 .slice(0, more ? undefined : MAX_ITEMS)
                 .map((reaction) => (
@@ -230,17 +211,3 @@ const Profile: FC<ProfileQuery> = ({
 };
 
 export default Profile;
-
-export const pageQuery = graphql`
-  query {
-    allMdx {
-      nodes {
-        slug
-        fields {
-          url
-          collection
-        }
-      }
-    }
-  }
-`;

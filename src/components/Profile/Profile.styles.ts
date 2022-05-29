@@ -3,8 +3,8 @@ import LocationIcon from '../../images/location.svg';
 import BlurbIcon from '../../images/blurb.svg';
 import Frame from '../../images/frame.svg';
 import { MOBILE, MOBILE_MIN } from '../../constants';
-import Error from '../../components/Error';
-import Avatar from '../../components/Avatar';
+import Error from '../Error';
+import Avatar from '../Avatar';
 
 export const ProfilePage = styled.main`
   margin-bottom: calc(${(props) => props.theme.spacing} * 4);

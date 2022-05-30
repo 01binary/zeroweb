@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useCallback, useRef } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { TagGroup } from '../types/TagsQuery';
 import { Link } from 'gatsby';
@@ -253,6 +253,10 @@ const TagWrapper = styled.li`
   animation: slideIn ${(props) => props.theme.animationFast}
     ${(props) => 0.1 * ((props.Index % 2) + 1)}s ease-out 1;
   animation-fill-mode: forwards;
+
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  will-change: transform;
 
   @keyframes slideIn {
     0% {

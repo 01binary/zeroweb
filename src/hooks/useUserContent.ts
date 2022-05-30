@@ -9,8 +9,9 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import gql from 'graphql-tag';
+import nprogress from 'accessible-nprogress';
 import { ApolloCache, useQuery } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
 import {
@@ -146,6 +147,11 @@ const useUserContent = (slug: string) => {
             paragraph === paragraphMetadata && markdown
         )?.length
       : 0;
+
+  useEffect(() => {
+    if (loadingComments || mutatingComments) nprogress.start();
+    else nprogress.done();
+  }, [loadingComments, mutatingComments]);
 
   return {
     loading: loadingComments || mutatingComments,

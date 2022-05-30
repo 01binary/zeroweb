@@ -376,4 +376,22 @@ export const GlobalStyle = createGlobalStyle`
   .dark-only {
     display: ${(props) => (props.theme.isDark ? `block` : `none`)};
   }
+
+  #nprogress {
+    height: 6px;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    .bar {
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        ${(props) => props.theme.focusColor} 0%,
+        ${(props) => props.theme.secondaryColor} 100%
+      );
+    }
+  }
 `;

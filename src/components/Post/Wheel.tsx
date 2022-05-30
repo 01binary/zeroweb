@@ -66,6 +66,8 @@ const Wheelhouse = styled.aside<{
   float: left;
   width: ${WHEEL_SIZE}px;
   height: ${WHEEL_SIZE}px;
+
+  top: 1em;
   margin-left: calc(0px - ${(props) => props.theme.spacing} - ${WHEEL_SIZE}px);
 
   animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;

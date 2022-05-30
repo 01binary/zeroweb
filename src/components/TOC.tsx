@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
 import CubeAnimation from './Animations/CubeAnimation';
 import HeadingQuery from '../types/HeadingQuery';
-import EditGithubIcon from '../images/github.svg';
+import EditGithubIcon from '../images/github-edit.svg';
 import { MOBILE } from '../constants';
 
 const Toc = styled.section`
@@ -84,6 +84,10 @@ const EditLink = styled.a`
 const StyledEditIcon = styled(EditGithubIcon)`
   margin-right: 0;
   margin-left: calc(0px - 2em - ${(props) => props.theme.borderThick});
+
+  @media (max-width: ${MOBILE}) {
+    display: none;
+  }
 `;
 
 const getGitHubEditUrl = (url: string) => {

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE } from '../../constants';
 import RotatingCube from '../../images/cube.svg';
 
 const FRAMES = 15;
@@ -76,6 +77,10 @@ const CubeAnimation = styled(RotatingCube)<{
   #frame15 {
     opacity: ${({ position }) =>
       showFrame(position, 14) || showFrame(position, 15)};
+  }
+
+  @media (max-width: ${MOBILE}) {
+    display: none;
   }
 `;
 

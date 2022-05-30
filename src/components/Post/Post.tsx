@@ -326,6 +326,7 @@ const Post: FC<{
             headings={slugifyHeadings(relativePostUrl, headings)}
             isProject={collection === 'projects'}
             showLogs={Boolean(logs?.length)}
+            readPosition={readPosition}
           />
         </Sidebar>
 

@@ -13,6 +13,7 @@ import React, { FC } from 'react';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
+import CubeAnimation from './Animations/CubeAnimation';
 import HeadingQuery from '../types/HeadingQuery';
 import EditGithubIcon from '../images/github.svg';
 import { MOBILE } from '../constants';
@@ -81,8 +82,8 @@ const EditLink = styled.a`
 `;
 
 const StyledEditIcon = styled(EditGithubIcon)`
-  margin-right: ${(props) => props.theme.borderThick};
-  margin-left: calc(0px - ${(props) => props.theme.borderThick} * 2);
+  margin-right: 0;
+  margin-left: calc(0px - 2em - ${(props) => props.theme.borderThick});
 `;
 
 const getGitHubEditUrl = (url: string) => {
@@ -103,9 +104,16 @@ type TocProps = {
   headings: HeadingQuery[];
   isProject: boolean;
   showLogs: boolean;
+  readPosition: number;
 };
 
-const TOC: FC<TocProps> = ({ postUrl, headings, isProject, showLogs }) => {
+const TOC: FC<TocProps> = ({
+  postUrl,
+  headings,
+  isProject,
+  showLogs,
+  readPosition,
+}) => {
   if (headings.length === 0) return null;
 
   const active = useActiveHeading(headings);
@@ -117,6 +125,7 @@ const TOC: FC<TocProps> = ({ postUrl, headings, isProject, showLogs }) => {
         {headings.map(({ value, url, slug, depth }) => (
           <TocItem key={url} depth={depth - 2}>
             <TocItemLink to={url} active={slug === active}>
+              {slug === active && <CubeAnimation position={readPosition} />}
               {value}
             </TocItemLink>
           </TocItem>

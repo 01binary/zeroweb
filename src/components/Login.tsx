@@ -95,6 +95,10 @@ const ProviderWrapper = styled.li`
   height: ${CELL_HEIGHT}px;
   margin: 0 !important;
 
+  // Flickers on Safari due to opacity
+  transform-style: preserve-3d;
+  will-change: transform;
+
   opacity: 0;
   animation: slideIn ${(props) => props.theme.animationFast}
     ${(props) => 0.1 * ((props.index % 2) + 1)}s ease-out 1;

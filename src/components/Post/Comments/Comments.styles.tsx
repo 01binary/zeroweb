@@ -95,7 +95,7 @@ const CommentsScaleDate = styled.div`
   color: ${(props) => props.theme.secondaryTextColor};
   margin-top: -1em;
   padding-left: calc(100% - ${(props) => props.theme.spacingOneAndHalf});
-  width: 5em;
+  width: 6em;
 
   @media (max-width: ${NARROW_NO_RULERS}) {
     display: none;

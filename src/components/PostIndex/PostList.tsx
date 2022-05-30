@@ -106,7 +106,7 @@ const ArticleImage = ({ src }) => (
   >
     <defs>
       <clipPath id="thumbnail-clip">
-        <polygon points="320,170 0,170 0,20.4 20.4,0 320,0 " />
+        <polygon points="299.6,170 0,170 0,20.4 20.4,0 320,0 320,149.6" />
       </clipPath>
       <linearGradient
         id="thumbnail-gradient"
@@ -144,8 +144,8 @@ const ArticleImage = ({ src }) => (
       height={ARTICLE_THUMBNAIL_HEIGHT}
     />
     <g className="thumbnail__border">
-      <polygon points="314,116.4 320,116.4 320,170 266.4,170 266.4,164 314,164 " />
-      <polygon points="0,53.6 6,53.6 6,22.9 22.9,6 53.6,6 53.6,0 20.4,0 0,20.4 " />
+      <polygon points="320,116.4 314,116.4 314,147.1 297.1,164 266.4,164 266.4,170 299.6,170 320,149.6" />
+      <polygon points="0,53.6 6,53.6 6,22.9 22.9,6 53.6,6 53.6,0 20.4,0 0,20.4" />
     </g>
   </svg>
 );

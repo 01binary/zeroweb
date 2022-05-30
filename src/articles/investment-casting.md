@@ -129,7 +129,7 @@ The tools and process required to cast wax patterns from rubber molds depend on 
 
 ## spruing and gating
 
-After you _chase_ the wax pattern by removing any vents and supports with a wax pen, attach it to a rubber base using _sprues_. When you _invest_ the flask later, the rubber base will give the top of the flask a funnel shape for pouring metal.
+After you _chase_ the wax pattern by removing any vents and supports with a wax pen, attach it to a rubber base using _sprues_. When you _invest_ the flask later, the rubber base will give the top of the flask a funnel shape for pouring.
 
 Connecting sprues to the rubber base and the model with _sticky wax_ will also reduce re-work and form stronger connections. A poorly attached wax pattern will break off the base and float to the surface as the flask is being invested.
 
@@ -142,7 +142,9 @@ Select investment based on the size of the parts to be cast:
 - [UltraVest](https://www.riogrande.com/Product/ransom--randolph-ultra-vest-investment-100-lbs/702313) is a good choice for small to medium size aluminum parts that could fit into `6" x 9"` (or smaller) flask
 - [SuspendaSlurry FS](https://www.ransom-randolph.com/suspendaslurry) is great for larger aluminum parts that could be dipped into a bucket of slurry
 
-_Deionize_ the water before mixing it with investment to filter out mineral particles that weaken the mold. A few portable deionizers are listed in [tools & supplies](#tools--supplies).
+_Deionize_ the water before mixing it with investment to filter out mineral particles that weaken the mold. A few deionizers are listed in [tools & supplies](#tools--supplies).
+
+<img alt="mixing" src="./images/investment-casting-mix.svg" width="200"/>
 
 - When investing a flask and several investment mix ratios are available, select a ratio resulting in the _strongest mold_ (more investment) while providing enough _working time_ (more water). Degass the investment in a vacuum chamber while vibrating it with an oscillator
 - When investing with slurry no mixing is needed. Stir the slurry before every use and add water only if the slurry becomes too thick

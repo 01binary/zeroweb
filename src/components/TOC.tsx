@@ -14,6 +14,7 @@ import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
 import HeadingQuery from '../types/HeadingQuery';
+import EditGithubIcon from '../images/github.svg';
 import { MOBILE } from '../constants';
 
 const Toc = styled.section`
@@ -72,6 +73,31 @@ const TocItemLink = styled(AnchorLink)`
   }
 `;
 
+const EditLink = styled.a`
+  display: flex;
+  align-items: center;
+  text-transform: lowercase;
+  margin-right: ${(props) => props.theme.spacingHalf};
+`;
+
+const StyledEditIcon = styled(EditGithubIcon)`
+  margin-right: ${(props) => props.theme.borderThick};
+  margin-left: calc(0px - ${(props) => props.theme.borderThick} * 2);
+`;
+
+const getGitHubEditUrl = (url: string) => {
+  const parts = url.split('/').filter((part) => part.length);
+
+  const slug = parts[parts.length - 1];
+  const collection = parts[parts.length - 2];
+
+  return [
+    'https://github.com/01binary/zeroweb/edit/master/src',
+    collection,
+    `${slug}.md`,
+  ].join('/');
+};
+
 type TocProps = {
   postUrl: string;
   headings: HeadingQuery[];
@@ -101,6 +127,9 @@ const TOC: FC<TocProps> = ({ postUrl, headings, isProject, showLogs }) => {
           </TocItem>
         )}
       </TocList>
+      <EditLink href={getGitHubEditUrl(postUrl)} target="__blank">
+        <StyledEditIcon /> Edit on GitHub
+      </EditLink>
     </Toc>
   );
 };

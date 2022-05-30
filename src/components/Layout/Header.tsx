@@ -129,7 +129,7 @@ const Hero = styled.header`
     max-width: initial;
     height: ${(props) =>
       props.menuOpen
-        ? `calc(9em + ${props.theme.spacingDouble})`
+        ? `calc(180px + ${props.theme.spacingDouble})`
         : props.theme.spacingDouble};
     background: none;
     backdrop-filter: blur(6px);
@@ -314,7 +314,7 @@ const Navigation = styled.nav`
     right: 0;
     top: ${(props) => props.theme.spacingDouble};
     bottom: initial;
-    height: ${(props) => (props.menuOpen ? '9em' : '0')};
+    height: ${(props) => (props.menuOpen ? '180px' : '0')};
     flex-direction: column;
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
 

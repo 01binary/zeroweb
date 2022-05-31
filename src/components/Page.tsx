@@ -37,7 +37,7 @@ const Paragraph = styled.p`
 `;
 
 const Main = styled.main`
-  margin-bottom: calc(${(props) => props.theme.spacing} * 5);
+  margin-bottom: calc(${(props) => props.theme.spacing} * 2.5);
 
   animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
 

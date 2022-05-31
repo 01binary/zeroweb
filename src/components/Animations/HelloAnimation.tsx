@@ -1,9 +1,20 @@
 import styled from 'styled-components';
+import { MOBILE } from '../../constants';
 import Hello from '../../images/hello.svg';
 
 const HELLO_DURATION = 1;
 
 const HelloAnimation = styled(Hello)`
+  position: absolute;
+  left: 0;
+  top: ${(props) => props.theme.spacing};
+  z-index: -1;
+
+  @media (max-width: ${MOBILE}) {
+    position: initial;
+    margin-bottom: ${(props) => props.theme.spacingHalf};
+  }
+
   #arm1 {
     opacity: 0;
     animation: frame1 ${HELLO_DURATION}s steps(1) infinite;

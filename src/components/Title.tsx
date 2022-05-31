@@ -104,10 +104,11 @@ const Heading = styled.h1`
 
 type TitleProps = {
   collection: string;
+  className?: string;
 };
 
-const Title: FC<TitleProps> = ({ collection, children }) => (
-  <section>
+const Title: FC<TitleProps> = ({ className, collection, children }) => (
+  <section className={className}>
     <Decorator
       offset={
         NAVLINK_WIDTH *

@@ -13,6 +13,9 @@ import { paginate } from 'gatsby-awesome-pagination';
 import { createFilePath } from 'gatsby-source-filesystem';
 import { CONTENT } from './src/routes';
 
+const Post = require.resolve('./src/components/Post/Post.tsx');
+const Page = require.resolve('./src/components/Page.tsx');
+
 const getPageUrl = (collection, relativeFilePath) => {
   if (collection === 'logs') {
     const [, projectPath, logPath] = relativeFilePath.split('/');
@@ -27,12 +30,14 @@ const getPageSubcollection = (relativeFilePath) => {
     const [, , projectPath] = relativeFilePath.split('/');
     return projectPath;
   }
-}
+};
 
 const getPagePath = (collection, slug) => {
   if (collection === 'logs') {
     const [, projectPath, logPath] = slug.split('/');
     return `/projects/${projectPath}/${logPath}`;
+  } else if (collection === 'pages') {
+    return `/${slug}`;
   }
 
   return `${collection}/${slug}`;
@@ -40,40 +45,50 @@ const getPagePath = (collection, slug) => {
 
 const getPageCollection = (collection, relativeFilePath) =>
   collection === 'projects' && relativeFilePath.startsWith('/logs/')
-    ? 'logs' : collection;
+    ? 'logs'
+    : collection;
+
+const getComponentForPage = (collection) =>
+  collection === 'pages' ? Page : Post;
 
 exports.createPages = async ({
   actions: { createPage },
   graphql,
-  reporter
+  reporter,
 }) => {
   const {
-    data: { allMdx: { nodes } },
-    errprs: postErrors,
+    data: {
+      allMdx: { nodes },
+    },
+    errors: postErrors,
   } = await graphql(`
     {
-        allMdx {
-            nodes {
-                slug,
-                fields {
-                    collection
-                    subCollection
-                }
-            }
+      allMdx {
+        nodes {
+          slug
+          fields {
+            collection
+            subCollection
           }
-    }`);
+        }
+      }
+    }
+  `);
 
   const {
-    data: { allMdx: { group: tags } },
+    data: {
+      allMdx: { group: tags },
+    },
     errors: tagErrors,
   } = await graphql(`
     {
-        allMdx {
-          group(field: frontmatter___tags) {
-            tag: fieldValue
-          }
+      allMdx {
+        group(field: frontmatter___tags) {
+          tag: fieldValue
         }
-    }`);
+      }
+    }
+  `);
 
   if (postErrors || tagErrors) {
     reporter.panicOnBuild(`Error while running GraphQL queries`);
@@ -83,21 +98,16 @@ exports.createPages = async ({
   // Generate posts
   const post = require.resolve('./src/components/Post/Post.tsx');
 
-  nodes.forEach(({
-    slug,
-    fields: {
-      collection,
-      subCollection,
-    }
-  }) => {
+  nodes.forEach(({ slug, fields: { collection, subCollection } }) => {
     const path = getPagePath(collection, slug);
+    const component = getComponentForPage(collection, slug);
     createPage({
       path,
-      component: post,
+      component,
       context: {
         slug,
         collection,
-        subCollection
+        subCollection,
       },
     });
   });
@@ -108,14 +118,13 @@ exports.createPages = async ({
   CONTENT.forEach(({ path, collection }) => {
     paginate({
       createPage,
-      items: nodes
-        .filter(node => node.fields.collection === collection),
+      items: nodes.filter((node) => node.fields.collection === collection),
       itemsPerPage: 5,
       pathPrefix: path,
       component: postIndex,
       context: {
-        collection
-      }
+        collection,
+      },
     });
   });
 
@@ -127,8 +136,8 @@ exports.createPages = async ({
         component: postIndex,
         context: {
           collection,
-          tag
-        }
+          tag,
+        },
       });
     });
   });

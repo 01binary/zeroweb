@@ -105,6 +105,8 @@ const Post: FC<{
   const postContentRef = useRef<HTMLElement>(null);
   const [readPosition, setReadPosition] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
+  const location = useAuthorLocation(locationDisplayName);
+  const absolutePostUrl = siteUrl + relativePostUrl;
 
   useScrollPosition(
     (position, offset) => {
@@ -174,10 +176,6 @@ const Post: FC<{
     showProfileTipFor,
     hideProfileTip,
   } = useAuthor(author, comments);
-
-  const location = useAuthorLocation(locationDisplayName);
-
-  const absolutePostUrl = `${siteUrl}${relativePostUrl}`;
 
   const { handleSnap, handleShare } = usePostReactions({
     user,

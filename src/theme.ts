@@ -377,6 +377,14 @@ export const GlobalStyle = createGlobalStyle`
     display: ${(props) => (props.theme.isDark ? `block` : `none`)};
   }
 
+  .unhighlight {
+    color: ${(props) => props.theme.secondaryTextColor};
+  }
+
+  .margin-bottom-half {
+    margin-bottom: ${(props) => props.theme.spacingHalf};
+  }
+
   #nprogress {
     height: 6px;
     position: fixed;

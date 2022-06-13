@@ -3,6 +3,7 @@ import LocationIcon from '../../images/location.svg';
 import BlurbIcon from '../../images/blurb.svg';
 import Frame from '../../images/frame.svg';
 import { MOBILE, MOBILE_MIN } from '../../constants';
+import LinkButton from '../LinkButton';
 import Error from '../Error';
 import Avatar from '../Avatar';
 
@@ -199,42 +200,6 @@ export const ReactionDate = styled.div`
 
 export const StaticDate = styled.span`
   color: ${(props) => props.theme.secondaryTextColor};
-`;
-
-export const LinkButton = styled.button`
-  font-family: ${(props) => props.theme.normalFont};
-  font-weight: ${(props) => props.theme.normalFontWeight};
-  font-size: ${(props) => props.theme.normalFontSize};
-
-  padding: ${(props) => props.theme.spacingQuarter};
-
-  border: none;
-  cursor: pointer;
-  fill: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: none;
-  transition: color ${(props) => props.theme.animationFast} ease-out;
-
-  color: ${(props) =>
-    props.theme.isDark
-      ? props.theme.primaryColor
-      : props.theme.accentTextColor};
-
-  &:focus {
-    border-radius: ${(props) => props.theme.borderRadius};
-    box-shadow: 0 0 0 ${(props) => props.theme.border}
-      ${(props) => props.theme.focusColor};
-    outline: none;
-  }
-
-  &:hover {
-    text-decoration: underline;
-    color: ${(props) =>
-      props.theme.isDark
-        ? props.theme.primaryLightColor
-        : props.theme.primaryDarkColor};
-  }
 `;
 
 export const InlineLinkButton = styled(LinkButton)`

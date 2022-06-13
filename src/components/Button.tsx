@@ -151,31 +151,39 @@ const ButtonWrapper = styled.button`
 type ButtonProps = {
   type?: string;
   disabled?: boolean;
+  shared?: boolean;
   onClick: (e: any) => void;
+};
+
+export const ButtonResources: FC = () => {
+  const theme = useTheme();
+  return (
+    <svg className="hide">
+      <defs>
+        <linearGradient
+          id="normal_button_gradient"
+          gradientTransform="rotate(90)"
+        >
+          <stop offset="0%" stopColor={theme.accentHighlightColor} />
+          <stop offset="100%" stopColor={theme.accentLightShadowColor} />
+        </linearGradient>
+        <linearGradient
+          id="pushed_button_gradient"
+          gradientTransform="rotate(90)"
+        >
+          <stop offset="0%" stopColor={theme.accentDarkShadowColor} />
+          <stop offset="100%" stopColor={theme.accentLightShadowColor} />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
 };
 
 const Button: FC<ButtonProps> = ({ children, ...props }) => {
   const theme = useTheme();
   return (
     <ButtonWrapper {...props}>
-      <svg className="hide">
-        <defs>
-          <linearGradient
-            id="normal_button_gradient"
-            gradientTransform="rotate(90)"
-          >
-            <stop offset="0%" stopColor={theme.accentHighlightColor} />
-            <stop offset="100%" stopColor={theme.accentLightShadowColor} />
-          </linearGradient>
-          <linearGradient
-            id="pushed_button_gradient"
-            gradientTransform="rotate(90)"
-          >
-            <stop offset="0%" stopColor={theme.accentDarkShadowColor} />
-            <stop offset="100%" stopColor={theme.accentLightShadowColor} />
-          </linearGradient>
-        </defs>
-      </svg>
+      {props.shared ? null : <ButtonResources />}
 
       <svg
         className="button__left"

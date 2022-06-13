@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36" xml:space="preserve">
+  <g class="fill-foreground">
+    <rect x="9.9" y="9" width="3.3" height="17.5"/>
+    <path d="M22.4,9v4.2c-0.1,0-0.3,0-0.8,0c-1,0-2.2,0.4-2.2,0.4s-3.9,1.4-3.9,6.3S19.3,27,22,27s4-1.3,4-1.3V9H22.4z M22.4,24
+      c0,0-3.9-0.1-3.9-4.1c0-4,3.9-4.1,3.9-4.1V24z"/>
+  </g>
+</svg>

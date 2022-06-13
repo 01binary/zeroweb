@@ -1,41 +1,21 @@
-import React, { FC, useRef } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import Avatar from './Avatar';
-import Cell from '../images/cell.svg';
 import LinkedInIcon from '../images/linkedin.svg';
 import GithubIcon from '../images/github.svg';
 import StackOverflowIcon from '../images/stack-overflow.svg';
-import authors from '../../authors.json';
-import {
-  CELL_HEIGHT,
-  CELL_ICON_SIZE,
-  CELL_PATTERN,
-  CELL_STRIP_HEIGHT,
-  CELL_WIDTH,
-  MOBILE,
-} from '../constants';
 import { useCommentsContext } from '../hooks/useComments';
+import { HexLink, HexList } from './HexList';
+import AUTHORS from '../../authors.json';
+import { MOBILE } from '../constants';
 
-const getAuthorInfo = (userName: string) => ({
-  ...authors[userName],
-  social: [
-    {
-      name: 'linkedin',
-      href: 'https://www.linkedin.com/in/valeriy-n-2967487/',
-      icon: LinkedInIcon,
-    },
-    {
-      name: 'stack overflow',
-      href: 'https://stackoverflow.com/users/3727395/valeriy-novytskyy',
-      icon: StackOverflowIcon,
-    },
-    {
-      href: 'https://github.com/01binary',
-      name: 'github',
-      icon: GithubIcon,
-    },
-  ],
-});
+const SOCIAL_ICONS = {
+  linkedin: LinkedInIcon,
+  stack_overflow: StackOverflowIcon,
+  github: GithubIcon,
+};
+
+type SocialNetworks = keyof typeof SOCIAL_ICONS;
 
 const AuthorAvatar = styled(Avatar)`
   flex-basis: 38px;
@@ -73,10 +53,14 @@ const MetaRow = styled.section<{ desktopOnly: boolean }>`
   }
 `;
 
-const SocialHeading = styled.span`
-  display: block;
+const SocialHeading = styled.div`
   color: ${(props) => props.theme.secondaryTextColor};
-  margin-top: ${(props) => props.theme.spacingHalf};
+  margin-top: ${(props) => props.theme.spacing};
+  margin-bottom: ${(props) => props.theme.spacing};
+
+  @media (max-width: ${MOBILE}) {
+    display: none;
+  }
 `;
 
 const AuthorHeader = styled.div`
@@ -93,142 +77,44 @@ const AuthorLocation = styled.div`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
-const Sidebar = styled.aside`
-  float: right;
-  width: calc(20% + 2em);
-  margin-left: 2em;
-
-  @media (max-width: ${MOBILE}) {
-    position: initial;
-    float: initial;
-    width: initial;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    width: fit-content;
-    margin-left: ${(props) => props.theme.spacingHalf};
-  }
-`;
-
-const Social = styled.ul`
-  position: relative;
-  list-style-type: none;
-  margin-block-end: 0;
-  margin-right: 0;
-  overflow: hidden;
-  height: ${CELL_STRIP_HEIGHT}px;
-  width: ${CELL_WIDTH * 2}px;
-  margin-top: 0;
-
-  @media (min-width: ${MOBILE}) {
-    margin-top: calc(
-      ${(props) => props.theme.spacingHalf} +
-        ${(props) => props.theme.spacingQuarter}
-    );
-    margin-bottom: ${(props) => props.theme.spacing};
-  }
-`;
-
-const SocialItem = styled.li`
-  position: absolute;
-  left: ${(props) => CELL_PATTERN[props.index].x}px;
-  top: ${(props) => CELL_PATTERN[props.index].y - CELL_HEIGHT}px;
-  width: ${CELL_WIDTH}px;
-  height: ${CELL_HEIGHT}px;
-
-  .tag__icon {
-    position: absolute;
-    left: ${(CELL_WIDTH - CELL_ICON_SIZE) / 2}px;
-    top: ${(CELL_HEIGHT - CELL_ICON_SIZE) / 2}px;
-  }
-`;
-
-const SocialBorder = styled(Cell)`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-`;
-
-const SocialLink = styled.a`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-
-  svg {
-    pointer-events: none;
-  }
-
-  .tag__icon {
-    opacity: 0.85;
-    transition: opacity ${(props) => props.theme.animationFast} ease-out;
-  }
-
-  &:hover {
-    .tag__icon {
-      opacity: 1;
-    }
-  }
-
-  &:focus {
-    z-index: 1;
-    outline: none;
-    border-radius: initial;
-    box-shadow: initial;
-
-    .stroke-border {
-      stroke: ${(props) => props.theme.focusColor};
-    }
-  }
-`;
-
-type AboutSidebarProps = {
+type SocialLinksProps = {
   userName: string;
-  locationName: string;
-};
+} & Record<SocialNetworks, string>;
 
-const AboutSidebar: FC<AboutSidebarProps> = ({ userName, locationName }) => {
-  const tooltipTargetRef = useRef<HTMLElement>(null);
+const SocialLinks: FC<SocialLinksProps> = (props) => {
   const { showTipFor, hideTip } = useCommentsContext();
-
-  const showTextTip = (text: string) => (e: MouseEvent) => {
-    tooltipTargetRef.current = e.target as HTMLElement;
-    showTipFor(text, tooltipTargetRef);
-  };
-
-  const { avatarUrl, social } = getAuthorInfo(userName);
+  const { userName } = props;
+  const { avatarUrl, location } = AUTHORS[userName];
 
   return (
-    <Sidebar>
+    <>
       <AuthorRow>
         <AuthorAvatar avatarUrl={avatarUrl} />
         <AuthorHeader>
           <AuthorName>{userName}</AuthorName>
-          <AuthorLocation>{locationName}</AuthorLocation>
+          <AuthorLocation>{location}</AuthorLocation>
         </AuthorHeader>
       </AuthorRow>
 
       <MetaRow>
         <SocialHeading>follow me on...</SocialHeading>
-        <Social>
-          {social.map(({ name, href, icon: Icon }, index) => (
-            <SocialItem key={name} index={index}>
-              <SocialLink
-                href={href}
-                target="__blank"
-                onMouseOver={showTextTip(name)}
-                onMouseOut={hideTip}
-              >
-                <SocialBorder />
-                <Icon className="tag__icon" />
-              </SocialLink>
-            </SocialItem>
+        <HexList>
+          {Object.keys(SOCIAL_ICONS).map((name, index) => (
+            <HexLink
+              key={name}
+              index={index}
+              href={props[name]}
+              target="__blank"
+              tooltip={name.replace('_', ' ')}
+              icon={SOCIAL_ICONS[name]}
+              showTipFor={showTipFor}
+              hideTip={hideTip}
+            />
           ))}
-        </Social>
+        </HexList>
       </MetaRow>
-    </Sidebar>
+    </>
   );
 };
 
-export default AboutSidebar;
+export default SocialLinks;

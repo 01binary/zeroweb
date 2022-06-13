@@ -191,3 +191,18 @@ export const useTooltipTarget = ({
 
   return { showTip: showTargetTip, targetRef, updateTip };
 };
+
+export const useSharedTooltip = (
+  tooltip: string,
+  showTipFor: ShowTipForHandler
+) => {
+  const targetRef = useRef<HTMLElement>(null);
+  const showTip = useCallback(() => showTipFor(tooltip, targetRef), [
+    tooltip,
+    showTipFor,
+  ]);
+  return {
+    targetRef,
+    showTip,
+  };
+};

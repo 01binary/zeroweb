@@ -119,8 +119,8 @@ export const lightTheme = {
 
   warningColor: '#E1B412',
   focusColor: '#FF008E',
-  errorColor: '#BA141A',
-  successColor: '#0dbc79',
+  errorColor: '#EE8A83',
+  successColor: '#43A39F',
 
   textSelectionColor: 'white',
   textSelectionBackground: '#FF008E',
@@ -167,8 +167,8 @@ export const darkTheme = {
 
   warningColor: '#E1B412',
   focusColor: '#FF008E',
-  errorColor: '#FF008E',
-  successColor: '#0dbc79',
+  errorColor: '#EE8A83',
+  successColor: '#43A39F',
 
   textSelectionColor: 'white',
   textSelectionBackground: '#FF008E',
@@ -303,11 +303,25 @@ export const GlobalStyle = createGlobalStyle`
     fill: ${(props) => props.theme.accentShadowColor};
   }
 
+  .fill-alwaysdark {
+    fill: ${(props) => props.theme.alwaysDarkColor};
+  }
+
   .fill-background--light {
     fill: ${(props) =>
       props.theme.isDark
         ? props.theme.dropShadowDarkColor
         : props.theme.accentLightShadowColor};
+  }
+
+  .fill-background--medium {
+    fill: ${(props) =>
+      props.theme.isDark ? props.theme.borderColor : '#B7B7B7'};
+  }
+
+  .stroke-background--medium {
+    stroke: ${(props) =>
+      props.theme.isDark ? props.theme.borderColor : '#B7B7B7'};
   }
 
   .fill-foreground {
@@ -330,6 +344,10 @@ export const GlobalStyle = createGlobalStyle`
     stroke: ${(props) => props.theme.accentShadowColor};
   }
 
+  .stroke-opaque {
+    stroke: ${(props) => props.theme.backgroundColor};
+  }
+
   .stroke-border {
     stroke: ${(props) => props.theme.borderColor};
   }
@@ -348,6 +366,14 @@ export const GlobalStyle = createGlobalStyle`
 
   .stroke-alternate {
     stroke: ${(props) => props.theme.secondaryColor};
+  }
+
+  .stroke-error {
+    stroke: ${(props) => props.theme.errorColor};
+  }
+
+  .stroke-success {
+    stroke: ${(props) => props.theme.successColor};
   }
 
   .fill-border {

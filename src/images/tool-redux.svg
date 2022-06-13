@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <g class="fill-none stroke-foreground">
+    <path stroke-miterlimit="10" d="M10.8,8.9c9.7,0,10.3,5.4,10.1,7.2c-0.2,1.8-2.1,4.9-7.1,2.9"/>
+    <path stroke-miterlimit="10" d="M8.9,15C4.2,6.5,8.7,3.3,10.4,2.6s5.3-0.5,5.9,4.9"/>
+    <path stroke-miterlimit="10" d="M16,13.3c-4.7,8.5-9.7,6.4-11.2,5.3s-3.3-4.2,1-7.6"/>
+  </g>
+  <g class="fill-foreground">
+    <circle cx="10.7" cy="8.9" r="1.4"/>
+    <circle cx="9" cy="15" r="1.4"/>
+    <circle cx="15.9" cy="13.2" r="1.4"/>
+  </g>
+</svg>

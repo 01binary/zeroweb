@@ -26,7 +26,6 @@ import {
 } from './profileUtils';
 import {
   BlockLinkButton,
-  LinkButton,
   ProfileAvatar,
   ProfileError,
   ProfileGroup,
@@ -43,6 +42,7 @@ import {
   ReactionList,
   SecondaryText,
 } from './Profile.styles';
+import LinkButton from '../LinkButton';
 
 // Max reactions to show until user clicks show more
 const MAX_ITEMS = 5;

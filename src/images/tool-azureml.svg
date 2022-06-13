@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36" xml:space="preserve">>
+  <g class="fill-foreground">
+    <rect x="14.6" y="5" width="6.6" height="9.7"/>
+    <polygon points="14.6,14.7 5.7,24.8 7.2,31 21.2,14.7 "/>
+    <polygon points="22.8,16.5 30.3,24.7 28.7,31 18.7,21.2 "/>
+  </g>
+  <polygon class="fill-background" points="22.2,24.6 12.7,24.6 7.2,31 28.7,31 "/>
+</svg>

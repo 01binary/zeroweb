@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <g class="fill-background">
+    <polygon points="12,8.9 12,12.5 13.5,12.5 	"/>
+    <polygon points="12,3.2 12,5.1 17.1,16.6 15.2,16.6 14.2,14.1 12,14.1 12,20.8 18.9,17 20.2,6.1 	"/>
+  </g>
+  <g class="fill-foreground">
+    <polygon points="3.8,6.1 5.1,17 12,20.8 12,14.1 9.8,14.1 8.8,16.6 6.9,16.6 12,5.1 12,3.2 	"/>
+    <polygon points="12,12.5 12,8.9 10.5,12.5 	"/>
+  </g>
+</svg>

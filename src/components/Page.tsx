@@ -1,5 +1,4 @@
 import React, { FC, useRef } from 'react';
-import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import { MDXProvider } from '@mdx-js/react';
 import Title from '../components/Title';
@@ -63,13 +62,6 @@ const Content = styled.section`
   animation: slideIn ${(props) => props.theme.animationSlow} 0.2s ease-out 1;
   animation-fill-mode: forwards;
 
-  .hero {
-    font-family: 'Roboto', sans-serif;
-    font-size: 18pt;
-    font-weight: 400;
-    margin-block-start: 0;
-  }
-
   // Flickers on Safari due to opacity
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -87,26 +79,21 @@ const Content = styled.section`
   }
 `;
 
-type PageQuery = {
+export type PageQuery = {
   data: {
     page: {
       slug: string;
-      body: string;
+      body?: string;
       frontmatter: {
         title: string;
+        seoTitle?: string;
         description: string;
-        image: {
+        collection: string;
+        image?: {
           childImageSharp: {
-            fluid: {
-              base64: string;
-              aspectRatio: number;
-              src: string;
-              srcSet: string;
-              sizes: string;
-            };
+            fluid: { src: string };
           };
         };
-        collection: string;
       };
       fields: {
         url: string;
@@ -119,6 +106,7 @@ type PageQuery = {
 };
 
 const Page: FC<PageQuery> = ({
+  children,
   data: {
     site: {
       siteMetadata: { url: siteUrl },
@@ -126,14 +114,7 @@ const Page: FC<PageQuery> = ({
     page: {
       slug,
       body,
-      frontmatter: {
-        title,
-        description,
-        image: {
-          childImageSharp: { fluid },
-        },
-        collection,
-      },
+      frontmatter: { title, seoTitle, description, collection, image },
       fields: { url: relativePostUrl },
     },
   },
@@ -243,9 +224,9 @@ const Page: FC<PageQuery> = ({
     >
       <Main>
         <SEO
-          title={title}
+          title={seoTitle ?? title}
           description={description}
-          image={fluid.src}
+          image={image?.childImageSharp?.fluid?.src}
           url={relativePostUrl}
         />
 
@@ -278,7 +259,7 @@ const Page: FC<PageQuery> = ({
               hideTip,
             }}
           >
-            <MDXRenderer>{body}</MDXRenderer>
+            {body ? <MDXRenderer>{body}</MDXRenderer> : children}
           </CommentsContext.Provider>
         </Content>
       </Main>
@@ -295,32 +276,3 @@ const Page: FC<PageQuery> = ({
 };
 
 export default Page;
-
-export const pageQuery = graphql`
-  query($slug: String!) {
-    site {
-      siteMetadata {
-        url
-      }
-    }
-    page: mdx(slug: { eq: $slug }) {
-      slug
-      body
-      frontmatter {
-        title
-        description
-        image {
-          childImageSharp {
-            fluid(maxWidth: 768, maxHeight: 280) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
-        collection
-      }
-      fields {
-        url
-      }
-    }
-  }
-`;

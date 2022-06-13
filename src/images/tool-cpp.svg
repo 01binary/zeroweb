@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36" xml:space="preserve">
-	<polygon class="fill-border stroke-none" points="27.9,5.7 22.6,9.8 22.6,18.6 8.8,7.8 6.7,8.9 22.6,24.8 28,22.7 "/>
-	<polygon class="fill-border stroke-none" points="22.6,3.6 8.9,17.3 8.9,11 6.7,8.9 6.7,19.4 8.9,20.4 27.9,5.7 "/>
+	<polygon class="fill-background--medium stroke-none" points="27.9,5.7 22.6,9.8 22.6,18.6 8.8,7.8 6.7,8.9 22.6,24.8 28,22.7 "/>
+	<polygon class="fill-background--medium stroke-none" points="22.6,3.6 8.9,17.3 8.9,11 6.7,8.9 6.7,19.4 8.9,20.4 27.9,5.7 "/>
 	<path class="fill-foreground stroke-none" d="M12,21.9c-0.3-1-0.9-1.6-1.9-1.6c-1.5,0-2.3,1.2-2.3,3.1s0.9,3.2,2.4,3.2c0.6,0,1.2-0.3,1.5-0.8c0.1-0.3,0.3-0.6,0.3-1
 		l2.6,0.3c-0.3,1.1-0.5,1.6-1.1,2.2c-0.8,0.9-1.9,1.3-3.3,1.3c-1.5,0-2.7-0.4-3.6-1.3c-0.8-0.9-1.2-2.2-1.2-3.9c0-1.6,0.4-3,1.5-3.9
 		c0.9-0.8,2.1-1.2,3.5-1.2c1.5,0,2.7,0.6,3.6,1.5c0.5,0.5,0.6,0.9,0.8,1.7L12,21.9z"/>

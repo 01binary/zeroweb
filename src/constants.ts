@@ -19,8 +19,10 @@ export const NARROW_NO_MARKER_LABELS = '1195px';
 export const NARROW_FLIP_MARKERS = '1148px';
 // Media query: hide rulers and other decorations in gutters
 export const NARROW_NO_RULERS = '1070px';
-// Media query: basic mobile layout
+// Media query: tablet layout
 export const MOBILE = '1020px';
+// Media query: wide mobile layout;
+export const MOBILE_WIDE = '690px';
 // Media query: narrow mobile layout
 export const MOBILE_NARROW = '540px';
 // Media query: minimum mobile layout

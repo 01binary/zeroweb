@@ -4,16 +4,18 @@
 |  ██  ██   ██  |
 |  ██████   ██  |  binary : tech art
 |
-|  Post user content (comments, highlights, reactions, shares)
+|  User content (comments, highlights, reactions, shares)
 |----------------------------------------------------------
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import gql from 'graphql-tag';
-import nprogress from 'accessible-nprogress';
+import { useCallback, useMemo, useState } from 'react';
 import { ApolloCache, useQuery } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
+import AllSharesQuery, { ShareQuery } from '../types/AllSharesQuery';
+import { SHARES, useShares } from './useShares';
+import useLoadProgress from './useLoadProgress';
+import gql from 'graphql-tag';
 import {
   COMMENTS,
   ParagraphComment,
@@ -21,8 +23,6 @@ import {
   ParagraphSelection,
   useComments,
 } from './useComments';
-import { SHARES, useShares } from './useShares';
-import AllSharesQuery, { ShareQuery } from '../types/AllSharesQuery';
 
 // Refresh user-created content every 30 minutes
 const USER_CONTENT_POLL_INTERVAL_MS = 30 * 60 * 1000;
@@ -148,10 +148,7 @@ const useUserContent = (slug: string) => {
         )?.length
       : 0;
 
-  useEffect(() => {
-    if (loadingComments || mutatingComments) nprogress.start();
-    else nprogress.done();
-  }, [loadingComments, mutatingComments]);
+  useLoadProgress(loadingComments || mutatingComments);
 
   return {
     loading: loadingComments || mutatingComments,

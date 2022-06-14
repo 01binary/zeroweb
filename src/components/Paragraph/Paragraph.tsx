@@ -18,10 +18,10 @@ import React, {
   useEffect,
 } from 'react';
 import stringHash from 'string-hash';
-import RulerHighlightIcon from '../../../images/highlight.svg';
-import RulerCommentIcon from '../../../images/comment.svg';
-import AddCommentIcon from '../../../images/add-comment.svg';
-import { RulerMarker, RulerMarkerBadge } from '../../../components/RulerMarker';
+import RulerHighlightIcon from '../../images/highlight.svg';
+import RulerCommentIcon from '../../images/comment.svg';
+import AddCommentIcon from '../../images/add-comment.svg';
+import { RulerMarker, RulerMarkerBadge } from '../RulerMarker';
 import { InlineComments } from './InlineComments';
 import {
   CommentButton,
@@ -35,7 +35,7 @@ import {
 import {
   ParagraphSelection,
   useCommentsContext,
-} from '../../../hooks/useComments';
+} from '../../hooks/useComments';
 
 // How long to wait before hiding paragraph highlight menu
 const HIGHLIGHT_MOUSEOVER_TIMEOUT = 100;

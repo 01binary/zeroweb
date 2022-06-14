@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import Paragraph from './Paragraph/Paragraph';
+import Paragraph from '../Paragraph/Paragraph';
 import Number from '../../images/url/list-number.svg';
 
 const List = styled.ol`

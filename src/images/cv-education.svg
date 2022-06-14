@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle
+    className="fill-none stroke-success"
+    stroke-width="2.5"
+    cx="24"
+    cy="24"
+    r="22"
+  />
+  <g stroke-width="1.5">
+    <polygon
+      id="cap"
+      className="stroke-foreground fill-opaque"
+      stroke-miterlimit="10"
+      points="39.7,24.5 24.1,13 8.6,24.5 17.1,30.9 31.2,30.8 "
+    />
+    <ellipse
+      id="hole"
+      className="fill-background--light"
+      cx="24.1"
+      cy="30.9"
+      rx="6.9"
+      ry="4.3"
+    />
+    <path
+      className="fill-none stroke-foreground"
+      stroke-miterlimit="10"
+      d="M20.4,33.4"
+    />
+    <path
+      className="fill-opaque stroke-foreground"
+      stroke-miterlimit="10"
+      d="M8.6,24.5"
+    />
+    <path
+      className="fill-none stroke-foreground"
+      stroke-miterlimit="10"
+      d="M10.5,25.8c0,0-1.6,1.9-1.6,3.8v4.5"
+    />
+    <path
+      className="fill-none stroke-foreground"
+      stroke-miterlimit="10"
+      d="M17.3,30.6c0,2.6,3.1,4.7,6.9,4.7s6.9-2.1,6.9-4.7"
+    />
+    <path
+      id="side"
+      fill="none"
+      stroke="#898989"
+      stroke-miterlimit="10"
+      d="M17.3,31.4c0-2.6,3.1-4.7,6.9-4.7s6.9,2.1,6.9,4.7v-5.1c0-2.6-3.1-4.7-6.9-4.7s-6.9,2.1-6.9,4.7V31.4z"
+    />
+  </g>
+</svg>

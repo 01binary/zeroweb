@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+	<line
+		className="fill-none stroke-border"
+		stroke-width="0.85"
+		stroke-miterlimit="10"
+		x1="16.6"
+		y1="31"
+		x2="35.8"
+		y2="22"
+	/>
+
+	<rect
+		x="15.3"
+		y="19.1"
+		transform="matrix(0.9063 -0.4226 0.4226 0.9063 -5.901 12.9512)"
+		className="fill-border"
+		width="21.9"
+		height="1.4"
+	/>
+	<polygon
+		className="fill-border"
+		points="17,38.3 15.7,38.3 15.7,24.8 11.7,21.9 12.5,20.8 16.7,23.8 17,24.4"
+	/>
+	<rect
+		x="20.3"
+		y="15.4"
+		transform="matrix(0.9063 -0.4226 0.4226 0.9063 -4.6287 11.3486)"
+		width="6"
+		height="1.4"
+	/>
+	<polygon points="16.6,38.9 15.9,38.8 11.7,35.7 11.4,35.2 11.4,21.3 11.8,20.7 18.4,17.6 19,18.9 12.8,21.8 12.8,34.8 16.4,37.5 35.5,28.6 35.5,15.5 31.9,12.9 27.9,14.7 27.3,13.5 31.6,11.5 32.3,11.5 36.6,14.6 36.9,15.2 36.9,29 36.5,29.6 	" />
+	<polygon
+		className="fill-background--medium"
+		points="18.6,13.3 18.3,13.9 18.3,18.8 19.6,19.2 21.2,18.5 21.4,17.9 21.4,15 25.3,13.2 25.3,16.1 26.1,16.4 27.7,15.6 28,15.1 27.9,10.1 26.9,9.5 	"
+	/>
+	<polygon points="27.2,9.4 18.6,13.3 18.2,13.9 18.2,19.3 19.6,19.3 19.6,14.4 26.8,11.1 26.9,16 28.2,15.4 28.1,10" />
+	<circle
+		className="stroke-focus"
+		fill="none"
+		stroke-width="2.5"
+		cx="24"
+		cy="24"
+		r="22"
+	/>
+</svg>

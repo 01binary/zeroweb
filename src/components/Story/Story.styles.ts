@@ -332,6 +332,11 @@ export const HeroSection = styled.section<{ tight?: boolean }>`
 
   @media (max-width: ${MOBILE}) {
     max-width: 100%;
-    margin-left: ${(props) => props.theme.spacingHalf};
+    margin-left: 0;
+    margin-right: 0;
   }
+`;
+
+export const KeywordsSection = styled.section`
+  display: none;
 `;

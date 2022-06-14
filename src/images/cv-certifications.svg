@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle
+    className="fill-none stroke-alternate"
+    stroke-width="2.5"
+    cx="24"
+    cy="24"
+    r="22"
+  />
+  <polygon className="fill-border" points="16.5,8 31.5,8 29.1,14 17.7,14 " />
+  <polygon
+    className="fill-border"
+    points="29.8,23.8 36.2,13.7 31.5,8 25,21.7 27.3,22.3 "
+  />
+  <polygon
+    className="fill-background"
+    points="18.2,23.8 11.8,13.7 16.5,8 23.2,21.9 20.7,22.2 "
+  />
+  <rect
+    x="16.7"
+    y="9.9"
+    className="fill-background--light"
+    width="14.1"
+    height="2.7"
+  />
+  <polygon
+    className="fill-background--light"
+    points="34.9,12.2 28.5,23 26.4,22 32.9,9.7 "
+  />
+  <polygon
+    className="fill-background--light"
+    points="13.1,12.2 19.5,23 21.6,22 15.1,9.7 "
+  />
+
+  <circle
+    className="stroke-opaque fill-background--light"
+    stroke-width="1.5"
+    stroke-miterlimit="10"
+    cx="24"
+    cy="30.7"
+    r="7.5"
+  />
+  <path
+    className="fill-foreground"
+    d="M24,22.8c4.4,0,7.9,3.5,7.9,7.9s-3.5,7.9-7.9,7.9s-7.9-3.5-7.9-7.9S19.6,22.8,24,22.8 M24,21.3
+c-5.2,0-9.4,4.2-9.4,9.4S18.8,40,24,40s9.4-4.2,9.4-9.4S29.2,21.3,24,21.3L24,21.3z"
+  />
+  <rect x="22.1" y="29.2" className="fill-border" width="1.4" height="3.1" />
+  <rect x="24.3" y="29.2" className="fill-border" width="1.4" height="3.1" />
+</svg>

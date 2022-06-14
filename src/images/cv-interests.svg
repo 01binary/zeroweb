@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle
+    className="fill-none stroke-focus"
+    stroke-width="2.5"
+    cx="24"
+    cy="24"
+    r="22"
+  />
+  <path
+    className="fill-none stroke-foreground"
+    stroke-miterlimit="10"
+    stroke-width="1.5"
+    d="M24.1,17.4c0,0,2-3.4,5.7-3.2s6.2,2.8,6.8,5.3
+c0.7,2.5-0.4,4.6-0.4,4.6s-1.2,2.7-4,5.3s-8.1,6.5-8.1,6.5h-0.1c0,0-5.3-3.9-8.1-6.5s-4-5.3-4-5.3s-1.1-2.1-0.4-4.6s3.1-5.1,6.8-5.3
+s5.7,3.2,5.7,3.2H24.1z"
+  />
+</svg>

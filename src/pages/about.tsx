@@ -4,26 +4,26 @@ import Page, { PageQuery } from '../components/Page';
 import HelloAnimation from '../components/Animations/HelloAnimation';
 import SocialLinks from '../components/SocialLinks';
 import { ButtonResources } from '../components/Button';
+import CurrentExperienceIcon from '../images/cv-current-experience.svg';
+import PreviousExperienceIcon from '../images/cv-past-experience.svg';
+import EducationIcon from '../images/cv-education.svg';
+import CertificationsIcon from '../images/cv-certifications.svg';
+import InterestsIcon from '../images/cv-interests.svg';
 import {
   Sidebar,
   Story,
-  Experience,
   Title,
   Company,
   Dates,
   Location,
-  Stack,
   Summary,
   Details,
   Keywords,
-  CurrentExperienceIcon,
-  PreviousExperienceIcon,
-  EducationIcon,
-  CertificationsIcon,
-  InterestsIcon,
-  Contact,
   Hero,
 } from '../components/Story/Story';
+import { Stack } from '../components/Story/Stack';
+import Experience from '../components/Story/Experience';
+import Contact from '../components/Story/Contact';
 
 const About: FC<PageQuery> = ({ data }) => (
   <Page

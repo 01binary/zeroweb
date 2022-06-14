@@ -1,15 +1,7 @@
-import React, {
-  FC,
-  ReactNode,
-  useState,
-  useContext,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { FC, useState, useContext, useEffect, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LinkButton from '../LinkButton';
 import { Arrow, Tooltip } from '../Tooltip';
-import { ReactElement } from 'react-markdown/lib/react-markdown';
 import { useTooltip } from '../../hooks/useTooltip';
 import StoryContext from './StoryContext';
 import ExperienceContext from './ExperienceContext';
@@ -24,26 +16,8 @@ import {
   StorySection,
   SummarySection,
 } from './Story.styles';
-
-const PARAGRAPH_SEPARATOR = '\r\n\r\n';
-
-const filterParagraph = ({ type }: ReactElement) => type === 'p';
-
-const mapParagraph = ({
-  props: { children },
-}: {
-  props: Record<string, string>;
-}) => children;
-
-const getMarkdown = (children: ReactNode) =>
-  Array.isArray(children)
-    ? (children as ReactElement[])
-        .filter(filterParagraph)
-        .map(mapParagraph)
-        .join(PARAGRAPH_SEPARATOR)
-    : children.toString();
-
 export { Sidebar, Location, Dates } from './Story.styles';
+import { getMarkdown } from './storyUtils';
 
 export const Story: FC = ({ children }) => {
   const [filter, setFilter] = useState<string | undefined>();

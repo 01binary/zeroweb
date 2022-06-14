@@ -1,7 +1,14 @@
 import React, { FC, useContext, useState, useCallback } from 'react';
 import ExperienceContext from './ExperienceContext';
-import { ExperienceCard, ExperienceTimeline } from './Story.styles';
+import {
+  ExperienceCard,
+  ExperienceRuler,
+  ExperienceRulerMark,
+  ExperienceRulerSubMark,
+  ExperienceTimeline,
+} from './Story.styles';
 import StoryContext from './StoryContext';
+import { PARAGRAPH_SEPARATOR } from './storyUtils';
 
 type ExperienceState = {
   title: string;
@@ -44,6 +51,19 @@ const filterMatch = (
       );
     }, false);
 
+const getMarkCount = (text: string) => {
+  if (!text) return 0;
+
+  const paragraphs = text.split(PARAGRAPH_SEPARATOR);
+
+  if (paragraphs.length > 1) {
+    const filtered = paragraphs.filter((p) => p.length > 120);
+    return Math.max(filtered.length, 1);
+  }
+
+  return paragraphs.length;
+};
+
 const Experience: FC = ({ children }) => {
   const { filter } = useContext(StoryContext);
   const [experience, setExperience] = useState<Partial<ExperienceState>>({});
@@ -85,10 +105,22 @@ const Experience: FC = ({ children }) => {
   );
 
   const isMatch = !filter || filterMatch(experience, filter);
+  const summaryMarks = getMarkCount(experience.summary);
+  const detailsMarks = getMarkCount(experience.details);
+  const markCount = showDetails ? detailsMarks : summaryMarks;
+  const marks = Array.from(Array(markCount).keys());
 
   return isMatch ? (
     <ExperienceCard>
       <ExperienceTimeline />
+      <ExperienceRuler>
+        {marks.map((mark) => (
+          <ExperienceRulerMark key={`mark${mark}`}>
+            <ExperienceRulerSubMark />
+            <ExperienceRulerSubMark />
+          </ExperienceRulerMark>
+        ))}
+      </ExperienceRuler>
       <ExperienceContext.Provider
         value={{
           setTitle,

@@ -138,6 +138,57 @@ export const StorySection = styled.section`
   }
 `;
 
+export const ExperienceRuler = styled.div`
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  grid-column: 5;
+  grid-row: 1 / 5;
+  left: ${(props) => props.theme.spacingHalf};
+
+  margin-top: 1.5em;
+  margin-bottom: calc(0px - 1.5em - ${(props) => props.theme.border});
+
+  border-top: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+  border-right: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+  border-bottom: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+
+  @media (max-width: ${MOBILE_WIDE}) {
+    display: none;
+  }
+`;
+
+export const ExperienceRulerMark = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  flex: 1;
+  width: 60%;
+
+  border-bottom: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+
+  margin-bottom: calc(0px - ${(props) => props.theme.border});
+`;
+
+export const ExperienceRulerSubMark = styled.div`
+  border-bottom: ${(props) => props.theme.border} solid
+    ${(props) => props.theme.borderColor};
+  flex: 1;
+  width: 50%;
+
+  &:last-of-type {
+    opacity: 0;
+  }
+`;
+
 export const ExperienceCard = styled.article.attrs(() => ({
   className: 'experience__card',
 }))`

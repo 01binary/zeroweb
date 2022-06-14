@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import Avatar from './Avatar';
-import LinkedInIcon from '../images/linkedin.svg';
-import GithubIcon from '../images/github.svg';
-import StackOverflowIcon from '../images/stack-overflow.svg';
-import { useCommentsContext } from '../hooks/useComments';
-import { HexLink, HexList } from './HexList';
-import AUTHORS from '../../authors.json';
-import { MOBILE } from '../constants';
+import Avatar from '../Avatar';
+import LinkedInIcon from '../../images/linkedin.svg';
+import GithubIcon from '../../images/github.svg';
+import StackOverflowIcon from '../../images/stack-overflow.svg';
+import { useCommentsContext } from '../../hooks/useComments';
+import { HexLink, HexList } from '../HexList';
+import AUTHORS from '../../../authors.json';
+import { MOBILE } from '../../constants';
 
 const SOCIAL_ICONS = {
   linkedin: LinkedInIcon,

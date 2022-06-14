@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  Components that can be used to build an online CV.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FC, useState, useContext, useEffect, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LinkButton from '../LinkButton';
@@ -19,6 +30,22 @@ import {
 export { Sidebar, Location, Dates } from './Story.styles';
 import { getMarkdown } from './storyUtils';
 
+/**
+ * Objective
+ * @param tight - Whether to use less bottom spacing
+ * @returns {JSX.Element}
+ */
+export const Hero: FC<{ tight?: boolean }> = ({ tight, children }) => (
+  <HeroSection tight={tight}>
+    <ReactMarkdown linkTarget="_blank">{getMarkdown(children)}</ReactMarkdown>
+  </HeroSection>
+);
+
+/**
+ * Developer Story
+ * @param children - One or more <Experience> items
+ * @returns {JSX.Element}
+ */
 export const Story: FC = ({ children }) => {
   const [filter, setFilter] = useState<string | undefined>();
   const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
@@ -48,21 +75,54 @@ export const Story: FC = ({ children }) => {
   );
 };
 
+/**
+ * Developer Story Filter row with input field and clear button
+ */
+export { default as Filter } from './Filter';
+
+/**
+ * Developer Story Contact information
+ */
+export { default as Contact } from './Contact';
+
+/**
+ * Developer Story Social Links
+ */
+export { default as SocialLinks } from './SocialLinks';
+
+/**
+ * Developer Story Experience (also use for education, interests, etc)
+ * Maintains a search index for its children to make CV filterable
+ */
+export { default as Experience } from './Experience';
+
+/**
+ * Experience Title
+ * @param single - This title will not be paired with <Company>
+ * @returns {JSX.Element}
+ */
 export const Title: FC<{ single?: true }> = ({ single, children }) => {
   const { setTitle } = useContext(ExperienceContext);
 
   useEffect(() => {
+    // Add title to search index
     setTitle(children.toString().toLowerCase());
   }, [children, setTitle]);
 
   return <Heading single={single}>{children}</Heading>;
 };
 
+/**
+ * Experience Company
+ * @param children - Markdown text that can include links and formatting
+ * @returns {JSX.Element}
+ */
 export const Company: FC = ({ children }) => {
   const { setCompany } = useContext(ExperienceContext);
   const markdown = useMemo(() => getMarkdown(children), [children]);
 
   useEffect(() => {
+    // Add company to search index
     setCompany(markdown.toLowerCase());
   }, [children, setCompany]);
 
@@ -73,6 +133,11 @@ export const Company: FC = ({ children }) => {
   );
 };
 
+/**
+ * Experience Summary
+ * @param children - Markdown text that can include links and formatting
+ * @returns {JSX.Element}
+ */
 export const Summary: FC = ({ children }) => {
   const { setSummary, details, showDetails, toggleDetails } = useContext(
     ExperienceContext
@@ -82,6 +147,7 @@ export const Summary: FC = ({ children }) => {
   const hasMore = details && details.length;
 
   useEffect(() => {
+    // Add summary text to search index
     setSummary(summary.toLowerCase());
   }, [children, setSummary]);
 
@@ -101,17 +167,33 @@ export const Summary: FC = ({ children }) => {
   );
 };
 
+/**
+ * Experience Details (replaces content of Summary when "more" button is clicked)
+ * @param children - Markdown text that can include links and formatting
+ * @returns {JSX.Element}
+ */
 export const Details: FC = ({ children }) => {
   const { setDetails } = useContext(ExperienceContext);
   const details = useMemo(() => getMarkdown(children), [children]);
 
   useEffect(() => {
+    // Add details text to search index
     setDetails(details);
   }, [children, setDetails]);
 
   return <DetailsSection>{children}</DetailsSection>;
 };
 
+/**
+ * Experience Technology Stack (displays in a hex list with icons)
+ */
+export { default as Stack } from './Stack';
+
+/**
+ * Experience keywords (hidden, used as hints in search index and for SEO)
+ * @param children - Plain text with one or more words separated by commas
+ * @returns {JSX.Element}
+ */
 export const Keywords: FC = ({ children }) => {
   const { setKeywords } = useContext(ExperienceContext);
   const keywords = useMemo(
@@ -124,14 +206,9 @@ export const Keywords: FC = ({ children }) => {
   );
 
   useEffect(() => {
+    // Add keywords to search index
     setKeywords(keywords);
   }, [keywords, setKeywords]);
 
   return <KeywordsSection>{children}</KeywordsSection>;
 };
-
-export const Hero: FC<{ tight?: boolean }> = ({ tight, children }) => (
-  <HeroSection tight={tight}>
-    <ReactMarkdown linkTarget="_blank">{getMarkdown(children)}</ReactMarkdown>
-  </HeroSection>
-);

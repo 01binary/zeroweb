@@ -118,9 +118,9 @@ const TOC: FC<TocProps> = ({
   showLogs,
   readPosition,
 }) => {
-  if (headings.length === 0) return null;
-
   const active = useActiveHeading(headings);
+
+  if (headings.length === 0) return null;
 
   return (
     <Toc>

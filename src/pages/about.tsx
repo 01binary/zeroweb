@@ -1,14 +1,24 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  About page and filterable online CV.
+|----------------------------------------------------------
+|  Copyright(C) 2021 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { FC } from 'react';
 import { graphql } from 'gatsby';
 import Page, { PageQuery } from '../components/Page';
 import HelloAnimation from '../components/Animations/HelloAnimation';
-import SocialLinks from '../components/SocialLinks';
-import { ButtonResources } from '../components/Button';
 import CurrentExperienceIcon from '../images/cv-current-experience.svg';
 import PreviousExperienceIcon from '../images/cv-past-experience.svg';
 import EducationIcon from '../images/cv-education.svg';
 import CertificationsIcon from '../images/cv-certifications.svg';
 import InterestsIcon from '../images/cv-interests.svg';
+import { ButtonResources } from '../components/Button';
 import {
   Sidebar,
   Story,
@@ -19,11 +29,12 @@ import {
   Summary,
   Details,
   Keywords,
+  Contact,
+  SocialLinks,
+  Experience,
+  Stack,
   Hero,
 } from '../components/Story/Story';
-import { Stack } from '../components/Story/Stack';
-import Experience from '../components/Story/Experience';
-import Contact from '../components/Story/Contact';
 
 const About: FC<PageQuery> = ({ data }) => (
   <Page
@@ -540,7 +551,7 @@ const About: FC<PageQuery> = ({ data }) => (
 
       <Experience>
         <EducationIcon />
-        <Title>Associate of Applied Science in IT & Multimedia</Title>
+        <Title>Associate of Applied Science in IT &amp; Multimedia</Title>
         <Company>
           [ITT Technical Institute](https://www.facebook.com/ITTTech/)
         </Company>

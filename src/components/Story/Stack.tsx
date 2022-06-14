@@ -73,7 +73,7 @@ const STACK_ICONS: Record<string, JSX.Element> = {
   storybook: StorybookIcon,
 };
 
-export const Stack: FC = ({ children }) => {
+const Stack: FC = ({ children }) => {
   const { showTipFor, hideTip } = useContext(StoryContext);
   const { setStack } = useContext(ExperienceContext);
   const keywords = useMemo(
@@ -107,3 +107,5 @@ export const Stack: FC = ({ children }) => {
     </StackSection>
   );
 };
+
+export default Stack;

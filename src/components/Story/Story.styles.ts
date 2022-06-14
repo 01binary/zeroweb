@@ -75,6 +75,10 @@ export const FilterInput = styled.input`
 
 export const FilterIndicator = styled(FilterIcon)`
   position: absolute;
+  top: calc(
+    ${(props) => props.theme.spacingQuarter} + ${(props) => props.theme.border} *
+      2
+  );
   left: calc(${(props) => props.theme.spacing} * 3);
 
   @media (max-width: ${MOBILE}) {

@@ -561,9 +561,9 @@ const About: FC<PageQuery> = ({ data }) => (
           </p>
           <p>
             Studied software development with `Visual C#`, graphic design,
-            animation, video production, and technical illustration with `Adobe
-            Creative Suite`, computer aided drafting with `Autodesk Inventor`,
-            and CG rendering with `3D Studio Max`.
+            animation, video production, and illustration with `Adobe Creative
+            Suite`, computer aided drafting with `Autodesk Inventor`, and CG
+            rendering with `3D Studio Max`.
           </p>
           <p>
             Programmed a rigid body physics engine with spring constraints in

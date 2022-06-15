@@ -69,6 +69,11 @@ const HamburgerIcon = styled.svg`
   left: calc(${(props) => props.theme.spacingDouble} / 2 - 12px);
   top: calc(${(props) => props.theme.spacingDouble} / 2 - 12px);
 
+  // Animation flickers on Safari, force to always layer
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+
   .clipped {
     clip-path: inset(0px 0px 0px 0px);
   }

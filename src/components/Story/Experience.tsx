@@ -104,7 +104,8 @@ const Experience: FC = ({ children }) => {
     [setExperience]
   );
 
-  const isMatch = !filter || filterMatch(experience, filter);
+  const isMatch =
+    !filter || filterMatch(experience, filter.toLocaleLowerCase());
   const summaryMarks = getMarkCount(experience.summary);
   const detailsMarks = getMarkCount(experience.details);
   const markCount = showDetails ? detailsMarks : summaryMarks;

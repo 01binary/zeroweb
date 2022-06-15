@@ -70,6 +70,11 @@ const HexLinkElement = styled.a`
     flex: 1;
     opacity: 0.8;
     transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+    // Fix Safari flicker by forcing a 3D layer
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 
   &:hover {
@@ -109,6 +114,11 @@ const HexButtonElement = styled.button`
   .hex__icon {
     opacity: 0.8;
     transition: opacity ${(props) => props.theme.animationFast} ease-out;
+
+    // Fix Safari flicker by forcing a 3D layer
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 
   &:hover {

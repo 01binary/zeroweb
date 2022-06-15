@@ -109,6 +109,9 @@ const HexButtonElement = styled.button`
   -moz-appearance: none;
   background: none;
 
+  // Reset padding which differs between browsers
+  padding: ${(props) => props.theme.spacingQuarter};
+
   cursor: pointer;
 
   .hex__icon {

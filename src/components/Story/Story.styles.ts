@@ -30,6 +30,7 @@ export const FilterSection = styled.section`
   margin-bottom: ${(props) => props.theme.spacingOneAndHalf};
 
   @media (max-width: ${MOBILE}) {
+    margin-bottom: ${(props) => props.theme.spacing};
     grid-template-columns: ${(props) => props.theme.spacingHalf} 0px 1fr max-content ${(
         props
       ) => props.theme.spacingQuarter} max-content 0 max-content ${(props) =>

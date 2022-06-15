@@ -24,6 +24,10 @@ import useAuthor from '../hooks/useAuthor';
 
 const PageTitle = styled(Title)`
   margin-bottom: calc(0px - ${(props) => props.theme.spacingHalf});
+
+  @media (max-width: ${MOBILE}) {
+    margin-bottom: initial;
+  }
 `;
 
 const Paragraph = styled.p`

@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
 import CubeAnimation from './Animations/CubeAnimation';
 import HeadingQuery from '../types/HeadingQuery';
-import EditGithubIcon from '../images/github-edit.svg';
+import EditIcon from '../images/markdown.svg';
 import { MOBILE } from '../constants';
 
 const Toc = styled.section`
@@ -81,9 +81,15 @@ const EditLink = styled.a`
   margin-right: ${(props) => props.theme.spacingHalf};
 `;
 
-const StyledEditIcon = styled(EditGithubIcon)`
-  margin-right: 0;
-  margin-left: calc(0px - 2em - ${(props) => props.theme.borderThick});
+const StyledEditIcon = styled(EditIcon)`
+  margin-top: calc(${(props) => props.theme.border} / 2);
+  margin-right: calc(
+    ${(props) => props.theme.spacingQuarter} - ${(props) => props.theme.border}
+  );
+  margin-left: calc(
+    0px - ${(props) => props.theme.spacing} +
+      ${(props) => props.theme.borderThick} + ${(props) => props.theme.border}
+  );
 
   @media (max-width: ${MOBILE}) {
     display: none;

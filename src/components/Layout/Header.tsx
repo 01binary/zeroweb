@@ -135,6 +135,10 @@ const Hero = styled.header`
     backdrop-filter: blur(6px);
     color: ${(props) => props.theme.foregroundColor};
 
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: opacity;
+
     &:before {
       z-index: 0;
       position: absolute;
@@ -146,8 +150,10 @@ const Hero = styled.header`
       height: 100%;
       transform: none;
       box-shadow: 0 0 5px ${(props) => props.theme.dropShadowDarkColor};
+
       transform-style: preserve-3d;
       backface-visibility: hidden;
+      will-change: transform, opacity;
     }
 
     &:after {

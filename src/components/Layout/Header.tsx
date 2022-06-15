@@ -146,6 +146,8 @@ const Hero = styled.header`
       height: 100%;
       transform: none;
       box-shadow: 0 0 5px ${(props) => props.theme.dropShadowDarkColor};
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
     }
 
     &:after {
@@ -257,6 +259,8 @@ const LogoLink = styled(Link)`
   }
 
   @media (max-width: ${MOBILE}) {
+    transform-style: preserve-3d;
+
     &:after {
       top: ${(props) => props.theme.border};
       left: 17px;

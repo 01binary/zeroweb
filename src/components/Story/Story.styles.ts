@@ -210,7 +210,7 @@ export const ExperienceCard = styled.article.attrs(() => ({
     margin-bottom: ${(props) => props.theme.spacingHalf};
   }
 
-  svg {
+  .experience__icon {
     grid-column: 1;
     grid-row: 1 / 3;
     align-self: center;
@@ -231,6 +231,14 @@ export const ExperienceCard = styled.article.attrs(() => ({
   @media (max-width: ${MOBILE_WIDE}) {
     grid-template-columns: ${STORY_ICON_SIZE} 24px 1fr;
   }
+
+  @media (max-width: ${MOBILE_NARROW}) {
+    grid-template-columns: 1fr;
+
+    .experience__icon {
+      display: none;
+    }
+  }
 `;
 
 export const ExperienceTimeline = styled.div.attrs(() => ({
@@ -249,6 +257,10 @@ export const ExperienceTimeline = styled.div.attrs(() => ({
 
   @media (max-width: ${MOBILE_WIDE}) {
     grid-row: 3 / 7;
+  }
+
+  @media (max-width: ${MOBILE_NARROW}) {
+    display: none;
   }
 `;
 

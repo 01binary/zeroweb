@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" viewBox="0 0 36 36" xml:space="preserve">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
   <g class="fill-foreground">
     <rect x="23.2" y="14" width="3.2" height="12.7"/>
     <circle cx="24.8" cy="10.9" r="1.6"/>

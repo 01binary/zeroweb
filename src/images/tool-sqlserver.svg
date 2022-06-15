@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
   <g class="fill-background--medium">
     <ellipse cx="12.2" cy="3.7" rx="6.3" ry="1.9"/>
     <path d="M12.2,12.1c-3.5,0-6.3-0.8-6.3-1.9v2.7c0,1,2.8,1.9,6.3,1.9s6.3-0.8,6.3-1.9v-2.7

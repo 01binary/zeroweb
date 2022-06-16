@@ -238,6 +238,10 @@ export const ExperienceCard = styled.article.attrs(() => ({
     .experience__icon {
       display: none;
     }
+
+    border-bottom: ${(props) => props.theme.border} dotted
+      ${(props) => props.theme.borderColor};
+    margin-bottom: ${(props) => props.theme.spacingHalf};
   }
 `;
 
@@ -272,6 +276,18 @@ export const Heading = styled.h2`
   font-size: 24px;
   text-transform: initial;
   margin: ${(props) => (props.single ? `1em 0` : `0`)};
+
+  @media (max-width: ${MOBILE_NARROW}) {
+    font-weight: 800;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent;
+    background: -webkit-linear-gradient(
+      0deg,
+      #788bed 0%,
+      #f849e5 40%,
+      #ff5e6d 100%
+    );
+  }
 `;
 
 export const CompanySection = styled.section`

@@ -1,4 +1,4 @@
-import React, { FC, useContext, useMemo, useEffect } from 'react';
+import React, { FC, useContext, useMemo, useEffect, useCallback } from 'react';
 import { HexButton, HexList } from '../HexList';
 import { StackSection } from './Story.styles';
 import StoryContext from './StoryContext';
@@ -74,7 +74,7 @@ const STACK_ICONS: Record<string, JSX.Element> = {
 };
 
 const Stack: FC = ({ children }) => {
-  const { showTipFor, hideTip } = useContext(StoryContext);
+  const { showTipFor, hideTip, setFilter } = useContext(StoryContext);
   const { setStack } = useContext(ExperienceContext);
   const keywords = useMemo(
     () =>
@@ -101,6 +101,11 @@ const Stack: FC = ({ children }) => {
             tooltip={text}
             showTipFor={showTipFor}
             hideTip={hideTip}
+            onClick={() =>
+              setFilter(
+                (filter) => `${filter ?? ''}${filter ? ' ' : ''}${text}`
+              )
+            }
           />
         ))}
       </HexList>

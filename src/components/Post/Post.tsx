@@ -227,6 +227,11 @@ const Post: FC<{
     [siteImages]
   );
 
+  const tocHeadings = useMemo(
+    () => slugifyHeadings(relativePostUrl, headings),
+    [relativePostUrl, headings]
+  );
+
   return (
     <MDXProvider
       components={{
@@ -321,7 +326,7 @@ const Post: FC<{
 
           <TOC
             postUrl={relativePostUrl}
-            headings={slugifyHeadings(relativePostUrl, headings)}
+            headings={tocHeadings}
             isProject={collection === 'projects'}
             showLogs={Boolean(logs?.length)}
             readPosition={readPosition}

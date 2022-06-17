@@ -72,8 +72,17 @@ const TocItem = styled.li`
 
 const TocItemLink = styled(AnchorLink)`
   ${(props) => props.active && `text-decoration: underline`};
+
+  // Fix Safari flicker by forcing a 3D layer
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+
   @media (max-width: ${MOBILE}) {
     text-decoration: none;
+    transform-style: initial;
+    backface-visibility: initial;
+    will-change: initial;
   }
 `;
 

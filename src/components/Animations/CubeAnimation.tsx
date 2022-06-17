@@ -18,6 +18,11 @@ const CubeAnimation = styled(RotatingCube)<{
   stroke-linejoin: round;
   stroke-width: 2;
 
+  // Fix Safari flicker by forcing a 3D layer
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+
   #frame1 {
     opacity: ${({ position }) => showFrame(position, 0)};
   }

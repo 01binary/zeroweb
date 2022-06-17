@@ -20,6 +20,7 @@ import { useCallback } from 'react';
 
 const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
   const [user, setUser] = useState<User>(null);
+  const [anchor, setAnchor] = useState<string | null>(null);
   const [showCommentsSidebar, setShowCommentsSidebar] = useState(false);
   const [credentials, setCredentials] = useState<AWSSignature>(null);
   const client = useApiClient(credentials);
@@ -48,6 +49,8 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
         credentials,
         loginError,
         showCommentsSidebar,
+        anchor,
+        setAnchor,
         setShowCommentsSidebar,
         toggleCommentsSidebar,
         setUser,

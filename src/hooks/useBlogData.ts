@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import { createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
   User,
@@ -24,6 +24,8 @@ type BlogDataContextProps = {
   credentials: AWSSignature | null;
   loginError: string | null;
   showCommentsSidebar: boolean;
+  anchor: string | null;
+  setAnchor: React.Dispatch<React.SetStateAction<string>>;
   setShowCommentsSidebar: (showCommentsSidebar: boolean) => void;
   toggleCommentsSidebar: () => void;
   setUser: SetUserHandler;
@@ -40,8 +42,10 @@ export const BlogDataContext = createContext<BlogDataContextProps>({
   client: null,
   credentials: null,
   loginError: null,
+  anchor: null,
   setUser: null,
   showCommentsSidebar: false,
+  setAnchor: () => {},
   setShowCommentsSidebar: () => {},
   toggleCommentsSidebar: () => {},
   setCredentials: null,

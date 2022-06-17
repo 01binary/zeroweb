@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
@@ -17,6 +17,9 @@ import CubeAnimation from './Animations/CubeAnimation';
 import HeadingQuery from '../types/HeadingQuery';
 import EditIcon from '../images/markdown.svg';
 import { MOBILE } from '../constants';
+import { useBlogData } from '../hooks/useBlogData';
+
+const AUTOSCROLL_DURATION = 1100;
 
 const Toc = styled.section`
   font-family: ${(props) => props.theme.smallFont};
@@ -117,6 +120,9 @@ type TocProps = {
   readPosition: number;
 };
 
+const getAnchorFromHref = (url?: string) =>
+  url && url.substring(url.indexOf('#') + 1);
+
 const TOC: FC<TocProps> = ({
   postUrl,
   headings,
@@ -124,7 +130,25 @@ const TOC: FC<TocProps> = ({
   showLogs,
   readPosition,
 }) => {
-  const active = useActiveHeading(headings);
+  const { anchor, setAnchor } = useBlogData();
+  const heading = useActiveHeading(headings);
+  const isAutoScrollingRef = useRef<boolean>(false);
+
+  const resetAnchor = useCallback(() => {
+    if (!isAutoScrollingRef.current && anchor) setAnchor(null);
+  }, [anchor, setAnchor]);
+
+  useEffect(() => {
+    if (typeof window === `undefined`) return;
+
+    window.addEventListener('scroll', resetAnchor);
+
+    return () => {
+      window.removeEventListener('scroll', resetAnchor);
+    };
+  }, [resetAnchor]);
+
+  const active = anchor ?? heading;
 
   if (headings.length === 0) return null;
 
@@ -133,7 +157,17 @@ const TOC: FC<TocProps> = ({
       <TocTitle>{isProject ? 'project' : 'contents'}</TocTitle>
       <TocList>
         {headings.map(({ value, url, slug, depth }) => (
-          <TocItem key={url} depth={depth - 2}>
+          <TocItem
+            key={url}
+            depth={depth - 2}
+            onClick={(e) => {
+              setAnchor(getAnchorFromHref(e.target.href));
+              isAutoScrollingRef.current = true;
+              window.setTimeout(() => {
+                isAutoScrollingRef.current = false;
+              }, AUTOSCROLL_DURATION);
+            }}
+          >
             <TocItemLink to={url} active={slug === active}>
               {slug === active && <CubeAnimation position={readPosition} />}
               {value}

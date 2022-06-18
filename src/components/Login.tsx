@@ -7,6 +7,7 @@ import GoogleIcon from '../images/google.svg';
 import TwitterIcon from '../images/twitter.svg';
 import GithubIcon from '../images/github.svg';
 import { HideTipHandler, ShowTipForHandler } from '../hooks/useTooltip';
+import { MOBILE_NARROW } from '../constants';
 
 const PROVIDERS = [
   {
@@ -33,7 +34,7 @@ const Prompt = styled.section<{ inline?: boolean }>`
   align-items: ${(props) => (props.inline ? 'flex-start' : 'center')};
 
   ${(props) => !props.inline && `margin-bottom: ${props.theme.spacingHalf}`};
-  ${(props) => props.inline && 'flex-direction:column'};
+  ${(props) => props.inline && `flex-direction: column`};
 
   font-family: ${(props) =>
     props.inline ? props.theme.smallFont : props.theme.normalFont};
@@ -42,6 +43,8 @@ const Prompt = styled.section<{ inline?: boolean }>`
   font-weight: ${(props) =>
     props.inline ? props.theme.smallFontWeight : props.theme.normalFontWeight};
   color: ${(props) => props.theme.secondaryTextColor};
+
+  margin-right: ${(props) => props.theme.spacingHalf};
 `;
 
 const Text = styled.p<{ inline?: boolean }>`
@@ -51,8 +54,13 @@ const Text = styled.p<{ inline?: boolean }>`
     props.inline ? props.theme.smallFontSize : props.theme.normalFontSize};
   font-weight: ${(props) =>
     props.inline ? props.theme.smallFontWeight : props.theme.normalFontWeight};
+
   color: ${(props) => props.theme.secondaryTextColor};
-  ${(props) => props.inline && 'margin:0'};
+  ${(props) => props.inline && `margin: 0`};
+
+  @media (max-width: ${MOBILE_NARROW}) {
+    flex: 1;
+  }
 `;
 
 type LoginProps = {

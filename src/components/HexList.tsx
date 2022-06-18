@@ -58,6 +58,8 @@ const HexCell = styled.li`
 
 const HexLinkElement = styled.a`
   display: flex;
+  align-items: center;
+
   position: absolute;
   width: 100%;
   height: 100%;
@@ -98,6 +100,7 @@ const HexLinkElement = styled.a`
 const HexButtonElement = styled.button`
   display: flex;
   align-items: center;
+
   position: absolute;
   width: 100%;
   height: 100%;

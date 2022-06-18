@@ -60,6 +60,8 @@ const StyledSnapAnimation = styled(SnapAnimation)`
 
 const Wheelhouse = styled.aside<{
   showCommentsSidebar?: boolean;
+  offset?: string;
+  lower?: boolean;
 }>`
   display: block;
   position: sticky;
@@ -84,11 +86,16 @@ const Wheelhouse = styled.aside<{
     }
   }
 
-  transform: translateY(
-    ${(props) => (props.lower ? props.theme.spacingHalf : 0)}
-  );
+  transform: ${({ offset, lower, theme }) =>
+    `translateY(${offset ?? (lower ? theme.spacingHalf : 0)})`};
+
   transition: opacity ${(props) => props.theme.animationFast} ease-out,
     transform ${(props) => props.theme.animationSlow} ease-out;
+
+  // Fix Safari flicker by forcing a 3D layer
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 
   @media (max-width: ${NARROW_INLINE_COMMENTS}) {
     opacity: ${(props) => (props.showCommentsSidebar ? '0' : '1')};
@@ -245,6 +252,7 @@ const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
 );
 
 type WheelProps = {
+  offset?: string;
   showCommentsSidebar?: boolean;
   commentCount: number;
   reactionCount: number;
@@ -262,6 +270,7 @@ const Wheel: FC<WheelProps> = ({
   reactionCount,
   shareCount,
   sharesByType,
+  offset,
   handleSnap,
   handleShare: handleShareUpstream,
 }) => {
@@ -310,6 +319,7 @@ const Wheel: FC<WheelProps> = ({
   return (
     <Wheelhouse
       lower={shareCount > 9}
+      offset={offset}
       showCommentsSidebar={showCommentsSidebar}
     >
       <WheelWrapper>

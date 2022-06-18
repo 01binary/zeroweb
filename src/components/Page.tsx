@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { MDXProvider } from '@mdx-js/react';
 import Title from '../components/Title';
@@ -21,6 +21,14 @@ import SEO from './SEO';
 import { CommentsContext } from '../hooks/useComments';
 import ProfileTip from './Post/ProfileTip';
 import useAuthor from '../hooks/useAuthor';
+import { ContextMenu, ContextMenuArrow } from './ContextMenu';
+import ParagraphMenu from './Paragraph/ParagraphMenu';
+import { LoginPopup } from './Post/Post.styles';
+import Login from './Login';
+import useScrollPosition from '../hooks/useScrollPosition';
+import Comments from './Post/Comments/Comments';
+import usePostReactions from '../hooks/usePostReactions';
+import Wheel from './Post/Wheel';
 
 const PageTitle = styled(Title)`
   margin-bottom: calc(0px - ${(props) => props.theme.spacingHalf});
@@ -123,7 +131,18 @@ const Page: FC<PageQuery> = ({
     },
   },
 }) => {
+  const absolutePostUrl = siteUrl + relativePostUrl;
   const pageContentRef = useRef<HTMLElement>();
+  const [readPosition, setReadPosition] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
+
+  useScrollPosition(
+    (position, offset) => {
+      setReadPosition(position);
+      setScrollOffset(offset);
+    },
+    [readPosition]
+  );
 
   const {
     user,
@@ -161,6 +180,15 @@ const Page: FC<PageQuery> = ({
     handleVote,
     handleReact,
   } = useUserContent(slug);
+
+  const { handleSnap, handleShare } = usePostReactions({
+    user,
+    title,
+    description,
+    absolutePostUrl,
+    handleReact,
+    handleAddShare,
+  });
 
   const {
     showParagraphMenu,
@@ -205,8 +233,6 @@ const Page: FC<PageQuery> = ({
     hideProfileTip,
   } = useAuthor('Valeriy Novytskyy', comments);
 
-  const absolutePostUrl = siteUrl + relativePostUrl;
-
   return (
     <MDXProvider
       components={{
@@ -237,6 +263,17 @@ const Page: FC<PageQuery> = ({
         <PageTitle collection={collection}>{title}</PageTitle>
 
         <Content role="document">
+          <Wheel
+            offset="2em"
+            postUrl={relativePostUrl}
+            showCommentsSidebar={showCommentsSidebar}
+            commentCount={commentCount}
+            reactionCount={reactionCount}
+            shareCount={shareCount}
+            sharesByType={sharesByType}
+            handleSnap={handleSnap}
+            handleShare={handleShare}
+          />
           <CommentsContext.Provider
             value={{
               postUrl: relativePostUrl,
@@ -265,16 +302,68 @@ const Page: FC<PageQuery> = ({
           >
             {body ? <MDXRenderer>{body}</MDXRenderer> : children}
           </CommentsContext.Provider>
+
+          <ContextMenu ref={paragraphMenuRef} {...paragraphMenuProps}>
+            <ParagraphMenu
+              loading={loading}
+              highlights={paragraphHighlightCount}
+              comments={paragraphCommentCount}
+              onSelect={handleParagraphAction}
+              onMouseOver={handleParagraphMenuMouseOver}
+              onMouseOut={handleParagraphMenuMouseOut}
+            />
+          </ContextMenu>
         </Content>
       </Main>
+
       <Tooltip ref={tipRef} {...tipProps}>
         {tooltipText}
         <Arrow />
       </Tooltip>
+
       <Tooltip ref={profileTipRef} {...profileTipProps}>
         {profile && <ProfileTip {...profile} />}
         <Arrow />
       </Tooltip>
+
+      <ContextMenu ref={loginPopupRef} {...loginPopupProps}>
+        <LoginPopup>
+          <Login
+            inline
+            action={'highlight'}
+            {...{
+              handleFacebookLogin,
+              handleGoogleLogin,
+              handleTwitterLogin,
+              handleGithubLogin,
+              loginError,
+              showTipFor,
+              hideTip,
+            }}
+          />
+        </LoginPopup>
+        <ContextMenuArrow />
+      </ContextMenu>
+
+      <Comments
+        slug={slug}
+        postUrl={relativePostUrl}
+        absolutePostUrl={absolutePostUrl}
+        loading={loading}
+        error={error}
+        comments={comments}
+        handleVote={handleVote}
+        handleAdd={handleAdd}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        handleReact={handleReact}
+        readPosition={readPosition}
+        scrollOffset={scrollOffset}
+        showProfileTipFor={showProfileTipFor}
+        hideProfileTip={hideProfileTip}
+        showTipFor={showTipFor}
+        hideTip={hideTip}
+      />
     </MDXProvider>
   );
 };

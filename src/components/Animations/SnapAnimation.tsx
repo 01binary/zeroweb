@@ -3,34 +3,34 @@ import styled from 'styled-components';
 import SnapIcon from '../../images/snap.svg';
 
 const StaticSnapIcon = styled(SnapIcon)`
-  #frame4 {
+  #snap4 {
     opacity: 1;
   }
 
-  #frame1,
-  #frame2,
-  #frame3 {
+  #snap1,
+  #snap2,
+  #snap3 {
     opacity: 0;
   }
 `;
 
 const AnimatedSnapIcon = styled(SnapIcon)`
-  #frame1 {
+  #snap1 {
     opacity: 0;
     animation: snapFrame1 0.4s steps(1) 1;
   }
 
-  #frame2 {
+  #snap2 {
     opacity: 0;
     animation: snapFrame2 0.4s steps(1) 1;
   }
 
-  #frame3 {
+  #snap3 {
     opacity: 0;
     animation: snapFrame3 0.4s steps(1) 1;
   }
 
-  #frame4 {
+  #snap4 {
     opacity: 0;
     animation: snapFrame4 0.4s steps(1) 1;
   }

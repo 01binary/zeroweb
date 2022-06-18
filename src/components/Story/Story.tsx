@@ -29,6 +29,7 @@ import {
 } from './Story.styles';
 export { Sidebar, Location, Dates } from './Story.styles';
 import { getMarkdown } from './storyUtils';
+import Paragraph from '../Paragraph/Paragraph';
 
 /**
  * Objective
@@ -153,7 +154,12 @@ export const Summary: FC = ({ children }) => {
 
   return (
     <SummarySection>
-      <ReactMarkdown linkTarget="_blank">
+      <ReactMarkdown
+        linkTarget="_blank"
+        components={{
+          p: Paragraph,
+        }}
+      >
         {showDetails ? details : summary}
       </ReactMarkdown>
       {hasMore && (

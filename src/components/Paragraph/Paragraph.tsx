@@ -506,6 +506,7 @@ const Paragraph: FC = ({ children }) => {
 
   return (
     <ParagraphWrapper
+      className="paragraph__wrapper"
       showCommentsSidebar={showCommentsSidebar}
       editingComment={showInlineCommentForm}
     >

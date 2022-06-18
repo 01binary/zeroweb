@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { MOBILE, MOBILE_NARROW, MOBILE_WIDE } from '../../constants';
-import FilterIcon from '../../images/filter.svg';
 import Dot from '../../images/url/cv-dot.svg';
+import FilterIcon from '../../images/filter.svg';
+import { MOBILE, MOBILE_NARROW, MOBILE_WIDE } from '../../constants';
 import Button from '../Button';
 
 const STORY_ICON_SIZE = '48px';
+const DATES_SIZE = '10em';
 
 export const ContactSection = styled.section`
   display: none;
@@ -221,6 +222,40 @@ export const ExperienceCard = styled.article.attrs(() => ({
     font-size: ${(props) => props.theme.normalFontSize};
     font-weight: ${(props) => props.theme.normalFontWeight};
     color: ${(props) => props.theme.secondaryTextColor};
+    background: none;
+    padding: initial;
+  }
+
+  .paragraph__highlight code {
+    color: ${(props) => props.theme.backgroundColor};
+  }
+
+  .paragraph__wrapper {
+    margin: initial;
+    padding: initial;
+
+    margin-right: -1em;
+
+    &:after {
+      right: calc(
+        0px - ${DATES_SIZE} - ${(props) => props.theme.spacingDouble} -
+          ${(props) => props.theme.border}
+      );
+    }
+  }
+
+  .paragraph__comment-button {
+    right: calc(
+      0px - ${DATES_SIZE} - ${(props) => props.theme.spacing} * 4 -
+        ${(props) => props.theme.borderThick}
+    );
+  }
+
+  .paragraph__ruler-marker {
+    right: calc(
+      0px - ${DATES_SIZE} - ${(props) => props.theme.spacing} * 3.5 +
+        ${(props) => props.theme.borderThick}
+    );
   }
 
   @media (max-width: ${MOBILE}) {
@@ -307,12 +342,16 @@ export const Dates = styled.section`
   grid-column: 4;
   grid-row: 1;
   text-align: right;
+  min-width: ${DATES_SIZE};
+  max-width: ${DATES_SIZE};
 
   @media (max-width: ${MOBILE_WIDE}) {
     grid-column: 3;
     grid-row: 3;
     text-align: initial;
     margin-top: ${(props) => props.theme.spacingQuarter};
+    min-width: initial;
+    max-width: initial;
   }
 `;
 

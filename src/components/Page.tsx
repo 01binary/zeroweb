@@ -262,9 +262,9 @@ const Page: FC<PageQuery> = ({
 
         <PageTitle collection={collection}>{title}</PageTitle>
 
-        <Content role="document">
+        <Content role="document" ref={pageContentRef}>
           <Wheel
-            offset="2em"
+            offset="3em"
             postUrl={relativePostUrl}
             showCommentsSidebar={showCommentsSidebar}
             commentCount={commentCount}

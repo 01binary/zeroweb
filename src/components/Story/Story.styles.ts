@@ -199,7 +199,7 @@ export const ExperienceCard = styled.article.attrs(() => ({
   className: 'experience__card',
 }))`
   display: grid;
-  grid-template-columns: 48px 30px 2fr max-content 60px;
+  grid-template-columns: 48px 30px 2fr ${DATES_SIZE} 60px;
   grid-template-rows: repeat(auto-fit, auto);
   grid-auto-flow: dense;
 
@@ -342,8 +342,6 @@ export const Dates = styled.section`
   grid-column: 4;
   grid-row: 1;
   text-align: right;
-  min-width: ${DATES_SIZE};
-  max-width: ${DATES_SIZE};
 
   @media (max-width: ${MOBILE_WIDE}) {
     grid-column: 3;
@@ -387,7 +385,7 @@ export const StackSection = styled.section`
 `;
 
 export const SummarySection = styled.section`
-  grid-column: 3;
+  grid-column: 3 / 3;
   grid-row: auto;
 
   p:first-of-type {

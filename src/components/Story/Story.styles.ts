@@ -10,7 +10,7 @@ import {
 import Button from '../Button';
 
 const STORY_ICON_SIZE = '48px';
-const STORY_DATES_SIZE = '10em';
+const STORY_DATES_SIZE = '200px';
 
 export const ContactSection = styled.section`
   display: none;
@@ -253,7 +253,7 @@ export const ExperienceCard = styled.article.attrs(() => ({
 
   .paragraph__comment-button {
     right: calc(
-      0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacing} * 4 -
+      0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacing} * 3.25 +
         ${(props) => props.theme.borderThick}
     );
   }
@@ -261,7 +261,7 @@ export const ExperienceCard = styled.article.attrs(() => ({
   .paragraph__ruler-marker {
     right: calc(
       0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacing} * 3.5 +
-        ${(props) => props.theme.borderThick}
+        ${(props) => props.theme.border}
     );
   }
 

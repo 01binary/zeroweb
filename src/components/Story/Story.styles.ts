@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import Dot from '../../images/url/cv-dot.svg';
 import FilterIcon from '../../images/filter.svg';
-import { MOBILE, MOBILE_NARROW, MOBILE_WIDE } from '../../constants';
+import {
+  MOBILE,
+  MOBILE_NARROW,
+  MOBILE_WIDE,
+  NARROW_SIDE_COMMENTS,
+} from '../../constants';
 import Button from '../Button';
 
 const STORY_ICON_SIZE = '48px';
-const DATES_SIZE = '10em';
+const STORY_DATES_SIZE = '10em';
 
 export const ContactSection = styled.section`
   display: none;
@@ -199,7 +204,9 @@ export const ExperienceCard = styled.article.attrs(() => ({
   className: 'experience__card',
 }))`
   display: grid;
-  grid-template-columns: 48px 30px 2fr ${DATES_SIZE} 60px;
+  grid-template-columns: ${STORY_ICON_SIZE} ${(props) => props.theme.spacing} 2fr ${STORY_DATES_SIZE} ${(
+      props
+    ) => props.theme.spacingDouble};
   grid-template-rows: repeat(auto-fit, auto);
   grid-auto-flow: dense;
 
@@ -238,7 +245,7 @@ export const ExperienceCard = styled.article.attrs(() => ({
 
     &:after {
       right: calc(
-        0px - ${DATES_SIZE} - ${(props) => props.theme.spacingDouble} -
+        0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacingDouble} -
           ${(props) => props.theme.border}
       );
     }
@@ -246,16 +253,30 @@ export const ExperienceCard = styled.article.attrs(() => ({
 
   .paragraph__comment-button {
     right: calc(
-      0px - ${DATES_SIZE} - ${(props) => props.theme.spacing} * 4 -
+      0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacing} * 4 -
         ${(props) => props.theme.borderThick}
     );
   }
 
   .paragraph__ruler-marker {
     right: calc(
-      0px - ${DATES_SIZE} - ${(props) => props.theme.spacing} * 3.5 +
+      0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacing} * 3.5 +
         ${(props) => props.theme.borderThick}
     );
+  }
+
+  .paragraph__comment-thread {
+    width: calc(45% - ${(props) => props.theme.spacingHalf});
+    left: calc(
+      100% + ${STORY_DATES_SIZE} + ${(props) => props.theme.spacing} * 3.5 +
+        ${(props) => props.theme.borderThick}
+    );
+
+    @media (max-width: ${NARROW_SIDE_COMMENTS}) {
+      right: initial;
+      left: calc(100% - ${(props) => props.theme.spacing} * 4.5);
+      width: 50%;
+    }
   }
 
   @media (max-width: ${MOBILE}) {

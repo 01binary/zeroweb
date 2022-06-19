@@ -14,7 +14,9 @@ type ExperienceState = {
   title: string;
   company: string;
   summary: string;
+  summaryIndex: string;
   details: string;
+  detailsIndex: string;
   stack: string[];
   keywords: string[];
 };
@@ -25,7 +27,13 @@ const trimPattern = (pattern: string) =>
 const notEmptyPattern = (pattern: string) => pattern.length > 0;
 
 const filterMatch = (
-  { title, summary, details, stack, keywords }: Partial<ExperienceState>,
+  {
+    title,
+    summaryIndex,
+    detailsIndex,
+    stack,
+    keywords,
+  }: Partial<ExperienceState>,
   filter: string
 ) =>
   filter
@@ -34,8 +42,8 @@ const filterMatch = (
     .map(trimPattern)
     .reduce((matches, token) => {
       const matchesTitle = title?.indexOf(token) >= 0;
-      const matchesSummary = summary?.indexOf(token) >= 0;
-      const matchesDetails = details?.indexOf(token) >= 0;
+      const matchesSummary = summaryIndex?.indexOf(token) >= 0;
+      const matchesDetails = detailsIndex?.indexOf(token) >= 0;
       const matchesStack =
         stack?.filter((key) => key.indexOf(token) >= 0)?.length > 0;
       const matchesKeywords =
@@ -84,12 +92,22 @@ const Experience: FC = ({ children }) => {
   );
 
   const setSummary = useCallback(
-    (summary: string) => setExperience((xp) => ({ ...xp, summary })),
+    (summary: string) =>
+      setExperience((xp) => ({
+        ...xp,
+        summary,
+        summaryIndex: summary.toLowerCase().replace('`', ''),
+      })),
     [setExperience]
   );
 
   const setDetails = useCallback(
-    (details: string) => setExperience((xp) => ({ ...xp, details })),
+    (details: string) =>
+      setExperience((xp) => ({
+        ...xp,
+        details,
+        detailsIndex: details.toLowerCase().replace('`', ''),
+      })),
     [setExperience]
   );
 

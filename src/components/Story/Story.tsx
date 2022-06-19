@@ -149,7 +149,7 @@ export const Summary: FC = ({ children }) => {
 
   useEffect(() => {
     // Add summary text to search index
-    setSummary(summary.toLowerCase());
+    setSummary(summary);
   }, [children, setSummary]);
 
   return (

@@ -45,7 +45,7 @@ const About: FC<PageQuery> = ({ data }) => (
           slug: 'about',
           frontmatter: {
             title: 'About',
-            seoTitle: 'Valeriy Novytskyy - technical leader in Portland, OR',
+            seoTitle: 'Valeriy Novytskyy - technical leader',
             description: 'Online resume',
             collection: 'about',
           },
@@ -98,10 +98,10 @@ const About: FC<PageQuery> = ({ data }) => (
         </Stack>
         <Summary>
           <p>
-            Applying `functional programming` principles with `React` and
-            `Typescript` to `empower` health care providers with accurate
-            `clinical insights` and `create` better care `outcomes` for patients
-            with Diabetes.
+            Applying `functional programming` principles with `React`, `React
+            Native` and `Typescript` to `empower` health care providers with
+            accurate `clinical insights` and `create` better care `outcomes` for
+            patients with Diabetes.
           </p>
           <p>
             Growing `team capacity` by exposing and fixing critical quality
@@ -111,10 +111,10 @@ const About: FC<PageQuery> = ({ data }) => (
         </Summary>
         <Details>
           <p>
-            Applying `functional programming` principles with `React` and
-            `Typescript` to `empower` health care providers with accurate
-            `clinical insights` and `create` better care `outcomes` for patients
-            with Diabetes.
+            Applying `functional programming` principles with `React`, `React
+            Native`, and `Typescript` to `empower` health care providers with
+            accurate `clinical insights` and `create` better care `outcomes` for
+            patients with Diabetes.
           </p>
           <p>
             Unlocking extra `scaling` potential by leveraging `Service Workers`
@@ -134,10 +134,23 @@ const About: FC<PageQuery> = ({ data }) => (
             Working with the backend team and `DevOps` to maintain features
             supported by stateless `microservices`, databases, and desktop
             applications communicating over a variety of channels including `Web
-            Sockets`, `REST API` calls, `GraphQL` API, and `USB` hardware.
+            Sockets` with `SignalR`, `REST API` calls, `GraphQL` API, and `USB`
+            hardware.
+          </p>
+          <p>
+            Localizing application text using `i18n` libraries and browser
+            `Internalization` (`Intl`) API.
+          </p>
+          <p>
+            Maintaining suites of integration tests with `Jest` and `Testing
+            Library`.
           </p>
         </Details>
-        <Keywords>agile, scrum, technical writing</Keywords>
+        <Keywords>
+          agile, scrum, technical writing, node.js, jira, bitbucket, github,
+          scalable vector graphics, expo, representational state transfer,
+          eslint, mobile
+        </Keywords>
       </Experience>
 
       <Experience>
@@ -186,12 +199,16 @@ const About: FC<PageQuery> = ({ data }) => (
           </p>
           <p>
             Developed `architectural standards` and `shared libraries` for App
-            Configuration, REST API, Service Bus, Path-based Routing, Logging,
-            Azure Artifacts, N-tier architecture, ORM, Cookie and Token-based
-            authentication, Health Checks, and CORS.
+            Configuration, REST API, Service Bus, Path-based Routing,
+            Application Insights, Azure Artifacts, N-tier architecture, `Entity
+            Framework` and `Dapper` ORM, Cookie and Token-based authentication,
+            Health Checks, and CORS.
           </p>
         </Details>
-        <Keywords>leadership, technical writing, apim, sdl</Keywords>
+        <Keywords>
+          leadership, technical writing, apim, sdl, angularjs, software
+          architect, transact-sql, representational state transfer
+        </Keywords>
       </Experience>
 
       <Experience>
@@ -245,7 +262,10 @@ const About: FC<PageQuery> = ({ data }) => (
             throughout the company.
           </p>
         </Details>
-        <Keywords>leadership, technical writing, agile</Keywords>
+        <Keywords>
+          leadership, technical writing, agile, sdl, software development
+          lifecycle, solution architect, jira, bitbucket
+        </Keywords>
       </Experience>
 
       <Experience>
@@ -298,6 +318,13 @@ const About: FC<PageQuery> = ({ data }) => (
             separate `cross-cutting concerns`.
           </p>
           <p>
+            Performed accessibility testing and reviews to ensure web
+            applications meet W3C `WCAG` requirements for text contrast and the
+            correct `aria` attributes are present on relevant UI elements to
+            allow screen readers to announce both static and dynamic content
+            correctly.
+          </p>
+          <p>
             Helped define new strategies for functional programming with `Ramda`
             and `Recompose` and migrate from `Redux`.
           </p>
@@ -330,7 +357,11 @@ const About: FC<PageQuery> = ({ data }) => (
             Node.js/React.js applications that fit IT and business requirements.
           </p>
         </Details>
-        <Keywords>leader, asp.net, mvc, propose, proposal, legacy</Keywords>
+        <Keywords>
+          leader, asp.net, mvc, propose, proposal, legacy, agile, scrum, web
+          content accessibility guidelines, jira, bitbucket, nuget, continuous
+          integration, ci, eslint, nunit
+        </Keywords>
       </Experience>
 
       <Experience>
@@ -370,8 +401,9 @@ const About: FC<PageQuery> = ({ data }) => (
             creating `Jira` stories and `Bitbucket` pull requests.
           </p>
           <p>
-            Styled applcation interface by referencing UX compositions in
-            `Sketch` and importing `SVG` graphics.
+            Styled applcation interface with `SCSS` and object oriented CSS
+            (`OOCSS`) by referencing UX compositions in `Sketch` and importing
+            `SVG` graphics.
           </p>
           <p>
             Used `CSS animations` and `dynamic` SVG rendering to increase user
@@ -379,7 +411,7 @@ const About: FC<PageQuery> = ({ data }) => (
           </p>
           <p>
             Created `i18n` and text substitution components to support rendering
-            text personalized for each customer health plan.
+            localized text personalized for each customer health plan.
           </p>
           <p>
             Integrated a UI `tour`/`walkthrough` solution to highlight important
@@ -395,10 +427,17 @@ const About: FC<PageQuery> = ({ data }) => (
             tracking` data and `user information`.
           </p>
           <p>
-            Wrote tests for `React` components and `express.js` middleware
-            utilizing `Jest`, `Supertest`, and `Rewire` for mocking
-            dependencies. Achieved near 100% `unit test coverage` setup with
-            `Istanbul`.
+            Practiced `Test Driven Development` by writing tests for `React`
+            components and `express.js` middleware utilizing `Jest`,
+            `Supertest`, and `Rewire` for mocking dependencies. Achieved near
+            100% `unit test coverage` setup with `Istanbul`.
+          </p>
+          <p>
+            Deployed `Node.js` applications with `express.js` middleware and
+            `server-side rendering` (SSR) to enable integration with
+            company-branded styles and behaviors, such as requesting `user
+            information` from multiple `REST` endpoints to compose the `initial
+            application state` payload for React.
           </p>
           <p>
             Maintained `Webpack` configuration that split application bundles
@@ -406,6 +445,10 @@ const About: FC<PageQuery> = ({ data }) => (
             to control application size.
           </p>
         </Details>
+        <Keywords>
+          ajax, scalable vector graphics, web forms, continuous integration, ci,
+          eslint, tdd
+        </Keywords>
       </Experience>
 
       <Experience>
@@ -439,18 +482,20 @@ const About: FC<PageQuery> = ({ data }) => (
         </Summary>
         <Details>
           <p>
-            Instrumented digital products written in `C++ and published `Xbox
-            One`, `Universal App` and `Windows` platforms: Gears of War, State
-            of Decay, Spelunky, Dust: An Elysian Trail and [many
+            Instrumented digital products written in `C++` and published on
+            `Xbox One`, `Universal App` and `Windows` platforms: Gears of War,
+            State of Decay, Spelunky, Dust: An Elysian Trail and [many
             others](https://www.mobygames.com/developer/sheet/view/developerId,510722/).
           </p>
           <p>
-            Profiled `DirectX` performance with `PIX` and debugged vertex &
-            pixel shaders with `ATI` and `NVidia` tools.
+            Analyzed `Direct3D` performance with `PIX` and debugged vertex &amp;
+            pixel shaders with ATI `RenderMonkey` and NVidia `fxComposer` tools.
           </p>
           <p>
-            Created interactive data visualizations in `C#` and `WPF` to help
-            troubleshoot and manipulate `distributed services`.
+            Developed interactive data visualizations in `C#` and `WPF` with
+            `Model View - View Model` pattern and `Unity Application Block`
+            dependency injection framework to help troubleshoot and manipulate
+            `distributed services`.
           </p>
           <p>
             Designed and maintained `Azure Table Storage` and `SQL Server`
@@ -460,9 +505,13 @@ const About: FC<PageQuery> = ({ data }) => (
           </p>
           <p>
             Supported a `distributed` crash reporting system in `Azure` that
-            used `Debugging Tools for Windows` to perform crash dump analysis
-            and automatically file tickets in `Jira` and `Team Foundation
-            Server` issue tracking systems.
+            used `Debugging Tools for Windows` from Windows `Platform SDK` to
+            perform crash dump analysis and automatically file tickets in `Jira`
+            and `Team Foundation Server` issue tracking systems.
+          </p>
+          <p>
+            Developed a portal used to collect data from test automation tools
+            using `Angular` and `Bootstrap`.
           </p>
           <p>
             Provided `support` and `maintenance` for open-source cross-platform
@@ -478,23 +527,33 @@ const About: FC<PageQuery> = ({ data }) => (
           <p>
             Developed an automated build verification system using `Windows
             Workflow Foundation` that emailed rich HTML reports transformed via
-            `XSLT`, with game-specific tests designed by dragging & dropping in
-            a visual editor.
+            `XSLT`, with game-specific tests designed by dragging &amp; dropping
+            in a visual editor.
           </p>
-          <p>Worked with `TFS`, `Perforce`, and `SVN` repositories.</p>
           <p>
-            Wrote `unit` & `functional` tests for continuous build integration
-            using the `Mock` framework.
+            Worked with Microsoft `Team Foundation Server`, `Perforce`, and
+            Apache `Subversion` repositories.
+          </p>
+          <p>
+            Wrote `unit` &amp; `functional` tests for continuous build
+            integration using the `Mock` framework, `Rhino Mocks`, and `XUnit`.
           </p>
           <p>
             Created and maintained `technical documentation`, integrated `HTML
             Help`, and topics generated with `Sandcastle` from source comments.
           </p>
           <p>
-            Gave `training presentations` with handouts and sample code to
+            Gave `training presentations` to internal customers with handouts and sample code to
             follow along.
           </p>
+          <p>
+            Developed test report processing and visualization utilities in
+            `Microsoft Excel` and `Microsoft Access` using Visual Basic for
+            Applications (`VBA`) to enable test engineering leaders to focus on
+            high-leverage activities.
+          </p>
         </Details>
+        <Keywords>svn, tfs, wpf, wf, mvvm, transact-sql, direct3d, ci</Keywords>
       </Experience>
 
       <Experience>
@@ -513,7 +572,7 @@ const About: FC<PageQuery> = ({ data }) => (
             reach more customers without engaging an expensive creative agency.
           </p>
           <p>
-            Developed a `C++ database application` that helped customers select
+            Developed a `C` database application that helped customers select
             products and enabled the business to win against competitors that
             employed software engineering teams.
           </p>
@@ -530,10 +589,17 @@ const About: FC<PageQuery> = ({ data }) => (
             while avoiding engagements with expensive creative agencies.
           </p>
           <p>
-            Developed a `C++ database application` distributed on CDs that
-            performed calculations to help customers select the right product,
-            which enabled the company to compete against businesses that
-            employed software engineering teams.
+            Developed a stand-alone `C` database application with `Pelles C`
+            IDE, distributed on CDs, to help customers select the right products
+            by calculating and searching product specifications. This enabled
+            the company to compete against businesses that employed software
+            engineering teams and owned Visual Studio licenses.
+          </p>
+          <p>
+            Developed data processing utilities in `Microsoft Excel` using
+            `Visual Basic for Applications` to save key stakeholders in the
+            company hours of time, freeing up their creativity and domain
+            expertise for high-leverage tasks.
           </p>
           <p>
             Designed and typeset catalogs and other marketing materials with
@@ -547,6 +613,7 @@ const About: FC<PageQuery> = ({ data }) => (
             `Photoshop`.
           </p>
         </Details>
+        <Keywords>ajax</Keywords>
       </Experience>
 
       <Experience>
@@ -563,7 +630,7 @@ const About: FC<PageQuery> = ({ data }) => (
         </Stack>
         <Summary>
           Studied software development, graphic design, illustration, video
-          production, computer-aided drafting and 3D rendering.
+          production, web design, computer-aided drafting and 3D rendering.
         </Summary>
         <Details>
           <p>
@@ -573,15 +640,23 @@ const About: FC<PageQuery> = ({ data }) => (
           <p>
             Studied software development with `Visual C#`, graphic design,
             animation, video production, and illustration with `Adobe Creative
-            Suite`, computer aided drafting with `Autodesk Inventor`, and CG
-            rendering with `3D Studio Max`.
+            Suite`, web design with Microsoft `FrontPage`, computer aided
+            drafting with `Autodesk Inventor`, CG rendering with `3D Studio Max`
+            and `Blender`.
           </p>
           <p>
             Programmed a rigid body physics engine with spring constraints in
             `C++`, and built `Windows` applications that rendered real-time
-            hardware-accelerated 3D graphics with `DirectX`.
+            hardware-accelerated 3D graphics with `Direct3D`.
+          </p>
+          <p>
+            Developed tools and utilities in `C`/`C++` with Microsoft Foundation
+            Classes (`MFC`) and Active Template Library (`ATL`). Utilized
+            `Visual Basic` for Rapid Development (`RAD`) of rich Windows
+            applications with custom `ActiveX` controls.
           </p>
         </Details>
+        <Keywords>adobe, activex, cad</Keywords>
       </Experience>
 
       <Experience>
@@ -603,9 +678,17 @@ const About: FC<PageQuery> = ({ data }) => (
         <InterestsIcon />
         <Title single>Interests</Title>
         <Summary>
-          Robotics, industrial design, graphic design, video and music
-          production.
+          <p>
+            Robotics with [ROS](https://www.ros.org/), embedded `C++`
+            development on `Raspberry Pi` and `Arduino`, industrial design with
+            `Autodesk Inventor`.
+          </p>
+          <p>
+            Graphic design, animation and video production with `Adobe Creative
+            Suite`, music production with `Ableton Live`.
+          </p>
         </Summary>
+        <Keywords>robot operating system, ros, ableton live</Keywords>
       </Experience>
     </Story>
   </Page>

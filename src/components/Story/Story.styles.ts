@@ -141,6 +141,7 @@ export const InlineContactButton = styled(Button)`
 export const StorySection = styled.section`
   position: relative;
   margin-top: ${(props) => props.theme.spacingOneAndHalf};
+  margin-bottom: ${(props) => props.theme.spacing};
 
   .experience__card:last-of-type {
     .experience__timeline {

@@ -149,7 +149,7 @@ const About: FC<PageQuery> = ({ data }) => (
         <Keywords>
           agile, scrum, technical writing, node.js, jira, bitbucket, github,
           scalable vector graphics, expo, representational state transfer,
-          eslint, mobile
+          eslint, mobile, mui
         </Keywords>
       </Experience>
 
@@ -337,9 +337,9 @@ const About: FC<PageQuery> = ({ data }) => (
             `business domains`.
           </p>
           <p>
-            Published a package with reusable application components that
-            implemented a `style system` consistent with `branding guidelines`
-            established by the creative department.
+            Published a package with reusable application components based on
+            `Material UI` that implemented a `style system` consistent with
+            `branding guidelines` established by the creative department.
           </p>
           <p>
             Created a `Storybook.js` showcase containing `components`, `styles`,
@@ -447,7 +447,7 @@ const About: FC<PageQuery> = ({ data }) => (
         </Details>
         <Keywords>
           ajax, scalable vector graphics, web forms, continuous integration, ci,
-          eslint, tdd
+          eslint, tdd, mui
         </Keywords>
       </Experience>
 
@@ -543,8 +543,8 @@ const About: FC<PageQuery> = ({ data }) => (
             Help`, and topics generated with `Sandcastle` from source comments.
           </p>
           <p>
-            Gave `training presentations` to internal customers with handouts and sample code to
-            follow along.
+            Gave `training presentations` to internal customers with handouts
+            and sample code to follow along.
           </p>
           <p>
             Developed test report processing and visualization utilities in

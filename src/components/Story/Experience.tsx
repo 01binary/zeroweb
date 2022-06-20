@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState, useCallback } from 'react';
+import React, { FC, useContext, useState, useCallback, useEffect } from 'react';
 import ExperienceContext from './ExperienceContext';
 import {
   ExperienceCard,
@@ -41,6 +41,8 @@ const filterMatch = (
     .filter(notEmptyPattern)
     .map(trimPattern)
     .reduce((matches, token) => {
+      if (token.length < 3) return true;
+
       const matchesTitle = title?.indexOf(token) >= 0;
       const matchesSummary = summaryIndex?.indexOf(token) >= 0;
       const matchesDetails = detailsIndex?.indexOf(token) >= 0;
@@ -73,7 +75,7 @@ const getMarkCount = (text: string) => {
 };
 
 const Experience: FC = ({ children }) => {
-  const { filter } = useContext(StoryContext);
+  const { filter, indexAutoCompleteKeywords } = useContext(StoryContext);
   const [experience, setExperience] = useState<Partial<ExperienceState>>({});
   const [showDetails, setShowDetails] = useState<boolean>(false);
 
@@ -82,43 +84,60 @@ const Experience: FC = ({ children }) => {
   ]);
 
   const setTitle = useCallback(
-    (title: string) => setExperience((xp) => ({ ...xp, title })),
-    [setExperience]
+    (title: string) => {
+      setExperience((xp) => ({ ...xp, title }));
+      indexAutoCompleteKeywords(title.toLowerCase().split(' '));
+    },
+    [setExperience, indexAutoCompleteKeywords]
   );
 
   const setCompany = useCallback(
-    (company: string) => setExperience((xp) => ({ ...xp, company })),
-    [setExperience]
+    (company: string) => {
+      setExperience((xp) => ({ ...xp, company }));
+      indexAutoCompleteKeywords([company.toLocaleLowerCase()]);
+    },
+    [setExperience, indexAutoCompleteKeywords]
   );
 
   const setSummary = useCallback(
-    (summary: string) =>
+    (summary: string) => {
+      const summaryIndex = summary.toLowerCase().replace('`', '');
       setExperience((xp) => ({
         ...xp,
         summary,
-        summaryIndex: summary.toLowerCase().replace('`', ''),
-      })),
-    [setExperience]
+        summaryIndex,
+      }));
+      indexAutoCompleteKeywords(summaryIndex.split(' '));
+    },
+    [setExperience, indexAutoCompleteKeywords]
   );
 
   const setDetails = useCallback(
-    (details: string) =>
+    (details: string) => {
+      const detailsIndex = details.toLowerCase().replace('`', '');
       setExperience((xp) => ({
         ...xp,
         details,
-        detailsIndex: details.toLowerCase().replace('`', ''),
-      })),
-    [setExperience]
+        detailsIndex,
+      }));
+      indexAutoCompleteKeywords(detailsIndex.split(' '));
+    },
+    [setExperience, indexAutoCompleteKeywords]
   );
 
   const setStack = useCallback(
-    (stack: string[]) => setExperience((xp) => ({ ...xp, stack })),
-    [setExperience]
+    (stack: string[]) => {
+      setExperience((xp) => ({ ...xp, stack }));
+      indexAutoCompleteKeywords(stack);
+    },
+    [setExperience, indexAutoCompleteKeywords]
   );
 
   const setKeywords = useCallback(
-    (keywords: string[]) =>
-      setExperience((experience) => ({ ...experience, keywords })),
+    (keywords: string[]) => {
+      setExperience((experience) => ({ ...experience, keywords }));
+      indexAutoCompleteKeywords(keywords);
+    },
     [setExperience]
   );
 

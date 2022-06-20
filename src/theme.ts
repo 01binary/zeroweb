@@ -411,6 +411,25 @@ export const GlobalStyle = createGlobalStyle`
     margin-bottom: ${(props) => props.theme.spacingHalf};
   }
 
+  .autocomplete {
+    font-family: ${(props) => props.theme.smallFont};
+    font-size: ${(props) => props.theme.smallFontSize};
+    font-weight: ${(props) => props.theme.smallFontWeight};
+
+    color: ${(props) => props.theme.foregroundColor};
+    background: ${(props) => props.theme.backgroundColor};
+    
+    padding: ${(props) => props.theme.spacingHalf};
+    border: ${(props) => props.theme.border} solid ${(props) =>
+  props.theme.borderColor};
+    border-radius: ${(props) => props.theme.borderRadius};
+    margin-top: calc(0px - ${(props) => props.theme.border});
+
+    div {
+      cursor: pointer;
+    }
+  }
+
   #nprogress {
     height: 6px;
     position: fixed;

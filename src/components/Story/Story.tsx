@@ -9,7 +9,14 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useContext, useEffect, useMemo } from 'react';
+import React, {
+  FC,
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import ReactMarkdown from 'react-markdown';
 import LinkButton from '../LinkButton';
 import { Arrow, Tooltip } from '../Tooltip';
@@ -31,6 +38,49 @@ export { Sidebar, Location, Dates } from './Story.styles';
 import { getMarkdown } from './storyUtils';
 import Paragraph from '../Paragraph/Paragraph';
 
+// Words to ignore when searching
+const IGNORE_WORDS = [
+  'a',
+  'are',
+  'and',
+  'it',
+  'the',
+  'to',
+  'from',
+  'for',
+  'with',
+  'of',
+  'on',
+  'each',
+  'using',
+  'that',
+  'including',
+  'expanding',
+  'used',
+  'utilized',
+  'increased',
+  'multiple',
+  'modify',
+  'manipulate',
+  'setup',
+  'going',
+  'our',
+  'my',
+  'by',
+  'as',
+  'my',
+  'over',
+  'onto',
+  'new',
+  'newest',
+];
+
+const notIgnoreWord = (token: string) => IGNORE_WORDS.indexOf(token) < 0;
+
+const notDuplicate = (token, index, all) => index === all.indexOf(token);
+
+const cleanKeyword = (keyword: string) => /\w*/.exec(keyword)[0];
+
 /**
  * Objective
  * @param tight - Whether to use less bottom spacing
@@ -49,16 +99,31 @@ export const Hero: FC<{ tight?: boolean }> = ({ tight, children }) => (
  */
 export const Story: FC = ({ children }) => {
   const [filter, setFilter] = useState<string | undefined>();
+  const [keywords, setKeywords] = useState<string[]>([]);
   const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 5,
     placement: 'top',
   });
 
+  const indexAutoCompleteKeywords = useCallback(
+    (keywords: string[]) => {
+      setKeywords((existingKeywords) =>
+        existingKeywords
+          .concat(keywords.filter(notIgnoreWord))
+          .map(cleanKeyword)
+          .filter(notDuplicate)
+      );
+    },
+    [setKeywords]
+  );
+
   return (
     <StoryContext.Provider
       value={{
         filter,
+        autoCompleteKeywords: keywords,
+        indexAutoCompleteKeywords,
         setFilter,
         showTipFor,
         hideTip,

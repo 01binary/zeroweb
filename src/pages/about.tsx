@@ -98,10 +98,10 @@ const About: FC<PageQuery> = ({ data }) => (
         </Stack>
         <Summary>
           <p>
-            Applying `functional programming` principles with `React`, `React
-            Native` and `Typescript` to `empower` health care providers with
-            accurate `clinical insights` and `create` better care `outcomes` for
-            patients with Diabetes.
+            Applying `functional programming` principles with `React` and
+            `Typescript` to `empower` health care providers with accurate
+            `clinical insights` and `create` better care `outcomes` for patients
+            with Diabetes.
           </p>
           <p>
             Growing `team capacity` by exposing and fixing critical quality

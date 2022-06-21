@@ -18,6 +18,7 @@ import HeadingQuery from '../types/HeadingQuery';
 import EditIcon from '../images/markdown.svg';
 import { MOBILE } from '../constants';
 import { useBlogData } from '../hooks/useBlogData';
+import ScrollToTop from './ScrollToTop';
 
 const AUTOSCROLL_DURATION = 1100;
 
@@ -164,6 +165,7 @@ const TOC: FC<TocProps> = ({
   return (
     <Toc>
       <TocTitle>{isProject ? 'project' : 'contents'}</TocTitle>
+
       <TocList>
         {headings.map(({ value, url, slug, depth }) => (
           <TocItem
@@ -192,6 +194,7 @@ const TOC: FC<TocProps> = ({
       <EditLink href={getGitHubEditUrl(postUrl)} target="__blank">
         <StyledEditIcon /> Edit on GitHub
       </EditLink>
+      <ScrollToTop readPosition={readPosition} />
     </Toc>
   );
 };

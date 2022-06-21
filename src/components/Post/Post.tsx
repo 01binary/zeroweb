@@ -71,6 +71,7 @@ import ProfileTip from './ProfileTip';
 import LocationTip from './LocationTip';
 import Login from '../Login';
 import Logs from './Logs';
+import ScrollToTop from '../ScrollToTop';
 
 const Post: FC<{
   data: PostQuery;
@@ -441,6 +442,8 @@ const Post: FC<{
         showTipFor={showTipFor}
         hideTip={hideTip}
       />
+
+      <ScrollToTop readPosition={readPosition} />
     </MDXProvider>
   );
 };

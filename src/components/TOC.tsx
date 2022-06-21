@@ -165,7 +165,6 @@ const TOC: FC<TocProps> = ({
   return (
     <Toc>
       <TocTitle>{isProject ? 'project' : 'contents'}</TocTitle>
-
       <TocList>
         {headings.map(({ value, url, slug, depth }) => (
           <TocItem
@@ -194,7 +193,7 @@ const TOC: FC<TocProps> = ({
       <EditLink href={getGitHubEditUrl(postUrl)} target="__blank">
         <StyledEditIcon /> Edit on GitHub
       </EditLink>
-      <ScrollToTop readPosition={readPosition} />
+      <ScrollToTop inline readPosition={readPosition} />
     </Toc>
   );
 };

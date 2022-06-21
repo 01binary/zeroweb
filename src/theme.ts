@@ -419,7 +419,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme.foregroundColor};
     background: ${(props) => props.theme.backgroundColor};
     
-    padding: ${(props) => props.theme.spacingHalf};
+    padding: ${(props) => props.theme.spacingQuarter};
     border: ${(props) => props.theme.border} solid ${(props) =>
   props.theme.borderColor};
     border-radius: ${(props) => props.theme.borderRadius};
@@ -427,6 +427,7 @@ export const GlobalStyle = createGlobalStyle`
 
     div {
       cursor: pointer;
+      padding: ${(props) => props.theme.spacingQuarter};
     }
   }
 

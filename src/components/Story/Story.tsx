@@ -35,51 +35,13 @@ import {
   SummarySection,
 } from './Story.styles';
 export { Sidebar, Location, Dates } from './Story.styles';
-import { getMarkdown } from './storyUtils';
+import {
+  getMarkdown,
+  cleanKeyword,
+  notDuplicate,
+  notIgnoreWord,
+} from './storyUtils';
 import Paragraph from '../Paragraph/Paragraph';
-
-// Words to ignore when searching
-const IGNORE_WORDS = [
-  'a',
-  'are',
-  'and',
-  'it',
-  'the',
-  'to',
-  'from',
-  'for',
-  'with',
-  'of',
-  'on',
-  'each',
-  'using',
-  'that',
-  'including',
-  'expanding',
-  'used',
-  'utilized',
-  'increased',
-  'multiple',
-  'modify',
-  'manipulate',
-  'setup',
-  'going',
-  'our',
-  'my',
-  'by',
-  'as',
-  'my',
-  'over',
-  'onto',
-  'new',
-  'newest',
-];
-
-const notIgnoreWord = (token: string) => IGNORE_WORDS.indexOf(token) < 0;
-
-const notDuplicate = (token, index, all) => index === all.indexOf(token);
-
-const cleanKeyword = (keyword: string) => /\w*/.exec(keyword)[0];
 
 /**
  * Objective

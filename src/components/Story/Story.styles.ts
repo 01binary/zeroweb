@@ -283,6 +283,11 @@ export const ExperienceCard = styled.article.attrs(() => ({
   @media (max-width: ${MOBILE}) {
     margin-left: ${(props) => props.theme.spacingHalf};
     margin-right: ${(props) => props.theme.spacingHalf};
+
+    .paragraph__wrapper {
+      margin-right: 0;
+      padding: initial;
+    }
   }
 
   @media (max-width: ${MOBILE_WIDE}) {

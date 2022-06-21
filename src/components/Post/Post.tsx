@@ -103,18 +103,9 @@ const Post: FC<{
   },
 }) => {
   const postContentRef = useRef<HTMLElement>(null);
-  const [readPosition, setReadPosition] = useState(0);
-  const [scrollOffset, setScrollOffset] = useState(0);
+  const { readPosition, scrollOffset } = useScrollPosition();
   const location = useAuthorLocation(locationDisplayName);
   const absolutePostUrl = siteUrl + relativePostUrl;
-
-  useScrollPosition(
-    (position, offset) => {
-      setReadPosition(position);
-      setScrollOffset(offset);
-    },
-    [readPosition]
-  );
 
   const {
     user,

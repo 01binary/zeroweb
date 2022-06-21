@@ -9,11 +9,11 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 
 const THROTTLE_MS = 200;
 
-const isBrowser = typeof window !== `undefined`
+const isBrowser = typeof window !== `undefined`;
 
 const getScrollPercent: () => number = () => {
   if (!isBrowser) return 0;
@@ -26,33 +26,36 @@ const getScrollPercent: () => number = () => {
   const pos = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
 
   return isNaN(pos) ? 0 : pos;
-}
+};
 
-const useScrollPosition = (
-  effect: (position: number, offset: number) => void,
-  dependencies: React.DependencyList | null
-) => {
+const useScrollPosition = () => {
   const throttleTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const [readPosition, setReadPosition] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
 
-  const callback = () => {
+  const updatePosition = useCallback(() => {
     const currentPosition = getScrollPercent();
-    const offset = document.documentElement.scrollTop || document.body.scrollTop;
+    const offset =
+      document.documentElement.scrollTop || document.body.scrollTop;
 
-    effect(currentPosition, offset);
+    setReadPosition(currentPosition);
+    setScrollOffset(offset);
 
     throttleTimeoutRef.current = null;
-  };
+  }, []);
 
   useLayoutEffect(() => {
     const handleScroll = () => {
       if (throttleTimeoutRef.current === null)
-        throttleTimeoutRef.current = setTimeout(callback, THROTTLE_MS);
+        throttleTimeoutRef.current = setTimeout(updatePosition, THROTTLE_MS);
     };
 
     window.addEventListener('scroll', handleScroll);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, dependencies);
+  }, [updatePosition]);
+
+  return { readPosition, scrollOffset };
 };
 
 export default useScrollPosition;

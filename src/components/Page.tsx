@@ -131,18 +131,9 @@ const Page: FC<PageQuery> = ({
     },
   },
 }) => {
-  const absolutePostUrl = siteUrl + relativePostUrl;
   const pageContentRef = useRef<HTMLElement>();
-  const [readPosition, setReadPosition] = useState(0);
-  const [scrollOffset, setScrollOffset] = useState(0);
-
-  useScrollPosition(
-    (position, offset) => {
-      setReadPosition(position);
-      setScrollOffset(offset);
-    },
-    [readPosition]
-  );
+  const { readPosition, scrollOffset } = useScrollPosition();
+  const absolutePostUrl = siteUrl + relativePostUrl;
 
   const {
     user,

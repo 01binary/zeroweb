@@ -9,7 +9,8 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import { Link } from 'gatsby';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
@@ -19,7 +20,9 @@ import EditIcon from '../images/markdown.svg';
 import { MOBILE } from '../constants';
 import { useBlogData } from '../hooks/useBlogData';
 import ScrollToTop from './ScrollToTop';
+import { getPathForCollection } from '../routes';
 
+// How long to wait for smooth scrolling
 const AUTOSCROLL_DURATION = 1100;
 
 const Toc = styled.section`
@@ -109,6 +112,11 @@ const StyledEditIcon = styled(EditIcon)`
   }
 `;
 
+const BackToIndexLink = styled(Link)`
+  display: block;
+  margin-left: -1.25em;
+`;
+
 const getGitHubEditUrl = (url: string) => {
   const parts = url.split('/').filter((part) => part.length);
 
@@ -122,6 +130,9 @@ const getGitHubEditUrl = (url: string) => {
   ].join('/');
 };
 
+const getAnchorFromHref = (url?: string) =>
+  url && url.substring(url.indexOf('#') + 1);
+
 type TocProps = {
   postUrl: string;
   headings: HeadingQuery[];
@@ -129,9 +140,6 @@ type TocProps = {
   showLogs: boolean;
   readPosition: number;
 };
-
-const getAnchorFromHref = (url?: string) =>
-  url && url.substring(url.indexOf('#') + 1);
 
 const TOC: FC<TocProps> = ({
   postUrl,
@@ -143,6 +151,13 @@ const TOC: FC<TocProps> = ({
   const { anchor, setAnchor } = useBlogData();
   const heading = useActiveHeading(headings);
   const isAutoScrollingRef = useRef<boolean>(false);
+  const backToIndex = useMemo(
+    () =>
+      isProject
+        ? getPathForCollection('projects')
+        : getPathForCollection('articles'),
+    [isProject]
+  );
 
   const resetAnchor = useCallback(() => {
     if (!isAutoScrollingRef.current && anchor) setAnchor(null);
@@ -165,6 +180,7 @@ const TOC: FC<TocProps> = ({
   return (
     <Toc>
       <TocTitle>{isProject ? 'project' : 'contents'}</TocTitle>
+      <BackToIndexLink to={backToIndex}>← back to index</BackToIndexLink>
       <TocList>
         {headings.map(({ value, url, slug, depth }) => (
           <TocItem

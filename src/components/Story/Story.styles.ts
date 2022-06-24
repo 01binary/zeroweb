@@ -254,8 +254,7 @@ export const ExperienceCard = styled.article.attrs(() => ({
 
   .paragraph__comment-button {
     right: calc(
-      0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacing} * 3.25 +
-        ${(props) => props.theme.borderThick}
+      0px - ${STORY_DATES_SIZE} - ${(props) => props.theme.spacing} * 3 - 9px
     );
   }
 

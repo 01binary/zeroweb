@@ -266,7 +266,7 @@ export const ExperienceCard = styled.article.attrs(() => ({
   }
 
   .paragraph__comment-thread {
-    width: calc(45% - ${(props) => props.theme.spacingHalf});
+    width: 50%;
     left: calc(
       100% + ${STORY_DATES_SIZE} + ${(props) => props.theme.spacing} * 3.5 +
         ${(props) => props.theme.borderThick}

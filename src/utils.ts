@@ -47,7 +47,7 @@ export const getDateValue = (relativeDate: string): string => {
 export const getDateUnits = (relativeDate: string): string => {
   const value = relativeDate.split(' ')[0];
   if (isNaN(Number(value))) return relativeDate;
-  relativeDate.split(' ').slice(1).join(' ');
+  return relativeDate.split(' ').slice(1).join(' ');
 };
 
 export const openUrl = (url, params) => {

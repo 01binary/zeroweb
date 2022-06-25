@@ -28,7 +28,7 @@ For this project my goal was to get into electrical engineering, learn embedded 
 <Gallery>
   <img alt="cnc" src="./images/cyber-guitar-cnc.jpg"/>
   <img alt="lights" src="./images/cyber-guitar-lights.jpg"/>
-  <img alt="frets" src="./images/cyber-guitar-frets.jpg"/>
+  <img alt="locks" src="./images/cyber-guitar-locks.jpg"/>
   <img alt="paint" src="./images/cyber-guitar-paint.jpg"/>
 </Gallery>
 

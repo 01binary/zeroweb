@@ -224,6 +224,9 @@ const Post: FC<{
     [relativePostUrl, headings]
   );
 
+  const dateValue = useMemo(() => getDateValue(relativeDate), [relativeDate]);
+  const dateUnits = useMemo(() => getDateUnits(relativeDate), [relativeDate]);
+
   return (
     <MDXProvider
       components={{
@@ -267,12 +270,9 @@ const Post: FC<{
 
         <Metadata>
           <Clock />
-          {Boolean(getDateValue(relativeDate).length) && (
-            <InlineIndicator>
-              {getDateValue(relativeDate)}&nbsp;
-            </InlineIndicator>
-          )}
-          <IndicatorLabel>{getDateUnits(relativeDate)}</IndicatorLabel>
+          <InlineIndicator>{dateValue}</InlineIndicator>
+          &nbsp;
+          <IndicatorLabel>{dateUnits}</IndicatorLabel>
           &nbsp;
           <AuthorMeta>
             {' by '}

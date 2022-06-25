@@ -16,5 +16,11 @@
     "locationName": "Portland, OR",
     "locationUrl": "https://baristapdx.com/pages/the-pearl",
     "description": "Best lattes around"
+  },
+  "The Society Bingen": {
+    "avatarUrl": "https://thesocietyhotel.com/wp-content/uploads/2016/10/societyHotelLogo-white.png",
+    "locationName": "Bingen, WA",
+    "locationUrl": "https://thesocietyhotel.com/bingen/",
+    "description": "Beautiful hotel for weary travelers"
   }
 }

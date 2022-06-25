@@ -115,6 +115,10 @@ const StyledEditIcon = styled(EditIcon)`
 const BackToIndexLink = styled(Link)`
   display: block;
   margin-left: -1.25em;
+
+  @media (max-width: ${MOBILE}) {
+    margin-left: initial;
+  }
 `;
 
 const getGitHubEditUrl = (url: string) => {

@@ -1,6 +1,12 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+const Decorator = styled.span`
+  color: ${(props) => props.theme.secondaryTextColor};
+  margin-left: ${(props) => props.theme.spacingHalf};
+  margin-right: ${(props) => props.theme.spacingHalf};
+`;
+
 const Quote = styled.blockquote`
   position: relative;
   margin: 0;
@@ -13,6 +19,12 @@ const Quote = styled.blockquote`
   }
 `;
 
-const Blockquote: FC = ({ children }) => <Quote>{children}</Quote>;
+const Blockquote: FC = ({ children }) => (
+  <Quote>
+    <Decorator>/*</Decorator>
+    {children}
+    <Decorator>*/</Decorator>
+  </Quote>
+);
 
 export default Blockquote;

@@ -131,10 +131,10 @@ const Gallery: FC<GalleryProps> = ({ galleryId, images }) => {
                     href={href}
                     target="_blank"
                     data-pswp-width={
-                      getSourceSize(original, sourceImages).width
+                      getSourceSize(original, sourceImages)?.width
                     }
                     data-pswp-height={
-                      getSourceSize(original, sourceImages).height
+                      getSourceSize(original, sourceImages)?.height
                     }
                     data-pswp-srcset={srcSet}
                     style={{ left: imageLeft, top: imageTop }}

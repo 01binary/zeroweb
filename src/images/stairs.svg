@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-	<g class="fill-none stroke-background" stroke-width="1.5">
-		<polyline id="stair" points="0,43 9.6,43 9.6,33.4 19.2,33.4 19.2,23.8 28.8,23.8 28.8,14.2 38.4,14.2 38.4,4.6 48,4.6 "/>
-		<line x1="19.2" y1="4.6" x2="1.9" y2="21.9"/>
-		<polyline class="st1" points="9.6,4.6 19.2,4.6 19.2,14.6 	"/>
-	</g>
-</svg>

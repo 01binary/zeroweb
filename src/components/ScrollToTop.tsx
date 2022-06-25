@@ -12,7 +12,7 @@
 import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import { MOBILE_WIDE, NARROW_SIDE_COMMENTS } from '../constants';
-import StairsIcon from '../images/escalator.svg';
+import EscalatorIcon from '../images/escalator.svg';
 
 // Approximate percentage of page read before showing scroll to top button
 const SCROLL_TO_TOP_THRESHOLD = 0.18;
@@ -114,7 +114,7 @@ const ScrollToTop: FC<{ readPosition: number; inline: boolean }> = ({
       visible={readPosition > SCROLL_TO_TOP_THRESHOLD}
       onClick={handleClick}
     >
-      <StairsIcon />
+      <EscalatorIcon />
       <ScrollButtonLabel inline={inline}>Going up?</ScrollButtonLabel>
     </Wrapper>
   );

@@ -63,6 +63,8 @@ The relationship of a mind to the Universal consciousness appears to mirror the 
 
 I think we adequately covered what we mean by consciousness consisting of *units* and having a *volume*, but what about the reason it exists in the first place - *processing information*?
 
+![computing analogy](./images/theory-of-consciousness-computing.png)
+
 - Let’s use a computing analogy. A running program is "made of" both CPU and memory. Instructions reside in memory, the data on which they operate reside in memory, and the program executes by moving or *propagating* this memory from one place to another.
 - For me, this actually conjures up an organic image of water propagating through an amoeba as it extracts nutrients and expels the remainder.
 - A volume of computing power is made from a "computing fabric" and a running application occupies a "plot of land" on the surface of this fabric. The smallest element is a single computer, so a large piece of the fabric is made from many connected computers.

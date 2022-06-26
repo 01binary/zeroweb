@@ -20,6 +20,7 @@ import {
   ShowTipHandler,
   HideTipHandler,
 } from '../hooks/useTooltip';
+import Philosophy from '../images/philosophy.svg';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -104,6 +105,8 @@ const ICONS: CategoryMap = {
     premiere: { icon: ToolPremiere, description: 'Premiere' },
     raspi: { icon: ToolRaspi, description: 'Raspberry Pi' },
   },
+
+  philosophy: { icon: Philosophy, description: 'Philosophy' },
 };
 
 interface Tag {

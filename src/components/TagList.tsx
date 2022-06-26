@@ -20,6 +20,7 @@ import {
   ShowTipHandler,
   HideTipHandler,
 } from '../hooks/useTooltip';
+import Physics from '../images/physics.svg';
 import Philosophy from '../images/philosophy.svg';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
@@ -107,6 +108,7 @@ const ICONS: CategoryMap = {
   },
 
   philosophy: { icon: Philosophy, description: 'Philosophy' },
+  physics: { icon: Physics, description: 'Physics' },
 };
 
 interface Tag {

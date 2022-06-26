@@ -109,11 +109,10 @@ const ScrollToTop: FC<{ readPosition: number; inline: boolean }> = ({
 
   const Wrapper = inline ? InlineScrollButton : FixedScrollButton;
 
+  const active = readPosition > SCROLL_TO_TOP_THRESHOLD;
+
   return (
-    <Wrapper
-      visible={readPosition > SCROLL_TO_TOP_THRESHOLD}
-      onClick={handleClick}
-    >
+    <Wrapper visible={active} disabled={!active} onClick={handleClick}>
       <EscalatorIcon />
       <ScrollButtonLabel inline={inline}>Going up?</ScrollButtonLabel>
     </Wrapper>

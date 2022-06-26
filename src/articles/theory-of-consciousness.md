@@ -7,7 +7,7 @@ date: 2022-06-23
 location: The Society Bingen
 tags:
   [
-     'philosophy', 'physics'
+     'philosophy', 'physics', 'engineering-software'
   ]
 ---
 
@@ -44,11 +44,15 @@ Once a mind has been shaped, it stays together until the force of *entropy* loos
 
 In physics simulations of rigid bodies where constraints between the elements are not enforced at each time-step, you can see the particles that make up the objects vibrate as mathematical rounding errors accumulate, and eventually start sliding apart into shapeless noise.
 
+<img class="light-only" alt="formation of a mind" src="./images/theory-of-consciousness-forming-of-mind.gif"/>
+<img class="dark-only" alt="formation of a mind" src="./images/theory-of-consciousness-forming-of-mind-dark.gif"/>
+
 The relationship of a mind to the Universal consciousness appears to mirror the relationship between matter and energy:
  - Recall that `E=mc^2` means that energy is mass proportionally accelerated to the speed of light.
- - Going in reverse, matter is decelerated energy (this refers to frequency at which its elements vibrate).
+ - Going in reverse, matter is decelerated energy. This refers to frequency at which its elements vibrate.
+ - Vibration may be defined simply as the cycling of internal state between two poles.
  - Basically, this says that matter is frozen energy (it vibrates at such a low frequency that it appears to stay put).
- - Based on this, we can theorize about the nature of the force that shaped the mind. If the mind stays put as a unique entity, then its elements vibrate at a lower frequency than the surrounding pool of consciousness, making it appear to keep its shape for some time.
+ - Based on this, we can theorize about the nature of the force (`F`) that shaped the mind. If the mind stays put as a unique entity, then its elements vibrate at a lower frequency (`f`) than the surrounding pool of consciousness, making it appear to keep its shape (`V`) for some time.
  - If we visualized vibration frequency on a vertical axis, minds would look like pockets of Universal consciousness that have been "pulled down".
 
 > "The consciousness is made of **individual units** that give it **information processing capability**".

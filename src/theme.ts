@@ -397,14 +397,12 @@ export const GlobalStyle = createGlobalStyle`
 
   .light-only {
     display: ${(props) => (props.theme.isDark ? `none` : `block`)};
+    max-width: 700px;
   }
 
   .dark-only {
     display: ${(props) => (props.theme.isDark ? `block` : `none`)};
-  }
-
-  .unhighlight {
-    color: ${(props) => props.theme.secondaryTextColor};
+    max-width: 700px;
   }
 
   .margin-bottom-half {

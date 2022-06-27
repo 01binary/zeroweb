@@ -143,6 +143,9 @@ If you are curious about the mind’s internal structure, Socrates and Freud hav
 
 The three elements are *separated* so that each can be *optimized* for its own task, making the system more efficient than it would be otherwise. See my next article in this series: The Model of the Human Mind for more on that.
 
+<img class="light-only" alt="the three elements" width="300" src="./images/theory-of-consciousness-mind.gif"/>
+<img class="dark-only" alt="the three elements" width="300" src="./images/theory-of-consciousness-mind-dark.gif"/>
+
 Since the structure of a mind reflects that of the Universe, it follows that each computing node that makes up the Universe also consists of these three elements, much like atoms consist of sub-atomic particles. That means your capacity to plan, to do and to feel is borrowed from the total planning, execution, and sensing capacity of the Universe.
 
 The universe has to manage minds by allocating them for tasks and assessing their performance to drive a continuous process of optimization. Optimization requires both a grading algorithm and the ability to learn. Negative feedback can be sent in the form of pain and positive in the form of pleasure to motivate this internal re-organization based on the score.

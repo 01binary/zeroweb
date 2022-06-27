@@ -46,8 +46,8 @@ Once a mind has been shaped, it stays together until the force of *entropy* loos
 
 In physics simulations of rigid bodies where constraints between the elements are not enforced at each time-step, you can see the particles that make up the objects vibrate as mathematical rounding errors accumulate, and eventually start sliding apart into shapeless noise.
 
-<img class="light-only" alt="formation of a mind" src="./images/theory-of-consciousness-forming-of-mind.gif"/>
-<img class="dark-only" alt="formation of a mind" src="./images/theory-of-consciousness-forming-of-mind-dark.gif"/>
+<img class="light-only" width="100%" alt="formation of a mind" src="./images/theory-of-consciousness-forming-of-mind.gif"/>
+<img class="dark-only" width="100%" alt="formation of a mind" src="./images/theory-of-consciousness-forming-of-mind-dark.gif"/>
 
 The relationship of a mind to the Universal consciousness appears to mirror the relationship between matter and energy:
  - Recall that `E=mc^2` means that energy is mass proportionally accelerated to the speed of light.

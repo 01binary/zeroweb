@@ -26,7 +26,9 @@ These words may sound enigmatic at first, but each statement incrementally build
 
 The sensei, Jeff Warren, mentions that he spent much of his life straining to understand the true reasons for things. This obsession was causing him so much suffering that he had to work with his own sensei to learn to let it go. This character definitely comes through as he distills complex concepts into clear and simple structures.
 
-In this article, I would like to invite you on a journey of inquiry by putting Jeff’s model of the aware Universe through a *philosophical refinement process* that I learned from Plato.
+In this article, I would like to invite you on a journey of inquiry by putting Jeff’s model of the aware Universe through a *philosophical refinement process* that I learned from Socrates.
+
+![philosophy](./images/theory-of-consciousness-philosophy.png)
 
 By progressively breaking down each term to reveal more details by using *parallel* and *deductive* reasoning, we can uncover a truth that we already knew, but were too consumed with daily life to think about.
 
@@ -65,10 +67,10 @@ I think we adequately covered what we mean by consciousness consisting of *units
 
 - Let’s use a computing analogy. A running program is "made of" both CPU and memory. Instructions reside in memory, the data on which they operate reside in memory, and the program executes by moving or *propagating* this memory from one place to another.
 - For me, this actually conjures up an organic image of water propagating through an amoeba as it extracts nutrients and expels the remainder.
+- A volume of computing power is made from a "computing fabric" and a running application occupies a "plot of land" on the surface of this fabric. The smallest element is a single computer, so a large piece of the fabric is made from many connected computers.
 
 ![computing analogy](./images/theory-of-consciousness-computing.png)
 
-- A volume of computing power is made from a "computing fabric" and a running application occupies a "plot of land" on the surface of this fabric. The smallest element is a single computer, so a large piece of the fabric is made from many connected computers.
 - With cloud computing, it’s possible to own an even larger plot of land on this fabric, occupied by many running applications. This puts the cloud architect into the role of a "farmer" who is letting applications "graze on the land" to transform data into useful insights.
 - You might even say that the act of going from raw information to structured information is the act of "thinking".
 

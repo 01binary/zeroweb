@@ -70,8 +70,10 @@ const TocList = styled.ul`
   padding: 0;
 `;
 
-const TocItem = styled.li`
-  margin-left: ${(props) => props.depth * props.theme.spacingQuarter};
+const TocItem = styled.li<{ depth: number }>`
+  padding-left: calc(
+    ${(props) => props.depth} * ${(props) => props.theme.spacingHalf}
+  );
 `;
 
 const TocItemLink = styled(AnchorLink)`
@@ -191,7 +193,7 @@ const TOC: FC<TocProps> = ({
             key={url}
             depth={depth - 2}
             onClick={(e) => {
-              setAnchor(getAnchorFromHref(e.target.href));
+              setAnchor(getAnchorFromHref(e.target.href) ?? null);
               isAutoScrollingRef.current = true;
               window.setTimeout(() => {
                 isAutoScrollingRef.current = false;

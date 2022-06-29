@@ -7,7 +7,7 @@ date: 2022-06-23
 location: The Society Bingen
 tags:
   [
-     'philosophy', 'physics', 'engineering-software'
+     'philosophy', 'physics', 'signal', 'fp'
   ]
 ---
 

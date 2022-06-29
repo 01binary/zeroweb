@@ -22,6 +22,8 @@ import {
 } from '../hooks/useTooltip';
 import Physics from '../images/physics.svg';
 import Philosophy from '../images/philosophy.svg';
+import Signal from '../images/signal.svg';
+import FunctionalProgramming from '../images/fp.svg';
 import DesignGraphic from '../images/design-graphic.svg';
 import DesignIndustrial from '../images/design-industrial.svg';
 import DesignSound from '../images/design-sound.svg';
@@ -109,6 +111,8 @@ const ICONS: CategoryMap = {
 
   philosophy: { icon: Philosophy, description: 'Philosophy' },
   physics: { icon: Physics, description: 'Physics' },
+  signal: { icon: Signal, description: 'Signal Processing' },
+  fp: { icon: FunctionalProgramming, description: 'Functional Programming' },
 };
 
 interface Tag {

@@ -129,7 +129,19 @@ It influences behavior in the following ways:
 The mind is most efficient when all three elements are in correct *proportions* to each other. The rational element *steers*, the sensing element provides *feedback* used to guide the steering, and the executive element *actuates* the system. Many designs found in nature repeat the same pattern:
 
 - *Bacteria* sense the concentration of chemicals in their medium by using *chemo-receptor* proteins. Receptors dispatch *messenger proteins* when they bind to a *stimuli* molecule, and the messengers bind to flagellar motors that actuate movement. This causes the motors to rotate, facing whichever direction gets the strongest signal.
-- More complex organisms like *tardigrades* need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a surface for laying out several large graphs of nodes, much like authoring materials in `Blender`, composition diagrams in `Nuke`, or racks with patch cables in a *modular synth*.
-- Some of the largest animals on Earth maintain the same structure: one or more sensory elements, a decision-making graph consisting of many connected nodes, and finally muscles that actuate movement.
+- More complex organisms like *tardigrades* need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a surface for laying out several large graphs of nodes.
+- The largest animals on Earth maintain the same structure: several elements, a decision-making graph consisting of many connected nodes, and muscles that actuate movement.
+
+The information processing graphs of nodes appear in modern CG software.
+
+The shader editor in `Blender` allows composing materials for 3D rendering:
+
+![Blender](./images/model-of-human-mind-blender.jpg)
+
+The composition graphs in `Nuke` allow composing special effects on video:
+
+![Nuke](./images/model-of-human-mind-nuke.jpg)
+
+* * *
 
 The same pattern repeats at both micro- and macro-levels because mapping sensory input into activity is a very common task for any living organism.

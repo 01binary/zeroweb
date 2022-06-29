@@ -25,7 +25,7 @@ type BlogDataContextProps = {
   loginError: string | null;
   showCommentsSidebar: boolean;
   anchor: string | null;
-  setAnchor: React.Dispatch<React.SetStateAction<string>>;
+  setAnchor: React.Dispatch<React.SetStateAction<string | null>>;
   setShowCommentsSidebar: (showCommentsSidebar: boolean) => void;
   toggleCommentsSidebar: () => void;
   setUser: SetUserHandler;
@@ -43,17 +43,17 @@ export const BlogDataContext = createContext<BlogDataContextProps>({
   credentials: null,
   loginError: null,
   anchor: null,
-  setUser: null,
+  setUser: () => {},
   showCommentsSidebar: false,
   setAnchor: () => {},
   setShowCommentsSidebar: () => {},
   toggleCommentsSidebar: () => {},
-  setCredentials: null,
-  handleFacebookLogin: null,
-  handleTwitterLogin: null,
-  handleGoogleLogin: null,
-  handleGithubLogin: null,
-  handleLogout: null,
+  setCredentials: () => {},
+  handleFacebookLogin: () => {},
+  handleTwitterLogin: () => {},
+  handleGoogleLogin: () => {},
+  handleGithubLogin: () => {},
+  handleLogout: () => {},
 });
 
 export const useBlogData: () => BlogDataContextProps = () =>

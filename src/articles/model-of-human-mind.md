@@ -13,41 +13,41 @@ tags:
 
 ## introduction
 
-As I became more familiar with the writings of *Freud* and *Plato* and started practicing daily meditation, I realized that many of the concepts I was learning were following the same pattern:
+As I became more familiar with the writings of *Freud* and *Plato* and started practicing daily meditation, I realized that many of the concepts I was learning were repeating the same pattern:
 
 - All authors have the same model of the human mind.
 - One calls it the *soul* while the other calls it *personality*, and yet another calls it *consciousness*.
 - All theories divide the mind into *three elements* responsible for *thinking*, *feeling*, and *doing*.
 - The three elements are described as information processing nodes that connect *input* to *output*.
-- The elements are always *weighted* in some *proportion* to each other based on how many connections are made to each one as a percentage of total available connections.
-- Each element shares the characteristics of the whole mind, such as being composed of information-processing sub-nodes, making them more like "partitions" over the computing volume of the mind.
+- The elements are always *weighted* in some *proportion* to each other.
+- Each element shares the characteristics of the whole mind, making them more like "partitions" over the computing volume of the mind.
 - Each one is *single-minded* and driven by its own *purpose* in an endless cycle to optimize and maximize through learning.
 
-This arrangement mirrors my favorite areas of computer science like digital signal processing and functional programming. The unlikeliness of this connection is what motivated me to write this article.
+This arrangement mirrors my favorite areas of computer science like digital signal processing and functional programming.
 
 ## why study the mind?
 
-All of the above authors have their own reasons for studying the mind and approach the subject from different perspectives:
+Different authors have their own reasons for studying the mind:
 
-- Freud is like a *craftsman* who is more concerned with the "how". He studies practical implications of the mind’s internal structure and applying this knowledge to fix unwanted behavior by regulating the three elements.
+- Freud is like a *craftsman* who is more concerned with the "how". He studies practical implications of the mind’s internal structure and applies this knowledge to fix unwanted behavior by regulating the three elements.
 - Socrates is like a *scholar* who is more concerned with the "why". He uses deductive reasoning to explain why the mind is organized the way it is, and leverages this knowledge to self-regulate or compete with others by understanding their strengths and weaknesses better than they do.
-- Sensei that teach meditation are like *artists* concerned with the connections made by the mind, so that this knowledge can be used to increase awareness. They want to help you tune your mind to the rest of the band, and learn to play your own part of the Universe’s symphony by paying attention to your senses.
+- Sensei are like *artists* that practice training aimed at increasing awareness. They want to help you tune your mind to the rest of the band, and learn to play your own part of the Universe’s symphony.
 
 ## the three elements
 
-Why are the three elements separate? *Optimizing* each sub-mind (thinking, feeling, doing) in isolation to follow its own objectives and then *summing* them has the capability of producing more accurate and efficient output than if there was only one mind with a multitude of objectives.
+Why are the three elements separate? *Optimizing* each element to follow its own objectives and then *summing* them has the capability of producing more accurate output than if there was only one mind with a multitude of objectives.
 
 > If you spin up a neural network in Azure Machine Learning and ask it to detect objects in pictures at the same time as finding the quickest way to cook rice in various atmospheric conditions, you will see what I mean.
 
-Your very first task would be scoring, which will drive learning and overall success of the project.
+In order for the system to learn, you need a scoring strategy.
 
 - Do you score based on how successful the *object detection* was?
 - Do you score based on the best *rice recipe*?
-- If you score on *both*, which one is more *important*?
-- These *weights* would be recorded at the time of learning, making the system *too rigid* to handle highly *dynamic environments*.
-- To compensate for the *mismatch* between the *present* conditions and the conditions at the time of *learning*, you would need a way to re-mix the decisions dynamically.
+- If you score on *both*, which one has more *weight*?
+- Whichever way you choose, the *weights* would be recorded at the time of learning, making the system *too rigid* to handle *dynamic environments*.
+- To compensate for the *mismatch* between the *present* conditions and the conditions at the time of *learning*, you need a way to *re-mix* the decisions.
 
-When the decision-making elements are separate, each one makes the best decision based on its *past experience*, and then the results are *blended together* to tailor the output to what’s *currently happening*.
+When the decision-making elements are separate, each one makes the best decision based on its own *past experience*, and then the results are *blended together* to tailor the output to what’s *currently happening*.
 
 Why are there there *three* elements, and why are they given *these* tasks?
 
@@ -57,13 +57,13 @@ Why are there there *three* elements, and why are they given *these* tasks?
 Why does the Universe *itself* consist of these three elements?
 
 - In  [A Theory of Consciousness](/articles/theory-of-consciousness), I make the case that the Universe is engaged in a large scale effort to *understand* itself by taking raw data from its "unexplored" parts and *forming* it into structures.
-- It works like a *data transformation pipeline* and can be modeled by using *functional programming* concepts.
+- It works like a large-scale *data transformation pipeline* and can be modeled by using *functional programming* concepts.
 - A *function* maps a range of inputs into a range of outputs and is characterized by three features: *input*, *mapping*, and *output*.
 - The relationship between the three elements is that the inputs are connected or *mapped* to outputs through the *transform graph*.
 
 ## planning element
 
-*Socrates* calls it "Rational" and *Freud* calls it the "Super-ego", meaning that the real ego is *behind* it. It's also compared to a *chariot driver*, a *gardener*, and a *king*. The modern term might be a *manager*.
+*Socrates* calls it the "Rational" element and *Freud* calls it the "Super-ego". It's compared to a *chariot driver*, a *gardener*, and a *king*.
 
 This element is characterized by:
 
@@ -75,13 +75,6 @@ It is responsible for:
 - *Managing* and *maintaining* the other two elements.
 - *Predicting* and *comparing* outcomes to select an optimal plan of action.
 - Looking for *new patterns* and fitting incoming data into *existing patterns*.
-
-This element learns by:
-
-- Receiving positive signals, for example *goal reached*.
-- Receiving negative signals, such as *goal not reached* due to poor planning, inaccurate estimation, or lack of knowledge and experience.
-- It has to learn how to work with the other two elements and blend their outputs to tailor decisions to what is currently happening.
-- It has to identify and fill gaps in knowledge and skill.
 
 This element has the following effects on behavior:
 
@@ -104,21 +97,6 @@ It is responsible for:
 - Self-preservation and protecting others.
 - Competition with others for the same goal.
 
-It can receive positive signals to drive learning, such as:
-
-- Getting closer to the goal and winning over the competition.
-- Safety and lack of danger.
-
-There are also negative signals:
-
-- Failure to reach a goal because of too slow a response or a lack of effort.
-- Loosing in a fight or struggle.
-
-This element learns by:
-
-- Responding faster if the goal was not reached due to a slow response.
-- Becoming stronger and/or smarter if over-powered in a struggle.
-
 This element affects behavior in the following ways:
 
 - **In Range**: relentless execution that reaches goals at any cost.
@@ -140,18 +118,6 @@ This element is responsible for:
 - Advertising unfulfilled needs to the Planner and reporting the intensity of each need based on the adoptive input range processing.
 - Constantly searching for new needs that need to be fulfilled, determine their range, and advertise them to the Planner.
 
-It learns by receiving positive signals when:
-
-- Advertised desires are kept in satisfactory range.
-- Feedback provided to other elements helps them to successfully reach their own goals in a way that’s most efficient.
-
-Negative signals include conditions like:
-
-- Advertised desires were not useful and left unfulfilled.
-- Feedback signals not high-gain enough, have too much noise, are too inaccurate or otherwise not useful.
-   
-This element has to learn to stop keeping track of desires that are not useful to the task at hand, and find more desires that are useful to report on.
-
 It influences behavior in the following ways:
 
 - **In Range**: accurate sensing that results in goals reached efficiently and crises averted.
@@ -160,12 +126,10 @@ It influences behavior in the following ways:
 
 ## the mind as a system
 
-The mind is most efficient when all three elements are in correct *proportions* or *ratios* to each other. The rational element *steers*, the sensing element provides *feedback* used to guide the steering, and the executive element *actuates* the system. Many designs found in nature mirror the same basic arrangement:
+The mind is most efficient when all three elements are in correct *proportions* to each other. The rational element *steers*, the sensing element provides *feedback* used to guide the steering, and the executive element *actuates* the system. Many designs found in nature repeat the same pattern:
 
 - *Bacteria* sense the concentration of chemicals in their medium by using *chemo-receptor* proteins. Receptors dispatch *messenger proteins* when they bind to a *stimuli* molecule, and the messengers bind to flagellar motors that actuate movement. This causes the motors to rotate, facing whichever direction gets the strongest signal.
 - More complex organisms like *tardigrades* need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a surface for laying out several large graphs of nodes, much like authoring materials in `Blender`, composition diagrams in `Nuke`, or racks with patch cables in a *modular synth*.
 - Some of the largest animals on Earth maintain the same structure: one or more sensory elements, a decision-making graph consisting of many connected nodes, and finally muscles that actuate movement.
 
 The same pattern repeats at both micro- and macro-levels because mapping sensory input into activity is a very common task for any living organism.
-
-> Any system that models a mathematical function by taking inputs, making connections, and producing outputs will necessarily have to be composed of sensing, thinking, and actuation parts.

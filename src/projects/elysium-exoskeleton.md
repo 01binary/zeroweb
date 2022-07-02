@@ -12,7 +12,7 @@ import Gallery from '../components/Gallery';
 
 ## overview
 
-This exosuit was designed in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) using photographs of the movie props built by [Weta Workshop](https://wetaworkshopdesignstudio.artstation.com/) (original concept art drawn by [Aaron Beck](http://skul4aface.blogspot.com/)).
+This exosuit was designed in [Autodesk Inventor](https://www.autodesk.com/products/inventor/overview) using photographs of the movie props built by [Weta Workshop](https://wetaworkshopdesignstudio.artstation.com/) (original concept art by [Aaron Beck](http://skul4aface.blogspot.com/)).
 
 `youtube:https://www.youtube.com/embed/J7dyjE7jP0k`
 

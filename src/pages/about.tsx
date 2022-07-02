@@ -134,7 +134,7 @@ const About: FC<PageQuery> = ({ data }) => (
             Working with the backend team and `DevOps` to maintain features
             supported by stateless `microservices`, databases, and desktop
             applications communicating over a variety of channels including `Web
-            Sockets` with `SignalR`, `REST API` calls, `GraphQL` API, and `USB`
+            Sockets` with `SignalR`, `REST` API, `GraphQL` API, and `USB`
             hardware.
           </p>
           <p>
@@ -314,14 +314,14 @@ const About: FC<PageQuery> = ({ data }) => (
           </p>
           <p>
             Leveraged `Recompose` to express application behaviors using a
-            compact `functional programming` syntax to `control complexity`,
+            compact `functional programming` syntax to `control complexity` and
             separate `cross-cutting concerns`.
           </p>
           <p>
             Performed accessibility testing and reviews to ensure web
             applications meet W3C `WCAG` requirements for text contrast and the
             correct `aria` attributes are present on relevant UI elements to
-            allow screen readers to announce both static and dynamic content
+            allow screen readers to announce static and dynamic content
             correctly.
           </p>
           <p>

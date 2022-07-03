@@ -38,11 +38,11 @@ const Filter: FC = () => {
 
   useEffect(() => {
     if (!inputRef.current) return;
-    if (!autoCompleteKeywords.length) return;
+    if (!autoCompleteKeywords?.length) return;
 
     if (autoRef.current) {
       autoRef.current.destroy();
-      autoRef.current = null;
+      autoRef.current = undefined;
     }
 
     autoRef.current = autocomplete({
@@ -52,7 +52,7 @@ const Filter: FC = () => {
         const search = searchTerms[searchTerms.length - 1];
         if (!search?.length) return;
         update(
-          autoCompleteKeywords
+          (autoCompleteKeywords || [])
             .filter((keyword) => keyword.startsWith(search))
             .map((keyword) => ({ label: keyword, value: keyword }))
         );
@@ -60,10 +60,12 @@ const Filter: FC = () => {
       onSelect: (item) =>
         setFilter((filter) => {
           return filter
-            .split(' ')
-            .slice(undefined, -1)
-            .concat(item.label)
-            .join(' ');
+            ? filter
+                .split(' ')
+                .slice(undefined, -1)
+                .concat(item?.label || '')
+                .join(' ')
+            : '';
         }),
     });
   }, [autoCompleteKeywords]);

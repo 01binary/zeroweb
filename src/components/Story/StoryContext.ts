@@ -5,7 +5,7 @@ type StoryContextState = {
   autoCompleteKeywords?: string[];
   indexAutoCompleteKeywords(keywords: string[]): void;
   filter?: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  setFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
 };

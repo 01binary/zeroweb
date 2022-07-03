@@ -134,7 +134,7 @@ export const Title: FC<{ single?: true }> = ({ single, children }) => {
 
   useEffect(() => {
     // Add title to search index
-    setTitle(children.toString().toLowerCase());
+    setTitle?.(children?.toString()?.toLowerCase() ?? '');
   }, [children, setTitle]);
 
   return <Heading single={single}>{children}</Heading>;
@@ -151,7 +151,7 @@ export const Company: FC = ({ children }) => {
 
   useEffect(() => {
     // Add company to search index
-    setCompany(markdown.toLowerCase());
+    setCompany?.(markdown?.toLowerCase() ?? '');
   }, [children, setCompany]);
 
   return (
@@ -176,7 +176,7 @@ export const Summary: FC = ({ children }) => {
 
   useEffect(() => {
     // Add summary text to search index
-    setSummary(summary);
+    setSummary?.(summary);
   }, [children, setSummary]);
 
   return (
@@ -187,7 +187,7 @@ export const Summary: FC = ({ children }) => {
           p: Paragraph,
         }}
       >
-        {showDetails ? details : summary}
+        {showDetails ? details ?? '' : summary}
       </ReactMarkdown>
       {hasMore && (
         <MoreSection>
@@ -211,7 +211,7 @@ export const Details: FC = ({ children }) => {
 
   useEffect(() => {
     // Add details text to search index
-    setDetails(details);
+    setDetails?.(details);
   }, [children, setDetails]);
 
   return <DetailsSection>{children}</DetailsSection>;
@@ -232,15 +232,17 @@ export const Keywords: FC = ({ children }) => {
   const keywords = useMemo(
     () =>
       children
-        .toString()
-        .split(',')
-        .map((k) => k.trim()),
+        ? children
+            .toString()
+            .split(',')
+            .map((k) => k.trim())
+        : [],
     [children]
   );
 
   useEffect(() => {
     // Add keywords to search index
-    setKeywords(keywords);
+    setKeywords?.(keywords);
   }, [keywords, setKeywords]);
 
   return <KeywordsSection>{children}</KeywordsSection>;

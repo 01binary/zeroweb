@@ -23,6 +23,7 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
   const [anchor, setAnchor] = useState<string | null>(null);
   const [showCommentsSidebar, setShowCommentsSidebar] = useState(false);
   const [search, setSearch] = useState<string | undefined>();
+  const [searchSticky, setSearchSticky] = useState<boolean>(false);
   const [credentials, setCredentials] = useState<AWSSignature | null>(null);
   const client = useApiClient(credentials);
   const {
@@ -52,6 +53,8 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
         showCommentsSidebar,
         anchor,
         search,
+        searchSticky,
+        setSearchSticky,
         setSearch,
         setAnchor,
         setShowCommentsSidebar,

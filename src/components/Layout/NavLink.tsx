@@ -173,7 +173,7 @@ const Text = styled.div`
 interface NavLinkProps {
   background: FunctionComponent<SVGProps<SVGSVGElement>>;
   icon: FunctionComponent<SVGProps<SVGSVGElement>>;
-  path: string;
+  path?: string;
   to: string;
 }
 
@@ -194,7 +194,7 @@ const NavLink: FunctionComponent<NavLinkProps> = ({
   );
 };
 
-const getLinkClassName = (path: string, to: string): string =>
+const getLinkClassName = (path?: string, to?: string): string =>
   path === to ? 'navigation-selected' : 'navigation-unselected';
 
 export default NavLink;

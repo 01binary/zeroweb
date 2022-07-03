@@ -434,7 +434,7 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
 );
 
 const Header: FC<{
-  path: string;
+  path?: string;
 }> = ({ path }) => {
   const themeToggleRef = useRef<HTMLElement>(null);
   const { isDark, toggleDark } = useStyledDarkMode();

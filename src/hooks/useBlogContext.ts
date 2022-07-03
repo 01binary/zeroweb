@@ -25,9 +25,10 @@ type BlogContextProps = {
   loginError: string | null;
   showCommentsSidebar: boolean;
   anchor: string | null;
-  searchSticky?: boolean;
+  searchSticky: boolean;
   search?: string;
   setSearch: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSearchSticky: React.Dispatch<React.SetStateAction<boolean>>;
   setAnchor: React.Dispatch<React.SetStateAction<string | null>>;
   setShowCommentsSidebar: (showCommentsSidebar: boolean) => void;
   toggleCommentsSidebar: () => void;
@@ -50,6 +51,7 @@ export const BlogContext = createContext<BlogContextProps>({
   setSearch: () => {},
   setUser: () => {},
   setAnchor: () => {},
+  setSearchSticky: () => {},
   setShowCommentsSidebar: () => {},
   toggleCommentsSidebar: () => {},
   setCredentials: () => {},

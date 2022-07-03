@@ -12,14 +12,11 @@
 import { createContext, useContext } from 'react';
 
 type BlogLocationContextProps = {
-  path: string;
-  collection: string;
+  path?: string;
+  collection?: string;
 };
 
-export const BlogLocationContext = createContext<BlogLocationContextProps>({
-  path: '',
-  collection: '',
-});
+export const BlogLocationContext = createContext<BlogLocationContextProps>({});
 
 export const useBlogLocation: () => BlogLocationContextProps = () =>
   useContext(BlogLocationContext);

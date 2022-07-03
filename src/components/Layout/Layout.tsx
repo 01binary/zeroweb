@@ -22,6 +22,7 @@ import {
   NARROW_SIDE_COMMENTS,
   SIDE_COMMENTS_WIDTH,
 } from '../../constants';
+import { SEARCH_LENGTH } from '../../hooks/useSearch';
 import { FullScreenSearch } from './Search';
 
 const Site = styled.div<{ showCommentsSidebar: true }>`
@@ -41,21 +42,21 @@ const Site = styled.div<{ showCommentsSidebar: true }>`
 
 const Layout: FC<RouteComponentProps> = ({ children, location }) => {
   const theme = useContext(ThemeContext);
-  const { showCommentsSidebar, search } = useBlogContext();
+  const { showCommentsSidebar, search, searchSticky } = useBlogContext();
   return (
     <BlogLocationContext.Provider
       value={{
-        path: location.pathname,
-        collection: location.pathname?.split('/')?.[1],
+        path: location?.pathname,
+        collection: location?.pathname?.split('/')?.[1],
       }}
     >
       <SEO />
       <GlobalStyle theme={theme} />
-      {search && search.length > 3 ? (
+      {(search && search.length > SEARCH_LENGTH) || searchSticky ? (
         <FullScreenSearch />
       ) : (
         <Site {...{ showCommentsSidebar }}>
-          <Header path={location.pathname} />
+          <Header path={location?.pathname} />
           {children}
         </Site>
       )}

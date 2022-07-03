@@ -2,10 +2,14 @@ import { ChangeEvent, useCallback, useMemo } from 'react';
 import { useBlogContext } from './useBlogContext';
 import SEARCH_INDEX from '../../search.json';
 
-const getSearchResults = (search?: string) => {
-  if (!search || search.length < 4) return [];
+export const SEARCH_LENGTH = 3;
 
-  const tokens = search.split(' ').filter((token) => token.length > 3);
+const getSearchResults = (search?: string) => {
+  if (!search || search.length <= SEARCH_LENGTH) return [];
+
+  const tokens = search
+    .split(' ')
+    .filter((token) => token.length > SEARCH_LENGTH);
 
   return SEARCH_INDEX.filter(
     ({ title, body }) =>
@@ -15,7 +19,7 @@ const getSearchResults = (search?: string) => {
 };
 
 export const useSearch = () => {
-  const { search, setSearch } = useBlogContext();
+  const { search, searchSticky, setSearch, setSearchSticky } = useBlogContext();
 
   const searchResults = useMemo(() => getSearchResults(search), [search]);
 
@@ -26,9 +30,10 @@ export const useSearch = () => {
     [setSearch]
   );
 
-  const handleClearSearch = useCallback(() => setSearch(undefined), [
-    setSearch,
-  ]);
+  const handleClearSearch = useCallback(() => {
+    setSearch(undefined);
+    setSearchSticky(false);
+  }, [setSearch, setSearchSticky]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => e.key === 'Escape' && handleClearSearch(),
@@ -38,6 +43,8 @@ export const useSearch = () => {
   return {
     search,
     setSearch,
+    searchSticky,
+    setSearchSticky,
     searchResults,
     handleChangeSearch,
     handleClearSearch,

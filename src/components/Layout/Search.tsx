@@ -277,7 +277,6 @@ export const FullScreenSearch: FC = () => {
   const searchBoxRef = useRef<HTMLInputElement | undefined>();
   const {
     search,
-    searchSticky,
     searchResults,
     setSearchSticky,
     handleChangeSearch,
@@ -289,8 +288,6 @@ export const FullScreenSearch: FC = () => {
     window.setTimeout(() => searchBoxRef.current?.focus());
     setSearchSticky(true);
   }, [setSearchSticky]);
-
-  if (search && search?.length < 4 && !searchSticky) return null;
 
   return (
     <SearchScreen>

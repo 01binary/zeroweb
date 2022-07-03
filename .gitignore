@@ -10,3 +10,4 @@ public/**/*
 !public/static/
 server/dist/**/*
 serverless-output.yaml
+search.json

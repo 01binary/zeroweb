@@ -22,22 +22,20 @@ const BULLET_HEIGHT = 20;
 const BULLET_TOP = Math.ceil(NAVLINK_HEIGHT / 2 - NAVLINK_HEIGHT * 0.1);
 const CALLOUT_TOP = Math.ceil(BULLET_TOP / 2) + 0.5;
 
-type CalloutProps = {
-  offset: number;
-  className?: string;
-};
-
-const getGeometry = (points: Array<Array<number>>): string =>
+const getPathGeometry = (points: Array<Array<number>>): string =>
   points.reduce(
     (acc, cur, index) => acc + (index ? ' L ' : '') + cur[0] + ' ' + cur[1],
     'M '
   );
 
-const Callout: FC<CalloutProps> = ({ offset, className }) => (
+const Callout: FC<{
+  offset: number;
+  className?: string;
+}> = ({ offset, className }) => (
   <svg className={className} width={offset} height={NAVLINK_HEIGHT}>
     <path
       d={
-        getGeometry([
+        getPathGeometry([
           [0, BULLET_TOP],
           [0, BULLET_TOP + BULLET_HEIGHT],
           [BULLET_WIDTH, BULLET_TOP + BULLET_HEIGHT],
@@ -47,7 +45,7 @@ const Callout: FC<CalloutProps> = ({ offset, className }) => (
       className="title-bullet"
     />
     <path
-      d={getGeometry([
+      d={getPathGeometry([
         [0.5, BULLET_TOP + 1],
         [0.5, CALLOUT_TOP],
         [offset - BULLET_TOP / 2, CALLOUT_TOP],

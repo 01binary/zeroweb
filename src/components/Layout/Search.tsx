@@ -26,7 +26,6 @@ const SearchInput = styled.input`
   outline-style: solid;
   outline-width: medium;
   border-radius: 1px;
-
   color: ${(props) => props.theme.alwaysLightColor};
 
   &::placeholder {
@@ -39,6 +38,16 @@ const SearchInput = styled.input`
     outline-width: medium;
     border-radius: 1px;
   }
+
+  @media (max-width: ${MOBILE}) {
+    color: ${(props) => props.theme.foregroundColor};
+
+    &::placeholder {
+      color: ${(props) => props.theme.foregroundColor};
+    }
+
+    outline-color: ${(props) => props.theme.foregroundColor}99;
+  }
 `;
 
 const SearchIndicator = styled(SearchIcon)`
@@ -47,9 +56,11 @@ const SearchIndicator = styled(SearchIcon)`
     ${(props) => props.theme.spacingQuarter} - ${(props) => props.theme.border}
   );
   left: calc(${(props) => props.theme.spacingQuarter});
+  stroke: ${(props) => props.theme.alwaysLightColor};
 
   @media (max-width: ${MOBILE}) {
     left: ${(props) => props.theme.spacingHalf};
+    stroke: ${(props) => props.theme.foregroundColor};
   }
 `;
 
@@ -79,6 +90,12 @@ const ClearButton = styled.button`
   &:hover {
     .stroke-foreground {
       stroke: ${(props) => props.theme.focusColor};
+    }
+  }
+
+  @media (max-width: ${MOBILE}) {
+    .stroke-foreground {
+      stroke: ${(props) => props.theme.foregroundColor};
     }
   }
 `;

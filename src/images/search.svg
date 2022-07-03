@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-  <g fill="none" stroke="white" stroke-width="1.5">
+  <g fill="none" stroke-width="1.5">
    <line  x1="9.9" y1="13.1" x2="3.2" y2="19.8"/>
    <circle  cx="14.2" cy="8.8" r="6.2"/>
   </g>

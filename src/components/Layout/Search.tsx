@@ -7,16 +7,25 @@ import { useCallback } from 'react';
 import SEARCH_INDEX from '../../../search.json';
 
 const SearchInput = styled.input`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+
   font-family: ${(props) => props.theme.smallFont};
   font-size: ${(props) => props.theme.smallFontSize};
   font-weight: ${(props) => props.theme.smallFontWeight};
 
   padding: ${(props) => props.theme.spacingQuarter};
   padding-left: ${(props) => props.theme.spacingOneAndHalf};
-  background: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.foregroundColor};
-  border: ${(props) => props.theme.border} solid
-    ${(props) => props.theme.borderColor};
+  padding-right: ${(props) => props.theme.spacingOneAndHalf};
+  background: transparent;
+  color: ${(props) => props.theme.foregroudColor};
+  border: none;
+  outline-color: #ffffff55;
+  outline-style: solid;
+  outline-width: medium;
+  border-radius: 1px;
 
   &:focus {
     outline-color: ${(props) => props.theme.focusColor};
@@ -36,7 +45,11 @@ const SearchIndicator = styled(SearchIcon)`
   }
 `;
 
-const SearchButton = styled.button`
+const ClearButton = styled.button`
+  position: absolute;
+  top: calc(${(props) => props.theme.spacingQuarter});
+  right: calc(${(props) => props.theme.spacingHalf});
+
   border: none;
   cursor: pointer;
   fill: none;
@@ -69,7 +82,10 @@ const SearchButton = styled.button`
 `;
 
 const SearchSection = styled.section`
-  position: relative;
+  position: absolute;
+  right: ${(props) => props.theme.spacing};
+  bottom: ${(props) => props.theme.spacingOneAndHalf};
+  min-width: 320px;
 `;
 
 const Search: FC = () => {
@@ -117,9 +133,11 @@ const Search: FC = () => {
         placeholder="search"
       />
       <SearchIndicator />
-      <SearchButton onClick={handleClearSearch}>
-        <ClearIcon />
-      </SearchButton>
+      {criteria?.length ? (
+        <ClearButton onClick={handleClearSearch}>
+          <ClearIcon />
+        </ClearButton>
+      ) : null}
       <ul>
         {results.map((r) => (
           <li>

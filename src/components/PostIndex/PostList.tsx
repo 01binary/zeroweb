@@ -17,7 +17,6 @@ import { getDateValue, getDateUnits } from '../../utils';
 import ClockIcon from '../../images/clock.svg';
 import TagList from '../TagList';
 import { MOBILE } from '../../constants';
-import Search from './Search';
 
 const ARTICLE_THUMBNAIL_WIDTH = 320;
 const ARTICLE_THUMBNAIL_HEIGHT = 170;
@@ -235,7 +234,6 @@ const ArticleTitleLink = styled(Link)`
 
 const PostList: FC<PostsQuery> = ({ nodes, group }) => (
   <>
-    <Search />
     {nodes.map(
       (
         {

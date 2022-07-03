@@ -26,6 +26,7 @@ import ProjectsBackground from '../../images/navigation-projects.svg';
 import AboutBackground from '../../images/navigation-about.svg';
 import ROUTES from '../../routes';
 import { MOBILE, NARROW_NO_RULERS } from '../../constants';
+import Search from './Search';
 
 const HEADER_HEIGHT = 250;
 
@@ -417,9 +418,9 @@ const Toggle = styled.button`
 `;
 
 type ThemeToggleProps = {
-  isDark: boolean;
+  isDark?: boolean;
   toggleDark: () => void;
-  forwardRef: React.MutableRefObject<HTMLElement>;
+  forwardRef: React.RefObject<HTMLElement>;
 };
 
 const ThemeToggle: FC<ThemeToggleProps> = ({
@@ -432,11 +433,9 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
   </Toggle>
 );
 
-type HeaderProps = {
+const Header: FC<{
   path: string;
-};
-
-const Header: FC<HeaderProps> = ({ path }) => {
+}> = ({ path }) => {
   const themeToggleRef = useRef<HTMLElement>(null);
   const { isDark, toggleDark } = useStyledDarkMode();
   const [menuOpen, showMenu] = useState(false);
@@ -460,6 +459,8 @@ const Header: FC<HeaderProps> = ({ path }) => {
         />
         <Hamburger menuOpen={menuOpen} showMenu={showMenu} />
       </Toolbar>
+
+      <Search />
 
       <Navigation menuOpen={menuOpen} onClick={() => showMenu(false)}>
         {ROUTES.map(({ collection, path: routePath }) => (

@@ -13,7 +13,7 @@ import PostQuery from './PostQuery';
 import { TagGroup } from './TagsQuery';
 
 export type PostsQuery = {
-  nodes: Array<Partial<PostQuery>>;
+  nodes: Array<PostQuery>;
   group: Array<TagGroup>;
 };
 

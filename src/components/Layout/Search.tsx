@@ -88,6 +88,16 @@ const SearchSection = styled.section`
   right: ${(props) => props.theme.spacing};
   bottom: ${(props) => props.theme.spacingDouble};
   min-width: 320px;
+
+  @media (max-width: ${MOBILE}) {
+    bottom: initial;
+    right: calc(${(props) => props.theme.spacing} * 4.5);
+    top: calc(
+      ${(props) => props.theme.spacingQuarter} +
+        ${(props) => props.theme.border} * 2
+    );
+    min-width: 7.5em;
+  }
 `;
 
 const SearchScreen = styled.section`

@@ -3,8 +3,42 @@ import styled from 'styled-components';
 import { useSearch } from '../../hooks/useSearch';
 import SearchIcon from '../../images/search.svg';
 import ClearIcon from '../../images/cancel.svg';
+import ArticleIcon from '../../images/articles.svg';
+import ProjectIcon from '../../images/projects.svg';
 import { MOBILE } from '../../constants';
 import { Link } from 'gatsby';
+
+const ArticleResultIcon = styled(ArticleIcon)`
+  position: relative;
+  top: ${(props) => props.theme.borderThick};
+  margin-right: ${(props) => props.theme.spacingHalf};
+
+  stroke-width: 1.5;
+
+  .stroke-foreground {
+    stroke: white;
+  }
+
+  .stroke-background {
+    stroke: #ffffff99;
+  }
+`;
+
+const ProjectResultIcon = styled(ProjectIcon)`
+  position: relative;
+  top: ${(props) => props.theme.borderThick};
+  margin-right: ${(props) => props.theme.spacingHalf};
+
+  stroke-width: 1.5;
+
+  .stroke-foreground {
+    stroke: white;
+  }
+
+  .stroke-background {
+    stroke: #ffffffbb;
+  }
+`;
 
 const SearchInput = styled.input`
   position: absolute;
@@ -280,9 +314,18 @@ export const FullScreenSearch: FC = () => {
           {searchResults.map(({ slug, title, collection }) => (
             <SearchResult key={slug}>
               <SearchLink
-                to={'/' + collection + '/' + slug}
+                to={
+                  collection === 'articles'
+                    ? `/articles/${slug}`
+                    : `/projects/${slug}`
+                }
                 onClick={handleClearSearch}
               >
+                {collection === 'articles' ? (
+                  <ArticleResultIcon />
+                ) : (
+                  <ProjectResultIcon />
+                )}
                 {title}
               </SearchLink>
             </SearchResult>

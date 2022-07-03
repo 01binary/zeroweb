@@ -11,7 +11,7 @@
 
 import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
-import { MOBILE_WIDE, NARROW_SIDE_COMMENTS } from '../constants';
+import { MOBILE, MOBILE_WIDE, NARROW_SIDE_COMMENTS } from '../constants';
 import EscalatorIcon from '../images/escalator.svg';
 
 // Approximate percentage of page read before showing scroll to top button
@@ -69,6 +69,10 @@ const InlineScrollButton = styled(LinkButton)<{ visible: boolean }>`
   @media (min-width: 1320px) {
     display: none;
   }
+
+  @media (max-width: ${MOBILE}) {
+    display: none;
+  }
 `;
 
 const FixedScrollButton = styled(LinkButton)<{ visible: boolean }>`
@@ -98,7 +102,7 @@ const ScrollButtonLabel = styled.label<{ inline: boolean }>`
   }
 `;
 
-const ScrollToTop: FC<{ readPosition: number; inline: boolean }> = ({
+const ScrollToTop: FC<{ readPosition: number; inline?: boolean }> = ({
   readPosition,
   inline,
 }) => {

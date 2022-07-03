@@ -122,11 +122,14 @@ const SearchSection = styled.section`
   }
 `;
 
-const SearchScreen = styled.section`
+const SearchScreen = styled.main`
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-items: center;
+
+  max-width: initial;
+  margin: initial;
 
   position: fixed;
   top: 0;
@@ -139,6 +142,23 @@ const SearchScreen = styled.section`
     ${(props) => props.theme.primaryColor} 0%,
     ${(props) => props.theme.secondaryColor} 100%
   );
+
+  &:before {
+    float: initial;
+    position: absolute;
+    left: ${(props) => props.theme.spacingDouble};
+    top: ${(props) => props.theme.spacingDouble};
+    width: 0;
+    color: ${(props) => props.theme.alwaysLightColor};
+  }
+
+  &:after {
+    float: initial;
+    position: absolute;
+    right: ${(props) => props.theme.spacingDouble};
+    bottom: ${(props) => props.theme.spacingDouble};
+    color: ${(props) => props.theme.alwaysLightColor};
+  }
 `;
 
 const SearchForm = styled.form`
@@ -162,6 +182,11 @@ const SearchResults = styled.ul`
   padding: ${(props) => props.theme.spacingHalf};
   flex: 1;
 
+  font-family: ${(props) => props.theme.normalFont};
+  font-size: ${(props) => props.theme.normalFontSize};
+  font-weight: ${(props) => props.theme.normalFontWeight};
+  line-height: ${(props) => props.theme.normalFontLineHeight};
+
   @media (max-width: ${MOBILE}) {
     padding: 0;
     margin-top: ${(props) => props.theme.spacing};
@@ -180,6 +205,14 @@ const SearchResult = styled.li`
   }
 `;
 
+const SearchLink = styled(Link)`
+  color: ${(props) => props.theme.alwaysLightColor};
+
+  &:hover {
+    color: ${(props) => props.theme.alwaysLightColor}BB;
+  }
+`;
+
 export const InlineSearch: FC = () => {
   const {
     search,
@@ -187,8 +220,6 @@ export const InlineSearch: FC = () => {
     handleClearSearch,
     handleKeyDown,
   } = useSearch();
-
-  if (search && search.length > 3) return null;
 
   return (
     <SearchSection>
@@ -212,7 +243,9 @@ export const FullScreenSearch: FC = () => {
   const searchBoxRef = useRef<HTMLInputElement | undefined>();
   const {
     search,
+    searchSticky,
     searchResults,
+    setSearchSticky,
     handleChangeSearch,
     handleClearSearch,
     handleKeyDown,
@@ -220,9 +253,10 @@ export const FullScreenSearch: FC = () => {
 
   useEffect(() => {
     window.setTimeout(() => searchBoxRef.current?.focus());
-  }, [search]);
+    setSearchSticky(true);
+  }, [setSearchSticky]);
 
-  if (!search || search?.length < 4) return null;
+  if (search && search?.length < 4 && !searchSticky) return null;
 
   return (
     <SearchScreen>
@@ -244,13 +278,13 @@ export const FullScreenSearch: FC = () => {
       {searchResults.length ? (
         <SearchResults>
           {searchResults.map(({ slug, title, collection }) => (
-            <SearchResult>
-              <Link
+            <SearchResult key={slug}>
+              <SearchLink
                 to={'/' + collection + '/' + slug}
                 onClick={handleClearSearch}
               >
                 {title}
-              </Link>
+              </SearchLink>
             </SearchResult>
           ))}
         </SearchResults>

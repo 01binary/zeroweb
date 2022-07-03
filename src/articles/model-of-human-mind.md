@@ -126,13 +126,17 @@ It influences behavior in the following ways:
 
 ## the mind as a system
 
-The mind is most efficient when all three elements are in correct *proportions* to each other. The rational element *steers*, the sensing element provides *feedback* used to guide the steering, and the executive element *actuates* the system. Many designs found in nature repeat the same pattern:
+The mind is most efficient when all three elements are in correct *proportions* to each other. The rational element *steers*, the sensing element provides *feedback* used to guide the steering, and the executive element *actuates* the system. Many designs found in nature repeat the same pattern.
 
-- *Bacteria* sense the concentration of chemicals in their medium by using *chemo-receptor* proteins. Receptors dispatch *messenger proteins* when they bind to a *stimuli* molecule, and the messengers bind to flagellar motors that actuate movement. This causes the motors to rotate, facing whichever direction gets the strongest signal.
-- More complex organisms like *tardigrades* need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a surface for laying out several large graphs of nodes.
-- The largest animals on Earth maintain the same structure: several elements, a decision-making graph consisting of many connected nodes, and muscles that actuate movement.
+*Bacteria* sense the concentration of chemicals in their medium by using *chemo-receptor* proteins. Receptors dispatch *messenger proteins* when they bind to a *stimuli* molecule, and the messengers bind to flagellar motors that actuate movement. This causes the motors to rotate, facing whichever direction gets the strongest signal.
 
-The information processing graphs of nodes appear in modern CG software.
+![Bacteria](./images/model-of-human-mind-bacteria.png)
+
+More complex organisms like *tardigrades* (water bears) need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a surface for laying out several large graphs of nodes.
+
+The same node graphs are used as a tool in modern CG software to let artists design the flow of visual information from a veriety of input sources through to the final rendered and composed frame.
+
+> TODO: turn these into mini galleries
 
 The shader editor in `Blender` allows composing materials for 3D rendering:
 

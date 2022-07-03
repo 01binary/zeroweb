@@ -14,7 +14,7 @@ import { RouteComponentProps } from '@reach/router';
 import { ApolloProvider } from '@apollo/client';
 import useApiClient from '../hooks/useApiClient';
 import { User, AWSSignature } from '../auth/types';
-import { BlogDataContext } from '../hooks/useBlogData';
+import { BlogContext } from '../hooks/useBlogContext';
 import { useLogin } from '../hooks/useLogin';
 import { useCallback } from 'react';
 
@@ -43,7 +43,7 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
   );
 
   return (
-    <BlogDataContext.Provider
+    <BlogContext.Provider
       value={{
         client: client,
         user,
@@ -66,7 +66,7 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
       }}
     >
       <ApolloProvider client={client}>{children}</ApolloProvider>
-    </BlogDataContext.Provider>
+    </BlogContext.Provider>
   );
 };
 

@@ -47,6 +47,11 @@ const SearchInput = styled.input`
     }
 
     outline-color: ${(props) => props.theme.foregroundColor}99;
+
+    padding-left: calc(
+      ${(props) => props.theme.spacing} +
+        ${(props) => props.theme.spacingQuarter}
+    );
   }
 `;
 
@@ -55,11 +60,11 @@ const SearchIndicator = styled(SearchIcon)`
   top: calc(
     ${(props) => props.theme.spacingQuarter} - ${(props) => props.theme.border}
   );
-  left: calc(${(props) => props.theme.spacingQuarter});
+  left: ${(props) => props.theme.spacingQuarter};
   stroke: ${(props) => props.theme.alwaysLightColor};
 
   @media (max-width: ${MOBILE}) {
-    left: ${(props) => props.theme.spacingHalf};
+    left: ${(props) => props.theme.spacingQuarter};
     stroke: ${(props) => props.theme.foregroundColor};
   }
 `;

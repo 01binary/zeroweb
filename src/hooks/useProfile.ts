@@ -6,7 +6,7 @@ import { Reaction } from '../types/AllCommentsQuery';
 import { FetchResult, useMutation, useQuery } from '@apollo/client';
 import UserProfileQuery from '../types/UserProfileQuery';
 import EditProfileMutation from '../types/EditProfileMutation';
-import { useBlogData } from './useBlogData';
+import { useBlogContext } from './useBlogContext';
 import { formatCommentDate } from '../utils';
 
 // Map all reactions to this type
@@ -56,7 +56,7 @@ const EDIT_PROFILE = gql`
 `;
 
 const useProfile = () => {
-  const { credentials, user } = useBlogData();
+  const { credentials, user } = useBlogContext();
   const location = useLocation();
   const [editingBio, setEditingBio] = useState<boolean>(false);
   const [editingLocation, setEditingLocation] = useState<boolean>(false);
@@ -96,21 +96,25 @@ const useProfile = () => {
     ? formatCommentDate(profile.lastActivity).split(' ')
     : [];
 
-  const reactionSummary: Record<Reaction, number> = useMemo(() => profile?.reactions
-    ?.filter(({ reaction }) => reaction)
-    ?.reduce(
-      (sum, { reaction: emoji }) => ({
-        ...sum,
-        [emoji]: sum[emoji] + 1,
-      }),
-      { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
-    ), [profile]);
+  const reactionSummary: Record<Reaction, number> = useMemo(
+    () =>
+      profile?.reactions
+        ?.filter(({ reaction }) => reaction)
+        ?.reduce(
+          (sum, { reaction: emoji }) => ({
+            ...sum,
+            [emoji]: sum[emoji] + 1,
+          }),
+          { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
+        ),
+    [profile]
+  );
 
   const reactionCount = reactionSummary
     ? Object.keys(reactionSummary).reduce(
-      (count, emoji) => count + reactionSummary[emoji],
-      0
-    )
+        (count, emoji) => count + reactionSummary[emoji],
+        0
+      )
     : 0;
 
   const saveProfile = useCallback((): Promise<FetchResult> => {
@@ -217,7 +221,7 @@ const useProfile = () => {
     more,
     showMore,
     setMore,
-  }
+  };
 };
 
 export default useProfile;

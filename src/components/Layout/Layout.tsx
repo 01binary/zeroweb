@@ -16,7 +16,7 @@ import { BlogLocationContext } from '../../hooks/useBlogLocation';
 import { GlobalStyle } from '../../theme';
 import SEO from '../SEO';
 import Header from './Header';
-import { useBlogData } from '../../hooks/useBlogData';
+import { useBlogContext } from '../../hooks/useBlogContext';
 import {
   NARROW_INLINE_COMMENTS,
   NARROW_SIDE_COMMENTS,
@@ -41,7 +41,7 @@ const Site = styled.div<{ showCommentsSidebar: true }>`
 
 const Layout: FC<RouteComponentProps> = ({ children, location }) => {
   const theme = useContext(ThemeContext);
-  const { showCommentsSidebar, search } = useBlogData();
+  const { showCommentsSidebar, search } = useBlogContext();
   return (
     <BlogLocationContext.Provider
       value={{

@@ -18,7 +18,7 @@ import CubeAnimation from './Animations/CubeAnimation';
 import HeadingQuery from '../types/HeadingQuery';
 import EditIcon from '../images/markdown.svg';
 import { MOBILE } from '../constants';
-import { useBlogData } from '../hooks/useBlogData';
+import { useBlogContext } from '../hooks/useBlogContext';
 import ScrollToTop from './ScrollToTop';
 import { getPathForCollection } from '../routes';
 
@@ -154,7 +154,7 @@ const TOC: FC<TocProps> = ({
   showLogs,
   readPosition,
 }) => {
-  const { anchor, setAnchor } = useBlogData();
+  const { anchor, setAnchor } = useBlogContext();
   const heading = useActiveHeading(headings);
   const isAutoScrollingRef = useRef<boolean>(false);
   const backToIndex = useMemo(

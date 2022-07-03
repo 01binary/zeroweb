@@ -18,13 +18,14 @@ import {
   AWSSignature,
 } from '../auth/types';
 
-type BlogDataContextProps = {
+type BlogContextProps = {
   client: ApolloClient<NormalizedCacheObject> | null;
   user: User | null;
   credentials: AWSSignature | null;
   loginError: string | null;
   showCommentsSidebar: boolean;
   anchor: string | null;
+  searchSticky?: boolean;
   search?: string;
   setSearch: React.Dispatch<React.SetStateAction<string | undefined>>;
   setAnchor: React.Dispatch<React.SetStateAction<string | null>>;
@@ -39,7 +40,7 @@ type BlogDataContextProps = {
   handleLogout: () => void;
 };
 
-export const BlogDataContext = createContext<BlogDataContextProps>({
+export const BlogContext = createContext<BlogContextProps>({
   user: null,
   client: null,
   credentials: null,
@@ -59,5 +60,5 @@ export const BlogDataContext = createContext<BlogDataContextProps>({
   handleLogout: () => {},
 });
 
-export const useBlogData: () => BlogDataContextProps = () =>
-  useContext(BlogDataContext);
+export const useBlogContext: () => BlogContextProps = () =>
+  useContext(BlogContext);

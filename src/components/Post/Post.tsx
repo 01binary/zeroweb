@@ -12,7 +12,7 @@
 import React, { FC, useRef, useMemo } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql, Link } from 'gatsby';
-import { useBlogData } from '../../hooks/useBlogData';
+import { useBlogContext } from '../../hooks/useBlogContext';
 import { CommentsContext } from '../../hooks/useComments';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import PostQuery from '../../types/PostQuery';
@@ -117,7 +117,7 @@ const Post: FC<{
     handleTwitterLogin,
     handleGoogleLogin,
     handleGithubLogin,
-  } = useBlogData();
+  } = useBlogContext();
 
   const {
     loading,

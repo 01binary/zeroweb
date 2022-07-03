@@ -21,7 +21,7 @@ import ReactMarkdown from 'react-markdown';
 import { ParagraphComment } from '../../hooks/useComments';
 import SaveIcon from '../../images/accept.svg';
 import CancelIcon from '../../images/cancel.svg';
-import { useBlogData } from '../../hooks/useBlogData';
+import { useBlogContext } from '../../hooks/useBlogContext';
 import MetaLink from '../MetaLink';
 import Login from '../Login';
 import { formatCommentDate, getCommentId } from '../../utils';
@@ -227,7 +227,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
     handleTwitterLogin,
     handleGoogleLogin,
     handleGithubLogin,
-  } = useBlogData();
+  } = useBlogContext();
 
   const [alignBottom, setAlignBottom] = useState<boolean>(false);
   const commentThreadRef = useRef<HTMLElement>(null);

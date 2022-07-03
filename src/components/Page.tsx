@@ -16,7 +16,7 @@ import { Arrow, Tooltip } from './Tooltip';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import useUserContent from '../hooks/useUserContent';
 import useInlineComments from '../hooks/useInlineComments';
-import { useBlogData } from '../hooks/useBlogData';
+import { useBlogContext } from '../hooks/useBlogContext';
 import SEO from './SEO';
 import { CommentsContext } from '../hooks/useComments';
 import ProfileTip from './Post/ProfileTip';
@@ -144,7 +144,7 @@ const Page: FC<PageQuery> = ({
     handleTwitterLogin,
     handleGoogleLogin,
     handleGithubLogin,
-  } = useBlogData();
+  } = useBlogContext();
 
   const {
     loading,

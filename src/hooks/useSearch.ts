@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useMemo } from 'react';
-import { useBlogData } from './useBlogData';
+import { useBlogContext } from './useBlogContext';
 import SEARCH_INDEX from '../../search.json';
 
 const getSearchResults = (search?: string) => {
@@ -15,7 +15,7 @@ const getSearchResults = (search?: string) => {
 };
 
 export const useSearch = () => {
-  const { search, setSearch } = useBlogData();
+  const { search, setSearch } = useBlogContext();
 
   const searchResults = useMemo(() => getSearchResults(search), [search]);
 

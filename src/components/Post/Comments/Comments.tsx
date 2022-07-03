@@ -16,7 +16,7 @@ import { useTheme } from 'styled-components';
 import Avatar from '../../Avatar';
 import MetaLink from '../../../components/MetaLink';
 import Login from '../../../components/Login';
-import { useBlogData } from '../../../hooks/useBlogData';
+import { useBlogContext } from '../../../hooks/useBlogContext';
 import UpVoteIcon from '../../../images/upvote.svg';
 import DownVoteIcon from '../../../images/downvote.svg';
 import ReactionIcon from '../../../images/reaction.svg';
@@ -129,7 +129,7 @@ const Comments: FC<CommentsProps> = ({
     handleGoogleLogin,
     handleGithubLogin,
     handleLogout,
-  } = useBlogData();
+  } = useBlogContext();
   const [commentError, setCommentError] = useState<string | null>();
   const [comment, setComment] = useState<string>('');
   const [commentTiles, setCommentTiles] = useState<boolean[]>([]);

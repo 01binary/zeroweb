@@ -12,7 +12,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, navigate } from 'gatsby';
 import styled from 'styled-components';
-import { useBlogData } from '../hooks/useBlogData';
+import { useBlogContext } from '../hooks/useBlogContext';
 import useGithub from '../auth/useGithub';
 import Title from '../components/Title';
 import Summary from '../components/Summary';
@@ -30,7 +30,7 @@ const GithubRedirect: FC = () => {
   const [once, setOnce] = useState<boolean>(false);
   const [error, setError] = useState<string>(null);
   const [returnUrl, setReturnUrl] = useState<string>('/');
-  const { setUser, setCredentials } = useBlogData();
+  const { setUser, setCredentials } = useBlogContext();
   const { gitHubReturn } = useGithub(setUser, setCredentials, setError);
 
   useEffect(() => {

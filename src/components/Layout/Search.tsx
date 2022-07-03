@@ -171,6 +171,18 @@ const SearchScreen = styled.main`
   left: 0;
   right: 0;
 
+  animation: searchFadeIn ${(props) => props.theme.animationSlow} ease-out 1;
+
+  @keyframes searchFadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
   background: linear-gradient(
     135deg,
     ${(props) => props.theme.primaryColor} 0%,
@@ -233,6 +245,21 @@ const SearchResult = styled.li`
   padding: ${(props) => props.theme.spacingHalf};
   padding-bottom: 0;
   margin: 0 ${(props) => props.theme.spacing};
+
+  text-transform: lowercase;
+  animation: slideIn ${(props) => props.theme.animationSlow} ease-out 1;
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
 
   @media (max-width: ${MOBILE}) {
     margin: 0;

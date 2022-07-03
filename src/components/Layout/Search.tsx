@@ -239,8 +239,13 @@ export const FullScreenSearch: FC = () => {
       {searchResults.length ? (
         <SearchResults>
           {searchResults.map(({ slug, title, collection }) => (
-            <SearchResult onClick={handleClearSearch}>
-              <Link to={'/' + collection + '/' + slug}>{title}</Link>
+            <SearchResult>
+              <Link
+                to={'/' + collection + '/' + slug}
+                onClick={handleClearSearch}
+              >
+                {title}
+              </Link>
             </SearchResult>
           ))}
         </SearchResults>

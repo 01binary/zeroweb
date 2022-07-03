@@ -1,10 +1,10 @@
-import React, { ChangeEvent, FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { MOBILE } from '../../constants';
+import { useSearch } from '../../hooks/useSearch';
 import SearchIcon from '../../images/search.svg';
 import ClearIcon from '../../images/cancel.svg';
-import { useCallback } from 'react';
-import SEARCH_INDEX from '../../../search.json';
+import { MOBILE } from '../../constants';
+import { Link } from 'gatsby';
 
 const SearchInput = styled.input`
   position: absolute;
@@ -27,6 +27,12 @@ const SearchInput = styled.input`
   outline-width: medium;
   border-radius: 1px;
 
+  color: ${(props) => props.theme.alwaysLightColor};
+
+  &::placeholder {
+    color: ${(props) => props.theme.alwaysLightColor};
+  }
+
   &:focus {
     outline-color: ${(props) => props.theme.focusColor};
     outline-style: solid;
@@ -37,18 +43,23 @@ const SearchInput = styled.input`
 
 const SearchIndicator = styled(SearchIcon)`
   position: absolute;
-  top: calc(${(props) => props.theme.spacingQuarter});
+  top: calc(
+    ${(props) => props.theme.spacingQuarter} - ${(props) => props.theme.border}
+  );
   left: calc(${(props) => props.theme.spacingQuarter});
 
   @media (max-width: ${MOBILE}) {
-    left: ${(props) => props.theme.spacing};
+    left: ${(props) => props.theme.spacingHalf};
   }
 `;
 
 const ClearButton = styled.button`
+  display: flex;
+  justify-items: center;
+
   position: absolute;
-  top: calc(${(props) => props.theme.spacingQuarter});
-  right: calc(${(props) => props.theme.spacingHalf});
+  top: 4px;
+  right: 0;
 
   border: none;
   cursor: pointer;
@@ -57,26 +68,17 @@ const ClearButton = styled.button`
   -moz-appearance: none;
   background: none;
 
-  width: 24px;
-  height: 24px;
-
   svg {
     pointer-events: none;
   }
 
+  .stroke-foreground {
+    stroke: white;
+  }
+
   &:hover {
     .stroke-foreground {
-      stroke: ${(props) =>
-        props.theme.isDark
-          ? props.theme.primaryColor
-          : props.theme.primaryDarkColor};
-    }
-
-    .fill-foreground {
-      fill: ${(props) =>
-        props.theme.isDark
-          ? props.theme.primaryColor
-          : props.theme.primaryDarkColor};
+      stroke: ${(props) => props.theme.focusColor};
     }
   }
 `;
@@ -84,69 +86,138 @@ const ClearButton = styled.button`
 const SearchSection = styled.section`
   position: absolute;
   right: ${(props) => props.theme.spacing};
-  bottom: ${(props) => props.theme.spacingOneAndHalf};
+  bottom: ${(props) => props.theme.spacingDouble};
   min-width: 320px;
 `;
 
-const Search: FC = () => {
-  const [criteria, setCriteria] = useState<string | undefined>();
+const SearchScreen = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-items: center;
 
-  const handleChangeSearch = useCallback((e: InputEvent) => {
-    setCriteria(e.target?.value);
-  }, []);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-  const handleClearSearch = useCallback(() => setCriteria(undefined), []);
-
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => e.key === 'Escape' && handleClearSearch(),
-    [handleClearSearch]
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.theme.primaryColor} 0%,
+    ${(props) => props.theme.secondaryColor} 100%
   );
+`;
 
-  const results = useMemo(() => {
-    if (!criteria || criteria.length < 4) return [];
+const SearchForm = styled.form`
+  position: relative;
+  max-width: calc(
+    ${(props) => props.theme.column} - ${(props) => props.theme.spacing} * 3
+  );
+  width: 100%;
+  margin: 10vw auto ${(props) => props.theme.spacing} auto;
 
-    const tokens = criteria.split(' ');
+  @media (max-width: ${MOBILE}) {
+    margin: ${(props) => props.theme.spacingHalf};
+    max-width: calc(100% - ${(props) => props.theme.spacing});
+  }
+`;
 
-    return SEARCH_INDEX.filter(({ title, body }) => {
-      for (const index in tokens) {
-        if (title.indexOf(tokens[index]) >= 0) {
-          console.log('title', title, 'contains', tokens[index]);
-          return true;
-        }
-      }
+const SearchResults = styled.ul`
+  width: 100%;
+  max-width: ${(props) => props.theme.column};
+  margin: 0 auto 0 auto;
+  padding: ${(props) => props.theme.spacingHalf};
+  flex: 1;
 
-      if (body.indexOf(criteria) >= 0) {
-        console.log('body for', title, 'contains', criteria);
-        return true;
-      }
+  @media (max-width: ${MOBILE}) {
+    padding: 0;
+    margin-top: ${(props) => props.theme.spacing};
+  }
+`;
 
-      return false;
-    });
-  }, [criteria]);
+const SearchResult = styled.li`
+  display: flex;
+  flex-direction: row;
+  padding: ${(props) => props.theme.spacingHalf};
+  padding-bottom: 0;
+  margin: 0 ${(props) => props.theme.spacing};
+
+  @media (max-width: ${MOBILE}) {
+    margin: 0;
+  }
+`;
+
+export const InlineSearch: FC = () => {
+  const {
+    search,
+    handleChangeSearch,
+    handleClearSearch,
+    handleKeyDown,
+  } = useSearch();
+
+  if (search && search.length > 3) return null;
 
   return (
     <SearchSection>
       <SearchInput
-        value={criteria ?? ''}
+        value={search ?? ''}
         onChange={handleChangeSearch}
         onKeyDown={handleKeyDown}
         placeholder="search"
       />
       <SearchIndicator />
-      {criteria?.length ? (
+      {search?.length ? (
         <ClearButton onClick={handleClearSearch}>
           <ClearIcon />
         </ClearButton>
       ) : null}
-      <ul>
-        {results.map((r) => (
-          <li>
-            {r.title} - {r.collection}
-          </li>
-        ))}
-      </ul>
     </SearchSection>
   );
 };
 
-export default Search;
+export const FullScreenSearch: FC = () => {
+  const searchBoxRef = useRef<HTMLInputElement | undefined>();
+  const {
+    search,
+    searchResults,
+    handleChangeSearch,
+    handleClearSearch,
+    handleKeyDown,
+  } = useSearch();
+
+  useEffect(() => {
+    window.setTimeout(() => searchBoxRef.current?.focus());
+  }, [search]);
+
+  if (!search || search?.length < 4) return null;
+
+  return (
+    <SearchScreen>
+      <SearchForm>
+        <SearchInput
+          ref={searchBoxRef}
+          value={search ?? ''}
+          onChange={handleChangeSearch}
+          onKeyDown={handleKeyDown}
+          placeholder="search"
+        />
+        <SearchIndicator />
+        {search?.length ? (
+          <ClearButton onClick={handleClearSearch}>
+            <ClearIcon />
+          </ClearButton>
+        ) : null}
+      </SearchForm>
+      {searchResults.length ? (
+        <SearchResults>
+          {searchResults.map(({ slug, title, collection }) => (
+            <SearchResult onClick={handleClearSearch}>
+              <Link to={'/' + collection + '/' + slug}>{title}</Link>
+            </SearchResult>
+          ))}
+        </SearchResults>
+      ) : null}
+    </SearchScreen>
+  );
+};

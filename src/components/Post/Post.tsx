@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, FC, useRef, useMemo } from 'react';
+import React, { FC, useRef, useMemo } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql, Link } from 'gatsby';
 import { useBlogData } from '../../hooks/useBlogData';

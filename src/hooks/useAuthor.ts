@@ -19,9 +19,10 @@ const getCommentAuthor = (comment?: CommentQuery) =>
 const getCommentForAuthor = (
   author: string | null,
   comments?: CommentQuery[]
-) => author && comments?.find(({ timestamp }) => timestamp === author);
+) =>
+  author ? comments?.find(({ timestamp }) => timestamp === author) : undefined;
 
-const useAuthor = (postAuthor: string, comments: CommentQuery[]) => {
+const useAuthor = (postAuthor: string, comments?: CommentQuery[]) => {
   const {
     hideTip: hideProfileTip,
     showTipFor: showProfileTipFor,

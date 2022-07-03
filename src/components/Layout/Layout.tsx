@@ -22,6 +22,7 @@ import {
   NARROW_SIDE_COMMENTS,
   SIDE_COMMENTS_WIDTH,
 } from '../../constants';
+import { FullScreenSearch } from './Search';
 
 const Site = styled.div<{ showCommentsSidebar: true }>`
   transition: transform ${(props) => props.theme.animationFast} ease-in-out;
@@ -40,7 +41,7 @@ const Site = styled.div<{ showCommentsSidebar: true }>`
 
 const Layout: FC<RouteComponentProps> = ({ children, location }) => {
   const theme = useContext(ThemeContext);
-  const { showCommentsSidebar } = useBlogData();
+  const { showCommentsSidebar, search } = useBlogData();
   return (
     <BlogLocationContext.Provider
       value={{
@@ -50,10 +51,14 @@ const Layout: FC<RouteComponentProps> = ({ children, location }) => {
     >
       <SEO />
       <GlobalStyle theme={theme} />
-      <Site {...{ showCommentsSidebar }}>
-        <Header path={location.pathname} />
-        {children}
-      </Site>
+      {search && search.length > 3 ? (
+        <FullScreenSearch />
+      ) : (
+        <Site {...{ showCommentsSidebar }}>
+          <Header path={location.pathname} />
+          {children}
+        </Site>
+      )}
     </BlogLocationContext.Provider>
   );
 };

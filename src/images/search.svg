@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-  <g class="fill-none stroke-foreground" stroke-width="1.5">
-    <line x1="10.2" y1="13.8" x2="4.7" y2="19.3"/>
-    <circle cx="13.8" cy="10.2" r="5.1"/>
+  <g fill="none" stroke="white" stroke-width="1.5">
+   <line  x1="9.9" y1="13.1" x2="3.2" y2="19.8"/>
+   <circle  cx="14.2" cy="8.8" r="6.2"/>
   </g>
 </svg>

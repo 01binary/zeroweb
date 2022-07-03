@@ -8,7 +8,7 @@ import ReactMutation from '../types/ReactMutation';
 import { openUrl } from '../utils';
 
 type PostReactionsParams = {
-  user: User;
+  user: User | null;
   title: string;
   description: string;
   absolutePostUrl: string;

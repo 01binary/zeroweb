@@ -12,11 +12,11 @@ import useGoogle from '../auth/useGoogle';
 import useGitHub from '../auth/useGithub';
 
 export const useLogin = (
-  user: User,
+  user: User | null,
   setUser: SetUserHandler,
   setCredentials: SetCredentialsHandler
 ) => {
-  const [loginError, setLoginError] = useState<string>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const { facebookInit, facebookLogin, facebookLogout } = useFacebook(
     setUser,

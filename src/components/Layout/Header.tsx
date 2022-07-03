@@ -26,7 +26,7 @@ import ProjectsBackground from '../../images/navigation-projects.svg';
 import AboutBackground from '../../images/navigation-about.svg';
 import ROUTES from '../../routes';
 import { MOBILE, NARROW_NO_RULERS } from '../../constants';
-import Search from './Search';
+import { InlineSearch } from './Search';
 
 const HEADER_HEIGHT = 250;
 
@@ -460,7 +460,7 @@ const Header: FC<{
         <Hamburger menuOpen={menuOpen} showMenu={showMenu} />
       </Toolbar>
 
-      <Search />
+      <InlineSearch />
 
       <Navigation menuOpen={menuOpen} onClick={() => showMenu(false)}>
         {ROUTES.map(({ collection, path: routePath }) => (

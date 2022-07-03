@@ -28,7 +28,7 @@ declare var apigClientFactory: any;
  * @returns API Gateway Apollo Link
  * @remarks If authentication is missing, don't create a link (this will return site info from cache)
  */
-const configureApiGatewayLink = (signature?: AWSSignature) => {
+const configureApiGatewayLink = (signature: AWSSignature | null) => {
   if (!signature) return;
 
   const apigClient = apigClientFactory.newClient({
@@ -100,7 +100,7 @@ const configureEmptyClient = () =>
  * @returns Apollo Client that can be used to make requests
  */
 const useApiClient = (
-  signature?: AWSSignature
+  signature: AWSSignature | null
 ): ApolloClient<NormalizedCacheObject> => {
   const [client, setClient] = useState(configureEmptyClient());
 

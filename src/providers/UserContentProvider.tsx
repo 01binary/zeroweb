@@ -19,10 +19,11 @@ import { useLogin } from '../hooks/useLogin';
 import { useCallback } from 'react';
 
 const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
-  const [user, setUser] = useState<User>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [anchor, setAnchor] = useState<string | null>(null);
   const [showCommentsSidebar, setShowCommentsSidebar] = useState(false);
-  const [credentials, setCredentials] = useState<AWSSignature>(null);
+  const [search, setSearch] = useState<string | undefined>();
+  const [credentials, setCredentials] = useState<AWSSignature | null>(null);
   const client = useApiClient(credentials);
   const {
     handleFacebookLogin,
@@ -50,6 +51,8 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
         loginError,
         showCommentsSidebar,
         anchor,
+        search,
+        setSearch,
         setAnchor,
         setShowCommentsSidebar,
         toggleCommentsSidebar,

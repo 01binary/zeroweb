@@ -85,7 +85,7 @@ type CommentsProps = {
   slug: string;
   postUrl: string;
   absolutePostUrl: string;
-  comments: CommentQuery[] | null;
+  comments: CommentQuery[] | undefined;
   loading: boolean;
   error: string | null;
   handleVote: (timestamp: string, vote: Vote) => void;

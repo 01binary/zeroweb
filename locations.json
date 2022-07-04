@@ -18,9 +18,15 @@
     "description": "Best lattes around"
   },
   "The Society Bingen": {
-    "avatarUrl": "https://thesocietyhotel.com/wp-content/uploads/2016/10/societyHotelLogo-white.png",
+    "avatarUrl": "https://zeroweb-downloads.s3.us-west-2.amazonaws.com/society-bingen.png",
     "locationName": "Bingen, WA",
     "locationUrl": "https://thesocietyhotel.com/bingen/",
     "description": "Beautiful hotel for weary travelers"
+  },
+  "Pope House": {
+    "avatarUrl": "https://zeroweb-downloads.s3.us-west-2.amazonaws.com/pope-house.jpg",
+    "locationName": "Portland, OR",
+    "locationUrl": "https://www.popehouselounge.com/",
+    "description": "Pope House bourbon lounge"
   }
 }

@@ -40,7 +40,7 @@ const ProjectResultIcon = styled(ProjectIcon)`
   }
 `;
 
-const SearchInput = styled.input`
+const SearchInput = styled.input<{ fullScreen?: boolean }>`
   position: absolute;
   left: 0;
   right: 0;
@@ -54,8 +54,9 @@ const SearchInput = styled.input`
   padding-left: ${(props) => props.theme.spacingOneAndHalf};
   padding-right: ${(props) => props.theme.spacingOneAndHalf};
   background: transparent;
-  color: ${(props) => props.theme.foregroudColor};
+  color: ${(props) => props.theme.foregroundColor};
   border: none;
+
   outline-color: #ffffff55;
   outline-style: solid;
   outline-width: medium;
@@ -67,29 +68,45 @@ const SearchInput = styled.input`
   }
 
   &:focus {
-    outline-color: ${(props) => props.theme.focusColor};
+    outline-color: ${(props) => props.theme.alwaysLightColor};
     outline-style: solid;
     outline-width: medium;
     border-radius: 1px;
   }
 
   @media (max-width: ${MOBILE}) {
-    color: ${(props) => props.theme.foregroundColor};
+    color: ${(props) =>
+      props.fullScreen
+        ? props.theme.alwaysLightColor
+        : props.theme.foregroundColor};
 
     &::placeholder {
-      color: ${(props) => props.theme.foregroundColor};
+      color: ${(props) =>
+        props.fullScreen
+          ? props.theme.alwaysLightColor
+          : props.theme.foregroundColor};
     }
 
-    outline-color: ${(props) => props.theme.foregroundColor}99;
+    outline-color: ${(props) =>
+      props.fullScreen
+        ? props.theme.alwaysLightColor
+        : props.theme.foregroundColor}99;
 
     padding-left: calc(
       ${(props) => props.theme.spacing} +
         ${(props) => props.theme.spacingQuarter}
     );
+
+    &:focus {
+      outline-color: ${(props) =>
+        props.fullScreen
+          ? props.theme.alwaysLightColor
+          : props.theme.foregroundColor};
+    }
   }
 `;
 
-const SearchIndicator = styled(SearchIcon)`
+const SearchIndicator = styled(SearchIcon)<{ fullScreen?: boolean }>`
   position: absolute;
   top: calc(
     ${(props) => props.theme.spacingQuarter} - ${(props) => props.theme.border}
@@ -99,11 +116,14 @@ const SearchIndicator = styled(SearchIcon)`
 
   @media (max-width: ${MOBILE}) {
     left: ${(props) => props.theme.spacingQuarter};
-    stroke: ${(props) => props.theme.foregroundColor};
+    stroke: ${(props) =>
+      props.fullScreen
+        ? props.theme.alwaysLightColor
+        : props.theme.foregroundColor};
   }
 `;
 
-const ClearButton = styled.button`
+const ClearButton = styled.button<{ fullScreen?: boolean }>`
   display: flex;
   justify-items: center;
 
@@ -123,18 +143,30 @@ const ClearButton = styled.button`
   }
 
   .stroke-foreground {
-    stroke: white;
+    stroke: #ffffff99;
   }
 
   &:hover {
     .stroke-foreground {
-      stroke: ${(props) => props.theme.focusColor};
+      stroke: ${(props) => props.theme.foregroundColor};
     }
   }
 
   @media (max-width: ${MOBILE}) {
     .stroke-foreground {
-      stroke: ${(props) => props.theme.foregroundColor};
+      stroke: ${(props) =>
+        props.fullScreen
+          ? props.theme.alwaysLightColor
+          : props.theme.foregroundColor}99;
+    }
+
+    &:hover {
+      .stroke-foreground {
+        stroke: ${(props) =>
+          props.fullScreen
+            ? props.theme.alwaysLightColor
+            : props.theme.foregroundColor};
+      }
     }
   }
 `;
@@ -321,14 +353,15 @@ export const FullScreenSearch: FC = () => {
       <SearchForm>
         <SearchInput
           ref={searchBoxRef}
+          fullScreen
           value={search ?? ''}
           onChange={handleChangeSearch}
           onKeyDown={handleKeyDown}
           placeholder="search"
         />
-        <SearchIndicator />
+        <SearchIndicator fullScreen />
         {search?.length ? (
-          <ClearButton onClick={handleClearSearch}>
+          <ClearButton fullScreen onClick={handleClearSearch}>
             <ClearIcon />
           </ClearButton>
         ) : null}

@@ -1,7 +1,7 @@
 ---
 title: A Model of the Human Mind
 description: Applying Functional Programming to Philosophy
-image: ./images/blank.png
+image: ./images/model-of-human-mind.png
 author: Valeriy Novytskyy
 date: 2022-06-28
 location: Pope House
@@ -72,6 +72,8 @@ In the following sections we explore all three constituent elements of the mind.
 
 Freud calls it the "Ego" and compares it to "a man on horseback, who has to hold in check the superior strength of the horse" [[The Ego and the Id (1923)](https://www.amazon.com/Ego-Id-Sigmund-Freud-ebook/dp/B07L48664D)].
 
+![Chariot](./images/model-of-human-mind-chariot.png)
+
 This element is characterized by:
 
 - Being truth-loving, order loving, and reason-loving.
@@ -138,7 +140,7 @@ Many designs found in nature repeat the same pattern.
 
 More complex organisms like *tardigrades* (water bears) need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a large surface for laying out many graphs of function nodes.
 
-![Bacteria](./images/model-of-human-mind-ganglion.png)
+![Ganglion](./images/model-of-human-mind-ganglion.png)
 
 The same node graphs are used as a tool in modern CG software to let artists design the flow of visual information from a veriety of input sources through to the final rendered and composed frame.
 

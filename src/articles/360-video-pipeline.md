@@ -45,7 +45,7 @@ Setup at the venue:
 - Work with the artist and the venue to find an optimal position for the camera so that it looks unobtrusive on the stage yet captures a scene that makes the viewer feel like they are a part of the performance. Avoid placing the camera where it might cast a shadow on the performer(s)
 - Rotate the camera to place the stitch lines that occur in-between lenses in unimportant areas that artists on stage will not be crossing often or standing nearby
 
-### settings
+## settings
 
 The following **General** settings work well for shooting `2D 360` video:
 

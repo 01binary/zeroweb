@@ -11,8 +11,6 @@ tags:
   ]
 ---
 
-import Gallery from '../components/Gallery';
-
 ## introduction
 
 As I became more familiar with the writings of *Freud* and *Plato* and started practicing daily meditation, I realized that both authors and sensei have the same model of the human mind.
@@ -24,6 +22,8 @@ Freud calls it *personality*, sensei practicioners call it *consciousness*, and 
 3. The **Appetitive**, or *sensing* element that provides feedback
 
 The elements are described as information processing nodes that connect *input* to *output*, and are always *weighted* in some *proportion* to each other.
+
+![Chess analogy](./images/model-of-human-mind-chess.png)
 
 Each element shares the characteristics of the whole mind, making them more like "partitions" over the computing volume of the mind, or sub-networks in a larger network. Each one is *single-minded* and driven by its own *purpose* in an endless cycle to optimize and maximize through learning.
 
@@ -38,6 +38,8 @@ Different authors have their own reasons for studying the mind:
 ## the three elements
 
 Why are the *Rational*, *Executive* and *Appetitive* elements separate? *Optimizing* each element to follow its own objectives and then *summing* them gives the mind a capability to produce more accurate output.
+
+![The three elements](./images/model-of-human-mind-elements.png)
 
 > If you spin up a neural network in [Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and ask it to detect objects in pictures at the same time as finding the quickest way to cook rice in various atmospheric conditions, you will see what I mean.
 
@@ -138,28 +140,14 @@ Many designs found in nature repeat the same pattern.
 
 ![Bacteria](./images/model-of-human-mind-bacteria.png)
 
-More complex organisms like *tardigrades* (water bears) need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a large surface for laying out many graphs of function nodes.
+More complex organisms like *tardigrades* (water bears) need a system of connected nerve cells (*cerebral ganglia*) that take multiple inputs and wire them through to multiple outputs. There are enough cells in the ganglia to create a large surface for laying out many graphs of functional nodes.
 
 ![Ganglion](./images/model-of-human-mind-ganglion.png)
 
-The same node graphs are used as a tool in modern CG software to let artists design the flow of visual information from a veriety of input sources through to the final rendered and composed frame.
+The same node graphs are used as a tool in modern CG software to let artists design the flow of visual information from a variety of input sources through to the final rendered and composed frame.
 
 The shader editor in `Blender` allows composing materials for 3D rendering:
 
-<Gallery>
-  <img alt="nodes" src="./images/model-of-human-mind-blender-nodes.png"/>
-  <img alt="render" src="./images/model-of-human-mind-blender-render.jpg"/>
-  <img alt="render" src="./images/model-of-human-mind-blender-render2.jpg"/>
-  <img alt="blender" src="./images/model-of-human-mind-blender.png"/>
-</Gallery>
-
-The composition graphs in `Nuke` allow composing special effects on video:
-
-<Gallery>
-  <img alt="nodes" src="./images/model-of-human-mind-nuke-nodes.png"/>
-  <img alt="render" src="./images/model-of-human-mind-nuke-render.jpg"/>
-   <img alt="render" src="./images/model-of-human-mind-nuke-render2.jpg"/>
-  <img alt="nuke" src="./images/model-of-human-mind-nuke.png"/>
-</Gallery>
+![Blender Nodes](./images/model-of-human-mind-blender-nodes.png)
 
 The same *function* pattern repeats at both micro- and macro-levels because mapping senses into activity is a very common task for any living organism.

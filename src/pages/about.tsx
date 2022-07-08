@@ -38,6 +38,7 @@ import {
 
 const About: FC<PageQuery> = ({ data }) => (
   <Page
+    maxWidth="900px"
     {...{
       data: {
         ...data,

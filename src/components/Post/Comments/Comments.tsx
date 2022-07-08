@@ -99,6 +99,7 @@ type CommentsProps = {
   hideTip: HideTipHandler;
   readPosition: number;
   scrollOffset: number;
+  maxWidth?: string;
 };
 
 const Comments: FC<CommentsProps> = ({
@@ -118,6 +119,7 @@ const Comments: FC<CommentsProps> = ({
   hideTip,
   readPosition,
   scrollOffset,
+  maxWidth,
 }) => {
   const theme = useTheme();
   const {
@@ -420,6 +422,7 @@ const Comments: FC<CommentsProps> = ({
       isUserLoggedIn={Boolean(user)}
       isLoading={loading}
       hasComments={Boolean(postComments && postComments.length)}
+      maxWidth={maxWidth}
     >
       {postComments && (
         <h2>

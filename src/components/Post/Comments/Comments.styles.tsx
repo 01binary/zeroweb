@@ -22,6 +22,7 @@ type CommentsSectionProps = {
   isLoading: boolean;
   isUserLoggedIn: boolean;
   hasComments: boolean;
+  maxWidth?: string;
 };
 
 export const CommentsSection = styled.footer<CommentsSectionProps>`
@@ -31,7 +32,7 @@ export const CommentsSection = styled.footer<CommentsSectionProps>`
   color: ${(props) => props.theme.foregroundColor};
 
   position: relative;
-  max-width: ${(props) => props.theme.column};
+  max-width: ${(props) => props.maxWidth ?? props.theme.column};
   margin-left: auto;
   margin-right: auto;
   margin-top: ${(props) =>

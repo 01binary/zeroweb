@@ -179,6 +179,17 @@ const InlineCommentButton = styled.button`
   }
 `;
 
+const InlineCommentHeader = styled.section`
+  margin-bottom: 0.25em;
+`;
+
+const InlineCommentBody = styled.section`
+  p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+`;
+
 const Me = styled.span`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
@@ -194,7 +205,7 @@ type InlineCommentsProps = {
   inlineCommentRef: React.MutableRefObject<HTMLTextAreaElement>;
   postContentRef: React.MutableRefObject<HTMLElement>;
   addInlineComment: () => Promise<void>;
-  toggleInlineComment: (paragraphHash: string) => void;
+  toggleInlineComment: (paragraphHash: string | null) => void;
   setInlineCommentParagraph: (paragraphComment: ParagraphComment) => void;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
@@ -280,41 +291,44 @@ export const InlineComments: FC<InlineCommentsProps> = ({
     >
       {paragraphComments?.map(({ userId, userName, timestamp, markdown }) => (
         <InlineComment key={timestamp}>
-          <MetaLink
-            to={`?comment=${encodeURIComponent(timestamp)}`}
-            onClick={(e) => {
-              e.preventDefault();
-              window.navigator.clipboard.writeText(
-                `${absolutePostUrl}?comment=${getCommentId(timestamp)}`
-              );
-              tipTargetRef.current = e.target;
-              showTipFor('copied!', tipTargetRef);
-            }}
-            onMouseOver={(e) => {
-              tipTargetRef.current = e.target;
-              showTipFor('copy link', tipTargetRef);
-            }}
-            onMouseOut={hideTip}
-          >
-            {formatCommentDate(timestamp)}
-          </MetaLink>
-          {' by '}
-          {userId === credentials?.userId ? (
-            <Me>{userName}</Me>
-          ) : (
+          <InlineCommentHeader>
             <MetaLink
-              to={`/profile?user=${userId}`}
+              to={`?comment=${encodeURIComponent(timestamp)}`}
+              onClick={(e) => {
+                e.preventDefault();
+                window.navigator.clipboard.writeText(
+                  `${absolutePostUrl}?comment=${getCommentId(timestamp)}`
+                );
+                tipTargetRef.current = e.target;
+                showTipFor('copied!', tipTargetRef);
+              }}
               onMouseOver={(e) => {
                 tipTargetRef.current = e.target;
-                showProfileTipFor(timestamp, tipTargetRef);
+                showTipFor('copy link', tipTargetRef);
               }}
-              onMouseOut={hideProfileTip}
+              onMouseOut={hideTip}
             >
-              {userName}
+              {formatCommentDate(timestamp)}
             </MetaLink>
-          )}
-          <br />
-          <ReactMarkdown>{markdown}</ReactMarkdown>
+            {' by '}
+            {userId === credentials?.userId ? (
+              <Me>{userName}</Me>
+            ) : (
+              <MetaLink
+                to={`/profile?user=${userId}`}
+                onMouseOver={(e) => {
+                  tipTargetRef.current = e.target;
+                  showProfileTipFor(timestamp, tipTargetRef);
+                }}
+                onMouseOut={hideProfileTip}
+              >
+                {userName}
+              </MetaLink>
+            )}
+          </InlineCommentHeader>
+          <InlineCommentBody>
+            <ReactMarkdown>{markdown}</ReactMarkdown>
+          </InlineCommentBody>
         </InlineComment>
       ))}
       {showInlineCommentForm && (

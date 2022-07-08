@@ -117,8 +117,13 @@ export type PageQuery = {
   };
 };
 
-const Page: FC<PageQuery> = ({
+type PageProps = {
+  maxWidth?: string;
+};
+
+const Page: FC<PageProps & PageQuery> = ({
   children,
+  maxWidth,
   data: {
     site: {
       siteMetadata: { url: siteUrl },
@@ -354,6 +359,7 @@ const Page: FC<PageQuery> = ({
         hideProfileTip={hideProfileTip}
         showTipFor={showTipFor}
         hideTip={hideTip}
+        maxWidth={maxWidth}
       />
     </MDXProvider>
   );

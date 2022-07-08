@@ -8,6 +8,21 @@ import ProjectIcon from '../../images/projects.svg';
 import { MOBILE } from '../../constants';
 import { Link } from 'gatsby';
 
+const getArticleUrl = (slug: string) => `/articles/${slug}`;
+
+const getProjectUrl = (slug: string) => `/projects/${slug}`;
+
+const getProjectLogUrl = (slug: string) => {
+  const [, project, log] = slug.split('/');
+  return `/projects/${project}/${log}`;
+};
+
+const getSearchResultUrl = (slug: string, collection: string) => {
+  if (collection === 'logs') return getProjectLogUrl(slug);
+  if (collection === 'projects') return getProjectUrl(slug);
+  return getArticleUrl(slug);
+};
+
 const ArticleResultIcon = styled(ArticleIcon)`
   position: relative;
   top: ${(props) => props.theme.borderThick};
@@ -184,7 +199,7 @@ const SearchSection = styled.section`
       ${(props) => props.theme.spacingQuarter} +
         ${(props) => props.theme.border} * 2
     );
-    min-width: 7.5em;
+    min-width: 8em;
   }
 `;
 
@@ -348,6 +363,8 @@ export const FullScreenSearch: FC = () => {
     setSearchSticky(true);
   }, [setSearchSticky]);
 
+  console.log('search', searchResults);
+
   return (
     <SearchScreen>
       <SearchForm>
@@ -371,11 +388,7 @@ export const FullScreenSearch: FC = () => {
           {searchResults.map(({ slug, title, collection }) => (
             <SearchResult key={slug}>
               <SearchLink
-                to={
-                  collection === 'articles'
-                    ? `/articles/${slug}`
-                    : `/projects/${slug}`
-                }
+                to={getSearchResultUrl(slug, collection)}
                 onClick={handleClearSearch}
               >
                 {collection === 'articles' ? (

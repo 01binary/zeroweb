@@ -6,12 +6,14 @@ import AddShareQuery from '../types/AddShareQuery';
 import { ShareType } from '../types/AllSharesQuery';
 import ReactMutation from '../types/ReactMutation';
 import { openUrl } from '../utils';
+import { HideTipHandler, useTooltip } from './useTooltip';
 
 type PostReactionsParams = {
   user: User | null;
   title: string;
   description: string;
   absolutePostUrl: string;
+  hideTip: HideTipHandler;
   handleReact: (
     params: ReactMutation
   ) => Promise<
@@ -31,7 +33,21 @@ const usePostReactions = ({
   absolutePostUrl,
   handleReact,
   handleAddShare,
+  hideTip,
 }: PostReactionsParams) => {
+  const {
+    hideTip: hideShareMenu,
+    showTip: showShareMenu,
+    tipProps: shareMenuProps,
+    tipRef: shareMenuRef,
+    tooltipVisible: shareMenuVisible,
+    targetRef: shareMenuTargetRef,
+  } = useTooltip({
+    placement: 'bottom-start',
+    verticalOffsetDesktop: 6,
+    verticalOffsetMobile: 6,
+  });
+
   const handleSnap = useCallback(
     () =>
       // React to a post
@@ -86,7 +102,29 @@ const usePostReactions = ({
     [handleAddShare, absolutePostUrl]
   );
 
+  const handleToggleShareMenu = useCallback(() => {
+    if (shareMenuVisible) {
+      hideShareMenu();
+    } else {
+      hideTip();
+      showShareMenu();
+    }
+  }, [shareMenuVisible, hideShareMenu, hideTip, showShareMenu]);
+
+  const handleHideShareMenu = useCallback(
+    () => setTimeout(hideShareMenu, 250),
+    [hideShareMenu]
+  );
+
   return {
+    handleToggleShareMenu,
+    handleHideShareMenu,
+    hideShareMenu,
+    showShareMenu,
+    shareMenuProps,
+    shareMenuRef,
+    shareMenuVisible,
+    shareMenuTargetRef,
     handleSnap,
     handleShare,
   };

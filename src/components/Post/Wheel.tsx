@@ -15,19 +15,11 @@ import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import useSnap from '../../hooks/useSnap';
 import { useTooltip } from '../../hooks/useTooltip';
 import { Tooltip, Arrow } from '../../components/Tooltip';
-import { Menu, MenuItem, MenuItemIcon, MenuProps } from '../../components/Menu';
 import SnapAnimation from '../Animations/SnapAnimation';
-import { ShareType } from '../../types/AllSharesQuery';
 import { MOBILE, NARROW_INLINE_COMMENTS } from '../../constants';
 import Cell from '../../images/cell.svg';
 import ShareIcon from '../../images/share.svg';
 import CommentIcon from '../../images/comment.svg';
-import ShareFacebookIcon from '../../images/share-facebook.svg';
-import ShareTwitterIcon from '../../images/share-twitter.svg';
-import ShareLinkedInIcon from '../../images/share-linkedin.svg';
-import ShareLinkIcon from '../../images/share-link.svg';
-import ShareEmailIcon from '../../images/share-email.svg';
-import { ContextMenu, ContextMenuArrow } from '../../components/ContextMenu';
 
 export const WHEEL_SIZE = 76;
 
@@ -191,76 +183,18 @@ const CommentsBadge = styled(Badge)`
   top: calc(50% - 0.66em);
 `;
 
-const ShareMenuItemBadge = styled.div`
-  position: absolute;
-  right: 1em;
-  color: ${(props) => props.theme.secondaryTextColor};
-`;
-
-type ShareMenuProps = {
-  sharesByType: Partial<Record<ShareType, number>>;
-} & MenuProps;
-
-const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
-  <Menu vertical>
-    <MenuItem id="linkShare" onClick={onSelect}>
-      <MenuItemIcon>
-        <ShareLinkIcon />
-      </MenuItemIcon>
-      Copy link
-      {Boolean(sharesByType.link) && (
-        <ShareMenuItemBadge>{sharesByType.link}</ShareMenuItemBadge>
-      )}
-    </MenuItem>
-    <MenuItem id="twitterShare" onClick={onSelect}>
-      <MenuItemIcon>
-        <ShareTwitterIcon />
-      </MenuItemIcon>
-      Twitter
-      {Boolean(sharesByType.twitter) && (
-        <ShareMenuItemBadge>{sharesByType.twitter}</ShareMenuItemBadge>
-      )}
-    </MenuItem>
-    <MenuItem id="facebookShare" onClick={onSelect}>
-      <MenuItemIcon>
-        <ShareFacebookIcon />
-      </MenuItemIcon>
-      Facebook
-      {Boolean(sharesByType.facebook) && (
-        <ShareMenuItemBadge>{sharesByType.facebook}</ShareMenuItemBadge>
-      )}
-    </MenuItem>
-    <MenuItem id="linkedInShare" onClick={onSelect}>
-      <MenuItemIcon>
-        <ShareLinkedInIcon />
-      </MenuItemIcon>
-      LinkedIn
-      {Boolean(sharesByType.linkedIn) && (
-        <ShareMenuItemBadge>{sharesByType.linkedIn}</ShareMenuItemBadge>
-      )}
-    </MenuItem>
-    <MenuItem id="emailShare" onClick={onSelect}>
-      <MenuItemIcon>
-        <ShareEmailIcon />
-      </MenuItemIcon>
-      Email
-      {Boolean(sharesByType.email) && (
-        <ShareMenuItemBadge>{sharesByType.email}</ShareMenuItemBadge>
-      )}
-    </MenuItem>
-  </Menu>
-);
-
 type WheelProps = {
   offset?: string;
   showCommentsSidebar?: boolean;
   commentCount: number;
   reactionCount: number;
   shareCount: number;
-  sharesByType: Partial<Record<ShareType, number>>;
   postUrl: string;
+  shareMenuTargetRef: React.MutableRefObject<HTMLElement>;
   handleSnap: () => void;
-  handleShare: (provider: string) => void;
+  hideShareMenu: () => void;
+  handleToggleShareMenu: () => void;
+  handleHideShareMenu: () => void;
 };
 
 const Wheel: FC<WheelProps> = ({
@@ -269,52 +203,31 @@ const Wheel: FC<WheelProps> = ({
   commentCount,
   reactionCount,
   shareCount,
-  sharesByType,
   offset,
   handleSnap,
-  handleShare: handleShareUpstream,
+  hideShareMenu,
+  handleToggleShareMenu,
+  handleHideShareMenu,
+  shareMenuTargetRef,
 }) => {
-  const snapRef = useRef<HTMLElement>(null);
-  const commentRef = useRef<HTMLElement>(null);
+  const snapRef = useRef<HTMLElement>(
+    null
+  ) as React.MutableRefObject<HTMLElement>;
+  const commentRef = useRef<HTMLElement>(
+    null
+  ) as React.MutableRefObject<HTMLElement>;
+  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
   const [isSnapAnimated, playSnapAnimation] = useSnap(() => {
     hideTip();
     handleSnap();
   });
-  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
-  const {
-    hideTip: hideMenu,
-    showTip: showMenu,
-    tipProps: menuProps,
-    tipRef: menuRef,
-    tooltipVisible: menuVisible,
-    targetRef,
-  } = useTooltip({
-    placement: 'bottom-start',
-    verticalOffsetDesktop: 6,
-    verticalOffsetMobile: 6,
-  });
-
-  const handleShare = useCallback((e) => handleShareUpstream(e.target.id), [
-    handleShareUpstream,
-  ]);
-
-  const handleShowShareMenu = useCallback(() => {
-    if (menuVisible) {
-      hideMenu();
-    } else {
-      hideTip();
-      showMenu();
-    }
-  }, [menuVisible, hideMenu, hideTip, showMenu]);
-
-  const handleHideShareMenu = useCallback(() => setTimeout(hideMenu, 250), []);
 
   useEffect(() => {
-    window.addEventListener('scroll', hideMenu);
+    window.addEventListener('scroll', hideShareMenu);
     return () => {
-      window.removeEventListener('scroll', hideMenu);
+      window.removeEventListener('scroll', hideShareMenu);
     };
-  }, [hideMenu]);
+  }, [hideShareMenu]);
 
   return (
     <Wheelhouse
@@ -336,15 +249,10 @@ const Wheel: FC<WheelProps> = ({
           </ReactionsBadge>
         </SnapButton>
         <ShareButton
-          ref={targetRef}
-          onClick={handleShowShareMenu}
+          ref={shareMenuTargetRef}
+          onClick={handleToggleShareMenu}
           onBlur={handleHideShareMenu}
-          onMouseOver={() =>
-            showTipFor(
-              'share',
-              targetRef as React.MutableRefObject<HTMLElement>
-            )
-          }
+          onMouseOver={() => showTipFor('share', shareMenuTargetRef)}
           onMouseOut={hideTip}
         >
           <StyledCell />
@@ -368,10 +276,6 @@ const Wheel: FC<WheelProps> = ({
           {tooltipText}
           <Arrow />
         </Tooltip>
-        <ContextMenu ref={menuRef} {...menuProps}>
-          <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
-          <ContextMenuArrow />
-        </ContextMenu>
       </WheelWrapper>
     </Wheelhouse>
   );

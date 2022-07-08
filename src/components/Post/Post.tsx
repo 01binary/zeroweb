@@ -72,6 +72,7 @@ import LocationTip from './LocationTip';
 import Login from '../Login';
 import Logs from './Logs';
 import ScrollToTop from '../ScrollToTop';
+import ShareMenu from './ShareMenu';
 
 const Post: FC<{
   data: PostQuery;
@@ -169,13 +170,23 @@ const Post: FC<{
     hideProfileTip,
   } = useAuthor(author, comments);
 
-  const { handleSnap, handleShare } = usePostReactions({
+  const {
+    handleSnap,
+    handleShare,
+    handleToggleShareMenu,
+    handleHideShareMenu,
+    hideShareMenu,
+    shareMenuProps,
+    shareMenuRef,
+    shareMenuTargetRef,
+  } = usePostReactions({
     user,
     title,
     description,
     absolutePostUrl,
     handleReact,
     handleAddShare,
+    hideTip,
   });
 
   const {
@@ -299,9 +310,11 @@ const Post: FC<{
           commentCount={commentCount}
           reactionCount={reactionCount}
           shareCount={shareCount}
-          sharesByType={sharesByType}
           handleSnap={handleSnap}
-          handleShare={handleShare}
+          handleToggleShareMenu={handleToggleShareMenu}
+          handleHideShareMenu={handleHideShareMenu}
+          hideShareMenu={hideShareMenu}
+          shareMenuTargetRef={shareMenuTargetRef}
         />
 
         <Sidebar sendToBack={showCommentsSidebar}>
@@ -370,6 +383,11 @@ const Post: FC<{
               onMouseOver={handleParagraphMenuMouseOver}
               onMouseOut={handleParagraphMenuMouseOut}
             />
+          </ContextMenu>
+
+          <ContextMenu ref={shareMenuRef} {...shareMenuProps}>
+            <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
+            <ContextMenuArrow />
           </ContextMenu>
         </Content>
 
@@ -443,7 +461,10 @@ const Post: FC<{
         hideTip={hideTip}
       />
 
-      <ScrollToTop readPosition={readPosition} />
+      <ScrollToTop
+        readPosition={readPosition}
+        showCommentsSidebar={showCommentsSidebar}
+      />
     </MDXProvider>
   );
 };

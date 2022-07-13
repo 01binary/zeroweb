@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useRef } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import {
   HideTipHandler,
@@ -162,7 +162,7 @@ const HexListWrapper = styled.ul<{ itemCount: number }>`
   ${(props) => props.itemCount > 5 && `margin-top: ${props.theme.spacing}`};
 `;
 
-export const HexList: FC = ({ children }) => (
+export const HexList: FC<PropsWithChildren<{}>> = ({ children }) => (
   <HexListWrapper itemCount={children?.length ? children.length : 0}>
     {children}
   </HexListWrapper>

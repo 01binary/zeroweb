@@ -9,6 +9,8 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
+import { Reaction } from './types/AllCommentsQuery';
+
 // Media query: slide content over to display inline comments on the side
 export const NARROW_SIDE_COMMENTS = '1400px';
 // Media query: overlay inline comments over content
@@ -61,3 +63,12 @@ export const CELL_PATTERN: { x: number; y: number }[] = [
 // Authentication endpoint URL
 export const AUTH_URL =
   'https://5b9fvh31di.execute-api.us-west-2.amazonaws.com/Prod';
+
+// Social reaction descriptors
+export const REACTION_NAMES: Record<Reaction, string> = {
+  snap: 'snapped to',
+  party: 'popped a four loko to',
+  lol: 'lolled about',
+  wow: 'lost his diddly about',
+  confused: 'yeeted to',
+};

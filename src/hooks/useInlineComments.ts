@@ -14,21 +14,21 @@ import { User } from '../auth/types';
 const HIGHLIGHT_MENU_MOUSEOVER_TIMEOUT = 250;
 
 type InlineCommentsParams = {
-  user: User;
-  comments: CommentQuery[] | null;
+  user: User | null;
+  comments?: CommentQuery[];
   showCommentsSidebar: boolean;
-  highlightedParagraph: ParagraphHighlight;
-  paragraphSelection: ParagraphSelection;
-  inlineCommentParagraph: ParagraphComment;
-  postContentRef: React.MutableRefObject<HTMLElement>;
+  highlightedParagraph: ParagraphHighlight | null;
+  paragraphSelection: ParagraphSelection | null;
+  inlineCommentParagraph: ParagraphComment | null;
+  postContentRef: React.MutableRefObject<HTMLElement | undefined>;
   setShowCommentsSidebar: (show: boolean) => void;
   setInlineCommentParagraph: React.Dispatch<
-    React.SetStateAction<ParagraphComment>
+    React.SetStateAction<ParagraphComment | null>
   >;
   setInlineCommentSingleMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setParagraphSelection: (selection: ParagraphSelection) => void;
+  setParagraphSelection: (selection: ParagraphSelection | null) => void;
   setHighlightedParagraph: React.Dispatch<
-    React.SetStateAction<ParagraphHighlight>
+    React.SetStateAction<ParagraphHighlight | null>
   >;
   handleAdd: (params: AddCommentMutation) => Promise<FetchResult>;
 };
@@ -104,7 +104,7 @@ const useInlineComments = ({
         if (!user) {
           // Direct user to login
           hideParagraphMenu();
-          showLoginPopup(null, highlightedParagraphRef);
+          showLoginPopup(undefined, highlightedParagraphRef);
           return;
         }
 
@@ -112,7 +112,7 @@ const useInlineComments = ({
         handleAdd({
           paragraph,
           userName: user.name,
-          avatarUrl: user.avatarUrl,
+          avatarUrl: user.avatarUrl ?? '',
           rangeStart: highlightedParagraph?.start || paragraphSelection?.start,
           rangeLength:
             highlightedParagraph?.length || paragraphSelection?.length,
@@ -161,7 +161,7 @@ const useInlineComments = ({
 
   const handleAddInlineComment = useCallback(() => {
     // Request server to add a new inline comment
-    if (inlineCommentParagraph?.markdown)
+    if (inlineCommentParagraph?.markdown && user && user.avatarUrl)
       return handleAdd({
         paragraph: inlineCommentParagraph.hash,
         markdown: inlineCommentParagraph.markdown,
@@ -179,6 +179,8 @@ const useInlineComments = ({
             error: 'Could not comment inline',
           }));
         });
+
+    return Promise.resolve();
   }, [inlineCommentParagraph, user, handleAdd, setInlineCommentParagraph]);
 
   const handleClearOverlays = useCallback(
@@ -219,9 +221,11 @@ const useInlineComments = ({
     if (showCommentsSidebar && comments?.length) {
       let prevBottom = 0;
 
-      const threads = postContentRef.current.querySelectorAll(
+      const threads = postContentRef.current?.querySelectorAll(
         '.paragraph__comment-thread'
       );
+
+      if (!threads) return;
 
       for (let n = 0; n < threads.length; ++n) {
         const { top, bottom } = threads[n].getBoundingClientRect();

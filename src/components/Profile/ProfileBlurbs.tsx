@@ -18,14 +18,14 @@ const ProfileBlurbs: FC<{
   profile: ReturnType<typeof useProfile>['profile'];
   isForAnotherUser: boolean;
   isSaving: boolean;
-  editBioRef: React.MutableRefObject<HTMLInputElement>;
+  editBioRef: React.MutableRefObject<HTMLInputElement | undefined>;
   editingBio: boolean;
-  bioText: string;
+  bioText?: string;
   setBioText: (text: string) => void;
   handleEditBio: ReturnType<typeof useProfile>['handleEditBio'];
-  editLocationRef: React.MutableRefObject<HTMLInputElement>;
+  editLocationRef: React.MutableRefObject<HTMLInputElement | undefined>;
   editingLocation: boolean;
-  locationText: string;
+  locationText?: string;
   setLocationText: (text: string) => void;
   handleEditLocation: ReturnType<typeof useProfile>['handleEditLocation'];
 }> = ({

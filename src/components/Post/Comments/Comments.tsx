@@ -74,12 +74,16 @@ import {
   LoadCommentsError,
   EditCommentError,
   PostCommentError,
+  CommentsIndicator,
 } from './Comments.styles';
 import OptionMenu from './OptionMenu';
 import ReactionMenu from './ReactionMenu';
 import Alert from '../../../components/Alert';
 
 const DATE_MARKER_THRESHOLD = 100;
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value));
 
 type CommentsProps = {
   slug: string;
@@ -136,10 +140,12 @@ const Comments: FC<CommentsProps> = ({
   const [comment, setComment] = useState<string>('');
   const [commentTiles, setCommentTiles] = useState<boolean[]>([]);
   const commentsMarkerOffsetRef = useRef<number>(0);
+  const commentsPercentRef = useRef<number>(0);
+  const commentsLastPercentRef = useRef<number>(0);
   const commentsIndexRef = useRef<number>(0);
   const commentSpansRef = useRef<number[]>([]);
   const commentsRef = useRef<HTMLElement>();
-  const optionRef = useRef<HTMLElement>();
+  const optionRef = useRef<HTMLElement | undefined>();
   const editRef = useRef<HTMLTextAreaElement>();
   const tipTargetRef = useRef<HTMLElement>();
   const [selectedComment, setSelectedComment] = useState<string | null>(null);
@@ -153,7 +159,6 @@ const Comments: FC<CommentsProps> = ({
     hideTip: hideMenu,
     showTipFor: showMenu,
     tipProps: menuProps,
-    tipRef: menuRef,
     tooltipText: menuId,
   } = useTooltip({
     placement: 'bottom-start',
@@ -192,29 +197,19 @@ const Comments: FC<CommentsProps> = ({
       const commentsRect = commentsRef.current.getBoundingClientRect();
       const bodyRect = document.body.getBoundingClientRect();
       const commentsTop = commentsRect.top - bodyRect.top;
-
+      const offset = scrollOffset + window.innerHeight * 0.75 - commentsTop;
       const offsetPercent =
-        Math.max(
-          0,
-          Math.min(
-            commentsRect.height,
-            scrollOffset + window.innerHeight * 0.75 - commentsTop
-          )
-        ) / commentsRect.height;
+        clamp(offset, 0, commentsRect.height) / commentsRect.height;
 
       const { current, spans, tiles } = postComments.reduce(
-        (
-          { sum, current, spans, tiles, prevTile, dist },
-          { timestamp },
-          index,
-          items
-        ) => {
-          const { height } = document
-            .getElementById(getCommentId(timestamp))
-            .getBoundingClientRect();
+        (acc, { timestamp }, index, items) => {
+          const id = getCommentId(timestamp);
+          const el = document?.getElementById(id);
+          if (!el) return acc;
 
+          const { height } = el.getBoundingClientRect();
+          const { sum, current, spans, tiles, prevTile, dist } = acc;
           const nextSum = sum + height / commentsRect.height;
-
           const tile =
             items.length === 1 ||
             (index > 0 && dist < AVATAR_TILE_MAX_DIST && !prevTile);
@@ -228,17 +223,31 @@ const Comments: FC<CommentsProps> = ({
             dist: height,
           };
         },
-        { sum: 0, current: 0, dist: 0, spans: [], tiles: [], prevTile: false }
+        {
+          sum: 0,
+          current: 0,
+          dist: 0,
+          spans: [],
+          tiles: [],
+          prevTile: false,
+        } as {
+          sum: number;
+          current: number;
+          spans: number[];
+          tiles: boolean[];
+          prevTile: boolean;
+          dist: number;
+        }
       );
 
-      const offsetPixels = commentsRect.height * offsetPercent;
-
-      commentsMarkerOffsetRef.current = Math.max(
-        0,
-        offsetPixels - theme.unit * 1.5
-      );
-      commentsIndexRef.current =
+      const offsetIndex =
         readPosition > 0.99 ? postComments.length - 1 : current;
+      const markerOffset = Math.max(0, offset - theme.unit * 1.5);
+
+      commentsLastPercentRef.current = commentsPercentRef.current;
+      commentsPercentRef.current = offsetPercent;
+      commentsMarkerOffsetRef.current = markerOffset;
+      commentsIndexRef.current = offsetIndex;
       commentSpansRef.current = spans;
 
       setCommentTiles(tiles);
@@ -261,7 +270,7 @@ const Comments: FC<CommentsProps> = ({
   const handlePostComment = useCallback(
     (e) => {
       e.preventDefault();
-      if (!comment.length) return;
+      if (!comment.length || !user) return;
       handleAdd({
         userName: user.name,
         avatarUrl: user.avatarUrl || '',
@@ -279,9 +288,10 @@ const Comments: FC<CommentsProps> = ({
   const handleReactToComment = useCallback(
     (e) => {
       selectedComment &&
+        user &&
         handleReact({
           userName: user.name,
-          avatarUrl: user.avatarUrl,
+          avatarUrl: user.avatarUrl ?? '',
           parentTimestamp: selectedComment,
           reaction: e.target.id,
         });
@@ -291,10 +301,11 @@ const Comments: FC<CommentsProps> = ({
 
   const handleEditComment = useCallback(() => {
     setEditingComment(selectedComment);
-    setEditMarkdown(
-      postComments.find(({ timestamp }) => timestamp === selectedComment)
-        ?.markdown || ''
-    );
+    if (postComments?.length)
+      setEditMarkdown(
+        postComments.find(({ timestamp }) => timestamp === selectedComment)
+          ?.markdown || ''
+      );
   }, [selectedComment, postComments, setEditingComment, setEditMarkdown]);
 
   const handleEditCommentChange = useCallback(
@@ -348,7 +359,7 @@ const Comments: FC<CommentsProps> = ({
           handleEditComment();
           break;
         case 'deleteComment':
-          handleDelete(selectedComment);
+          if (selectedComment) handleDelete(selectedComment);
           break;
       }
       setSelectedComment(null);
@@ -359,7 +370,7 @@ const Comments: FC<CommentsProps> = ({
   const handleHideCommentMenu = useCallback(() => {
     if (optionRef.current) {
       optionRef.current.classList.remove('comment__option--active');
-      optionRef.current = null;
+      optionRef.current = undefined;
     }
 
     setCommentMenu(null);
@@ -408,7 +419,8 @@ const Comments: FC<CommentsProps> = ({
   });
 
   const showDateMarker =
-    commentsRef.current?.getBoundingClientRect().height > DATE_MARKER_THRESHOLD;
+    commentsRef.current?.getBoundingClientRect()?.height ??
+    0 > DATE_MARKER_THRESHOLD;
   const showComments = Boolean(postComments && postComments.length);
   const showLoadingComments = Boolean(loading && !comments);
   const showLogin = Boolean(!user && comments);
@@ -454,8 +466,15 @@ const Comments: FC<CommentsProps> = ({
         />
       )}
 
-      {showComments && (
+      {showComments && postComments && (
         <>
+          <CommentsIndicator
+            showLogin={showLogin}
+            position={commentsPercentRef.current}
+            forward={
+              commentsPercentRef.current > commentsLastPercentRef.current
+            }
+          />
           <CommentsStartDate>
             {formatMarkerDate(postComments[0].timestamp)}
           </CommentsStartDate>
@@ -500,8 +519,8 @@ const Comments: FC<CommentsProps> = ({
                     >
                       <Avatar avatarUrl={avatarUrl} />
                       <CommentVotes
-                        upVotes={upVotes}
-                        downVotes={downVotes}
+                        upVotes={upVotes ?? 0}
+                        downVotes={downVotes ?? 0}
                         maxVotes={maxVotes}
                         maxSlots={MAX_VOTE_SLOTS}
                       />
@@ -605,7 +624,7 @@ const Comments: FC<CommentsProps> = ({
                           </EditCommentButtonGroup>
                         </EditCommentForm>
                       ) : (
-                        <ReactMarkdown>{markdown}</ReactMarkdown>
+                        <ReactMarkdown>{markdown ?? ''}</ReactMarkdown>
                       )}
                     </CommentContent>
                     <CommentMetadata>
@@ -613,6 +632,8 @@ const Comments: FC<CommentsProps> = ({
                         <CommentReactions
                           timestamp={timestamp}
                           comments={comments}
+                          showTipFor={showTipFor}
+                          hideTip={hideTip}
                         />
                       )}
                       <CommentActions>
@@ -667,7 +688,7 @@ const Comments: FC<CommentsProps> = ({
           </CommentsEndDate>
         </>
       )}
-      <ContextMenu ref={menuRef} {...menuProps}>
+      <ContextMenu {...menuProps}>
         {menuId === 'reaction' && (
           <ReactionMenu onSelect={handleReactToComment} />
         )}
@@ -678,7 +699,11 @@ const Comments: FC<CommentsProps> = ({
         <AddCommentForm
           onSubmit={(e) => e.preventDefault()}
           hasComments={Boolean(postComments && postComments.length)}
-          tile={commentTiles.length && !commentTiles[postComments.length - 1]}
+          tile={
+            postComments &&
+            commentTiles.length &&
+            !commentTiles[postComments.length - 1]
+          }
         >
           <AddCommentRow>
             <AddCommentUser>

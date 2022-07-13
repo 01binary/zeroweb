@@ -17,7 +17,12 @@ import light from 'prism-react-renderer/themes/github';
 import dark from 'prism-react-renderer/themes/vsDark';
 import { Tooltip, Arrow } from '../../components/Tooltip';
 import { RULER_ENDMARK_WIDTH, RULER_OFFSET } from '../../components/Ruler';
-import { useTooltipController, useTooltipTarget } from '../../hooks/useTooltip';
+import {
+  HideTipHandler,
+  ShowTipHandler,
+  useTooltipController,
+  useTooltipTarget,
+} from '../../hooks/useTooltip';
 import { MOBILE, NARROW_FLIP_MARKERS, NARROW_NO_RULERS } from '../../constants';
 import CopyIcon from '../../images/copy.svg';
 import LightIcon from '../../images/light.svg';
@@ -73,9 +78,9 @@ const ToolButton = styled.button`
 
 type CodeButtonProps = {
   tipId: string;
-  tipRef: React.MutableRefObject<HTMLElement>;
-  showTip: (id: string) => void;
-  hideTip: () => void;
+  tipRef: React.MutableRefObject<HTMLElement | undefined>;
+  showTip: ShowTipHandler;
+  hideTip: HideTipHandler;
   onClick: () => void;
   label: string;
 };

@@ -190,7 +190,7 @@ type WheelProps = {
   reactionCount: number;
   shareCount: number;
   postUrl: string;
-  shareMenuTargetRef: React.MutableRefObject<HTMLElement>;
+  shareMenuTargetRef: React.MutableRefObject<HTMLElement | undefined>;
   handleSnap: () => void;
   hideShareMenu: () => void;
   handleToggleShareMenu: () => void;

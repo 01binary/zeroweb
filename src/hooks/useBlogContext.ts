@@ -48,6 +48,7 @@ export const BlogContext = createContext<BlogContextProps>({
   loginError: null,
   anchor: null,
   showCommentsSidebar: false,
+  searchSticky: false,
   setSearch: () => {},
   setUser: () => {},
   setAnchor: () => {},

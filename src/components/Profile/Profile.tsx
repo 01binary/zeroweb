@@ -161,24 +161,24 @@ const Profile: FC<{ pages: PostDetailsQuery[] }> = ({ pages }) => {
               </ProfileTile>
             )}
 
-            {profile?.voteCount >= 0 && (
+            {(profile?.voteCount ?? 0) >= 0 && (
               <ProfileTile>
                 <ProfileTileBorder />
                 <ProfileHeading>Voted</ProfileHeading>
-                {profile.voteCount === 0 ? (
+                {profile?.voteCount === 0 ? (
                   <SecondaryText>never</SecondaryText>
                 ) : (
                   <>
-                    {profile.voteCount} <SecondaryText>times</SecondaryText>
+                    {profile?.voteCount} <SecondaryText>times</SecondaryText>
                   </>
                 )}
               </ProfileTile>
             )}
           </ProfileGroup>
 
-          {profile?.reactions?.length > 0 && (
+          {(profile?.reactions?.length ?? 0) > 0 && (
             <ReactionList>
-              {profile.reactions
+              {profile?.reactions
                 .map(mapReactionDisplayType)
                 .filter(filterDisplayableAndMatchingSearch(reactionFilter))
                 .map(mapReactionCollection(pages))

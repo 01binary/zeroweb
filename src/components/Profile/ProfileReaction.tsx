@@ -4,7 +4,7 @@ import CommentIcon from '../../images/reaction-comment.svg';
 import HighlightIcon from '../../images/reaction-highlight.svg';
 import ReactionGenericIcon from '../../images/reaction.svg';
 import { ReactionDisplayType } from '../../hooks/useProfile';
-import { CommentQuery, Reaction } from '../../types/AllCommentsQuery';
+import { CommentQuery } from '../../types/AllCommentsQuery';
 import { formatCommentDate, getCommentId } from '../../utils';
 import { getPagePath, getReactionIcon } from './profileUtils';
 import {
@@ -16,14 +16,7 @@ import {
   StaticDate,
 } from './Profile.styles';
 import { Link } from 'gatsby';
-
-const REACTION_NAMES: Record<Reaction, string> = {
-  snap: 'snapped to',
-  party: 'popped a four loko to',
-  lol: 'lolled about',
-  wow: 'lost his diddly about',
-  confused: 'yeeted to',
-};
+import { REACTION_NAMES } from '../../constants';
 
 const REACTION_DETAILS: Record<ReactionDisplayType, string> = {
   CommentReaction: ':reaction a comment on',
@@ -44,14 +37,16 @@ const REACTION_TYPE_ICONS: Record<ReactionDisplayType, React.FC> = {
 };
 
 const ProfileReaction: FC<
-  CommentQuery & { type: ReactionDisplayType; collection: string }
+  CommentQuery & { type?: ReactionDisplayType; collection?: string }
 > = ({ slug, collection, timestamp, reaction: emoji, type }) => {
+  if (!type) return null;
+
   const reactionDate = formatCommentDate(timestamp);
   const GenericIcon = REACTION_TYPE_ICONS[type];
   const Icon = emoji ? getReactionIcon(emoji) : GenericIcon;
   const detail = REACTION_DETAILS[type].replace(
     ':reaction',
-    REACTION_NAMES[emoji] ?? ''
+    REACTION_NAMES[emoji ?? 'lol'] ?? ''
   );
   const textPrimary = detail.split(' ')[0];
   const textSecondary = detail.substring(textPrimary.length + 1);

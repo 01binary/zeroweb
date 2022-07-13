@@ -104,7 +104,7 @@ const Post: FC<{
     images: { edges: siteImages },
   },
 }) => {
-  const postContentRef = useRef<HTMLElement>(null);
+  const postContentRef = useRef<HTMLElement>();
   const { readPosition, scrollOffset } = useScrollPosition();
   const location = useAuthorLocation(locationDisplayName);
   const absolutePostUrl = siteUrl + relativePostUrl;

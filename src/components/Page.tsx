@@ -158,7 +158,6 @@ const Page: FC<PageProps & PageQuery> = ({
     commentCount,
     reactionCount,
     shareCount,
-    sharesByType,
     paragraphSelection,
     highlightedParagraph,
     inlineCommentParagraph,
@@ -177,13 +176,26 @@ const Page: FC<PageProps & PageQuery> = ({
     handleReact,
   } = useUserContent(slug);
 
-  const { handleSnap, handleShare } = usePostReactions({
+  const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
+    verticalOffsetDesktop: 10,
+    verticalOffsetMobile: 5,
+    placement: 'top',
+  });
+
+  const {
+    handleSnap,
+    handleToggleShareMenu,
+    handleHideShareMenu,
+    hideShareMenu,
+    shareMenuTargetRef,
+  } = usePostReactions({
     user,
     title,
     description,
     absolutePostUrl,
     handleReact,
     handleAddShare,
+    hideTip,
   });
 
   const {
@@ -213,12 +225,6 @@ const Page: FC<PageProps & PageQuery> = ({
     setParagraphSelection,
     setHighlightedParagraph,
     handleAdd,
-  });
-
-  const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
-    verticalOffsetDesktop: 10,
-    verticalOffsetMobile: 5,
-    placement: 'top',
   });
 
   const {
@@ -266,9 +272,11 @@ const Page: FC<PageProps & PageQuery> = ({
             commentCount={commentCount}
             reactionCount={reactionCount}
             shareCount={shareCount}
-            sharesByType={sharesByType}
             handleSnap={handleSnap}
-            handleShare={handleShare}
+            shareMenuTargetRef={shareMenuTargetRef}
+            handleToggleShareMenu={handleToggleShareMenu}
+            handleHideShareMenu={handleHideShareMenu}
+            hideShareMenu={hideShareMenu}
           />
           <CommentsContext.Provider
             value={{
@@ -312,17 +320,17 @@ const Page: FC<PageProps & PageQuery> = ({
         </Content>
       </Main>
 
-      <Tooltip ref={tipRef} {...tipProps}>
+      <Tooltip {...tipProps}>
         {tooltipText}
         <Arrow />
       </Tooltip>
 
-      <Tooltip ref={profileTipRef} {...profileTipProps}>
+      <Tooltip {...profileTipProps}>
         {profile && <ProfileTip {...profile} />}
         <Arrow />
       </Tooltip>
 
-      <ContextMenu ref={loginPopupRef} {...loginPopupProps}>
+      <ContextMenu {...loginPopupProps}>
         <LoginPopup>
           <Login
             inline

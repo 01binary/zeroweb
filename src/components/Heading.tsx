@@ -36,11 +36,11 @@ const HeadingText = styled.span`
   margin-right: 0.33em;
 `;
 
-export const getHeadingSlug = (main: boolean, text: string): string =>
-  main ? null : slugify(text, { lower: true, strict: true });
+export const getHeadingSlug = (main: boolean, text?: string) =>
+  main ? undefined : slugify(text ?? '', { lower: true, strict: true });
 
-export const getHeadingUrl = (baseUrl: string, slug?: string): string =>
-  slug ? `${baseUrl}#${slug}` : baseUrl;
+export const getHeadingUrl = (baseUrl?: string, slug?: string) =>
+  slug && baseUrl ? `${baseUrl}#${slug}` : baseUrl;
 
 type HeadingProps = {
   level?: number;
@@ -53,16 +53,16 @@ export const Heading: FC<HeadingProps> = ({
   className,
 }) => {
   const { path } = useBlogLocation();
-  const slug = getHeadingSlug(level === 1, children.toString());
+  const slug = getHeadingSlug(level === 1, children?.toString());
   const permaLinkUrl = getHeadingUrl(path, slug);
   const HeadingElement: any = `h${level}`;
 
   return (
     <HeadingWrapper className={className}>
-      <PermaLink url={permaLinkUrl} level={level} />
+      <PermaLink url={permaLinkUrl ?? ''} level={level} />
       <HeadingElement id={slug}>
         <HeadingText>{children}</HeadingText>
-        <PermaLink url={permaLinkUrl} level={level} inline />
+        <PermaLink url={permaLinkUrl ?? ''} level={level} inline />
       </HeadingElement>
     </HeadingWrapper>
   );

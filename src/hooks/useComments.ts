@@ -50,10 +50,10 @@ export type ParagraphComment = {
 type CommentsContextProps = {
   postUrl: string;
   absolutePostUrl: string;
-  comments: CommentQuery[] | null;
+  comments?: CommentQuery[];
   loading: boolean;
-  highlightTimerRef: React.MutableRefObject<number>;
-  postContentRef: React.MutableRefObject<HTMLElement>;
+  highlightTimerRef: React.MutableRefObject<number | null>;
+  postContentRef: React.MutableRefObject<HTMLElement | null>;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
   showParagraphMenu: ShowTipForHandler;
@@ -67,7 +67,7 @@ type CommentsContextProps = {
     paragraphComment: ParagraphComment | null
   ) => void;
   toggleInlineComment: (paragraphHash: string) => void;
-  addInlineComment: () => Promise<void>;
+  addInlineComment?: () => Promise<void>;
   showCommentsSidebar: boolean;
   inlineCommentSingleMode: boolean;
   showProfileTipFor: ShowTipForHandler;
@@ -77,10 +77,9 @@ type CommentsContextProps = {
 export const CommentsContext = createContext<CommentsContextProps>({
   postUrl: '',
   absolutePostUrl: '',
-  comments: null,
   loading: false,
-  highlightTimerRef: null,
-  postContentRef: null,
+  highlightTimerRef: React.createRef<number>(),
+  postContentRef: React.createRef<HTMLElement>(),
   showTipFor: () => {},
   hideTip: () => {},
   showParagraphMenu: () => {},
@@ -94,7 +93,6 @@ export const CommentsContext = createContext<CommentsContextProps>({
   showCommentsSidebar: false,
   inlineCommentSingleMode: false,
   toggleInlineComment: () => {},
-  addInlineComment: async () => {},
   showProfileTipFor: () => {},
   hideProfileTip: () => {},
 });

@@ -1,3 +1,14 @@
+/*--------------------------------------------------------*\
+|  ██████   ██  |
+|  ██  ██   ██  |
+|  ██  ██   ██  |
+|  ██████   ██  |  binary : tech art
+|
+|  User profile interactions.
+|----------------------------------------------------------
+|  Copyright(C) 2022 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
 import React, { useState, useCallback, useRef, useMemo } from 'react';
 import gql from 'graphql-tag';
 import { parse } from 'query-string';
@@ -64,8 +75,8 @@ const useProfile = () => {
   const [locationText, setLocationText] = useState<string | undefined>();
   const [reactionFilter, setReactionFilter] = useState<Reaction | null>(null);
   const [more, setMore] = useState<boolean>(false);
-  const editBioRef = useRef<HTMLInputElement | null>(null);
-  const editLocationRef = useRef<HTMLInputElement | null>(null);
+  const editBioRef = useRef<HTMLInputElement>();
+  const editLocationRef = useRef<HTMLInputElement>();
   const search = parse(location.search);
   const userId = search.user ?? credentials?.userId;
   const isLoggedIn = Boolean(user);
@@ -91,21 +102,27 @@ const useProfile = () => {
   const hasHeader = Boolean(userName || avatarUrl);
   const hasDetails = Boolean(profile);
   const notLoggedIn = !isLoggedIn && !isForAnotherUser;
-  const showMore = data?.profile?.reactions?.length > 5;
+  const showMore = data?.profile?.reactions?.length ?? 0 > 5;
   const formattedLastActivity = profile?.lastActivity
     ? formatCommentDate(profile.lastActivity).split(' ')
     : [];
 
-  const reactionSummary: Record<Reaction, number> = useMemo(
+  const reactionSummary = useMemo(
     () =>
       profile?.reactions
         ?.filter(({ reaction }) => reaction)
         ?.reduce(
-          (sum, { reaction: emoji }) => ({
-            ...sum,
-            [emoji]: sum[emoji] + 1,
-          }),
-          { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 }
+          (sum, { reaction: emoji }) =>
+            emoji
+              ? {
+                  ...sum,
+                  [emoji]: sum[emoji] + 1,
+                }
+              : sum,
+          { snap: 0, party: 0, wow: 0, lol: 0, confused: 0 } as Record<
+            Reaction,
+            number
+          >
         ),
     [profile]
   );

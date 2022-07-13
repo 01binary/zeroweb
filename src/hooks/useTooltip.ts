@@ -21,21 +21,10 @@ import { Placement } from '@popperjs/core/lib/enums';
 export type ShowTipHandler = (text?: string) => void;
 export type ShowTipForHandler = (
   text?: string,
-  targetRef?: React.MutableRefObject<HTMLElement>
+  targetRef?: React.MutableRefObject<HTMLElement | undefined>
 ) => void;
 export type HideTipHandler = () => void;
 export type UpdateTipHandler = () => void;
-
-type TooltipInfo = {
-  showTip: ShowTipHandler;
-  hideTip: HideTipHandler;
-  showTipFor: ShowTipForHandler;
-  tooltipText: string;
-  tooltipVisible: boolean;
-  tipProps: Record<string, any>;
-  tipRef: React.MutableRefObject<HTMLElement>;
-  targetRef: React.MutableRefObject<HTMLElement>;
-};
 
 type TooltipOptions = {
   verticalOffsetDesktop?: number;
@@ -47,7 +36,7 @@ export const useTooltip = ({
   verticalOffsetDesktop,
   verticalOffsetMobile,
   placement,
-}: TooltipOptions | undefined = {}): TooltipInfo => {
+}: TooltipOptions | undefined = {}) => {
   const {
     showTip,
     hideTip,
@@ -86,22 +75,13 @@ export const useTooltip = ({
   };
 };
 
-type TooltipController = {
-  showTip: ShowTipHandler;
-  hideTip: HideTipHandler;
-  tooltipText: string;
-  tooltipVisible: boolean;
-  tipProps: Record<string, any>;
-  tipRef: React.MutableRefObject<HTMLElement>;
-};
-
-export const useTooltipController = (): TooltipController => {
+export const useTooltipController = () => {
   const tipRef = useRef<HTMLElement>();
-  const [tooltipText, setTooltipText] = useState<string>(null);
+  const [tooltipText, setTooltipText] = useState<string | undefined>();
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
 
   const showTip = useCallback(
-    (text: string) => {
+    (text?: string) => {
       setTooltipVisible(true);
       setTooltipText(text);
     },
@@ -122,14 +102,8 @@ export const useTooltipController = (): TooltipController => {
   return { showTip, hideTip, tooltipText, tooltipVisible, tipProps, tipRef };
 };
 
-type TooltipTarget = {
-  showTip: ShowTipHandler;
-  updateTip: UpdateTipHandler;
-  targetRef: React.MutableRefObject<HTMLElement>;
-};
-
 type TooltipTargetOptions = {
-  tooltipElement: HTMLElement;
+  tooltipElement?: HTMLElement;
   showTip: ShowTipHandler;
   verticalOffsetDesktop?: number;
   verticalOffsetMobile?: number;
@@ -142,9 +116,9 @@ export const useTooltipTarget = ({
   verticalOffsetDesktop = 0,
   verticalOffsetMobile = 0,
   placement = 'top',
-}: TooltipTargetOptions): TooltipTarget => {
-  const targetRef = useRef<HTMLElement>(null);
-  const popperRef = useRef<Instance>(null);
+}: TooltipTargetOptions) => {
+  const targetRef = useRef<HTMLElement>();
+  const popperRef = useRef<Instance>();
   const isMobile =
     typeof window !== `undefined`
       ? window.matchMedia(`(max-width: ${MOBILE})`).matches
@@ -182,7 +156,7 @@ export const useTooltipTarget = ({
   }, [updateTip]);
 
   const showTargetTip = useCallback(
-    (text: string) => {
+    (text?: string) => {
       showTip(text);
       if (popperRef.current) popperRef.current.update();
     },
@@ -192,12 +166,9 @@ export const useTooltipTarget = ({
   return { showTip: showTargetTip, targetRef, updateTip };
 };
 
-export const useSharedTooltip = (
-  tooltip: string,
-  showTipFor: ShowTipForHandler
-) => {
-  const targetRef = useRef<HTMLElement>(null);
-  const showTip = useCallback(() => showTipFor(tooltip, targetRef), [
+export const useSharedTooltip = (tooltip?: string, showTipFor?: ShowTipForHandler) => {
+  const targetRef = useRef<HTMLElement>();
+  const showTip = useCallback(() => showTipFor?.(tooltip, targetRef), [
     tooltip,
     showTipFor,
   ]);

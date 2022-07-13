@@ -3,7 +3,7 @@ import { HideTipHandler, ShowTipForHandler } from '../../hooks/useTooltip';
 import ExternalMetaLink from '../ExternalMetaLink';
 
 type LocationLinkProps = {
-  displayName: string;
+  displayName?: string;
   locationUrl: string;
   showLocationTipFor: ShowTipForHandler;
   hideLocationTip: HideTipHandler;
@@ -15,7 +15,7 @@ const LocationLink: FC<LocationLinkProps> = ({
   showLocationTipFor,
   hideLocationTip,
 }) => {
-  const locationRef = useRef<HTMLElement>(null);
+  const locationRef = useRef<HTMLElement>();
 
   return (
     <ExternalMetaLink

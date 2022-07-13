@@ -63,9 +63,13 @@ const Text = styled.p<{ inline?: boolean }>`
   }
 `;
 
+const LoginError = styled(Error)`
+  margin: ${(props) => props.theme.spacingHalf};
+`;
+
 type LoginProps = {
   inline?: boolean;
-  loginError: string;
+  loginError: string | null;
   action?: string;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
@@ -112,7 +116,7 @@ const Login: FC<LoginProps> = ({
   );
 
   return loginError ? (
-    <Error>{loginError}</Error>
+    <LoginError>{loginError}</LoginError>
   ) : (
     <Prompt inline={inline}>
       <Text inline={inline}>Please login to {action ?? 'comment'}:</Text>

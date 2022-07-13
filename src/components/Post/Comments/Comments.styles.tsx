@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Tape from '../../../images/tape.svg';
 import CommentMarkerIcon from '../../../images/comment-marker.svg';
 import { RULER_ENDMARK_WIDTH } from '../../../components/Ruler';
 import { AVATAR_SIZE } from '../../Avatar';
@@ -536,6 +537,10 @@ export const CommentReaction = styled.div`
   position: relative;
   top: 8px;
   padding-left: 8px;
+
+  svg {
+    pointer-events: none;
+  }
 `;
 
 export const CommentReactionBadge = styled.div`
@@ -705,4 +710,40 @@ export const PostCommentError = styled(Error)`
   margin-bottom: 0;
   margin-left: ${(props) => props.theme.spacingHalf};
   margin-right: ${(props) => props.theme.spacingHalf};
+`;
+
+export const CommentsIndicator = styled(Tape)<{
+  showLogin: boolean;
+  position: number;
+  forward: boolean;
+}>`
+  position: absolute;
+  right: ${(props) => props.theme.spacingDouble};
+  top: ${(props) =>
+    props.showLogin
+      ? props.theme.spacingQuarter
+      : `calc(0px - ${props.theme.spacingDouble})`};
+
+  .reel {
+    transform: rotate(${(props) => props.position * 360}deg);
+    transition: transform ${(props) => props.theme.animationFast} ease-out;
+  }
+
+  .tape {
+    stroke-dashoffset: ${(props) => (1 - props.position) * 10}px;
+    transition: stroke-dashoffset ${(props) => props.theme.animationFast}
+      ease-out;
+  }
+
+  .chevrons--forward {
+    display: ${(props) => (props.forward ? 'block' : 'none')};
+  }
+
+  .chevrons--back {
+    display: ${(props) => (props.forward ? 'none' : 'block')};
+  }
+
+  @media (max-width: ${MOBILE}) {
+    display: none;
+  }
 `;

@@ -13,7 +13,7 @@ const AuthorLink: FC<AuthorLinkProps> = ({
   showProfileTipFor,
   hideProfileTip,
 }) => {
-  const authorLinkRef = useRef<HTMLElement>(null);
+  const authorLinkRef = useRef<HTMLElement>();
   return (
     <MetaLink
       ref={authorLinkRef}

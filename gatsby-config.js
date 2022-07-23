@@ -13,7 +13,7 @@
 require(`ts-node`).register({ files: true });
 
 module.exports = {
-  //flags: { PRESERVE_WEBPACK_CACHE: true },
+  flags: { PRESERVE_WEBPACK_CACHE: true },
   siteMetadata: {
     title: `01 Binary: tech art`,
     titleTemplate: `%s - 01 Binary`,
@@ -64,6 +64,9 @@ module.exports = {
           include: /^((?!url).)*$/,
         },
       },
+    },
+    {
+      resolve: `gatsby-plugin-image`,
     },
     {
       resolve: `gatsby-styled-components-dark-mode`,

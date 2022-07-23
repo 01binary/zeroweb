@@ -138,11 +138,13 @@ const ParagraphHighlight: FC<{
 }> = ({ innerHtml, start, end }) => {
   let htmlStart: number | undefined, htmlEnd: number | undefined;
   let openTag = false;
+  let tag: string | null = null;
   let pos = 0;
 
   for (let n = 0; n < innerHtml.length; n++) {
     if (innerHtml[n] === '<') {
       openTag = true;
+      tag = innerHtml.substring(n, innerHtml.indexOf(' ', n + 1));
     } else if (innerHtml[n] === '>') {
       openTag = false;
     } else if (!openTag) {

@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useState, useRef, useCallback } from 'react';
+import React, { FC, useState, useRef, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
@@ -258,17 +258,21 @@ const Code: FC = ({ children }) => {
 
   const className = (children as React.ReactElement)?.props?.className || '';
   const matches = className.match(/language-(?<lang>.*)/);
+  const code = useMemo(
+    () => (children as React.ReactElement)?.props?.children ?? children ?? '',
+    [children]
+  );
 
   return (
     <CodeWrapper isDark={isDark} isCodeDark={isCodeDark}>
       <Highlight
         {...defaultProps}
         theme={isDark || isCodeDark ? dark : light}
-        code={(children as React.ReactElement).props.children}
+        code={code}
         language={
           matches && matches.groups && matches.groups.lang
             ? matches.groups.lang
-            : ''
+            : 'javascript'
         }
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (

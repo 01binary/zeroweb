@@ -28,5 +28,11 @@
     "locationName": "Portland, OR",
     "locationUrl": "https://www.popehouselounge.com/",
     "description": "Pope House bourbon lounge"
+  },
+  "Emerald Line": {
+    "avatarUrl": "https://zeroweb-downloads.s3.us-west-2.amazonaws.com/emerald-line.png",
+    "locationName": "Portland, OR",
+    "locationUrl": "https://www.theemeraldline.com/",
+    "description": "Great patio and drinks"
   }
 }

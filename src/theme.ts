@@ -215,9 +215,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: ${(props) => props.theme.normalFontWeight};
     font-size: ${(props) => props.theme.normalFontSize};
     color: ${(props) => props.theme.foregroundColor};
-  }
 
-  main {
     &:before {
       content: '{';
       font-family: ${(props) => props.theme.backgroundFont};
@@ -286,6 +284,10 @@ export const GlobalStyle = createGlobalStyle`
 
   main li {
     line-height: ${(props) => props.theme.normalFontLineHeight};
+  }
+
+  main img {
+    box-shadow: none !important;
   }
 
   ::selection {

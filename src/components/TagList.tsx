@@ -31,6 +31,7 @@ import EngineeringElectrical from '../images/engineering-electrical.svg';
 import EngineeringMechanical from '../images/engineering-mechanical.svg';
 import EngineeringRobotics from '../images/engineering-robotics.svg';
 import EngineeringSoftware from '../images/engineering-software.svg';
+import SoftwareArchitecture from '../images/software-architecture.svg';
 import Production from '../images/production.svg';
 import ToolAbleton from '../images/tool-ableton.svg';
 import ToolAfterEffects from '../images/tool-aftereffects.svg';
@@ -89,6 +90,10 @@ const ICONS: CategoryMap = {
     software: {
       icon: EngineeringSoftware,
       description: 'Software engineering',
+    },
+    architecture: {
+      icon: SoftwareArchitecture,
+      description: 'Software architecture',
     },
   },
 

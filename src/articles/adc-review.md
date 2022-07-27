@@ -22,7 +22,7 @@ This review will explore the commonly available options from Adafruit, Digikey, 
 
 ## mcp3008 adc
 
-MCP3008 is an 8-channel, 10-bit ADC with `3.3V` to `5V` logic and a "4-wire" SPI interface, distributed by [Adafruit](https://www.adafruit.com/product/856so). It's simple to setup for a small project.
+[MCP3008](https://cdn-shop.adafruit.com/datasheets/MCP3008.pdf) is an 8-channel, 10-bit ADC with `3.3V` to `5V` logic and a "4-wire" SPI interface, distributed by [Adafruit](https://www.adafruit.com/product/856so). It's simple to setup for a small project.
 
 ![mcp3008](./images/adc-review-mcp3008.png)
 
@@ -130,7 +130,7 @@ It's worth noting that the [16-channel analog input HAT](https://bc-robotics.com
 
 ## ads1115 adc
 
-ADS1115 is a 4-channel 16-bit ADC with a "2-wire" `I2C` interface and `3.3V` to `5V` logic, distributed by [Adafruit](https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/ads1015-slash-ads1115) and [Digikey](https://www.digikey.com/en/product-highlight/t/texas-instruments/ads1115-industry-smallest).
+[ADS1115](https://cdn-shop.adafruit.com/datasheets/ads1115.pdf) is a 4-channel 16-bit ADC with a "2-wire" `I2C` interface and `3.3V` to `5V` logic, distributed by [Adafruit](https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/ads1015-slash-ads1115) and [Digikey](https://www.digikey.com/en/product-highlight/t/texas-instruments/ads1115-industry-smallest).
 
 ![ads1115](./images/adc-review-ads1115.png)
 
@@ -573,7 +573,7 @@ int main()
 
 ## pi-16adc hat
 
-Pi-16ADC is a 16-bit, 16 channel ADC with `3.3V` logic, designed for use as a HAT for the Raspberry Pi and sold on [Amazon](https://www.amazon.com/PI-16ADC-16-Bit-ADC-Raspberry-Trade/dp/B06W5RSSS4). It's simple but slow (10 seconds to read all 16 inputs) and it takes up all the pins on the Pi even though it only uses `I2C0`, `3.3V`, and `GND`.
+[Pi-16ADC](http://alchemy-power.com/wp-content/uploads/2017/03/Pi-16ADC-User-Guide.pdf) is a 16-bit, 16 channel ADC with `3.3V` logic, designed for use as a HAT for the Raspberry Pi and sold on [Amazon](https://www.amazon.com/PI-16ADC-16-Bit-ADC-Raspberry-Trade/dp/B06W5RSSS4). It's simple but slow (10 seconds to read all 16 inputs) and it takes up all the pins on the Pi even though it only uses `I2C0`, `3.3V`, and `GND`.
 
 ![pi-16adc](./images/adc-review-pi16adc.png)
 

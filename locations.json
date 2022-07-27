@@ -34,5 +34,11 @@
     "locationName": "Portland, OR",
     "locationUrl": "https://www.theemeraldline.com/",
     "description": "Great patio and drinks"
+  },
+  "Fall Creek": {
+    "avatarUrl": "https://zeroweb-downloads.s3.us-west-2.amazonaws.com/fall-creek.png",
+    "locationName": "Springfield, OR",
+    "locationUrl": "https://stateparks.oregon.gov/index.cfm?do=park.profile&parkId=176",
+    "description": "Beautiful camping spot"
   }
 }

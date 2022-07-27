@@ -118,6 +118,7 @@ const ICONS: CategoryMap = {
   physics: { icon: Physics, description: 'Physics' },
   signal: { icon: Signal, description: 'Signal Processing' },
   fp: { icon: FunctionalProgramming, description: 'Functional Programming' },
+  bookreview: { icon: Philosophy, description: 'Book review ' },
 };
 
 interface Tag {

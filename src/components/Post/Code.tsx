@@ -280,8 +280,12 @@ const Code: FC = ({ children }) => {
             <Pre className={className} style={style}>
               <span ref={snippetRef}>
                 {tokens
-                  .filter((line) =>
-                    line.length === 1 && line[0].empty ? false : true
+                  .filter((line, index, lines) =>
+                    index === lines.length - 1 &&
+                    line.length === 1 &&
+                    line[0].empty
+                      ? false
+                      : true
                   )
                   .map((line, i) => (
                     <div {...getLineProps({ line, key: i })}>

@@ -12,7 +12,6 @@ tags:
      'tool-arduino',
   ]
 ---
-
 ## motivation
 
 Robotics servos come with encoders, but the resulting package is often hard to integrate into a *compact design*. Manufacturers that [integrate a servo with an encoder](https://www.robotis.us/dynamixel-p/) price their products for *big-bidget customers*.

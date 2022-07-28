@@ -147,10 +147,10 @@ export const getTagDescriptionById = (tagId: string): string => {
 const getTagIcon = (category: string, subCategory: string): JSX.Element =>
   subCategory ? ICONS[category]?.[subCategory]?.icon : ICONS[category]?.icon;
 
-const getTagDescription = (category: string, subCategory: string): string =>
-  subCategory
+const getTagDescription = (category: string, subCategory: string): string => '';
+  /*subCategory
     ? ICONS[category][subCategory]?.description
-    : ICONS[category]?.description;
+    : ICONS[category]?.description;*/
 
 const mapTag = (tag: string): Tag => {
   const [category, subCategory] = getTagComponents(tag);

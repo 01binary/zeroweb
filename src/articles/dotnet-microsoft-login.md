@@ -175,6 +175,8 @@ The package used in this tutorial implements the OAuth 2 [Authorization Code Gra
 5. Azure AD returns an *OAuth 2.0* token to your ASP.NET backend, which can be used to access user profile information
 6. The user is authorized to access password-protected parts of your application, and has an option to create an individual account so that they can access your application directly without the Microsoft login
 
+The following section details what happens during the authorization grant process.
+
 <AuthorizationGrant />
 
 The OAuth middleware in `MicrosoftAccount` package redirects the user to `oauth2/v2.0/authorize` endpoint:

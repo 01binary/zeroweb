@@ -40,5 +40,11 @@
     "locationName": "Springfield, OR",
     "locationUrl": "https://stateparks.oregon.gov/index.cfm?do=park.profile&parkId=176",
     "description": "Beautiful camping spot"
+  },
+  "Lower Falls": {
+    "avatarUrl": "https://zeroweb-downloads.s3.us-west-2.amazonaws.com/lower-falls.png",
+    "locationName": "Cougar, WA",
+    "locationUrl": "https://www.wta.org/go-hiking/hikes/lewis-river-falls",
+    "description": "Camping in view of Mt. St. Helens"
   }
 }

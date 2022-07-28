@@ -34,6 +34,7 @@ import EngineeringSoftware from '../images/engineering-software.svg';
 import SoftwareArchitecture from '../images/software-architecture.svg';
 import Production from '../images/production.svg';
 import ToolAbleton from '../images/tool-ableton.svg';
+import ToolIllustrator from '../images/tool-illustrator.svg';
 import ToolAfterEffects from '../images/tool-aftereffects.svg';
 import ToolArduino from '../images/tool-arduino.svg';
 import ToolBlender from '../images/tool-blender.svg';
@@ -112,6 +113,7 @@ const ICONS: CategoryMap = {
     inventor: { icon: ToolInventor, description: 'Autodesk Inventor' },
     premiere: { icon: ToolPremiere, description: 'Premiere' },
     raspi: { icon: ToolRaspi, description: 'Raspberry Pi' },
+    illustrator: { icon: ToolIllustrator, description: 'Adobe Illustrator' },
   },
 
   philosophy: { icon: Philosophy, description: 'Philosophy' },
@@ -143,12 +145,12 @@ export const getTagDescriptionById = (tagId: string): string => {
 };
 
 const getTagIcon = (category: string, subCategory: string): JSX.Element =>
-  subCategory ? ICONS[category][subCategory].icon : ICONS[category].icon;
+  subCategory ? ICONS[category]?.[subCategory]?.icon : ICONS[category]?.icon;
 
 const getTagDescription = (category: string, subCategory: string): string =>
   subCategory
-    ? ICONS[category][subCategory].description
-    : ICONS[category].description;
+    ? ICONS[category][subCategory]?.description
+    : ICONS[category]?.description;
 
 const mapTag = (tag: string): Tag => {
   const [category, subCategory] = getTagComponents(tag);

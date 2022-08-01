@@ -3,12 +3,7 @@ import styled from 'styled-components';
 import { Controls, Control } from './controls';
 
 const Gauge: FC<{ position: number }> = ({ position }) => (
-  <svg
-    version="1.0"
-    xmlns="http://www.w3.org/2000/svg"
-    width="128"
-    viewBox="0 0 64 48"
-  >
+  <svg width="128" viewBox="0 0 64 48">
     <g
       className="stroke-border fill-none"
       strokeLinecap="round"
@@ -21,6 +16,7 @@ const Gauge: FC<{ position: number }> = ({ position }) => (
       <path d="M0.9,47.5h16.4c0-16,13-29,29-29V2.2C21.2,2.2,0.9,22.5,0.9,47.5z" />
     </g>
     <polygon
+      id="arrow"
       className="fill-foreground"
       style={{
         transformOrigin: '45.634px 47.543px',

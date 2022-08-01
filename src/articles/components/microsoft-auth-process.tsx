@@ -27,9 +27,9 @@ const Process: FC = () => (
           <line
             className="stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             x1="612.8"
             y1="1150.3"
             x2="569.2"
@@ -39,9 +39,9 @@ const Process: FC = () => (
           <polyline
             className="fill-none stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             points="
 			551.4,1127.4 569.2,1100.9 618.3,1110.4 		"
           />
@@ -50,9 +50,9 @@ const Process: FC = () => (
           <line
             className="stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             x1="710.6"
             y1="977.2"
             x2="679.5"
@@ -62,9 +62,9 @@ const Process: FC = () => (
           <polyline
             className="fill-none stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             points="
 			661.7,968.6 679.5,942.1 728.6,951.6 		"
           />
@@ -73,9 +73,9 @@ const Process: FC = () => (
           <line
             className="stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             x1="1332.6"
             y1="821.9"
             x2="1302.3"
@@ -85,9 +85,9 @@ const Process: FC = () => (
           <polyline
             className="fill-none stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             points="
 			1283.9,812 1302.3,786 1351.2,796.7 		"
           />
@@ -96,9 +96,9 @@ const Process: FC = () => (
           <line
             className="stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             x1="863.7"
             y1="896"
             x2="894.8"
@@ -108,9 +108,9 @@ const Process: FC = () => (
           <polyline
             className="fill-none stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             points="
 			912.6,904.7 894.8,931.1 845.7,921.6 		"
           />
@@ -119,9 +119,9 @@ const Process: FC = () => (
           <line
             className="stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             x1="1420.5"
             y1="763.5"
             x2="1555.5"
@@ -131,9 +131,9 @@ const Process: FC = () => (
           <polyline
             className="fill-none stroke-border"
             strokeWidth="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             points="
 			1573.3,889.6 1555.5,916 1506.4,906.5 		"
           />
@@ -172,7 +172,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="1140.7"
               x2="354"
@@ -181,7 +181,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.0433,6.0433"
               x1="354"
               y1="1149.7"
@@ -190,7 +190,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="1258.5"
               x2="354"
@@ -202,7 +202,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="1013.6"
               x2="354"
@@ -211,7 +211,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.4033,6.4033"
               x1="354"
               y1="1023"
@@ -220,7 +220,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="1061.5"
               x2="354"
@@ -232,7 +232,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="928.3"
               y1="718.7"
               x2="928.3"
@@ -241,7 +241,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.9319,5.9319"
               x1="928.3"
               y1="727.6"
@@ -250,7 +250,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="928.3"
               y1="964.9"
               x2="928.3"
@@ -262,7 +262,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="928.3"
               y1="594.1"
               x2="928.3"
@@ -271,7 +271,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.4212,6.4212"
               x1="928.3"
               y1="603.5"
@@ -280,7 +280,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="928.3"
               y1="667.7"
               x2="928.3"
@@ -292,7 +292,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="928.3"
               y1="427.5"
               x2="928.3"
@@ -301,7 +301,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.9645,5.9645"
               x1="928.3"
               y1="436.4"
@@ -310,7 +310,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="928.3"
               y1="496.1"
               x2="928.3"
@@ -322,7 +322,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1269.4"
               y1="620.7"
               x2="1269.4"
@@ -331,7 +331,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.8814,5.8814"
               x1="1269.4"
               y1="629.6"
@@ -340,7 +340,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1269.4"
               y1="747.2"
               x2="1269.4"
@@ -352,7 +352,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1269.4"
               y1="471.8"
               x2="1269.4"
@@ -361,7 +361,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.9196,5.9196"
               x1="1269.4"
               y1="480.7"
@@ -370,7 +370,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1269.4"
               y1="575.5"
               x2="1269.4"
@@ -382,7 +382,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1587.9"
               y1="440.4"
               x2="1587.9"
@@ -391,7 +391,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.795,6.795"
               x1="1587.9"
               y1="450.2"
@@ -400,7 +400,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1587.9"
               y1="491"
               x2="1587.9"
@@ -412,7 +412,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1587.9"
               y1="219.1"
               x2="1587.9"
@@ -421,7 +421,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.1452,6.1452"
               x1="1587.9"
               y1="228.3"
@@ -430,7 +430,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1587.9"
               y1="314.3"
               x2="1587.9"
@@ -442,7 +442,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1587.9"
               y1="546.4"
               x2="1587.9"
@@ -451,7 +451,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.9236,5.9236"
               x1="1587.9"
               y1="555.3"
@@ -460,7 +460,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="1587.9"
               y1="958.1"
               x2="1587.9"
@@ -472,7 +472,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="891.1"
               x2="354"
@@ -481,7 +481,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.3994,5.3994"
               x1="354"
               y1="899.5"
@@ -490,7 +490,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="942.7"
               x2="354"
@@ -502,7 +502,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="793.9"
               x2="354"
@@ -511,7 +511,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.4206,6.4206"
               x1="354"
               y1="803.4"
@@ -520,7 +520,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="841.9"
               x2="354"
@@ -532,7 +532,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="661.3"
               x2="354"
@@ -541,7 +541,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.647,6.647"
               x1="354"
               y1="670.9"
@@ -550,7 +550,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="354"
               y1="684.2"
               x2="354"
@@ -562,7 +562,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="535.2"
               y1="647"
               x2="535.2"
@@ -571,7 +571,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="6.148,6.148"
               x1="535.2"
               y1="656.2"
@@ -580,7 +580,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="535.2"
               y1="680.8"
               x2="535.2"
@@ -592,7 +592,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="647.1"
               y1="799"
               x2="647.1"
@@ -601,7 +601,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.9632,5.9632"
               x1="647.1"
               y1="807.9"
@@ -610,7 +610,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="647.1"
               y1="903.4"
               x2="647.1"
@@ -622,7 +622,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="647.1"
               y1="556.3"
               x2="647.1"
@@ -631,7 +631,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.8606,5.8606"
               x1="647.1"
               y1="565.2"
@@ -640,7 +640,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="647.1"
               y1="752.7"
               x2="647.1"
@@ -652,7 +652,7 @@ const Process: FC = () => (
           <g>
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="535.2"
               y1="731.7"
               x2="535.2"
@@ -661,7 +661,7 @@ const Process: FC = () => (
 
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               strokeDasharray="5.9208,5.9208"
               x1="535.2"
               y1="740.6"
@@ -670,7 +670,7 @@ const Process: FC = () => (
             />
             <line
               strokeWidth="4"
-              strokeMiterlimit="10"
+  
               x1="535.2"
               y1="1060.4"
               x2="535.2"
@@ -684,56 +684,56 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 234.2562 444.8546)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           B
         </text>
         <text
           transform="matrix(1 0 0 1 262.2713 444.8546)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           r
         </text>
         <text
           transform="matrix(1 0 0 1 277.0589 444.8546)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           o
         </text>
         <text
           transform="matrix(1 0 0 1 302.723 444.8546)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           w
         </text>
         <text
           transform="matrix(1 0 0 1 336.5389 444.8546)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           s
         </text>
         <text
           transform="matrix(1 0 0 1 359.742 444.8546)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 383.5824 444.8546)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           r
         </text>
@@ -745,8 +745,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 261.0003 1007.984)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           .
         </text>
@@ -754,8 +754,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 277.527 1003.9393)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           N
         </text>
@@ -763,8 +763,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 322.2931 992.9832)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           E
         </text>
@@ -772,8 +772,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 358.5965 984.0982)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           T
         </text>
@@ -781,8 +781,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 394.8386 975.2283)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           {' '}
         </text>
@@ -790,8 +790,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 410.3841 971.4237)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           A
         </text>
@@ -799,8 +799,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 451.3481 961.3981)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           p
         </text>
@@ -808,8 +808,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 486.5784 952.7758)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           p
         </text>
@@ -821,8 +821,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 171.8558 1160.468)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           A
         </text>
@@ -830,8 +830,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 213.1878 1150.3523)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           z
         </text>
@@ -839,8 +839,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 244.3094 1142.7356)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           u
         </text>
@@ -848,8 +848,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 278.9264 1134.2634)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           r
         </text>
@@ -857,8 +857,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 299.5924 1129.2056)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           e
         </text>
@@ -866,8 +866,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 332.8604 1121.0636)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           {' '}
         </text>
@@ -875,8 +875,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 348.4059 1117.2589)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           A
         </text>
@@ -884,8 +884,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 389.3699 1107.2334)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           D
         </text>
@@ -897,8 +897,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 24.0637 1352.8324)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           B
         </text>
@@ -906,8 +906,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 63.1573 1343.2645)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           r
         </text>
@@ -915,8 +915,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 83.7926 1338.2142)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           o
         </text>
@@ -924,8 +924,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 119.6055 1329.4493)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           w
         </text>
@@ -933,8 +933,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 166.7938 1317.9005)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           s
         </text>
@@ -942,8 +942,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 199.1726 1309.9761)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           e
         </text>
@@ -951,8 +951,8 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 232.4405 1301.834)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="34.1272px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="34.1272px"
         >
           r
         </text>
@@ -960,56 +960,56 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1679.9481 72.2929)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           B
         </text>
         <text
           transform="matrix(1 0 0 1 1707.9633 72.2929)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           r
         </text>
         <text
           transform="matrix(1 0 0 1 1722.7509 72.2929)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           o
         </text>
         <text
           transform="matrix(1 0 0 1 1748.4149 72.2929)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           w
         </text>
         <text
           transform="matrix(1 0 0 1 1782.2308 72.2929)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           s
         </text>
         <text
           transform="matrix(1 0 0 1 1805.434 72.2929)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 1829.2743 72.2929)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           r
         </text>
@@ -1017,64 +1017,64 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 981.9248 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           A
         </text>
         <text
           transform="matrix(1 0 0 1 1011.5439 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           z
         </text>
         <text
           transform="matrix(1 0 0 1 1033.8462 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           u
         </text>
         <text
           transform="matrix(1 0 0 1 1058.6533 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           r
         </text>
         <text
           transform="matrix(1 0 0 1 1073.4629 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 1097.3032 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           {' '}
         </text>
         <text
           transform="matrix(1 0 0 1 1108.4434 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           A
         </text>
         <text
           transform="matrix(1 0 0 1 1137.7988 284.4789)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           D
         </text>
@@ -1082,64 +1082,64 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 673.596 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           A
         </text>
         <text
           transform="matrix(1 0 0 1 703.2151 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           z
         </text>
         <text
           transform="matrix(1 0 0 1 725.5174 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           u
         </text>
         <text
           transform="matrix(1 0 0 1 750.3245 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           r
         </text>
         <text
           transform="matrix(1 0 0 1 765.1341 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 788.9744 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           {' '}
         </text>
         <text
           transform="matrix(1 0 0 1 800.1146 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           A
         </text>
         <text
           transform="matrix(1 0 0 1 829.47 465.8903)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           D
         </text>
@@ -1147,64 +1147,64 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 559.5256 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           .
         </text>
         <text
           transform="matrix(1 0 0 1 571.3689 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           N
         </text>
         <text
           transform="matrix(1 0 0 1 603.449 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           E
         </text>
         <text
           transform="matrix(1 0 0 1 629.4646 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           T
         </text>
         <text
           transform="matrix(1 0 0 1 655.4363 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           {' '}
         </text>
         <text
           transform="matrix(1 0 0 1 666.5764 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           A
         </text>
         <text
           transform="matrix(1 0 0 1 695.9319 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           p
         </text>
         <text
           transform="matrix(1 0 0 1 721.1785 162.5027)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           p
         </text>
@@ -1212,64 +1212,64 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1047.4305 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           .
         </text>
         <text
           transform="matrix(1 0 0 1 1059.2738 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           N
         </text>
         <text
           transform="matrix(1 0 0 1 1091.3539 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           E
         </text>
         <text
           transform="matrix(1 0 0 1 1117.3695 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           T
         </text>
         <text
           transform="matrix(1 0 0 1 1143.3412 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           {' '}
         </text>
         <text
           transform="matrix(1 0 0 1 1154.4813 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           A
         </text>
         <text
           transform="matrix(1 0 0 1 1183.8368 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           p
         </text>
         <text
           transform="matrix(1 0 0 1 1209.0834 92.4793)"
           className="fill-background"
-          font-family="'Roboto-Regular'"
-          font-size="45px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="45px"
         >
           p
         </text>
@@ -1279,10 +1279,9 @@ const Process: FC = () => (
           <circle
             fill="none"
             stroke="#975BA3"
-            stroke-width="6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-miterlimit="10"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             cx="354"
             cy="740.6"
             r="53.4"
@@ -1290,10 +1289,9 @@ const Process: FC = () => (
           <path
             fill="none"
             stroke="#975BA3"
-            stroke-width="4"
-            stroke-linecap="square"
-            stroke-linejoin="round"
-            stroke-miterlimit="10"
+            strokeWidth="4"
+            strokeLinecap="square"
+            strokeLinejoin="round"
             d="
 			M352.7,736.3c-1.9-7.5-8.7-13.1-16.8-13.1c-9.6,0-17.3,7.8-17.3,17.3s7.8,17.3,17.3,17.3c8.1,0,14.9-5.6,16.8-13.1h19.2v8h4.1
 			l2.8-2.8l2.8,2.8h4.1v-8h3.8v-8.5H352.7z M335.9,747.9c-4,0-7.3-3.3-7.3-7.3s3.3-7.3,7.3-7.3c4,0,7.3,3.3,7.3,7.3
@@ -1305,9 +1303,9 @@ const Process: FC = () => (
             fill="none"
             stroke="#1C9694"
             strokeWidth="6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             cx="1587.3"
             cy="378.8"
             r="53.4"
@@ -1317,9 +1315,9 @@ const Process: FC = () => (
             fill="none"
             stroke="#1C9694"
             strokeWidth="8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             points="
 			1570.4,377.9 1581.6,389.1 1605.9,364.8 		"
           />
@@ -1329,7 +1327,7 @@ const Process: FC = () => (
             fill="none"
             stroke="#456ABA"
             strokeWidth="6"
-            strokeMiterlimit="10"
+
             d="M956.1,509.1c-4.3-3.3-6.8-9.9-11.7-11.6
 			c-5.1-1.8-11.2,1.7-16.4,1.5c-5.3-0.2-11.2-4-16.3-2.5c-5,1.5-7.9,7.8-12.4,10.9c-4.3,2.9-11.3,3.2-14.6,7.5
 			c-3.3,4.3-1.9,11.2-3.6,16.1c-1.8,5.1-7.3,9.5-7.4,14.7c-0.2,5.3,5,10,6.5,15.1c1.5,5-0.4,11.8,2.6,16.3c2.9,4.3,9.9,5.1,14.2,8.4
@@ -1342,9 +1340,9 @@ const Process: FC = () => (
             fill="none"
             stroke="#456ABA"
             strokeWidth="8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+
             points="
 			910.2,546.7 921.4,557.9 945.7,533.6 		"
           />
@@ -1354,7 +1352,7 @@ const Process: FC = () => (
         <polyline
           fill="none"
           stroke="#EE568E"
-          stroke-width="3"
+          strokeWidth="3"
           stroke-miterlimit="10"
           points="353.1,844.9 323.4,844.9 292.9,867 
 		323.4,889.1 384.5,889.1 415.1,867 384.5,844.9 353.1,844.9 	"
@@ -1362,8 +1360,8 @@ const Process: FC = () => (
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 343.0235 879.6534)"
-          font-family="'Roboto-Regular'"
-          font-size="39px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="39px"
         >
           1
         </text>
@@ -1371,15 +1369,14 @@ const Process: FC = () => (
           fill="none"
           stroke="#EE568E"
           strokeWidth="3"
-          strokeMiterlimit="10"
           points="565.8,685.4 504.7,685.4 474.1,707.5 
 		504.7,729.7 565.8,729.7 596.4,707.5 	"
         />
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 524.2938 720.1893)"
-          font-family="'Roboto-Regular'"
-          font-size="39px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="39px"
         >
           2
         </text>
@@ -1387,15 +1384,14 @@ const Process: FC = () => (
           fill="none"
           stroke="#EE568E"
           strokeWidth="3"
-          strokeMiterlimit="10"
           points="677.6,755.6 616.5,755.6 585.9,777.7 
 		616.5,799.8 677.6,799.8 708.2,777.7 	"
         />
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 636.1053 790.3443)"
-          font-family="'Roboto-Regular'"
-          font-size="39px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="39px"
         >
           3
         </text>
@@ -1403,15 +1399,14 @@ const Process: FC = () => (
           fill="none"
           stroke="#EE568E"
           strokeWidth="3"
-          strokeMiterlimit="10"
           points="1302.9,577.8 1241.8,577.8 1211.2,599.9 
 		1241.8,622.1 1302.9,622.1 1333.4,599.9 	"
         />
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 1261.3553 612.578)"
-          font-family="'Roboto-Regular'"
-          font-size="39px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="39px"
         >
           5
         </text>
@@ -1419,15 +1414,14 @@ const Process: FC = () => (
           fill="none"
           stroke="#EE568E"
           strokeWidth="3"
-          strokeMiterlimit="10"
           points="1617.8,496.2 1556.7,496.2 1526.2,518.3 
 		1556.7,540.4 1617.8,540.4 1648.4,518.3 	"
         />
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 1576.3386 530.9437)"
-          font-family="'Roboto-Regular'"
-          font-size="39px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="39px"
         >
           6
         </text>
@@ -1435,15 +1429,14 @@ const Process: FC = () => (
           fill="none"
           stroke="#EE568E"
           strokeWidth="3"
-          strokeMiterlimit="10"
           points="957.1,671 896,671 865.4,693.2 896,715.3 
 		957.1,715.3 987.6,693.2 	"
         />
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 915.5707 705.8026)"
-          font-family="'Roboto-Regular'"
-          font-size="39px"
+          fontFamily="'Roboto-Regular'"
+          fontSize="39px"
         >
           4
         </text>

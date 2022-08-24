@@ -49,6 +49,11 @@ export const ParagraphWrapper = styled.section<{
       ${(props) => props.theme.borderColor};
   }
 
+  img {
+    width: 100%;
+    margin: ${(props) => props.theme.marginHalf} 0;
+  }
+
   &:after {
     content: '';
     position: absolute;

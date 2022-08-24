@@ -521,7 +521,10 @@ export const pageQuery = graphql`
         totalCount
       }
     }
-    logs: allMdx(filter: { fields: { subCollection: { eq: $slug } } }) {
+    logs: allMdx(
+      filter: { fields: { subCollection: { eq: $slug } } }
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
       nodes {
         slug
         timeToRead

@@ -32,9 +32,6 @@ This is kind of a major milestone on this project - casting these parts took a y
 The next tasks will be:
 
 - More research on tracking arm positions. Found and ordered a few more potentiometers designed to be used with servos. Still not happy with the best I found last year, and not sure if I need to build them myself.
-
 - Continue finishing the arm parts. They still need more polishing and grinding for best fit, and then sent for chrome plating.
-
 - Finish the head and neck design, figure out what actuators are needed, and order them along with the head parts.
-
 - Prototype robot vision. I got this started already, but my Arducam board misbehaved again so I need to order another one.

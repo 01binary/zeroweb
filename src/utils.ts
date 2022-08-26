@@ -30,10 +30,10 @@ export const formatAbsDate = (timestamp: string): string =>
 
 export const slugifyHeadings = (baseUrl: string, headings: HeadingQuery[]) =>
   headings.map((heading) => {
-    const slug = getHeadingSlug(false, heading.value);
+    const slug = getHeadingSlug(false, heading.value) ?? '';
     return {
       ...heading,
-      url: getHeadingUrl(baseUrl, slug),
+      url: getHeadingUrl(baseUrl, slug) ?? '',
       slug,
     };
   });

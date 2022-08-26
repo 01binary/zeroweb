@@ -2,19 +2,12 @@ import React, { FC, useRef } from 'react';
 import { HideTipHandler, ShowTipForHandler } from '../../hooks/useTooltip';
 import ExternalMetaLink from '../ExternalMetaLink';
 
-type LocationLinkProps = {
+const LocationLink: FC<{
   displayName?: string;
-  locationUrl: string;
+  locationUrl?: string;
   showLocationTipFor: ShowTipForHandler;
   hideLocationTip: HideTipHandler;
-};
-
-const LocationLink: FC<LocationLinkProps> = ({
-  displayName,
-  locationUrl,
-  showLocationTipFor,
-  hideLocationTip,
-}) => {
+}> = ({ displayName, locationUrl, showLocationTipFor, hideLocationTip }) => {
   const locationRef = useRef<HTMLElement>();
 
   return (
@@ -23,7 +16,7 @@ const LocationLink: FC<LocationLinkProps> = ({
       target="_blank"
       rel="noopener noreferrer"
       href={locationUrl}
-      onMouseOver={() => showLocationTipFor(displayName, locationRef)}
+      onMouseOver={() => showLocationTipFor(displayName ?? null, locationRef)}
       onMouseOut={hideLocationTip}
     >
       {displayName}

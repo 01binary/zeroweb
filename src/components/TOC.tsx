@@ -139,21 +139,13 @@ const getGitHubEditUrl = (url: string) => {
 const getAnchorFromHref = (url?: string) =>
   url && url.substring(url.indexOf('#') + 1);
 
-type TocProps = {
+const TOC: FC<{
   postUrl: string;
   headings: HeadingQuery[];
   isProject: boolean;
   showLogs: boolean;
   readPosition: number;
-};
-
-const TOC: FC<TocProps> = ({
-  postUrl,
-  headings,
-  isProject,
-  showLogs,
-  readPosition,
-}) => {
+}> = ({ postUrl, headings, isProject, showLogs, readPosition }) => {
   const { anchor, setAnchor } = useBlogContext();
   const heading = useActiveHeading(headings);
   const isAutoScrollingRef = useRef<boolean>(false);

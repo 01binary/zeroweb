@@ -18,9 +18,9 @@ import arrow from '@popperjs/core/lib/modifiers/arrow.js';
 import { MOBILE } from '../constants';
 import { Placement } from '@popperjs/core/lib/enums';
 
-export type ShowTipHandler = (text?: string) => void;
+export type ShowTipHandler = (text: string | null) => void;
 export type ShowTipForHandler = (
-  text?: string,
+  text: string | null,
   targetRef?: React.MutableRefObject<HTMLElement | undefined>
 ) => void;
 export type HideTipHandler = () => void;
@@ -77,11 +77,11 @@ export const useTooltip = ({
 
 export const useTooltipController = () => {
   const tipRef = useRef<HTMLElement>();
-  const [tooltipText, setTooltipText] = useState<string | undefined>();
+  const [tooltipText, setTooltipText] = useState<string | null>();
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
 
   const showTip = useCallback(
-    (text?: string) => {
+    (text: string | null) => {
       setTooltipVisible(true);
       setTooltipText(text);
     },
@@ -156,7 +156,7 @@ export const useTooltipTarget = ({
   }, [updateTip]);
 
   const showTargetTip = useCallback(
-    (text?: string) => {
+    (text: string | null) => {
       showTip(text);
       if (popperRef.current) popperRef.current.update();
     },
@@ -166,7 +166,10 @@ export const useTooltipTarget = ({
   return { showTip: showTargetTip, targetRef, updateTip };
 };
 
-export const useSharedTooltip = (tooltip?: string, showTipFor?: ShowTipForHandler) => {
+export const useSharedTooltip = (
+  tooltip: string | null,
+  showTipFor?: ShowTipForHandler
+) => {
   const targetRef = useRef<HTMLElement>();
   const showTip = useCallback(() => showTipFor?.(tooltip, targetRef), [
     tooltip,

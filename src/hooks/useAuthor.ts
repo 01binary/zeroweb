@@ -38,7 +38,7 @@ const useAuthor = (postAuthor: string, comments?: CommentQuery[]) => {
     () =>
       author === postAuthor
         ? getPostAuthor(author)
-        : getCommentAuthor(getCommentForAuthor(author, comments)),
+        : getCommentAuthor(getCommentForAuthor(author ?? null, comments)),
     [author, postAuthor, comments]
   );
 

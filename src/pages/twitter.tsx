@@ -28,7 +28,7 @@ const BackLink = styled(Link)`
 
 const TwitterRedirect: FC = () => {
   const [once, setOnce] = useState<boolean>(false);
-  const [error, setError] = useState<string>(null);
+  const [error, setError] = useState<string>();
   const [returnUrl, setReturnUrl] = useState<string>('/');
   const { setUser, setCredentials } = useBlogContext();
   const { twitterReturn } = useTwitter(setUser, setCredentials, setError);

@@ -107,7 +107,7 @@ const usePostReactions = ({
       hideShareMenu();
     } else {
       hideTip();
-      showShareMenu();
+      showShareMenu(null);
     }
   }, [shareMenuVisible, hideShareMenu, hideTip, showShareMenu]);
 

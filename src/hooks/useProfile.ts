@@ -9,7 +9,7 @@
 |  Copyright(C) 2022 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import { useState, useCallback, useRef, useMemo } from 'react';
 import gql from 'graphql-tag';
 import { parse } from 'query-string';
 import { useLocation } from '@reach/router';

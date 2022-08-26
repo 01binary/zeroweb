@@ -105,7 +105,7 @@ const ScrollButtonLabel = styled.label<{ inline: boolean }>`
 const ScrollToTop: FC<{
   readPosition: number;
   inline?: boolean;
-  showCommentsSidebar: boolean;
+  showCommentsSidebar?: boolean;
 }> = ({ showCommentsSidebar, readPosition, inline }) => {
   const handleClick = useCallback(
     () => window[`scrollTo`]({ top: 0, behavior: `smooth` }),

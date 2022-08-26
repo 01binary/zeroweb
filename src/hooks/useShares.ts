@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import gql from 'graphql-tag';
 import { ApolloCache, useMutation } from '@apollo/client';
 import AllSharesQuery, { ShareQuery, ShareType } from '../types/AllSharesQuery';

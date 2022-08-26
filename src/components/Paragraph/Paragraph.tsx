@@ -45,8 +45,7 @@ const HIGHLIGHT_MOUSEOVER_TIMEOUT = 100;
  * @param text - The paragraph text or html
  * @returns The hash of the text or html
  */
-const getHash = (text: string): string | undefined =>
-  text ? `p${stringHash(text)}` : undefined;
+const getHash = (text?: string): string => (text ? `p${stringHash(text)}` : '');
 
 /**
  * Determine if a text node contains another text node
@@ -84,24 +83,27 @@ const containsList = (el: HTMLElement): boolean =>
  * @param text - The element HTML
  * @returns Whether the element HTML contains a list
  */
-const textContainsList = (text: string): boolean =>
-  text?.indexOf('<ul') >= 0 || text?.indexOf('<ol') >= 0;
+const textContainsList = (text?: string): boolean =>
+  text ? text.indexOf('<ul') >= 0 || text.indexOf('<ol') >= 0 : false;
 
 /**
  * Determine whether inner HTML contains an image
  * @param html - The element HTML
  * @returns Whether the element HTML contains an image
  */
-const textContainsImage = (html: string): boolean =>
-  html?.indexOf('gatsby-resp-image-wrapper') >= 0;
+const textContainsImage = (html?: string): boolean =>
+  html
+    ? html.indexOf('gatsby-resp-image-wrapper') >= 0 ||
+      html.indexOf('<img') >= 0
+    : false;
 
 /**
  * Determine whether inner HTML contains video
  * @param html - The element HTML
  * @returns Whether the element HTML contains a video
  */
-const textContainsVideo = (html: string): boolean =>
-  html?.indexOf('iframe') >= 0;
+const textContainsVideo = (html?: string): boolean =>
+  html ? html.indexOf('iframe') >= 0 : false;
 
 /**
  * Highlights a paragraph currently being manipulated by user
@@ -175,11 +177,11 @@ const ParagraphHighlight: FC<{
 };
 
 const Paragraph: FC = ({ children }) => {
-  const commentButtonRef = useRef<HTMLElement>(null);
-  const paragraphRef = useRef<HTMLElement>(null);
-  const selectionRef = useRef<HTMLElement>(null);
-  const highlightRef = useRef<HTMLElement>(null);
-  const inlineCommentRef = useRef<HTMLTextAreaElement>(null);
+  const commentButtonRef = useRef<HTMLElement>();
+  const paragraphRef = useRef<HTMLElement>();
+  const selectionRef = useRef<HTMLElement>();
+  const highlightRef = useRef<HTMLElement>();
+  const inlineCommentRef = useRef<HTMLTextAreaElement>();
   const [innerText, setText] = useState<string | undefined>();
   const [innerHtml, setInnerHtml] = useState<string | undefined>();
 
@@ -208,9 +210,7 @@ const Paragraph: FC = ({ children }) => {
     hideProfileTip,
   } = useCommentsContext();
 
-  const hash = useMemo<string | undefined>(() => getHash(innerText), [
-    innerText,
-  ]);
+  const hash = useMemo<string>(() => getHash(innerText), [innerText]);
 
   const isList = useMemo(() => textContainsList(innerText), [innerText]);
   const isImage = useMemo(() => textContainsImage(innerText), [innerText]);
@@ -237,10 +237,8 @@ const Paragraph: FC = ({ children }) => {
   const showMarker = hasComments || hasHighlights;
   const showHighlightMark = Boolean(paragraphRef.current && highlights?.length);
   const anotherCommentThreadPinned =
-    hash && inlineCommentSingleMode && inlineCommentParagraph?.hash !== hash;
-  const showInlineCommentForm = Boolean(
-    hash && inlineCommentParagraph?.hash === hash
-  );
+    inlineCommentSingleMode && inlineCommentParagraph?.hash !== hash;
+  const showInlineCommentForm = Boolean(inlineCommentParagraph?.hash === hash);
   const showInlineCommentThread = Boolean(
     showCommentsSidebar &&
       !anotherCommentThreadPinned &&
@@ -251,8 +249,11 @@ const Paragraph: FC = ({ children }) => {
     () =>
       (highlights ?? []).reduce(
         ({ highlightStart, highlightEnd }, { rangeStart, rangeLength }) => ({
-          highlightStart: Math.min(highlightStart, rangeStart),
-          highlightEnd: Math.max(highlightEnd, rangeStart + rangeLength),
+          highlightStart: Math.min(highlightStart, rangeStart ?? 0),
+          highlightEnd: Math.max(
+            highlightEnd,
+            (rangeStart ?? 0) + (rangeLength ?? 0)
+          ),
         }),
         {
           highlightStart: innerText?.length ?? 0,
@@ -265,7 +266,7 @@ const Paragraph: FC = ({ children }) => {
   const updateSelection = useCallback((): ParagraphSelection | undefined => {
     // Track selected text to enable highlighting or commenting on this paragraph
     const selection = window.getSelection();
-    if (selection.rangeCount !== 1 || !paragraphRef.current) return;
+    if (selection?.rangeCount !== 1 || !paragraphRef.current) return;
 
     const {
       startContainer,
@@ -299,7 +300,7 @@ const Paragraph: FC = ({ children }) => {
         }
 
         if (node.nodeType === 1) pos += (node as HTMLElement).innerText.length;
-        else if (node.nodeType === 3) pos += node.nodeValue.length;
+        else if (node.nodeType === 3) pos += node.nodeValue?.length ?? 0;
       }
     };
 
@@ -307,6 +308,7 @@ const Paragraph: FC = ({ children }) => {
 
     const start = startIndex + startOffset;
     const end = endIndex + endOffset;
+
     if (end <= start) return;
 
     const {
@@ -343,7 +345,7 @@ const Paragraph: FC = ({ children }) => {
   const handleSelection = useCallback(
     // Let user select a portion of the paragraph to show paragraph comment/highlight menu
     (e: MouseEvent) => {
-      if (window.getSelection().type !== 'Range') {
+      if (window?.getSelection()?.type !== 'Range') {
         clearSelection();
         return;
       }
@@ -351,7 +353,7 @@ const Paragraph: FC = ({ children }) => {
       if (highlightedParagraph?.hash !== hash || highlightedParagraph?.hover) {
         // New selection
         const newSelection = updateSelection();
-        if (newSelection)
+        if (hash && newSelection)
           setHighlightedParagraph({
             hash,
             start: newSelection.start,
@@ -360,8 +362,14 @@ const Paragraph: FC = ({ children }) => {
           });
       } else if (paragraphSelection?.hash === hash) {
         // Has existing selection
-        const { left, top, width, height } = window
-          .getSelection()
+        const selection = window.getSelection();
+
+        if (!selection) {
+          clearSelection();
+          return;
+        }
+
+        const { left, top, width, height } = selection
           .getRangeAt(0)
           .getBoundingClientRect();
 
@@ -405,6 +413,7 @@ const Paragraph: FC = ({ children }) => {
         length: highlightEnd - highlightStart,
         hover: true,
       });
+
       showParagraphMenu(null, highlightRef);
     }
   }, [
@@ -470,7 +479,7 @@ const Paragraph: FC = ({ children }) => {
           'mouseout',
           handleHighlightMouseOut
         );
-        highlightRef.current = null;
+        highlightRef.current = undefined;
       }
     };
   }, [
@@ -491,7 +500,7 @@ const Paragraph: FC = ({ children }) => {
     if (
       paragraphSelection?.hash === hash &&
       highlightedParagraph?.hash !== hash &&
-      window.getSelection().type !== 'Range'
+      window.getSelection()?.type !== 'Range'
     ) {
       setParagraphSelection(null);
       hideParagraphMenu();
@@ -521,7 +530,7 @@ const Paragraph: FC = ({ children }) => {
           >
             {children}
           </ActiveParagraphHighlight>
-        ) : showHighlightMark ? (
+        ) : showHighlightMark && innerHtml ? (
           <ParagraphHighlight
             innerHtml={innerHtml}
             start={highlightStart}
@@ -546,7 +555,7 @@ const Paragraph: FC = ({ children }) => {
         <AddCommentIcon />
       </CommentButton>
 
-      {showInlineCommentThread && (
+      {inlineCommentParagraph && showInlineCommentThread && (
         <InlineComments
           {...{
             className: 'paragraph__comment-thread',
@@ -574,9 +583,9 @@ const Paragraph: FC = ({ children }) => {
           {hasHighlights && (
             <>
               <RulerHighlightIcon />
-              {highlights.length > 1 && (
+              {highlights && highlights.length > 1 && (
                 <RulerMarkerBadge className="paragraph__ruler-marker__badge">
-                  {highlights.length}
+                  {highlights?.length}
                 </RulerMarkerBadge>
               )}
             </>
@@ -584,9 +593,9 @@ const Paragraph: FC = ({ children }) => {
           {hasComments && (
             <>
               <RulerCommentIcon />
-              {comments.length > 1 && (
+              {comments && comments.length > 1 && (
                 <RulerMarkerBadge className="paragraph__ruler-marker__badge">
-                  {comments.length}
+                  {comments?.length}
                 </RulerMarkerBadge>
               )}
             </>

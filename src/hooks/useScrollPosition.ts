@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 
 const THROTTLE_MS = 200;
 
@@ -29,7 +29,7 @@ const getScrollPercent: () => number = () => {
 };
 
 const useScrollPosition = () => {
-  const throttleTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const throttleTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const [readPosition, setReadPosition] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
 
@@ -41,12 +41,12 @@ const useScrollPosition = () => {
     setReadPosition(currentPosition);
     setScrollOffset(offset);
 
-    throttleTimeoutRef.current = null;
+    throttleTimeoutRef.current = undefined;
   }, []);
 
   useLayoutEffect(() => {
     const handleScroll = () => {
-      if (throttleTimeoutRef.current === null)
+      if (throttleTimeoutRef.current === undefined)
         throttleTimeoutRef.current = setTimeout(updatePosition, THROTTLE_MS);
     };
 

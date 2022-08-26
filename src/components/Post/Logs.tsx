@@ -73,7 +73,7 @@ type LogsProps = {
 };
 
 const Logs: FC<LogsProps> = ({ postUrl, logs, showTipFor, hideTip }) => {
-  const logDateRef = useRef<HTMLElement>(null);
+  const logDateRef = useRef<HTMLElement>();
   return logs?.length ? (
     <LogsSection>
       <LogsHeading id="logs">

@@ -199,11 +199,11 @@ type InlineCommentsProps = {
   postUrl: string;
   absolutePostUrl: string;
   loading: boolean;
-  paragraphComments: CommentQuery[];
+  paragraphComments?: CommentQuery[];
   showInlineCommentForm: boolean;
   inlineCommentParagraph: ParagraphComment;
-  inlineCommentRef: React.MutableRefObject<HTMLTextAreaElement>;
-  postContentRef: React.MutableRefObject<HTMLElement>;
+  inlineCommentRef: React.MutableRefObject<HTMLTextAreaElement | undefined>;
+  postContentRef: React.MutableRefObject<HTMLElement | undefined>;
   addInlineComment: () => Promise<void>;
   toggleInlineComment: (paragraphHash: string | null) => void;
   setInlineCommentParagraph: (paragraphComment: ParagraphComment) => void;
@@ -241,8 +241,8 @@ export const InlineComments: FC<InlineCommentsProps> = ({
   } = useBlogContext();
 
   const [alignBottom, setAlignBottom] = useState<boolean>(false);
-  const commentThreadRef = useRef<HTMLElement>(null);
-  const tipTargetRef = useRef<HTMLElement>(null);
+  const commentThreadRef = useRef<HTMLElement>();
+  const tipTargetRef = useRef<HTMLElement>();
 
   const handleAddInlineComment = useCallback(() => {
     addInlineComment();
@@ -327,7 +327,7 @@ export const InlineComments: FC<InlineCommentsProps> = ({
             )}
           </InlineCommentHeader>
           <InlineCommentBody>
-            <ReactMarkdown>{markdown}</ReactMarkdown>
+            <ReactMarkdown>{markdown ?? ''}</ReactMarkdown>
           </InlineCommentBody>
         </InlineComment>
       ))}

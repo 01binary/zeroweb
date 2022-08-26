@@ -9,8 +9,8 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { createContext, useContext, useCallback } from 'react';
 import gql from 'graphql-tag';
+import React, { createContext, useContext, useCallback } from 'react';
 import { ApolloCache, FetchResult, useMutation } from '@apollo/client';
 import AllCommentsQuery, { CommentQuery } from '../types/AllCommentsQuery';
 import AddCommentQuery from '../types/AddCommentQuery';
@@ -52,22 +52,22 @@ type CommentsContextProps = {
   absolutePostUrl: string;
   comments?: CommentQuery[];
   loading: boolean;
-  highlightTimerRef: React.MutableRefObject<number | null>;
-  postContentRef: React.MutableRefObject<HTMLElement | null>;
+  highlightTimerRef: React.MutableRefObject<number | undefined>;
+  postContentRef: React.MutableRefObject<HTMLElement | undefined>;
   showTipFor: ShowTipForHandler;
   hideTip: HideTipHandler;
   showParagraphMenu: ShowTipForHandler;
   hideParagraphMenu: HideTipHandler;
-  setHighlightedParagraph: (highlight: ParagraphHighlight) => void;
+  setHighlightedParagraph: (highlight: ParagraphHighlight | null) => void;
   highlightedParagraph: ParagraphHighlight | null;
   paragraphSelection: ParagraphSelection | null;
-  setParagraphSelection: (selection: ParagraphSelection) => void;
+  setParagraphSelection: (selection: ParagraphSelection | null) => void;
   inlineCommentParagraph: ParagraphComment | null;
   setInlineCommentParagraph: (
     paragraphComment: ParagraphComment | null
   ) => void;
-  toggleInlineComment: (paragraphHash: string) => void;
-  addInlineComment?: () => Promise<void>;
+  toggleInlineComment: (paragraphHash: string | null) => void;
+  addInlineComment: () => Promise<void>;
   showCommentsSidebar: boolean;
   inlineCommentSingleMode: boolean;
   showProfileTipFor: ShowTipForHandler;
@@ -78,8 +78,8 @@ export const CommentsContext = createContext<CommentsContextProps>({
   postUrl: '',
   absolutePostUrl: '',
   loading: false,
-  highlightTimerRef: React.createRef<number>(),
-  postContentRef: React.createRef<HTMLElement>(),
+  highlightTimerRef: React.createRef<number>() as React.MutableRefObject<number>,
+  postContentRef: React.createRef<HTMLElement>() as React.MutableRefObject<HTMLElement>,
   showTipFor: () => {},
   hideTip: () => {},
   showParagraphMenu: () => {},
@@ -93,6 +93,7 @@ export const CommentsContext = createContext<CommentsContextProps>({
   showCommentsSidebar: false,
   inlineCommentSingleMode: false,
   toggleInlineComment: () => {},
+  addInlineComment: () => Promise.resolve(),
   showProfileTipFor: () => {},
   hideProfileTip: () => {},
 });
@@ -212,16 +213,20 @@ export const useComments = (
   const [voteComment, { loading: voteLoading }] = useMutation<VoteCommentQuery>(
     VOTE_COMMENT
   );
+
   const [addComment, { loading: addLoading }] = useMutation<AddCommentQuery>(
     ADD_COMMENT
   );
+
   const [editComment, { loading: editLoading }] = useMutation<EditCommentQuery>(
     EDIT_COMMENT
   );
+
   const [
     deleteComment,
     { loading: deleteLoading },
   ] = useMutation<DeleteCommentQuery>(DELETE_COMMENT);
+
   const [
     reactToComment,
     { loading: reactLoading },

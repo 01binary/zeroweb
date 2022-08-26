@@ -104,7 +104,7 @@ const useInlineComments = ({
         if (!user) {
           // Direct user to login
           hideParagraphMenu();
-          showLoginPopup(undefined, highlightedParagraphRef);
+          showLoginPopup(null, highlightedParagraphRef);
           return;
         }
 
@@ -175,7 +175,7 @@ const useInlineComments = ({
         })
         .catch(() => {
           setInlineCommentParagraph((prev) => ({
-            ...prev,
+            ...(prev ?? { hash: '' }),
             error: 'Could not comment inline',
           }));
         });

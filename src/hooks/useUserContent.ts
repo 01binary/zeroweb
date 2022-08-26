@@ -43,25 +43,26 @@ const useUserContent = (slug: string) => {
 
   const setComments = useCallback(
     (cache: ApolloCache<AllCommentsQuery>, comments: CommentQuery[]) => {
-      const { shares } = cache.readQuery({
+      const query: any = cache.readQuery({
         query: USER_CONTENT,
         variables: { slug },
       });
-      cache.writeQuery({
-        query: USER_CONTENT,
-        variables: { slug },
-        data: {
-          comments,
-          shares,
-        },
-      });
+      if (query)
+        cache.writeQuery({
+          query: USER_CONTENT,
+          variables: { slug },
+          data: {
+            comments,
+            shares: query.shares,
+          },
+        });
     },
     []
   );
 
   const setShares = useCallback(
     (cache: ApolloCache<AllSharesQuery>, shares: ShareQuery[]) => {
-      const { comments } = cache.readQuery({
+      const query: any = cache.readQuery({
         query: USER_CONTENT,
         variables: { slug },
       });
@@ -69,7 +70,7 @@ const useUserContent = (slug: string) => {
         query: USER_CONTENT,
         variables: { slug },
         data: {
-          comments,
+          comments: query.comments,
           shares,
         },
       });

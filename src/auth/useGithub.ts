@@ -21,7 +21,7 @@ import { authenticate } from './cognito';
 import { AUTH_URL } from '../constants';
 
 const GITHUB_CLIENT_ID = 'cab115b1924e0c6f67c0';
-const GITHUB_REDIRECT_URL = 'https://localhost:8000/github';
+const GITHUB_REDIRECT_URL = 'https://www.01binary.us/github';
 const GITHUB_COOKIE = 'gh';
 
 type GitHubCookie = {

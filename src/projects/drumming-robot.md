@@ -40,7 +40,7 @@ I started by prototyping a single arm out of wood to get it rotating, raising, e
 
 `youtube:https://www.youtube.com/embed/Abf0k5A4z88`
 
-Once the design for the robot arms was finalized, I printed and [re-cast](https://github.com/01binary/investment-casting) them out of Aluminum 356, then installed encoders and actuators. I also designed a head that could make facial expressions and move the mouth to make [hypergrowls](https://www.youtube.com/watch?v=Stvc9zR3-KA).
+Once the design for the robot arms was finalized, I printed and [re-cast](https://github.com/01binary/investment-casting) them out of Aluminum 356, then installed encoders and actuators. I also designed a head that could make facial expressions and voice [hypergrowls](https://www.youtube.com/watch?v=Stvc9zR3-KA).
 
 <Gallery>
   <img alt="arm" src="./images/drumming-robot-arm.png"/>
@@ -53,7 +53,7 @@ Once the design for the robot arms was finalized, I printed and [re-cast](https:
   <img alt="eyes" src="./images/drumming-robot-head-model.jpg"/>
 </Gallery>
 
-Next I need to perform integration testing with all four arms together, implement inverse kinematics with [MoveIt](https://moveit.ros.org/), and locate drums using OpenCV with [Arducam](https://www.arducam.com/) NoIR stereo camera that can estimate positions of objects in the dark.
+Next I'm integration testing all four arms together, implementing inverse kinematics with [MoveIt](https://moveit.ros.org/), and locating drums using OpenCV with [Arducam](https://www.arducam.com/) NoIR stereo camera that can estimate positions of objects in the dark.
 
 ## downloads
 

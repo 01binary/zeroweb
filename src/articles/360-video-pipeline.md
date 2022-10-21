@@ -27,6 +27,8 @@ import Pipeline from './components/360-video-pipeline';
 
 I use the [Insta 360 Pro I](https://www.insta360.com/product/insta360-pro) with an [external SSD](https://www.amazon.com/gp/product/B073H552FJ/ref=ppx_yo_dt_b_asin_title_o02__o00_s00) and [battery](https://www.amazon.com/gp/product/B016BJCRUO/ref=oh_aui_search_asin_title), leaving the stock battery and a memory card inside the camera in case the external ones fail.
 
+![Insta 360 Pro I camera](./images/360-camera.jpg)
+
 Since the onboard mic cannot handle the loudness and dynamic range of a real performance, I supplement the sound with an [external stereo sound recorder](https://www.amazon.com/gp/product/B07B4KFQW7/ref=oh_aui_search_asin_title) and the audio from the venue board recorded on to a USB drive.
 
 ## pre-flight

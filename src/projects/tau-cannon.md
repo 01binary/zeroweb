@@ -33,7 +33,7 @@ I always wanted one, so I decided to build my own to get more experience with sh
 
 I started with sourcing external components because it's easier to reverse-engineer a sci-fi prop with no known dimensions by finding real-world equivalents of a few parts and sizing everything else relative to those.
 
-The [top](https://www.amazon.com/SMALLRIG-Handle-Anti-Off-Designed-Adapter/dp/B07BT7XXN9) and [side](https://marksalecenter.com/product/supeirxiu-quick-connect-handle-for-hand-guard-can-be-tilted-to-5-non-slip-and-scratch-resistant-positionsblack/) handles which industrial designers call handles *affordances* as they play a central role in determining human factors made good references.
+The [top](https://www.amazon.com/SMALLRIG-Handle-Anti-Off-Designed-Adapter/dp/B07BT7XXN9) and [side](https://marksalecenter.com/product/supeirxiu-quick-connect-handle-for-hand-guard-can-be-tilted-to-5-non-slip-and-scratch-resistant-positionsblack/) handles  provided for good reference points in ensuring the size of the finished prop will fit a person.
 
 Installing picatinny rails added another dimension of realism -- you can mount [tactical straps](https://www.amazon.com/dp/B08RF1LJDT), [laser sights](https://www.amazon.com/EZshoot-Tactical-Picatinny-Magnetic-Rechargeable/dp/B09TB3W5LD), [flashlights](https://www.amazon.com/Feyachi-FL11-MB-Tactical-Flashlight-Picatinny/dp/B09MW4HV72), and even [bipods](https://www.amazon.com/CVLIFE-Tactical-Adjustable-Release-Picatinny/dp/B01N43IPLF) on those.
 

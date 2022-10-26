@@ -105,9 +105,18 @@ const About: FC<PageQuery> = ({ data }) => (
             with Diabetes.
           </p>
           <p>
-            Growing `team capacity` by exposing and fixing critical quality
-            issues to `deliver` features faster and `secure` our position as a
-            market leader.
+            Delivering practical solutions with clear value by growing a deep
+            understanding of the business domain and defining technical stories.
+          </p>
+          <p>
+            Growing `team capacity` by proposing and making software
+            `architecture` and `design` improvements to deliver features faster
+            and secure our position as a market leader.
+          </p>
+          <p>
+            Developing engineers to `maximize contributions` from the `unique
+            talents` on my team. Teaching `software development` and
+            `architecture` best practices across teams.
           </p>
         </Summary>
         <Details>
@@ -177,6 +186,11 @@ const About: FC<PageQuery> = ({ data }) => (
             Led a weekly `architecture` meeting to amplify best practices for
             working with `Azure` services, `ASP.NET Core` backend, `Angular 8`
             frontend, and `SQL Server` databases.
+          </p>
+          <p>
+            Worked with `DevOps`, developers and `QA` to create a new `Software
+            Development Lifecycle` process and migrate applications to the new
+            cloud infrastructure.
           </p>
         </Summary>
         <Details>

@@ -4,6 +4,7 @@ description: A headless double-neck guitar with a keyboard and oscilloscope
 image: ./images/cyber-guitar.png
 author: Valeriy Novytskyy
 date: 2021-02-11
+pinned: true
 location: ^H Hackerspace
 tags:
   [

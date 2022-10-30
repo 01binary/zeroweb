@@ -4,6 +4,7 @@ description: How to let users login with a Microsoft account in .NET Core
 image: ./images/microsoft-authentication.png
 author: Valeriy Novytskyy
 date: 2022-06-03
+pinned: true
 location: Emerald Line
 tags:
   [

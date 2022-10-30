@@ -3,7 +3,8 @@ title: Drumming robot
 description: A four-armed robotic drummer with stereoscopic infrared vision
 image: ./images/drumming-robot.png
 author: Valeriy Novytskyy
-date: 2021-02-11
+date: 2021-02-12
+pinned: true
 location: ^H Hackerspace
 tags:
   [

@@ -17,6 +17,7 @@ import { getDateValue, getDateUnits } from '../../utils';
 import ClockIcon from '../../images/clock.svg';
 import TagList from '../TagList';
 import { MOBILE } from '../../constants';
+import PostDetailsQuery from '../../types/PostQuery';
 
 const ARTICLE_THUMBNAIL_WIDTH = 320;
 const ARTICLE_THUMBNAIL_HEIGHT = 170;
@@ -232,64 +233,90 @@ const ArticleTitleLink = styled(Link)`
   }
 `;
 
+const pinnedFirst = (
+  {
+    frontmatter: { pinned: firstPinned, date: firstFormattedDate },
+  }: PostDetailsQuery,
+  {
+    frontmatter: { pinned: secondPinned, date: secondFormattedDate },
+  }: PostDetailsQuery
+) => {
+  const firstDate = new Date(firstFormattedDate);
+  const firstOrder = firstPinned ? 1 : 0;
+  const secondDate = new Date(secondFormattedDate);
+  const secondOrder = secondPinned ? 1 : 0;
+
+  if (firstOrder > secondOrder) return -1;
+  if (secondOrder > firstOrder) return 1;
+
+  if (firstDate > secondDate) return -1;
+  if (secondDate > firstDate) return 1;
+
+  return 0;
+};
+
 const PostList: FC<PostsQuery> = ({ nodes, group }) => (
   <>
-    {nodes.map(
-      (
-        {
-          slug,
-          timeToRead,
-          frontmatter: {
-            title,
-            relativeDate,
-            description,
-            image: {
-              childImageSharp: { fluid },
+    {nodes
+      .sort(pinnedFirst)
+      .map(
+        (
+          {
+            slug,
+            timeToRead,
+            frontmatter: {
+              title,
+              relativeDate,
+              description,
+              image: {
+                childImageSharp: { fluid },
+              },
             },
+            fields: { tags, collection, url },
           },
-          fields: { tags, collection, url },
-        },
-        index
-      ) => (
-        <Article key={slug} Index={index}>
-          <ArticleTitleLink to={url}>
-            <Title>{title}</Title>
-          </ArticleTitleLink>
+          index
+        ) => (
+          <Article key={slug} Index={index}>
+            <ArticleTitleLink to={url}>
+              <Title>{title}</Title>
+            </ArticleTitleLink>
 
-          <Meta>
-            <Clock />
-            {Boolean(getDateValue(relativeDate).length) && (
-              <MetaIndicator>{getDateValue(relativeDate)}&nbsp;</MetaIndicator>
-            )}
-            {getDateUnits(relativeDate)}
-            {timeToRead && (
-              <span>
-                {' / '}
-                <MetaIndicator>{timeToRead}</MetaIndicator> min to read
-              </span>
-            )}
-            <ArticleThumbnailLink to={url}>
-              <ArticleThumbnail>
-                <ArticleImage src={fluid.src} />
-              </ArticleThumbnail>
-            </ArticleThumbnailLink>
+            <Meta>
+              <Clock />
+              {Boolean(getDateValue(relativeDate).length) && (
+                <MetaIndicator>
+                  {getDateValue(relativeDate)}&nbsp;
+                </MetaIndicator>
+              )}
+              {getDateUnits(relativeDate)}
+              {timeToRead && (
+                <span>
+                  {' / '}
+                  <MetaIndicator>{timeToRead}</MetaIndicator> min to read
+                </span>
+              )}
+              <ArticleThumbnailLink to={url}>
+                <ArticleThumbnail>
+                  <ArticleImage src={fluid.src} />
+                </ArticleThumbnail>
+              </ArticleThumbnailLink>
 
-            <ArticleSummary>{description}</ArticleSummary>
-          </Meta>
+              <ArticleSummary>{description}</ArticleSummary>
+            </Meta>
 
-          <InlineTags>
-            <TagList
-              tags={tags}
-              stats={group}
-              collection={collection}
-              alwaysInline
-            />
-          </InlineTags>
+            <InlineTags>
+              <TagList
+                tags={tags}
+                stats={group}
+                collection={collection}
+                alwaysInline
+              />
+            </InlineTags>
 
-          <ArticleLink to={url}>Read more...</ArticleLink>
-        </Article>
-      )
-    )}
+            <ArticleLink to={url}>Read more...</ArticleLink>
+          </Article>
+        )
+      )}
   </>
 );
 

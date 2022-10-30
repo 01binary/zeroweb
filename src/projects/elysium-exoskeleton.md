@@ -3,7 +3,8 @@ title: Elysium Exoskeleton
 description: A full-scale replica of the exosuit from the movie Elysium (2013)
 image: ./images/elysium-exoskeleton.png
 author: Valeriy Novytskyy
-date: 2021-02-11
+date: 2021-02-12
+pinned: true 
 location: ^H Hackerspace
 tags: ['engineering-mechanical', 'design-industrial', 'tool-inventor']
 ---

@@ -4,6 +4,7 @@ description: How to cast mechanical parts out of aluminum on a budget
 image: ./images/investment-casting-process.png
 author: Valeriy Novytskyy
 date: 2021-02-11
+pinned: true
 location: ^H Hackerspace
 tags: ['engineering-mechanical', 'design-industrial']
 ---

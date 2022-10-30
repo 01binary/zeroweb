@@ -3,7 +3,7 @@ title: Only the paranoid survive
 description: What I learned from Intel CEO Andy Grove's book
 image: ./images/only-paranoid-survive.png
 author: Valeriy Novytskyy
-date: 2022-07-23
+date: 2022-08-13
 location: Fall Creek
 tags:
   [

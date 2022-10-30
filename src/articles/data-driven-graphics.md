@@ -4,6 +4,7 @@ description: Interactive graphics that delight users and increase revenue
 image: ./images/data-driven-graphics.png
 author: Valeriy Novytskyy
 date: 2022-07-27
+pinned: true
 location: Lewis River Falls
 tags:
   [

@@ -3,7 +3,7 @@ title: What they don't teach you at Harvard Business School
 description: Reviewing the classic 1984 text by Mark McCormack
 image: ./images/what-they-dont-title.png
 author: Valeriy Novytskyy
-date: 2022-08-13
+date: 2022-07-23
 location: Lewis River Falls
 tags:
   [

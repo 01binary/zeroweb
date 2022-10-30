@@ -6,7 +6,7 @@
 |
 |  Component used to render a list of posts.
 |----------------------------------------------------------
-|  Copyright(C) 2021 Valeriy Novytskyy
+|  Copyright(C) 2022 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
 import React, { FC } from 'react';

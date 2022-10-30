@@ -179,7 +179,7 @@ const About: FC<PageQuery> = ({ data }) => (
         <Summary>
           <p>
             Supported `enterprise application development` across multiple
-            teams. Shifted common responsibilites like `authentication` to
+            teams. Shifted common responsibilities like `authentication` to
             `automated` cloud infrastructure to facilitate efficient delivery.
           </p>
           <p>
@@ -393,7 +393,7 @@ const About: FC<PageQuery> = ({ data }) => (
           <p>
             Engaged `WebMD` to re-assert their brand equity with health plans by
             delivering a responsive `React`/`Redux` application that
-            incentivised cheaper `insurance` costs by `rewarding` subscribers
+            incentivized cheaper `insurance` costs by `rewarding` subscribers
             for maintaining a healthy lifestyle.
           </p>
           <p>
@@ -406,17 +406,17 @@ const About: FC<PageQuery> = ({ data }) => (
           <p>
             Engaged `WebMD` re-assert their brand equity with health plans by
             delivering a responsive `React`/`Redux` application that
-            incentivised cheaper `insurance` costs for employees by rewarding
+            incentivized cheaper `insurance` costs for employees by rewarding
             them for managing conditions with healthy eating, exercise, taking
             medications on time, regular provider visits, and frequent
             notifications to help them stay on track.
           </p>
           <p>
-            Delivered features at a regular candence with `Agile`/`Scrum` by
+            Delivered features at a regular cadence with `Agile`/`Scrum` by
             creating `Jira` stories and `Bitbucket` pull requests.
           </p>
           <p>
-            Styled applcation interface with `SCSS` and object oriented CSS
+            Styled application interface with `SCSS` and object oriented CSS
             (`OOCSS`) by referencing UX compositions in `Sketch` and importing
             `SVG` graphics.
           </p>
@@ -514,9 +514,9 @@ const About: FC<PageQuery> = ({ data }) => (
           </p>
           <p>
             Designed and maintained `Azure Table Storage` and `SQL Server`
-            databases. Optimized query performance by asessing `execution plans`
-            and data unit (`DTU`) charts to identify expensive operations and
-            create indexes.
+            databases. Optimized query performance by assessing `execution
+            plans` and data unit (`DTU`) charts to identify expensive operations
+            and create indexes.
           </p>
           <p>
             Supported a `distributed` crash reporting system in `Azure` that

@@ -15,12 +15,16 @@ import {
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
+  from,
 } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
+import { RetryLink } from '@apollo/client/link/retry';
 import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 import { AWSSignature } from '../auth/types';
 
 // https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-generate-sdk-javascript.html
 declare var apigClientFactory: any;
+declare var dataLayer: any;
 
 /**
  * Use AWS API Gateway client to make web requests
@@ -64,6 +68,51 @@ const configureApiGatewayLink = (signature: AWSSignature | null) => {
 };
 
 /**
+ * Configure a link for retrying failed requests
+ * @returns Apollo link that can be plugged into from() to combine with other links
+ */
+const configureRetryLink = () =>
+  new RetryLink({
+    attempts: (count, operation, error) => {
+      return !!error && operation.operationName != 'specialCase';
+    },
+    delay: (count, operation, error) => {
+      console.error(`[Apollo retry]: Operation: ${operation}, Error: ${error}`);
+      dataLayer &&
+        dataLayer.push({
+          event: 'network_retry',
+          operation,
+          error,
+          count,
+        });
+      return count * 1000 * Math.random();
+    },
+  });
+
+/**
+ * Configure a link for reporting errors
+ * @returns Apollo link that can be plugged into from() to combine with other links
+ */
+const configureErrorLink = () =>
+  onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.error(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        )
+      );
+
+    if (networkError) {
+      console.error(`[Network error]: ${networkError}`);
+      dataLayer &&
+        dataLayer.push({
+          event: 'network_error',
+          error_message: networkError.message,
+        });
+    }
+  });
+
+/**
  * Use Local Storage to save the cache of API responses
  * @returns Local storage Apollo Storage
  */
@@ -105,7 +154,15 @@ const useApiClient = (
   const [client, setClient] = useState(configureEmptyClient());
 
   useEffect(() => {
-    const link = configureApiGatewayLink(signature);
+    const requestLink = configureApiGatewayLink(signature);
+    if (!requestLink) return;
+
+    const link = from([
+      configureErrorLink(),
+      configureRetryLink(),
+      requestLink,
+    ]);
+
     const storage = configureLocalStorage();
     const cache = configureInMemoryCache();
 

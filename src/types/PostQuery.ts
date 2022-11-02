@@ -28,6 +28,7 @@ type PostDetailsQuery = {
   };
   headings: Array<HeadingQuery>;
   post: PostDetailsQuery;
+  rawBody?: string;
   tagGroups: TagsQuery;
   project?: {
     frontmatter: {

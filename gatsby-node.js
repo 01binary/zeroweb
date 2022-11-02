@@ -103,35 +103,6 @@ exports.createPages = async ({
     return;
   }
 
-  // Generate search index
-  fs.writeFileSync(
-    path.resolve(__dirname, './search.json'),
-    JSON.stringify(
-      nodes.reduce(
-        (
-          entries,
-          {
-            slug,
-            fields: { collection },
-            rawBody,
-            frontmatter: { description, tags, title },
-          }
-        ) => [
-          ...entries,
-          {
-            slug,
-            collection,
-            title,
-            tags,
-            description,
-            body: rawBody.replace('\n', ' '),
-          },
-        ],
-        []
-      )
-    )
-  );
-
   // Generate posts
   nodes.forEach(({ slug, fields: { collection, subCollection } }) => {
     const path = getPagePath(collection, slug);

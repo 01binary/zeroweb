@@ -29,6 +29,7 @@ type PostMetadataQuery = {
   location: string;
   locationUrl: string;
   pinned: boolean;
+  tags: string[];
 };
 
 export default PostMetadataQuery;

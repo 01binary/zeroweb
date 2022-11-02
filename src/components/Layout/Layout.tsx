@@ -22,7 +22,7 @@ import {
   NARROW_SIDE_COMMENTS,
   SIDE_COMMENTS_WIDTH,
 } from '../../constants';
-import { SEARCH_LENGTH } from '../../hooks/useSearch';
+import { MIN_SEARCH_LENGTH } from '../../hooks/useSearch';
 import { FullScreenSearch } from './Search';
 
 const Site = styled.div<{ showCommentsSidebar: true }>`
@@ -52,7 +52,7 @@ const Layout: FC<RouteComponentProps> = ({ children, location }) => {
     >
       <SEO />
       <GlobalStyle theme={theme} />
-      {(search && search.length > SEARCH_LENGTH) || searchSticky ? (
+      {(search && search.length > MIN_SEARCH_LENGTH) || searchSticky ? (
         <FullScreenSearch />
       ) : (
         <Site {...{ showCommentsSidebar }}>

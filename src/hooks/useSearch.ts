@@ -1,17 +1,78 @@
+import { useStaticQuery, graphql } from 'gatsby';
 import { ChangeEvent, useCallback, useMemo } from 'react';
+import type { AllPostsQuery } from '../types/AllPostsQuery';
 import { useBlogContext } from './useBlogContext';
-import SEARCH_INDEX from '../../search.json';
 
-export const SEARCH_LENGTH = 3;
+export const MIN_SEARCH_LENGTH = 3;
 
-const getSearchResults = (search?: string) => {
-  if (!search || search.length <= SEARCH_LENGTH) return [];
+type SearchIndexEntry = {
+  slug: string;
+  collection: string;
+  title: string;
+  tags: string[];
+  description: string;
+  body: string;
+};
 
-  const tokens = search
-    .split(' ')
-    .filter((token) => token.length > SEARCH_LENGTH);
+const useSearchIndex = () => {
+  const {
+    allMdx: { nodes },
+  } = useStaticQuery<AllPostsQuery>(graphql`
+    {
+      allMdx {
+        nodes {
+          slug
+          fields {
+            collection
+            subCollection
+          }
+          frontmatter {
+            description
+            tags
+            title
+          }
+          rawBody
+        }
+      }
+    }
+  `);
 
-  return SEARCH_INDEX.filter(
+  const searchIndex = useMemo(
+    () =>
+      nodes.reduce(
+        (
+          entries: SearchIndexEntry[],
+          {
+            slug,
+            fields: { collection },
+            rawBody,
+            frontmatter: { description, tags, title },
+          }
+        ) => [
+          ...entries,
+          {
+            slug,
+            collection,
+            title: title.toLowerCase(),
+            tags,
+            description: description.toLowerCase(),
+            body: rawBody ? rawBody.replace('\n', ' ') : '',
+          },
+        ],
+        []
+      ),
+    [nodes]
+  );
+
+  return searchIndex;
+};
+
+const getSearchResults = (entries: SearchIndexEntry[], search?: string) => {
+  if (!search || search.length <= MIN_SEARCH_LENGTH) return [];
+
+  const tokens = search.split(' ').map((token) => token.toLowerCase());
+
+  return entries.filter(
     ({ title, body }) =>
       body.indexOf(search) >= 0 ||
       tokens.reduce((match, token) => match || title.indexOf(token) >= 0, false)
@@ -20,8 +81,11 @@ const getSearchResults = (search?: string) => {
 
 export const useSearch = () => {
   const { search, searchSticky, setSearch, setSearchSticky } = useBlogContext();
-
-  const searchResults = useMemo(() => getSearchResults(search), [search]);
+  const index = useSearchIndex();
+  const results = useMemo(() => getSearchResults(index, search), [
+    search,
+    index,
+  ]);
 
   const handleChangeSearch = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +109,7 @@ export const useSearch = () => {
     setSearch,
     searchSticky,
     setSearchSticky,
-    searchResults,
+    searchResults: results,
     handleChangeSearch,
     handleClearSearch,
     handleKeyDown,

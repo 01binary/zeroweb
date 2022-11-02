@@ -112,6 +112,8 @@ const SearchInput = styled.input<{ fullScreen?: boolean }>`
         ${(props) => props.theme.spacingQuarter}
     );
 
+    padding-right: 0;
+
     &:focus {
       outline-color: ${(props) =>
         props.fullScreen

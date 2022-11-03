@@ -365,8 +365,6 @@ export const FullScreenSearch: FC = () => {
     setSearchSticky(true);
   }, [setSearchSticky]);
 
-  console.log('search', searchResults);
-
   return (
     <SearchScreen>
       <SearchForm>

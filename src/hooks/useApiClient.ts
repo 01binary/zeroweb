@@ -73,11 +73,10 @@ const configureApiGatewayLink = (signature: AWSSignature | null) => {
  */
 const configureRetryLink = () =>
   new RetryLink({
-    attempts: (count, operation, error) => {
-      return !!error && operation.operationName != 'specialCase';
-    },
+    attempts: (count, operation, error) =>
+      !!error && operation.operationName != 'specialCase',
     delay: (count, operation, error) => {
-      console.error(`[Apollo retry]: Operation: ${operation}, Error: ${error}`);
+      console.error('Apollo retry', { operation, error });
       dataLayer &&
         dataLayer.push({
           event: 'network_retry',
@@ -97,13 +96,11 @@ const configureErrorLink = () =>
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
       graphQLErrors.forEach(({ message, locations, path }) =>
-        console.error(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        )
+        console.error('GraphQL error', { message, locations, path })
       );
 
     if (networkError) {
-      console.error(`[Network error]: ${networkError}`);
+      console.error({ networkError });
       dataLayer &&
         dataLayer.push({
           event: 'network_error',

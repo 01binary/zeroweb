@@ -43,7 +43,7 @@ Body and stock were machined out of aluminum, the coil and battery covers made o
   <img alt="parts" src="./images/tau-parts01.jpg"/>
   <img alt="bends" src="./images/tau-parts02.jpg"/>
   <img alt="body" src="./images/tau-parts03.jpg"/>
-  <img alt="handle" src="./images/tau-parts04.jpg"/>
+  <img alt="muzzle" src="./images/tau-parts04.jpg"/>
 </Gallery>
 
 I also designed some rubber parts: a [recoil pad](https://www.amazon.com/s?k=rubber+recoil+pad+AR-15&i=sporting), finger grip near the trigger, and a hose panel-mount connector. I still need to find a fitting wire gauge for winding the toroidal cores, weld, and paint all the parts.

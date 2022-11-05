@@ -26,7 +26,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gatsby-zeroweb-build-
       - name: Prepare environment
-        run: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev
+        run: sudo apt-get install automake libtool dpkg pkg-config nasm libpng-dev
       - name: Install dependencies
         run: yarn install
       - name: Build

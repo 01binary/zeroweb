@@ -114,7 +114,7 @@ See [Premiere Pro audio plug-ins](https://helpx.adobe.com/premiere-pro/using/aud
 
 ## transcoding
 
-I transcode the footage twice, downscaling each time to average the "noise" pixels because this lowers the noise floor on the image and makes it look sharper without accentuating noise like a sharpening algorithm would, or blurring like a de-noising algorithm would.
+I transcode the footage twice, down-scaling each time to average the "noise" pixels because this lowers the noise floor on the image and makes it look sharper without accentuating noise like a sharpening algorithm would, or blurring like a de-noising algorithm would.
 
 I output both passes to `PNG` sequences. Using an uncompressed format like `BMP` may save up to `60%` of time on rendering each pass including the final encode, if you have have several TB of space available.
 
@@ -139,7 +139,7 @@ The result of color grading and re-sampling can then be rendered to a `5120x2560
 
 ## de-noising
 
-The second transcoding pass applies de-noising and downsamples to `4K`. [Red Giant Denoiser III](https://www.redgiant.com/products/magic-bullet-denoiser) has a built-in re-sharpening pass. [Neat Video Reduce Noise](https://www.neatvideo.com/) and [Boris FX VR Sharpen](https://borisfx.com/effects/continuum-vr-sharpen-1/) can also be combined to the same effect.
+The second transcoding pass applies de-noising and down-samples to `4K`. [Red Giant Denoiser III](https://www.redgiant.com/products/magic-bullet-denoiser) has a built-in re-sharpening pass. [Neat Video Reduce Noise](https://www.neatvideo.com/) and [Boris FX VR Sharpen](https://borisfx.com/effects/continuum-vr-sharpen-1/) can also be combined to the same effect.
 
 - When using the **Denoiser III** plug-in, I often turn off the re-sharpening pass and set other settings lower to reduce noise on light halos and make everything look smoother without increasing noise. If the lighting at the performance was bright enough I can usually get away with a small amount of re-sharpening.
 - When using the **Neat Video** plug-in, I select an area with the most noise and use the automatic profile analysis to let the plug-in decide what to do. The results are always great, although this plug-in often takes more time to process than Denoiser III. When possible, I apply a re-sharpening pass with **Boris FX VR Sharpen**.

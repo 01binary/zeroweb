@@ -141,7 +141,7 @@ If you selected *"Accounts in this organizational directory only (Default Direct
 
 > The account type selected when creating the App Registration is available on Authentication blade under Supported account types.
 
-* The *OAuth 2.0 auhorization endpoint (v2)* contains the value for `AuthorizationEnpoint` option in the snippet below.
+* The *OAuth 2.0 authorization endpoint (v2)* contains the value for `AuthorizationEnpoint` option in the snippet below.
 * The *OAuth 2.0 token endpoint (v2)* contains the value for `TokenEndpoint` option in the snippet below.
 
 These settings are not secrets and can be stored in `appsettings.json`. Plug them into the call to `AddMicrosoftAccount` added in the previous listing:

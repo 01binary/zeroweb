@@ -24,7 +24,7 @@ Switchback is a headless double-neck guitar with a keyboard for playing [neurome
 
 ![switchback logo](./images/cyber-guitar-logo.png)
 
-For this project my goal was to get into electrical engineering, learn embedded development on [Arduino](https://www.arduino.cc/) and [Itsy Bitsy](https://www.adafruit.com/product/3675) microcontrollers, display graphics on a screen with the [SPI](https://learn.sparkfun.com/tutorials/serial-peripheral-interface-spi/all) protocol, and process audio from a [bluetooth receiver](https://www.amazon.com/gp/product/B07W7YCFS1).
+For this project my goal was to get into electrical engineering, learn embedded development on [Arduino](https://www.arduino.cc/) and [Itsy Bitsy](https://www.adafruit.com/product/3675) micro-controllers, display graphics on a screen with the [SPI](https://learn.sparkfun.com/tutorials/serial-peripheral-interface-spi/all) protocol, and process audio from a [bluetooth receiver](https://www.amazon.com/gp/product/B07W7YCFS1).
 
 <Gallery>
   <img alt="cnc" src="./images/cyber-guitar-cnc.jpg"/>

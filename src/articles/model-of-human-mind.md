@@ -15,7 +15,7 @@ tags:
 
 As I became more familiar with the writings of *Freud* and *Plato* and started practicing daily meditation, I realized that both authors and sensei have the same model of the human mind.
 
-Freud calls it *personality*, sensei practicioners call it *consciousness*, and *Plato* calls it the *soul*. All theories divide the mind into *three elements*:
+Freud calls it *personality*, sensei practitioners call it *consciousness*, and *Plato* calls it the *soul*. All theories divide the mind into *three elements*:
 
 1. The **Rational**, or *thinking* element that plans and measures
 2. The **Executive**, or *doing* element that acts

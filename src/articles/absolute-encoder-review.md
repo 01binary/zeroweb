@@ -14,7 +14,7 @@ tags:
 ---
 ## motivation
 
-Robotics servos come with encoders, but the resulting package is often hard to integrate into a *compact design*. Manufacturers that [integrate a servo with an encoder](https://www.robotis.us/dynamixel-p/) price their products for *big-bidget customers*.
+Robotics servos come with encoders, but the resulting package is often hard to integrate into a *compact design*. Manufacturers that [integrate a servo with an encoder](https://www.robotis.us/dynamixel-p/) price their products for *big-budget customers*.
 
 For my [robot drummer](/projects/drumming-robot), I wanted to move the arms using *linear* actuators and read current arm positions as *angles*. Compact linear actuators did not come with encoders, and there was no space to fit a linear encoder so I went looking for an *absolute encoder* that could fit inside the arm joints.
 

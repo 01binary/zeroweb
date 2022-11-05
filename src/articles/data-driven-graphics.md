@@ -166,7 +166,7 @@ You can also set the CSS `transition` property for all animated elements to have
 
 My favorite subject in school was physics because I loved playing with the classroom electronics equipment like meters, switches, and batteries.
 
-The illustration below is based on the Soviet physics classroom equipment from my school in Ukraine in the early 1990s. The industrial design of these objects echoes the "constructivist" style popular at the time, with bold, blocky shapes and energetic grayscale, red, and blue color scheme.
+The illustration below is based on the Soviet physics classroom equipment from my school in Ukraine in the early 1990s. The industrial design of these objects echoes the "constructivist" style popular at the time, with bold, blocky shapes and energetic gray-scale, red, and blue color scheme.
 
 <ExperimentExample />
 

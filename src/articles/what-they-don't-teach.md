@@ -73,7 +73,7 @@ The previous section talked about the importance of being aware, but how do you 
 
 * *Relaxing environment*. Find out what the other person loves or considers relaxing and attack them there while blending in with the environment so as not to "take them out" of their unaware state.
 * *Overwhelming environment*. When people are overwhelmed by a "fish-out-of-water" situation, dealing with that situation will reduce their awareness of you.
-* *Violating expectations*. Most people can be caught by suprise outside of the "battlefield" where they expect to be attacked. That includes breaks between meetings, having lunch, and so on. Expectations can also be violated by synthesizing distractions, interruptions or emergencies to put things onto an unexpected track.
+* *Violating expectations*. Most people can be caught by surprise outside of the "battlefield" where they expect to be attacked. That includes breaks between meetings, having lunch, and so on. Expectations can also be violated by synthesizing distractions, interruptions or emergencies to put things onto an unexpected track.
 * *Candor*. Assuring the other party that you will do whatever is necessary to get them on your side shames them into a "reset", and makes them focus on similarities when they are busy picking apart the differences.
 
 ### insights
@@ -86,9 +86,9 @@ Insights discussed in the previous section can also be weaponized:
 
 ### impressions
 
-If the point of negotiation is to influence someone that you can't control directly, a successful negotation leads to someone *wanting* to do what you need them to do. This is best accomplished by *controlling impressions*.
+If the point of negotiation is to influence someone that you can't control directly, a successful negotiation leads to someone *wanting* to do what you need them to do. This is best accomplished by *controlling impressions*.
 
-The impression you make contributes to your influence disproportionately. Con men take advantage of this to create a fake impression, which influences you to want to do what they are asking willingly, without coersion.
+The impression you make contributes to your influence disproportionately. Con men take advantage of this to create a fake impression, which influences you to want to do what they are asking willingly, without coercion.
 
 Take advantage of every opportunity to create an ongoing impression of competence, effectiveness, maturity, and fair-minded toughness. 
 
@@ -122,9 +122,9 @@ Mark's sales advice boils down to paying attention to insights about others, whi
 
 Selling a product requires *marketing*. The centerpiece of marketing is *positioning*, or understanding what you are selling and who you are selling it to.
 
-This concept is so important that it appears in many other enterpreneurship books like [The Passion Economy](https://www.amazon.com/Passion-Economy-Thriving-Twenty-First-Century-ebook/dp/B07QDK4MM7) by Adam Davidson.
+This concept is so important that it appears in many other entrepreneurship books like [The Passion Economy](https://www.amazon.com/Passion-Economy-Thriving-Twenty-First-Century-ebook/dp/B07QDK4MM7) by Adam Davidson.
 
 Some examples that appear in Mark's book:
 - Rolex is not a watch business, it's in a luxury business. Customers are buying an appearance of status and luxury that is shaped like a watch.
-- Car sales have not been based around product features for some time. It's all about making a personal statement. Car companies look for recurring classes of people: college professors, ourdoorsmen, street racers, fancy executives, suburban parents trying to "keep up with the Joneses'", and build products around those identities.
-- Althetes who are not the best at their game can still be marketed and sold by connecting this to another related strength, like their appearance and a fake persona built specifically for the market.
+- Car sales have not been based around product features for some time. It's all about making a personal statement. Car companies look for recurring classes of people: college professors, outdoorsmen, street racers, fancy executives, suburban parents trying to "keep up with the Joneses'", and build products around those identities.
+- Athletes who are not the best at their game can still be marketed and sold by connecting this to another related strength, like their appearance and a fake persona built specifically for the market.

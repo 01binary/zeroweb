@@ -62,7 +62,7 @@ Parts can be downloaded by cloning the [GitHub repository](https://github.com/01
 
 | directory                                                                                    | contents                                                      |
 | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| [print](https://github.com/01binary/elysium-max-exoskeleton/tree/master/print)               | .stl exports of individual parts using millimiter units       |
+| [print](https://github.com/01binary/elysium-max-exoskeleton/tree/master/print)               | .stl exports of individual parts using millimeter units       |
 | [instructions](https://github.com/01binary/elysium-max-exoskeleton/tree/master/instructions) | build instructions and the source Adobe InDesign file         |
 | [build](https://github.com/01binary/elysium-max-exoskeleton/tree/master/build)               | photographs to show assembled parts at a glance               |
 | [assembled](https://github.com/01binary/elysium-max-exoskeleton/tree/master/assembled)       | high-poly .stl and .obj exports of the assembled exosuit      |

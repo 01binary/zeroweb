@@ -40,7 +40,7 @@ MCP3008 can be wired to the Raspberry Pi `SPI0` bus as follows:
 |`AGND`|`GND`|Ground|
 |`DGND`|`GND`|Ground|
 
-The inputs can be read using [spiOpen](https://abyz.me.uk/rpi/pigpio/cif.html#spiOpen) and [spiXfer](https://abyz.me.uk/rpi/pigpio/cif.html#spiXfer) from `PiGPIO` libray:
+The inputs can be read using [spiOpen](https://abyz.me.uk/rpi/pigpio/cif.html#spiOpen) and [spiXfer](https://abyz.me.uk/rpi/pigpio/cif.html#spiXfer) from `PiGPIO` library:
 
 ```c
 #include <stdio.h>
@@ -148,7 +148,7 @@ ADS1115 can be wired to the Raspberry Pi `I2C` bus as follows:
 |`VDD`|`3.3V`|Power|
 |`GND`|`GND`|Ground|
 
-Configuring ADS1115 involves writing a 16-bit value with various settings stored in bitfields to its *configuration* register (encoded as two's complement):
+Configuring ADS1115 involves writing a 16-bit value with various settings stored in bit-fields to its *configuration* register (encoded as two's complement):
 
 |Offset|Bits|Setting|Values|
 |-|-|-|-|

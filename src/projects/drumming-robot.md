@@ -26,7 +26,7 @@ Str1ker is a robotic drummer built with a combination of metal casting, 3D print
 
 ![str1ker logo](./images/drumming-robot-logo.png)
 
-For this project my goal is to learn [::ROS](https://www.ros.org/), create parts that look organic by using Generative Design functionality in [Autodesk Inventor](https://www.autodesk.com/products/inventor/), get experience with [Raspberry Pi 4](https://www.adafruit.com/product/4296) microcontroller, modern servos and linear actuators, and finally build a robotic drummer for my [neurometal](https://www.youtube.com/playlist?list=PL2ZwTvIdYJGJxl1kszP3a_z6O4DcHwvok) band.
+For this project my goal is to learn [::ROS](https://www.ros.org/), create parts that look organic by using Generative Design functionality in [Autodesk Inventor](https://www.autodesk.com/products/inventor/), get experience with [Raspberry Pi 4](https://www.adafruit.com/product/4296) micro-controller, modern servos and linear actuators, and finally build a robotic drummer for my [neurometal](https://www.youtube.com/playlist?list=PL2ZwTvIdYJGJxl1kszP3a_z6O4DcHwvok) band.
 
 <Gallery>
   <img alt="body" src="./images/drumming-robot-body.png"/>
@@ -66,7 +66,7 @@ The project files can be downloaded by cloning the [GitHub repository](https://g
 | Source code                       | [code](https://github.com/01binary/drummingrobot/tree/master/src/code)         |
 | Concept art                       | [design](https://github.com/01binary/drummingrobot/tree/master/design)         |
 | Documentation for components used | [doc](https://github.com/01binary/drummingrobot/tree/master/doc)               |
-| Insipration                       | [references](https://github.com/01binary/drummingrobot/tree/master/references) |
+| Inspiration                       | [references](https://github.com/01binary/drummingrobot/tree/master/references) |
 | 3D renders                        | [render](https://github.com/01binary/drummingrobot/tree/master/render)         |
 
 ![str1ker head](./images/drumming-robot-head.png)

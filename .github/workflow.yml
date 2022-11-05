@@ -1,0 +1,43 @@
+name: ZeroWeb Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 17.9.0
+      - name: Caching Gatsby
+        id: gatsby-cache-build
+        uses: actions/cache@v2
+        with:
+          path: |
+            public
+            .cache
+            node_modules
+          key: ${{ runner.os }}-gatsby-zeroweb-build-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-zeroweb-build-
+      - name: Prepare environment
+        run: sudo apt-get install automake libtool dpkg pkg-config nasm libpng12-dev
+      - name: Install dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build:ci
+      - name: Authenticate with AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Deploy to S3
+        run: yarn run deploy:ci
+      - name: Invalidate CloudFront
+        run: yarn run invalidate

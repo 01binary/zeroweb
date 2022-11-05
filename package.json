@@ -8,9 +8,12 @@
     "gatsby"
   ],
   "scripts": {
-    "deploy-backend": "chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh",
+    "deploy": "gatsby-plugin-s3 deploy",
+    "deploy:ci": "gatsby-plugin-s3 deploy --yes",
+    "deploy:backend": "chmod +x ./build/package.sh && chmod +x ./build/deploy.sh && ./build/package.sh && ./build/deploy.sh",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id E18605QBCLR777 --paths '/*';",
     "start": "NODE_OPTIONS='-r esm' gatsby develop --https",
-    "build-ci": "NODE_OPTIONS='-r esm --openssl-legacy-provider' gatsby build",
+    "build:ci": "NODE_OPTIONS='-r esm --openssl-legacy-provider' gatsby build",
     "build": "NODE_OPTIONS='-r esm' gatsby build",
     "serve": "NODE_OPTIONS='-r esm' gatsby serve",
     "clean": "NODE_OPTIONS='-r esm' gatsby clean"
@@ -38,6 +41,7 @@
     "gatsby-plugin-offline": "^3.10.0",
     "gatsby-plugin-react-helmet": "^3.10.0",
     "gatsby-plugin-react-svg": "^3.0.0",
+    "gatsby-plugin-s3": "^0.3.8",
     "gatsby-plugin-sharp": "^2.14.1",
     "gatsby-plugin-styled-components": "^3.10.0",
     "gatsby-plugin-transform-imports": "^1.0.0",

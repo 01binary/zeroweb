@@ -29,8 +29,8 @@ export type ReactionDisplayType =
   | 'PostComment'
   | 'ParagraphHighlight';
 
-// Refresh user-created content every 30 minutes
-const USER_CONTENT_POLL_INTERVAL_MS = 30 * 60 * 1000;
+// Refresh user-created content every 5 minutes
+const USER_PROFILE_POLL_INTERVAL_MS = 5 * 60 * 1000;
 
 // User profile query
 const GET_PROFILE = gql`
@@ -86,7 +86,7 @@ const useProfile = () => {
     GET_PROFILE,
     {
       variables: { userId },
-      pollInterval: USER_CONTENT_POLL_INTERVAL_MS,
+      pollInterval: USER_PROFILE_POLL_INTERVAL_MS,
       skip: !Boolean(isLoggedIn || isForAnotherUser),
     }
   );

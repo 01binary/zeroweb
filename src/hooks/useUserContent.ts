@@ -24,8 +24,8 @@ import {
   useComments,
 } from './useComments';
 
-// Refresh user-created content every 30 minutes
-const USER_CONTENT_POLL_INTERVAL_MS = 30 * 60 * 1000;
+// Refresh user-created content every minute
+const USER_CONTENT_POLL_INTERVAL_MS = 1 * 60 * 1000;
 
 const USER_CONTENT = gql`
   query userContent ($slug: String!) {

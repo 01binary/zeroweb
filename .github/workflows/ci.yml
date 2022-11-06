@@ -31,7 +31,12 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build:ci
-      - name: Authenticate with AWS
+      - name: Test
+        env:
+          AWS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        run: |
+          echo ${#AWS_KEY}
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}

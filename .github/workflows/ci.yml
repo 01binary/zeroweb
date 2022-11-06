@@ -25,17 +25,17 @@ jobs:
           key: ${{ runner.os }}-gatsby-zeroweb-build-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-gatsby-zeroweb-build-
+      - name: Test
+        env:
+          AWS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        run: |
+          echo ${#AWS_KEY}
       - name: Prepare environment
         run: sudo apt-get install automake libtool dpkg pkg-config nasm libpng-dev
       - name: Install dependencies
         run: yarn install
       - name: Build
         run: yarn build:ci
-      - name: Test
-        env:
-          AWS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        run: |
-          echo ${#AWS_KEY}
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

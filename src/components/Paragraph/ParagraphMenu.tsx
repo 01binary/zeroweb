@@ -30,14 +30,14 @@ const ParagraphMenu: FC<ParagraphMenuProps> = ({
     onMouseOver={onMouseOver}
     onMouseOut={onMouseOut}
   >
-    <MenuItem id="paragraphHighlight" onClick={onSelect}>
+    <MenuItem id="paragraphHighlight" onSelect={onSelect}>
       <HighlightIcon />
       {highlights > 1 ? 'Highlights' : 'Highlight'}
       {highlights > 0 && (
         <ParagraphMenuItemBadge>&nbsp;[{highlights}]</ParagraphMenuItemBadge>
       )}
     </MenuItem>
-    <MenuItem id="paragraphComment" onClick={onSelect}>
+    <MenuItem id="paragraphComment" onSelect={onSelect}>
       <CommentIcon />
       {comments > 1 ? 'Comments' : 'Comment'}
       {comments > 0 && (

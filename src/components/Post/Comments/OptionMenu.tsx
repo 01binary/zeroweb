@@ -10,13 +10,13 @@ import DeleteIcon from '../../../images/delete.svg';
 
 const OptionMenu: FC<MenuProps> = ({ onSelect }) => (
   <Menu>
-    <MenuItem id="editComment" onClick={onSelect}>
+    <MenuItem id="editComment" onSelect={onSelect}>
       <MenuItemIcon>
         <EditIcon />
       </MenuItemIcon>
       Edit
     </MenuItem>
-    <MenuItem id="deleteComment" onClick={onSelect}>
+    <MenuItem id="deleteComment" onSelect={onSelect}>
       <MenuItemIcon>
         <DeleteIcon />
       </MenuItemIcon>

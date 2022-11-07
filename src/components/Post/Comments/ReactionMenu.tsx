@@ -8,7 +8,7 @@ import ReactionSnapIcon from '../../../images/reaction-snap.svg';
 import { CommentReactionDescription } from './Comments.styles';
 
 const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
-  const [reaction, setReaction] = useState<string>(null);
+  const [reaction, setReaction] = useState<string | null>(null);
   return (
     <Menu>
       <CommentReactionDescription>
@@ -20,7 +20,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
           id="snap"
           onMouseOver={() => setReaction('snap!')}
           onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
+          onSelect={onSelect}
         >
           <ReactionSnapIcon />
         </MenuItem>
@@ -28,7 +28,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
           id="party"
           onMouseOver={() => setReaction('four loko')}
           onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
+          onSelect={onSelect}
         >
           <ReactionPartyIcon />
         </MenuItem>
@@ -36,7 +36,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
           id="lol"
           onMouseOver={() => setReaction('lol')}
           onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
+          onSelect={onSelect}
         >
           <ReactionLolIcon />
         </MenuItem>
@@ -44,7 +44,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
           id="wow"
           onMouseOver={() => setReaction('surprised')}
           onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
+          onSelect={onSelect}
         >
           <ReactionWowIcon />
         </MenuItem>
@@ -52,7 +52,7 @@ const ReactionMenu: FC<MenuProps> = ({ onSelect }) => {
           id="confused"
           onMouseOver={() => setReaction('confused')}
           onMouseOut={() => setReaction(null)}
-          onClick={onSelect}
+          onSelect={onSelect}
         >
           <ReactionConfusedIcon />
         </MenuItem>

@@ -1,7 +1,14 @@
+import React, { FC, PropsWithChildren, useCallback } from 'react';
 import styled from 'styled-components';
 
 export type MenuProps = {
-  onSelect?: (e: React.MouseEvent) => void;
+  onSelect: (id: string) => void;
+};
+
+export type MenuItemProps = MenuProps & {
+  id: string;
+  onMouseOver?: React.MouseEventHandler;
+  onMouseOut?: React.MouseEventHandler;
 };
 
 export const Menu = styled.div<{ horizontal?: boolean; fade?: boolean }>`
@@ -23,7 +30,7 @@ export const MenuItemIcon = styled.div`
   height: 16px;
 `;
 
-export const MenuItem = styled.button`
+const MenuItemButton = styled.button`
   display: flex;
   padding: 10px 16px;
   align-items: center;
@@ -67,3 +74,27 @@ export const MenuItem = styled.button`
     }
   }
 `;
+
+export const MenuItem: FC<PropsWithChildren<MenuItemProps>> = ({
+  id,
+  children,
+  onSelect,
+  onMouseOver,
+  onMouseOut,
+}) => {
+  const handleSelect = useCallback(
+    (e: React.MouseEvent) => onSelect((e.target as HTMLButtonElement).id),
+    [onSelect]
+  );
+
+  return (
+    <MenuItemButton
+      id={id}
+      onClick={handleSelect}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+    >
+      {children}
+    </MenuItemButton>
+  );
+};

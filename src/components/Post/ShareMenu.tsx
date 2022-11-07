@@ -20,7 +20,7 @@ type ShareMenuProps = {
 
 const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
   <Menu vertical>
-    <MenuItem id="linkShare" onClick={onSelect}>
+    <MenuItem id="linkShare" onSelect={onSelect}>
       <MenuItemIcon>
         <ShareLinkIcon />
       </MenuItemIcon>
@@ -29,7 +29,7 @@ const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
         <ShareMenuItemBadge>{sharesByType.link}</ShareMenuItemBadge>
       )}
     </MenuItem>
-    <MenuItem id="twitterShare" onClick={onSelect}>
+    <MenuItem id="twitterShare" onSelect={onSelect}>
       <MenuItemIcon>
         <ShareTwitterIcon />
       </MenuItemIcon>
@@ -38,7 +38,7 @@ const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
         <ShareMenuItemBadge>{sharesByType.twitter}</ShareMenuItemBadge>
       )}
     </MenuItem>
-    <MenuItem id="facebookShare" onClick={onSelect}>
+    <MenuItem id="facebookShare" onSelect={onSelect}>
       <MenuItemIcon>
         <ShareFacebookIcon />
       </MenuItemIcon>
@@ -47,7 +47,7 @@ const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
         <ShareMenuItemBadge>{sharesByType.facebook}</ShareMenuItemBadge>
       )}
     </MenuItem>
-    <MenuItem id="linkedInShare" onClick={onSelect}>
+    <MenuItem id="linkedInShare" onSelect={onSelect}>
       <MenuItemIcon>
         <ShareLinkedInIcon />
       </MenuItemIcon>
@@ -56,7 +56,7 @@ const ShareMenu: FC<ShareMenuProps> = ({ sharesByType, onSelect }) => (
         <ShareMenuItemBadge>{sharesByType.linkedIn}</ShareMenuItemBadge>
       )}
     </MenuItem>
-    <MenuItem id="emailShare" onClick={onSelect}>
+    <MenuItem id="emailShare" onSelect={onSelect}>
       <MenuItemIcon>
         <ShareEmailIcon />
       </MenuItemIcon>

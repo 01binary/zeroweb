@@ -54,7 +54,7 @@ const ChainsawIllustration: FC<{ className?: string }> = ({ className }) => (
           strokeWidth="4"
           strokeLinecap="round"
           strokeLinejoin="round"
-          stroke-dasharray="10,8"
+          strokeDasharray="10,8"
           d="
       M206.7,135.5c0,0-57.2,25-57.2,25L48.3,216c-3.3,1.7-10.3,6.4-11,18c-0.6,9,8.5,11,14.4,8.2l100.7-45.2l54.3-29.1V135.5z"
         />

@@ -6,6 +6,7 @@ import { Heading1, Heading2, Heading3, Heading4 } from './Heading';
 import { Table, TableHeading, TableRow, TableCell } from './Post/Table';
 import { MOBILE } from '../constants';
 import UnorderedList from './Post/UnorderedList';
+import Reactions from './Post/PostReactions';
 import OrderedList from './Post/OrderedList';
 import Blockquote from './Post/Blockquote';
 import ExternalLink from './Post/ExternalLink';
@@ -324,6 +325,14 @@ const Page: FC<PageProps & PageQuery> = ({
             />
           </ContextMenu>
         </Content>
+
+        <Reactions
+          reactionCount={reactionCount}
+          shareCount={shareCount}
+          sharesByType={sharesByType}
+          handleSnap={handleSnap}
+          handleShare={handleShare}
+        />
       </Main>
 
       <Tooltip {...tipProps}>

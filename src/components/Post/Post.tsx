@@ -146,7 +146,7 @@ const Post: FC<{
     handleReact,
   } = useUserContent(slug);
 
-  const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
+  const { showTipFor, hideTip, tipProps, tooltipText } = useTooltip({
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 5,
     placement: 'top',
@@ -156,7 +156,6 @@ const Post: FC<{
     hideTip: hideLocationTip,
     showTipFor: showLocationTipFor,
     tipProps: locationTipProps,
-    tipRef: locationTipRef,
   } = useTooltip({
     verticalOffsetDesktop: 6,
     verticalOffsetMobile: 6,
@@ -164,7 +163,6 @@ const Post: FC<{
 
   const {
     profile,
-    profileTipRef,
     profileTipProps,
     showProfileTipFor,
     hideProfileTip,
@@ -177,7 +175,6 @@ const Post: FC<{
     handleHideShareMenu,
     hideShareMenu,
     shareMenuProps,
-    shareMenuRef,
     shareMenuTargetRef,
   } = usePostReactions({
     user,
@@ -195,9 +192,7 @@ const Post: FC<{
     handleToggleInlineComment,
     handleAddInlineComment,
     highlightTimerRef,
-    paragraphMenuRef,
     paragraphMenuProps,
-    loginPopupRef,
     loginPopupProps,
     handleParagraphAction,
     handleParagraphMenuMouseOver,
@@ -374,7 +369,7 @@ const Post: FC<{
             </GalleryContext.Provider>
           </CommentsContext.Provider>
 
-          <ContextMenu ref={paragraphMenuRef} {...paragraphMenuProps}>
+          <ContextMenu {...paragraphMenuProps}>
             <ParagraphMenu
               loading={loading}
               highlights={paragraphHighlightCount}
@@ -385,7 +380,7 @@ const Post: FC<{
             />
           </ContextMenu>
 
-          <ContextMenu ref={shareMenuRef} {...shareMenuProps}>
+          <ContextMenu {...shareMenuProps}>
             <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
             <ContextMenuArrow />
           </ContextMenu>
@@ -407,22 +402,22 @@ const Post: FC<{
         hideTip={hideTip}
       />
 
-      <Tooltip ref={tipRef} {...tipProps}>
+      <Tooltip {...tipProps}>
         {tooltipText}
         <Arrow />
       </Tooltip>
 
-      <Tooltip ref={profileTipRef} {...profileTipProps}>
+      <Tooltip {...profileTipProps}>
         {profile && <ProfileTip {...profile} />}
         <Arrow />
       </Tooltip>
 
-      <Tooltip ref={locationTipRef} {...locationTipProps}>
+      <Tooltip {...locationTipProps}>
         <LocationTip {...location} />
         <Arrow />
       </Tooltip>
 
-      <ContextMenu ref={loginPopupRef} {...loginPopupProps}>
+      <ContextMenu {...loginPopupProps}>
         <LoginPopup>
           <Login
             inline

@@ -29,6 +29,7 @@ import useScrollPosition from '../hooks/useScrollPosition';
 import Comments from './Post/Comments/Comments';
 import usePostReactions from '../hooks/usePostReactions';
 import Wheel from './Post/Wheel';
+import ShareMenu from './Post/ShareMenu';
 
 const PageTitle = styled(Title)`
   margin-bottom: calc(0px - ${(props) => props.theme.spacingHalf});
@@ -158,6 +159,7 @@ const Page: FC<PageProps & PageQuery> = ({
     commentCount,
     reactionCount,
     shareCount,
+    sharesByType,
     paragraphSelection,
     highlightedParagraph,
     inlineCommentParagraph,
@@ -188,6 +190,8 @@ const Page: FC<PageProps & PageQuery> = ({
     handleHideShareMenu,
     hideShareMenu,
     shareMenuTargetRef,
+    shareMenuProps,
+    handleShare,
   } = usePostReactions({
     user,
     title,
@@ -204,9 +208,7 @@ const Page: FC<PageProps & PageQuery> = ({
     handleToggleInlineComment,
     handleAddInlineComment,
     highlightTimerRef,
-    paragraphMenuRef,
     paragraphMenuProps,
-    loginPopupRef,
     loginPopupProps,
     handleParagraphAction,
     handleParagraphMenuMouseOver,
@@ -229,7 +231,6 @@ const Page: FC<PageProps & PageQuery> = ({
 
   const {
     profile,
-    profileTipRef,
     profileTipProps,
     showProfileTipFor,
     hideProfileTip,
@@ -307,7 +308,12 @@ const Page: FC<PageProps & PageQuery> = ({
             {body ? <MDXRenderer>{body}</MDXRenderer> : children}
           </CommentsContext.Provider>
 
-          <ContextMenu ref={paragraphMenuRef} {...paragraphMenuProps}>
+          <ContextMenu {...shareMenuProps}>
+            <ShareMenu sharesByType={sharesByType} onSelect={handleShare} />
+            <ContextMenuArrow />
+          </ContextMenu>
+
+          <ContextMenu {...paragraphMenuProps}>
             <ParagraphMenu
               loading={loading}
               highlights={paragraphHighlightCount}

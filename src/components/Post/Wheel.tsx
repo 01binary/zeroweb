@@ -9,7 +9,7 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import React, { FC, useRef, useEffect, useCallback } from 'react';
+import React, { FC, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import useSnap from '../../hooks/useSnap';
@@ -216,7 +216,7 @@ const Wheel: FC<WheelProps> = ({
   const commentRef = useRef<HTMLElement>(
     null
   ) as React.MutableRefObject<HTMLElement>;
-  const { hideTip, showTipFor, tipProps, tipRef, tooltipText } = useTooltip({});
+  const { hideTip, showTipFor, tipProps, tooltipText } = useTooltip({});
   const [isSnapAnimated, playSnapAnimation] = useSnap(() => {
     hideTip();
     handleSnap();
@@ -272,7 +272,7 @@ const Wheel: FC<WheelProps> = ({
             </CommentsBadge>
           </CommentButton>
         </CommentLink>
-        <Tooltip ref={tipRef} {...tipProps} role="tooltip">
+        <Tooltip {...tipProps} role="tooltip">
           {tooltipText}
           <Arrow />
         </Tooltip>

@@ -829,7 +829,7 @@ const unsigned char SIGNATURE[] = { 'a', 'd', 'c', 'd' };
 struct SAMPLE
 {
   unsigned char signature[4];
-  short readings[sizeof(CHANNELS)];
+  short readings[CHANNELS];
 };
 
 // Serial bus handle

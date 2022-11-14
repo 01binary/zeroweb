@@ -31,15 +31,19 @@ Mark addresses four main topics in his book:
 * Advice for executives and managers
 * Advice for closing sales deals
 * Corporate survival and getting promoted
-* Advice for enterpreneurs
+* Advice for entrepreneurs
 
 I will go through all the major sections and call out interesting tidbits.
 
 ## communicating
 
-As you probably noticed, corporate culture is the ultimate popularity contest for adults. This comes as no suprise since the cornerstone of any business is Sales, which is all about playing chess with emotions or playing poker with appearances. Sales as a profession is not based around facts.
+The cornerstone of any business is Sales, and Sales as a professional is not based around facts. It's an art of influencing others by leveraging emotions and other motivational forces present in the human psyche.
 
-Traditional corporate environments mirror this basic truth: your own accomplishments depend on what others let you do, trading favors and stroking egos is an everyday reality, and recognition is not merit-based. Mark therefore kicks off his book with advice on communicating effectively and improving emotional maturity.
+In order to improve any outcome, the first step is understanding the processes involved and building an accurate mental model. In other words, becoming more aware of the surrounding environment.
+
+Since the environment includes yourself as well as the people you are trying to influence, measurable improvement requires attacking the problem from both ends: understanding both yourself and others better.
+
+Mark therefore kicks off his book with advice on communicating effectively and improving emotional maturity.
 
 ### be genuine
 
@@ -94,13 +98,9 @@ Take advantage of every opportunity to create an ongoing impression of competenc
 
 ## getting ahead
 
-If moving up the corporate ladder has nothing to do with skills and experience, what does it take? The short answer is combining work-related experience with inter-personal skills and understanding the framework of promotions.
-
-The corporate environment is an oddity in this sense: the same sales skills required to run a successful business on your own and acquire customers are also required to "sell yourself" and get promoted.
+Getting ahead reqires combining work-related experience with inter-personal skills and understanding the framework of promotions.
 
 ![Getting ahead](./images/what-they-dont-teach-you-thegame.png)
-
-People gifted with interpersonal skills find it easier to become successful this way, while others find it more important to satisfy their creative impulses. As always, the easiest way to be good at something is to enjoy doing it.
 
 In Mark's words, getting promoted comes down to playing multiple games:
 
@@ -108,6 +108,14 @@ In Mark's words, getting promoted comes down to playing multiple games:
 At the same time, you must make the middle guys think that by supporting you and building you up to the top guy they will look better as managers.<br/><br/>
 You must also prevent these middle managers (who are looking out for their own interests) from stifling you or from appropriating your contributions [...] Meanwhile, you must keep your peers as friends and maintain the support of your subordinates.<br/><br/>
 It is not only complicated, it can also get pretty unpleasant and is one of the big reasons so many people become turned off by working for a company.
+
+In "Paying More To Get Less: The Effects of External Hiring versus Internal Mobility" by Matthew Bidwell (published by [Administrative Science Quarterly](https://www.johnson.cornell.edu/administrative-science-quarterly/)), the author argues that companies often prefer hiring external candidates rather than promoting because of stronger observable indicators of ability despite significantly higher risk of poor fit and higher pay. 
+
+This creates an environment where it's more rewarding to build a strong external image than perform well. Turning this the other way around, internal workers are typically not promoted because they don't take time to advertise their abilities: they prioritize performance in their current role.
+
+Sources like [CHRON](https://smallbusiness.chron.com/advantages-company-doing-internal-external-hiring-22017.html) and [QUARTS](https://qz.com/work/2082851/in-a-labor-shortage-why-dont-more-companies-promote-internally) note that internal promotion opens up another spot that must be filled by someone who may not have the internal company- and team-specific knowledge of the resource currently occupying that role. A decision to promote would start the whole decision-making process over again: promote again to fill the role that is now open or hire externally?
+
+This makes promotion appear disruptive to the workflow and the team culture: a risk that a well-functioning and efficient team might get "broken" as the new leader is unable to handle increased responsibilities while other team members feel alienated because they were not chosen.
 
 ## sales
 

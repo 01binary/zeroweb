@@ -23,7 +23,7 @@ import ReactionIcon from '../../../images/reaction.svg';
 import MenuIcon from '../../../images/comment-menu.svg';
 import SaveIcon from '../../../images/accept.svg';
 import CancelIcon from '../../../images/cancel.svg';
-import { CommentQuery } from '../../../types/AllCommentsQuery';
+import { CommentQuery, Reaction } from '../../../types/AllCommentsQuery';
 import {
   formatAbsDate,
   formatCommentDate,
@@ -286,14 +286,14 @@ const Comments: FC<CommentsProps> = ({
   );
 
   const handleReactToComment = useCallback(
-    (e) => {
+    (id: Reaction) => {
       selectedComment &&
         user &&
         handleReact({
           userName: user.name,
           avatarUrl: user.avatarUrl ?? '',
           parentTimestamp: selectedComment,
-          reaction: e.target.id,
+          reaction: id,
         });
     },
     [handleReact, selectedComment]
@@ -353,8 +353,8 @@ const Comments: FC<CommentsProps> = ({
   );
 
   const handleCommentOption = useCallback(
-    (e) => {
-      switch (e.target.id) {
+    (id: string) => {
+      switch (id) {
         case 'editComment':
           handleEditComment();
           break;

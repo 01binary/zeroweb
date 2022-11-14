@@ -84,7 +84,7 @@ const PostReactions: FC<ReactionsProps> = ({
   handleShare: handleShareUpstream,
 }) => {
   const snapRef = useRef<HTMLElement>(null);
-  const shareRef = useRef<HTMLElement>(null);
+  const shareRef = useRef<HTMLElement>();
   const {
     hideTip: hideMenu,
     showTipFor: showMenu,
@@ -111,9 +111,10 @@ const PostReactions: FC<ReactionsProps> = ({
     hideMenu,
   ]);
 
-  const handleShare = useCallback((e) => handleShareUpstream(e.target.id), [
-    handleShareUpstream,
-  ]);
+  const handleSelectShare = useCallback(
+    (id: string) => handleShareUpstream(id),
+    [handleShareUpstream]
+  );
 
   return (
     <Container>
@@ -141,9 +142,9 @@ const PostReactions: FC<ReactionsProps> = ({
           {shareCount > 1 ? 'Shares' : 'Share'}
         </ReactionLabel>
       </ReactionButton>
-      <ContextMenu ref={menuRef} {...menuProps}>
+      <ContextMenu {...menuProps}>
         <Menu vertical>
-          <MenuItem id="linkShare" onClick={handleShare}>
+          <MenuItem id="linkShare" onSelect={handleSelectShare}>
             <MenuItemIcon>
               <ShareLinkIcon />
             </MenuItemIcon>
@@ -152,7 +153,7 @@ const PostReactions: FC<ReactionsProps> = ({
               <ShareBadge>{sharesByType.link}</ShareBadge>
             )}
           </MenuItem>
-          <MenuItem id="twitterShare" onClick={handleShare}>
+          <MenuItem id="twitterShare" onSelect={handleSelectShare}>
             <MenuItemIcon>
               <ShareTwitterIcon />
             </MenuItemIcon>
@@ -161,7 +162,7 @@ const PostReactions: FC<ReactionsProps> = ({
               <ShareBadge>{sharesByType.twitter}</ShareBadge>
             )}
           </MenuItem>
-          <MenuItem id="facebookShare" onClick={handleShare}>
+          <MenuItem id="facebookShare" onSelect={handleSelectShare}>
             <MenuItemIcon>
               <ShareFacebookIcon />
             </MenuItemIcon>
@@ -170,7 +171,7 @@ const PostReactions: FC<ReactionsProps> = ({
               <ShareBadge>{sharesByType.facebook}</ShareBadge>
             )}
           </MenuItem>
-          <MenuItem id="linkedInShare" onClick={handleShare}>
+          <MenuItem id="linkedInShare" onSelect={handleSelectShare}>
             <MenuItemIcon>
               <ShareLinkedInIcon />
             </MenuItemIcon>
@@ -179,7 +180,7 @@ const PostReactions: FC<ReactionsProps> = ({
               <ShareBadge>{sharesByType.linkedIn}</ShareBadge>
             )}
           </MenuItem>
-          <MenuItem id="emailShare" onClick={handleShare}>
+          <MenuItem id="emailShare" onSelect={handleSelectShare}>
             <MenuItemIcon>
               <ShareEmailIcon />
             </MenuItemIcon>

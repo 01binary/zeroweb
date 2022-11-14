@@ -96,11 +96,11 @@ const useInlineComments = ({
   );
 
   const handleParagraphAction = useCallback(
-    (e) => {
+    (id: string) => {
       // Handle paragraph context menu command
       const paragraph = highlightedParagraph?.hash || paragraphSelection?.hash;
 
-      if (e.target.id === 'paragraphHighlight') {
+      if (id === 'paragraphHighlight') {
         if (!user) {
           // Direct user to login
           hideParagraphMenu();
@@ -117,7 +117,7 @@ const useInlineComments = ({
           rangeLength:
             highlightedParagraph?.length || paragraphSelection?.length,
         });
-      } else if (e.target.id == 'paragraphComment') {
+      } else if (id == 'paragraphComment') {
         // Show inline comment form for the paragraph
         handleToggleInlineComment(paragraph);
       }
@@ -161,7 +161,12 @@ const useInlineComments = ({
 
   const handleAddInlineComment = useCallback(() => {
     // Request server to add a new inline comment
-    if (inlineCommentParagraph?.markdown && user && user.avatarUrl)
+    if (
+      inlineCommentParagraph?.markdown &&
+      inlineCommentParagraph.markdown.trim().length &&
+      user &&
+      user.avatarUrl
+    )
       return handleAdd({
         paragraph: inlineCommentParagraph.hash,
         markdown: inlineCommentParagraph.markdown,

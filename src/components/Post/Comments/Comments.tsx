@@ -270,7 +270,7 @@ const Comments: FC<CommentsProps> = ({
   const handlePostComment = useCallback(
     (e) => {
       e.preventDefault();
-      if (!comment.length || !user) return;
+      if (!comment.trim().length || !user) return;
       handleAdd({
         userName: user.name,
         avatarUrl: user.avatarUrl || '',
@@ -318,7 +318,7 @@ const Comments: FC<CommentsProps> = ({
   const handleEditCommentSave = useCallback(
     (e) => {
       e.preventDefault();
-      if (!editingComment || !editMarkdown.length) return;
+      if (!editingComment || !editMarkdown.trim().length) return;
       hideTip();
       handleEdit({
         slug,

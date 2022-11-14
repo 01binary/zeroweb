@@ -39,6 +39,11 @@ https://github.com/01binary/drummingrobot
 
 If you haven't tried the new "sparse checkout" future in git (requires latest version) - this lets you track changes and pull only a portion of the whole repository. I built git from source on Raspberri Pi to get the new feature, and it works great. I checked out only the C++ source for the robot and left the large 3D part files on the machine I use for CAD.
 
+```
+git sparse-checkout init --cone
+git sparse-checkout set build launch src/code
+```
+
 In the source, I recently implemented a system that loads joint controllers from Robot Operating System launch parameters (basically a block of YAML inside of XML launch file) and it supports all of the actuators I worked with so far.
 
 It creates each controller dynamically from a simple dependency injection container by type name, and supports full paths (like robot/arm1/forearm/).

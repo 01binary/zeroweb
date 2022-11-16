@@ -10,11 +10,34 @@
 \*---------------------------------------------------------*/
 
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { getHeadingSlug, getHeadingUrl } from './components/Heading';
 import HeadingQuery from './types/HeadingQuery';
 
 dayjs.extend(relativeTime);
+dayjs.extend(duration);
+
+const getDurationSegment = (
+  value: number,
+  singular: string,
+  plural: string
+) => ({
+  value,
+  units: value > 1 ? plural : singular,
+});
+
+export const formatDuration = (startDate: Date, endDate: Date) => {
+  const duration = dayjs.duration(endDate.valueOf() - startDate.valueOf());
+  const months = getDurationSegment(duration.months(), 'month', 'months');
+
+  if (duration.years() > 0) {
+    const years = getDurationSegment(duration.years(), 'year', 'years');
+    return [years, months];
+  }
+
+  return [months];
+};
 
 export const getCommentId = (timestamp: string) =>
   `c${new Date(timestamp).valueOf()}`;

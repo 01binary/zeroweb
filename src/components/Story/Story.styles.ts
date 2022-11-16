@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Dot from '../../images/url/cv-dot.svg';
 import FilterIcon from '../../images/filter.svg';
+import ClockIcon from '../../images/clock.svg';
 import {
   MOBILE,
   MOBILE_NARROW,
@@ -364,7 +365,7 @@ export const CompanySection = styled.section`
   }
 `;
 
-export const Dates = styled.section`
+export const DatesSection = styled.section`
   grid-column: 4;
   grid-row: 1;
   text-align: right;
@@ -377,6 +378,30 @@ export const Dates = styled.section`
     min-width: initial;
     max-width: initial;
   }
+`;
+
+export const Clock = styled(ClockIcon)`
+  margin-right: 0.2rem;
+`;
+
+export const Duration = styled.section`
+  display: flex;
+  align-items: center;
+
+  font-family: ${(props) => props.theme.smallFont};
+  font-size: ${(props) => props.theme.smallFontSize};
+  font-weight: ${(props) => props.theme.smallFontWeight};
+
+  margin-top: ${(props) => props.theme.spacingQuarter};
+  margin-bottom: ${(props) => props.theme.spacingQuarter};
+
+  @media (min-width: ${MOBILE_WIDE}) {
+    justify-content: flex-end;
+  }
+`;
+
+export const Unit = styled.span`
+  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 export const Location = styled.section`

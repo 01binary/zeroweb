@@ -25,16 +25,20 @@ import StoryContext from './StoryContext';
 import ExperienceContext from './ExperienceContext';
 import Filter from './Filter';
 import {
+  Clock,
   CompanySection,
+  DatesSection,
   DetailsSection,
+  Duration,
   Heading,
   HeroSection,
   KeywordsSection,
   MoreSection,
   StorySection,
   SummarySection,
+  Unit,
 } from './Story.styles';
-export { Sidebar, Location, Dates } from './Story.styles';
+export { Sidebar, Location, DatesSection } from './Story.styles';
 import {
   getMarkdown,
   cleanKeyword,
@@ -42,6 +46,7 @@ import {
   notIgnoreWord,
 } from './storyUtils';
 import Paragraph from '../Paragraph/Paragraph';
+import { formatDuration } from '../../utils';
 
 /**
  * Objective
@@ -53,6 +58,42 @@ export const Hero: FC<{ tight?: boolean }> = ({ tight, children }) => (
     <ReactMarkdown linkTarget="_blank">{getMarkdown(children)}</ReactMarkdown>
   </HeroSection>
 );
+
+/**
+ * Role Dates
+ * @returns {JSX.Element}
+ */
+export const Dates: FC = ({ children }) => {
+  const dates = children?.toString();
+  if (!dates) return null;
+
+  const [startDate, endDate] = dates
+    .split('–')
+    .map((date) => date.trim())
+    .map((date) => (date === 'Present' ? new Date() : new Date(date)));
+
+  const durationParts = formatDuration(startDate, endDate);
+
+  return (
+    <DatesSection>
+      <div>{children}</div>
+      <Duration>
+        <Clock />
+        <span>
+          {durationParts.map(({ value, units }, index, parts) => {
+            return (
+              <>
+                <span>{value}</span>
+                <Unit> {units}</Unit>
+                {index < parts.length - 1 ? <Unit>{', '}</Unit> : null}
+              </>
+            );
+          })}
+        </span>
+      </Duration>
+    </DatesSection>
+  );
+};
 
 /**
  * Developer Story
@@ -94,7 +135,7 @@ export const Story: FC = ({ children }) => {
       <StorySection>
         <Filter />
         {children}
-        <Tooltip ref={tipRef} {...tipProps}>
+        <Tooltip {...tipProps}>
           {tooltipText}
           <Arrow />
         </Tooltip>

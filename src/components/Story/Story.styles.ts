@@ -384,7 +384,7 @@ export const Clock = styled(ClockIcon)`
   margin-right: 0.2rem;
 `;
 
-export const Duration = styled.section`
+export const DurationSection = styled.section<{ align: 'start' | 'end' }>`
   display: flex;
   align-items: center;
 
@@ -396,12 +396,17 @@ export const Duration = styled.section`
   margin-bottom: ${(props) => props.theme.spacingQuarter};
 
   @media (min-width: ${MOBILE_WIDE}) {
-    justify-content: flex-end;
+    justify-content: ${(props) =>
+      props.align === 'end' ? 'flex-end' : 'flex-start'};
   }
 `;
 
 export const Unit = styled.span`
   color: ${(props) => props.theme.secondaryTextColor};
+`;
+
+export const TipUnit = styled.span`
+  opacity: 0.5;
 `;
 
 export const Location = styled.section`
@@ -511,4 +516,22 @@ export const HeroSection = styled.section<{ tight?: boolean }>`
 
 export const KeywordsSection = styled.section`
   display: none;
+`;
+
+export const ExperienceBarSection = styled.section`
+  margin-top: ${(props) => props.theme.spacingQuarter};
+  border: ${(props) => props.theme.border} solid grey;
+  height: ${(props) => props.theme.spacingQuarter};
+  width: 100%;
+`;
+
+export const ExperienceBar = styled.section<{ percent: number }>`
+  background: linear-gradient(
+    90deg,
+    ${(props) => props.theme.focusColor} 0%,
+    ${(props) => props.theme.secondaryColor} 100%
+  );
+  min-width: 10px;
+  width: ${(props) => props.percent}%;
+  height: 100%;
 `;

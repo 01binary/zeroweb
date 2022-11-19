@@ -23,20 +23,21 @@ import { Arrow, Tooltip } from '../Tooltip';
 import { useTooltip } from '../../hooks/useTooltip';
 import StoryContext from './StoryContext';
 import ExperienceContext from './ExperienceContext';
+import Duration from './Duration';
 import Filter from './Filter';
 import {
-  Clock,
   CompanySection,
   DatesSection,
   DetailsSection,
-  Duration,
+  ExperienceBar,
+  ExperienceBarSection,
   Heading,
   HeroSection,
   KeywordsSection,
   MoreSection,
   StorySection,
   SummarySection,
-  Unit,
+  TipUnit,
 } from './Story.styles';
 export { Sidebar, Location, DatesSection } from './Story.styles';
 import {
@@ -46,7 +47,12 @@ import {
   notIgnoreWord,
 } from './storyUtils';
 import Paragraph from '../Paragraph/Paragraph';
-import { formatDuration } from '../../utils';
+import { parseDate } from '../../utils';
+
+type KeywordRange = {
+  min: Date;
+  max: Date;
+};
 
 /**
  * Objective
@@ -59,40 +65,41 @@ export const Hero: FC<{ tight?: boolean }> = ({ tight, children }) => (
   </HeroSection>
 );
 
-/**
- * Role Dates
- * @returns {JSX.Element}
- */
-export const Dates: FC = ({ children }) => {
-  const dates = children?.toString();
-  if (!dates) return null;
+const accumulateExperience = (
+  current: KeywordRange | undefined,
+  min: Date,
+  max: Date
+) => ({
+  min: current && current.min.valueOf() < min.valueOf() ? current.min : min,
+  max: current && current.max.valueOf() > max.valueOf() ? current.max : max,
+});
 
-  const [startDate, endDate] = dates
-    .split('–')
-    .map((date) => date.trim())
-    .map((date) => (date === 'Present' ? new Date() : new Date(date)));
-
-  const durationParts = formatDuration(startDate, endDate);
-
-  return (
-    <DatesSection>
-      <div>{children}</div>
-      <Duration>
-        <Clock />
-        <span>
-          {durationParts.map(({ value, units }, index, parts) => {
-            return (
-              <>
-                <span>{value}</span>
-                <Unit> {units}</Unit>
-                {index < parts.length - 1 ? <Unit>{', '}</Unit> : null}
-              </>
-            );
-          })}
-        </span>
-      </Duration>
-    </DatesSection>
+const getTotalExperience = (ranges: KeywordRange[]) => {
+  const { totalMin, totalMax } = ranges.reduce(
+    ({ totalMin, totalMax }, { min, max }) => ({
+      totalMin:
+        totalMin === 0 ? min.valueOf() : Math.min(totalMin, min.valueOf()),
+      totalMax:
+        totalMax === 0 ? max.valueOf() : Math.max(totalMax, max.valueOf()),
+    }),
+    {
+      totalMin: 0,
+      totalMax: 0,
+    }
   );
+
+  return totalMax - totalMin;
+};
+
+const getExperience = ({ min, max }: KeywordRange, totalExperience: number) => {
+  const duration = max.valueOf() - min.valueOf();
+  const percent = ((duration / totalExperience) * 100).toFixed(1);
+
+  return {
+    min,
+    max,
+    percent,
+  };
 };
 
 /**
@@ -103,7 +110,11 @@ export const Dates: FC = ({ children }) => {
 export const Story: FC = ({ children }) => {
   const [filter, setFilter] = useState<string | undefined>();
   const [keywords, setKeywords] = useState<string[]>([]);
-  const { showTipFor, hideTip, tipProps, tipRef, tooltipText } = useTooltip({
+  const [keywordRanges, setKeywordRanges] = useState<
+    Record<string, KeywordRange>
+  >({});
+
+  const { showTipFor, hideTip, tipProps, tooltipText: keyword } = useTooltip({
     verticalOffsetDesktop: 10,
     verticalOffsetMobile: 5,
     placement: 'top',
@@ -121,11 +132,42 @@ export const Story: FC = ({ children }) => {
     [setKeywords]
   );
 
+  const accumulateExperiences = useCallback(
+    (keywords: string[], min: Date, max: Date) => {
+      setKeywordRanges((prev) =>
+        keywords.reduce(
+          (ranges: Record<string, KeywordRange>, keyword: string) => ({
+            ...ranges,
+            [keyword]: accumulateExperience(ranges[keyword], min, max),
+          }),
+          prev
+        )
+      );
+    },
+    []
+  );
+
+  const totalExperience = useMemo(
+    () => getTotalExperience(Object.values(keywordRanges)),
+    [keywordRanges]
+  );
+
+  const experienceDetails = useMemo(
+    () =>
+      keyword && keywordRanges[keyword]
+        ? getExperience(keywordRanges[keyword], totalExperience)
+        : undefined,
+    [keyword, keywordRanges, totalExperience]
+  );
+
   return (
     <StoryContext.Provider
       value={{
         filter,
         autoCompleteKeywords: keywords,
+        keywordRanges,
+        totalExperience,
+        accumulateExperiences,
         indexAutoCompleteKeywords,
         setFilter,
         showTipFor,
@@ -136,7 +178,19 @@ export const Story: FC = ({ children }) => {
         <Filter />
         {children}
         <Tooltip {...tipProps}>
-          {tooltipText}
+          {keyword}
+          {experienceDetails ? (
+            <ExperienceBarSection>
+              <ExperienceBar percent={experienceDetails?.percent ?? 0} />
+            </ExperienceBarSection>
+          ) : null}
+          {experienceDetails ? (
+            <Duration
+              startDate={experienceDetails.min}
+              endDate={experienceDetails.max}
+              unit={TipUnit}
+            />
+          ) : null}
           <Arrow />
         </Tooltip>
       </StorySection>
@@ -166,6 +220,11 @@ export { default as SocialLinks } from './SocialLinks';
 export { default as Experience } from './Experience';
 
 /**
+ * Developer Story Summary
+ */
+export { default as SkillSummary } from './SkillSummary';
+
+/**
  * Experience Title
  * @param single - This title will not be paired with <Company>
  * @returns {JSX.Element}
@@ -182,6 +241,36 @@ export const Title: FC<{ single?: true }> = ({ single, children }) => {
 };
 
 /**
+ * Experience Dates
+ * @returns {JSX.Element}
+ */
+export const Dates: FC = ({ children }) => {
+  const { setDates } = useContext(ExperienceContext);
+  const dates = children?.toString() ?? '';
+  const [startDate, endDate] = useMemo(
+    () =>
+      dates
+        .split('–')
+        .map((date) => date.trim())
+        .map((date) =>
+          date === 'Present' ? new Date() : parseDate(date, 'MMM YYYY')
+        ),
+    [dates]
+  );
+
+  useEffect(() => {
+    if (dates.length) setDates(startDate, endDate);
+  }, [dates, startDate, endDate]);
+
+  return (
+    <DatesSection>
+      <div>{children}</div>
+      <Duration startDate={startDate} endDate={endDate} />
+    </DatesSection>
+  );
+};
+
+/**
  * Experience Company
  * @param children - Markdown text that can include links and formatting
  * @returns {JSX.Element}
@@ -192,12 +281,12 @@ export const Company: FC = ({ children }) => {
 
   useEffect(() => {
     // Add company to search index
-    setCompany?.(markdown?.toLowerCase() ?? '');
+    if (markdown) setCompany?.(markdown.toLowerCase());
   }, [children, setCompany]);
 
   return (
     <CompanySection>
-      <ReactMarkdown linkTarget="_blank">{markdown}</ReactMarkdown>
+      <ReactMarkdown linkTarget="_blank">{markdown ?? ''}</ReactMarkdown>
     </CompanySection>
   );
 };
@@ -217,7 +306,7 @@ export const Summary: FC = ({ children }) => {
 
   useEffect(() => {
     // Add summary text to search index
-    setSummary?.(summary);
+    if (summary) setSummary?.(summary);
   }, [children, setSummary]);
 
   return (
@@ -228,7 +317,7 @@ export const Summary: FC = ({ children }) => {
           p: Paragraph,
         }}
       >
-        {showDetails ? details ?? '' : summary}
+        {(showDetails ? details : summary) ?? ''}
       </ReactMarkdown>
       {hasMore && (
         <MoreSection>
@@ -252,7 +341,7 @@ export const Details: FC = ({ children }) => {
 
   useEffect(() => {
     // Add details text to search index
-    setDetails?.(details);
+    if (details) setDetails?.(details);
   }, [children, setDetails]);
 
   return <DetailsSection>{children}</DetailsSection>;

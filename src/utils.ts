@@ -12,9 +12,11 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { getHeadingSlug, getHeadingUrl } from './components/Heading';
 import HeadingQuery from './types/HeadingQuery';
 
+dayjs.extend(customParseFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 
@@ -26,6 +28,9 @@ const getDurationSegment = (
   value,
   units: value > 1 ? plural : singular,
 });
+
+export const parseDate = (formattedDate: string, format: string) =>
+  dayjs(formattedDate, format).toDate();
 
 export const formatDuration = (startDate: Date, endDate: Date) => {
   const duration = dayjs.duration(endDate.valueOf() - startDate.valueOf());

@@ -34,6 +34,7 @@ import {
   Experience,
   Stack,
   Hero,
+  SkillSummary,
 } from '../components/Story/Story';
 
 const About: FC<PageQuery> = ({ data }) => (
@@ -85,6 +86,7 @@ const About: FC<PageQuery> = ({ data }) => (
     <Contact />
 
     <Story>
+      <SkillSummary />
       <Experience>
         <CurrentExperienceIcon />
         <Title>Senior Frontend Engineer</Title>

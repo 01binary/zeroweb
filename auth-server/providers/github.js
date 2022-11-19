@@ -52,26 +52,20 @@ exports.getGitHubAccessToken = (
   })
 );
 
-exports.getGitHubResource = (
-  url,
-  access_token,
-) => {
-  console.log('github get', url);
+exports.getGitHubResource = (url, access_token) => {
   return axios({
     method: 'get',
     url,
     headers: {
-      Authorization: `token ${access_token}`
-    }
+      Authorization: `token ${access_token}`,
+    },
   })
     .then((res) => {
-      console.log('github get received', res.data || {})
       return res;
     })
     .catch((err) => {
-      console.error('get failure', err);
       throw err;
-    })
+    });
 };
 
 exports.validateGitHubToken = async (access_token) => (

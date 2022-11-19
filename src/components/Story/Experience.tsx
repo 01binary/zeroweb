@@ -13,6 +13,8 @@ import { PARAGRAPH_SEPARATOR } from './storyUtils';
 type ExperienceState = {
   title: string;
   company: string;
+  start: Date;
+  end: Date;
   summary: string;
   summaryIndex: string;
   details: string;
@@ -43,13 +45,19 @@ const filterMatch = (
     .reduce((matches, token) => {
       if (token.length < 3) return true;
 
-      const matchesTitle = title?.indexOf(token) >= 0;
-      const matchesSummary = summaryIndex?.indexOf(token) >= 0;
-      const matchesDetails = detailsIndex?.indexOf(token) >= 0;
-      const matchesStack =
-        stack?.filter((key) => key.indexOf(token) >= 0)?.length > 0;
-      const matchesKeywords =
-        keywords?.filter((key) => key.indexOf(token) >= 0)?.length > 0;
+      const matchesTitle = title ? title.indexOf(token) >= 0 : false;
+      const matchesSummary = summaryIndex
+        ? summaryIndex.indexOf(token) >= 0
+        : false;
+      const matchesDetails = detailsIndex
+        ? detailsIndex.indexOf(token) >= 0
+        : false;
+      const matchesStack = stack
+        ? stack.filter((key) => key.indexOf(token) >= 0)?.length > 0
+        : false;
+      const matchesKeywords = keywords
+        ? keywords.filter((key) => key.indexOf(token) >= 0)?.length > 0
+        : false;
 
       return (
         matches ||
@@ -61,7 +69,7 @@ const filterMatch = (
       );
     }, false);
 
-const getMarkCount = (text: string) => {
+const getMarkCount = (text?: string) => {
   if (!text) return 0;
 
   const paragraphs = text.split(PARAGRAPH_SEPARATOR);
@@ -75,7 +83,12 @@ const getMarkCount = (text: string) => {
 };
 
 const Experience: FC = ({ children }) => {
-  const { filter, indexAutoCompleteKeywords } = useContext(StoryContext);
+  const {
+    filter,
+    indexAutoCompleteKeywords,
+    accumulateExperiences,
+  } = useContext(StoryContext);
+
   const [experience, setExperience] = useState<Partial<ExperienceState>>({});
   const [showDetails, setShowDetails] = useState<boolean>(false);
 
@@ -88,15 +101,19 @@ const Experience: FC = ({ children }) => {
       setExperience((xp) => ({ ...xp, title }));
       indexAutoCompleteKeywords(title.toLowerCase().split(' '));
     },
-    [setExperience, indexAutoCompleteKeywords]
+    [indexAutoCompleteKeywords]
   );
+
+  const setDates = useCallback((start: Date, end: Date) => {
+    setExperience((xp) => ({ ...xp, start, end }));
+  }, []);
 
   const setCompany = useCallback(
     (company: string) => {
       setExperience((xp) => ({ ...xp, company }));
       indexAutoCompleteKeywords([company.toLocaleLowerCase()]);
     },
-    [setExperience, indexAutoCompleteKeywords]
+    [indexAutoCompleteKeywords]
   );
 
   const setSummary = useCallback(
@@ -109,7 +126,7 @@ const Experience: FC = ({ children }) => {
       }));
       indexAutoCompleteKeywords(summaryIndex.split(' '));
     },
-    [setExperience, indexAutoCompleteKeywords]
+    [indexAutoCompleteKeywords]
   );
 
   const setDetails = useCallback(
@@ -122,7 +139,7 @@ const Experience: FC = ({ children }) => {
       }));
       indexAutoCompleteKeywords(detailsIndex.split(' '));
     },
-    [setExperience, indexAutoCompleteKeywords]
+    [indexAutoCompleteKeywords]
   );
 
   const setStack = useCallback(
@@ -130,16 +147,24 @@ const Experience: FC = ({ children }) => {
       setExperience((xp) => ({ ...xp, stack }));
       indexAutoCompleteKeywords(stack);
     },
-    [setExperience, indexAutoCompleteKeywords]
+    [indexAutoCompleteKeywords]
   );
 
-  const setKeywords = useCallback(
-    (keywords: string[]) => {
-      setExperience((experience) => ({ ...experience, keywords }));
-      indexAutoCompleteKeywords(keywords);
-    },
-    [setExperience]
-  );
+  const setKeywords = useCallback((keywords: string[]) => {
+    setExperience((experience) => ({ ...experience, keywords }));
+    indexAutoCompleteKeywords(keywords);
+  }, []);
+
+  useEffect(() => {
+    if (experience.stack && experience.start && experience.end) {
+      accumulateExperiences(experience.stack, experience.start, experience.end);
+    }
+  }, [
+    accumulateExperiences,
+    experience.stack,
+    experience.start,
+    experience.end,
+  ]);
 
   const isMatch =
     !filter || filterMatch(experience, filter.toLocaleLowerCase());
@@ -162,6 +187,7 @@ const Experience: FC = ({ children }) => {
       <ExperienceContext.Provider
         value={{
           setTitle,
+          setDates,
           setCompany,
           setSummary,
           setDetails,
@@ -169,7 +195,7 @@ const Experience: FC = ({ children }) => {
           setKeywords,
           toggleDetails,
           showDetails,
-          details: experience.details,
+          details: experience.details ?? '',
         }}
       >
         {children}

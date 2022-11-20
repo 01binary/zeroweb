@@ -1,5 +1,5 @@
 ---
-title: Cyber guitar
+title: Switchback
 description: A headless double-neck guitar with a keyboard and oscilloscope
 image: ./images/cyber-guitar.png
 author: Valeriy Novytskyy

@@ -1,5 +1,5 @@
 ---
-title: Drumming robot
+title: Str1ker
 description: A four-armed robotic drummer with stereoscopic infrared vision
 image: ./images/drumming-robot.png
 author: Valeriy Novytskyy

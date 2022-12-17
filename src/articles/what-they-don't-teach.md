@@ -37,7 +37,7 @@ I will go through all the major sections and call out interesting tidbits.
 
 ## communicating
 
-The cornerstone of any business is Sales, and Sales as a professional is not based around facts. It's an art of influencing others by leveraging emotions and other motivational forces present in the human psyche.
+The cornerstone of any business is Sales, and Sales as a profession is not based around facts. It's an art of influencing others by leveraging emotions and other motivational forces present in the human psyche.
 
 In order to improve any outcome, the first step is understanding the processes involved and building an accurate mental model. In other words, becoming more aware of the surrounding environment.
 
@@ -109,13 +109,13 @@ At the same time, you must make the middle guys think that by supporting you and
 You must also prevent these middle managers (who are looking out for their own interests) from stifling you or from appropriating your contributions [...] Meanwhile, you must keep your peers as friends and maintain the support of your subordinates.<br/><br/>
 It is not only complicated, it can also get pretty unpleasant and is one of the big reasons so many people become turned off by working for a company.
 
-In "Paying More To Get Less: The Effects of External Hiring versus Internal Mobility" by Matthew Bidwell (published by [Administrative Science Quarterly](https://www.johnson.cornell.edu/administrative-science-quarterly/)), the author argues that companies often prefer hiring external candidates rather than promoting because of stronger observable indicators of ability despite significantly higher risk of poor fit and higher pay. 
+In "Paying More To Get Less: The Effects of External Hiring versus Internal Mobility" by Matthew Bidwell (published by [Administrative Science Quarterly](https://www.johnson.cornell.edu/administrative-science-quarterly/)), the author argues that companies often prefer hiring external candidates rather than promoting because of stronger observable indicators of ability despite significantly higher risk of poor fit and higher pay.
 
-This creates an environment where it's more rewarding to build a strong external image than perform well. Turning this the other way around, internal workers are typically not promoted because they don't take time to advertise their abilities: they prioritize performance in their current role.
+This makes it more rewarding to build a strong external image than perform well. Turning this the other way around, internal workers are typically not promoted because they don't take time to advertise their abilities: they prioritize performance in their current role.
 
-Sources like [CHRON](https://smallbusiness.chron.com/advantages-company-doing-internal-external-hiring-22017.html) and [QUARTS](https://qz.com/work/2082851/in-a-labor-shortage-why-dont-more-companies-promote-internally) note that internal promotion opens up another spot that must be filled by someone who may not have the internal company- and team-specific knowledge of the resource currently occupying that role. A decision to promote would start the whole decision-making process over again: promote again to fill the role that is now open or hire externally?
+Sources like [CHRON](https://smallbusiness.chron.com/advantages-company-doing-internal-external-hiring-22017.html) and [QUARTS](https://qz.com/work/2082851/in-a-labor-shortage-why-dont-more-companies-promote-internally) note that a decision to promote restarts the whole decision-making process: promote again to fill the role that is now open or hire externally?
 
-This makes promotion appear disruptive to the workflow and the team culture: a risk that a well-functioning and efficient team might get "broken" as the new leader is unable to handle increased responsibilities while other team members feel alienated because they were not chosen.
+This makes promotion appear disruptive: a well-functioning and efficient team might get "broken" as the new leader is unable to handle increased responsibilities while other team members feel alienated because they were not chosen.
 
 ## sales
 

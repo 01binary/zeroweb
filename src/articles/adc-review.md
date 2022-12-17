@@ -4,7 +4,6 @@ description: Selecting an ADC for robotics applications with Raspberry Pi 4B
 image: ./images/adc-review.png
 author: Valeriy Novytskyy
 date: 2022-07-24
-pinned: true
 location: ^H Hackerspace
 tags:
   [

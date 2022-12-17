@@ -74,6 +74,7 @@ export const pageQuery = graphql`
       limit: $limit
       filter: {
         fields: { collection: { eq: $collection }, tags: { eq: $tag } }
+        frontmatter: { published: { ne: false } }
       }
     ) {
       nodes {
@@ -84,6 +85,7 @@ export const pageQuery = graphql`
           relativeDate: date(fromNow: true)
           date(formatString: "MMMM DD, YYYY")
           pinned
+          published
           description
           image {
             childImageSharp {

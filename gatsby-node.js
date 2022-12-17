@@ -9,11 +9,11 @@
 |  Copyright(C) 2021 Valeriy Novytskyy
 \*---------------------------------------------------------*/
 
-import fs from 'fs';
-import path from 'path';
 import { paginate } from 'gatsby-awesome-pagination';
 import { createFilePath } from 'gatsby-source-filesystem';
 import { CONTENT } from './src/routes';
+
+const ARTICLES_PER_PAGE = 5;
 
 const Post = require.resolve('./src/components/Post/Post.tsx');
 const Page = require.resolve('./src/components/Page.tsx');
@@ -125,7 +125,7 @@ exports.createPages = async ({
     paginate({
       createPage,
       items: nodes.filter((node) => node.fields.collection === collection),
-      itemsPerPage: 4,
+      itemsPerPage: ARTICLES_PER_PAGE,
       pathPrefix: path,
       component: postIndex,
       context: {

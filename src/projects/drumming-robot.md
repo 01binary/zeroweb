@@ -31,7 +31,7 @@ For this project my goal is to learn [::ROS](https://www.ros.org/), create parts
 <Gallery>
   <img alt="body" src="./images/drumming-robot-body.png"/>
   <img alt="arms" src="./images/drumming-robot-arms.png"/>
-  <img alt="wiring" src="./images/drumming-robot-electronics.png"/>
+  <img alt="wiring" src="./images/drumming-robot-wiring.jpg"/>
   <img alt="still" src="./images/drumming-robot-still-life.png"/>
 </Gallery>
 

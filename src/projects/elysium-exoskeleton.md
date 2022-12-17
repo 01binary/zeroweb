@@ -20,9 +20,9 @@ This exosuit was designed in [Autodesk Inventor](https://www.autodesk.com/produc
 Some parts were 3D-printed with [Protolabs](https://www.protolabs.com/) and re-cast out of Alumimum 356 at [Ctrl^H](https://pdxhackerspace.org/) foundry, others machined by Protolabs out of Aluminum 6061. The pistons were machined on a metal lathe, and then the exosuit was assembled by using [metal rod ends](https://www.mcmaster.com/rod-ends/ball-joint-rod-ends-10/shank-thread-size~m6/) from McMaster Carr and fasteners from Fastenall.
 
 <Gallery>
-  <img alt="back" src="./images/elysium-exoskeleton-worn-back.jpg"/>
-  <img alt="side" src="./images/elysium-exoskeleton-worn-side.jpg"/>
-  <img alt="front" src="./images/elysium-exoskeleton-worn-front.jpg"/>
+  <img alt="chest" src="./images/elysium-exoskeleton-chest.jpg"/>
+  <img alt="hand" src="./images/elysium-exoskeleton-hand.jpg"/>
+  <img alt="floor" src="./images/elysium-exoskeleton-floor.jpg"/>
   <img alt="parts" src="./images/elysium-exoskeleton-assembly1.jpg"/>
   <img alt="print" src="./images/elysium-exoskeleton-print-parts.png"/>
   <img alt="test" src="./images/elysium-exoskeleton-print.jpg"/>

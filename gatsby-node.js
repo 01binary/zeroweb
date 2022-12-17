@@ -125,7 +125,7 @@ exports.createPages = async ({
     paginate({
       createPage,
       items: nodes.filter((node) => node.fields.collection === collection),
-      itemsPerPage: 5,
+      itemsPerPage: 4,
       pathPrefix: path,
       component: postIndex,
       context: {

@@ -29,8 +29,8 @@ For this project my goal was to get into electrical engineering, learn embedded 
 <Gallery>
   <img alt="cnc" src="./images/cyber-guitar-cnc.jpg"/>
   <img alt="lights" src="./images/cyber-guitar-lights.jpg"/>
-  <img alt="locks" src="./images/cyber-guitar-locks.jpg"/>
   <img alt="paint" src="./images/cyber-guitar-paint.jpg"/>
+  <img alt="done" src="./images/cyber-guitar-done.jpg"/>
 </Gallery>
 
 ## specifications
@@ -58,7 +58,7 @@ Then I re-cast the surface in [Ecoflex 50](https://www.smooth-on.com/products/ec
 
 The source code for the built-in oscilloscope that analyzes audio signals and displays waveforms is available on [GitHub](https://github.com/01binary/switchback/blob/master/src/code/oscilloscope.ino):
 
-`youtube:https://www.youtube.com/embed/auq8bbIgFvc`
+`youtube:https://www.youtube.com/embed/wj2-lyEgEZo`
 
 ## downloads
 

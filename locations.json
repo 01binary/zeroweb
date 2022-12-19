@@ -46,5 +46,11 @@
     "locationName": "Cougar, WA",
     "locationUrl": "https://www.wta.org/go-hiking/hikes/lewis-river-falls",
     "description": "Camping in view of Mt. St. Helens"
+  },
+  "Venetian Las Vegas": {
+    "avatarUrl": "https://zeroweb-downloads.s3.us-west-2.amazonaws.com/venetian.png",
+    "locationName": "Las Vegas, NV",
+    "locationUrl": "https://www.venetianlasvegas.com/",
+    "description": "The site of AWS re:Invent and Vanderpump Cocktail Garden"
   }
 }

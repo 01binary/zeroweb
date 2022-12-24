@@ -77,7 +77,7 @@ export const notIgnoreWord = (token: string) => IGNORE_WORDS.indexOf(token) < 0;
 
 export const notDuplicate = (token, index, all) => index === all.indexOf(token);
 
-export const cleanKeyword = (keyword: string) => /\w*/.exec(keyword)?.[0];
+export const cleanKeyword = (keyword: string) => /\w*/.exec(keyword)?.[0] ?? '';
 
 const filterParagraph = ({ type }: ReactElement) => type === 'p';
 

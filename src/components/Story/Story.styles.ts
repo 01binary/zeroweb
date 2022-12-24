@@ -386,7 +386,7 @@ export const ExperienceTimeline = styled.div.attrs(() => ({
 export const Heading = styled.h2`
   grid-column: 3;
   grid-row: ${(props) => (props.single ? `1 / 3` : `1`)};
-  align-self: center;
+  align-self: flex-end;
 
   font-size: 24px;
   text-transform: initial;

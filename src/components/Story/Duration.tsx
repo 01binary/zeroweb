@@ -28,15 +28,17 @@ const Duration: FC<DurationProps> = ({
     <DurationSection align={align}>
       {noIcon === false && <Clock />}
       <span>
-        {duration.map(({ value, units }, index, parts) => (
-          <span key={index}>
-            <span>{value}</span>
-            <DisplayUnit> {units}</DisplayUnit>
-            {index < parts.length - 1 ? (
-              <DisplayUnit>{', '}</DisplayUnit>
-            ) : null}
-          </span>
-        ))}
+        {duration
+          .filter(({ value }) => value)
+          .map(({ value, units }, index, parts) => (
+            <span key={index}>
+              <span>{value}</span>
+              <DisplayUnit> {units}</DisplayUnit>
+              {index < parts.length - 1 ? (
+                <DisplayUnit>{', '}</DisplayUnit>
+              ) : null}
+            </span>
+          ))}
       </span>
     </DurationSection>
   );

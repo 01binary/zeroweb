@@ -144,6 +144,8 @@ export const HeaderSection = styled.section`
   flex-direction: row;
   align-items: flex-end;
 
+  padding-right: calc(${(props) => props.theme.borderThick} * 2);
+
   margin-left: calc(
     ${(props) => props.theme.spacingDouble} +
       ${(props) => props.theme.spacingHalf}
@@ -158,10 +160,13 @@ export const HeaderSection = styled.section`
   @media (max-width: ${MOBILE}) {
     display: block;
     margin-left: ${(props) => props.theme.spacingHalf};
-    margin-right: calc(
-      ${(props) => props.theme.spacingDouble} +
-        ${(props) => props.theme.spacingQuarter}
-    );
+    margin-right: ${(props) => props.theme.spacingDouble};
+  }
+
+  @media (max-width: ${MOBILE_WIDE}) {
+    display: block;
+    margin-left: ${(props) => props.theme.spacingHalf};
+    margin-right: ${(props) => props.theme.spacingHalf};
   }
 `;
 

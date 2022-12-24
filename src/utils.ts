@@ -78,8 +78,8 @@ export const getDateUnits = (relativeDate: string): string => {
   return relativeDate.split(' ').slice(1).join(' ');
 };
 
-export const openUrl = (url, params) => {
+export const openUrl = (url: string, params?: Record<string, string>) => {
   const href = new URL(url);
-  href.search = new URLSearchParams(params).toString();
+  if (params) href.search = new URLSearchParams(params).toString();
   window.open(href.toString());
 };

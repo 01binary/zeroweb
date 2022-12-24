@@ -36,6 +36,8 @@ import {
   Hero,
   SkillSummary,
 } from '../components/Story/Story';
+import Print from '../components/Story/Print';
+import { HeaderSection } from '../components/Story/Story.styles';
 
 const About: FC<PageQuery> = ({ data }) => (
   <Page
@@ -86,7 +88,10 @@ const About: FC<PageQuery> = ({ data }) => (
     <Contact />
 
     <Story>
-      <SkillSummary />
+      <HeaderSection>
+        <SkillSummary />
+        <Print />
+      </HeaderSection>
       <Experience>
         <CurrentExperienceIcon />
         <Title>Senior Frontend Engineer</Title>
@@ -101,24 +106,26 @@ const About: FC<PageQuery> = ({ data }) => (
         </Stack>
         <Summary>
           <p>
-            Applying `functional programming` principles with `React` and
-            `Typescript` to `empower` health care providers with accurate
-            `clinical insights` and `create` better care `outcomes` for patients
-            with Diabetes.
+            Growing `team capacity` by proposing and making `software
+            architecture` and `design` improvements to `deliver features faster`
+            and secure our position as a `market leader`.
           </p>
           <p>
-            Delivering practical solutions with clear value by growing a deep
-            understanding of the business domain and defining technical stories.
+            `Coaching` engineers through pair programming to `maximize`
+            contributions from the `unique talents` on my team. `Teaching`
+            software development best practices across teams.
           </p>
           <p>
-            Growing `team capacity` by proposing and making software
-            `architecture` and `design` improvements to deliver features faster
-            and secure our position as a market leader.
+            Delivering `practical solutions` with clear value by growing a deep
+            understanding of the `business domain` and `defining technical
+            stories` to empower `health care providers` with accurate `clinical
+            insights` to create better `care outcomes` for Diabetes patients.
           </p>
           <p>
-            Developing engineers to `maximize contributions` from the `unique
-            talents` on my team. Teaching `software development` and
-            `architecture` best practices across teams.
+            Working with the `backend` and `operations` teams to maintain
+            features supported by stateless `microservices`, `databases`, and
+            desktop applications communicating over a variety of channels
+            including `Web Sockets`, `REST` API, `GraphQL`, and `USB` hardware.
           </p>
         </Summary>
         <Details>
@@ -180,19 +187,25 @@ const About: FC<PageQuery> = ({ data }) => (
         </Stack>
         <Summary>
           <p>
-            Supported `enterprise application development` across multiple
-            teams. Shifted common responsibilities like `authentication` to
-            `automated` cloud infrastructure to facilitate efficient delivery.
+            Supported `enterprise` application development across multiple
+            teams. `Shifted` common responsibilities, such as `authentication`,
+            to `automated` cloud infrastructure to facilitate `efficient
+            delivery`.
           </p>
           <p>
-            Led a weekly `architecture` meeting to amplify best practices for
-            working with `Azure` services, `ASP.NET Core` backend, `Angular 8`
+            Led weekly `architecture` meetings to amplify best practices for
+            working with `Azure Cloud`, `ASP.NET Core` backend, `Angular 8`
             frontend, and `SQL Server` databases.
           </p>
           <p>
-            Worked with `DevOps`, developers and `QA` to create a new `Software
-            Development Lifecycle` process and migrate applications to the new
-            cloud infrastructure.
+            Worked with `developers`, `operations`, and `quality assurance` to
+            define a new `Software Development Lifecycle` process.
+          </p>
+          <p>
+            Developed `architectural standards` and `shared libraries` for
+            software configuration, APIs, path-based routing, Application
+            Insights, Azure Artifacts, N-tier architecture, ORM, Cookie and
+            Token-based authentication, Health Checks, and CORS.
           </p>
         </Summary>
         <Details>
@@ -239,13 +252,26 @@ const About: FC<PageQuery> = ({ data }) => (
         <Stack>aws, google cloud, asp.net core, terraform, sql server</Stack>
         <Summary>
           <p>
-            Directed an effort to integrate a `vertical slice` of an application
-            used to preserve `legal documents` with `Google Cloud` platform to
-            unlock new business opportunities and onboard a major customer.
+            `Directed` a successful project to integrate a `vertical slice` of a
+            cloud-based litigation system with `Google Cloud` API and `Identity
+            Platform` to onboard a major customer that was using the G-Suite to
+            collect documents. Created a `project plan` based on research,
+            worked with a `scrum master` to define `user stories` and with a
+            `product owner` to write `Gherkin` requirements.
           </p>
           <p>
-            Served on the `Architecture` board and co-authored proposals to grow
-            software development expertise and establish standards.
+            Defined a `working agreement` to hire a team of contractors and
+            provided `technical direction` for completing the project.
+          </p>
+          <p>
+            Developed strategies to increase `scalability` and `maintainability`
+            of the service while fielding a steady stream of `support requests`
+            and adding `critical features` that helped sell the product.
+          </p>
+          <p>
+            Served on the `architecture` board and co-authored development
+            `patterns` and `proposals` to improve the `software development
+            process` throughout the company.
           </p>
         </Summary>
         <Details>
@@ -299,16 +325,25 @@ const About: FC<PageQuery> = ({ data }) => (
         </Stack>
         <Summary>
           <p>
-            Led a `team` of near-shore contractors to `integrate` a new product
-            positioned to re-vitalize the company with legacy `authentication`
-            system and `monolith` services that generated health data
-            `insights`.
+            Led a `team` of near-shore contractors to `integrate a new product`
+            positioned to re-vitalize the company by leveraging legacy
+            `authentication` system and `health insights` monolith services.
           </p>
           <p>
             Unlocked additional `scaling capacity` for the business by
-            standardizing custom `login` and `registration` business rules that
+            `standardizing` custom login and registration `business rules` that
             enabled health plan participants to log into WebMD applications from
             their respective health providers.
+          </p>
+          <p>
+            Performed `accessibility` reviews to ensure web applications meet
+            `W3C WCAG` requirements for text contrast, correct aria attributes,
+            and `screen readers` announcing `static` and `dynamic` content
+            correctly.
+          </p>
+          <p>
+            Defined new strategies for `functional programming` with `Ramda` and
+            `Recompose` to migrate from `Redux`.
           </p>
         </Summary>
         <Details>
@@ -393,15 +428,15 @@ const About: FC<PageQuery> = ({ data }) => (
         <Stack>asp.net mvc, react, redux, less</Stack>
         <Summary>
           <p>
-            Engaged `WebMD` to re-assert their brand equity with health plans by
-            delivering a responsive `React`/`Redux` application that
-            incentivized cheaper `insurance` costs by `rewarding` subscribers
-            for maintaining a healthy lifestyle.
+            Engaged WebMD to re-assert their brand equity with health plans by
+            delivering a responsive `React/Redux` application that incentivized
+            cheaper insurance costs by `rewarding subscribers` for maintaining a
+            `healthy lifestyle`.
           </p>
           <p>
-            Assisted in a `strategic push` to unlock `scaling capacity` for the
-            business by migrating monolith `ASP.NET` applications to stateless
-            `microservices` and `standardize` customer-specific business rules.
+            Assisted in a strategic push to `unlock scaling capacity` for the
+            business by `migrating` monolith ASP.NET applications to `stateless
+            microservices` and `standardizing` business rules.
           </p>
         </Summary>
         <Details>
@@ -480,21 +515,20 @@ const About: FC<PageQuery> = ({ data }) => (
         <Stack>c#, c++, xbox platform, directx, azure, sql server</Stack>
         <Summary>
           <p>
-            Helped the business increase their `competitive advantage` by
-            expanding the service offering to include `Azure` cloud development,
-            instrumenting digital products on the newest `Xbox One` platform,
-            and developing advanced `quality assurance tools`.
+            Served on a `selective team` that refined `competitive advantage`
+            for the business by `expanding the service offering` to include
+            `Azure` cloud development, `instrumenting` products on Xbox One
+            platform, and developing advanced `quality assurance tools`.
           </p>
           <p>
-            Engaged `Microsoft` to launch a `social gaming platform` that
+            Partnered with Microsoft to `launch a social gaming platform` that
             monetized player engagement and ran on a `DirectX` port of `Windows
-            Presentation Foundation` integrated with `Unreal` engine.
+            Presentation Foundation` in `Unreal engine`.
           </p>
           <p>
-            Increased `organization capacity` of Microsoft Game Test
+            Increased `organization capacity` of Microsoft Games Test
             Organization to support more internal customers by adding
-            `self-service` functionality to the most popular quality assurance
-            tools.
+            `self-service` functionality to the most popular testing tools.
           </p>
         </Summary>
         <Details>
@@ -586,17 +620,17 @@ const About: FC<PageQuery> = ({ data }) => (
         <Summary>
           <p>
             Created `content-driven` sites with `SharePoint` and `jQuery` to
-            reach more customers without engaging an expensive creative agency.
+            reach more customers without engaging a creative agency.
           </p>
           <p>
-            Developed a `C` database application that helped customers select
-            products and enabled the business to win against competitors that
-            employed software engineering teams.
+            Developed a `database application` that helped customers `select the
+            right products` for their industry and enabled the business to `win`
+            against competitors that employed `software engineering` teams.
           </p>
           <p>
-            Designed catalogs and other marketing materials in `Adobe Creative
-            Suite` to help the business compete against companies with dedicated
-            graphic design departments.
+            Designed `catalogs` and other `marketing materials` in Adobe
+            Creative Suite to help the business `compete` against companies with
+            dedicated `graphic design departments`.
           </p>
         </Summary>
         <Details>
@@ -646,8 +680,9 @@ const About: FC<PageQuery> = ({ data }) => (
           inventor
         </Stack>
         <Summary>
-          Studied software development, graphic design, illustration, video
-          production, web design, computer-aided drafting and 3D rendering.
+          Learned `software development`, `graphic design`, `illustration`,
+          `video production`, `web design`, `computer-aided drafting`, 3D
+          `rendering` and `animation` for movie special effects.
         </Summary>
         <Details>
           <p>

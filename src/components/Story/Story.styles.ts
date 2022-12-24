@@ -139,6 +139,59 @@ export const InlineContactButton = styled(Button)`
   }
 `;
 
+export const HeaderSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+  margin-left: calc(
+    ${(props) => props.theme.spacingDouble} +
+      ${(props) => props.theme.spacingHalf}
+  );
+  margin-right: calc(
+    ${(props) => props.theme.spacing} * 1.5 -
+      ${(props) => props.theme.borderThick}
+  );
+
+  margin-bottom: ${(props) => props.theme.spacing};
+
+  @media (max-width: ${MOBILE}) {
+    display: block;
+    margin-left: ${(props) => props.theme.spacingHalf};
+    margin-right: calc(
+      ${(props) => props.theme.spacingDouble} +
+        ${(props) => props.theme.spacingQuarter}
+    );
+  }
+`;
+
+export const SkillSummarySection = styled.section`
+  flex: 1;
+`;
+
+export const PrintSection = styled.section`
+  width: calc(10% + ${(props) => props.theme.spacing} * 2);
+  margin-left: calc(${(props) => props.theme.spacing} * 1.25);
+  margin-bottom: ${(props) => props.theme.spacingQuarter};
+
+  @media (max-width: ${MOBILE_WIDE}) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 100%;
+    margin-left: ${(props) => props.theme.spacingDouble};
+    margin-top: ${(props) => props.theme.spacingHalf};
+  }
+
+  @media (max-width: ${MOBILE}) {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    margin-top: ${(props) => props.theme.spacingHalf};
+  }
+`;
+
 export const StorySection = styled.section`
   position: relative;
   margin-top: ${(props) => props.theme.spacingOneAndHalf};

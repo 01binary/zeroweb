@@ -1,31 +1,16 @@
 import React, { FC, useContext } from 'react';
 import styled from 'styled-components';
-import { ExperienceBar, ExperienceBarSection } from './Story.styles';
+import {
+  ExperienceBar,
+  ExperienceBarSection,
+  SkillSummarySection,
+} from './Story.styles';
 import SummaryBorder from '../../images/summary-border.svg';
 import { STACK_ICONS } from './storyUtils';
 import StoryContext from './StoryContext';
 import Duration from './Duration';
-import { MOBILE } from '../../constants';
 
 const TOP_SKILLS = 5;
-
-const SkillSummarySection = styled.section`
-  margin-left: calc(
-    ${(props) => props.theme.spacingDouble} +
-      ${(props) => props.theme.spacingHalf}
-  );
-  margin-right: calc(
-    ${(props) => props.theme.spacing} * 9 -
-      ${(props) => props.theme.borderThick}
-  );
-
-  margin-bottom: ${(props) => props.theme.spacing};
-
-  @media (max-width: ${MOBILE}) {
-    margin-left: ${(props) => props.theme.spacingHalf};
-    margin-right: ${(props) => props.theme.spacingDouble};
-  }
-`;
 
 const SkillSummaryItem = styled.div`
   display: grid;

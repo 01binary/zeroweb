@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 128 128">
+	<g class="fill-none stroke-foreground">
+		<polyline stroke-linejoin="round" stroke-miterlimit="10" points="110.5,68.6 116.9,65.9 89.3,52.9"/>
+		<line stroke-linejoin="round" stroke-miterlimit="10" x1="96.8" y1="74.4" x2="110.5" y2="68.6"/>
+		<polyline stroke-linejoin="round" stroke-miterlimit="10" points="14.6,67.4 61.1,89.5 88.1,78.1"/>
+		<polyline stroke-linejoin="round" stroke-miterlimit="10" points="54.5,45 8.4,64.5 14.6,67.4"/>
+		<line stroke-linejoin="round" stroke-miterlimit="10" x1="61.1" y1="89.5" x2="61.1" y2="91.3"/>
+		<polyline stroke-linejoin="round" stroke-miterlimit="10" points="101.2,102.1 120.9,93.8 
+			120.9,90.9 117,89.1 117,89.1 117,80.6 110.5,77.6 	"/>
+		<polyline stroke-linejoin="round" stroke-miterlimit="10" points="14.6,76.6 8.4,79.2 8.4,87.9 
+			4.7,89.4 4.7,92.3 61.2,119 84.6,109.1 	"/>
+		
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M58.6,58.2l-0.9,0c-2.4,0.7-3.9,1.9-3.9,3.3
+			v3.7c0,2,4,3.6,9,3.6s9-1.6,9-3.6v-3.7c0-1.4-1.6-2.6-3.9-3.3h-0.9"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M66.8,52.3v8c0,1-1.8,1.8-4.1,1.8
+			s-4.1-0.8-4.1-1.8v-8"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M58.9,26.4V36c0,0.9,1.7,1.7,3.8,1.7
+			c2.1,0,3.8-0.8,3.8-1.7"/>
+		<line stroke-linejoin="round" stroke-miterlimit="10" x1="66.5" y1="26.4" x2="66.5" y2="36"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M59.1,16.4c0.5-1.6,1.9-2.8,3.6-2.8
+			c1.6,0,2.9,1,3.5,2.5v0.8c1.6,0.5,2.6,1.3,2.6,2.3v4.6c0,1.8-2.8,3.2-6.2,3.2s-6.2-1.5-6.2-3.2v-4.6c0-1,1-1.8,2.6-2.3L59.1,16.4z"
+			/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M56.5,19.6h-3.9v0.5c-2.3,0-12-1.8-20.8-1.8
+			s-8.4,3.4-8.4,3.4s-0.4,3.4,8.4,3.4s18.5-1.8,20.8-1.8v0.5h3.9"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M68.9,19.6h3.9v0.5c2.3,0,12-1.8,20.8-1.8
+			s8.4,3.4,8.4,3.4s0.4,3.4-8.4,3.4s-18.5-1.8-20.8-1.8v0.5h-3.9"/>
+		<line stroke-linejoin="round" stroke-miterlimit="10" x1="61.1" y1="91.3" x2="61.1" y2="101.1"/>
+		<line stroke-linejoin="round" stroke-miterlimit="10" x1="61.2" y1="101.1" x2="61.2" y2="113.3"/>
+		<line stroke-linejoin="round" stroke-miterlimit="10" x1="61.2" y1="113.3" x2="61.2" y2="119"/>
+		<path stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M88.8,94.6
+			c-0.9,0.5-1.6,1.1-1.7,1.8c0,0-2.3,10.1-2.6,11.7c-0.6,3.6,7.3,3.6,9.3,3.6c4.9,0,9-1.6,9-3.6l-3-11.6c-0.3-0.8-0.8-1.6-2.1-2.2"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M68.7,41.6c0.8,0.2,20,4,25.2,19.2
+			C98.2,73,97.7,93.2,97.7,94c-0.1,2.4-2.1,2.2-4.5,2.2c0,0-0.1,0-0.1,0c-2.5-0.1-4.4,0.1-4.4-2.4c0-0.2,0.4-19.5-3.3-30.2
+			C81.9,53.4,67.2,50.4,67,50.4c-2.4-0.5-4-2.8-3.6-5.3C63.9,42.7,66.3,41.1,68.7,41.6"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M36.9,52.5c0.1-1.4,0.1-3,0.2-4.6
+			c0.2-3.8,1.1-6.5,2.5-7.4c1.4-0.9,3.8-0.2,4.6,0.1l12.3,5.3l0-9.8l-8.6-3.7c-0.7-0.3-7.2-3.1-12.9,0.4c-4.2,2.6-6.5,7.5-6.8,14.7
+			c-0.2,3.5-0.3,6.4-0.4,8.9L36.9,52.5z"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M68.8,50.8c-0.6,1.3-3.1,2.2-6.1,2.2
+			c-3.4,0-6.2-1.2-6.2-2.8V36.5c0-0.9,0.9-1.7,2.4-2.2"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M66.5,34.3c1.5,0.5,2.4,1.3,2.4,2.2v5"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M58.9,26.4c0,2.5,7.6,3.6,7.6,2.2"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M58.9,29.3c0,2.5,7.6,3.6,7.6,2.2"/>
+		<path stroke-linejoin="round" stroke-miterlimit="10" d="M58.9,32.1c0,2.5,7.6,3.6,7.6,2.2"/>
+		<polyline stroke-linejoin="round" stroke-miterlimit="10" points="88.7,89.5 61.2,101.1 14.6,79 
+			14.6,67.4 	"/>
+		<polyline stroke-linejoin="round" stroke-miterlimit="10" points="110.5,68.6 110.5,80.3 97.7,85.6 	
+			"/>
+	</g>
+	<g class="fill-none stroke-secondary">
+		<line stroke-linecap="round" stroke-miterlimit="10" x1="111.1" y1="20.8" x2="111.1" y2="47.3"/>
+		<polyline stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+			117.4,41.7 111.1,47.3 104.7,41.7 		"/>
+	</g>
+</svg>

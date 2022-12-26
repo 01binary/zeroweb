@@ -53,7 +53,16 @@ Once the design for the robot arms was finalized, I printed and [re-cast](https:
   <img alt="eyes" src="./images/drumming-robot-head-model.jpg"/>
 </Gallery>
 
-Next I'm integration testing all four arms together, implementing inverse kinematics with [MoveIt](https://moveit.ros.org/), and locating drums using OpenCV with [Arducam](https://www.arducam.com/) NoIR stereo camera that can estimate positions of objects in the dark.
+Some original concept art that went into the design of the metal parts:
+
+<Gallery>
+  <img alt="heads" src="./images/drumming-robot-concepts1.png"/>
+  <img alt="body" src="./images/drumming-robot-concepts2.png"/>
+  <img alt="legs" src="./images/drumming-robot-concepts3.png"/>
+  <img alt="arms" src="./images/drumming-robot-concepts4.jpg"/>
+</Gallery>
+
+Next I'm integrating all four arms together, implementing inverse kinematics with [MoveIt](https://moveit.ros.org/), and locating drums using OpenCV with [Arducam](https://www.arducam.com/) NoIR stereo camera that can estimate positions of objects in the dark.
 
 ## downloads
 

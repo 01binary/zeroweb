@@ -3,7 +3,7 @@ title: Hybrid
 description: A headless 5-string bass with MIDI pickups and oscilloscope
 image: ./images/hybrid.png
 author: Valeriy Novytskyy
-date: 2022-11-01
+date: 2019-01-01
 location: ^H Hackerspace
 tags:
   [

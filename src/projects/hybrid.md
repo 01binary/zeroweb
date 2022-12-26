@@ -49,6 +49,36 @@ The built-in oscilloscope implemented with [Itsy Bitsy 3V](https://www.adafruit.
 #include <Adafruit_SSD1305.h>
 #include "splash.h"
 
+/*
+  LED Screen SPI Connections
+
+  SSD1305   Arduino Uno   ItsyBitsy 3u4   Arduino Nano 33 BLE
+ 
+  [1] GND   GND           GND             GND
+  [2] 3V3   3V3           3V3             3V3
+  
+  [4] DC    [8] Digital   [8] Digital     [8] Digital
+  [7] SCLK  [13] SCLK     SCLK            [D13] SCK
+  [8] DIN   [11] MOSI     MOSI            [D11] COPI
+  [15] CS   [10] CS       [6] CS          [6] CS
+  [16] RST  [9] Digital   [9] Digital     [9] Digital
+
+  Note: for 5V boards like Arduino Uno, everything goes through 5V to 3.3V level shifter
+  Note: for all boards, there must be a 220uF capacitor between 3V3 and GND
+*/
+
+/*
+  Bluetooth Audio Connections
+
+  HW-407    Arduino   Lipo Backpack
+  
+  VBAT                BAT
+  GND       GND
+  L         A2 through audio circuit (TODO)
+  Ref       3V3
+            GND        GND
+*/
+
 const int OLED_DC = 8;
 const int OLED_CS = 10;
 const int OLED_RESET = 9;

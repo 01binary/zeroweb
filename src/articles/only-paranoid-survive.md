@@ -56,7 +56,7 @@ This is the controversial part and the reason for the title of this book. When e
 
 Why is doing the opposite so often the right thing to do? According to *Socrates* in the book of [Phaedo](https://www.amazon.com/Phaedo-Plato-ebook/dp/B07WHTZYN7), change is simply a movement or oscillation between two opposites. If you know what the opposites are, constantly working to be ready for the next change in polarity would make you look like a successful visionary to an independent observer who is not aware of this rule.
 
-> When something comes to be larger it must necessarily become larger from having been smaller before [...] and the weaker comes to be from the stronger. Between each of those pairs of opposites there are two processes: from the one to the other and then again from the other to the first.
+> When something comes to be larger it must necessarily become larger from having been smaller before [...] and the weaker comes to be from the stronger. Between each of those pairs of opposites there are two processes: from the one to the other and then again from the other to the first. -- Socrates (as documented by Plato)
 
 ## failure as opportunity
 

@@ -107,7 +107,7 @@ In Mark's words, getting promoted comes down to playing multiple games:
 > You have got to be able to jump up several notches, to alert those several rungs above you to your talents.<br/><br/>
 At the same time, you must make the middle guys think that by supporting you and building you up to the top guy they will look better as managers.<br/><br/>
 You must also prevent these middle managers (who are looking out for their own interests) from stifling you or from appropriating your contributions [...] Meanwhile, you must keep your peers as friends and maintain the support of your subordinates.<br/><br/>
-It is not only complicated, it can also get pretty unpleasant and is one of the big reasons so many people become turned off by working for a company.
+It is not only complicated, it can also get pretty unpleasant and is one of the big reasons so many people become turned off by working for a company. -- Mark McCormack
 
 In "Paying More To Get Less: The Effects of External Hiring versus Internal Mobility" by Matthew Bidwell (published by [Administrative Science Quarterly](https://www.johnson.cornell.edu/administrative-science-quarterly/)), the author argues that companies often prefer hiring external candidates rather than promoting because of stronger observable indicators of ability despite significantly higher risk of poor fit and higher pay.
 

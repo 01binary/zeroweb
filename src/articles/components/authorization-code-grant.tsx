@@ -143,63 +143,63 @@ const Diagram: FC = () => (
       <g className="fill-foreground">
         <text
           transform="matrix(1 0 0 1 140.2041 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           a
         </text>
         <text
           transform="matrix(1 0 0 1 148.9073 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           u
         </text>
         <text
           transform="matrix(1 0 0 1 157.7276 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           t
         </text>
         <text
           transform="matrix(1 0 0 1 162.9541 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           h
         </text>
         <text
           transform="matrix(1 0 0 1 171.7666 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           o
         </text>
         <text
           transform="matrix(1 0 0 1 180.8916 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           r
         </text>
         <text
           transform="matrix(1 0 0 1 186.3057 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           i
         </text>
         <text
           transform="matrix(1 0 0 1 190.1885 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           z
         </text>
         <text
           transform="matrix(1 0 0 1 197.9932 45.8941)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           e
@@ -207,7 +207,7 @@ const Diagram: FC = () => (
         <rect x="267.6" y="91" fill="none" width="40.7" height="18.8" />
         <text
           transform="matrix(1 0 0 1 267.6279 102.9778)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           code
@@ -215,7 +215,7 @@ const Diagram: FC = () => (
         <rect x="267.6" y="140.2" fill="none" width="40.7" height="18.8" />
         <text
           transform="matrix(1 0 0 1 267.6279 152.2419)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           code
@@ -223,35 +223,35 @@ const Diagram: FC = () => (
         <rect x="267.6" y="184.8" fill="none" width="40.7" height="18.8" />
         <text
           transform="matrix(1 0 0 1 267.6279 196.8141)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           t
         </text>
         <text
           transform="matrix(1 0 0 1 272.6982 196.8141)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           o
         </text>
         <text
           transform="matrix(1 0 0 1 281.8232 196.8141)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           k
         </text>
         <text
           transform="matrix(1 0 0 1 289.7763 196.8141)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 298.2529 196.8141)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           n
@@ -259,7 +259,7 @@ const Diagram: FC = () => (
         <rect x="160.9" y="279" fill="none" width="56.3" height="18" />
         <text
           transform="matrix(1 0 0 1 160.8886 291.0418)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           cookie
@@ -269,56 +269,56 @@ const Diagram: FC = () => (
       <g className="fill-background">
         <text
           transform="matrix(1 0 0 1 86.9971 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           F
         </text>
         <text
           transform="matrix(1 0 0 1 95.6377 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           r
         </text>
         <text
           transform="matrix(1 0 0 1 100.8955 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           o
         </text>
         <text
           transform="matrix(1 0 0 1 110.0205 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           n
         </text>
         <text
           transform="matrix(1 0 0 1 118.8486 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           t
         </text>
         <text
           transform="matrix(1 0 0 1 124.0752 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 132.5517 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           n
         </text>
         <text
           transform="matrix(1 0 0 1 141.3799 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           d
@@ -326,56 +326,56 @@ const Diagram: FC = () => (
         <rect x="195.7" y="6.5" fill="none" width="66.5" height="14.9" />
         <text
           transform="matrix(1 0 0 1 199.5047 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           P
         </text>
         <text
           transform="matrix(1 0 0 1 209.5984 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           r
         </text>
         <text
           transform="matrix(1 0 0 1 214.8562 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           o
         </text>
         <text
           transform="matrix(1 0 0 1 223.8641 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           v
         </text>
         <text
           transform="matrix(1 0 0 1 231.6141 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           i
         </text>
         <text
           transform="matrix(1 0 0 1 235.4969 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           d
         </text>
         <text
           transform="matrix(1 0 0 1 244.5203 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 252.9969 18.5107)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           r
@@ -383,49 +383,49 @@ const Diagram: FC = () => (
         <rect x="300.3" y="6.5" fill="none" width="83.7" height="16.9" />
         <text
           transform="matrix(1 0 0 1 311.4951 18.5103)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           B
         </text>
         <text
           transform="matrix(1 0 0 1 321.4561 18.5103)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           a
         </text>
         <text
           transform="matrix(1 0 0 1 330.1592 18.5103)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           c
         </text>
         <text
           transform="matrix(1 0 0 1 338.5342 18.5103)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           k
         </text>
         <text
           transform="matrix(1 0 0 1 346.4873 18.5103)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           e
         </text>
         <text
           transform="matrix(1 0 0 1 354.9639 18.5103)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           n
         </text>
         <text
           transform="matrix(1 0 0 1 363.792 18.5103)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="16px"
         >
           d

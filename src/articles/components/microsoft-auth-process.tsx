@@ -684,7 +684,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 234.2562 444.8546)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           B
@@ -692,7 +692,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 262.2713 444.8546)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           r
@@ -700,7 +700,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 277.0589 444.8546)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           o
@@ -708,7 +708,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 302.723 444.8546)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           w
@@ -716,7 +716,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 336.5389 444.8546)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           s
@@ -724,7 +724,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 359.742 444.8546)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           e
@@ -732,7 +732,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 383.5824 444.8546)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           r
@@ -745,7 +745,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 261.0003 1007.984)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           .
@@ -754,7 +754,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 277.527 1003.9393)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           N
@@ -763,7 +763,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 322.2931 992.9832)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           E
@@ -772,7 +772,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 358.5965 984.0982)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           T
@@ -781,7 +781,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 394.8386 975.2283)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           {' '}
@@ -790,7 +790,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 410.3841 971.4237)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           A
@@ -799,7 +799,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 451.3481 961.3981)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           p
@@ -808,7 +808,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 486.5784 952.7758)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           p
@@ -821,7 +821,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 171.8558 1160.468)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           A
@@ -830,7 +830,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 213.1878 1150.3523)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           z
@@ -839,7 +839,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 244.3094 1142.7356)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           u
@@ -848,7 +848,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 278.9264 1134.2634)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           r
@@ -857,7 +857,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 299.5924 1129.2056)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           e
@@ -866,7 +866,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 332.8604 1121.0636)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           {' '}
@@ -875,7 +875,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 348.4059 1117.2589)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           A
@@ -884,7 +884,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 389.3699 1107.2334)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           D
@@ -897,7 +897,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 24.0637 1352.8324)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           B
@@ -906,7 +906,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 63.1573 1343.2645)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           r
@@ -915,7 +915,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 83.7926 1338.2142)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           o
@@ -924,7 +924,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 119.6055 1329.4493)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           w
@@ -933,7 +933,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 166.7938 1317.9005)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           s
@@ -942,7 +942,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 199.1726 1309.9761)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           e
@@ -951,7 +951,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1.84 -0.4503 0.6038 0.7972 232.4405 1301.834)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="34.1272px"
         >
           r
@@ -960,7 +960,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1679.9481 72.2929)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           B
@@ -968,7 +968,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1707.9633 72.2929)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           r
@@ -976,7 +976,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1722.7509 72.2929)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           o
@@ -984,7 +984,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1748.4149 72.2929)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           w
@@ -992,7 +992,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1782.2308 72.2929)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           s
@@ -1000,7 +1000,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1805.434 72.2929)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           e
@@ -1008,7 +1008,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1829.2743 72.2929)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           r
@@ -1017,7 +1017,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 981.9248 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           A
@@ -1025,7 +1025,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1011.5439 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           z
@@ -1033,7 +1033,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1033.8462 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           u
@@ -1041,7 +1041,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1058.6533 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           r
@@ -1049,7 +1049,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1073.4629 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           e
@@ -1057,7 +1057,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1097.3032 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           {' '}
@@ -1065,7 +1065,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1108.4434 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           A
@@ -1073,7 +1073,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1137.7988 284.4789)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           D
@@ -1082,7 +1082,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 673.596 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           A
@@ -1090,7 +1090,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 703.2151 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           z
@@ -1098,7 +1098,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 725.5174 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           u
@@ -1106,7 +1106,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 750.3245 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           r
@@ -1114,7 +1114,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 765.1341 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           e
@@ -1122,7 +1122,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 788.9744 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           {' '}
@@ -1130,7 +1130,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 800.1146 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           A
@@ -1138,7 +1138,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 829.47 465.8903)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           D
@@ -1147,7 +1147,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 559.5256 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           .
@@ -1155,7 +1155,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 571.3689 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           N
@@ -1163,7 +1163,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 603.449 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           E
@@ -1171,7 +1171,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 629.4646 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           T
@@ -1179,7 +1179,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 655.4363 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           {' '}
@@ -1187,7 +1187,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 666.5764 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           A
@@ -1195,7 +1195,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 695.9319 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           p
@@ -1203,7 +1203,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 721.1785 162.5027)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           p
@@ -1212,7 +1212,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1047.4305 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           .
@@ -1220,7 +1220,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1059.2738 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           N
@@ -1228,7 +1228,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1091.3539 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           E
@@ -1236,7 +1236,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1117.3695 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           T
@@ -1244,7 +1244,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1143.3412 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           {' '}
@@ -1252,7 +1252,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1154.4813 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           A
@@ -1260,7 +1260,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1183.8368 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           p
@@ -1268,7 +1268,7 @@ const Process: FC = () => (
         <text
           transform="matrix(1 0 0 1 1209.0834 92.4793)"
           className="fill-background"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="45px"
         >
           p
@@ -1353,14 +1353,14 @@ const Process: FC = () => (
           fill="none"
           stroke="#EE568E"
           strokeWidth="3"
-          stroke-miterlimit="10"
+         strokeMiterlimit="10"
           points="353.1,844.9 323.4,844.9 292.9,867 
 		323.4,889.1 384.5,889.1 415.1,867 384.5,844.9 353.1,844.9 	"
         />
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 343.0235 879.6534)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="39px"
         >
           1
@@ -1375,7 +1375,7 @@ const Process: FC = () => (
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 524.2938 720.1893)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="39px"
         >
           2
@@ -1390,7 +1390,7 @@ const Process: FC = () => (
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 636.1053 790.3443)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="39px"
         >
           3
@@ -1405,7 +1405,7 @@ const Process: FC = () => (
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 1261.3553 612.578)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="39px"
         >
           5
@@ -1420,7 +1420,7 @@ const Process: FC = () => (
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 1576.3386 530.9437)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="39px"
         >
           6
@@ -1435,7 +1435,7 @@ const Process: FC = () => (
         <text
           className="fill-foreground"
           transform="matrix(1 0 0 1 915.5707 705.8026)"
-          fontFamily="'Roboto-Regular'"
+          fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="39px"
         >
           4

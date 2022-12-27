@@ -83,3 +83,15 @@ export const openUrl = (url: string, params?: Record<string, string>) => {
   if (params) href.search = new URLSearchParams(params).toString();
   window.open(href.toString());
 };
+
+export const getGitHubEditUrl = (url: string) => {
+  const parts = url.split('/').filter((part) => part.length);
+  const slug = parts.pop();
+  const collection = parts.pop();
+
+  return [
+    'https://github.com/01binary/zeroweb/edit/master/src',
+    collection,
+    slug?.includes('.') ? slug : `${slug}.md`,
+  ].join('/');
+};

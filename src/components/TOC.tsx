@@ -16,11 +16,11 @@ import styled from 'styled-components';
 import useActiveHeading from '../hooks/useActiveHeading';
 import CubeAnimation from './Animations/CubeAnimation';
 import HeadingQuery from '../types/HeadingQuery';
-import EditIcon from '../images/markdown.svg';
 import { MOBILE } from '../constants';
 import { useBlogContext } from '../hooks/useBlogContext';
-import ScrollToTop from './ScrollToTop';
 import { getPathForCollection } from '../routes';
+import EditLink from '../components/EditLink';
+import ScrollToTop from './ScrollToTop';
 
 // How long to wait for smooth scrolling
 const AUTOSCROLL_DURATION = 1100;
@@ -92,28 +92,6 @@ const TocItemLink = styled(AnchorLink)`
   }
 `;
 
-const EditLink = styled.a`
-  display: flex;
-  align-items: center;
-  text-transform: lowercase;
-  margin-right: ${(props) => props.theme.spacingHalf};
-`;
-
-const StyledEditIcon = styled(EditIcon)`
-  margin-top: calc(${(props) => props.theme.border} / 2);
-  margin-right: calc(
-    ${(props) => props.theme.spacingQuarter} - ${(props) => props.theme.border}
-  );
-  margin-left: calc(
-    0px - ${(props) => props.theme.spacing} +
-      ${(props) => props.theme.borderThick} + ${(props) => props.theme.border}
-  );
-
-  @media (max-width: ${MOBILE}) {
-    display: none;
-  }
-`;
-
 const BackToIndexLink = styled(Link)`
   display: block;
   margin-left: -1.25em;
@@ -123,18 +101,9 @@ const BackToIndexLink = styled(Link)`
   }
 `;
 
-const getGitHubEditUrl = (url: string) => {
-  const parts = url.split('/').filter((part) => part.length);
-
-  const slug = parts[parts.length - 1];
-  const collection = parts[parts.length - 2];
-
-  return [
-    'https://github.com/01binary/zeroweb/edit/master/src',
-    collection,
-    `${slug}.md`,
-  ].join('/');
-};
+const TocEditLink = styled(EditLink)`
+  margin-right: ${(props) => props.theme.spacingHalf};
+`;
 
 const getAnchorFromHref = (url?: string) =>
   url && url.substring(url.indexOf('#') + 1);
@@ -204,9 +173,7 @@ const TOC: FC<{
           </TocItem>
         )}
       </TocList>
-      <EditLink href={getGitHubEditUrl(postUrl)} target="__blank">
-        <StyledEditIcon /> Edit on GitHub
-      </EditLink>
+      <TocEditLink path={postUrl} />
       <ScrollToTop inline readPosition={readPosition} />
     </Toc>
   );

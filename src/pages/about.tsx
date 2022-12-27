@@ -11,6 +11,7 @@
 
 import React, { FC } from 'react';
 import { graphql } from 'gatsby';
+import styled from 'styled-components';
 import Page, { PageQuery } from '../components/Page';
 import HelloAnimation from '../components/Animations/HelloAnimation';
 import CurrentExperienceIcon from '../images/cv-current-experience.svg';
@@ -18,6 +19,7 @@ import PreviousExperienceIcon from '../images/cv-past-experience.svg';
 import EducationIcon from '../images/cv-education.svg';
 import CertificationsIcon from '../images/cv-certifications.svg';
 import InterestsIcon from '../images/cv-interests.svg';
+import EditLink from '../components/EditLink';
 import { ButtonResources } from '../components/Button';
 import {
   Sidebar,
@@ -38,6 +40,12 @@ import {
 } from '../components/Story/Story';
 import Print from '../components/Story/Print';
 import { HeaderSection } from '../components/Story/Story.styles';
+
+const AboutEditLink = styled(EditLink)`
+  margin-top: ${(props) => props.theme.spacing};
+  margin-left: calc(${(props) => props.theme.spacing} * 2.5);
+  margin-right: 0;
+`;
 
 const About: FC<PageQuery> = ({ data }) => (
   <Page
@@ -69,6 +77,8 @@ const About: FC<PageQuery> = ({ data }) => (
         stack_overflow="https://stackoverflow.com/users/3727395/valeriy-novytskyy"
         github="https://github.com/01binary"
       />
+
+      <AboutEditLink path="pages/about.tsx" />
     </Sidebar>
 
     <HelloAnimation />

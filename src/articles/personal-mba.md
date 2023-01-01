@@ -16,7 +16,7 @@ tags:
 
 Professionals today think of business as a vehicle for transforming the world while doing what they love. However, as soon as they leave the beaten path, they realize it was just a narrow strip in an endless desert. Their first instinct is to grasp at something familiar: an MBA program at an accredited institution!
 
-Josh argues that learning core business skills is more valuable if you are searching for *meaning* rather than *comfort*, and [his book](https://www.amazon.com/Personal-MBA-10th-Anniversary-ebook/dp/B08H5PKGGG) accumulates the information necessary for a self-study course in business administration.
+Kaufman argues that learning core business skills is more valuable if you are searching for *meaning* rather than *comfort*, and [his book](https://www.amazon.com/Personal-MBA-10th-Anniversary-ebook/dp/B08H5PKGGG) accumulates the information necessary for a self-study course in business administration.
 
 ![book](./images/personal-mba-book.png)
 
@@ -137,7 +137,7 @@ This direction is set by the leadership team for the entire company, and it's th
 
 You may have heard this quote, known as *Parkinson's Law*:
 
-> "Work expands to fill the time available for its completion." --Cyril Parkinson, essay published in The Economist
+> "Work expands to fill the time available for its completion." --Cyril Parkinson, The Economist
 
 Reaching a goal always requires trade-offs, so why not plan those instead of letting the deadlines force them on you?
 
@@ -149,4 +149,4 @@ This is known as the *Pigmalion Effect*, named after a greek sculptor that praye
 
 ## conclusion
 
-This book is loaded with great content, and this review only scratches the surface. A recommended read for those who aspire to be *high performers*!
+This book offers a lot of great advice on planning and executing successful projects. It teaches you how to set the right goals, how to reach them efficiently while steering clear of human cognitive biases, and how to keep what you build running long enough to benefit. I recommend this read for anyone who aspires to be a high performer at work.

@@ -26,7 +26,7 @@ Yes, he did spend 30% of the book struggling with "CEO issues" like putting his 
 
 ## what is a business?
 
-You probably think of yourself as an employee unless you have people on the payroll. Andy challenges this assumption, asserting that everyone is at least a consultant who is running their own business.
+You probably think of yourself as an employee unless you have people on the payroll. Grove challenges this assumption, asserting that everyone is at least a consultant who is running their own business.
 
 Whether you are a full- or part-time employee working for a software company, you had to go through an interiew proccess, just like a vendor or a consultant:
 - You had to prove that you have an edge over the competition by developing your unique sales pitch to highlight strengths and downplay weaknesses, as well as constantly update your resume based on feedback from recruiters and missed opportunities.

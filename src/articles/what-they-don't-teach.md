@@ -26,7 +26,7 @@ This book sold more than a million copies after being published in 1984 and got 
 
 ![Succession](./images/what-they-dont-succession.png)
 
-Mark addresses four main topics in his book:
+McCormack addresses four main topics in his book:
 
 * Advice for executives and managers
 * Advice for closing sales deals
@@ -43,7 +43,7 @@ In order to improve any outcome, the first step is understanding the processes i
 
 Since the environment includes yourself as well as the people you are trying to influence, measurable improvement requires attacking the problem from both ends: understanding both yourself and others better.
 
-Mark therefore kicks off his book with advice on communicating effectively and improving emotional maturity.
+McCormack therefore kicks off his book with advice on communicating effectively and improving emotional maturity.
 
 ### be genuine
 
@@ -102,7 +102,7 @@ Getting ahead reqires combining work-related experience with inter-personal skil
 
 ![Getting ahead](./images/what-they-dont-teach-you-thegame.png)
 
-In Mark's words, getting promoted comes down to playing multiple games:
+In McCormack's words, getting promoted comes down to playing multiple games:
 
 > You have got to be able to jump up several notches, to alert those several rungs above you to your talents.<br/><br/>
 At the same time, you must make the middle guys think that by supporting you and building you up to the top guy they will look better as managers.<br/><br/>
@@ -119,7 +119,7 @@ This makes promotion appear disruptive: a well-functioning and efficient team mi
 
 ## sales
 
-Mark's sales advice boils down to paying attention to insights about others, which has already been covered in the previous section on communication. Effective sales requires focus on the following:
+Mark McCormack's sales advice boils down to paying attention to insights about others, which has already been covered in the previous section on communication. Effective sales requires focus on the following:
 
 * *Timing*, *Patience*, and *Persistence*. Successful sales happen when the customer is prompted at the right time for them, and in a way they respond to. Waiting until the right time, and iterative testing to find the right way requires tons of patience.
 * *Empathy*. You must believe that you are trying to make their life better.

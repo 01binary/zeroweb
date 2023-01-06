@@ -77,13 +77,14 @@ const configureRetryLink = () =>
       !!error && operation.operationName != 'specialCase',
     delay: (count, operation, error) => {
       console.error('Apollo retry', { operation, error });
-      dataLayer &&
+      try {
         dataLayer.push({
           event: 'network_retry',
           operation,
           error,
           count,
         });
+      } catch {}
       return count * 1000 * Math.random();
     },
   });
@@ -101,11 +102,12 @@ const configureErrorLink = () =>
 
     if (networkError) {
       console.error({ networkError });
-      dataLayer &&
+      try {
         dataLayer.push({
           event: 'network_error',
           error_message: networkError.message,
         });
+      } catch {}
     }
   });
 

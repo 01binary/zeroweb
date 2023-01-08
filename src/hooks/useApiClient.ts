@@ -24,7 +24,6 @@ import { AWSSignature } from '../auth/types';
 
 // https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-generate-sdk-javascript.html
 declare var apigClientFactory: any;
-declare var dataLayer: any;
 
 /**
  * Use AWS API Gateway client to make web requests
@@ -77,14 +76,16 @@ const configureRetryLink = () =>
       !!error && operation.operationName != 'specialCase',
     delay: (count, operation, error) => {
       console.error('Apollo retry', { operation, error });
-      try {
-        dataLayer.push({
+
+      if (typeof window !== 'undefined' && window['dataLayer']) {
+        window['dataLayer'].push({
           event: 'network_retry',
           operation,
           error,
           count,
         });
-      } catch {}
+      }
+  
       return count * 1000 * Math.random();
     },
   });

@@ -42,13 +42,16 @@ const configureApiGatewayLink = (signature: AWSSignature | null) => {
   });
 
   return new HttpLink({
-    fetch: (uri, { headers, body }) =>
-      apigClient
+    fetch: (input, init) => {
+      const { headers, body } = init;
+      console.log('fetch called with input', input, 'init', init);
+      const res = apigClient
         .graphqlPost({ headers }, JSON.parse(body.toString()))
         .then((res) => {
           const data = res.data;
 
           if (res.status === 401 || res.status === 403) {
+            console.error('calling authenticationExpired() because', res);
             apigClient.authenticationExpired();
           } else if (res.status >= 300) {
             throw new Error(
@@ -62,7 +65,10 @@ const configureApiGatewayLink = (signature: AWSSignature | null) => {
           }
 
           return new Response(JSON.stringify(res.data));
-        }),
+        });
+
+      return res;
+    },
   });
 };
 
@@ -103,12 +109,12 @@ const configureErrorLink = () =>
 
     if (networkError) {
       console.error({ networkError });
-      try {
-        dataLayer.push({
+      
+      if (typeof window !== 'undefined' && window['dataLayer'])
+        window['dataLayer'].push({
           event: 'network_error',
           error_message: networkError.message,
         });
-      } catch {}
     }
   });
 

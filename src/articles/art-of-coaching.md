@@ -169,4 +169,4 @@ It's important to voice and agree on a direction the whole team is heading, what
 
 ## conclusion
 
-I recommended this book for anyone faced with analyzing poor communication or leadership failures. It will help you cultivate a scientific mindset when dealing with unexpected reactions and outcomes, and avoid trouble in your personal journey by getting educated instead of going through endless cycles of trial and error while causing needless suffering for the whole team.
+I recommend this book for anyone faced with analyzing poor communication or leadership failures. It will help you cultivate a scientific mindset when dealing with unexpected reactions and outcomes, and avoid trouble in your personal journey by getting educated instead of going through endless cycles of trial and error while causing needless suffering for the whole team.

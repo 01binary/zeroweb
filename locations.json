@@ -52,5 +52,11 @@
     "locationName": "Las Vegas, NV",
     "locationUrl": "https://www.venetianlasvegas.com/",
     "description": "The site of AWS re:Invent and Vanderpump Cocktail Garden"
+  },
+  "Adrift": {
+    "avatarUrl": "https://www.adrifthotel.com/wp-content/themes/adrift-dc/assets/images/apple-icon-touch.png",
+    "locationName": "Long Beach, WA",
+    "locationUrl": "https://www.adrifthotel.com/",
+    "description": "The place for serene writing and walks on the beach"
   }
 }

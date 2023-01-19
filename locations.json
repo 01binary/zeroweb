@@ -58,5 +58,11 @@
     "locationName": "Long Beach, WA",
     "locationUrl": "https://www.adrifthotel.com/",
     "description": "The place for serene writing and walks on the beach"
+  },
+  "Aspect": {
+    "avatarUrl": "https://zeroweb-downloads.s3.us-west-2.amazonaws.com/aspect-logo.png",
+    "locationName": "Portland, OR",
+    "locationUrl": "http://aspectportland.com",
+    "description": "Industrial working space"
   }
 }

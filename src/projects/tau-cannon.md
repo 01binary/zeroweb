@@ -5,7 +5,7 @@ image: ./images/tau-cannon.png
 author: Valeriy Novytskyy
 date: 2022-10-01
 location: ^H Hackerspace
-published: false
+published: true
 tags:
   [
     'design-industrial',

@@ -102,34 +102,53 @@ const About: FC<PageQuery> = ({ data }) => (
         <SkillSummary />
         <Print />
       </HeaderSection>
+
       <Experience>
         <CurrentExperienceIcon />
+        <Title>Principal Full-Stack Engineer</Title>
+        <Company>
+          [ZHealth Documentation](https://www.linkedin.com/company/zhealth-documentation)
+        </Company>
+        <Dates>Mar 2023 – Present</Dates>
+        <Location>Remote</Location>
+        <Stack>
+          react, docker, azure, asp.net core, sql server
+        </Stack>
+        <Summary>
+          <p>
+            Growing `team capacity` by proposing and making `software architecture`
+            and `design` improvements to `ship features faster`.
+          </p>
+          <p>
+            Writing `documentation` and recording `training` materials to facilitate a
+            welcoming onboarding experience. Working `one-on-one` with engineers
+            to invest in their success, and improve any `company dynamics`
+            obstructing `efficient delivery`.
+          </p>
+        </Summary>
+        <Keywords>
+          agile, scrum, technical writing, node.js, azure devops, bitbucket,
+          representational state transfer, eslint, storybook
+        </Keywords>
+      </Experience>
+
+      <Experience>
+        <PreviousExperienceIcon />
         <Title>Senior Frontend Engineer</Title>
         <Company>
           [Tandem Diabetes
-          Care](https://www.linkedin.com/company/tandemdiabetes/mycompany/verification/)
+          Care](https://www.linkedin.com/company/tandemdiabetes)
         </Company>
-        <Dates>Mar 2021 – Present</Dates>
+        <Dates>Mar 2021 – Mar 2023</Dates>
         <Location>Remote</Location>
         <Stack>
           typescript, react, material ui, docker, styled components, storybook
         </Stack>
         <Summary>
           <p>
-            Growing `team capacity` by proposing and making `software
-            architecture` and `design` improvements to `deliver features faster`
-            and secure our position as a `market leader`.
-          </p>
-          <p>
-            `Coaching` engineers through pair programming to `maximize`
-            contributions from the `unique talents` on my team. `Teaching`
-            software development best practices across teams.
-          </p>
-          <p>
-            Delivering `practical solutions` with clear value by growing a deep
-            understanding of the `business domain` and `defining technical
-            stories` to empower `health care providers` with accurate `clinical
-            insights` to create better `care outcomes` for Diabetes patients.
+            `Coaching` engineers through pair programming to maximize `contributions`
+            from the `unique talents` on my team. Teaching software development `best
+            practices` across teams.
           </p>
           <p>
             Working with the `backend` and `operations` teams to maintain

@@ -14,9 +14,9 @@ tags:
 ---
 ## why absolute encoders?
 
-High-torque servo motors like [Dynamixel Pro](https://www.robotis.us/dynamixel-p/) and BDLC motors like [Cubemars AK80](https://www.robotshop.com/products/cubemars-ak80-64kv80-bldc-motor-robot-w-integrated-encoder-driver) integrate a DC motor, absolute encoder, relative encoder, and a [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) or [MIT](https://stuff.mit.edu/people/mitter/publications/3_theory_modal_INFO.pdf) controller into a single convenient package.
+High-torque servo motors like [Dynamixel Pro](https://www.robotis.us/dynamixel-p/) and BDLC motors like [Cubemars AK80](https://www.robotshop.com/products/cubemars-ak80-64kv80-bldc-motor-robot-w-integrated-encoder-driver) integrate a DC motor, absolute encoder, relative encoder, and a [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) controller into a single convenient package.
 
-What if these products don't fit your price range or your application, or you would like to use a different motor/gearbox, or even [build one yourself](https://www.youtube.com/watch?v=GakFB8Tdd98)?
+What if these products don't fit your price range or your application, or you would like to use another motor/gearbox, or even [build one yourself](https://www.youtube.com/watch?v=GakFB8Tdd98)?
 
 Many DC motors have relative encoders built-in (for example [Duma Dynamics](https://www.robotshop.com/products/56rpm-right-angle-gear-motor-w-13ppr-hall-sensor-encoder) and [Yellow Jacket](https://www.servocity.com/5203-series-yellow-jacket-planetary-gear-motor-188-1-ratio-24mm-length-8mm-rex-shaft-30-rpm-3-3-5v-encoder/)). Relative encoders are easy to find for those that don't.
 
@@ -243,6 +243,90 @@ void loop()
 You can get it with a set-screw flange that attached to a motor shaft and has the magnetic ring inserted, or just the magnetic ring for use with your own custom flange. The following code will let you read the current position over SPI:
 
 ```
+#include <SPI.h>
+
+// Megaherz multiplier
+const long MHz = 1000000;
+
+// Select pin (active low)
+const int SELECT_PIN = 8;
+
+// Orbis encoder max value (14 bits all set)
+const unsigned long MAX_VALUE = 0b11111111111111;
+
+// Orbis data frame
+struct DATA
+{
+  unsigned int position : 14;
+  unsigned int error: 1;
+  unsigned int warning: 1;
+};
+
+// Orbis (SPI)     | Arduino (SPI)
+// -------------------------------
+// 1 5V    (brown) | 5V
+// 3 GND   (white) | GND
+// 7 SCK   (red)   | SCK
+// 8 CS    (blue)  | 8
+// 10 MISO (green) | MOSI
+// 11 MOSI (yellow)| MISO
+
+void initEncoder()
+{
+  SPI.begin();
+  SPI.beginTransaction(SPISettings(
+    // Orbis clock frequency
+    1 * MHz,
+    // Orbis sends data MSB first
+    MSBFIRST,
+    // Data capture on rising edge of the clock
+    SPI_MODE0
+  ));
+
+  pinMode(SELECT_PIN, OUTPUT);
+  digitalWrite(SELECT_PIN, HIGH);
+}
+
+double readPosition(bool& error, bool& warning)
+{
+  // Select
+  digitalWrite(SELECT_PIN, LOW);
+  delayMicroseconds(8);
+
+  // Read value
+  DATA data;
+  *((uint16_t*)&data) = SPI.transfer16(0x0);
+
+  // Deselect
+  digitalWrite(SELECT_PIN, HIGH);
+
+  // Parse
+  error = data.error;
+  warning = data.warning;
+
+  return double(data.position) / double(MAX_VALUE);
+}
+
+void setup()
+{
+  initEncoder();
+  Serial.begin(115200);
+}
+
+void loop()
+{
+  bool error, warning;
+  double reading = readPosition(error, warning);
+  
+  Serial.print("Reading: ");
+
+  if (error) Serial.print("(err) ");
+  if (warning) Serial.print("(warn) ");
+  
+  Serial.println(reading, 2);
+  
+  delay(10);
+}
 ```
 
 ## lamprey ring encoder

@@ -47,6 +47,24 @@ const List = styled.ol`
         content: initial;
       }
     }
+
+    p {
+      margin-top: -${(props) => props.theme.spacing};
+    }
+
+    section+section > p {
+      margin-top: 0;
+    }
+
+    section {
+      &:after {
+        display: none;
+      }
+    }
+
+    .paragraph__comment-button {
+      display: none;
+    }
 `;
 
 const OrderedList: FC = ({ children }) => (

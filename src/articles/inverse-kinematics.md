@@ -59,7 +59,7 @@ Using Blender simplifies working with robot description:
 + The `<child>` element refers to the child `<link>` in the same file, which is a 3D model of a segment of the robot arm between the current and the next joint (for example, *forearm* is between *elbow* and *wrist*).
 + The corresponding `<link>` element for the child link contains a `<visual>` element that usually specifies the `<mesh>` element with the `filename` of the 3D model used to represent the link visually.
 
-Once the models for the links associated with each joint are imported in Blender, parent-child relationships are setup, and offsets are specified for each joint, we will be able to use the Blender to calculate forward kinematics and visualize inverse kinematics solutions.
+Once the *models* for the *links* associated with each *joint* are imported in Blender, *parent-child* relationships are setup, and *offsets* are specified for each joint, we will be able to use the Blender to calculate *forward kinematics* and visualize *inverse kinematics* solutions.
 
 ## representing joints
 
@@ -68,7 +68,7 @@ Joints are represented by `4x4` (*homogenous*) transformation matrices:
 + *Revolute* joints are defined by a revolution around an axis.
 + *Prismatic* joints are defined by a translation on an axis.
 
-Linear and angular offset from the previous joint are also included:
+Linear and angular offsets from the previous joint are also included:
 
 + *Linear offset* is usually the length or height of the previous link, and is defined by a constant translation.
 + *Angular offset* (or *twist*) is any constant rotation that is not on joint axis.
@@ -89,15 +89,15 @@ Once the robot is assembled in Blender, it's easy to extract joint matrices.
 
   `bpy.data.objects["end_effector"].matrix_world`
 
-If you followed these steps, you've just calculated forward kinematics!
+If you followed these steps, you've just calculated forward kinematics.
 
-It can be helpful to visualize joint coordinate frames by placing an *Empty Arrows* object as a child of the joint. Place one at the end of the kinematic chain to visualize the end-effector pose by clicking *Add* &gt; *Empty* &gt; *Arrows* in Blender, then parenting this new Empty object to the last joint *without inverse*:
+It's helpful to visualize joint coordinate frames by using an *Empty Arrows* object in Blender. Click *Add* &gt; *Empty* &gt; *Arrows* and parent this new Empty object to the last joint *without inverse*:
 
 TODO image of robot arm with empty arrows
 
 ## joint matrix in octave
 
-To build a 4x4 joint matrix in [GNU Octave](https://octave.org/download):
+To build a 4x4 joint matrix in [GNU Octave](https://octave.org/download), execute the following directly on the command prompt, or save in a `.m` script and then execute the script:
 
 ```
 pkg load matgeom
@@ -136,6 +136,14 @@ EE = Base * Shoulder * Elbow * Wrist;
 ```
 
 ## joint matrix in matlab
+
+You may find it easier to use Matlab on the command line much like Octave:
+
+```
+matlab -nodesktop
+```
+
+Unlike Octave, Matlab will launch with its system folder as the current directory, so you may have to change the current directory using `cd` after launching.
 
 To build a 4x4 joint matrix in [MathWorks Matlab](https://www.mathworks.com/products/matlab.html):
 
@@ -176,8 +184,6 @@ Matlab and Octave are essentially *Python REPLs*. The `...` (*ellipsis*) is used
 
 Placing `;` at the end of the line will execute the line without echoing the output. Omitting `;` will echo the output of the calculation.
 
-While MatLab pre-loads all add-ins and takes longer to start, Octave requires you to load packages manually by using `pkg load`.
-
 ## denavit-hartenberg
 
 The *Denavit-Hartenberg* (DH) *parameters* are simply a convention for describing a joint transformation matrix as a function of four parameters:
@@ -187,7 +193,7 @@ The *Denavit-Hartenberg* (DH) *parameters* are simply a convention for describin
 + Link length `a`: translation on X axis
 + Joint twist `α`: rotation on X axis
 
-The *Denavit-Hartenberg matrix* can be built directly by using the following expressions for each matrix cell:
+The *Denavit-Hartenberg matrix* can be built directly by using the following expressions in each matrix cell, or by multiplying the above transforms:
 
 ```
 [cos(θ),  -sin(θ) * cos(α), sin(θ) * sin(α),  a * cos(θ)]
@@ -196,27 +202,31 @@ The *Denavit-Hartenberg matrix* can be built directly by using the following exp
 [0,        0,                0,               1         ]
 ```
 
-...or multiplying the transforms as in this C++ example using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library:
-
-```
-#include <Eigen/Dense>
-
-using namespace Eigen;
-
-Matrix4d denavitHartenberg(
-  double a, double d, double alpha, double theta)
-{
-  return (
-    Translation3d(0, 0, d) *
-    AngleAxisd(theta, Vector3d::UnitZ()) *
-    Translation3d(a, 0, 0) *
-    AngleAxisd(alpha, Vector3d::UnitX())
-  ).matrix();
-}
-```
-
 See [Octave](https://github.com/01binary/inverse-kinematics/tree/main/exercise11-denavit-hartenberg/octave) and [Matlab](https://github.com/01binary/inverse-kinematics/tree/main/exercise11-denavit-hartenberg/matlab) examples of defining joints using DH parameters and multiplying them together to calculate forward kinematics.
 
+## end-effector matrix
+
+The `4x4` matrix that describes the end-effector pose consists of four vectors:
+
+![end-effector](./images/inverse-kinematics-end-effector.png)
+
+```
+[nx, ox, ax, px]
+[ny, oy, ay, py]
+[nz, oz, az, pz]
+[0,  0,  0,  1 ]
+```
+
++ The `N` or *Normal* unit vector with components `nx`, `ny`, `nz` describes the *normal* pointing out of the end-effector. Rotation around this vector corresponds to *roll* in terms of [Euler](https://mecharithm.com/learning/lesson/explicit-representations-orientation-robotics-roll-pitch-yaw-angles-15) (roll-pitch-yaw) angles.
++ The `O` or *Orientation* unit vector with components `ox`, `oy`, `oz` is the local *up* direction, thus rotation around this axis is equivalent to *yaw*.
++ The `A` or *Approach* unit vector with components `ax`, `ay`, `az` is the local *right* direction, thus rotation around this axis is equivalent to *pitch*.
++ The `P` or *Position* vector with components `px`, `py`, `pz` describes the *position* of the end-effector on `X`, `Y`, `Z` axis in world space.
+
+To visualize any of these unit vectors in Blender, execute the following in *Blender Python Console*:
+
+```
+line = [Vector((0, 0, 0)), Vector((x, y, z))]
+```
 ## types of ik solutions
 
 There are several ways to solve inverse kinematics problems:
@@ -236,32 +246,37 @@ We will look at how to implement *gradient descent* and *newton-raphson iterator
 
 ## gradient descent
 
-The *amount* by which to *increase* or *decrease* each joint variable is calculated by using a *gradient equation*:
+The *amount* by which to change each joint variable at each iteration is calculated by using a *gradient equation*:
 
-1. Increment each joint variable `joints[j]` at iteration `n` by `Δ`:
+1. Increment each joint *j* at each iteration *n* by Δ:
 
-  `joints[n][j] = joints[n - 1][j] + Δ`
+  joints<sub>n, j</sub> = joints<sub>n - 1, j</sub> + Δ
 
-2. Call the forward kinematics function with current values of all joint variables to get the end-effector pose.
+2. Call the forward kinematics function to get the end-effector pose after this joint was incremented by Δ:
 
-  `pose[n] = forwardKinematics(joints[n])`
+  pose<sub>n</sub> = forwardKinematics(joints<sub>n</sub>)
 
-3. Get the difference in end-effector pose before and after incrementing the joint variable:
+3. Compute the *error* by using a *gradient equation*: the difference in end-effector pose divided by the difference in joint angles:
 
-  `deltaPose = pose[n] - pose[n - 1]`
+  error = (pose<sub>n</sub> - pose<sub>n - 1</sub>) / Δ
 
-4. Compute the `error`, or how far the joint variable is from where it should be to reach the goal. Since `deltaPose` is expressed in world space units and `Δ` in joint space units, we divide `deltaPose` by `Δ` to convert it from world to joint space units. The `error` will be added directly to the joint variable in the next step, so it has to be expressed in the same units.
+  This value is used as a weight to pull the joint variable in the direction that moves the end-effector closer to the goal.
 
-  `error = deltaPose / Δ`
+  The sign is the direction of the pull, and the magnitude is the influence of this variable on the end-effector. If your joint variable was in *radians*, the *error* would be *meters per radian*.
 
-5. Change the joint variable by the error amount, scaled by a `DAMPING` factor (`0.0` - `1.0`). This factor increases accuracy at the expense of time (low damping is high accuracy), so start with `1.0` and decrease until solutions are acceptable.
+4. Add the *error* scaled by the joint influence on the end-effector and a *damping* factor to the joint variable:
 
-  `joints[n][j] -= error * DAMPING`
+  joints<sub>n, j</sub> = joints<sub>n - 1, j</sub> + error &times; DAMPING
 
-We can implement this in C++ using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library for matrix calculations. First define the forward kinematics function that can take a *vector of joint variables* and return the *end-effector pose*:
+  If the *error* is in meters per radian, the damping factor is how many radians to "steer" toward the goal each iteration. A large damping factor may result in over-steering and missing the goal while a small damping factor will make the journey longer than necessary.
+
+The same *gradient* strategy is [used by bacteria to navigate](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3320702) and can be visualized as a rise-over-run *descent* down a *slope*:
+
+![gradient slope](./images/inverse-kinematics-gradient.png)
+
+We can implement this algorithm in C++ using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library for matrix calculations. First define the forward kinematics function that can take a *vector of joint variables* and return the *end-effector pose*:
 
 ```
-// fk.h
 #include <Eigen/Dense>
 
 using namespace Eigen;
@@ -289,6 +304,7 @@ Matrix4d forwardKinematics(MatrixXd jointVariables)
       Translation3d(0.7, 0.05, 0) *
       AngleAxisd(jointVariables(3,0), Vector3d::UnitX())
     ).matrix() *
+    // Hand
     (
       Translation3d(0.18, 0, 0) *
       AngleAxisd(0.0, Vector3d::UnitX())
@@ -298,18 +314,19 @@ Matrix4d forwardKinematics(MatrixXd jointVariables)
 
 The algorithm starts by initializing the joint variables with an *initial guess*, which has a biasing influence on the outcome.
 
-> For example, if your robot configuration is elbow-up, you would bias the shoulder joint to a negative value and the elbow to a positive value so that the algorithm first tries to reach the goal with elbow facing up.
+> For example, if your robot configuration is elbow-up, you would bias the shoulder joint to a negative value and the elbow to a positive value so that the algorithm first tries to reach the goal with the elbow facing up.
 
 See the [complete project](https://github.com/01binary/inverse-kinematics/tree/main/exercise15-gradient-descent) in the companion repository.
 
 ```
 #include <iostream>
-#include "fk.h"
+#include "fk.h" // previous code snippet
 
 using namespace std;
 
 double distanceToGoal(
   Vector3d goalPosition, MatrixXd jointVariables);
+
 double calculateError(
   Vector3d goal, MatrixXd jointVariables, int joint, double delta);
 
@@ -327,17 +344,9 @@ int main(int argc, char** argv)
   const double BIAS_ELBOW = 0.5;
   const double BIAS_WRIST = 0;
 
-  // Parse goal position
+  // Prompt for goal position
   Vector3d goal;
-  if (argc < 4) return 1;
   goal << stod(argv[1]), stod(argv[2]), stod(argv[3]);
-
-  cout << "Inverse Kinematics (Gradient Descent)" << endl << endl;
-  cout << "Given Pose ["
-    << goal.x() << ", "
-    << goal.y() << ", "
-    << goal.z() << "]"
-  << endl;
 
   // Run the algorithm
   MatrixXd jointVariables(4, 1);
@@ -362,23 +371,25 @@ int main(int argc, char** argv)
   return 0;
 }
 
-double distanceToGoal(Vector3d goalPosition, MatrixXd jointVariables)
+double distanceToGoal(
+  Vector3d goalPosition, MatrixXd jointVariables)
 {
   Matrix4d endEffector = forwardKinematics(jointVariables);
   Vector3d position = endEffector.block<3, 1>(0, 3);
   return (goalPosition - position).norm();
 }
 
-double calculateError(Vector3d goal, MatrixXd jointVariables, int joint, double delta)
+double calculateError(
+  Vector3d goal, MatrixXd jointVariables, int joint, double delta)
 {
-  double first = distanceToGoal(goal, jointVariables);
+  double before = distanceToGoal(goal, jointVariables);
 
-  MatrixXd secondVariables = jointVariables;
-  secondVariables(joint, 0) += delta;
+  MatrixXd afterVariables = jointVariables;
+  afterVariables(joint, 0) += delta;
 
-  double second = distanceToGoal(goal, secondVariables);
+  double after = distanceToGoal(goal, afterVariables);
 
-  return (second - first) / delta;
+  return (after - before) / delta;
 }
 ```
 
@@ -386,37 +397,31 @@ double calculateError(Vector3d goal, MatrixXd jointVariables, int joint, double 
 
 The *newton-raphson iterator* algorithm is similar to *gradient descent*. The amount by which to *increase* or *decrease* each joint variable at each iteration is computed by using the *Jacobian matrix* inverse or transpose.
 
-The Jacobian matrix describes *how much* the end-effector moves and rotates on each *axis* in response to each *joint variable* changing. Its inverse or transpose will give you the amounts by which joint variables change when the end-effector moves.
+The Jacobian matrix describes *how much* the end-effector moves and rotates on each *axis* in response to each *joint variable* changing. Its inverse or transpose will give you the influences of joint variables on the end-effector.
 
 This matrix will have as many rows as the dimensions being tracked and as many columns as there are joint variables. In this example we calculate position-only IK so we are tracking 3 dimensions (end-effector X, Y, and Z).
 
-For each joint `joints[j]` at iteration `n`:
+For each joint *j* at each iteration *n*:
 
-1. Increment the joint variable by a small `Δ`:
+1. Increment the joint variable by Δ:
 
-  `joints[n][j] = joints[n - 1][j] + Δ`
+  joints<sub>n, j</sub> = joints<sub>n - 1, j</sub> + Δ
 
-2. Compute the resulting change in the end-effector pose by using forward kinematics (see `calculateJacobian` below):
+2. Compute the resulting change to the end-effector pose by using forward kinematics:
 
-  `pose[n] = forwardKinematics(joints[n])`
+  pose<sub>n</sub> = forwardKinematics(joints<sub>n</sub>)
 
-  `deltaPose = pose[n] - pose[n - 1]`
+3. Calculate the difference between the end-effector poses (in world units), divided by Δ (in joint units), to get the weight this joint has on the end-effector pose, recording it in the Jacobian matrix:
 
-3. The difference between the end-effector poses is in world units, so we divide by `Δ` to express this in joint units instead. This becomes the weight recorded in the Jacobian matrix cell for the joint:
+  J<sub>j</sub> = (pose<sub>n</sub> - pose<sub>n - 1</sub>) / Δ
 
-  `J[j] = deltaPose / Δ`
-
-4. Compute the error (difference between the end-effector pose with given joint variables, and the goal pose):
+4. Compute the *error* (the difference between the end-effector pose with given joint variables, and the goal pose):
   
-  `error = goal - pose[n]`
+  error = goal - pose<sub>n</sub>
 
-5. Increase or decrease each joint variable by the `error`, which is weighted by the influence this joint variable has on the end-effector pose (looked up from the Jacobian matrix inverse or transpose) and scaled by the `DAMPING` constant used to control accuracy of the solution at the expense of runtime:
+5. Add the error to the joint variable. The error is scaled by the influence of this joint on the end-effector pose that's looked up from the transposed Jacobian matrix (this re-maps the error from world-space to joint-space), and scaled again by a damping factor (how much of a correction to make at each iteration in joint units):
 
-  `joints[n] += (J.transpose() * error) * DAMPING`
-
-This algorithm builds a Jacobian matrix that encodes the influences (or weights) of joint variables on the end-effector position.
-
-At each iteration, joint variables are changed according to the distance of the end-effector from the desired goal. The error amount used to correct each joint variable is scaled by the influence of that particular joint on the end-effector by looking up the corresponding weight in the Jacobian matrix.
+  joints<sub>n, j</sub> = joints<sub>n - 1, j</sub> + Jtranspose<sub>j</sub> &times; error &times; damping
 
 See the [complete project](https://github.com/01binary/inverse-kinematics/tree/main/exercise16-newton-raphson) in the companion repository.
 
@@ -511,18 +516,120 @@ int main(int argc, char** argv)
 
 *Sampling-based* solvers create a *graph* of randomly sampled *states* (each state with different *joint variables*) and look for a *path* through this graph that reaches the desired *goal pose*.
 
-TODO illustration
+![pose sampling](./images/inverse-kinematics-sampling.png)
 
 > Sampling solvers are popular because they are able to find a path to the goal in the presence of obstacles like joint limits or actual physical objects.
 
-Like other numerical solvers, they use an iterative algorithm which takes time and could fail to find a solution. A unique limitation of sampling solvers is that they require at least 6-DOF to make arbitrary points in space reachable.
+Like other numerical solvers, they use an iterative algorithm which takes time and could fail to find a solution. A unique limitation of sampling solvers is that they require [at least 6-DOF](https://answers.ros.org/question/152591/kdl-kinematics-solver-limitations/) to make arbitrary points in space reachable.
 
-It's useful to know the basic theory behind this type of solver, but we won't gain much by implementing our own since it would be subject to the same limitations as the KDL solver, which can be automatically configured by a setup wizard in [MoveIt](https://moveit.ros.org/) framework for working with robot arms.
+It's useful to know the basic theory behind this type of solver, but we won't gain much by implementing our own since it would be subject to the same limitations as the KDL solver which works with [MoveIt](https://moveit.ros.org/) out of the box.
 
-## analytical solvers
+## intro to analytical ik
 
-*Analytical* solvers equate the product of all *joint matrices* with the *end-effector pose*. This matrix equation then breaks down into a *system of nonlinear equations* (one for each matrix cell).
+Before we dive into analytical IK theory let's look at [IKFast](https://ros-planning.github.io/moveit_tutorials/doc/ikfast/ikfast_tutorial.html?highlight=ikfast) utility that auto-generates a solver based on the robot description and a [solution type](http://openrave.org/docs/latest_stable/openravepy/ikfast/#ik-types).
 
-## analytical ik
+Install IKFast (and the MoveIt IKFast wrapper that simplifies working with this tool) by following [IKFast Kinematics Solver](https://ros-planning.github.io/moveit_tutorials/doc/ikfast/ikfast_tutorial.html?highlight=ikfast) tutorial.
+
+> If you don't have a Linux machine handy, look for a [quick tutorial](https://www.youtube.com/watch?v=oi8f6hVI2P4) on running an Ubuntu virtual machine with [Multipass](https://multipass.run/).
+
+An [example of a solver plugin](https://github.com/01binary/inverse-kinematics/tree/main/exercise19-analytical-ik-basic) auto-generated by *IKFast* for the [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description) is provided in the companion repository. See the [solver implementation](https://github.com/01binary/inverse-kinematics/blob/main/exercise19-analytical-ik-basic/src/robot_arm_ikfast_solver.cpp).
+
+## analytical ik in matlab
+
+In this section we will design an *analytical solver* in Matlab or Octave and export it to working C++ code. The high-level process is:
+
+1. Equate the product of all *joint matrices* with the *end-effector pose*.
+2. This matrix equation then breaks down into a *system of nonlinear equations* (one for each matrix cell).
+3. This system of equations is then solved for the joint variables.
+
+Let's start by solving inverse kinematics for a [3-DOF robot arm](https://github.com/01binary/str1ker_moveit_config). See `.m` files for this example in the [companion repository](https://github.com/01binary/inverse-kinematics/tree/main/exercise22-analytical-ik-advanced/matlab).
+
+We'll use *Denavit-Hartenberg* parameters to define joints using the function in [dh.m](https://github.com/01binary/inverse-kinematics/blob/main/exercise22-analytical-ik-advanced/matlab/dh.m) so be sure to change into the directory with this file.
+
+```
+% Analytical Inverse Kinematics in 3-DOF
+
+% Define symbols for joint variables
+syms theta1 theta2 theta3 real
+
+% Define symbols for the goal
+syms nx ny nz ox oy oz ax ay az px py pz real
+
+% Define the goal pose
+EE = [ ...
+  [ nx, ox, ax, px ];
+  [ ny, oy, ay, py ];
+  [ nz, oz, az, pz ];
+  [ 0,  0,  0,  1  ];
+];
+
+% Define the joints
+Base = ...
+  dh(a = 0,       d = 0.11518, alpha = pi / 2,  theta = theta1) * ...
+  dh(a = -0.013,  d = 0,       alpha = 0,       theta = 0);
+Shoulder = ...
+  dh(a = 0.4173,  d = 0,       alpha = 0,       theta = theta2);
+Elbow = ...
+  dh(a = 0.48059, d = 0,       alpha = 0,       theta = theta3) * ...
+  dh(a = 0.008,   d = 0,       alpha = 0,       theta = pi / 4) * ...
+  dh(a = 0.305,   d = -0.023,  alpha = 0,       theta = -pi / 4 + 0.959931);
+
+% Define the IK equation:
+Base * Shoulder * Elbow == EE;
+```
+
+``
+% Equation cannot be solved because Base and Shoulder always appear together
+
+LHS = Base * Shoulder;
+RHS = EE * inv(Elbow);
+
+E1 = LHS(1,1) == RHS(1,1);
+E2 = LHS(1,2) == RHS(1,2);
+E3 = LHS(1,3) == RHS(1,3);
+E4 = LHS(1,4) == RHS(1,4);
+
+E5 = LHS(2,1) == RHS(2,1);
+E6 = LHS(2,2) == RHS(2,2);
+E7 = LHS(2,3) == RHS(2,3);
+E8 = LHS(2,4) == RHS(2,4);
+
+E9 = LHS(3,1) == RHS(3,1);
+E10 = LHS(3,2) == RHS(3,2);
+E11 = LHS(3,3) == RHS(3,3);
+E12 = LHS(3,4) == RHS(3,4);
+
+% Solve E3 for sin(theta1)
+S1 = rhs(isolate(E3, sin(theta1)));
+
+% Solve E7 for cos(theta1)
+C1 = rhs(isolate(E7, cos(theta1)));
+
+% Solve for theta1
+base = atan2(S1, C1);
+
+% Solve E4 for cos(theta2) substituting cos(theta1)
+C2 = vpa(rhs(isolate(subs(E4, cos(theta1), C1), cos(theta2))));
+
+% Solve E12 for sin(theta2)
+S2 = vpa(rhs(isolate(E12, sin(theta2))));
+
+% Solve for theta2
+shoulder = atan2(S2, C2);
+
+% Solve E2 for sin(theta3)
+S3 = rhs(isolate(E2, sin(theta3)));
+
+% Solve E10 for cos(theta3) substituting sin(theta3)
+C3 = vpa(rhs(isolate(subs(E10, sin(theta3), S3), cos(theta3))));
+
+% Solve for theta3
+elbow = acos(C3);
+
+% Convert to C++
+ccode(base)
+ccode(shoulder)
+ccode(elbow)
+```
 
 ## geometric ik

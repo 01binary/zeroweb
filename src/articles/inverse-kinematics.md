@@ -222,11 +222,16 @@ The `4x4` matrix that describes the end-effector pose consists of four vectors:
 + The `A` or *Approach* unit vector with components `ax`, `ay`, `az` is the local *right* direction, thus rotation around this axis is equivalent to *pitch*.
 + The `P` or *Position* vector with components `px`, `py`, `pz` describes the *position* of the end-effector on `X`, `Y`, `Z` axis in world space.
 
-To visualize any of these unit vectors in Blender, execute the following in *Blender Python Console*:
+To visualize any of these unit vectors by using the [Blender Math Vis Console](https://docs.blender.org/manual/en/latest/addons/3d_view/math_vis_console.html):
 
 ```
+% Draw a line from first to second point
 line = [Vector((0, 0, 0)), Vector((x, y, z))]
+
+% Erase a line
+line = 0
 ```
+
 ## types of ik solutions
 
 There are several ways to solve inverse kinematics problems:
@@ -256,19 +261,19 @@ The *amount* by which to change each joint variable at each iteration is calcula
 
   pose<sub>n</sub> = forwardKinematics(joints<sub>n</sub>)
 
-3. Compute the *error* by using a *gradient equation*: the difference in end-effector pose divided by the difference in joint angles:
+3. Compute the *error* by using a *gradient equation*: the difference in end-effector poses divided by the difference in joint angles:
 
   error = (pose<sub>n</sub> - pose<sub>n - 1</sub>) / Δ
 
-  This value is used as a weight to pull the joint variable in the direction that moves the end-effector closer to the goal.
+  This *signed* value is used as a weight to pull the joint variable in the direction (`+`/`-`) that moves the end-effector closer to the goal.
 
-  The sign is the direction of the pull, and the magnitude is the influence of this variable on the end-effector. If your joint variable was in *radians*, the *error* would be *meters per radian*.
+  Dividing by Δ re-maps the error from world space (since this value comes from subtracting end-effector poses) to joint space, where it's now expressed in *joint units* and can be used to do *steering*.
 
-4. Add the *error* scaled by the joint influence on the end-effector and a *damping* factor to the joint variable:
+4. Add the *error* scaled by a *damping* factor to the joint variable:
 
-  joints<sub>n, j</sub> = joints<sub>n - 1, j</sub> + error &times; DAMPING
+  joints<sub>n, j</sub> = joints<sub>n - 1, j</sub> + error &times; damping
 
-  If the *error* is in meters per radian, the damping factor is how many radians to "steer" toward the goal each iteration. A large damping factor may result in over-steering and missing the goal while a small damping factor will make the journey longer than necessary.
+ The damping factor is how many joint units to "steer" toward the goal each iteration. A large damping factor may result in over-steering and missing the goal while a small damping factor will make the journey longer than necessary.
 
 The same *gradient* strategy is [used by bacteria to navigate](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3320702) and can be visualized as a rise-over-run *descent* down a *slope*:
 
@@ -399,7 +404,7 @@ The *newton-raphson iterator* algorithm is similar to *gradient descent*. The am
 
 The Jacobian matrix describes *how much* the end-effector moves and rotates on each *axis* in response to each *joint variable* changing. Its inverse or transpose will give you the influences of joint variables on the end-effector.
 
-This matrix will have as many rows as the dimensions being tracked and as many columns as there are joint variables. In this example we calculate position-only IK so we are tracking 3 dimensions (end-effector X, Y, and Z).
+This matrix will have as many rows as the dimensions being tracked and as many columns as there are joint variables. In this example we are tracking just three dimensions (end-effector `X`, `Y`, and `Z`).
 
 For each joint *j* at each iteration *n*:
 
@@ -524,7 +529,7 @@ Like other numerical solvers, they use an iterative algorithm which takes time a
 
 It's useful to know the basic theory behind this type of solver, but we won't gain much by implementing our own since it would be subject to the same limitations as the KDL solver which works with [MoveIt](https://moveit.ros.org/) out of the box.
 
-## intro to analytical ik
+## auto-gen analytical ik
 
 Before we dive into analytical IK theory let's look at [IKFast](https://ros-planning.github.io/moveit_tutorials/doc/ikfast/ikfast_tutorial.html?highlight=ikfast) utility that auto-generates a solver based on the robot description and a [solution type](http://openrave.org/docs/latest_stable/openravepy/ikfast/#ik-types).
 
@@ -536,26 +541,23 @@ An [example of a solver plugin](https://github.com/01binary/inverse-kinematics/t
 
 ## analytical ik in matlab
 
-In this section we will design an *analytical solver* in Matlab or Octave and export it to working C++ code. The high-level process is:
+In this section we will design an *analytical solver* in Matlab and export it to working C++ code by following these steps:
 
 1. Equate the product of all *joint matrices* with the *end-effector pose*.
-2. This matrix equation then breaks down into a *system of nonlinear equations* (one for each matrix cell).
-3. This system of equations is then solved for the joint variables.
+2. Multiply both sides by inverse of joint matrices to de-couple joint variables in the equations.
+3. The resulting matrix equation breaks down into a *system of 12 nonlinear equations* (one for each matrix cell).
+4. This system of equations is then solved for the joint variables.
 
-Let's start by solving inverse kinematics for a [3-DOF robot arm](https://github.com/01binary/str1ker_moveit_config). See `.m` files for this example in the [companion repository](https://github.com/01binary/inverse-kinematics/tree/main/exercise22-analytical-ik-advanced/matlab).
-
-We'll use *Denavit-Hartenberg* parameters to define joints using the function in [dh.m](https://github.com/01binary/inverse-kinematics/blob/main/exercise22-analytical-ik-advanced/matlab/dh.m) so be sure to change into the directory with this file.
+In the following example we solve inverse kinematics for a [3-DOF robot arm](https://github.com/01binary/str1ker_moveit_config). See the `.m` files for this example in the [companion repository](https://github.com/01binary/inverse-kinematics/tree/main/exercise22-analytical-ik-advanced/matlab).
 
 ```
-% Analytical Inverse Kinematics in 3-DOF
-
-% Define symbols for joint variables
+% Define symbols for joint variables (output)
 syms theta1 theta2 theta3 real
 
-% Define symbols for the goal
+% Define symbols for the end-effector pose (input)
 syms nx ny nz ox oy oz ax ay az px py pz real
 
-% Define the goal pose
+% Define the end-effector pose
 EE = [ ...
   [ nx, ox, ax, px ];
   [ ny, oy, ay, py ];
@@ -563,73 +565,204 @@ EE = [ ...
   [ 0,  0,  0,  1  ];
 ];
 
-% Define the joints
+% Define the joints with Denavit-Hartenberg parameters
 Base = ...
-  dh(a = 0,       d = 0.11518, alpha = pi / 2,  theta = theta1) * ...
-  dh(a = -0.013,  d = 0,       alpha = 0,       theta = 0);
+  dh(a = 0, d = 0.11518, alpha = pi / 2, theta = theta1) * ...
+  dh(a = -0.013, d = 0, alpha = 0, theta = 0);
+
 Shoulder = ...
-  dh(a = 0.4173,  d = 0,       alpha = 0,       theta = theta2);
+  dh(a = 0.4173, d = 0, alpha = 0, theta = theta2);
+
 Elbow = ...
-  dh(a = 0.48059, d = 0,       alpha = 0,       theta = theta3) * ...
-  dh(a = 0.008,   d = 0,       alpha = 0,       theta = pi / 4) * ...
-  dh(a = 0.305,   d = -0.023,  alpha = 0,       theta = -pi / 4 + 0.959931);
+  dh(a = 0.48059, d = 0, alpha = 0, theta = theta3) * ...
+  dh(a = 0.008, d = 0, alpha = 0, theta = pi / 4) * ...
+  dh(a = 0.305, d = -0.023, alpha = 0, theta = -pi / 4 + 0.959931);
 
-% Define the IK equation:
-Base * Shoulder * Elbow == EE;
-```
+% IK equation
+IK = Base * Shoulder * Elbow == EE;
 
-``
-% Equation cannot be solved because Base and Shoulder always appear together
+% Take the left-hand side
+LHS = lhs(IK);
 
-LHS = Base * Shoulder;
-RHS = EE * inv(Elbow);
+% Take the right-hand side
+RHS = rhs(IK);
 
-E1 = LHS(1,1) == RHS(1,1);
-E2 = LHS(1,2) == RHS(1,2);
-E3 = LHS(1,3) == RHS(1,3);
+% System of non-linear equations
+E1 = LHS(1,1) == RHS(1,1); % row 1 column 1 from both matrices
+E2 = LHS(1,2) == RHS(1,2); % row 1 column 2 from both matrices
+E3 = LHS(1,3) == RHS(1,3); % and so on...
 E4 = LHS(1,4) == RHS(1,4);
-
 E5 = LHS(2,1) == RHS(2,1);
 E6 = LHS(2,2) == RHS(2,2);
 E7 = LHS(2,3) == RHS(2,3);
 E8 = LHS(2,4) == RHS(2,4);
-
 E9 = LHS(3,1) == RHS(3,1);
 E10 = LHS(3,2) == RHS(3,2);
 E11 = LHS(3,3) == RHS(3,3);
 E12 = LHS(3,4) == RHS(3,4);
 
-% Solve E3 for sin(theta1)
-S1 = rhs(isolate(E3, sin(theta1)));
-
-% Solve E7 for cos(theta1)
-C1 = rhs(isolate(E7, cos(theta1)));
-
-% Solve for theta1
-base = atan2(S1, C1);
-
-% Solve E4 for cos(theta2) substituting cos(theta1)
-C2 = vpa(rhs(isolate(subs(E4, cos(theta1), C1), cos(theta2))));
-
-% Solve E12 for sin(theta2)
-S2 = vpa(rhs(isolate(E12, sin(theta2))));
-
-% Solve for theta2
-shoulder = atan2(S2, C2);
-
-% Solve E2 for sin(theta3)
-S3 = rhs(isolate(E2, sin(theta3)));
-
-% Solve E10 for cos(theta3) substituting sin(theta3)
-C3 = vpa(rhs(isolate(subs(E10, sin(theta3), S3), cos(theta3))));
-
-% Solve for theta3
-elbow = acos(C3);
-
-% Convert to C++
-ccode(base)
-ccode(shoulder)
-ccode(elbow)
+% We stop at E12 because the last row is constant (0, 0, 0, 1)
 ```
 
+Examine equations `E1` through `E12`. You can use [vpa](https://www.mathworks.com/help/symbolic/vpa.html) for readability (for example `vpa(E1, 2)` would render `E1` to 2 digits of precision). Notice that `theta1` is the only variable that appears by itself in equations `E3` and `E7`:
+
+```
+>> E3
+sin(theta1) == ax
+
+>> E7
+-cos(theta1) == ay
+```
+
+Use [isolate](https://www.mathworks.com/help/symbolic/sym.isolate.html) to re-write the second equation, exposing `cos(theta1)`:
+
+```
+E7 = isolate(E7, cos(theta1))
+```
+
+Printing both equations again, we get:
+
+```
+>> E3
+
+sin(theta1) == ax
+
+>> E7
+
+cos(theta1) == -ay
+```
+
+Solving either equation for `theta1` results in two solutions because `sin` and `cos` return the same value for different angles [depending on the quadrant](https://courses.lumenlearning.com/precalculus/chapter/unit-circle-sine-and-cosine-functions/):
+
+```
+>> solve(sin(theta1) == ax, theta1)
+
+ans =
+
+     asin(ax)
+pi - asin(ax)
+```
+
+Additionally `asin` and `acos` only return real numbers for inputs between `-1` and `1`, thus the solution would only be valid under those conditions. 
+
+The [2-argument inverse tangent](https://en.wikipedia.org/wiki/Atan2) (`atan2`) returns a unique solution as long as we can provide both the *sine* and the *cosine* of the same joint variable:
+
+```
+S1 = rhs(E3) % right-hand side of E3 is sin(theta1)
+C1 = rhs(E7) % right-hand size of E7 is cos(theta1)
+
+theta1Solution = atan2(S1, C1)
+```
+
+Now that we have a solution for `theta1`, convert it to C++ by using [ccode](https://www.mathworks.com/help/symbolic/sym.ccode.html):
+
+```
+>> ccode(theta1Solution)
+
+ans =
+
+    '  t0 = atan2(ax,-ay);'
+```
+
+Next we need to solve for `theta2` and `theta3`. Reviewing equations `E1` through `E12`, there are no equations where either variable appears by itself. They are always *coupled*: to solve for one, you need the other.
+
+We can multiply both sides of the IK equation by inverse of a joint matrix containing one of these variables to *de-couple* them:
+
+```
+% Original equation
+IK = Base * Shoulder * Elbow == EE;
+
+% Multiply both sides by inverse of Elbow
+IK = Base * Shoulder * Elbow * inv(Elbow) == EE * inv(Elbow);
+
+% Elbow and its inverse cancel out
+IK = Base * Shoulder == EE * inv(Elbow);
+```
+
+In the above example we over-write the `IK` equation each time just to show the steps. Re-define the system of equations since both sides have changed:
+
+```
+% Take the left-hand side
+LHS = lhs(IK);
+
+% Take the right-hand side
+RHS = rhs(IK);
+
+% System of non-linear equations
+E1 = LHS(1,1) == RHS(1,1);
+E2 = LHS(1,2) == RHS(1,2);
+E3 = LHS(1,3) == RHS(1,3);
+E4 = LHS(1,4) == RHS(1,4);
+E5 = LHS(2,1) == RHS(2,1);
+E6 = LHS(2,2) == RHS(2,2);
+E7 = LHS(2,3) == RHS(2,3);
+E8 = LHS(2,4) == RHS(2,4);
+E9 = LHS(3,1) == RHS(3,1);
+E10 = LHS(3,2) == RHS(3,2);
+E11 = LHS(3,3) == RHS(3,3);
+E12 = LHS(3,4) == RHS(3,4);
+```
+
+Many of these equations still have `theta2` and `theta3` locked up.
+
+However, `E4` now has `cos(theta2)` along with `cos(theta1)` which is known, as `theta3` no longer appears in that equation. Similarly, `E12` now has `sin(theta2)` exposed, as `theta3` has been moved out.
+
+Substitute `cos(theta1)` into `E4` by using [subs](https://www.mathworks.com/help/symbolic/subs.html):
+
+```
+E4 = subs(E4, cos(theta1), C1);
+```
+
+Re-arrange `E4` to isolate `cos(theta2)`, which we then assign to `C2`:
+
+```
+C2 = rhs(isolate(E4, cos(theta2)));
+```
+
+To complete the puzzle, isolate `sin(theta2)` in `E12`, assigning it to `S2`:
+
+```
+S2 = rhs(isolate(E12, sin(theta2)));
+```
+
+Now we have `sin(theta2)` and `cos(theta2)` which lets us use `atan2` to solve for `theta2` and convert the solution to C++:
+
+```
+theta2Solution = atan2(S2, C2);
+ccode(theta2Solution)
+```
+
+The last joint variable `theta3` appears in several equations along with `theta1` and `theta2` which can be substituted. Let's pick `E2` and `E10`:
+
+```
+% Solve E2 for sin(theta3) substituting S2 and C1
+E2 = subs(E2, cos(theta1), C1);
+E2 = subs(E2, sin(theta2), S2);
+S3 = rhs(isolate(E2, sin(theta3)));
+
+% Solve E10 for cos(theta3) substituting C2 and S3
+E10 = subs(E10, cos(theta2), C2);
+E10 = subs(E10, sin(theta3), S3);
+C3 = rhs(isolate(E10, cos(theta3)));
+
+% Substitute C3 into E2
+E2 = subs(E2, cos(theta3), C3);
+
+% Isolate S3 again with C3 substituted
+S3 = rhs(isolate(E2, sin(theta3)));
+
+% Solve for theta3
+theta3Solution = atan2(S3, C3);
+ccode(theta3Solution)
+```
+
+Solving for `theta3` was more challenging because all equations had both `sin(theta3)` and `cos(theta3)` - it was always *expressed in terms of itself*.
+
+We had to choose two equations, isolate either `sin(theta3)` or `cos(theta3)` in one of the equations, and substitute into the other equation.
+
+With the substitution done, we could proceed with getting `atan2` since we had both `sin(theta3)` and `cos(theta3)`.
+
+In this example we solved analytical inverse kinematics for a 3-DOF robot arm. The companion repository includes [another example](https://github.com/01binary/inverse-kinematics/blob/main/exercise22-analytical-ik-advanced/matlab/basicIK.m) with 4-DOF robot arm.
+
 ## geometric ik
+

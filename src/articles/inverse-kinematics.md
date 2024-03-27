@@ -564,19 +564,16 @@ Here's a refresher from *Alan Wake 2* where you must solve a system of equations
 We can model this in Matlab or Octave as follows:
 
 ```
-% Define the unknowns
-
+% Declare unknowns as symbols which are real numbers
 syms B1 B2 B3 real
 
-% Define the system of equations
-
-% All 3 batteries have a combined charge of 1600 Amps
+% Equation 1: All 3 batteries have a combined charge of 1600 Amps
 E1 = B1 + B2 + B3 == 1600
 
-% B2 has 128 Amps more than B3
+% Equation 2: B2 has 128 Amps more than B3
 E2 = B2 == B3 + 128
 
-% B1 has two times as much charge as B3
+% Equation 3: B1 has two times as much charge as B3
 E3 = B1 == B3 * 2
 ```
 
@@ -596,7 +593,7 @@ E1 = subs(E1, B2, rhs(E2));
 4*B3 + 128 == 1600
 ```
 
-Re-write `E1` in terms of `B3` by using [isolate](https://www.mathworks.com/help/symbolic/sym.isolate.html):
+Re-arrange `E1` in terms of `B3` by using [isolate](https://www.mathworks.com/help/symbolic/sym.isolate.html):
 
 ```
 E1 = isolate(E1, B3)
@@ -608,14 +605,14 @@ E1 = isolate(E1, B3)
 B3 == 368
 ```
 
-We can how solve `E2` for `B2` after substituting `B3`:
+We can now solve `E2` for `B2` after substituting `B3`:
 
 ```
 E2 = subs(E2, B3, 368)
-isolate(E2, B2)
+E2 = isolate(E2, B2)
 ```
 
-After executing the last line we get a solution for `B2`:
+`E2` now looks like this:
 
 ```
 B2 == 496
@@ -630,7 +627,7 @@ Matlab and Octave include a symbolic solver, but it can only handle equations of
 solve([E1, E2, E3], [B1, B2, B3])
 ```
 
-This procedures the following output:
+This produces the following output:
 
 ```
 >> solve([E1, E2, E3], [B1, B2, B3])
@@ -643,6 +640,8 @@ ans =
     B2: 496
     B3: 368
 ```
+
+We could have used [solve](https://www.mathworks.com/help/symbolic/sym.solve.html) immediately after defining equations, but that won't work with more complex equations we encounter in the next section.
 
 ## analytical ik in matlab
 
@@ -803,7 +802,7 @@ E12 = LHS(3,4) == RHS(3,4);
 
 Many of these equations still have `theta2` and `theta3` locked up.
 
-However, `E4` now has `cos(theta2)` along with `cos(theta1)` which is known, as `theta3` no longer appears in that equation. Similarly, `E12` now has `sin(theta2)` exposed, as `theta3` has been moved out.
+However, `E4` now has `cos(theta2)` along with `cos(theta1)` which is known; `theta3` no longer appears in that equation. Similarly, `E12` now has `sin(theta2)` exposed, as `theta3` has been moved out.
 
 Substitute `cos(theta1)` into `E4` by using [subs](https://www.mathworks.com/help/symbolic/subs.html):
 
@@ -864,3 +863,104 @@ In this example we solved analytical inverse kinematics for a 3-DOF robot arm. T
 
 ## geometric ik
 
+This type of inverse kinematics solution uses *trigonometry* to solve for each joint variable. You will be using a lot of inverse trig functions and [identities](https://github.com/01binary/inverse-kinematics/blob/main/resources/trig-identities.pdf).
+
+## inverse tangent
+
+Given cartesian coordinates on a plane, you can solve for the angle with *inverse tangent*, or *arctangent*. The [2-argument inverse tangent](https://en.wikipedia.org/wiki/Atan2) is preferred because returns a *unique angle* for every input:
+
+```
+theta = atan2(y, x)
+```
+
+![geometric ik](./images/inverse-kinematics-atan2.png)
+
+This basic equation can be applied to solve for the first joint angle of a robot arm mounted on a rotating platform:
+
+![geometric ik](./images/inverse-kinematics-atan2-application.png)
+
+## arcsine
+
+What if the robot arm has joints which are offset from the centerline? This offset would translate into a *bias angle* added to the basic solution above:
+
+![bias angle application](./images/inverse-kinematics-bias-angle-application.png)
+
+We can describe this problem as a right triangle on `XY` plane, with its first vertex at the robot *origin* and second vertex at the *goal*:
+
++ The *hypotenuse* is the distance to goal on `XY` plane.
++ The *bias angle* we need to solve for is Ψ.
++ The joint offset is *opposite* the *bias angle*.
++ We can use *inverse sine* to solve for this angle because we have the *opposite* side and the *hypotenuse*.
+
+Once we get the bias angle Ψ, we can take the angle to goal θ from the previous section and add the bias from angle to goal to get the joint angle Φ:
+
+```
+% Get angle to goal
+theta = atan2(y, x)
+
+% Get distance from origin to goal on XY plane
+distanceToGoalXY = sqrt(goal.x^2 + goal.y^2)
+
+% Sine of bias angle is joint offset over distance to goal
+sin(psi) == offset / distanceToGoalXY
+
+% Get bias angle with inverse sine
+psi = asin(offset / distanceToGoalXY)
+
+% Apply bias
+phi = theta - psi
+```
+
+## law of cosines
+
+The *Law of Cosines* is often used for solving IK. The sides (*lower case*) are opposite from the angles (*upper case*) with the matching letter:
+
+![law of cosines](./images/inverse-kinematics-law-of-cosines.png)
+
+If you know all three *sides* you can solve for any of the *inner angles*:
+
+```
+cos(A) == (b^2 + c^2 - a^2) / 2 * b * c
+cos(B) == (a^2 + c^2 - b^2) / 2 * a * c
+cos(C) == (a^2 + b^2 - c^2) / 2 * a * b
+```
+
+A pair of links with a common joint can be modeled as a triangle with two sides that are link lengths and the third side that's a distance from first to last joint:
+
+![law of cosines](./images/inverse-kinematics-law-of-cosines-shoulder.png)
+
+In the following two examples, we will use the law of cosines to compute shoulder and elbow angles of a 3-DOF robot arm.
+
+First solve for the *inner shoulder angle* Θ:
+
+```
+theta == cos(B) == (a^2 + c^2 - b^2) / 2 * a * c
+```
+
++ `B`: shoulder joint angle
++ `A`: elbow joint angle
++ `C`: wrist joint angle
++ `c`: upper arm link length
++ `b`: forearm link length
++ `a`: the distance between shoulder joint and goal
+
+Next solve for the *shoulder to goal* angle β:
+
+```
+shoulderToGoalDistanceXY = sqrt(
+  (goalX - shoulderX)^2 +
+  (goalY - shoulderY)^2
+)
+
+sin(beta) == goalZ / shoulderToGoalDistanceXY
+
+beta == asin(goalZ, shoulderToGoalDistanceXY)
+```
+
+Finally, solve for the *outer shoulder angle* Φ:
+
+```
+phi = theta + beta
+```
+
+## fixed joint

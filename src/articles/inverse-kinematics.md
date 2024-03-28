@@ -989,3 +989,51 @@ phi = -(PI - theta3)
 ```
 
 ## fixed joint
+
+In this last example we will compute inverse kinematics for a 4-DOF robot arm, where the last DOF is fixed or determined externally.
+
+> For instance, imagine that at the end of the arm is an excavator bucket controlled by the operator, and when the operator rotates the bucket you want to determine the remaining 3 joint variables needed to touch a point on the ground with the tip of the bucket.
+
+This problem can be represented by the following triangle with vertices at *wrist*, *elbow*, and *goal*:
+
+TODO
+
+To solve for the *elbow* angle with a *fixed joint*:
+
++ Solve for unknown sides of the *wrist-elbow-goal* triangle.
++ Solve for *elbow to goal* angle with *inverse sine* or *inverse tangent* once the *opposite* and *adjacent* sides are known.
++ Find the *combined* elbow angle using the *law of cosines*.
++ Solve for the *inner elbow angle* by subtracting *elbow to goal angle* from the *combined* elbow angle.
++ Solve for the *outer elbow angle* by subtracting from π and negating.
+
+Solving for *unknown* sides of *wrist-elbow-goal* triangle:
+
++ opposite = sin(Ψ) * fixed link length
++ adjacent = cos(Ψ) * fixed link length + forearm length
+
+Solving for the *elbow to goal* angle:
+
++ Φ = asin(opposite, fixed link length)
+
+or
+
++ Φ = atan2(opposite, adjacent)
+
+If we take the *inner elbow angle* to be *A* in the *law of cosines* triangle, this equation will let us solve for it: cos(A) = (b<sup>2</sup> + c<sup>2</sup> - a<sup>2</sup>) / 2bc:
+
+![law of cosines](./images/inverse-kinematics-law-of-cosines.png)
+
++ `B`: inner shoulder angle
++ `A`: inner elbow angle
++ `C`: inner wrist angle
++ `c`: upper arm link length
++ `b`: forearm link length
++ `a`: distance shoulder to goal
+
+Solving for the *elbow joint angle*:
+
++ -(PI - (Θ - Φ))
+
+At this point, we could solve for the *shoulder joint angle* as before, after finding the wrist joint position:
+
+TODO

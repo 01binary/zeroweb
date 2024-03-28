@@ -996,15 +996,15 @@ In this last example we will compute inverse kinematics for a 4-DOF robot arm, w
 
 This problem can be represented by the following triangle with vertices at *wrist*, *elbow*, and *goal*:
 
-TODO
+![law of cosines](./images/inverse-kinematics-fixed-joint.png)
 
 To solve for the *elbow* angle with a *fixed joint*:
 
 + Solve for unknown sides of the *wrist-elbow-goal* triangle.
-+ Solve for *elbow to goal* angle with *inverse sine* or *inverse tangent* once the *opposite* and *adjacent* sides are known.
-+ Find the *combined* elbow angle using the *law of cosines*.
-+ Solve for the *inner elbow angle* by subtracting *elbow to goal angle* from the *combined* elbow angle.
-+ Solve for the *outer elbow angle* by subtracting from π and negating.
++ Solve for *elbow to goal* angle φ (*phi*) with *inverse sine* or *inverse tangent* once the *opposite* and *adjacent* sides are known.
++ Find the *combined* elbow angle β (*beta*) using the *law of cosines*.
++ Solve for the *inner elbow angle* θ (*theta*) by subtracting *elbow to goal angle* φ from the *combined* elbow angle β.
++ Solve for the *outer elbow angle* α (*alpha*) by subtracting the *inner elbow angle* θ from π and negating.
 
 Solving for *unknown* sides of *wrist-elbow-goal* triangle:
 
@@ -1019,7 +1019,7 @@ or
 
 + Φ = atan2(opposite, adjacent)
 
-If we take the *inner elbow angle* to be *A* in the *law of cosines* triangle, this equation will let us solve for it: cos(A) = (b<sup>2</sup> + c<sup>2</sup> - a<sup>2</sup>) / 2bc:
+If we take the *inner elbow angle* θ to be *A* in the *law of cosines* triangle, this equation will let us solve for it: cos(A) = (b<sup>2</sup> + c<sup>2</sup> - a<sup>2</sup>) / 2bc:
 
 ![law of cosines](./images/inverse-kinematics-law-of-cosines.png)
 
@@ -1030,9 +1030,9 @@ If we take the *inner elbow angle* to be *A* in the *law of cosines* triangle, t
 + `b`: forearm link length
 + `a`: distance shoulder to goal
 
-Solving for the *elbow joint angle*:
+To solving for the *elbow joint angle*, subtract 
 
-+ -(PI - (Θ - Φ))
++ -(PI - (β - Φ))
 
 At this point, we could solve for the *shoulder joint angle* as before, after finding the wrist joint position:
 

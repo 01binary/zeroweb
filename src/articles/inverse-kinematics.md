@@ -275,7 +275,7 @@ The *amount* by which to change each joint variable at each iteration is calcula
 
  The damping factor is how many joint units to "steer" toward the goal each iteration. A large damping factor may result in over-steering and missing the goal while a small damping factor will make the journey longer than necessary.
 
-The same *gradient* strategy is [used by bacteria to navigate](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3320702) and can be visualized as a rise-over-run *descent* down a *slope*:
+The same *gradient* strategy is [used by bacteria to navigate](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3320702) and can be visualized as a rise-over-run *descent* down a *slope* to minimize the error:
 
 ![gradient slope](./images/inverse-kinematics-gradient.png)
 
@@ -802,7 +802,7 @@ E12 = LHS(3,4) == RHS(3,4);
 
 Many of these equations still have `theta2` and `theta3` locked up.
 
-However, `E4` now has `cos(theta2)` along with `cos(theta1)` which is known; `theta3` no longer appears in that equation. Similarly, `E12` now has `sin(theta2)` exposed, as `theta3` has been moved out.
+However, `E4` now has `cos(theta2)` along with `cos(theta1)` which is known; `theta3` no longer appears in that equation. Similarly, `E12` now has `sin(theta2)` exposed, as `theta3` has been moved out to the other side.
 
 Substitute `cos(theta1)` into `E4` by using [subs](https://www.mathworks.com/help/symbolic/subs.html):
 
@@ -933,7 +933,7 @@ Solve for the *inner shoulder angle* θ corresponding to *angle B* in the triang
 
 ```
 theta = acos((a^2 + c^2 - b^2) / 2 * a * c)
-```
+``` 
 
 + `B`: inner shoulder angle
 + `A`: inner elbow angle
@@ -953,8 +953,7 @@ shoulderToGoalDistanceXY = sqrt(
 )
 
 sin(beta) == goalZ / shoulderToGoalDistanceXY
-
-beta == asin(goalZ, shoulderToGoalDistanceXY)
+beta = asin(goalZ, shoulderToGoalDistanceXY)
 ```
 
 This lets us solve for the *outer shoulder angle* Φ which is the joint angle:
@@ -990,50 +989,106 @@ phi = -(PI - theta3)
 
 ## fixed joint
 
-In this last example we will compute inverse kinematics for a 4-DOF robot arm, where the last DOF is fixed or determined externally.
+In this last example we will compute inverse kinematics for a 4-DOF robot arm, where the angle of the last DOF (the *wrist*) is fixed or determined externally.
 
-> For instance, imagine that at the end of the arm is an excavator bucket controlled by the operator, and when the operator rotates the bucket you want to determine the remaining 3 joint variables needed to touch a point on the ground with the tip of the bucket.
+> For instance, imagine that at the end of the arm is an excavator bucket controlled by the operator and you want to determine the joint angles needed to touch a point on the ground with the tip of the bucket.
 
-This problem can be represented by the following triangle with vertices at *wrist*, *elbow*, and *goal*:
+This problem can be represented by three triangles overlaid over each other - one with vertices at *shoulder*, *elbow* and *goal*, another with vertices at  *wrist*, *elbow*, and *goal*, and last one with vertices at *wrist*, *goal*, and *extent*:
 
 ![law of cosines](./images/inverse-kinematics-fixed-joint.png)
 
-To solve for the *elbow* angle with a *fixed joint*:
+We need to isolate the *inner elbow angle* θ between the *upper arm* and the *forearm*. This can be done by using the surrounding geometry:
 
-+ Solve for unknown sides of the *wrist-elbow-goal* triangle.
-+ Solve for *elbow to goal* angle φ (*phi*) with *inverse sine* or *inverse tangent* once the *opposite* and *adjacent* sides are known.
-+ Find the *combined* elbow angle β (*beta*) using the *law of cosines*.
-+ Solve for the *inner elbow angle* θ (*theta*) by subtracting *elbow to goal angle* φ from the *combined* elbow angle β.
-+ Solve for the *outer elbow angle* α (*alpha*) by subtracting the *inner elbow angle* θ from π and negating.
+1. Find the unknown sides of the *shoulder-elbow-goal* triangle: the *elbow to goal distance* and the *shoulder to goal distance*.
+2. Use the *shoulder-elbow-goal* triangle to solve for the *combined elbow angle* β with *law of cosines*. This angle is a sum of the angle θ we need and the *elbow to goal* angle φ (*phi*) which is not yet known.
+3. Use the *extent-elbow-goal* triangle to solve for φ after we find the unknown sides: one opposite the *fixed joint angle* Ψ (*psi*) and one a sum of *forearm link length* and the side *adjacent* to Ψ.
+4. Since β = θ + φ and we know both β and φ, we can solve for θ.
+5. Re-map *inner elbow angle* θ according to joint limits by subtracting from π and negating as in the previous section.
 
-Solving for *unknown* sides of *wrist-elbow-goal* triangle:
+Two of these steps require us to find the sides *opposite* and *adjacent* to the fixed joint Ψ (*psi*). We can use *Soh-Cah-Toa* trigonometric identities to do this:
 
-+ opposite = sin(Ψ) * fixed link length
-+ adjacent = cos(Ψ) * fixed link length + forearm length
+```
+sin(psi) == opposite / fixedLinkLength
+opposite = sin(psi) * fixedLinkLength
 
-Solving for the *elbow to goal* angle:
+cos(psi) == adjacent / fixedLinkLength
+adjacent = cos(psi) * fixedLinkLength
+```
 
-+ Φ = asin(opposite, fixed link length)
+Now we can use the larger *elbow-goal-extent* triangle to find the *elbow to goal distance*. Because this is a *right triangle*, its hypotenuse will give you the distance between *elbow* and *goal* vertices.
 
-or
+![law of cosines](./images/inverse-kinematics-fixed-joint.png)
 
-+ Φ = atan2(opposite, adjacent)
+One of the sides in this triangle is *opposite* the fixed joint. The other is a sum of the *forearm link length* and the side *adjacent* to the fixed joint:
 
-If we take the *inner elbow angle* θ to be *A* in the *law of cosines* triangle, this equation will let us solve for it: cos(A) = (b<sup>2</sup> + c<sup>2</sup> - a<sup>2</sup>) / 2bc:
+```
+elbowToGoalDistance = sqrt(
+  (forearmLinkLength + adjacent)^2 +
+  opposite^2
+)
+```
+
+The only unknown side of the *shoulder-elbow-goal* triangle remaining is the *shoulder to goal* distance on the local `XZ` plane:
+
+```
+shoulderToGoalDistance = sqrt(
+  (goalX - shoulderX)^2 +
+  (goalZ - shoulderZ)^2
+)
+```
+
+Once all sides of the *shoulder-elbow-goal* triangle are known, we can use the *law of cosines* to solve for the *combined elbow angle* β (*beta*).
+
+If we take β to be angle *A* in the *law of cosines* triangle, then:
+
+cos(A) = (b<sup>2</sup> + c<sup>2</sup> - a<sup>2</sup>) / 2bc
+
++ `A`: combined elbow angle
++ `c`: upper arm link length
++ `b`: elbow to goal distance
++ `a`: shoulder to goal distance
 
 ![law of cosines](./images/inverse-kinematics-law-of-cosines.png)
 
-+ `B`: inner shoulder angle
-+ `A`: inner elbow angle
-+ `C`: inner wrist angle
-+ `c`: upper arm link length
-+ `b`: forearm link length
-+ `a`: distance shoulder to goal
+```
+beta = acos(
+  (
+    elbowToGoalDistance^2 +
+    upperArmLinkLength^2 -
+    shoulderToGoalDistance^2
+  )
+  /
+  (2 * elbowToGoalDistance * upperArmLinkLength)
+)
+```
 
-To solving for the *elbow joint angle*, subtract 
+The last piece needed to isolate θ is the *elbow to goal* angle φ (*phi*).
 
-+ -(PI - (β - Φ))
+![law of cosines](./images/inverse-kinematics-fixed-joint.png)
 
-At this point, we could solve for the *shoulder joint angle* as before, after finding the wrist joint position:
+We can use the *elbow-goal-extent* triangle to solve for φ because it is a *right triangle* with known sides:
 
-TODO
+```
+tan(phi) == opposite / (forearmLinkLength + adjacent)
+phi = atan2(opposite, forearmLinkLength + adjacent)
+```
+
+To isolate the *inner elbow angle* θ, subtract the *elbow to goal angle* φ from the *combined elbow angle* β since β is a sum of θ and φ:
+
+```
+theta = beta - phi
+```
+
+Finally, solve for the *elbow joint angle* by subtracting the *inner elbow angle* θ from π and negating, just as in the previous section:
+
+```
+elbowJoint = -(PI - theta)
+```
+
+From here we could continue by solving for the *inner shoulder angle* by using the *shoulder-elbow-goal* triangle with known sides. We would add that to the angle from shoulder to goal as before to get the *shoulder joint angle*.
+
+* * *
+
+This article should provide you with a strong foundation for calculating inverse kinematics with a custom robot.
+
+In the next article we will explore calculating inverse kinematics by using a trained TensorFlow network, running on a video card by using *CUDA*.

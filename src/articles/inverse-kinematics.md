@@ -1,7 +1,7 @@
 ---
 title: Inverse Kinematics
 description: Numerical, Sampling-based, Analytical, and Geometric Solvers
-image: ./images/360-video-pipeline.png
+image: ./images/inverse-kinematics.png
 author: Valeriy Novytskyy
 date: 2024-03-17
 location: ^H Hackerspace

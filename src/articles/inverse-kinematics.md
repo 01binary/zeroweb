@@ -3,7 +3,7 @@ title: Inverse Kinematics
 description: Numerical, Sampling-based, Analytical, and Geometric Solvers
 image: ./images/inverse-kinematics.png
 author: Valeriy Novytskyy
-date: 2024-03-17
+date: 2024-04-02
 location: ^H Hackerspace
 tags:
   [
@@ -45,7 +45,7 @@ Both *forward* and *inverse* kinematics require describing robot *joints*. This 
 
 The types of joints you'll be dealing with most often are *Revolute* and *Prismatic*. Revolute joints rotate around the joint axis, and prismatic joints slide on it.
 
-In the following video we will use Blender to re-create robot descriptions for [KUKA KR-5 industrial robot](https://github.com/orsalmon/kuka_manipulator_gazebo), [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description), and [Str1ker drumming robot arm](https://github.com/01binary/str1ker_moveit_config).
+In the following video we will use Blender to re-create robot descriptions for [KUKA KR-5 industrial robot](https://github.com/a-price/KR5sixxR650WP_description), [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description), and [Str1ker drumming robot arm](https://github.com/01binary/str1ker_moveit_config).
 
 TODO Insert Video Here
 

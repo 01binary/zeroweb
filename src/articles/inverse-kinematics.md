@@ -31,7 +31,7 @@ This article aims to put you on the fastest path to writing your own solver.
 
 If you're looking for more background, [Introduction to Robotics](https://www.amazon.com/Introduction-Robotics-Analysis-Control-Applications/dp/0470604468/ref) by Saeed Niku explains inverse kinematics using high-school level math:
 
-![introduction to robotics](./images/inverse-kinematics-background.jpeg)
+![introduction to robotics](./images/inverse-kinematics-background.png)
 
 ## overview
 

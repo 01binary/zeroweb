@@ -47,7 +47,7 @@ The types of joints you'll be dealing with most often are *Revolute* and *Prisma
 
 In the following video we will use Blender to re-create robot descriptions for [KUKA KR-5 industrial robot](https://github.com/a-price/KR5sixxR650WP_description), [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description), and [Str1ker drumming robot arm](https://github.com/01binary/str1ker_moveit_config).
 
-TODO Insert Video Here
+`youtube:https://www.youtube.com/embed/iyn3CM1c4fo`
 
 Using Blender simplifies working with robot description:
 
@@ -1016,8 +1016,6 @@ adjacent = cos(psi) * fixedLinkLength
 ```
 
 Now we can use the larger *elbow-goal-extent* triangle to find the *elbow to goal distance*. Because this is a *right triangle*, its hypotenuse will give you the distance between *elbow* and *goal* vertices.
-
-![law of cosines](./images/inverse-kinematics-fixed-joint.png)
 
 One of the sides in this triangle is *opposite* the fixed joint. The other is a sum of the *forearm link length* and the side *adjacent* to the fixed joint:
 

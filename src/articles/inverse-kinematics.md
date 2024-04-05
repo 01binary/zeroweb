@@ -91,9 +91,7 @@ Once the robot is assembled in Blender, it's easy to extract joint matrices.
 
 If you followed these steps, you've just calculated forward kinematics.
 
-It's helpful to visualize joint coordinate frames by using an *Empty Arrows* object in Blender. Click *Add* &gt; *Empty* &gt; *Arrows* and parent this new Empty object to the last joint *without inverse*:
-
-TODO image of robot arm with empty arrows
+It's helpful to visualize joint coordinate frames by using an *Empty Arrows* object in Blender. Click *Add* &gt; *Empty* &gt; *Arrows* and parent this new Empty object to the last joint *without inverse*.
 
 ## joint matrix in octave
 

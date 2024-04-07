@@ -12,7 +12,7 @@ tags:
      'tool-arduino',
   ]
 ---
-## why absolute encoders?
+## applications
 
 High-torque servo motors like [Dynamixel Pro](https://www.robotis.us/dynamixel-p/) and BDLC motors like [Cubemars AK80](https://www.robotshop.com/products/cubemars-ak80-64kv80-bldc-motor-robot-w-integrated-encoder-driver) integrate a DC motor, absolute encoder, relative encoder, and a [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) controller into a single convenient package.
 
@@ -20,48 +20,36 @@ What if these products don't fit your price range or your application, or you wo
 
 Many DC motors have relative encoders built-in (for example [Duma Dynamics](https://www.robotshop.com/products/56rpm-right-angle-gear-motor-w-13ppr-hall-sensor-encoder) and [Yellow Jacket](https://www.servocity.com/5203-series-yellow-jacket-planetary-gear-motor-188-1-ratio-24mm-length-8mm-rex-shaft-30-rpm-3-3-5v-encoder/)). Relative encoders are easy to find for those that don't.
 
-Picking an absolute encoder that works in your design is considerably more difficult, and in this article we will look at a few options that work well in robotics projects.
+Picking an absolute encoder is considerably more difficult, and in this article we will look at a few options that work well in robotics projects.
 
 ## challenges
 
 Many compact encoders on the market offer only *incremental* readings. When sourcing *absolute* encoders you are faced with the following choices:
 
-- Bulky encoders like [Broadcom](https://www.digikey.com/en/products/detail/broadcom-limited/AEAT-6012-A06/2210458) or [Dynapar](https://ecatalog.dynapar.com/ecatalog/absolute-encoders/en/AD36) that would hang off the side of your design and totally ruin the vibe.
+- Bulky encoders like [Broadcom AEAT](https://www.digikey.com/en/products/detail/broadcom-limited/AEAT-6012-A06/2210458), [Dynapar AD36](https://ecatalog.dynapar.com/ecatalog/absolute-encoders/en/AD36), or [US Digital A2K](https://www.usdigital.com/products/encoders/absolute/kit/a2k/) that would hang off the side of your design and totally ruin the vibe.
 - [Potentiometers](https://www.digikey.com/en/products/detail/tt-electronics-bi/EN18ABHB11A0F26/16360754) designed for control panel knobs. These are hard to integrate because the rotating shaft is neither removable nor long enough to serve as a joint axis.
 - Ring encoders like [Celeramotion](https://www.celeramotion.com/multiturn-incoder) or [Lamprey](https://www.andymark.com/products/lamprey-absolute-encoder) which are low-profile but still can't fit inside robot arm joints to due large diameters.
-- Hall-effect sensors like AS5045 that can be attached to shafts or joints, but require a custom circuit board to integrate into a design.
+- Hall-effect sensors like [AS5045](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/AS5045-ASST/2334769) that can be attached to shafts or joints, but require a custom circuit board to integrate into a design.
 
-## passive potentiometer
+## hollow-shaft pot
 
-The [RH24PC](https://p3america.com/rh24pc-110mm-series/) from P3 America is a passive analog *hollow D-shaft* potentiometer featuring a compact design:
+The [NP24HS](https://p3america.com/np24hs-series//) from P3 America is a passive analog *hollow D-shaft* potentiometer featuring a compact design:
 
-![RH24PC](./images/absolute-encoders-rh24pc.jpeg)
+![NP24HS](./images/absolute-encoders-np24hs.jpeg)
 
-This was the only potentiometer I found big enough to accept a `6mm` shaft, yet small enough to fit inside of something else without being seen (`24mm` in diameter).
+This was the only hollow-shaft potentiometer I found big enough to accept a `6mm` shaft, yet with a small enough `24mm` diameter.
 
 > Note that the D-shaft is not `5.4mm` on the "flatted" portion like standard robot parts (from [goBuilda](https://www.gobilda.com/), [RobotShop](https://www.robotshop.com/), or [ServoCity](https://www.servocity.com/)) but sligtly smaller.
 
-There are no "leads", just simple PCB traces, so you will likely have to solder in a locking connector with a matching pitch, such as `JST-PH`.
+There are no "leads", just simple PCB traces, so you will likely have to solder in a locking connector with a matching `2mm` pitch, such as [JST-PH](https://www.digikey.com/en/resources/datasheets/jst/ph-series-datasheet).
 
-## active potentiometer
+## compact encoder
 
-The [MA-3](https://www.usdigital.com/products/ma3) from US Digital can output analog (`10-bit`) or PWM (`10-bit` to `12-bit`) signal:
-
-![ma-3](./images/absolute-encoders-ma3.jpeg)
-
-This potentiometer features silky-smooth motion and `JST` leads. It's easy to place by screwing it in, but the body is too long to be easily concealed.
-
-The shaft is `1/8"`. They can be custom-ordered with shafts of different diameters and lengths but that requires large order quantities.
-
-## hall effect encoder
-
-Runner up is the [extreme compact hall effect encoder with analog output](https://p3america.com/mab12ah-6-10-0505/) from P3 America:
+Runner up is the [extreme compact hall effect encoder with analog output](https://p3america.com/mab12ah-6-10-0505/):
 
 ![mab12ah](./images/absolute-encoders-hall-effect.jpeg)
 
-This sensor produces accurate `10-bit` to `12-bit` readings depending on the model. The magnet fits perfectly onto a `6mm` *round* shaft or *D-shaft*.
-
-The leads have `micro-JST` connectors attached. Strong overall construction, and part of the plastic *barrel* could be sawed off to fit into a tighter space, thus there is a capacity for *re-skinning*. Small enough to fit into most designs without being seen.
+This sensor produces accurate `10-bit` to `12-bit` readings depending on the model. The magnet fits perfectly onto a `6mm` *round* shaft or *D-shaft*. The leads have a locking [PicoBlade](https://www.molex.com/en-us/products/connectors/wire-to-board-connectors/picoblade-connectors) connector attached.
 
 ## hall effect sensor
 
@@ -69,9 +57,13 @@ A custom encoder could be built utilizing the [AS5045](https://docs.rs-online.co
 
 ![as5045](./images/absolute-encoders-as5045.jpeg)
 
-(Shown here is an [adapter board](https://ams.com/en/as5045adapterboard) that makes it easy to evaluate the chip).
+(Shown above is an [adapter board](https://ams.com/en/as5045adapterboard) that makes it easy to evaluate the chip).
 
-The chip outputs readings over the SSI protocol (similar to SPI with Clock, Data, and Select pins). It can also output relative A/B signals (in *relative* mode) and PWM, which enables it to be used as a drop-in replacement for an analog potentiometer.
+The chip outputs readings over the SSI protocol (similar to SPI with Clock, Data, and Select pins). It can also output relative A/B signals (in *relative* mode) and PWM, enabling it to be used as an analog potentiometer.
+
+![custom as5045 board](./images/absolute-encoders-as5045-custom.jpeg)
+
+(Shown above is a custom PCB I designed with this chip in KiCad)
 
 The two primary advantages are:
 + You can design a circuit board of any shape and put this chip on it - all that's required are some traces to your chosen connector type.
@@ -154,7 +146,7 @@ The primary disadvantage is that you may need to learn how to design circuit boa
 
 ## aksim-2 ring encoder
 
-[AKSIM-2](https://www.rls.si/eng/aksim-2-off-axis-rotary-absolute-encoder) is a `17-bit` off-axis magnetic ring encoder in a range of diameters, starting from 28.5mm for use with 8mm shaft. It supports a variety of protocols (including SSI) and requires an `RS-422 `converter. As of this writing the price starts from about `$100`.
+[AKSIM-2](https://www.rls.si/eng/aksim-2-off-axis-rotary-absolute-encoder) is a `17-bit` off-axis magnetic ring encoder in a range of diameters, starting from `28.5mm` for use with `8mm` shaft. It supports a variety of protocols (including SSI) and requires an `RS-422 `converter.
 
 ![AkSim-2](./images/absolute-encoders-aksim2.jpeg)
 
@@ -236,11 +228,13 @@ void loop()
 
 ## orbis ring encoder
 
-[Orbis Absolute Magnetic Encoder](https://www.rls.si/eng/orbis-true-absolute-rotary-encoder) has `14-bit` resolution and comes in a variety of sizes starting from `45mm` diameter. Different part numbers support BiSS-C, SSI, SPI, Asynchronous Serial and PWM communication. I tried out the version with SPI because it's a binary protocol that would guard against line noise affecting readings, and the timing is constant unlike SSI (which is not recommended for precise PID motor control due to time drift).
+[Orbis Absolute Magnetic Encoder](https://www.rls.si/eng/orbis-true-absolute-rotary-encoder) has `14-bit` resolution and comes in a variety of sizes starting from `45mm` diameter. Different part numbers support BiSS-C, SSI, SPI, Asynchronous Serial and PWM communication.
+
+I tried out the version with SPI because it's a binary protocol that would guard against line noise affecting readings, and the timing is constant unlike SSI (which is not recommended for precise PID motor control due to time drift).
 
 ![orbis](./images/absolute-encoders-orbis.jpeg)
 
-You can get it with a set-screw flange that attached to a motor shaft and has the magnetic ring inserted, or just the magnetic ring for use with your own custom flange. The following code will let you read the current position over SPI:
+You can get it with a set-screw flange that attached to a motor shaft and has the magnetic ring inserted, or just the magnetic ring for use with your own custom flange. The following code will let you read the position over SPI:
 
 ```
 #include <SPI.h>
@@ -339,9 +333,17 @@ The header includes `5V`, `GND`, `TX`, `RX`, `MOSI`, `MISO`, `Analog`, and `PWM`
 
 It's slightly too big to conceal for many human or animal-sized robot limbs due to the large diameter required by the outer ring, but it is very low profile.
 
+## miniature encoder
+
+[RM08](https://www.rls.si/eng/rm08-super-small-non-contact-rotary-encoder) from RLS is the smallest absolute encoder I could find. It supports up to `12-bit` resolution with linear voltage or digital output (including SSI) and both `5V` and `3.3V` logic.
+
+![rm08](./images/absolute-encoders-rm08.jpeg)
+
+The source code to read SSI is provided in [hall effect sensor](#hall-effect-sensor) section, and linear voltage can be read with an [ADC](/articles/adc-review).
+
 ## optical encoder
 
-Next up is [JT-30](https://www.digikey.com/en/products/detail/nidec%2Dcopal%2Delectronics/JT30%2D120%2DC00/6469478) absolute encoder from [DigiKey](https://www.digikey.com/) (`5V` or `12V` logic):
+Next up is [JT-30](https://www.digikey.com/en/products/detail/nidec%2Dcopal%2Delectronics/JT30%2D120%2DC00/6469478) optical encoder from [DigiKey](https://www.digikey.com/) (`5V` or `12V` logic):
 
 ![jt-30](./images/absolute-encoders-jt30.jpeg)
 

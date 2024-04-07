@@ -46,7 +46,7 @@ Both *forward* and *inverse* kinematics require describing robot *joints*. This 
 
 The types of joints you'll be dealing with most often are *Revolute* and *Prismatic*. Revolute joints rotate around the joint axis, and prismatic joints slide on it.
 
-In the following video we will use Blender to re-create robot descriptions for [KUKA KR-5 industrial robot](https://github.com/a-price/KR5sixxR650WP_description), [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description), and [Str1ker drumming robot arm](https://github.com/01binary/str1ker_moveit_config).
+In the following video we will use Blender to re-creadescriptions for [KUKA KR-5 industrial robot](https://github.com/a-price/KR5sixxR650WP_dte robot escription), [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description), and [Str1ker drumming robot arm](https://github.com/01binary/str1ker_moveit_config).
 
 `youtube:https://www.youtube.com/embed/iyn3CM1c4fo`
 
@@ -551,9 +551,9 @@ In this section we will design an *analytical solver* in Matlab and export it to
 
 You may recall solving systems of linear equations in middle school.
 
-![system of equations from alan wake 2](./images/inverse-kinematics-alanwake2.jpeg)
+`youtube:https://www.youtube.com/embed/pABHyFH8FQs`
 
-Here's a refresher from *Alan Wake 2* where you must solve a system of equations to [access a locked container](https://www.youtube.com/watch?v=pABHyFH8FQs):
+Here's a refresher from *Alan Wake 2* where you must solve a system of equations to access a locked container:
 
 > There are 3 batteries (B1, B2, B3) with a combined charge of 1600 Amps.<br/>
 > B2 has 128 Amps more than B3.<br/>

@@ -8,8 +8,9 @@ location: ^H Hackerspace
 tags:
   [
     'engineering-robotics',
+    'engineering-software',
     'tool-cpp',
-    'tool-arduino'
+    'tool-blender'
   ]
 ---
 

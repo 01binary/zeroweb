@@ -46,7 +46,7 @@ Both *forward* and *inverse* kinematics require describing robot *joints*. This 
 
 The types of joints you'll be dealing with most often are *Revolute* and *Prismatic*. Revolute joints rotate around the joint axis, and prismatic joints slide on it.
 
-In the following video we will use Blender to re-creadescriptions for [KUKA KR-5 industrial robot](https://github.com/a-price/KR5sixxR650WP_dte robot escription), [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description), and [Str1ker drumming robot arm](https://github.com/01binary/str1ker_moveit_config).
+In the following video we will use Blender to re-create descriptions for [KUKA KR-5 industrial robot](https://github.com/a-price/KR5sixxR650WP_description), [Basic robot arm](https://github.com/01binary/basic_velocity_control/tree/pretty/description), and [Str1ker drumming robot arm](https://github.com/01binary/str1ker_moveit_config).
 
 `youtube:https://www.youtube.com/embed/iyn3CM1c4fo`
 

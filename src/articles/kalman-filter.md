@@ -25,7 +25,9 @@ In this article I introduce the Kalman Filter in the shortest way possible with 
 
 ![kalman filter from the ground up](./images/kalman-background.png)
 
-In essence, we are going to attempt something that requires calculus, differential equations, and statistics, but *without* studying these subjects first. Seeing these concepts put to practical use may change your perspective and let you appreciate them in a whole new light!
+In essence, we are going to attempt something that requires calculus, differential equations, and statistics, but *without* studying these subjects first.
+
+Seeing these concepts put to practical use may change your perspective and let you appreciate them in a whole new light!
 
 ## why not average?
 
@@ -198,7 +200,7 @@ ans =
 
 ## kalman filter
 
-The Kalman filter starts with an initial guess. The weight of measurements decreases exponentially as the system state is synchronized with reality, so that eventually we rely only on prediction.
+The Kalman filter starts with an initial guess. The weight of measurements decreases exponentially as the system state is synchronized with reality.
 
 ```matlab
 % Initial guess
@@ -208,22 +210,19 @@ estimateVariance = initialGuessVariance
 while running
   % Take measurement
   measurement = getMeasurement()
-
-  % Determine measurement variance
   measurementVariance = getMeasurementVariance(conditions)
 
-  % Optimize gain
+  % Optimize
   gain = estimateVariance /
     (estimateVariance + measurementVariance)
 
   % Estimate
   estimate = prediction + gain * (measurement - prediction)
+  estimateVariance = (1 - gain) * estimateVariance
 
   % Predict
-  prediction = systemModel(input, timeStep)
-
-  % Update variance
-  estimateVariance = systemModelVariance(timeStep)
+  prediction = systemModel(input)
+  estimateVariance = systemModelVariance(estimateVariance)
 end
 ```
 
@@ -549,6 +548,8 @@ double kalmanFilter(
   gain = variance / (variance + measurementVariance);
 
   double estimate = prediction + gain * (measurement - prediction);
+
+  variance = (1 - gain) * variance;
 
   prediction = systemModel(
     input, inputVariance, variance, timeStep);

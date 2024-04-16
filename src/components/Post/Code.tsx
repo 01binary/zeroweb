@@ -11,7 +11,7 @@
 
 import React, { FC, useState, useRef, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
-import Highlight, { defaultProps } from 'prism-react-renderer';
+import Highlight, { Prism, defaultProps } from 'prism-react-renderer';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
 import light from 'prism-react-renderer/themes/github';
 import dark from 'prism-react-renderer/themes/vsDark';
@@ -27,6 +27,11 @@ import { MOBILE, NARROW_FLIP_MARKERS, NARROW_NO_RULERS } from '../../constants';
 import CopyIcon from '../../images/copy.svg';
 import LightIcon from '../../images/light.svg';
 import DarkIcon from '../../images/dark.svg';
+
+// Configure Prism language support for code blocks
+(typeof global !== "undefined" ? global : window).Prism = Prism
+import("prismjs/components/prism-matlab")
+import("prismjs/components/prism-cpp")
 
 const DARK_MODE_OVERRIDE = 'darkCode';
 
@@ -257,7 +262,11 @@ const Code: FC = ({ children }) => {
   }, [isDark, isCodeDark, setCodeDark]);
 
   const className = (children as React.ReactElement)?.props?.className || '';
-  const matches = className.match(/language-(?<lang>.*)/);
+  const languageMatches = className.match(/language-(?<lang>.*)/);
+  const language = languageMatches && languageMatches.groups && languageMatches.groups.lang
+    ? languageMatches.groups.lang
+    : 'javascript'
+
   const code = useMemo(
     () => (children as React.ReactElement)?.props?.children ?? children ?? '',
     [children]
@@ -269,11 +278,7 @@ const Code: FC = ({ children }) => {
         {...defaultProps}
         theme={isDark || isCodeDark ? dark : light}
         code={code}
-        language={
-          matches && matches.groups && matches.groups.lang
-            ? matches.groups.lang
-            : 'javascript'
-        }
+        language={language}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <>

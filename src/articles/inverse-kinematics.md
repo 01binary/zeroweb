@@ -98,7 +98,7 @@ It's helpful to visualize joint coordinate frames by using an *Empty Arrows* obj
 
 To build a 4x4 joint matrix in [GNU Octave](https://octave.org/download), execute the following directly on the command prompt, or save in a `.m` script and then execute the script:
 
-```
+```matlab
 pkg load matgeom
 
 Joint = ...
@@ -109,7 +109,7 @@ Joint = ...
 
 Once you have the matrices for each of the joints, calculate forward kinematics by multiplying them together to get the end-effector pose:
 
-```
+```matlab
 % Define Joint Variables
 base = 0;
 shoulder = -0.501821;
@@ -146,7 +146,7 @@ Unlike Octave, Matlab will launch with its system folder as the current director
 
 To build a 4x4 joint matrix in [MathWorks Matlab](https://www.mathworks.com/products/matlab.html):
 
-```
+```matlab
 Joint = ...
   makehgtform(‘translate’, [0, 0, 0]) * ...   % offset
   makehgtform(‘zrotate’, jointVariable) * ... % rotation on joint axis
@@ -155,7 +155,7 @@ Joint = ...
 
 Multiply the joint matrices together to calculate forward kinematics:
 
-```
+```matlab
 % Define Joint Variables
 base = 0;
 shoulder = -0.501821;
@@ -194,7 +194,7 @@ The *Denavit-Hartenberg* (DH) *parameters* are simply a convention for describin
 
 The *Denavit-Hartenberg matrix* can be built directly by using the following expressions in each matrix cell, or by multiplying the above transforms:
 
-```
+```matlab
 [cos(θ),  -sin(θ) * cos(α), sin(θ) * sin(α),  a * cos(θ)]
 [sin(θ),   cos(θ) * cos(α), -cos(θ) * sin(α), a * sin(θ)]
 [0,        sin(α),           cos(α),          d         ]
@@ -209,7 +209,7 @@ The `4x4` matrix that describes the end-effector pose consists of four vectors:
 
 ![end-effector](./images/inverse-kinematics-end-effector.png)
 
-```
+```matlab
 [nx, ox, ax, px]
 [ny, oy, ay, py]
 [nz, oz, az, pz]
@@ -223,7 +223,7 @@ The `4x4` matrix that describes the end-effector pose consists of four vectors:
 
 To visualize any of these unit vectors by using the [Blender Math Vis Console](https://docs.blender.org/manual/en/latest/addons/3d_view/math_vis_console.html):
 
-```
+```matlab
 % Draw a line from first to second point
 line = [Vector((0, 0, 0)), Vector((x, y, z))]
 
@@ -280,7 +280,7 @@ The same *gradient* strategy is [used by bacteria to navigate](https://www.ncbi.
 
 We can implement this algorithm in C++ using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library for matrix calculations. First define the forward kinematics function that can take a *vector of joint variables* and return the *end-effector pose*:
 
-```
+```cpp
 #include <Eigen/Dense>
 
 using namespace Eigen;
@@ -322,7 +322,7 @@ The algorithm starts by initializing the joint variables with an *initial guess*
 
 See the [complete project](https://github.com/01binary/inverse-kinematics/tree/main/exercise15-gradient-descent) in the companion repository.
 
-```
+```cpp
 #include <iostream>
 #include "fk.h" // previous code snippet
 
@@ -429,7 +429,7 @@ For each joint *j* at each iteration *n*:
 
 See the [complete project](https://github.com/01binary/inverse-kinematics/tree/main/exercise16-newton-raphson) in the companion repository.
 
-```
+```cpp
 #include <iostream>
 #include <Eigen/Dense>
 #include "fk.h"
@@ -562,7 +562,7 @@ Here's a refresher from *Alan Wake 2* where you must solve a system of equations
 
 We can model this in Matlab or Octave as follows:
 
-```
+```matlab
 % Declare unknowns
 syms B1 B2 B3 real
 
@@ -578,7 +578,7 @@ E3 = B1 == B3 * 2
 
 Since `B1` and `B2` are both expressed in terms of `B3`, we can substitute them into `E1` by using [subs](https://www.mathworks.com/help/symbolic/subs.html) so that the sum is expressed only in terms of `B3`:
 
-```
+```matlab
 % Substitute right-hand side of E3 (which is B3 * 2) into E1
 E1 = subs(E1, B1, rhs(E3));
 
@@ -588,32 +588,32 @@ E1 = subs(E1, B2, rhs(E2));
 
 `E1` now looks like this:
 
-```
+```matlab
 4*B3 + 128 == 1600
 ```
 
 Re-arrange `E1` in terms of `B3` by using [isolate](https://www.mathworks.com/help/symbolic/sym.isolate.html):
 
-```
+```matlab
 E1 = isolate(E1, B3)
 ```
 
 `E1` now looks like this:
 
-```
+```matlab
 B3 == 368
 ```
 
 We can now solve `E2` for `B2` after substituting `B3`:
 
-```
+```matlab
 E2 = subs(E2, B3, 368)
 E2 = isolate(E2, B2)
 ```
 
 `E2` now looks like this:
 
-```
+```matlab
 B2 == 496
 ```
 
@@ -621,14 +621,14 @@ Watch the [video](https://www.youtube.com/watch?v=pABHyFH8FQs) in the beginning 
 
 Matlab and Octave include a symbolic solver, but it can only handle equations of certain complexity. It is able to solve this particular problem with no issue:
 
-```
+```matlab
 % Solve a given system of equations for specified variables
 solve([E1, E2, E3], [B1, B2, B3])
 ```
 
 This produces the following output:
 
-```
+```matlab
 >> solve([E1, E2, E3], [B1, B2, B3])
 
 ans = 
@@ -646,7 +646,7 @@ We could have used [solve](https://www.mathworks.com/help/symbolic/sym.solve.htm
 
 In the following example we solve inverse kinematics for a [3-DOF robot arm](https://github.com/01binary/str1ker_moveit_config). See the `.m` files for this example in the [companion repository](https://github.com/01binary/inverse-kinematics/tree/main/exercise22-analytical-ik-advanced/matlab).
 
-```
+```matlab
 % Define symbols for joint variables (output)
 syms theta1 theta2 theta3 real
 
@@ -702,7 +702,7 @@ E12 = LHS(3,4) == RHS(3,4);
 
 Examine equations `E1` through `E12`. You can use [vpa](https://www.mathworks.com/help/symbolic/vpa.html) for readability (for example `vpa(E1, 2)` would render `E1` to 2 digits of precision). Notice that `theta1` is the only variable that appears by itself in equations `E3` and `E7`:
 
-```
+```matlab
 >> E3
 sin(theta1) == ax
 
@@ -712,13 +712,13 @@ sin(theta1) == ax
 
 Use [isolate](https://www.mathworks.com/help/symbolic/sym.isolate.html) to re-write the second equation, exposing `cos(theta1)`:
 
-```
+```matlab
 E7 = isolate(E7, cos(theta1))
 ```
 
 Printing both equations again, we get:
 
-```
+```matlab
 >> E3
 
 sin(theta1) == ax
@@ -730,7 +730,7 @@ cos(theta1) == -ay
 
 Solving either equation for `theta1` results in two solutions because `sin` and `cos` return the same value for different angles [depending on the quadrant](https://courses.lumenlearning.com/precalculus/chapter/unit-circle-sine-and-cosine-functions/):
 
-```
+```matlab
 >> solve(sin(theta1) == ax, theta1)
 
 ans =
@@ -743,7 +743,7 @@ Additionally `asin` and `acos` only return real numbers for inputs between `-1` 
 
 The [2-argument inverse tangent](https://en.wikipedia.org/wiki/Atan2) (`atan2`) returns a unique solution as long as we can provide both the *sine* and the *cosine* of the same joint variable:
 
-```
+```matlab
 S1 = rhs(E3) % right-hand side of E3 is sin(theta1)
 C1 = rhs(E7) % right-hand size of E7 is cos(theta1)
 
@@ -752,7 +752,7 @@ theta1Solution = atan2(S1, C1)
 
 Now that we have a solution for `theta1`, convert it to C++ by using [ccode](https://www.mathworks.com/help/symbolic/sym.ccode.html):
 
-```
+```matlab
 >> ccode(theta1Solution)
 
 ans =
@@ -764,7 +764,7 @@ Next we need to solve for `theta2` and `theta3`. Reviewing equations `E1` throug
 
 We can multiply both sides of the IK equation by inverse of a joint matrix containing one of these variables to *de-couple* them:
 
-```
+```matlab
 % Original equation
 IK = Base * Shoulder * Elbow == EE;
 
@@ -777,7 +777,7 @@ IK = Base * Shoulder == EE * inv(Elbow);
 
 In the above example we over-write the `IK` equation each time just to show the steps. Re-define the system of equations since both sides have changed:
 
-```
+```matlab
 % Take the left-hand side
 LHS = lhs(IK);
 
@@ -805,32 +805,32 @@ However, `E4` now has `cos(theta2)` along with `cos(theta1)` which is known; `th
 
 Substitute `cos(theta1)` into `E4` by using [subs](https://www.mathworks.com/help/symbolic/subs.html):
 
-```
+```matlab
 E4 = subs(E4, cos(theta1), C1);
 ```
 
 Re-arrange `E4` to isolate `cos(theta2)`, which we then assign to `C2`:
 
-```
+```matlab
 C2 = rhs(isolate(E4, cos(theta2)));
 ```
 
 To complete the puzzle, isolate `sin(theta2)` in `E12`, assigning it to `S2`:
 
-```
+```matlab
 S2 = rhs(isolate(E12, sin(theta2)));
 ```
 
 Now we have `sin(theta2)` and `cos(theta2)` which lets us use `atan2` to solve for `theta2` and convert the solution to C++:
 
-```
+```matlab
 theta2Solution = atan2(S2, C2);
 ccode(theta2Solution)
 ```
 
 The last joint variable `theta3` appears in several equations along with `theta1` and `theta2` which can be substituted. Let's pick `E2` and `E10`:
 
-```
+```matlab
 % Solve E2 for sin(theta3) substituting S2 and C1
 E2 = subs(E2, cos(theta1), C1);
 E2 = subs(E2, sin(theta2), S2);
@@ -872,7 +872,7 @@ Given cartesian coordinates on a plane, you can solve for the angle with *invers
 
 Inverse tangent can be used to solve for the first joint angle θ (*theta*) of a robot arm mounted on a rotating platform:
 
-```
+```matlab
 theta = atan2(y, x)
 ```
 
@@ -893,7 +893,7 @@ We can describe this problem as a right triangle on `XY` plane, with its first v
 
 Once we have the bias angle Ψ (*psi*), we can apply it to the angle to goal θ (*theta*) from the previous section to get the final joint angle Φ (*phi*):
 
-```
+```matlab
 % Get angle to goal
 theta = atan2(y, x)
 
@@ -930,7 +930,7 @@ In the following two examples, we will use the law of cosines to compute the sho
 
 Solve for the *inner shoulder angle* θ corresponding to *angle B* in the triangle by isolating it in the equation cos(B) = (a<sup>2</sup> + c<sup>2</sup> - b<sup>2</sup>) / 2ac:
 
-```
+```matlab
 theta = acos((a^2 + c^2 - b^2) / 2 * a * c)
 ``` 
 
@@ -945,7 +945,7 @@ The *inner shoulder angle* is not enough to determine the angle of the *shoulder
 
 Therefore we need to solve for the *shoulder to goal* angle β (*beta*), which describes the angle of that tilt:
 
-```
+```matlab
 shoulderToGoalDistanceXY = sqrt(
   (goalX - shoulderX)^2 +
   (goalY - shoulderY)^2
@@ -957,7 +957,7 @@ beta = asin(goalZ, shoulderToGoalDistanceXY)
 
 This lets us solve for the *outer shoulder angle* Φ which is the joint angle:
 
-```
+```matlab
 phi = theta + beta
 ```
 
@@ -967,7 +967,7 @@ Now we can use the same process to find the *elbow joint angle*:
 
 If we label the *elbow inner angle* as *A*, then cos(A) = (b<sup>2</sup> + c<sup>2</sup> - a<sup>2</sup>) / 2bc, and to solve for *A* we take the inverse cosine of the right side:
 
-```
+```matlab
 theta == acos((b^2 + c^2 - a^2) / 2 * b * c)
 ```
 
@@ -982,7 +982,7 @@ The *inner elbow angle* is a part of the *elbow joint angle*. For this robot the
 
 Subtract the *inner elbow angle* θ from π to invert the angle in [`0` - `π`] range, then negate the result since the joint variable increases *clock-wise*, while angles in trigonometric equations are always described *counter-clockwise*.
 
-```
+```matlab
 phi = -(PI - theta3)
 ```
 
@@ -1006,7 +1006,7 @@ We need to isolate the *inner elbow angle* θ between the *upper arm* and the *f
 
 Two of these steps require us to find the sides *opposite* and *adjacent* to the fixed joint Ψ (*psi*). We can use *Soh-Cah-Toa* trigonometric identities to do this:
 
-```
+```matlab
 sin(psi) == opposite / fixedLinkLength
 opposite = sin(psi) * fixedLinkLength
 
@@ -1018,7 +1018,7 @@ Now we can use the larger *elbow-goal-extent* triangle to find the *elbow to goa
 
 One of the sides in this triangle is *opposite* the fixed joint. The other is a sum of the *forearm link length* and the side *adjacent* to the fixed joint:
 
-```
+```matlab
 elbowToGoalDistance = sqrt(
   (forearmLinkLength + adjacent)^2 +
   opposite^2
@@ -1027,7 +1027,7 @@ elbowToGoalDistance = sqrt(
 
 The only unknown side of the *shoulder-elbow-goal* triangle remaining is the *shoulder to goal* distance on the local `XZ` plane:
 
-```
+```matlab
 shoulderToGoalDistance = sqrt(
   (goalX - shoulderX)^2 +
   (goalZ - shoulderZ)^2
@@ -1047,7 +1047,7 @@ cos(A) = (b<sup>2</sup> + c<sup>2</sup> - a<sup>2</sup>) / 2bc
 
 ![law of cosines](./images/inverse-kinematics-law-of-cosines.png)
 
-```
+```matlab
 beta = acos(
   (
     elbowToGoalDistance^2 +
@@ -1065,20 +1065,20 @@ The last piece needed to isolate θ is the *elbow to goal* angle φ (*phi*).
 
 We can use the *elbow-goal-extent* triangle to solve for φ because it is a *right triangle* with known sides:
 
-```
+```matlab
 tan(phi) == opposite / (forearmLinkLength + adjacent)
 phi = atan2(opposite, forearmLinkLength + adjacent)
 ```
 
 To isolate the *inner elbow angle* θ, subtract the *elbow to goal angle* φ from the *combined elbow angle* β since β is a sum of θ and φ:
 
-```
+```matlab
 theta = beta - phi
 ```
 
 Finally, solve for the *elbow joint angle* by subtracting the *inner elbow angle* θ from π and negating, just as in the previous section:
 
-```
+```matlab
 elbowJoint = -(PI - theta)
 ```
 

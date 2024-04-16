@@ -102,14 +102,19 @@ In the case of a DC motor, the PWM command determines velocity, which can be use
 MAX_PWM = 65536
 MAX_VELOCITY_RPM = 30
 MAX_VELOCITY = MAX_VELOCITY_RPM * PI * 2 / 60
+PWM_NONLINEARITY = [1.0, 1.023, 1.03, 1.0, 0.98, 0.93, 1.0]
 
 % System State
 position = 0
 
 % System Model
 function position = systemModel(input, timeStep)
-  % Map PWM to velocity
-  velocity = input / MAX_PWM * MAX_VELOCITY
+  % Normalize PWM to 0...1 range
+  norm = input / MAX_PWM
+
+  % Map to velocity adjusting for PWM non-linearity
+  index = round(length(PWM_NONLINEARITY) * norm)
+  velocity = norm * PWM_NONLINEARITY[index] * MAX_VELOCITY
 
   % Predict position
   position = position + velocity * timeStep

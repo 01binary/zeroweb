@@ -95,31 +95,6 @@ The filter completely missed the short temporal spike in the data. This may be f
 
 If you know what a moving vehicle or a motor shaft are supposed to do (*since you are controlling them in the first place*), why should you let measurements have so much influence on where they are estimated to be next?
 
-In the case of a moving vehicle, the pressure on the gas pedal can determine acceleration, which then determines velocity and position.
-
-```matlab
-% System Identification (Chevrolet Trax)
-MAX_ACCELERATION = 2.82
-
-% System State
-velocity = 0
-position = 0
-
-% System Model
-function position = systemModel(input, timeStep)
-  % Map pressure on gas pedal to acceleration
-  acceleration = input * MAX_ACCELERATION
-
-  % Subtract friction and drag force...
-
-  % Predict velocity
-  velocity = velocity + acceleration / 2 * timeStep^2
-
-  % Predict position
-  position = position + velocity * timeStep
-end
-```
-
 In the case of a DC motor, the PWM command determines velocity, which can be used to determine the shaft position:
 
 ```matlab
@@ -135,6 +110,45 @@ position = 0
 function position = systemModel(input, timeStep)
   % Map PWM to velocity
   velocity = input / MAX_PWM * MAX_VELOCITY
+
+  % Predict position
+  position = position + velocity * timeStep
+end
+```
+
+In the case of a moving vehicle, the pressure on the gas pedal can determine acceleration, which then determines velocity and position:
+
+```matlab
+% System Identification (Chevrolet Trax 2017 4WD)
+MAX_ACCELERATION = 2.82
+DRAG_COEFFICIENT = 0.35
+FRONTAL_AREA = 2.5
+AIR_DENSITY = 1.225
+WHEEL_RADIUS = 696 / 2
+FRICTION_COEFFICIENT = 0.9
+WEIGHT = 1488
+G = 6.6743
+
+% System State
+velocity = 0
+position = 0
+
+% System Model
+function position = systemModel(input, timeStep)
+  % Map pressure on gas pedal to acceleration
+  acceleration = input * MAX_ACCELERATION
+
+  % Subtract drag force
+  drag = DRAG_COEFFICIENT / 2.0 *
+    AIR_DENSITY * FRONTAL_AREA * velocity^2
+  acceleration = acceleration - drag
+
+  % Subtract friction force
+  friction = FRICTION_COEFFICIENT * WEIGHT * G / WHEEL_RADIUS * 4
+  acceleration = acceleration - friction
+
+  % Predict velocity
+  velocity = velocity + acceleration * timeStep
 
   % Predict position
   position = position + velocity * timeStep
@@ -158,7 +172,7 @@ while running
   estimate = prediction * weight + ((1 - weight) * measurement)
 
   % Predict next state by using a mathematical model
-  prediction = systemModel(input, timeStep)
+  prediction = systemModel(input)
 end
 ```
 
@@ -263,18 +277,18 @@ gain = estimateVariance /
   (estimateVariance + measurementVariance)
 ```
 
-The prediction variance decreases as the Kalman gain increases, indicating that the estimate is becoming more accurate:
-
-```matlab
-estimateVariance = (1 - gain) * estimateVariance
-```
-
 ## estimate
 
 Prediction is blended with measurement to get an optimal estimate:
 
 ```matlab
 estimate = prediction + gain * (measurement - prediction)
+```
+
+Estimate variance decreases as the Kalman gain increases, indicating that the estimate is becoming more accurate:
+
+```matlab
+estimateVariance = (1 - gain) * estimateVariance
 ```
 
 ## prediction

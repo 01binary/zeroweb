@@ -25,40 +25,29 @@ In this article I introduce the Kalman Filter in the shortest way possible with 
 
 ![kalman filter from the ground up](./images/kalman-background.png)
 
-In essence, we are going to attempt something that requires calculus, differential equations, and statistics, but *without* studying these subjects first.
-
-Seeing these concepts put to practical use may change your perspective and let you appreciate them in a whole new light!
+In essence, we are going to attempt something that requires calculus, differential equations, and statistics, but *without* studying these subjects first!
 
 ## why not average?
 
 A basic *moving average* filter can be implemented as follows:
 
 ```matlab
-% Initial guess
-estimate = getMeasurement()
+function output = movingAverageFilter(input, size)
+  buffer = ones(size, 1) * input(1);
 
-% How many samples filtered so far
-k = 0
-
-while running
-  % Take measurement
-  measurement = getMeasurement()
-
-  % Increment counter
-  k = k + 1
-
-  % Blend measurement with previous estimate
-  estimate =
-    ((k - 1.0) / k) * estimate +
-    (1.0 / k) * measurement
+  for sampleIndex = 1:length(input)
+    bufferIndex = mod(sampleIndex - 1, size) + 1;
+    buffer(bufferIndex) = input(sampleIndex);
+    output(sampleIndex, 1) = sum(buffer) / size;
+  end
 end
 ```
 
-Compare the filter result to the original noisy data set:
+Compare the filter result to the original data with buffer size `8`, `32`, and `64`:
 
-> Moving average illustration
+![moving average filter](./images/kalman-avg.png)
 
-Notice that filtered data has been shifted on the time axis, introducing delay:
+Filtered data has been shifted down the time axis proportionately to the smoothing amount, introducing *delay*:
 
 + In the case of DC motor control for robotics, a simple average filter would cause the [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) algorithm to oscillate, as it would see this delay as a signal that it's not working hard enough, and over-compensate. 
 + In the case of a moving vehicle, a simple average would cause the estimated position to lag too far behind, causing the navigation system to suggest changes to the route too late for the driver to respond.
@@ -68,28 +57,23 @@ Notice that filtered data has been shifted on the time axis, introducing delay:
 A basic *low-pass* filter can be implemented as follows:
 
 ```matlab
-% Initial guess
-estimate = getMeasurement()
+function output = lowPassFilter(input, coefficient)
+  estimate = input(1);
 
-% Low-pass filter coefficient
-coefficient = 0.1
+  for sampleIndex = 1:length(input)
+    estimate = (1.0 - coefficient) * estimate + ...
+      coefficient * input(sampleIndex);
 
-while running
-  % Take measurement
-  measurement = getMeasurement()
-
-  % Blend measurement with previous estimate
-  estimate =
-    (1.0 - coefficient) * estimate +
-    coefficient * measurement
+    output(sampleIndex, 1) = estimate;
+  end
 end
 ```
 
 Compare the filter result to the original noisy data set:
 
-> Low pass illustration
+![low pass filter](./images/kalman-lowpass.png)
 
-The filter completely missed the short temporal spike in the data. This may be fine if the system is cyclical in nature (*a stopped clock is right twice a day!*) but if the subsequent state depends on previous system state, missing important events would cause it to diverge far from reality.
+This filter missed short temporal spikes in the data. This may be fine if the system is cyclical in nature, but if the subsequent state depends on previous system state, missing events could cause it to diverge far from reality.
 
 ## why predict?
 
@@ -255,8 +239,12 @@ estimateVariance = initialGuessVariance
 ```
 
 The initial variance depends on where the initial guess came from.
-+ If the initial guess was from a measurement, use the variance of the measurement device. See [variance](#variance) section above for determining how to calculate variance by taking samples from your device.
++ If the initial guess was from a measurement, use the variance of the measurement device. See [variance](#variance) section above for determining how to calculate variance by taking a set of samples from your device.
 + If the initial guess was from a system model, use the variance of the model. We will go over identifying system models with Matlab in [system identification](#system-identification) and estimating variance in [estimating variance](#estimating-variance).
++ If you can express variance in terms of *tolerance* by using it in a sentence like "this estimate is within `x`" or "it's this number +- `x`", then square half the tolerance amount to convert it to variance:
+  ```matlab
+  variance = (tolerance / 2)^2
+  ```
 
 ## measurement
 
@@ -336,16 +324,45 @@ The model *order* refers to the number of state variables needed to describe the
 
 *Identifying* a system refers to finding `A`, `B`, `C`, `D`, `K` weights that make the output of these two equations most closely resemble the measured output.
 
-After identifying the system you can extract the following by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html):
+The properties of the identified system can be extracted by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html):
 
 ```matlab
-[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(sys);
+[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
 ```
 
 * `A`, `B`, `C`, `D`, `K` are the weights described above
 * `dA`, `dB`, `dC`, and `dD` are the variances of system state and inputs
 * `x0` is initial state (plug this into the equations to get the initial guess)
 * `dx0` is the variance of the initial state
+
+To compare the identified system model to the original system, sample the model with the same inputs originally used to identify the system:
+
+```matlab
+% Generate a vector with evenly spaced time samples
+startTime = 0
+endTime = 8
+timeStep = 0.02
+samples = (endTime - startTime) / timeStep
+time = linspace(startTime, endTime, samples)
+
+% Get initial system state
+[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
+
+% Simulate the system with original input and initial state
+simulatedOutput = lsim(systemModel, input, time, x0)
+
+% Graph simulated system against the real system
+plot(time, output, time, simulatedOutput)
+```
+
+In the above code sample:
+
++ `systemModel` - the continuous linear system model
++ `input` - the vector of input values used to identify the system
++ `output` - the vector of output values used to identify the system
++ `startTime` - the start time when the original system was measured
++ `endTime` - the end time when the original system was measured
++ `timeStep` - the time step, or the original measurement interval
 
 Implementing the system model in C++ might look like the following:
 
@@ -407,12 +424,12 @@ double systemVelocityModel(
 
 The `e` input term is the disturbance or noise to apply at each time step. Its meaning depends on the model:
 
-+ When controlling a DC motor it could be *lag* due to a loose gearbox or *shock* from quickly reversing direction (the weight attached to the motor shaft is moving the opposite way when the shaft reverses direction).
++ When controlling a DC motor it could be *lag* due to a loose gearbox, *shock* from quickly reversing direction, or any other impediment.
 + When estimating the position of a vehicle it could be wind, road quality, or driver maneuvers like steering and braking.
 + If you don't have a way to derive disturbance, uncheck *Include disturbance component* when identifying the system and omit this term.
 + If you don't know the disturbance but know its mean and variance from sampling the real system, you could also *simulate* the disturbance.
 
-To simulating disturbance by adding normally distributed noise:
+To simulate disturbance by adding normally distributed noise:
 
 ```cpp
 // A function that simulates disturbance ("e" term)
@@ -519,10 +536,39 @@ dxdtVariance = sum(diag(
 + The prime (`'`) is Matlab notation for matrix transpose.
 + The dot followed by prime (`.'`) is Matlab notation for vector transpose.
 
-Since Matlab guessed the system state for us, it also provided us with system state variance. However, we're still responsible for providing input and disturbance variances:
+### linear system variance
+
+Since Matlab guessed the system state for us, it also provided us with system state variance. However, we're still responsible for providing input and disturbance variances to come up with the overall system variance:
 
 + In the example where the input is a PWM command, the input variance would be the variance of the function that calculates this command (i.e. variance of the PID control loop).
 + In the example where the input is pressure on acceleration pedal and disturbance is caused by driver maneuvers, the input variance would be the variance of the sensor that measures pressure on the pedal and average driver disturbance variance.
+
+If you identified the linear system model, you could also try estimating its variance against the measurements of the system it was based on and subtracting the variance of the measurement device:
+
+```matlab
+% Generate a vector with evenly spaced time samples
+startTime = 0
+endTime = 8
+timeStep = 0.02
+samples = (endTime - startTime) / timeStep
+time = linspace(startTime, endTime, samples)
+
+% Get initial system state
+[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
+
+% Simulate the system with original input and initial state
+simulatedOutput = lsim(systemModel, input, time, x0)
+
+% Calculate measurement variance by sampling measurement device...
+measurementVariance = var(measurementsFromDevice)
+
+% Calculate difference between system output and real system
+differences = output - simulatedOutput;
+
+% Calculate system model variance
+variances = differences .^ 2;
+variance = mean(variances) - measurementVariance;
+```
 
 ## kalman filter in c++
 

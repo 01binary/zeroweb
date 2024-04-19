@@ -484,7 +484,7 @@ The velocity variance depends on where the velocity input came from:
 + If it's from twisting a potentiometer knob, you would start with the variance of the potentiometer signal (calculated from a set of samples of this signal), then put it through the equation that maps potentiometer position to PWM command using random variable arithmetic.
 + If it's calculated by a PID control algorithm based on an absolute encoder and a set-point you would start with the variance of the encoder and the set-point, and put it through the same equation as the PID algorithm using random variable arithmetic.
 
-As you can see variance simply travels downstream.
+As you can see variance simply travels downstream from inputs to outputs.
 
 ### velocity/acceleration
 
@@ -538,14 +538,7 @@ dxdtVariance = sum(diag(
 + The prime (`'`) is Matlab notation for matrix transpose.
 + The dot followed by prime (`.'`) is Matlab notation for vector transpose.
 
-### linear system variance
-
-Since Matlab guessed the system state for us, it also provided us with system state variance. However, we're still responsible for providing input and disturbance variances to come up with the overall system variance:
-
-+ In the example where the input is a PWM command, the input variance would be the variance of the function that calculates this command (i.e. variance of the PID control loop).
-+ In the example where the input is pressure on acceleration pedal and disturbance is caused by driver maneuvers, the input variance would be the variance of the sensor that measures pressure on the pedal and average driver disturbance variance.
-
-If you identified the linear system model, you could also try estimating its variance against the measurements of the system it was based on and subtracting the variance of the measurement device:
+If you identified the linear system model, you could estimate its initial variance against the system it was based, subtracting measurement variance:
 
 ```matlab
 % Generate a vector with evenly spaced time samples
@@ -568,8 +561,7 @@ measurementVariance = var(measurementsFromDevice)
 differences = output - simulatedOutput;
 
 % Calculate system model variance
-variances = differences .^ 2;
-variance = mean(variances) - measurementVariance;
+variance = mean(differences .^ 2) - measurementVariance;
 ```
 
 ## kalman filter in c++

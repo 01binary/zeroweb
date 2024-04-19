@@ -34,6 +34,7 @@ A basic *moving average* filter can be implemented as follows:
 ```matlab
 function output = movingAverageFilter(input, size)
   buffer = ones(size, 1) * input(1);
+  output = zeros(length(input))
 
   for sampleIndex = 1:length(input)
     bufferIndex = mod(sampleIndex - 1, size) + 1;
@@ -59,6 +60,7 @@ A basic *low-pass* filter can be implemented as follows:
 ```matlab
 function output = lowPassFilter(input, coefficient)
   estimate = input(1);
+  output = zeros(length(input))
 
   for sampleIndex = 1:length(input)
     estimate = (1.0 - coefficient) * estimate + ...
@@ -79,7 +81,7 @@ This filter missed short temporal spikes in the data. This may be fine if the sy
 
 If you know what a moving vehicle or a motor shaft are supposed to do (*since you are controlling them in the first place*), why should you let measurements have so much influence on where they are estimated to be next?
 
-In the case of a DC motor, the PWM command determines velocity, which can be used to determine the shaft position:
+In the case of a DC motor, the PWM command can be mapped to velocity (adjusting for non-linearity) which is then used to determine the shaft position:
 
 ```matlab
 % System Identification (5202 Series Yellow Jacket Motor)
@@ -174,7 +176,7 @@ The second special thing about the Kalman filter is that its output isn't simply
 + A probability distribution is a mean of a set of numbers and its spread from that mean (called *variance*).
 + A *mean* is the sum of a set of numbers divided by the size of the set.
 
-> illustration: value vs probability distribution of this value
+![variance](./images/kalman-variance.png)
 
 To calculate variance from a set of samples:
 

@@ -98,7 +98,7 @@ function position = systemModel(input, timeStep)
   % Normalize PWM to 0...1 range
   norm = input / MAX_PWM
 
-  % Map to velocity adjusting for PWM non-linearity
+  % Map to velocity adjusting for PWM non-linearity curve
   index = round(length(PWM_NONLINEARITY) * norm)
   velocity = norm * PWM_NONLINEARITY[index] * MAX_VELOCITY
 
@@ -243,10 +243,7 @@ estimateVariance = initialGuessVariance
 The initial variance depends on where the initial guess came from.
 + If the initial guess was from a measurement, use the variance of the measurement device. See [variance](#variance) section above for determining how to calculate variance by taking a set of samples from your device.
 + If the initial guess was from a system model, use the variance of the model. We will go over identifying system models with Matlab in [system identification](#system-identification) and estimating variance in [estimating variance](#estimating-variance).
-+ If you can express variance in terms of *tolerance* by using it in a sentence like "this estimate is within `x`" or "it's this number +- `x`", then square half the tolerance amount to convert it to variance:
-  ```matlab
-  variance = (tolerance / 2)^2
-  ```
++ If you can express variance in terms of *tolerance* by using it in a sentence like "this estimate is within *x* or +/- *x*", then square half the tolerance amount to convert it to variance: `variance = (tolerance / 2)^2`.
 
 ## measurement
 

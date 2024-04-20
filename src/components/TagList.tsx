@@ -44,6 +44,7 @@ import ToolInventor from '../images/tool-inventor.svg';
 import ToolJs from '../images/tool-js.svg';
 import ToolPremiere from '../images/tool-premiere.svg';
 import ToolRaspi from '../images/tool-raspi.svg';
+import ToolMatlab from '../images/tool-matlab.svg';
 import Cell from '../images/cell.svg';
 import CONTENT from '../routes';
 import {
@@ -114,6 +115,7 @@ const ICONS: CategoryMap = {
     premiere: { icon: ToolPremiere, description: 'Premiere' },
     raspi: { icon: ToolRaspi, description: 'Raspberry Pi' },
     illustrator: { icon: ToolIllustrator, description: 'Adobe Illustrator' },
+    matlab: { icon: ToolMatlab, description: 'Matlab' },
   },
 
   philosophy: { icon: Philosophy, description: 'Philosophy' },

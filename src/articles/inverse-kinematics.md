@@ -9,6 +9,7 @@ tags:
   [
     'engineering-robotics',
     'engineering-software',
+    'tool-matlab',
     'tool-cpp',
     'tool-blender'
   ]

@@ -9,11 +9,10 @@ tags:
   [
     'engineering-robotics',
     'engineering-software',
+    'tool-matlab',
     'tool-cpp'
   ]
 ---
-
-TODO need "tool-matlab"
 
 ## overview
 
@@ -24,8 +23,6 @@ The Kalman filter is popular because it can generate accurate estimates in the p
 In this article I introduce the Kalman Filter in the shortest way possible with practical examples. When you're ready to go deeper checkout *Kalman Filter from the Ground Up by Alex Becker* at [kalmanfilter.net](https://www.kalmanfilter.net/default.aspx):
 
 ![kalman filter from the ground up](./images/kalman-background.png)
-
-In essence, we are going to attempt something that requires calculus, differential equations, and statistics, but *without* studying these subjects first!
 
 ## why not average?
 
@@ -48,7 +45,7 @@ Compare the filter result to the original data with buffer size `8`, `32`, and `
 
 ![moving average filter](./images/kalman-avg.png)
 
-Filtered data has been shifted down the time axis proportionately to the smoothing amount, introducing *delay*:
+Filtered data has been shifted on the time axis proportionately to the smoothing amount, introducing *delay*:
 
 + In the case of DC motor control for robotics, a simple average filter would cause the [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) algorithm to oscillate, as it would see this delay as a signal that it's not working hard enough, and over-compensate. 
 + In the case of a moving vehicle, a simple average would cause the estimated position to lag too far behind, causing the navigation system to suggest changes to the route too late for the driver to respond.
@@ -272,7 +269,7 @@ Prediction is blended with measurement to get an optimal estimate:
 estimate = prediction + gain * (measurement - prediction)
 ```
 
-Estimate variance decreases as the Kalman gain increases, indicating that the estimate is becoming more accurate:
+Estimate variance is updated after updating the estimate:
 
 ```matlab
 estimateVariance = (1 - gain) * estimateVariance
@@ -283,7 +280,7 @@ estimateVariance = (1 - gain) * estimateVariance
 The prediction is updated based on the system model as discussed earlier:
 
 ```matlab
-prediction = systemModel(input, timeStep)
+prediction = systemModel(input)
 ```
 
 ## system identification

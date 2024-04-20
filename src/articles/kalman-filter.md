@@ -109,6 +109,8 @@ end
 
 In the case of a moving vehicle, the pressure on the gas pedal can determine acceleration, which then determines velocity and position:
 
+![vehicle](./images/kalman-vehicle.png)
+
 ```matlab
 % System Identification (Chevrolet Trax 2017 4WD)
 MAX_ACCELERATION = 2.82;

@@ -80,6 +80,8 @@ If you know what a moving vehicle or a motor shaft are supposed to do (*since yo
 
 In the case of a DC motor, the PWM command can be mapped to velocity (adjusting for non-linearity) which is then used to determine the shaft position:
 
+![motor model](./images/kalman-motor.png)
+
 ```matlab
 % System Identification (5202 Series Yellow Jacket Motor)
 MAX_PWM = 65536;
@@ -106,7 +108,7 @@ end
 
 In the case of a moving vehicle, the pressure on the gas pedal can determine acceleration, which then determines velocity and position:
 
-![vehicle](./images/kalman-vehicle.png)
+![vehicle model](./images/kalman-vehicle.png)
 
 ```matlab
 % System Identification (Chevrolet Trax 2017 4WD)
@@ -165,8 +167,9 @@ We will examine each of these steps in detail in the following sections.
 
 The second special thing about the Kalman filter is that its output isn't simply a value but a *probability distribution* (the likelihood of it being a certain value).
 
-+ A probability distribution is a mean of a set of numbers and its spread from that mean (called *variance*).
-+ A *mean* is the sum of a set of numbers divided by the size of the set.
++ A probability distribution is a mean of a set of numbers and their *spread* from that mean.
++ This spread is called *variance* and denoted by the greek letter σ.
++ The *mean* is the sum of a set of numbers divided by the size of the set.
 
 ![variance](./images/kalman-variance.png)
 

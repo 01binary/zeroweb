@@ -299,8 +299,8 @@ In the following video we'll look at identifying a system by using a [linear sta
 A linear state space model is described by two equations, one that updates the output, and one that updates the rate of change of the output:
 
 ```matlab
-y(t) = Cx(t) + Du(t) + e(t)
-dx/dt = Ax(t) + Bu(t) + Ke(t)
+y = Cx + Du + e
+dx/dt = Ax + Bu + Ke
 ```
 
 The model *order* refers to the number of state variables needed to describe the system. Terms that are vectors will have the *order* number of elements and terms that are matrices will be *order* x *order*:
@@ -336,8 +336,7 @@ To compare the identified system model to the original system, sample the model 
 startTime = 0
 endTime = 8
 timeStep = 0.02
-samples = (endTime - startTime) / timeStep
-time = linspace(startTime, endTime, samples)
+time = linspace(startTime, endTime, (endTime - startTime) / timeStep)
 
 % Get initial system state
 [A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
@@ -505,8 +504,8 @@ estimateVariance = estimateVariance +
 If the system is described by a linear system model:
 
 ```matlab
-y(t) = Cx(t) + Du(t) + e(t)
-dx/dt = Ax(t) + Bu(t) + Ke(t)
+y = Cx + Du + e
+dx/dt = Ax + Bu + Ke
 ```
 
 Then variance can be updated using the same equations:
@@ -537,8 +536,7 @@ If you identified the linear system model, you could estimate its initial varian
 startTime = 0
 endTime = 8
 timeStep = 0.02
-samples = (endTime - startTime) / timeStep
-time = linspace(startTime, endTime, samples)
+time = linspace(startTime, endTime, (endTime - startTime) / timeStep)
 
 % Get initial system state
 [A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);

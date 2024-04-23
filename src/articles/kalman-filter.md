@@ -74,6 +74,10 @@ Compare the filter result to the original noisy data set:
 
 This filter missed short temporal spikes in the data. This may be fine if the system is cyclical in nature, but if the subsequent state depends on previous system state, missing events could cause it to diverge far from reality.
 
+In the following video we test both filters on real data:
+
+`youtube:https://www.youtube.com/embed/rLM0os3vpsw`
+
 ## why predict?
 
 If you know what a moving vehicle or a motor shaft are supposed to do (*since you are controlling them in the first place*), why should you let measurements have so much influence on where they are estimated to be next?
@@ -167,9 +171,9 @@ We will examine each of these steps in detail in the following sections.
 
 The second special thing about the Kalman filter is that its output isn't simply a value but a *probability distribution* (the likelihood of it being a certain value).
 
-+ A probability distribution is a mean of a set of numbers and their *spread* from that mean.
-+ This spread is called *variance* and denoted by the greek letter σ.
++ A probability distribution is a *mean* of a set of numbers and their *spread* from that mean.
 + The *mean* is the sum of a set of numbers divided by the size of the set.
++ The spread is called *variance* and denoted by the greek letter σ.
 
 ![variance](./images/kalman-variance.png)
 
@@ -197,6 +201,10 @@ ans =
 
    2.5000
 ```
+
+The following video demonstrates how to calculate variance:
+
+`youtube:https://www.youtube.com/embed/-RpGzyQoaOg`
 
 ## kalman filter
 
@@ -294,7 +302,7 @@ A system identification algorithm tries to guess the system model given system i
 
 In the following video we'll look at identifying a system by using a [linear state-space model](https://www.mathworks.com/help/control/ref/ss.html) in Matlab because it's simple and provides great estimates:
 
-> You could write a Python script to identify a system without using Matlab, but that's a [complex topic](https://github.com/adamb314/ServoProject/blob/main/Doc/Theory.md#system-identification) on its own. Matlab trial lasts 30 days which is enough time to [identify a system](https://www.mathworks.com/help/ident/gs/identify-linear-models-using-the-gui.html) with the *System Identification Toolbox*. The [Home Perpetual License](https://www.mathworks.com/pricing-licensing.html?prodcode=ML&intendeduse=home) is affordable for non-commercial use.
+`youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
 
 A linear state space model is described by two equations, one that updates the output, and one that updates the rate of change of the output:
 

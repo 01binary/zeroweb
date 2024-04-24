@@ -450,7 +450,7 @@ double generateDisturbance(double mean, double variance)
 }
 ```
 
-For more background on system identification and control, see the [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
+If you are looking for more background on system identification, try [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
 
 ## estimating variance
 

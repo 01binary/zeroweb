@@ -590,15 +590,20 @@ In the remainder of this section we will look at examples on how to update the e
 If the system is described by constant velocity (i.e. velocity is an input):
 
 ```matlab
+% Get input
 velocity = getVelocity()
+
+% Update estimate
 estimate = estimate + velocity * timeStep
 ```
 
 Then the estimate variance can be updated like this:
 
 ```matlab
+% Get input variance
 velocityVariance = getVelocityVariance()
 
+% Update estimate variance
 estimateVariance = estimateVariance
   + velocityVariance * timeStep^2
 ```
@@ -615,19 +620,31 @@ As you can see variance simply travels downstream from inputs to outputs.
 If the system is described by velocity and acceleration:
 
 ```matlab
+% Get input
 acceleration = getAcceleration()
+
+% Update estimate
 estimate = estimate + velocity * timeStep
+
+% Update system state
 velocity = velocity + acceleration * timeStep
 ```
 
 Then the estimate variance can be updated like this:
 
 ```matlab
+% Get input variance
 accelerationVariance = getAccelerationVariance()
 
+% Update estimate variance
+estimateVariance = estimateVariance
+  + velocityVariance * timeStep^2
+
+% Update system state variance (first order)
 velocityVariance = velocityVariance +
   accelerationVariance * timeStep^2
 
+% Update system state variance (second order)
 estimateVariance = estimateVariance +
   velocityVariance * timeStep^2
 ```
@@ -637,24 +654,31 @@ estimateVariance = estimateVariance +
 If the system is described by a linear system model:
 
 ```matlab
-% Update output
+% Get input
+u = getInput()
+
+% Update estimate
 y = Cx + Du + e
 
-% Update state
+% Update system state
 x = Ax + Bu + Ke
 ```
 
 Then variance can be updated using the same equations:
 
 ```matlab
-% Update output variance
+% Get input variance
+du = getInputVariance()
+
+% Update estimate variance
 estimateVariance =
   sum(C * dx * C') +
   D^2 * du +
   de
 
-% Update state variance
-stateVariance = sum(diag(
+% Update system state variance
+% TODO: double check this
+dx = sum(diag(
   (dx.' * A) * A.' +
   B * du * B' +
   K * de * K'

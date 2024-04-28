@@ -637,19 +637,24 @@ estimateVariance = estimateVariance +
 If the system is described by a linear system model:
 
 ```matlab
+% Update output
 y = Cx + Du + e
-dx/dt = Ax + Bu + Ke
+
+% Update state
+x = Ax + Bu + Ke
 ```
 
 Then variance can be updated using the same equations:
 
 ```matlab
+% Update output variance
 estimateVariance =
   sum(C * dx * C') +
   D^2 * du +
   de
 
-dxdtVariance = sum(diag(
+% Update state variance
+stateVariance = sum(diag(
   (dx.' * A) * A.' +
   B * du * B' +
   K * de * K'
@@ -665,6 +670,9 @@ dxdtVariance = sum(diag(
 If you identified the linear system model, you could estimate its initial variance against the system it was based, subtracting measurement variance:
 
 ```matlab
+% TODO: update code snippet for discrete system
+% TODO: doesn't Matlab return noise variance? Find out what that is
+
 % Generate a vector with evenly spaced time samples
 startTime = 0
 endTime = 8

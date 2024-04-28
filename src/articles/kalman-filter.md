@@ -160,7 +160,7 @@ The second special thing about the Kalman filter is that its output isn't simply
 
 + A probability distribution is a *mean* of a set of numbers and their *spread* from that mean.
 + The *mean* is the sum of a set of numbers divided by the size of the set.
-+ The spread is called *variance* and denoted by the greek letter σ.
++ The spread from the mean is called *variance* and it's denoted by the greek letter σ (sigma).
 
 ![variance](./images/kalman-variance.png)
 
@@ -667,18 +667,17 @@ Then variance can be updated using the same equations:
 du = getInputVariance()
 
 % Update estimate variance
-estimateVariance =
-  sum(C * dx * C') +
-  D^2 * du +
+estimateVariance = ...
+  sum(C * dx * C') + ...
+  D^2 * du + ...
   de
 
 % Update system state variance
 % TODO: double check this
-dx = sum(diag(
-  (dx.' * A) * A.' +
-  B * du * B' +
+dx = ...
+  (dx.' * A) * A.' + ...
+  B * du * B' + ...
   K * de * K'
-))
 ```
 
 + `dx` is state variance. Initial state variance can be extracted from system model as `dx0` by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html) and then updated each iteration.

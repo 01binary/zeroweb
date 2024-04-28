@@ -146,24 +146,11 @@ end
 
 This is the first special thing about the Kalman filter: it blends *measurements* with *predictions* by using a *weight* which is tuned at each iteration to maximize the accuracy of the estimate:
 
-```matlab
-% Initial guess
-prediction = initialGuess
-
-while running
-  % Take measurement
-  measurement = getMeasurement()
-
-  % Determine the weight that maximizes accuracy
-  weight = optimizeEstimate()
-
-  % Blend prediction with measurement using this weight
-  estimate = prediction * weight + ((1 - weight) * measurement)
-
-  % Predict next state by using a mathematical model
-  prediction = systemModel(input)
-end
-```
+1. Start with initial guess and initial system state
+2. Take measurement
+3. Calculate a Kalman weights that optimizes estimate
+4. Calculate estimate by blending prediction with measurement
+5. Predict the next state by using a mathematical model
 
 We will examine each of these steps in detail in the following sections.
 

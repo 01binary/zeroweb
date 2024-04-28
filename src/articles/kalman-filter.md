@@ -304,11 +304,14 @@ In the following video we'll look at identifying a system by using a [linear sta
 
 `youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
 
-A linear state space model is described by two equations, one that updates the output, and one that updates the rate of change of the output:
+A discrete linear state space model is described by two equations:
 
 ```matlab
+% Predict
 y = Cx + Du + e
-dx/dt = Ax + Bu + Ke
+
+% Update state
+x = Ax + Bu + Ke
 ```
 
 The model *order* refers to the number of state variables needed to describe the system. Terms that are vectors will have the *order* number of elements and terms that are matrices will be *order* x *order*:
@@ -332,6 +335,12 @@ The properties of the identified system can be extracted by using [idssdata](htt
 [A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
 ```
 
+Or by using an object property notation:
+
+```matlab
+dx0 = systemModel.dx0
+```
+
 * `A`, `B`, `C`, `D`, `K` are the weights described above
 * `dA`, `dB`, `dC`, and `dD` are the variances of system state and inputs
 * `x0` is initial state (plug this into the equations to get the initial guess)
@@ -340,6 +349,8 @@ The properties of the identified system can be extracted by using [idssdata](htt
 To compare the identified system model to the original system, sample the model with the same inputs originally used to identify the system:
 
 ```matlab
+% TODO: update this code sample for discrete model
+
 % Generate a vector with evenly spaced time samples
 startTime = 0
 endTime = 8
@@ -365,61 +376,170 @@ In the above code sample:
 + `endTime` - the end time when the original system was measured
 + `timeStep` - the time step, or the original measurement interval
 
-Implementing the system model in C++ might look like the following:
+Implementing this system model in Matlab looks like the following:
+
+```matlab
+% A weights (3x3 matrix)
+A = [ ...
+  0.9988,     0.05193, -0.02261;
+  0.02222,   -0.01976,  0.7353;
+  0.0009856, -0.2093,  -0.5957;
+];
+
+% B weights (3x1 vector)
+B = [ ...
+  -0.00000266;
+  0.0000572747;
+  -0.0001872152;
+];
+
+% C weights (1x3 vector)
+C = [ ...
+  -5316.903919, ...
+  24.867656, ...
+  105.92416 ...
+];
+
+% D weight (scalar)
+D = 0;
+
+% K weights (3x1 vector)
+K = [ ...
+  -0.0001655;
+  -0.001508;
+  6.209e-06;
+];
+
+% Initial state (3x1 vector)
+x0 = [ ...
+  -0.0458;
+  0.0099;
+  -0.0139;
+];
+
+% Simulate
+x = x0;
+output = zeros(length(input), 1);
+
+for i = 1:length(input)
+  u = input(i);
+  [y, x] = systemModel(A, B, C, D, K, x, u, 0);
+  output(i) = y;
+end
+
+function [y, x] = systemModel(A, B, C, D, K, x, u, e)
+  % y = Cx + Du + e
+  y = ...
+    C * x + ...  % Add contribution of state
+    D * u + ...  % Add contribution of input
+    e;           % Add disturbance
+
+  % x = Ax + Bu + Ke
+  x = ...
+    A * x + ... % Add contribution of state
+    B * u + ... % Add contribution of input
+    e * K;      % Add contribution of disturbance
+end
+```
+
+Implementing this system model in C++ looks like the following:
 
 ```cpp
-// Example of 3rd order linear system model
+#include <vector>
 #include <Eigen/Dense>
 
+using namespace std;
 using namespace Eigen;
 
 // A weights (3x3 matrix)
 const MatrixXd A
 {
-  { -0.1199, 2.0558, 1.1026 },
-  { -1.8226, -0.7465, -15.0483 },
-  { 0.7375,  8.2928,  -16.6951 }
+  { 0.998800,   0.05193, -0.02261 },
+  { 0.0222200, -0.01976,  0.7353  },
+  { 0.0009856, -0.20930, -0.5957  }
 };
 
 // B weights (3x1 vector)
-const RowVectorXd B {{ 0.0009, 0.1359, 0.3223 }};
+const RowVectorXd B {{
+  -0.00000266,
+  0.0000572747,
+  -0.0001872152
+}};
 
 // C weights (1x3 vector)
-const VectorXd C {{ -32.1738, -0.7282, 0.1308 }};
+const VectorXd C {{
+  -5316.903919,
+  24.867656,
+  105.92416
+}};
 
 // D weight (scalar)
-const double D = 8.7666e-04;
+const double D = 0;
 
 // K weights (3x1 vector)
-const RowVectorXd K {{ -1.3722, -4.1560, 12.5563 }};
+const RowVectorXd K {{
+  -0.0001655,
+  -0.001508,
+  6.209e-06
+}};
 
-// Cx + Du + e
-double systemPositionModel(
-  const RowVectorXd& x, double u, double e)
+// Initial state (3x1 vector)
+const RowVectorXd x0 {{
+  -0.0458,
+  0.0099,
+  -0.0139
+}};
+
+/*
+  * Discrete state-space system model
+  * @param x: system state to update
+  * @param u: system input
+  * @param e: disturbance
+  * @return: system output
+*/
+double systemModel(
+  RowVectorXd& x, double u, double e)
 {
-  return
+  // Predict
+  // y = Cx + Du + e
+  double y =
     // Add contribution of state
-    C * x +
+    C.dot(x) +
     // Add contribution of input
     D * u +
     // Add disturbance
     e;
-}
 
-// Ax + Bu + Ke
-double systemVelocityModel(
-  const RowVectorXd& x, double u, double e)
-{
-  RowVectorXd dxdt =
+  // Update state
+  // x = Ax + Bu + Ke
+  x =
     // Add contribution of state
-    A * x +
+    x * A +
     // Add contribution of input
     B * u +
     // Add contribution of disturbance
     K * e;
 
-  // Sum contributions
-  return dxdt.block(0, 0, B.rows(), B.cols()).sum();
+  return y;
+}
+
+// Simulate
+int main(int argc, char** argv)
+{
+  RowVectorXd state = x0;
+  vector<double> output;
+  double disturbance = 0.0;
+  double input;
+
+  while(read(input))
+  {
+    double prediction = systemModel(
+      state, input, disturbance);
+
+    output.push_back(prediction);
+  }
+
+  return 0;
 }
 ```
 
@@ -567,6 +687,7 @@ variance = mean(differences .^ 2) - measurementVariance;
 In this final section let's look at a complete example of a Kalman filter in C++:
 
 ```cpp
+// TODO: this code sample has not been compiled and tested yet
 double systemModel(
   double acceleration,
   double accelerationVariance,

@@ -640,13 +640,9 @@ accelerationVariance = getAccelerationVariance()
 estimateVariance = estimateVariance
   + velocityVariance * timeStep^2
 
-% Update system state variance (first order)
+% Update system state variance
 velocityVariance = velocityVariance +
   accelerationVariance * timeStep^2
-
-% Update system state variance (second order)
-estimateVariance = estimateVariance +
-  velocityVariance * timeStep^2
 ```
 
 ### linear system model

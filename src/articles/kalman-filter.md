@@ -74,7 +74,7 @@ Compare the filter result to the original noisy data set:
 
 This filter missed short temporal spikes in the data. This may be fine if the system is cyclical in nature, but if the subsequent state depends on previous system state, missing events could cause it to diverge far from reality.
 
-In the following video we test both filters on real data:
+In the following video we test the moving average filter on real data:
 
 `youtube:https://www.youtube.com/embed/rLM0os3vpsw`
 

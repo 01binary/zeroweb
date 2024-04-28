@@ -317,10 +317,10 @@ The properties of the identified system can be extracted by using [idssdata](htt
 [A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
 ```
 
-Or by using an object property notation:
+...or by using an object property notation:
 
 ```matlab
-dx0 = systemModel.dx0
+systemModel.dx0
 ```
 
 * `A`, `B`, `C`, `D`, `K` are the weights described above
@@ -358,7 +358,7 @@ In the above code sample:
 + `endTime` - the end time when the original system was measured
 + `timeStep` - the time step, or the original measurement interval
 
-Implementing a discrete state-space system model in Matlab looks like the following:
+Implementing a discrete state-space system model in Matlab:
 
 ```matlab
 % A weights (3x3 matrix)
@@ -410,14 +410,12 @@ for i = 1:length(input)
   output(i) = y;
 end
 
-%
 % Discrete state-space system model
 %   x: system state
 %   u: system input
 %   e: disturbance
 % returns:
 %   system output and next system state
-%
 function [y, x] = systemModel(A, B, C, D, K, x, u, e)
   % Predict
   % y = Cx + Du + e
@@ -435,7 +433,7 @@ function [y, x] = systemModel(A, B, C, D, K, x, u, e)
 end
 ```
 
-Implementing a discrete state-space system model in C++ looks like the following:
+Implementing a discrete state-space system model in C++:
 
 ```cpp
 #include <vector>

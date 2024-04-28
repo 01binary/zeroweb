@@ -93,11 +93,8 @@ MAX_VELOCITY_RPM = 30;
 MAX_VELOCITY = MAX_VELOCITY_RPM * PI * 2 / 60;
 PWM_NONLINEARITY = [1.0, 1.023, 1.03, 1.0, 0.98, 0.93, 1.0];
 
-% System State
-position = 0;
-
 % System Model
-function position = systemModel(input, timeStep)
+function nextPosition = systemModel(input, position, timeStep)
   % Normalize PWM to 0...1 range
   norm = input / MAX_PWM;
 
@@ -106,7 +103,7 @@ function position = systemModel(input, timeStep)
   velocity = norm * PWM_NONLINEARITY[index] * MAX_VELOCITY;
 
   % Predict position
-  position = position + velocity * timeStep;
+  nextPosition = position + velocity * timeStep;
 end
 ```
 
@@ -121,14 +118,11 @@ DRAG_COEFFICIENT = 0.35;
 FRONTAL_AREA = 2.5;
 AIR_DENSITY = 1.225;
 
-% System State
-velocity = 0;
-position = 0;
-
 % System Model
-function position = systemModel(input, timeStep)
+function [nextPosition, nextVelocity] = systemModel(input, position, velocity, timeStep)
   % Map pressure on gas pedal to acceleration
-  acceleration = input * MAX_ACCELERATION;
+  acceleration = ...
+    input * MAX_ACCELERATION
 
   % Subtract drag force
   drag = DRAG_COEFFICIENT / 2.0 * ...
@@ -137,10 +131,10 @@ function position = systemModel(input, timeStep)
   acceleration = acceleration - drag;
 
   % Predict velocity
-  velocity = velocity + acceleration * timeStep;
+  nextVelocity = velocity + acceleration * timeStep;
 
   % Predict position
-  position = position + velocity * timeStep;
+  nextPosition = position + velocity * timeStep;
 end
 ```
 

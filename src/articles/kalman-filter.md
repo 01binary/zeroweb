@@ -662,25 +662,25 @@ Then variance can be updated using the same equations:
 
 ```matlab
 % Get input variance
-du = getInputVariance()
+inputVariance = getInputVariance()
 
 % Initial noise variance
-de = systemModel.NoiseVariance
+noiseVariance = systemModel.NoiseVariance
 
 % Initial state variance
 stateVariance = systemModel.dx0
 
 % Update estimate variance (scalar)
 estimateVariance = ...
-  sum(C * dx * C') + ...
-  D^2 * du + ...
-  de
+  sum(C * stateVariance * C') + ...
+  D^2 * inputVariance + ...
+  noiseVariance
 
 % Update system state variance (vector)
 stateVariance = ...
   A * stateVariance + ...
-  B * du + ...
-  K * de
+  B * inputVariance + ...
+  K * noiseVariance
 ```
 
 + `dx` is state variance. Initial state variance can be extracted from system model as `dx0` by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html) and then updated each iteration.

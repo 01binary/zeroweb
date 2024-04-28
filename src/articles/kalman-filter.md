@@ -664,18 +664,23 @@ Then variance can be updated using the same equations:
 % Get input variance
 du = getInputVariance()
 
-% Update estimate variance
+% Initial noise variance
+de = systemModel.NoiseVariance
+
+% Initial state variance
+stateVariance = systemModel.dx0
+
+% Update estimate variance (scalar)
 estimateVariance = ...
   sum(C * dx * C') + ...
   D^2 * du + ...
   de
 
-% Update system state variance
-% TODO: double check this
-dx = ...
-  (dx.' * A) * A.' + ...
-  B * du * B' + ...
-  K * de * K'
+% Update system state variance (vector)
+stateVariance = ...
+  A * stateVariance + ...
+  B * du + ...
+  K * de
 ```
 
 + `dx` is state variance. Initial state variance can be extracted from system model as `dx0` by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html) and then updated each iteration.

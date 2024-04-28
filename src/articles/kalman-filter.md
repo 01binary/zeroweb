@@ -645,7 +645,7 @@ velocityVariance = velocityVariance +
 
 ### linear system model
 
-If the system is described by a linear system model:
+If the system is described by a linear discrete state-space model:
 
 ```matlab
 % Get input
@@ -664,7 +664,7 @@ Then variance can be updated using the same equations:
 % Get input variance
 inputVariance = getInputVariance()
 
-% Initial noise variance
+% Get noise or disturbance variance
 noiseVariance = systemModel.NoiseVariance
 
 % Initial state variance
@@ -683,11 +683,7 @@ stateVariance = ...
   K * noiseVariance
 ```
 
-+ `dx` is state variance. Initial state variance can be extracted from system model as `dx0` by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html) and then updated each iteration.
-+ `du` is input variance.
-+ `de` is disturbance variance.
-+ The prime (`'`) is Matlab notation for matrix transpose.
-+ The dot followed by prime (`.'`) is Matlab notation for vector transpose.
+The prime (`'`) is Matlab notation for matrix transpose.
 
 If you identified the linear system model, you could estimate its initial variance against the system it was based, subtracting measurement variance:
 

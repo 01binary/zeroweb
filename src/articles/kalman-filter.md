@@ -291,7 +291,7 @@ In the following video we'll look at identifying a system by using a [linear sta
 
 `youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
 
-A discrete linear state space model is described by two equations:
+A discrete linear state-space model is described by two equations:
 
 ```matlab
 % Predict
@@ -363,7 +363,7 @@ In the above code sample:
 + `endTime` - the end time when the original system was measured
 + `timeStep` - the time step, or the original measurement interval
 
-Implementing this system model in Matlab looks like the following:
+Implementing a discrete state-space system model in Matlab looks like the following:
 
 ```matlab
 % A weights (3x3 matrix)
@@ -405,6 +405,7 @@ x0 = [ ...
 ];
 
 % Simulate
+input = []; % get input from somewhere
 x = x0;
 output = zeros(length(input), 1);
 
@@ -414,13 +415,23 @@ for i = 1:length(input)
   output(i) = y;
 end
 
+%
+% Discrete state-space system model
+%   x: system state
+%   u: system input
+%   e: disturbance
+% returns:
+%   system output and next system state
+%
 function [y, x] = systemModel(A, B, C, D, K, x, u, e)
+  % Predict
   % y = Cx + Du + e
   y = ...
     C * x + ...  % Add contribution of state
     D * u + ...  % Add contribution of input
     e;           % Add disturbance
 
+  % Update state
   % x = Ax + Bu + Ke
   x = ...
     A * x + ... % Add contribution of state
@@ -429,7 +440,7 @@ function [y, x] = systemModel(A, B, C, D, K, x, u, e)
 end
 ```
 
-Implementing this system model in C++ looks like the following:
+Implementing a discrete state-space system model in C++ looks like the following:
 
 ```cpp
 #include <vector>
@@ -510,6 +521,11 @@ double systemModel(
   return y;
 }
 
+bool read(double& input)
+{
+  // get input from somewhere...
+}
+
 // Simulate
 int main(int argc, char** argv)
 {
@@ -530,7 +546,9 @@ int main(int argc, char** argv)
 }
 ```
 
-The `e` input term is the disturbance or noise to apply at each time step. Its meaning depends on the model:
+See complete examples in the [companion repository](https://github.com/01binary/systemid).
+
+The `e` term is the disturbance or noise to apply at each time step. Its meaning depends on the model:
 
 + When controlling a DC motor it could be *lag* due to a loose gearbox, *shock* from quickly reversing direction, or any other impediment.
 + When estimating the position of a vehicle it could be wind, road quality, or driver maneuvers like steering and braking.

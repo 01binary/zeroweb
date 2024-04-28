@@ -541,12 +541,15 @@ int main(int argc, char** argv)
 }
 ```
 
-See complete examples in the [companion repository](https://github.com/01binary/systemid).
+See the complete examples in the [companion repository](https://github.com/01binary/systemid).
+
+## disturbance
 
 The `e` term is the disturbance or noise to apply at each time step. Its meaning depends on the model:
 
 + When controlling a DC motor it could be *lag* due to a loose gearbox, *shock* from quickly reversing direction, or any other impediment.
 + When estimating the position of a vehicle it could be wind, road quality, or driver maneuvers like steering and braking.
++ If the system was identified in System Identification Toolbox, noise variance is stored in the `NoiseVariance` property of the system model.
 + If you don't have a way to derive disturbance, uncheck *Include disturbance component* when identifying the system and omit this term.
 + If you don't know the disturbance but know its mean and variance from sampling the real system, you could also *simulate* the disturbance.
 

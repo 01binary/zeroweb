@@ -119,7 +119,8 @@ FRONTAL_AREA = 2.5;
 AIR_DENSITY = 1.225;
 
 % System Model
-function [nextPosition, nextVelocity] = systemModel(input, position, velocity, timeStep)
+function [nextPosition, nextVelocity] = systemModel(...
+  input, position, velocity, timeStep)
   % Map pressure on gas pedal to acceleration
   acceleration = ...
     input * MAX_ACCELERATION

@@ -146,9 +146,9 @@ end
 
 This is the first special thing about the Kalman filter: it blends *measurements* with *predictions* by using a *weight* which is tuned at each iteration to maximize the accuracy of the estimate:
 
-1. Start with initial guess and initial system state
-2. Take measurement
-3. Calculate a Kalman weights that optimizes estimate
+1. Start with initial guess
+2. Take a measurement
+3. Calculate a Kalman weight that will optimize the estimate
 4. Calculate estimate by blending prediction with measurement
 5. Predict the next state by using a mathematical model
 

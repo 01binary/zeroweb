@@ -82,7 +82,7 @@ In the following video we test the moving average filter on real data:
 
 If you know what a moving vehicle or a motor shaft are supposed to do (*since you are controlling them in the first place*), why should you let measurements have so much influence on where they are estimated to be next?
 
-In the case of a DC motor, the PWM command can be mapped to velocity (adjusting for non-linearity) which is then used to determine the shaft position:
+In the case of a DC motor, commanded velocity can be used to determine the shaft position:
 
 ![motor model](./images/kalman-motor.png)
 
@@ -203,16 +203,18 @@ while running
   measurementVariance = getMeasurementVariance(conditions)
 
   % Optimize
-  gain = estimateVariance /
+  gain = estimateVariance / ...
     (estimateVariance + measurementVariance)
 
   % Estimate
   estimate = prediction + gain * (measurement - prediction)
   estimateVariance = (1 - gain) * estimateVariance
 
-  % Predict
+  % Predict and update state
   prediction = systemModel(input)
-  estimateVariance = systemModelVariance(estimateVariance)
+
+  % Update variance
+  estimateVariance = systemVariance(estimateVariance)
 end
 ```
 
@@ -247,7 +249,7 @@ Measurement variance could be constant or vary based on conditions.
 
 ## optimization
 
-The Kalman gain is adjusted at each iteration to optimize the estimate:
+The Kalman gain is adjusted at each iteration to give more weight to measurements or prediction, depending on which has the *least variance*.
 
 ```matlab
 gain = estimateVariance /
@@ -256,11 +258,14 @@ gain = estimateVariance /
 
 ## estimate
 
-Prediction is blended with measurement to get an optimal estimate:
+Prediction is blended with measurements by using the Kalman gain:
 
 ```matlab
 estimate = prediction + gain * (measurement - prediction)
 ```
+
++ If prediction from system model has less variance, we trust the model more
++ If estimate has less variance, we trust the measurement more
 
 Estimate variance is updated after updating the estimate:
 
@@ -683,11 +688,8 @@ stateVariance = ...
 
 The prime (`'`) is Matlab notation for matrix transpose.
 
-If you identified the linear system model, you could estimate its initial variance against the system it was based, subtracting measurement variance:
-
 ```matlab
 % TODO: update code snippet for discrete system
-% TODO: doesn't Matlab return noise variance? Find out what that is
 
 % Generate a vector with evenly spaced time samples
 startTime = 0

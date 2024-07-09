@@ -47,7 +47,7 @@ Compare the filter result to the original data with buffer size `8`, `32`, and `
 
 Filtered data has been shifted on the time axis proportionately to the smoothing amount, introducing *delay*:
 
-+ In the case of DC motor control for robotics, a simple average filter would cause the [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) algorithm to oscillate, as it would see this delay as a signal that it's not working hard enough, and over-compensate. 
++ In the case of DC motor control for robotics, a moving average filter would cause the [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) algorithm to oscillate, as it would see this delay as a signal that it's not working hard enough, and over-compensate. 
 + In the case of a moving vehicle, a simple average would cause the estimated position to lag too far behind, causing the navigation system to suggest changes to the route too late for the driver to respond.
 
 ## why not low pass?
@@ -139,27 +139,36 @@ function [nextPosition, nextVelocity] = systemModel(...
 end
 ```
 
-This is the first special thing about the Kalman filter: it blends *measurements* with *predictions* by using a *weight* which is tuned at each iteration to maximize the accuracy of the estimate:
+The first special thing about the Kalman filter is that it blends *measurements* with *predictions*, depending on which can provide the most accurate estimate:
 
-1. Start with initial guess
+1. Start with initial guess as the first prediction
 2. Take a measurement
-3. Calculate a Kalman weight that will optimize the estimate
+3. Determine how much to correct prediction with measurement
 4. Calculate estimate by blending prediction with measurement
 5. Predict the next state by using a mathematical model
 
 We will examine each of these steps in detail in the following sections.
 
+> The Kalman filter works by recursively predicting the object state using the motion model and correcting the state using measurements. -- [Matlab Sensor Fusion and Tracking Toolbox](https://www.mathworks.com/help/fusion/ug/linear-kalman-filters.html)
+
 ## variance
 
-The second special thing about the Kalman filter is that its output isn't simply a value but a *probability distribution* (the likelihood of it being a certain value).
+The second special thing about the Kalman filter is that its output isn't simply a value but a *likelihood of it being a certain value*. This concept is borrowed from statistics where it's called a *random variable*.
 
-+ A probability distribution is a *mean* of a set of numbers and their *spread* from that mean.
-+ The *mean* is the sum of a set of numbers divided by the size of the set.
++ A random variable is defined by a *mean* and a *spread* from that mean.
++ The *mean* is a sum of a set of samples divided by the size of the set. This represents the *center* of the random variable.
 + The spread from the mean is called *variance* and it's denoted by the greek letter σ (sigma).
++ The *shape* of this spread is a "bell curve" called a *Gaussian distribution*.
+
+Measuring physical quantities results in readings that follow a Gaussian distribution due to the [Holographic Principle](https://www.semanticscholar.org/paper/The-Holographic-Principle-Opening-Lecture-Hooft/43ce0cb38dba603c08c21d135fa4754fa5a95a41) of the Universe:
+
+> True values are projected onto a surface with 1 bit of information every 0.724 x 10<sup>-64</sup>cm<sup>2</sup>, much like projecting a digital movie onto a bed sheet.
+
+When this surface is "sampled" by measurements, the Universe interpolates samples by using a strategy discovered by Carl Gauss: Surrounding bits are blended into the sample depending on distance from the "center" of each bit.
 
 ![variance](./images/kalman-variance.png)
 
-To calculate variance from a set of samples:
+Variance can be calculated from a set of samples as follows:
 
 1. Calculate the mean
 2. For each number in the set, calculate distance from the mean (subtract mean from the number)
@@ -249,7 +258,7 @@ Measurement variance could be constant or vary based on conditions.
 
 ## optimization
 
-The Kalman gain is adjusted at each iteration to give more weight to measurements or prediction, depending on which has the *least variance*.
+The Kalman gain is adjusted at each iteration to give more weight to measurements or prediction, depending on which has the *least variance*:
 
 ```matlab
 gain = estimateVariance /
@@ -258,16 +267,16 @@ gain = estimateVariance /
 
 ## estimate
 
-Prediction is blended with measurements by using the Kalman gain:
+Next prediction is blended with measurement by using the Kalman gain:
 
 ```matlab
 estimate = prediction + gain * (measurement - prediction)
 ```
 
-+ If prediction from system model has less variance, we trust the model more
-+ If estimate has less variance, we trust the measurement more
++ If **prediction** from system model has less variance, the model is trusted more and corrected with measurement by a lesser amount
++ If **estimate** has less variance, the measurement is trusted more and the model is corrected with measurement by a greater amount
 
-Estimate variance is updated after updating the estimate:
+Estimate variance is then scaled by the amount of the correction that took place. This represents a greater certainty in the estimate after correction.
 
 ```matlab
 estimateVariance = (1 - gain) * estimateVariance
@@ -283,11 +292,11 @@ prediction = systemModel(input)
 
 ## system identification
 
-You can come up with the system model by analyzing the system (as we did in the overly simplified examples of a vehicle and PWM-controlled motor in [why predict?](#why-predict) section earlier), or by using [system identification](https://www.mathworks.com/products/sysid.html).
+The system model can be derived by analyzing the system (as we did in the overly simplified examples of a vehicle and PWM-controlled motor in [why predict?](#why-predict) section earlier), or by using [system identification](https://www.mathworks.com/products/sysid.html).
 
-A system identification algorithm tries to guess the system model given system input and output tracked over time.
+> A system identification algorithm tries to guess the system model given system input and output tracked over time.
 
-In the following video we'll look at identifying a system by using a [linear state-space model](https://www.mathworks.com/help/control/ref/ss.html) in Matlab because it's simple and provides great estimates:
+In the following video we'll identifying a system by using a [discrete linear state-space model](https://www.mathworks.com/help/control/ref/ss.html) in Matlab because it's simple and provides great estimates:
 
 `youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
 
@@ -322,7 +331,7 @@ The properties of the identified system can be extracted by using [idssdata](htt
 [A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
 ```
 
-...or by using an object property notation:
+...or by using an object property notation, for example:
 
 ```matlab
 systemModel.dx0
@@ -548,41 +557,23 @@ See the complete examples in the [companion repository](https://github.com/01bin
 
 ## disturbance
 
-The `e` term is the disturbance or noise to apply at each time step. Its meaning depends on the model:
+The `e` term is the disturbance or noise to apply at each time step. Its meaning depends on the system being modeled:
 
-+ When controlling a DC motor it could be *lag* due to a loose gearbox, *shock* from quickly reversing direction, or any other impediment.
++ When controlling a DC motor it could be *lag* due to a loose gearbox or opposing *inertia* from quickly reversing direction.
 + When estimating the position of a vehicle it could be wind, road quality, or driver maneuvers like steering and braking.
-+ If the system was identified in System Identification Toolbox, noise variance is stored in the `NoiseVariance` property of the system model.
-+ If you don't have a way to derive disturbance, uncheck *Include disturbance component* when identifying the system and omit this term.
-+ If you don't know the disturbance but know its mean and variance from sampling the real system, you could also *simulate* the disturbance.
 
-To simulate disturbance by adding normally distributed noise:
 
-```cpp
-// A function that simulates disturbance ("e" term)
-#include <random>
+If the system was identified in System Identification Toolbox, disturbance or noise variance is stored in the `NoiseVariance` property of the system model.
 
-using namespace std;
+If you don't have a way to derive disturbance or noise, uncheck *Include disturbance component* when identifying the system and omit this term.
 
-double generateDisturbance(double mean, double variance)
-{
-  // Set up a random device and a normal distribution
-  random_device rd;
-  mt19937 gen(rd());
-  normal_distribution<double> dist(mean, sqrt(variance));
-
-  // Generate a sample from the distribution
-  return dist(gen);
-}
-```
-
-If you are looking for more background on system identification, try [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
+For more background on system identification, try this [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
 
 ## estimating variance
 
 To update the estimate variance, you have to use the same equation(s) describing your system model. However, since variance is not a number but a function of a set of numbers, it follows [variance algebra for random variables](https://en.wikipedia.org/wiki/Algebra_of_random_variables#:~:text=the%20product%20of%20two%20random,if%20X%20is%20a%20constant.).
 
-> For example, to multiply a variance by a constant you have to [square the constant](https://flexbooks.ck12.org/cbook/ck-12-probability-and-statistics-concepts/section/7.10/primary/lesson/transforming-random-variables-ii-pst/). This is because variance is calculated for every item in a set, so you are in effect multiplying the entire set by that constant.
+> For example, to multiply a variance by a constant you have to [square the constant](https://flexbooks.ck12.org/cbook/ck-12-probability-and-statistics-concepts/section/7.10/primary/lesson/transforming-random-variables-ii-pst/). This is because variance is calculated for every item in a set, so you are effectively multiplying the function of a set by that constant.
 
 In the remainder of this section we will look at examples on how to update the estimate variance for various system models explored in this article.
 

@@ -20,7 +20,7 @@ The Kalman filter is popular because it can generate accurate estimates in the p
 
 ## background
 
-In this article I introduce the Kalman Filter in the shortest way possible with practical examples. When you're ready to go deeper checkout *Kalman Filter from the Ground Up by Alex Becker* at [kalmanfilter.net](https://www.kalmanfilter.net/default.aspx):
+In this article I introduce the Kalman Filter in the shortest way possible with practical examples. When you're ready to go deeper check out *Kalman Filter from the Ground Up by Alex Becker* at [kalmanfilter.net](https://www.kalmanfilter.net/default.aspx):
 
 ![kalman filter from the ground up](./images/kalman-background.png)
 
@@ -45,10 +45,10 @@ Compare the filter result to the original data with buffer size `8`, `32`, and `
 
 ![moving average filter](./images/kalman-avg.png)
 
-Filtered data has been shifted on the time axis proportionately to the smoothing amount, introducing *delay*:
+Filtered data has been shifted forward on the time axis proportionately to the smoothing amount, introducing *delay*:
 
 + In the case of DC motor control for robotics, a moving average filter would cause the [PID](https://www.ni.com/en/shop/labview/pid-theory-explained.html) algorithm to oscillate, as it would see this delay as a signal that it's not working hard enough, and over-compensate. 
-+ In the case of a moving vehicle, a simple average would cause the estimated position to lag too far behind, causing the navigation system to suggest changes to the route too late for the driver to respond.
++ In the case of a vehicle, a moving average would cause the estimated position to lag too far behind, causing the navigation system to suggest changes to the route too late for the driver to respond.
 
 ## why not low pass?
 
@@ -68,7 +68,7 @@ function output = lowPassFilter(input, coefficient)
 end
 ```
 
-Compare the filter result to the original noisy data set:
+Compare the filter result with `0.1` and `0.001` coefficients to the original data:
 
 ![low pass filter](./images/kalman-lowpass.png)
 
@@ -164,7 +164,7 @@ Measuring physical quantities results in readings that follow a Gaussian distrib
 
 > True values are projected onto a surface with 1 bit of information every 0.724 x 10<sup>-64</sup>cm<sup>2</sup>, much like projecting a digital movie onto a bed sheet.
 
-When this surface is "sampled" by measurements, the Universe interpolates samples by using a strategy discovered by Carl Gauss: Surrounding bits are blended into the sample depending on distance from the "center" of each bit.
+When this surface is "sampled" by measurements, the Universe interpolates the samples by using a strategy discovered by Carl Gauss: surrounding bits are blended in depending on distance from the "center" of each bit.
 
 ![variance](./images/kalman-variance.png)
 
@@ -296,7 +296,7 @@ The system model can be derived by analyzing the system (as we did in the overly
 
 > A system identification algorithm tries to guess the system model given system input and output tracked over time.
 
-In the following video we'll identifying a system by using a [discrete linear state-space model](https://www.mathworks.com/help/control/ref/ss.html) in Matlab because it's simple and provides great estimates:
+In the following video we'll identify a system by using a [discrete linear state-space model](https://www.mathworks.com/help/control/ref/ss.html) in Matlab because it's simple and provides great estimates:
 
 `youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
 
@@ -557,11 +557,12 @@ See the complete examples in the [companion repository](https://github.com/01bin
 
 ## disturbance
 
-The `e` term is the disturbance or noise to apply at each time step. Its meaning depends on the system being modeled:
+The `e` term represents the *disturbance* or *noise* at each time step. Its meaning depends on the system being modeled:
 
 + When controlling a DC motor it could be *lag* due to a loose gearbox or opposing *inertia* from quickly reversing direction.
 + When estimating the position of a vehicle it could be wind, road quality, or driver maneuvers like steering and braking.
 
+Any differences between the output of the system model and the real system are effectively treated as disturbances, and this term is used to account for these disturbances in the form of increased variance.
 
 If the system was identified in System Identification Toolbox, disturbance or noise variance is stored in the `NoiseVariance` property of the system model.
 

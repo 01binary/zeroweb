@@ -549,7 +549,7 @@ In the following video we'll identify a system by using a discrete [linear state
 
 `youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
 
-*Identifying* a system refers to finding `A`, `B`, `C`, `D` coefficients that make the output of the linear model most closely resemble the measurements. These coefficients can then be used as parameters to the Kalman filter.
+*Identifying* a system refers to finding `A`, `B`, `C`, `D` coefficients that make the output of the linear model most closely resemble measurements. These coefficients can then be used as parameters to the Kalman filter.
 
 The best way to compare the identified system to the original measurements is by viewing the *Model Output* in **System Identification app**, as demonstrated in the above video:
 
@@ -559,46 +559,216 @@ This will simulate any identified models and display their outputs alongside the
 
 ![system output](./images/kalman-model-output.png)
 
-The properties of the system identified by [Control System Toolbox](https://www.mathworks.com/products/control.html) can be extracted by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html):
+The properties of a system identified by [Control System Toolbox](https://www.mathworks.com/products/control.html) can be extracted by using an object property notation, for example:
 
 ```matlab
-[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(ss);
+% Get initial state of system "ss1"
+ss1.x0
 ```
 
-...or by using an object property notation, for example:
+We will use the following properties in this article:
 
-```matlab
-ss.dx0
-```
-
-The following properties are available:
-
-* `A`, `B`, `C`, `D`, `K` are the coefficients described earlier.
-* `dA`, `dB`, `dC`, and `dD` are standard deviations of system state and inputs.
-* `x0` is initial state (plug this into the equations to get the initial guess).
-* `dx0` is the standard deviation of initial state.
-
-In the next section we will also go over how to simulate a system manually, which can help you understand how state and inputs affect system output.
+* `A`, `B`, `C`, `D` are the coefficients described earlier.
+* `x0` is the initial system state.
+* `dx0` is the uncertainty of initial state.
 
 For more background on system identification, try this [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
 
 ## system simulation
 
-The quickest way to simulate a linear system identified by System Identification app is using [lsim](https://www.mathworks.com/help/control/ref/dynamicsystem.lsim.html):
+The quickest way to simulate a linear system identified by System Identification app is by using [lsim](https://www.mathworks.com/help/control/ref/dynamicsystem.lsim.html):
 
 ```matlab
-% Generate evenly spaced time samples
-time = linspace( ...
-  0, ...
-  ss3.Ts * length(inputs), ...
-  length(inputs) ...
-);
+startTime = 0;
+endTime = 8;
+timeStep = ss.Ts;
+initialState = ss.x0;
 
-% Simulate with original input and initial state
-outputs = lsim(ss3, inputs, time, ss3.x0)
+% Generate equally spaced time samples
+time = startTime:timeStep:endTime; 
+
+% Simulate
+lsim(ss, inputs, time, initialState);
 ```
 
-See the complete Matlab and C++ examples in the [companion repository](https://github.com/01binary/systemidn).
+Calling `lsim` without storing results in a variable will display a plot while assigning to a variable will store the simulated outputs in that variable as a vector.
+
+![simulation plot](./images/kalman-simulation.png)
+
+It may be useful to understand how linear system equations presented earlier are used to simulate the system behind the scenes.
+
+The following example simulates a linear discrete system model, storing the output in `outputs` vector:
+
+```matlab
+% Constants
+global A;
+global B;
+global C;
+global D;
+
+% A weights (3x3 matrix)
+A = [ ...
+  0.9988,     0.05193, -0.02261;
+  0.02222,   -0.01976,  0.7353;
+  0.0009856, -0.2093,  -0.5957;
+];
+
+% B weights (3x1 vector)
+B = [ ...
+  -0.00000266;
+  0.0000572747;
+  -0.0001872152;
+];
+
+% C weights (1x3 vector)
+C = [ ...
+  -5316.903919, ...
+  24.867656, ...
+  105.92416 ...
+];
+
+% D weight (scalar)
+D = 0;
+
+% Initial state (3x1 vector)
+initialState = [ ...
+  -0.0458;
+  0.0099;
+  -0.0139;
+];
+
+% Skipped opening file, see complete example
+
+% Initialize
+state = initialState;
+
+% Simulate
+for i = 1:length(inputs)
+  input = inputs(i);
+  [prediction, state] = systemModel(state, input);
+  outputs(i) = prediction;
+end
+
+% Plot
+plot(time, measurements, time, outputs);
+
+% Linear discrete system model
+function [y, x] = systemModel(x, u)
+  global A;
+  global B;
+  global C;
+  global D;
+
+  % y = Cx + Du
+  y = ...
+    C * x + ... % Map state to output
+    D * u;      % Map input to output
+
+  % x = Ax + Bu
+  x = ...
+    A * x + ... % Transition state
+    B * u;      % Drive state by input
+end
+```
+
+Here's how this would look in C++ using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library for matrix operations:
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <random>
+#include <limits>
+#include <Eigen/Dense>
+
+using namespace std;
+using namespace Eigen;
+
+// A weights (3x3 matrix)
+const MatrixXd A
+{
+  { 0.998800,   0.05193, -0.02261 },
+  { 0.0222200, -0.01976,  0.7353  },
+  { 0.0009856, -0.20930, -0.5957  }
+};
+
+// B weights (3x1 vector)
+const VectorXd B {{
+  -0.00000266,
+  0.0000572747,
+  -0.0001872152
+}};
+
+// C weights (1x3 vector)
+const RowVectorXd C {{
+  -5316.903919,
+  24.867656,
+  105.92416
+}};
+
+// D weight (scalar)
+const double D = 0;
+
+// Initial state (3x1 vector)
+const VectorXd x0 {{
+  -0.0458,
+  0.0099,
+  -0.0139
+}};
+
+/*
+  * Discrete state-space system model
+  * @param x: system state to update
+  * @param u: system input
+  * @returns: system output
+*/
+double systemModel(
+  VectorXd& x, double u)
+{
+  // Predict
+  // y = Cx + Du
+  double y =
+    // Add contribution of state
+    C.dot(x) +
+    // Add contribution of input
+    D * u;
+
+  // Update state
+  // x = Ax + Bu
+  x =
+    // Transition state
+    A * x +
+    // Control state
+    B * u;
+
+  return y;
+}
+
+int main(int argc, char** argv)
+{
+  // Skipped opening files, see complete example
+
+  VectorXd state = x0;
+  double time, measurement, input;
+
+  while(read(inputFile, time, measurement, input))
+  {
+    double prediction = systemModel(
+      state, input);
+
+    outputFile
+      << time << ","
+      << prediction << ","
+      << measurement
+      << endl;
+  }
+
+  return 0;
+}
+```
+
+See the complete Matlab and C++ examples in the [companion repository](https://github.com/01binary/systemid) for system identification.
 
 ## kalman filter in c++
 

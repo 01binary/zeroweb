@@ -768,58 +768,438 @@ int main(int argc, char** argv)
 }
 ```
 
-See the complete Matlab and C++ examples in the [companion repository](https://github.com/01binary/systemid) for system identification.
+See the complete Matlab and C++ examples demonstrating how to simulate a linear system in [systemid](https://github.com/01binary/systemid) companion repository.
 
-## kalman filter in c++
+In the final two sections we'll look at a complete examples of Kalman filter implementation in Matlab and C++.
 
-In this final section let's look at a complete example of a Kalman filter in C++:
+## matlab implementation
+
+The [kalman](https://github.com/01binary/kalman) companion repository includes a complete filter implementation in addition to two *live notebooks* that explain the filter algorithm parameters step by step.
+
+The `constantAcceleration.mlx` notebook implements a Kalman filter that works with a Newtonian motion model which is a bit simpler than a more general system model:
+
+![constant acceleration notebook](./images/kalman-constant-acceleration-notebook.png)
+
+The `linearSystemModel.mlx` notebook implements a Kalman filter that works with a general-form linear system model just like the one described in this article:
+
+![constant acceleration notebook](./images/kalman-linear-model-notebook.png)
+
+Finally, `kalman.m` demonstrates a Kalman filter with the same linear system model in the form of a simple script that's easy to copy:
+
+```matlab
+% Constants
+global A;
+global B;
+global C;
+global D;
+global Q;
+global R;
+global I;
+
+% A weights (3x3 matrix)
+A = [ ...
+  1.0005, -0.0050, 0.0001;
+  0.0061, 0.9881, -0.0684;
+  -0.0009, 0.0768, 0.9224;
+];
+
+% B weights (3x1 vector)
+B = [ ...
+  8.7913e-10;
+  1.0489e-07;
+  -2.4853e-05;
+];
+
+% C weights (1x3 vector)
+C = [ ...
+  -5.2908e+03, ...
+  13.0803, ...
+  -0.6389 ...
+];
+
+% D weight (scalar)
+D = 0;
+
+% Initial state (3x1 vector)
+x0 = [ ...
+  -0.0461;
+  -0.0198;
+  0.0098;
+];
+
+% Initial state standard deviation (3x1 vector)
+dx0 = [ ...
+  7.4356e+06;
+  3.9306e+09;
+  5.1495e+10;
+];
+
+% State identity matrix
+I = eye(length(x0));
+
+% Noise variance (scalar)
+NoiseVariance = 1.539e-7;
+
+% Noise covariance (3x3 matrix)
+Q = I * NoiseVariance;
+
+% Measurement variance
+R = 3.4556e+03;
+
+% Initial covariance
+P0 = diag(dx0.^2);
+
+% Read input
+csv = readmatrix('https://raw.githubusercontent.com/01binary/kalman/main/input.csv');
+time = csv(:,1);
+measurements = csv(:,2);
+inputs = csv(:,3);
+
+% Initialize
+state = x0;
+covariance = P0;
+gain = I * 0;
+prediction = 100;
+outputs = zeros(length(inputs), 1);
+gains = zeros(length(inputs), 1);
+
+% Filter
+for i = 1:length(inputs)
+  % Read input
+  input = inputs(i);
+
+  % Take measurement
+  measurement = measurements(i);
+
+  % Correct state
+  [state, covariance, gain] = kalmanFilter( ...
+    prediction, ...
+    measurement, ...
+    state, ...
+    covariance, ...
+    gain ...
+  );
+
+  % Predict and update state
+  [state, prediction] = systemModel( ...
+    state, ...
+    input ...
+  );
+
+  % Output
+  gains(i) = sum(gain);
+  outputs(i) = prediction;
+end
+
+% Plot
+plot( ...
+  time, measurements, ...
+  time, outputs, ...
+  time, gains ...
+);
+
+function [x, y] = systemModel(x, u)
+  global A;
+  global B;
+  global C;
+  global D;
+  global Q;
+
+  % Predict
+  % y = Cx + Du
+  y = ...
+    % Contribution of state
+    C * x + ...
+    % Contribution of input
+    D * u;
+
+  % Update state
+  % x = Ax + Bu
+  x = ...
+    % Contribution of previous state
+    A * x + ...
+    % Contribution of input
+    B * u;
+end
+
+function [x, P, K] = kalmanFilter(y, z, x, P, K)
+  global A;
+  global C;
+  global Q;
+  global R;
+  global I;
+
+  % Update covariance
+  P = A * P * A' + Q;
+
+  % Optimize gain
+  K = (P * C') / (C * P * C' + R);
+
+  % Correct state with measurement
+  x = x + K * (z - y);
+
+  % Correct covariance
+  P = (I - K * C) * P * (I - K * C)' + K * R * K';
+end
+
+```
+
+## c++ implementation
+
+The [kalman](https://github.com/01binary/kalman) companion repository includes the following C++ example, with steps that can be used to compile, run, and debug the code included in the [readme](https://github.com/01binary/kalman?tab=readme-ov-file#c).
 
 ```cpp
-// TODO: this code sample has not been compiled and tested yet
-double systemModel(
-  double acceleration,
-  double accelerationVariance,
-  double& variance,
-  double timeStep)
+//
+// Includes
+//
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <random>
+#include <limits>
+#include <Eigen/Dense>
+
+//
+// Namespaces
+//
+
+using namespace std;
+using namespace Eigen;
+
+//
+// Constants
+//
+
+// A weights (3x3 matrix)
+const MatrixXd A
 {
-  static double position = 0.0;
-  static double velocity = 0.0;
-  static double velocityVariance = 0.0;
+  { 0.998800,   0.05193, -0.02261 },
+  { 0.0222200, -0.01976,  0.7353  },
+  { 0.0009856, -0.20930, -0.5957  }
+};
 
-  velocity = velocity + acceleration * timeStep;
-  position = position + velocity * timeStep;
+// B weights (3x1 vector)
+const VectorXd B {{
+  -0.00000266,
+  0.0000572747,
+  -0.0001872152
+}};
 
-  velocityVariance = velocityVariance +
-    accelerationVariance * pow(timeStep, 2);
+// C weights (1x3 vector)
+const RowVectorXd C {{
+  -5316.903919,
+  24.867656,
+  105.92416
+}};
 
-  variance = variance +
-    velocityVariance * pow(timeStep, 2);
+// D weight (scalar)
+const double D = 0;
 
-  return position;
+// Initial state (3x1 vector)
+const VectorXd x0 {{
+  -0.0458,
+  0.0099,
+  -0.0139
+}};
+
+// State standard deviation (3x1 vector)
+const VectorXd dx0 {{
+  7.4356e+06,
+  3.9306e+09,
+  5.1495e+10
+}};
+
+// State identity (3x3 matrix)
+const Matrix3d I = Matrix3d::Identity();
+
+// Noise variance (scalar)
+const double NoiseVariance = 1.539e-7;
+
+// Noise covariance (3x3 matrix)
+const MatrixXd Q = I * NoiseVariance;
+
+// Measurement variance
+const double R = 3.4556e+03;
+
+// Initial covariance
+const MatrixXd P0 {{
+  { pow(dx0(0, 0), 2), 0.0, 0.0 },
+  { 0.0, pow(dx0(1, 0), 2), 0.0 },
+  { 0.0, 0.0, pow(dx0(2, 0), 2) }
+}};
+
+//
+// Functions
+//
+
+double systemModel(
+  VectorXd& x,  // state
+  double u)     // input
+{
+  // Predict
+  // y = Cx + Du
+  double y =
+    // Contribution of state
+    C.dot(x) +
+    // Contribution of input
+    D * u;
+
+  // Update state
+  // x = Ax + Bu
+  x =
+    // Contribution of previous state
+    A * x +
+    // Contribution of input
+    B * u;
+
+  return y;
 }
 
-// Kalman filter
-double gain = 0.0;
-double variance = 0.0;
-double prediction = systemModel(
- input, inputVariance, variance, timeStep);
-
 double kalmanFilter(
-  double measurement,
-  double measurementVariance,
-  double input,
-  double inputVariance,
-  double timeStep)
+  double y,    // prediction
+  double z,    // measurement
+  VectorXd& x, // state
+  MatrixXd& P, // covariance
+  VectorXd& K) // gain
 {
-  gain = variance / (variance + measurementVariance);
+  // Update covariance
+  P = A * P * A.transpose() + Q;
 
-  double estimate = prediction + gain * (measurement - prediction);
+  // Optimize gain
+  K = (
+    (P * C.transpose()) /
+    (C * P * C.transpose() + R)
+  );
 
-  variance = (1 - gain) * variance;
+  // Correct state with measurement
+  x = x + K * (z - y);
 
-  prediction = systemModel(
-    input, inputVariance, variance, timeStep);
+  // Correct covariance
+  P = (I - K * C) * P *
+    (I - K * C).transpose() +
+    K * R * K.transpose();
 
-  return estimate;
+  return y;
+}
+
+//
+// Forward Declarations
+//
+
+bool openInput(const string& path, ifstream& file);
+bool openOutput(const string& path, ofstream& file);
+bool read(ifstream& file, double& time, double& measurement, double& input);
+
+//
+// Entry point
+//
+
+int main(int argc, char** argv)
+{
+  ifstream inputFile;
+
+  if (!openInput("input.csv", inputFile))
+  {
+    cerr << "Failed to open input file" << endl;
+    return 1;
+  }
+
+  ofstream outputFile;
+
+  if (!openOutput("output.csv", outputFile))
+  {
+    cerr << "Failed to open output file" << endl;
+    return 1;
+  }
+
+  // Initialize
+  VectorXd state = x0;
+  VectorXd gain(3);
+  MatrixXd covariance = P0;
+  double time, measurement, input;
+  double prediction = 0.0;
+
+  // Filter
+  while(read(inputFile, time, measurement, input))
+  {
+    // Correct state with measurement
+    double estimate = kalmanFilter(
+      prediction,
+      measurement,
+      state,
+      covariance,
+      gain
+    );
+
+    // Predict and update state
+    prediction = systemModel(
+      state,
+      input
+    );
+
+    // Output
+    outputFile
+      << time << ","
+      << estimate << ","
+      << measurement
+      << endl;
+  }
+
+  return 0;
+}
+
+//
+// Utilities
+//
+
+bool openOutput(
+  const string& path, ofstream& file)
+{
+  // Delete if exists
+  remove(path.c_str());
+
+  // Open file for writing
+  file.open(path);
+  if (!file.is_open()) return false;
+
+  // Write headers
+  file << "time,estimate,measurement" << endl;
+
+  return true;
+}
+
+bool openInput(
+  const string& path, ifstream& file)
+{
+  // Open file for reading
+  file.open(path);
+  if (!file.is_open()) return false;
+
+  // Skip headers
+  string headers;
+  getline(file, headers);
+
+  return true;
+}
+
+bool read(
+  ifstream& file,
+  double& time,
+  double& measurement,
+  double& input)
+{
+  static string line;
+  getline(file, line);
+
+  sscanf(
+    line.c_str(),
+    "%lf, %lf, %lf",
+    &time,
+    &measurement,
+    &input);
+
+  return !file.eof();
 }
 ```

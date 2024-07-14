@@ -594,7 +594,7 @@ Calling `lsim` without storing results in a variable will display a plot while a
 
 ![simulation plot](./images/kalman-simulation.png)
 
-It may be useful to understand how linear system equations presented earlier are used to simulate the system behind the scenes.
+It may be useful to understand how linear system equations presented earlier are used by `lsim` under the hood to simulate the system.
 
 The following example simulates a linear discrete system model, storing the output in `outputs` vector:
 
@@ -647,9 +647,6 @@ for i = 1:length(inputs)
   [prediction, state] = systemModel(state, input);
   outputs(i) = prediction;
 end
-
-% Plot
-plot(time, measurements, time, outputs);
 
 % Linear discrete system model
 function [y, x] = systemModel(x, u)

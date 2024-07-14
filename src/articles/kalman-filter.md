@@ -202,7 +202,9 @@ The following video demonstrates how to calculate variance:
 
 Kalman filter starts with an initial estimate, the uncertainty of this estimate, and an initial state of the system being measured.
 
-Each iteration, system state is corrected by the last measurement according to the ratio of estimate uncertainty to measurement uncertainty. The next estimate is then predicted by using the system model with the corrected state:
+Each iteration, the system state is corrected by the last measurement according to the ratio of estimate uncertainty to measurement uncertainty.
+
+The next estimate is then predicted by evaluating the system model with the corrected state:
 
 ```matlab
 % Initial estimate
@@ -225,7 +227,7 @@ for i = 1:length(inputs)
   % Determine correction amount
   gain = ...
     (covariance * C') / ...
-    (C * covariance * C' + R);
+    (C * covariance * C' + measurementVariance);
 
   % Correct state with measurement
   state = state + gain * (measurement - estimate);
@@ -260,7 +262,7 @@ A more accurate guess will let the algorithm converge on the optimal estimate fa
 
 ## measurement
 
-Each iteration begins by taking a measurement and determining its uncertainty or *variance*.
+Each iteration begins by taking a measurement and determining its uncertainty or *variance*, typically denoted by the symbol `R`.
 
 Measurement variance could be constant or vary based on conditions:
 
@@ -272,7 +274,7 @@ Measurement variance could be constant or vary based on conditions:
 
 To produce optimal estimates, the Kalman filter has to know if the estimates are more or less reliable than measurements.
 
-The *ratio* of estimate uncertainty to measurement uncertainty is calculated at each iteration. This ratio is called the Kalman gain and used as a weight to correct predictions with measurements.
+The *ratio* of estimate uncertainty to measurement uncertainty is calculated at each iteration. This ratio is called the Kalman gain (typically denoted by `K`) and used as a weight to correct predictions with measurements.
 
 Similar to other iterative optimization algorithms like [Gradient Descent](https://www.01binary.us/articles/inverse-kinematics/#gradient-descent) or [Newton-Raphson Iterator](https://www.01binary.us/articles/inverse-kinematics/#newton-raphson), the Kalman filter has to calculate an *error* at each iteration. This error is defined as the difference between the prediction and the measurement.
 
@@ -314,7 +316,7 @@ The following equation is used to update (or *transition*) the state of a linear
 x = A * x  +  B * u  +  K * e
 ```
 
-+ `x` is the system state being updated. The new state is based on the previous state so this term appears on both sides of the equation.
++ `x` is the system state being updated. The new state is based on the previous state so this term appears on both sides of the equation. The initial system state is usually denoted by `x0`.
 + `u` is the input provided at this iteration.
 + `A` is the *state transition* matrix. Multiplying the system state by this matrix will "simulate" the system, advancing it forward by one time step.
 + `B` is the *input matrix* or *control matrix* that represents the weight of input on each system state variable. Multiplying the input by this matrix will change each system state variable by a different amount depending on how it's affected by the input.
@@ -331,7 +333,9 @@ The diagonal entries encode variances, and the off-diagonal entries encode *cova
 
 ## estimate covariance
 
-Estimate (co)variance is typically denoted by `P` symbol in equations, and (co)variance of initial estimate is denoted by `P0`.
+Estimate uncertainty is typically denoted by the `P` symbol in equations, and the uncertainty of initial estimate is denoted by `P0`.
+
+For systems with only one state variable both terms are scalar variances, otherwise they are covariance matrices.
 
 A covariance matrix that encodes the estimate uncertainty of a system with two state variables (position and velocity) would look like this:
 
@@ -517,9 +521,9 @@ The best way to compare the identified system to original measurements is by vie
 
 For more background on system identification, try this [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
 
-## simulation
+## system simulation
 
-% TODO: update code snippet for discrete system
+TODO: update code snippet for discrete system
 
 ```matlab
 % Generate a vector with evenly spaced time samples

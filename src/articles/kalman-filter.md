@@ -145,7 +145,7 @@ The first special thing about the Kalman filter is that it blends *measurements*
 + Determine how certain the estimate is
 + Take a measurement
 + Determine how certain the measurement is
-+ Blend prediction with measurement depending on which is more certain
++ Correct estimate by measurement
 + Predict the next estimate
 
 We will examine each of these steps in detail in the following sections.
@@ -198,7 +198,7 @@ The following video demonstrates how to calculate variance:
 
 `youtube:https://www.youtube.com/embed/-RpGzyQoaOg`
 
-## algorithm
+## filter algorithm
 
 Kalman filter starts with an initial estimate, the uncertainty of this estimate, and an initial state of the system being measured.
 
@@ -262,12 +262,12 @@ A more accurate guess will let the algorithm converge on the optimal estimate fa
 
 ## measurement
 
-Each iteration begins by taking a measurement and determining its uncertainty or *variance*, typically denoted by the symbol `R`.
+Each iteration begins by taking a measurement (`z`) and determining its uncertainty or [variance](#variance), typically denoted by `R`.
 
-Measurement variance could be constant or vary based on conditions:
+Measurement variance can be constant or vary based on conditions:
 
-+ Hall effect encoders like [AKSIM](https://www.rls.si/eng/aksim-off-axis-rotary-absolute-encoder) measure the distance of the magnet from the sensor and warn you when the measurement accuracy drops below an acceptable threshold.
-+ Complex measurement devices like radar let you estimate the dynamic effects of wind and rain on their signal-to-noise ratio to derive measurement variance that may be different at each iteration.
++ Hall effect encoders like [AKSIM](https://www.rls.si/eng/aksim-off-axis-rotary-absolute-encoder) measure the distance of the rotating magnet from the center of the sensor because this affects the accuracy of the readings. This feedback could be used to derive a measurement variance.
++ Complex measurement devices like radar let you estimate the dynamic effects of wind and rain on their signal-to-noise ratio to derive a measurement variance.
 + A basic potentiometer can be sampled in a range of expected conditions to calculate a constant variance (see [variance](#variance)).
 
 ## kalman gain
@@ -276,6 +276,15 @@ To produce optimal estimates, the Kalman filter has to know if the estimates are
 
 The *ratio* of estimate uncertainty to measurement uncertainty is calculated at each iteration. This ratio is called the Kalman gain (typically denoted by `K`) and used as a weight to correct predictions with measurements.
 
+```matlab
+% K - Kalman gain
+% P - estimate [co]variance
+% C - measurement matrix
+% R - measurement variance
+
+K = (P * C') / (C * P * C' + R);
+```
+
 Similar to other iterative optimization algorithms like [Gradient Descent](https://www.01binary.us/articles/inverse-kinematics/#gradient-descent) or [Newton-Raphson Iterator](https://www.01binary.us/articles/inverse-kinematics/#newton-raphson), the Kalman filter has to calculate an *error* at each iteration. This error is defined as the difference between the prediction and the measurement.
 
 The error is then used to correct the model, with the correction amount determined by the Kalman gain:
@@ -283,44 +292,67 @@ The error is then used to correct the model, with the correction amount determin
 + If the measurements are trusted more, the Kalman gain will be closer to `1` which will correct the model prediction by a greater amount.
 + If the model is trusted more, the Kalman gain will be closer to `0` which will correct the model prediction by a lesser amount.
 
-Since estimates are a function of the model internal state, we can't correct them directly. Instead we determine the change that needs to be made to the model state to get the desired corrected output.
+Since estimates are a function of the model internal state, we can't correct them directly. Instead we change the model state to get the desired corrected output:
+
+```matlab
+% Correct state with measurement
+% x - system state
+% K - Kalman gain
+% z - measurement
+% y - current estimate
+
+x = x + K * (z - y);
+```
 
 After correcting the model state, the *estimate uncertainty* is updated by blending measurement uncertainty with model uncertainty:
 
-+ If the estimate was based more on the measurement, then the estimate uncertainty reflects more of the measurement uncertainty.
-+ If the estimate was based more on the model prediction, then the estimate uncertainty reflects more of the model uncertainty.
+```matlab
+% Correct estimate uncertainty
+% P - current estimate uncertainty (covariance)
+% I - identity matrix (state x state)
+% K - Kalman gain
+% C - measurement matrix
+% R - measurement variance
+
+P = ...
+  (I - K * C) * ...
+  P * (I - K * C)' + ...
+  K * R * K';
+```
+
+If the estimate was based more on the measurement, then the estimate uncertainty reflects more of the measurement uncertainty.
+
+Conversely, if the estimate was based more on the model prediction, then the estimate uncertainty reflects more of the model uncertainty.
 
 ## prediction
 
 The Kalman filter borrows from [System Identification](https://www.amazon.com/System-Identification-Theory-User-2nd/dp/0136566952) theory which states that most systems (heaters, motors, hydraulic pumps, you name it!) can be approximated by a linear model of the following form:
 
-```matlab
-y = C * x  +  D * u  +  e
-```
+![prediction equation y = Cx + Du + e](./images/kalman-prediction-equation.png)
 
 The system *output* `y` depends on system *state* `x` and *input* `u`.
 
-The relationship between system output and system state is described by the `C` *measurement matrix* and the relationship between input and immediate output is described by `D` *input contribution*.
+The relationship between system output and system state is described by `C` *measurement matrix* and the relationship between input and immediate output is described by `D` *input contribution*.
 
-Differences between the real system and its model in practice are represented by `e` as "disturbance" or "noise". This is a theoretical term which does not appear in the code.
+Differences between the real system and its model are represented by `e` as *disturbance* or *noise*. This is a theoretical term that's there in the equation to represent "unknowns" and does not appear in the code.
 
-> In this article we consider only *SISO* (Single Input, Single Output) systems where the measurement matrix is a vector and the input contribution is a scalar.
+> The measurement matrix is often called `H` in Kalman filter literature, but in this article I use `C` for consistency with Matlab System Identification Toolbox.
 
-When modeling systems, you'll find that the input contribution to system output is almost always `0` because real-world systems are not instantly affected by inputs: it takes at least one time step to see the output change due to a change in state. Because of this, the `D` term is often omitted from this equation.
+When modeling systems, you'll find that the input contribution to system output `D` is almost always `0` because real-world systems are not instantly affected by inputs. Instead, the inputs modify system state which eventually changes the output.
 
 ## state transition
 
 The following equation is used to update (or *transition*) the state of a linear system model at each iteration:
 
-```
-x = A * x  +  B * u  +  K * e
-```
+![transition equation x = Ax + Bu + Ke](./images/kalman-transition-equation.png)
+
+This equation involves the following terms:
 
 + `x` is the system state being updated. The new state is based on the previous state so this term appears on both sides of the equation. The initial system state is usually denoted by `x0`.
 + `u` is the input provided at this iteration.
 + `A` is the *state transition* matrix. Multiplying the system state by this matrix will "simulate" the system, advancing it forward by one time step.
 + `B` is the *input matrix* or *control matrix* that represents the weight of input on each system state variable. Multiplying the input by this matrix will change each system state variable by a different amount depending on how it's affected by the input.
-+ `e` represents the noise or disturbance that affects system state transition. This is a theoretical term used to sweep discrepancies between the model and the real system under the rug, so it does not appear in the code.
++ `e` represents the noise or disturbance that affects the system state transition. This is a theoretical term used to sweep discrepancies between the model and the real system under the rug, so it does not appear in the code.
 + `K` represents the influence of noise on each state variable. Since `e` is not used in a practical Kalman filter implementation, we don't use this term either.
 
 ## covariance
@@ -329,11 +361,11 @@ For a system model with a *single* state variable, the initial estimate and dist
 
 For a system with *multiple* state variables, the initial estimate and disturbance uncertainties are represented by square **covariance** matrices with the same number of rows and columns as there are state variables.
 
-The diagonal entries encode variances, and the off-diagonal entries encode *covariances*.
+In a covariance matrix, the diagonal entries encode variances, and the off-diagonal entries encode *covariances*.
 
 ## estimate covariance
 
-Estimate uncertainty is typically denoted by the `P` symbol in equations, and the uncertainty of initial estimate is denoted by `P0`.
+Estimate uncertainty is typically denoted by `P`, and the uncertainty of initial estimate is denoted by `P0`.
 
 For systems with only one state variable both terms are scalar variances, otherwise they are covariance matrices.
 
@@ -351,13 +383,20 @@ A covariance matrix that encodes the estimate uncertainty of a system with three
 
 ![estimate covariance of 3rd order system](./images/kalman-covariance3x3.png)
 
-If the system was identified with Matlab [Control System Toolbox](https://www.mathworks.com/products/control.html), the initial estimate covariance can be projected from the initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the identified system:
+If the system was identified with Matlab [Control System Toolbox](https://www.mathworks.com/products/control.html), initial estimate covariance can be *projected* from initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the identified system by using the *measurement matrix*:
 
 ```matlab
-covariance = dx0.^2 * C
+% ss - identified system
+% C - measurement matrix
+
+covariance = diag(C * ss.dx0.^2 * C')
 ```
 
-If you have a data set that records the system state over time you could use Matlab's [cov](https://www.mathworks.com/help/matlab/ref/cov.html) function:
+Each element of `dx0` is squared to convert standard deviation to variance by using the "dot" notation in Matlab.
+
+> Multiplying variance by another quantity requires squaring that quantity. In order for this to work with matrix multiplication, the variance is pre-multiplied by the matrix and post-multiplied by the transpose of the same matrix. This is why you'll often see the pattern `X * y * X'`.
+
+If you have a data set that records system state over time you could use Matlab's [cov](https://www.mathworks.com/help/matlab/ref/cov.html) function to get initial estimate covariance:
 
 ```matlab
 % CSV with position, velocity, acceleration
@@ -365,26 +404,19 @@ dataset = readmatrix("states.csv");
 covariance = cov(dataset);
 ```
 
-The `cov` function also works with two or more vectors containing related samples:
-
-```matlab
-x = [2 3 -1 4];
-y = [8 7 9 6];
-
-C = cov(x,y)
-
-C =
-  4.6667  -2.6667
-  -2.6667 1.6667
-```
-
 If you can express the variance of the system model in terms of *tolerance* by using it in a sentence like "this estimate is within *x* or +/- *x*", then square half the tolerance amount to convert it to variance: `variance = (tolerance / 2)^2`.
 
 The model variance can then be projected through the *measurement* matrix to determine the variance of the initial estimate:
 
 ```matlab
-modelVariance = 200;
-covariance = diag(C) * modelVariance;
+modelTolerance = 50
+modelVariance = (modelTolerance / 2)^2;
+
+covariance = diag( ...
+  C * ...
+  eye(length(state), 1) * modelVariance ...
+  * C' ...
+);
 ```
 
 If the approximate variances of state variables are known, the estimate covariance matrix can be built by projecting these variances on the diagonal and leaving covariances blank:
@@ -419,9 +451,9 @@ covariance =
      0     0   200
 ```
 
-Kalman filter will eventually converge on a more accurate estimate covariance.
+These initialization strategies work because the Kalman filter will eventually converge on a more accurate estimate covariance.
 
-However, over-estimating the uncertainty of the initial guess will cause the algorithm to ignore model predictions while over-estimating the measurement variance will cause the algorithm to ignore measurements.
+However, significantly over-estimating the uncertainty of the initial estimate will cause the algorithm to ignore model predictions while significantly over-estimating the measurement variance will cause the algorithm to ignore measurements.
 
 Recall that Kalman filter works by calculating a ratio between the two uncertainties, so if either one is many orders of magnitude greater than the other, it will break the filter.
 
@@ -484,6 +516,29 @@ With these results recorded in a separate vector for each state variable, you co
 
 We will go over how to simulate a continuous discrete systems in the simulation section.
 
+## covariance transition
+
+Since Kalman filter estimates are random variables represented by mean and variance, anything that we do to the estimate must also be reflected in its uncertainty.
+
+Earlier we corrected the estimate uncertainty by the same amount (`K`) used to correct the estimate:
+
+```matlab
+P = ...
+  (I - K * C) * ...
+  P * (I - K * C)' + ...
+  K * R * K';
+```
+
+In this step, we transition the estimate uncertainty by the same amount (`A`) used to transition the estimate:
+
+```matlab
+P = A * P * A' + Q;
+```
+
+Recall that `A` is the [state transition](#state-transition) matrix that represents the change made to the system state at each iteration.
+
+The [noise covariance](#noise-covariance) matrix `Q` represents how much uncertainty is added at each iteration by simulating the system based on an imperfect model and using noisy inputs to change the system state.
+
 ## system identification
 
 The system model can be derived by analyzing the system (as we did in the overly simplified examples of a vehicle and PWM-controlled motor in [why predict?](#why-predict) section earlier), or by using [system identification](https://www.mathworks.com/products/sysid.html).
@@ -494,52 +549,56 @@ In the following video we'll identify a system by using a discrete [linear state
 
 `youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
 
-The model *order* refers to the number of state variables needed to describe the system.
+*Identifying* a system refers to finding `A`, `B`, `C`, `D` coefficients that make the output of the linear model most closely resemble the measurements. These coefficients can then be used as parameters to the Kalman filter.
 
-*Identifying* a system refers to finding `A`, `B`, `C`, `D` matrices that make the output of the linear model most closely resemble the measurements.
+The best way to compare the identified system to the original measurements is by viewing the *Model Output* in **System Identification app**, as demonstrated in the above video:
 
-The properties of the system identified by Control System Toolbox can be extracted by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html):
+![system identification](./images/kalman-system-identification.png)
+
+This will simulate any identified models and display their outputs alongside the original measurements:
+
+![system output](./images/kalman-model-output.png)
+
+The properties of the system identified by [Control System Toolbox](https://www.mathworks.com/products/control.html) can be extracted by using [idssdata](https://www.mathworks.com/help/ident/ref/idss.idssdata.html):
 
 ```matlab
-[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
+[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(ss);
 ```
 
 ...or by using an object property notation, for example:
 
 ```matlab
-systemModel.dx0
+ss.dx0
 ```
 
 The following properties are available:
 
-* `A`, `B`, `C`, `D`, `K` are the weights described earlier
-* `dA`, `dB`, `dC`, and `dD` are the variances of system state and inputs
-* `x0` is initial state (plug this into the equations to get the initial guess)
-* `dx0` is the variance of the initial state
+* `A`, `B`, `C`, `D`, `K` are the coefficients described earlier.
+* `dA`, `dB`, `dC`, and `dD` are standard deviations of system state and inputs.
+* `x0` is initial state (plug this into the equations to get the initial guess).
+* `dx0` is the standard deviation of initial state.
 
-The best way to compare the identified system to original measurements is by viewing Model Output in System Identification app, as demonstrated in the video.
+In the next section we will also go over how to simulate a system manually, which can help you understand how state and inputs affect system output.
 
 For more background on system identification, try this [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
 
 ## system simulation
 
-TODO: update code snippet for discrete system
+The quickest way to simulate a linear system identified by System Identification app is using [lsim](https://www.mathworks.com/help/control/ref/dynamicsystem.lsim.html):
 
 ```matlab
-% Generate a vector with evenly spaced time samples
-startTime = 0
-endTime = 8
-timeStep = 0.02
-time = linspace(startTime, endTime, (endTime - startTime) / timeStep)
+% Generate evenly spaced time samples
+time = linspace( ...
+  0, ...
+  ss3.Ts * length(inputs), ...
+  length(inputs) ...
+);
 
-% Get initial system state
-[A,B,C,D,K,x0,dA,dB,dC,dD,dx0] = idssdata(systemModel);
-
-% Simulate the system with original input and initial state
-simulatedOutput = lsim(systemModel, input, time, x0)
+% Simulate with original input and initial state
+outputs = lsim(ss3, inputs, time, ss3.x0)
 ```
 
-See the complete examples in the [companion repository](https://github.com/01binary/kalman).
+See the complete Matlab and C++ examples in the [companion repository](https://github.com/01binary/systemidn).
 
 ## kalman filter in c++
 

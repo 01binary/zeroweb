@@ -383,13 +383,12 @@ A covariance matrix that encodes the estimate uncertainty of a system with three
 
 ![estimate covariance of 3rd order system](./images/kalman-covariance3x3.png)
 
-If the system was identified with Matlab [Control System Toolbox](https://www.mathworks.com/products/control.html), initial estimate covariance can be *projected* from initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the identified system by using the *measurement matrix*:
+If the system was identified with Matlab [Control System Toolbox](https://www.mathworks.com/products/control.html), initial estimate covariance can be *projected* from initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the identified system:
 
 ```matlab
 % ss - identified system
-% C - measurement matrix
 
-covariance = diag(C * ss.dx0.^2 * C')
+covariance = diag(ss.C * ss.dx0.^2 * ss.C')
 ```
 
 Each element of `dx0` is squared to convert standard deviation to variance by using the "dot" notation in Matlab.

@@ -529,8 +529,7 @@ Earlier we corrected the estimate uncertainty by the same amount (`K`) used to c
 % C - measurement matrix
 
 P = ...
-  (I - K * C) * ...
-  P * (I - K * C)' + ...
+  (I - K * C) * P * (I - K * C)' + ...
   K * R * K';
 ```
 
@@ -580,6 +579,7 @@ We will use the following properties in this article:
 * `A`, `B`, `C`, `D` are the coefficients described earlier.
 * `x0` is the initial system state.
 * `dx0` is the uncertainty of initial state.
+* `NoiseVariance` is the variance of Gaussian noise affecting the system.
 
 For more background on system identification, try this [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
 
@@ -600,13 +600,11 @@ time = startTime:timeStep:endTime;
 lsim(ss, inputs, time, initialState);
 ```
 
-Calling `lsim` without storing results in a variable will display a plot while assigning to a variable will store the simulated outputs in that variable as a vector.
+Calling `lsim` without storing results in a variable will display a plot while assigning to a variable will store the simulated outputs in that variable.
 
 ![simulation plot](./images/kalman-simulation.png)
 
-It may be useful to understand how linear system equations presented earlier are used by `lsim` under the hood to simulate the system.
-
-The following example simulates a linear discrete system model, storing the output in `outputs` vector:
+It's useful to understand how linear system equations presented earlier are used by `lsim` under the hood to simulate the system. The following example simulates a linear discrete system model, storing the output in a vector:
 
 ```matlab
 % Constants
@@ -775,8 +773,6 @@ int main(int argc, char** argv)
 ```
 
 See the complete Matlab and C++ examples demonstrating how to simulate a linear system in [systemid](https://github.com/01binary/systemid) companion repository.
-
-In the next two sections we'll look at a complete examples of Kalman filter implementation in Matlab and C++.
 
 ## kalman in matlab
 

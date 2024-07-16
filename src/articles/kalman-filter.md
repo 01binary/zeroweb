@@ -1,7 +1,7 @@
 ---
 title: Kalman Filter
 description: Design and practical applications of Kalman filter
-image: ./images/kalman.png
+image: ./images/kalman-filter.png
 author: Valeriy Novytskyy
 date: 2024-07-18
 location: ^H Hackerspace
@@ -14,11 +14,11 @@ tags:
   ]
 ---
 
+import { Tabs, Tab } from '../components/Tabs'
+
 ## overview
 
-The Kalman filter is used for smoothing the readings from motor encoders, GPS satellites, radar, and many other applications. It can generate accurate estimates in the presence of uncertainty and measurement noise.
-
-Simpler techniques like moving average or low pass filters introduce delay or miss important events, which is unacceptable for dynamic systems like cars and robots.
+The Kalman filter is great at interpreting noisy or uncertain measurements from a variety of sources like servo encoders, GPS, and radar. This makes it ideal for use with dynamic systems like self-driving cars and robots.
 
 ## background
 
@@ -84,7 +84,7 @@ In the following video we test the moving average filter on real data:
 
 If you know what a moving vehicle or a motor shaft are supposed to do (*since you are controlling them in the first place*), why should you let measurements have so much influence on where they are estimated to be next?
 
-In the case of a DC motor, commanded velocity can be used to determine the shaft position:
+In the case of a DC motor, commanded velocity can be used to determine the current shaft position:
 
 ![motor model](./images/kalman-motor.png)
 
@@ -109,7 +109,7 @@ function nextPosition = systemModel(input, position, timeStep)
 end
 ```
 
-In the case of a moving vehicle, the pressure on the accelerator pedal determines velocity and position:
+In the case of a moving vehicle, the pressure on the accelerator pedal can determine the velocity and position:
 
 ![vehicle model](./images/kalman-vehicle.png)
 
@@ -280,9 +280,9 @@ The *ratio* of estimate uncertainty to measurement uncertainty is calculated at 
 
 ```matlab
 % K - Kalman gain
-% P - estimate [co]variance
+% P - estimate uncertainty
 % C - measurement matrix
-% R - measurement variance
+% R - measurement uncertainty
 
 K = (P * C') / (C * P * C' + R);
 ```
@@ -310,11 +310,11 @@ After correcting the model state, the *estimate uncertainty* is updated by blend
 
 ```matlab
 % Correct estimate uncertainty
-% P - current estimate uncertainty (covariance)
+% P - current estimate uncertainty
 % I - identity matrix (state x state)
 % K - Kalman gain
 % C - measurement matrix
-% R - measurement variance
+% R - measurement uncertainty
 
 P = ...
   (I - K * C) * ...
@@ -330,7 +330,7 @@ Conversely, if the estimate was based more on the model prediction, then the est
 
 The Kalman filter borrows from [System Identification](https://www.amazon.com/System-Identification-Theory-User-2nd/dp/0136566952) theory which states that most systems (heaters, motors, hydraulic pumps, you name it!) can be approximated by a linear model of the following form:
 
-![prediction equation y = Cx + Du + e](./images/kalman-prediction-equation.png)
+![prediction equation y = Cx + Du + e](./images/kalman-prediction.png)
 
 The system *output* `y` depends on system *state* `x` and *input* `u`.
 
@@ -346,7 +346,7 @@ When modeling systems, you'll find that the input contribution to system output 
 
 The following equation is used to update (or *transition*) the state of a linear system model at each iteration:
 
-![transition equation x = Ax + Bu + Ke](./images/kalman-transition-equation.png)
+![transition equation x = Ax + Bu + Ke](./images/kalman-transition.png)
 
 This equation involves the following terms:
 
@@ -509,7 +509,7 @@ noiseVariance = 200;
 ] = covar(ss, noiseVariance)
 ```
 
-Finally, you could [simulate](#system-simulation) your system model with the same data used to identify it, and calculate the difference between the original measurements and the system model at each iteration.
+Finally, you could [simulate](#simulating-systems) your system model with the same data used to identify it, and calculate the difference between the original measurements and the system model at each iteration.
 
 Since the system model includes a *measurement* matrix which maps system state to system output, you could multiply the difference between the original measurement and the model prediction by the inverse of this matrix to calculate the noise affecting each state variable at each iteration.
 
@@ -522,6 +522,12 @@ Since Kalman filter estimates are random variables represented by mean and varia
 Earlier we corrected the estimate uncertainty by the same amount (`K`) used to correct the estimate:
 
 ```matlab
+% P - estimate uncertainty
+% R - measurement uncertainty
+% I - identity matrix (state x state)
+% K - Kalman gain
+% C - measurement matrix
+
 P = ...
   (I - K * C) * ...
   P * (I - K * C)' + ...
@@ -531,6 +537,10 @@ P = ...
 In this step, we transition the estimate uncertainty by the same amount (`A`) used to transition the estimate:
 
 ```matlab
+% P - estimate uncertainty
+% A - state transition matrix
+% Q - state transition noise/disturbance matrix
+
 P = A * P * A' + Q;
 ```
 
@@ -573,7 +583,7 @@ We will use the following properties in this article:
 
 For more background on system identification, try this [series of tutorials](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home) assembled by two professors at Carnegie Mellon university.
 
-## system simulation
+## simulating systems
 
 The quickest way to simulate a linear system is by using [lsim](https://www.mathworks.com/help/control/ref/dynamicsystem.lsim.html):
 
@@ -766,7 +776,7 @@ int main(int argc, char** argv)
 
 See the complete Matlab and C++ examples demonstrating how to simulate a linear system in [systemid](https://github.com/01binary/systemid) companion repository.
 
-In the final two sections we'll look at a complete examples of Kalman filter implementation in Matlab and C++.
+In the next two sections we'll look at a complete examples of Kalman filter implementation in Matlab and C++.
 
 ## kalman in matlab
 
@@ -887,13 +897,6 @@ for i = 1:length(inputs)
   outputs(i) = prediction;
 end
 
-% Plot
-plot( ...
-  time, measurements, ...
-  time, outputs, ...
-  time, gains ...
-);
-
 function [x, y] = systemModel(x, u)
   global A;
   global B;
@@ -935,7 +938,8 @@ function [x, P, K] = kalmanFilter(y, z, x, P, K)
   x = x + K * (z - y);
 
   % Correct covariance
-  P = (I - K * C) * P * (I - K * C)' + K * R * K';
+  P = (I - K * C) * P * (I - K * C)' + ...
+    K * R * K';
 end
 
 ```
@@ -1086,7 +1090,11 @@ double kalmanFilter(
 
 bool openInput(const string& path, ifstream& file);
 bool openOutput(const string& path, ofstream& file);
-bool read(ifstream& file, double& time, double& measurement, double& input);
+bool read(
+  ifstream& file,
+  double& time,
+  double& measurement,
+  double& input);
 
 //
 // Entry point
@@ -1199,3 +1207,23 @@ bool read(
   return !file.eof();
 }
 ```
+
+## resources
+
+While writing this article I explored additional resources that covered **Kalman filter design** or **linear system identification**. Some were sold as published books and others available for free as digital eBooks.
+
+[Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python) is a repository with code samples that's also available in [eBook format](https://archive.org/download/KalmanAndBayesianFiltersInPython/Kalman_and_Bayesian_Filters_in_Python.pdf). The author sets out to do the same thing I've tried to accomplish with this article, which is to simplify a complex topic and provide ample code examples.
+
+![Kalman and Bayesian Filters in Python](https://raw.githubusercontent.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/master/animations/05_dog_track.gif)
+
+[Theory of Modal Control](https://stuff.mit.edu/people/mitter/publications/3_theory_modal_INFO.pdf) published by MIT does a pretty good job of introducing the reader to modeling linear systems.
+
+[Estimation II Lecture](https://www.robots.ox.ac.uk/~ian/Teaching/Estimation/LectureNotes2.pdf) by Ian Reid at University of Oxford is a quality introduction to Kalman filter design, carefully breaking it down into digestible concepts and keeping mathematics treatment to a minimum.
+
+[Stochastic Models, Estimation, and Control](https://www.amazon.com/Stochastic-Estimation-Control-Mathematics-Engineering/dp/0124807038) by Peter Maybeck is approachable and explains where the equations came from:
+
+![maybeck](./images/kalman-maybeck-vol1.png)
+
+[System Identification: Theory for the User](https://www.amazon.com/System-Identification-Theory-User-2nd/dp/0136566952) by Lennart Ljung was too complicated for me. A few sections in the book are simple and well illustrated but most require a strong traditional engineering background.
+
+![theory for the user](./images/kalman-theory-user.png)

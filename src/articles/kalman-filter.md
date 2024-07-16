@@ -1,7 +1,7 @@
 ---
 title: Kalman Filter
 description: Design and practical applications of Kalman filter
-image: ./images/inverse-kinematics.png
+image: ./images/kalman.png
 author: Valeriy Novytskyy
 date: 2024-04-29
 location: ^H Hackerspace

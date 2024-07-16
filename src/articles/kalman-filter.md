@@ -260,11 +260,11 @@ The next few sections will explain the algorithm parameters in more detail.
 
 The initial estimate `y0` can come from initial measurement, output of the system model with initial state, or an educated guess.
 
-A more accurate guess will let the algorithm converge on the optimal estimate faster and avoid a "jump" in the beginning when the filter performs a large correction.
+A more accurate guess will let the algorithm converge on the optimal estimate faster and avoid a "jump" when the filter performs a large correction.
 
 ## measurement
 
-Each iteration begins by taking a measurement (`z`) and determining its uncertainty or [variance](#variance), typically denoted by `R`.
+Each iteration begins by taking a measurement denoted by `z` and determining its uncertainty or [variance](#variance), typically denoted by `R`.
 
 Measurement variance can be constant or vary based on conditions:
 
@@ -385,7 +385,7 @@ A covariance matrix that encodes the estimate uncertainty of a system with three
 
 ![estimate covariance of 3rd order system](./images/kalman-covariance3x3.png)
 
-If the system was identified with Matlab [Control System Toolbox](https://www.mathworks.com/products/control.html), initial estimate covariance can be *projected* from initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the identified system:
+If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), initial estimate covariance can be *projected* from initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the system by using the *measurement matrix* `C`:
 
 ```matlab
 % ss - identified system
@@ -405,18 +405,18 @@ dataset = readmatrix("states.csv");
 covariance = cov(dataset);
 ```
 
-If you can express the variance of the system model in terms of *tolerance* by using it in a sentence like "this estimate is within *x* or +/- *x*", then square half the tolerance amount to convert it to variance: `variance = (tolerance / 2)^2`.
+If you can express the variance of the system model in terms of *tolerance* by using it in a sentence like "this estimate is within *x* or +/- *x*", then square half the tolerance amount to convert it to variance.
 
-The model variance can then be projected through the *measurement* matrix to determine the variance of the initial estimate:
+The model variance can then be back-projected through the *measurement* matrix to determine the variance of the initial estimate:
 
 ```matlab
 modelTolerance = 50
 modelVariance = (modelTolerance / 2)^2;
 
 covariance = diag( ...
-  C * ...
+  inv(C) * ...
   eye(length(state), 1) * modelVariance ...
-  * C' ...
+  * inv(C)' ...
 );
 ```
 
@@ -456,7 +456,7 @@ These initialization strategies work because the Kalman filter will eventually c
 
 However, significantly over-estimating the uncertainty of the initial estimate will cause the algorithm to ignore model predictions while significantly over-estimating the measurement variance will cause the algorithm to ignore measurements.
 
-Recall that Kalman filter works by calculating a ratio between the two uncertainties, so if either one is many orders of magnitude greater than the other, it will break the filter.
+> Recall that Kalman filter works by calculating a ratio between the two uncertainties, so if either one is many orders of magnitude greater than the other, it will break the filter.
 
 ## noise covariance
 
@@ -509,13 +509,11 @@ noiseVariance = 200;
 ] = covar(ss, noiseVariance)
 ```
 
-Finally, you could simulate your system model using the same data set used to identify the system, and calculate the difference between the original measurements and the system model at each iteration.
+Finally, you could [simulate](#system-simulation) your system model with the same data used to identify it, and calculate the difference between the original measurements and the system model at each iteration.
 
 Since the system model includes a *measurement* matrix which maps system state to system output, you could multiply the difference between the original measurement and the model prediction by the inverse of this matrix to calculate the noise affecting each state variable at each iteration.
 
-With these results recorded in a separate vector for each state variable, you could then use the `cov` function in Matlab to generate a noise or disturbance matrix.
-
-We will go over how to simulate a continuous discrete systems in the simulation section.
+With these results recorded in a separate vector for each state variable, you could then use `cov` to generate a noise or disturbance matrix.
 
 ## covariance transition
 
@@ -577,7 +575,7 @@ For more background on system identification, try this [series of tutorials](htt
 
 ## system simulation
 
-The quickest way to simulate a linear system identified by System Identification app is by using [lsim](https://www.mathworks.com/help/control/ref/dynamicsystem.lsim.html):
+The quickest way to simulate a linear system is by using [lsim](https://www.mathworks.com/help/control/ref/dynamicsystem.lsim.html):
 
 ```matlab
 startTime = 0;
@@ -669,7 +667,7 @@ function [y, x] = systemModel(x, u)
 end
 ```
 
-Here's how this would look in C++ using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library for matrix operations:
+Here's how this would look in C++ using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library:
 
 ```cpp
 #include <iostream>
@@ -772,17 +770,17 @@ In the final two sections we'll look at a complete examples of Kalman filter imp
 
 ## kalman in matlab
 
-The [kalman](https://github.com/01binary/kalman) companion repository includes a complete filter implementation in addition to two *live notebooks* that explain the filter algorithm parameters step by step.
+The [kalman](https://github.com/01binary/kalman) companion repository includes a complete filter implementation in addition to two *live notebooks* that explain the filter algorithm parameters.
 
-The `constantAcceleration.mlx` notebook implements a Kalman filter that works with a Newtonian motion model which is a bit simpler than a more general system model:
+The `constantAcceleration.mlx` notebook implements a Kalman filter that works with a simpler Newtonian motion model:
 
 ![constant acceleration notebook](./images/kalman-constant-acceleration-notebook.png)
 
-The `linearSystemModel.mlx` notebook implements a Kalman filter that works with a general-form linear system model just like the one described in this article:
+The `linearSystemModel.mlx` notebook implements a Kalman filter that works with a general-form linear discrete system model:
 
 ![constant acceleration notebook](./images/kalman-linear-model-notebook.png)
 
-Finally, `kalman.m` demonstrates a Kalman filter with the same linear system model in the form of a simple script that's easy to copy:
+Finally, `kalman.m` demonstrates a Kalman filter with the same linear system model in the form of a `.m` script:
 
 ```matlab
 % Constants
@@ -944,7 +942,7 @@ end
 
 ## kalman in c++
 
-The [kalman](https://github.com/01binary/kalman) companion repository includes the following C++ example, with steps that can be used to compile, run, and debug the code included in the [readme](https://github.com/01binary/kalman?tab=readme-ov-file#c).
+The [kalman](https://github.com/01binary/kalman) companion repository includes the following example. Steps that can be used to compile, run, and debug the code are in the [readme](https://github.com/01binary/kalman?tab=readme-ov-file#c) file:
 
 ```cpp
 //

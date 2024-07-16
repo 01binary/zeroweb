@@ -3,7 +3,7 @@ title: Kalman Filter
 description: Design and practical applications of Kalman filter
 image: ./images/kalman.png
 author: Valeriy Novytskyy
-date: 2024-04-29
+date: 2024-07-18
 location: ^H Hackerspace
 tags:
   [
@@ -16,7 +16,9 @@ tags:
 
 ## overview
 
-The Kalman filter is popular because it can generate accurate estimates in the presence of uncertainty and measurement noise. Simpler techniques like moving average or low pass filters introduce delay or miss important events, which is unacceptable for dynamic systems like cars and robots.
+The Kalman filter is used for smoothing the readings from motor encoders, GPS satellites, radar, and many other applications. It can generate accurate estimates in the presence of uncertainty and measurement noise.
+
+Simpler techniques like moving average or low pass filters introduce delay or miss important events, which is unacceptable for dynamic systems like cars and robots.
 
 ## background
 
@@ -768,7 +770,7 @@ See the complete Matlab and C++ examples demonstrating how to simulate a linear 
 
 In the final two sections we'll look at a complete examples of Kalman filter implementation in Matlab and C++.
 
-## matlab implementation
+## kalman in matlab
 
 The [kalman](https://github.com/01binary/kalman) companion repository includes a complete filter implementation in addition to two *live notebooks* that explain the filter algorithm parameters step by step.
 
@@ -940,7 +942,7 @@ end
 
 ```
 
-## c++ implementation
+## kalman in c++
 
 The [kalman](https://github.com/01binary/kalman) companion repository includes the following C++ example, with steps that can be used to compile, run, and debug the code included in the [readme](https://github.com/01binary/kalman?tab=readme-ov-file#c).
 

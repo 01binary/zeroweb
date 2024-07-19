@@ -197,7 +197,7 @@ ans =
 
 The following video demonstrates how to calculate variance:
 
-`youtube:https://www.youtube.com/embed/mo498rlUk-0?si=ZtTU4mlzTMLq7apU`
+`youtube:https://www.youtube.com/embed/I6p-iQulKgk?si=QI76h5psxfRZG_s5`
 
 ## uncertainty
 

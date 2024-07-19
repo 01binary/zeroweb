@@ -29,14 +29,17 @@ In this article I introduce the Kalman Filter in the shortest way possible with 
 A basic *moving average* filter can be implemented as follows:
 
 ```matlab
-function output = movingAverageFilter(input, size)
-  buffer = ones(size, 1) * input(1);
-  output = zeros(length(input))
+function output = movingAverageFilter(input, bufferSize)
+  buffer = ones(bufferSize, 1) * input(1);
+  output = zeros(length(input));
 
   for sampleIndex = 1:length(input)
-    bufferIndex = mod(sampleIndex - 1, size) + 1;
+    bufferIndex = mod(sampleIndex - 1, bufferSize) + 1;
     buffer(bufferIndex) = input(sampleIndex);
-    output(sampleIndex, 1) = sum(buffer) / size;
+
+    % Output is average of last bufferSize inputs
+    output(sampleIndex, 1) = ...
+      sum(buffer) / bufferSize;
   end
 end
 ```
@@ -57,11 +60,15 @@ A basic *low-pass* filter can be implemented as follows:
 ```matlab
 function output = lowPassFilter(input, coefficient)
   estimate = input(1);
-  output = zeros(length(input))
+  output = zeros(length(input));
 
   for sampleIndex = 1:length(input)
-    estimate = (1.0 - coefficient) * estimate + ...
-      coefficient * input(sampleIndex);
+    sample = input(sampleIndex);
+
+    % Output is input blended with previous estimate
+    estimate = ...
+      (1.0 - coefficient) * estimate + ...
+      coefficient * sample;
 
     output(sampleIndex, 1) = estimate;
   end
@@ -76,7 +83,7 @@ This filter missed short temporal spikes in the data. This may be fine if the sy
 
 In the following video we test the moving average filter on real data:
 
-`youtube:https://www.youtube.com/embed/rLM0os3vpsw`
+`youtube:https://www.youtube.com/embed/z4giT-2nMcQ?si=wxAdLDNFQQcV7k-O`
 
 ## why predict?
 
@@ -157,7 +164,7 @@ The second special thing about the Kalman filter is that its output isn't simply
 
 Measuring physical quantities results in readings that follow this Gaussian distribution due to the [Holographic Principle](https://www.semanticscholar.org/paper/The-Holographic-Principle-Opening-Lecture-Hooft/43ce0cb38dba603c08c21d135fa4754fa5a95a41) of the Universe:
 
-> The one-dimensional array of data that makes up the entire content of the Universe is stretched over a 3D surface with 1 bit of information every 0.724 x 10<sup>-64</sup>cm<sup>2</sup>.
+> The one-dimensional array of data that makes up the Universe is stretched over a 3D surface with 1 bit of information every 0.724 x 10<sup>-64</sup>cm<sup>2</sup>.
 
 When the Universe is "sampled" by taking a measurement, the sample is interpolated by using a strategy discovered by Carl Gauss: surrounding bits are blended in depending on distance of the sample from the "center" of each bit.
 
@@ -190,7 +197,7 @@ ans =
 
 The following video demonstrates how to calculate variance:
 
-`youtube:https://www.youtube.com/embed/-RpGzyQoaOg`
+`youtube:https://www.youtube.com/embed/mo498rlUk-0?si=ZtTU4mlzTMLq7apU`
 
 ## uncertainty
 
@@ -271,7 +278,7 @@ A more accurate guess will let the algorithm converge on the optimal estimate fa
 
 ## measurement
 
-Each iteration begins by taking a measurement denoted by `z` and determining its uncertainty or [variance](#variance), typically denoted by `R`.
+Each iteration begins by taking a measurement (labeled `z` in equations) and determining its uncertainty or [variance](#variance), typically denoted by `R`.
 
 Measurement variance can be constant or vary based on conditions:
 
@@ -564,7 +571,7 @@ The system model can be derived by analyzing the system (as we did in the overly
 
 In the following video we'll identify a system in Matlab [Control System Toolbox](https://www.mathworks.com/products/control.html) using a discrete [linear state-space model](https://www.mathworks.com/help/control/ref/ss.html):
 
-`youtube:https://www.youtube.com/embed/D8Q-FoiqhiA`
+`youtube:https://www.youtube.com/embed/YCKNEHN-dfc?si=PfIQRKFs_nFHz4U4`
 
 *Identifying* a system refers to finding `A`, `B`, `C`, `D` coefficients that make the output of the linear model most closely resemble the original measurements. These coefficients can then be used as parameters to the Kalman filter.
 
@@ -1215,20 +1222,17 @@ bool read(
 
 ## resources
 
-While writing this article I found some additional resources covering *Kalman filter design* and *linear system identification*. Some were sold as published books and others were available for free as digital eBooks.
+Some additional resources covering *Kalman filter design* and *linear system identification* are listed below. Some are sold as published books and others are available for free as digital eBooks.
 
-[Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python) is a repository with code samples that's also available in [eBook format](https://archive.org/download/KalmanAndBayesianFiltersInPython/Kalman_and_Bayesian_Filters_in_Python.pdf). The author sets out to do the same thing I've tried to accomplish with this article, which is to simplify a complex topic and provide ample code examples.
++ [Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python) includes code samples and [eBook](https://archive.org/download/KalmanAndBayesianFiltersInPython/Kalman_and_Bayesian_Filters_in_Python.pdf). The author simplifies a complex topic for practical application.
 
-![Kalman and Bayesian Filters in Python](https://raw.githubusercontent.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/master/animations/05_dog_track.gif)
+  ![Kalman and Bayesian Filters in Python](https://raw.githubusercontent.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/master/animations/05_dog_track.gif)
++ [Understanding Kalman Filters](https://www.mathworks.com/videos/series/understanding-kalman-filters.html) is a series of videos published by MathWorks. While they look accessible, they skip over a lot of critical context. These tutorials are the principal reason for writing this article.
++ [Special Topics - The Kalman Filter](https://www.youtube.com/watch?v=CaCcOwJPytQ) is a series of videos published by Professor Biezen for his online educational site.
++ [Theory of Modal Control](https://stuff.mit.edu/people/mitter/publications/3_theory_modal_INFO.pdf) published by MIT does a pretty good job of introducing the reader to modeling linear systems.
++ [Estimation II Lecture](https://www.robots.ox.ac.uk/~ian/Teaching/Estimation/LectureNotes2.pdf) by Ian Reid at University of Oxford is a quality introduction to Kalman filter design, carefully breaking it down into digestible concepts and keeping math to a minimum.
++ [Stochastic Models, Estimation, and Control](https://www.amazon.com/Stochastic-Estimation-Control-Mathematics-Engineering/dp/0124807038) by Peter Maybeck is approachable and explains where the equations came from:
 
-[Theory of Modal Control](https://stuff.mit.edu/people/mitter/publications/3_theory_modal_INFO.pdf) published by MIT does a pretty good job of introducing the reader to modeling linear systems.
-
-[Estimation II Lecture](https://www.robots.ox.ac.uk/~ian/Teaching/Estimation/LectureNotes2.pdf) by Ian Reid at University of Oxford is a quality introduction to Kalman filter design, carefully breaking it down into digestible concepts and keeping mathematics treatment to a minimum.
-
-[Stochastic Models, Estimation, and Control](https://www.amazon.com/Stochastic-Estimation-Control-Mathematics-Engineering/dp/0124807038) by Peter Maybeck is approachable and explains where the equations came from:
-
-![maybeck](./images/kalman-maybeck-vol1.png)
-
-[System Identification: Theory for the User](https://www.amazon.com/System-Identification-Theory-User-2nd/dp/0136566952) by Lennart Ljung was too complicated for me. A few sections in the book are simple and well illustrated but most require a strong traditional engineering background.
-
-![theory for the user](./images/kalman-theory-user.png)
+  ![maybeck](./images/kalman-maybeck-vol1.png)
++ [System Identification: Theory for the User](https://www.amazon.com/System-Identification-Theory-User-2nd/dp/0136566952) by Lennart Ljung requires an undergraduate Mechanical Engineering degree to understand, although a few sections are simple and well-illustrated:
+  ![theory for the user](./images/kalman-theory-user.png)

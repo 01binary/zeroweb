@@ -77,6 +77,7 @@ const useTwitter = (
           oauth_access_token_secret
         )
           .then((awsSignature) => {
+            console.log({ provider: Providers.Twitter, name, awsSignature })
             setCredentials(awsSignature);
             setUser({
               provider: Providers.Twitter,

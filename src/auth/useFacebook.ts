@@ -59,6 +59,7 @@ const useFacebook = (
         }) => {
           authenticate(Providers.Facebook, token)
             .then((awsSignature) => {
+              console.log({ provider: Providers.Facebook, name, awsSignature })
               setCredentials(awsSignature);
               setUser({
                 provider: Providers.Facebook,

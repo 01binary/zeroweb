@@ -33,6 +33,7 @@ const useGoogle = (
 
     authenticate(Providers.Google, access_token)
       .then((awsSignature) => {
+        console.log({ provider: Providers.Google, name, awsSignature })
         setCredentials(awsSignature);
         setUser({
           provider: Providers.Google,

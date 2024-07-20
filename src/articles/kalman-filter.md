@@ -83,7 +83,7 @@ This filter missed short temporal spikes in the data. This may be fine if the sy
 
 In the following video we test the moving average filter on real data:
 
-`youtube:https://www.youtube.com/embed/z4giT-2nMcQ?si=wxAdLDNFQQcV7k-O`
+`youtube:https://www.youtube.com/embed/5IUP3TfOMCw?si=XkhCUAAcJAaQMIBS`
 
 ## why predict?
 
@@ -199,7 +199,7 @@ The following video demonstrates how to calculate variance:
 
 `youtube:https://www.youtube.com/embed/I6p-iQulKgk?si=QI76h5psxfRZG_s5`
 
-## uncertainty
+## filter algorithm
 
 Since the filter estimate is a random variable, the algorithm has to keep track of its uncertainty, making the same changes to the estimate uncertainty as the ones made to the estimate mean value.
 
@@ -213,8 +213,6 @@ If we include the additional steps for tracking estimate and measurement uncerta
 4. Correct the estimate uncertainty by the measurement uncertainty
 5. Predict the next estimate
 6. Predict the next estimate uncertainty
-
-## filter algorithm
 
 Kalman filter starts with an initial estimate, the uncertainty of this estimate, and an initial state of the system being measured.
 
@@ -399,6 +397,8 @@ A covariance matrix that encodes the estimate uncertainty of a system with three
 
 ![estimate covariance of 3rd order system](./images/kalman-covariance3x3.png)
 
+### initial state variance
+
 If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), initial estimate covariance can be *projected* from initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the system by using the *measurement matrix* `C`:
 
 ```matlab
@@ -410,6 +410,8 @@ Each element of `dx0` is squared to convert standard deviation to variance by us
 
 > Multiplying variance by another quantity requires squaring that quantity. In order for this to work with matrix multiplication, the variance is pre-multiplied by the matrix and post-multiplied by the transpose of the same matrix. This is why you'll often see the pattern `X * y * X'`.
 
+### dataset covariance
+
 If you have a data set that records system state over time you could use Matlab's [cov](https://www.mathworks.com/help/matlab/ref/cov.html) function to get initial estimate covariance:
 
 ```matlab
@@ -417,6 +419,8 @@ If you have a data set that records system state over time you could use Matlab'
 dataset = readmatrix("states.csv");
 covariance = cov(dataset);
 ```
+
+### tolerance variance
 
 If you can express the variance of the system model in terms of *tolerance* by using it in a sentence like "this estimate is within *x* or +/- *x*", then square half the tolerance amount to convert it to variance.
 
@@ -433,6 +437,8 @@ covariance = diag( ...
 );
 ```
 
+### per-state variance
+
 If the approximate variances of state variables are known, the estimate covariance matrix can be built by projecting these variances on the diagonal and leaving covariances blank:
 
 ```matlab
@@ -448,6 +454,8 @@ covariance =
      0   200     0
      0     0   300
 ```
+
+### uniform variance
 
 Lastly, you could assume the same variance for all initial state variables, leaving covariances blank:
 
@@ -474,11 +482,22 @@ A process *noise* or *disturbance* covariance matrix usually denoted by `Q` look
 
 > Noise or disturbance is the difference between the system model and the real system. Its covariance represents the likelihood of state variables being affected by random occurrences like external forces, noise, or the system state being updated using imperfect (noisy) inputs.
 
+### uniform noise
+
 Similarly to estimate covariance, the approximate variance of noise or disturbance affecting all state variables in the same way could be *projected* by spreading the same variance across the diagonal:
 
 ```matlab
 noiseVariance = 200
 noiseCovariance = eye(length(state)) * noiseVariance
+```
+
+### model noise
+
+If the approximate variance of noise introduced by updating the **system state** is known, it could be projected by using the *state transition matrix*:
+
+```matlab
+noiseVariance = 200;
+noiseCovariance = A * noiseVariance * A'
 ```
 
 For systems identified with System Identification Toolbox, the noise variance is available in `NoiseVariance` property of the identified model:
@@ -487,6 +506,8 @@ For systems identified with System Identification Toolbox, the noise variance is
 % ss1 - linear system model
 noiseCovariance = eye(length(state)) * ss1.NoiseVariance
 ```
+
+### state noise
 
 If the approximate variances of noise or disturbances affecting each state variable are known, they could be used to fill in diagonal entries of the covariance matrix, leaving off-diagonal entries blank:
 
@@ -498,12 +519,7 @@ noiseCovariance = diag([ ...
 ])
 ```
 
-If the approximate variance of noise introduced by updating the **system state** is known, it could be projected by using the *state transition matrix*:
-
-```matlab
-noiseVariance = 200;
-noiseCovariance = A * noiseVariance * A'
-```
+### input noise
 
 If the approximate variance of noise introduced by the **system input** is known, it could be projected by using the *control matrix*:
 
@@ -511,6 +527,8 @@ If the approximate variance of noise introduced by the **system input** is known
 inputNoiseVariance = 200;
 noiseCovariance = B * inputNoiseVariance * B'
 ```
+
+### covar
 
 If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), the [covar](https://www.mathworks.com/help/control/ref/dynamicsystem.covar.html?s_tid=doc_ta) function (not to be confused with [cov](https://www.mathworks.com/help/matlab/ref/cov.html)) will output the disturbance covariance:
 
@@ -524,6 +542,8 @@ noiseVariance = 200;
   Q ...
 ] = covar(ss, noiseVariance)
 ```
+
+### dataset noise
 
 Finally, you could [simulate](#simulating-systems) your system model with the same data used to identify it, and calculate the difference between the original measurements and the system model at each iteration.
 

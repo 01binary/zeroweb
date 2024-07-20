@@ -474,6 +474,8 @@ A process *noise* or *disturbance* covariance matrix usually denoted by `Q` look
 
 > Noise or disturbance is the difference between the system model and the real system. Its covariance represents the likelihood of state variables being affected by random occurrences like external forces, noise, or the system state being updated using imperfect (noisy) inputs.
 
+There are a few ways to initialize the `Q` covariance matrix:
+
 + Similarly to estimate covariance, the approximate variance of noise or disturbance affecting all state variables in the same way could be *projected* by spreading the same variance across the diagonal:
 
   ```matlab

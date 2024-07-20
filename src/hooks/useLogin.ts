@@ -46,7 +46,7 @@ export const useLogin = (
     const initProviders = async (): Promise<boolean> => {
       try {
         const hasFacebook = await facebookInit();
-        console.log({ hasFacebook })
+        console.debug({ hasFacebook })
         if (hasFacebook) return true;
       } catch (e) {
         console.error('Facebook auth failed to initialize', e);
@@ -54,7 +54,7 @@ export const useLogin = (
 
       try {
         const hasGoogle = await googleInit();
-        console.log({ hasGoogle })
+        console.debug({ hasGoogle })
         if (hasGoogle) return true;
       } catch (e) {
         console.error('Google auth failed to initialize', e);
@@ -62,7 +62,7 @@ export const useLogin = (
 
       try {
         const hasTwitter = await twitterInit();
-        console.log({ hasTwitter })
+        console.debug({ hasTwitter })
         if (hasTwitter) return true;
       } catch (e) {
         console.error('Twitter auth failed to initialize');
@@ -70,7 +70,7 @@ export const useLogin = (
 
       try {
         const hasGithub = await gitHubInit();
-        console.log({ hasGithub })
+        console.debug({ hasGithub })
         if (hasGithub) return true;
       } catch (e) {
         console.error('Github auth failed to initialize');
@@ -82,9 +82,9 @@ export const useLogin = (
     initProviders()
       .then((hasSocialAccount) => {
         if (!hasSocialAccount) {
-          console.log({ hasSocialAccount })
+          console.debug({ hasSocialAccount })
           authenticate(null, null, null).then((guestCredentials) => {
-            console.log({ guestCredentials })
+            console.debug({ guestCredentials })
             setCredentials(guestCredentials)
           });
         }

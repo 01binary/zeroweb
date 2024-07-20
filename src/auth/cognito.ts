@@ -21,7 +21,7 @@ export const authenticate = async (
     }
   } = await axios.post(`${AUTH_URL}/token`, payload);
 
-  console.log(
+  console.debug(
     '/token',
     {
       userId,

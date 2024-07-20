@@ -95,3 +95,21 @@ export const getGitHubEditUrl = (url: string) => {
     slug?.includes('.') ? slug : `${slug}.md`,
   ].join('/');
 };
+
+/**
+ * Determine if element is inside a list item
+ * @param el - The paragraph element
+ * @returns Whether the element is inside a list item
+ */
+export const isInsideList = (el: HTMLElement | null): boolean => {
+  let parent = el?.parentElement
+
+  while (parent) {
+    if (parent.nodeName.toLowerCase() === 'li') {
+      return true;
+    }
+    parent = parent.parentElement
+  }
+
+  return false;
+};

@@ -71,7 +71,7 @@ const useGitHub = (
         const { id: providerUserId, login: name, avatar_url: avatarUrl } = data;
         authenticate(Providers.GitHub, oauth_access_token)
           .then((awsSignature) => {
-            console.log({ provider: Providers.GitHub, name, awsSignature })
+            console.debug({ provider: Providers.GitHub, name, awsSignature })
             setCredentials(awsSignature);
             setUser({
               provider: Providers.GitHub,

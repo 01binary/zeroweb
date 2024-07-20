@@ -44,7 +44,7 @@ const configureApiGatewayLink = (signature: AWSSignature | null) => {
   return new HttpLink({
     fetch: (input, init) => {
       const { headers, body } = init;
-      console.log('fetch called with input', input, 'init', init);
+      console.debug('fetch called with input', input, 'init', init);
       const res = apigClient
         .graphqlPost({ headers }, JSON.parse(body.toString()))
         .then((res) => {

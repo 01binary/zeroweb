@@ -408,7 +408,7 @@ There are a few ways to come up with an initial estimate uncertainty:
 
   Each element of `dx0` is squared to convert standard deviation to variance by using the "dot" notation in Matlab.
 
-  > Multiplying variance by another quantity requires squaring that quantity. In order for this to work with matrix multiplication, the variance is pre-multiplied by the matrix and post-multiplied by the transpose of the same matrix. This is why you'll often see the pattern `X * y * X'`.
+  Multiplying variance by another quantity requires squaring that quantity. In order for this to work with matrix multiplication, the variance is pre-multiplied by the matrix and post-multiplied by the transpose of the same matrix. This is why you'll often see the pattern `X * y * X'`.
 
 + If you have a data set that records system state over time you could use Matlab's [cov](https://www.mathworks.com/help/matlab/ref/cov.html) function to get initial estimate covariance:
 
@@ -488,7 +488,7 @@ A process *noise* or *disturbance* covariance matrix usually denoted by `Q` look
   noiseCovariance = A * noiseVariance * A'
   ```
 
-  For systems identified with System Identification Toolbox, the noise variance is available in `NoiseVariance` property of the identified model:
+  For systems identified with System Identification Toolbox, the noise variance is available in `NoiseVariance` property of the model:
 
   ```matlab
   % ss1 - linear system model
@@ -512,7 +512,7 @@ A process *noise* or *disturbance* covariance matrix usually denoted by `Q` look
   noiseCovariance = B * inputNoiseVariance * B'
   ```
 
-+ If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), the [covar](https://www.mathworks.com/help/control/ref/dynamicsystem.covar.html?s_tid=doc_ta) function (not to be confused with [cov](https://www.mathworks.com/help/matlab/ref/cov.html)) will output the disturbance covariance:
++ If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), the [covar](https://www.mathworks.com/help/control/ref/dynamicsystem.covar.html?s_tid=doc_ta) function will output its disturbance covariance:
 
   ```matlab
   noiseVariance = 200;
@@ -529,7 +529,7 @@ A process *noise* or *disturbance* covariance matrix usually denoted by `Q` look
 
   Since the system model includes a *measurement* matrix which maps system state to system output, you could multiply the difference between the original measurement and the model prediction by the inverse of this matrix to calculate the noise affecting each state variable at each iteration.
 
-  With these results recorded in a separate vector for each state variable, you could then use `cov` to generate a noise or disturbance matrix.
+  With these results recorded in a separate vector for each state variable, you could then use `cov` to generate a disturbance matrix.
 
 ## covariance transition
 

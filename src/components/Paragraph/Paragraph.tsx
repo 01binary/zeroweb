@@ -21,6 +21,7 @@ import stringHash from 'string-hash';
 import RulerHighlightIcon from '../../images/highlight.svg';
 import RulerCommentIcon from '../../images/comment.svg';
 import AddCommentIcon from '../../images/add-comment.svg';
+import { isInsideList } from '../../utils';
 import { RulerMarker, RulerMarkerBadge } from '../RulerMarker';
 import { InlineComments } from './InlineComments';
 import {
@@ -31,6 +32,7 @@ import {
   SelectionAnchor,
   ActiveParagraphTextHighlight,
   ActiveParagraphListHighlight,
+  ParagraphPassThru,
 } from './Paragraph.styles';
 import {
   ParagraphSelection,
@@ -212,6 +214,7 @@ const Paragraph: FC = ({ children }) => {
 
   const hash = useMemo<string>(() => getHash(innerText), [innerText]);
 
+  const isPassThru = isInsideList(paragraphRef.current)
   const isList = useMemo(() => textContainsList(innerText), [innerText]);
   const isImage = useMemo(() => textContainsImage(innerText), [innerText]);
   const isVideo = useMemo(() => textContainsVideo(innerText), [innerText]);
@@ -264,6 +267,11 @@ const Paragraph: FC = ({ children }) => {
   );
 
   const updateSelection = useCallback((): ParagraphSelection | undefined => {
+    if (isPassThru) {
+      // Cannot interact directly with this paragraph, only its parent
+      return
+    }
+
     // Track selected text to enable highlighting or commenting on this paragraph
     const selection = window.getSelection();
     if (selection?.rangeCount !== 1 || !paragraphRef.current) return;
@@ -299,7 +307,7 @@ const Paragraph: FC = ({ children }) => {
           break;
         }
 
-        if (node.nodeType === 1) pos += (node as HTMLElement).innerText.length;
+        if (node.nodeType === 1) pos += (node as HTMLElement)?.innerText?.length;
         else if (node.nodeType === 3) pos += node.nodeValue?.length ?? 0;
       }
     };
@@ -333,18 +341,27 @@ const Paragraph: FC = ({ children }) => {
     setParagraphSelection(paragraphSel);
 
     return paragraphSel;
-  }, [hash, setParagraphSelection]);
+  }, [hash, setParagraphSelection, isPassThru]);
 
   const clearSelection = useCallback(() => {
     // Hide paragraph menu when text selection is cleared
     setHighlightedParagraph(null);
     setParagraphSelection(null);
     hideParagraphMenu();
-  }, [setHighlightedParagraph, setParagraphSelection, hideParagraphMenu]);
+  }, [
+    setHighlightedParagraph,
+    setParagraphSelection,
+    hideParagraphMenu
+  ]);
 
   const handleSelection = useCallback(
     // Let user select a portion of the paragraph to show paragraph comment/highlight menu
     (e: MouseEvent) => {
+      if (isPassThru) {
+        // Paragraph cannot be interacted with, only its parent
+        return
+      }
+
       if (window?.getSelection()?.type !== 'Range') {
         clearSelection();
         return;
@@ -394,6 +411,7 @@ const Paragraph: FC = ({ children }) => {
       setHighlightedParagraph,
       updateSelection,
       clearSelection,
+      isPassThru
     ]
   );
 
@@ -461,7 +479,7 @@ const Paragraph: FC = ({ children }) => {
 
   useEffect(() => {
     // Show paragraph menu on mouse over if this paragraph is highlighted
-    if (showHighlightMark && paragraphRef.current) {
+    if (showHighlightMark && paragraphRef.current && !isPassThru) {
       const element = paragraphRef.current.getElementsByTagName('mark')[0];
       if (!element) return;
       element.addEventListener('mouseover', handleHighlightMouseOver);
@@ -487,13 +505,14 @@ const Paragraph: FC = ({ children }) => {
     inlineCommentParagraph,
     handleHighlightMouseOver,
     handleHighlightMouseOut,
+    isPassThru
   ]);
 
   useEffect(() => {
     // Show paragraph menu when text is selected
-    if (paragraphSelection && paragraphSelection?.hash === hash)
+    if (paragraphSelection && paragraphSelection?.hash === hash && !isPassThru)
       showParagraphMenu(null, selectionRef);
-  }, [hash, paragraphSelection, showParagraphMenu]);
+  }, [hash, paragraphSelection, showParagraphMenu, isPassThru]);
 
   useEffect(() => {
     // Clear selection and hide paragraph menu when no longer highlighted
@@ -513,15 +532,24 @@ const Paragraph: FC = ({ children }) => {
     hideParagraphMenu,
   ]);
 
+  const Wrapper = isPassThru ? ParagraphPassThru : ParagraphWrapper;
   const ParagraphBlock = isText ? ParagraphText : ParagraphNonText;
 
+  const wrapperProps = isPassThru
+    ? null
+    : {
+        className: 'paragraph__wrapper',
+        showCommentsSidebar,
+        editingComment: showInlineCommentForm,
+      }
+
   return (
-    <ParagraphWrapper
-      className="paragraph__wrapper"
-      showCommentsSidebar={showCommentsSidebar}
-      editingComment={showInlineCommentForm}
-    >
-      <ParagraphBlock id={hash} onMouseUp={handleSelection} ref={paragraphRef}>
+    <Wrapper {...wrapperProps}>
+      <ParagraphBlock
+        id={hash}
+        onMouseUp={handleSelection}
+        ref={paragraphRef}
+      >
         {showInlineCommentForm ? (
           <ActiveParagraphHighlight
             isList={isList}
@@ -541,11 +569,11 @@ const Paragraph: FC = ({ children }) => {
         )}
       </ParagraphBlock>
 
-      {paragraphSelection?.hash === hash && (
+      {!isPassThru && paragraphSelection?.hash === hash && (
         <SelectionAnchor ref={selectionRef} {...paragraphSelection} />
       )}
 
-      <CommentButton
+      {!isPassThru && <CommentButton
         className="paragraph__comment-button"
         ref={commentButtonRef}
         onClick={() => toggleInlineComment(hash)}
@@ -553,9 +581,9 @@ const Paragraph: FC = ({ children }) => {
         onMouseOut={() => hideTip()}
       >
         <AddCommentIcon />
-      </CommentButton>
+      </CommentButton>}
 
-      {inlineCommentParagraph && showInlineCommentThread && (
+      {!isPassThru && inlineCommentParagraph && showInlineCommentThread && (
         <InlineComments
           {...{
             className: 'paragraph__comment-thread',
@@ -578,7 +606,7 @@ const Paragraph: FC = ({ children }) => {
         />
       )}
 
-      {showMarker && (
+      {!isPassThru && showMarker && (
         <RulerMarker className="paragraph__ruler-marker">
           {hasHighlights && (
             <>
@@ -602,7 +630,7 @@ const Paragraph: FC = ({ children }) => {
           )}
         </RulerMarker>
       )}
-    </ParagraphWrapper>
+    </Wrapper>
   );
 };
 

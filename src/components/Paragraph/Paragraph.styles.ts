@@ -7,6 +7,9 @@ import {
   NARROW_NO_MARKER_LABELS,
   NARROW_NO_RULERS,
 } from '../../constants';
+import React from 'react';
+
+export const ParagraphPassThru = React.Fragment;
 
 export const ParagraphWrapper = styled.section<{
   showCommentsSidebar: boolean;

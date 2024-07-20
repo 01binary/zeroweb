@@ -35,8 +35,8 @@ const UserContentProvider: FC<RouteComponentProps> = ({ children }) => {
     loginError,
   } = useLogin(user, setUser, setCredentials);
 
-  if (credentials) console.log('credentials', credentials);
-  if (user) console.log('user', user);
+  if (credentials) console.debug('UserContentProvider credentials', credentials);
+  if (user) console.debug('UserContentProvider user', user);
 
   const toggleCommentsSidebar = useCallback(
     () => setShowCommentsSidebar((show) => !show),

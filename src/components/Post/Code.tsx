@@ -15,6 +15,7 @@ import Highlight, { Prism, defaultProps } from 'prism-react-renderer';
 import { useStyledDarkMode } from 'gatsby-styled-components-dark-mode';
 import light from 'prism-react-renderer/themes/github';
 import dark from 'prism-react-renderer/themes/vsDark';
+import { isInsideList } from '../../utils';
 import { Tooltip, Arrow } from '../../components/Tooltip';
 import { RULER_ENDMARK_WIDTH, RULER_OFFSET } from '../../components/Ruler';
 import {
@@ -38,13 +39,18 @@ const DARK_MODE_OVERRIDE = 'darkCode';
 const CodeToolbar = styled.div<{
   isDark: boolean;
   isCodeDark: boolean;
+  isPassThru: boolean;
 }>`
   position: absolute;
   display: flex;
   flex-direction: row-reverse;
 
   top: ${(props) => props.theme.spacingThird};
-  right: calc(30% + ${(props) => props.theme.spacingHalf});
+  right: ${(props) =>
+    props.isPassThru
+    ? `0`
+    : `calc(30% + ${props.theme.spacingHalf})`
+  };
 
   border-radius: ${(props) => props.theme.borderThick};
   background: ${(props) =>
@@ -124,6 +130,33 @@ const CodeButton: FC<CodeButtonProps> = ({
     </ToolButton>
   );
 };
+
+const PassThruWrapper = styled.section<{
+  isDark: boolean;
+  isCodeDark: boolean;
+}>`
+  position: relative;
+  margin-left: ${(props) => props.theme.spacingHalf};
+
+  button {
+    right: 0;
+  }
+
+  .stroke-foreground {
+    stroke: ${(props) =>
+      props.isCodeDark
+        ? props.isDark
+          ? props.theme.foregroundColor
+          : props.theme.backgroundColor
+        : props.theme.foregroundColor};
+  }
+
+  &:hover {
+    button {
+      opacity: 1;
+    }
+  }
+`
 
 const CodeWrapper = styled.section<{
   isDark: boolean;
@@ -222,6 +255,10 @@ const Code: FC = ({ children }) => {
   const [isCopied, setCopied] = useState(false);
   const [isCodeDark, setCodeDark] = useState(isDark || darkOverride);
 
+  const isPassThru = useMemo(
+    () => isInsideList(snippetRef.current),
+    [snippetRef.current])
+
   const {
     showTip,
     hideTip,
@@ -272,8 +309,12 @@ const Code: FC = ({ children }) => {
     [children]
   );
 
+  const Wrapper = isPassThru
+    ? PassThruWrapper
+    : CodeWrapper
+
   return (
-    <CodeWrapper isDark={isDark} isCodeDark={isCodeDark}>
+    <Wrapper {...{ isDark, isCodeDark }}>
       <Highlight
         {...defaultProps}
         theme={isDark || isCodeDark ? dark : light}
@@ -301,7 +342,11 @@ const Code: FC = ({ children }) => {
                   ))}
               </span>
             </Pre>
-            <CodeToolbar isDark={isDark} isCodeDark={isCodeDark}>
+            <CodeToolbar
+              isDark={isDark}
+              isCodeDark={isCodeDark}
+              isPassThru={isPassThru}
+            >
               <CodeButton
                 tipId={'copy'}
                 tipRef={tipRef}
@@ -333,7 +378,7 @@ const Code: FC = ({ children }) => {
         {tipId === 'mode' && (isCodeDark ? 'light theme' : 'dark theme')}
         <Arrow />
       </Tooltip>
-    </CodeWrapper>
+    </Wrapper>
   );
 };
 

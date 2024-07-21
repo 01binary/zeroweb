@@ -16,7 +16,11 @@ tags:
 
 ## overview
 
-The Kalman filter is great at interpreting noisy or uncertain measurements from a variety of sources like servo encoders, GPS, and radar. This makes it ideal for use with dynamic systems like self-driving cars and robots.
+The Kalman filter is great at interpreting noisy or uncertain measurements from a variety of sources like servo encoders, GPS, and radar. This makes it ideal for use with dynamic systems like robots and autonomous vehicles.
+
+Signal processing algorithms like the Kalman filter are taught in Electrical and Mechanical Engineering programs, but self-taught robotics enthusiasts have blurred the line between hobby and applied science.
+
+As a result, this technique is as popular as ever, but most sources make it more complicated than necessary and fail to provide code examples.
 
 ## background
 

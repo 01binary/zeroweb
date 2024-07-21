@@ -123,6 +123,27 @@ const TextInput = styled.textarea`
   margin-top: 8px;
 `;
 
+const Preview = styled.section`
+  height: 10rem;
+  overflow: auto;
+  margin: 16px;
+`;
+
+const PreviewTable = styled.table`
+  font-family: monospace;
+  font-size: smaller;
+  width: 100%;
+
+  td {
+    border-bottom: 1px solid #cdcdcd;
+    padding-bottom: 4px;
+  }
+
+  th {
+    text-align: left;
+  }
+`;
+
 const Param = ({ id, value, onChange, rows }) => (
   <>
     <Label>
@@ -155,15 +176,28 @@ const formatMatrix = m => (
     .replace(']]', ']\n]')
     .replace('], ', '],\n  ')
     .replace('], [', '],\n  [')
-)
+);
+
+const readMatrix = m => m;
+
+const parseDataset = (text) => {
+  const allRows = text?.split('\n')?.map(r => r.trim()) ?? [];
+  const columns = allRows?.[0]?.split(',')?.map(c => c.trim()) ?? [];
+  const rows = allRows.slice(1).map(r => r?.split(',')?.map(c => c.trim()) ?? []);
+
+  return { rows, columns };
+}
 
 const KalmanFilter = () => {
   const [ order, setOrder ] = useState(1);
   const [ params, setParams ] = useState(getInitialParams(order));
-  const [ columns, setColumns ] = useState({ z: 2, u: 1 });
+  const [ columnMap, setColumnMap ] = useState({ z: 2, u: 1 });
+  const [ columns, setColumns ] = useState([])
+  const [ rows, setRows ] = useState([])
+  const [ dataset, setDataset ] = useState()
 
-  const { z, u } = columns;
-  const { A, B, C, D, Q, x0, P0 } = params
+  const { z, u } = columnMap;
+  const { A, B, C, D, Q, x0, P0 } = params;
 
   const handleOrderChange = useCallback(({
     target: {
@@ -179,7 +213,10 @@ const KalmanFilter = () => {
       value
     }
   }) => {
-    setParams(p => ({ ...p, [id]: value }))
+    setParams(p => ({
+      ...p,
+      [id]: readMatrix(value)
+    }))
   }, [])
 
   const handleColumnIndexChange = useCallback(({
@@ -188,27 +225,60 @@ const KalmanFilter = () => {
       value
     }
   }) => {
-    setColumns(p => ({
+    setColumnMap(p => ({
       ...p,
       [id]: parseInt(value)
     }))
+  }, [])
+
+  const handleDrop = useCallback((e) => {
+    e.preventDefault();
+
+    const file = e.dataTransfer.items
+      ? [...e.dataTransfer.items][0]?.getAsFile()
+      : [...e.dataTransfer.files][0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setDataset(e.target.result);
+    };
+    reader.readAsText(file);
   }, [])
 
   useEffect(() => {
     setParams(getInitialParams(order))
   }, [order])
 
+  useEffect(() => {
+    const { rows, columns } = parseDataset(dataset);
+    setRows(rows);
+    setColumns(columns);
+  }, [dataset])
+
+  const matrixParam = {
+    rows: order === 1 ? 1 : order + 2,
+    onChange: handleParamChange
+  }
+
   return (
     <Wrapper>
       <Plot>
         <h3>Kalman Filter</h3>
+        TODO
       </Plot>
       <Dataset>
         <h3>Dataset</h3>
         <p>Drop or pick a .csv file to load data:</p>
-        <Load>
+
+        <Load
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={handleDrop}
+        >
           <LoadImage />
         </Load>
+
         <Form>
           <Label>input column:</Label>
           <NumberInput
@@ -230,7 +300,27 @@ const KalmanFilter = () => {
             max={10}
           />
         </Form>
+
+        {dataset &&
+          <Preview>
+            <PreviewTable cellSpacing="0">
+              <tr>
+              {columns.map(c => (
+                <th>{c}</th>
+              ))}
+              </tr>
+              {rows.map(r => (
+                <tr>
+                  {r.map(c => (
+                    <td>{c}</td>
+                  ))}
+                </tr>
+              ))}
+            </PreviewTable>
+          </Preview>
+        }
       </Dataset>
+
       <Params>
         <h3>Parameters</h3>
         <p>Enter filter parameters:</p>
@@ -242,48 +332,13 @@ const KalmanFilter = () => {
             value={order}
             onChange={handleOrderChange}
           />
-          <Param
-            id="A"
-            value={A}
-            onChange={handleParamChange}
-            rows={order === 1 ? 1 : order + 2}
-          />
-          <Param
-            id="B"
-            value={B}
-            onChange={handleParamChange}
-            rows={order === 1 ? 1 : order + 2}
-          />
-          <Param
-            id="C"
-            value={C}
-            onChange={handleParamChange}
-            rows={order === 1 ? 1 : order + 2}
-          />
-          <Param
-            id="D"
-            value={D}
-            onChange={handleParamChange}
-            rows="1"
-          />
-          <Param
-            id="Q"
-            value={Q}
-            onChange={handleParamChange}
-            rows={order === 1 ? 1 : order + 2}
-          />
-          <Param
-            id="x0"
-            value={x0}
-            onChange={handleParamChange}
-            rows={order === 1 ? 1 : order + 2}
-          />
-          <Param
-            id="P0"
-            value={P0}
-            onChange={handleParamChange}
-            rows={order === 1 ? 1 : order + 2}
-          />
+          <Param id="A" value={A} {...matrixParam} />
+          <Param id="B" value={B} {...matrixParam} />
+          <Param id="C" value={C} {...matrixParam} />
+          <Param id="D" value={D} {...matrixParam} />
+          <Param id="Q" value={Q} {...matrixParam} />
+          <Param id="x0" value={x0} {...matrixParam} />
+          <Param id="P0" value={P0} {...matrixParam} />
         </Form>
       </Params>
     </Wrapper>

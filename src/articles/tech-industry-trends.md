@@ -68,7 +68,7 @@ The focus is on evolving the **top layers** of the organizational structure to d
 * Communicating **technical details** in an **accessible manner** requires including all of the *prerequisites* needed to establish a shared *context* and *vocabulary*, in addition to convincing decision-makers that *mental models* they have internalized over the years *no longer match reality*.
 * Once the outer shells of *technical accessibility*, *context*, and *outdated mental models* have been penetrated, there remains a challenge of fighting through the **forces of ego**. For example in [Only the Paranoid Survive](https://www.amazon.com/Only-Paranoid-Survive-Exploit-Challenge-ebook/dp/B0036S4B2G), the ex-CEO of Intel talks about the challenge of sensing change in the operating environment through multiple layers of management.
 
-> Communicating at the higher levels of the organization is a complex **diplomatic exercise**:
+Communicating at the higher levels of the organization is a complex **diplomatic exercise**:
 
 * Information must be force-fed by utilizing unobtrusive sales techniques, such as convincing a recipient that a certain idea is their own, masquerading it as something they already agree with, or appealing to someone they trust.
 * Critical insights are frequently **re-shaped beyond the point of being useful** and the resulting decisions are **disharmonious with reality**.
@@ -79,10 +79,10 @@ In closing, I will extrapolate some predictions based on the above model.
 
 First, **management skills** will soon be the primary requirement for most jobs: **technical knowledge** alone will no longer be useful.
 
-> Candidates will need to cultivate **sophisticated understanding** of their **unique value proposition** and the lens through which they view the world.
+Candidates will need to cultivate **sophisticated understanding** of their **unique value proposition** and the lens through which they view the world.
 
 Skills that were previously in the realm of high-level executive roles and often boasted as the "millionaire mindset" will become commonplace.
 
 Once each employee bears the responsibility of **managing their own time** and **owning their efficiency**, mental *health* and *fitness* will become an important metric for performance evaluation.
 
-Candidates that haven’t learned how to "take out head trash" and stay calm through challenging or emotionally charged situations will have to build their mental fitness and emotional intelligence in order to stay relevant.
+Candidates that haven’t learned how to self-regulate and stay calm through challenging or emotionally charged situations will have to build their mental fitness and emotional intelligence in order to stay relevant.

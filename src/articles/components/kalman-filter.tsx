@@ -1,6 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import styled from 'styled-components';
-import { identity } from 'mathjs';
+import {
+  identity,
+  MathCollection,
+  matrix,
+  transpose
+} from 'mathjs';
 import { MOBILE } from '../../constants';
 
 const Wrapper = styled.section`
@@ -179,6 +190,7 @@ const getPoints = (samples, min, max, width, height) => {
 const Chart = ({
   rows,
   columnIndex,
+  outputs,
   width
 }) => {
   const height = 100;
@@ -208,6 +220,12 @@ const Chart = ({
         strokeMiterlimit="10"
         points={getPoints(samples, min, max, width, height)}
       />
+      <polyline
+        fill="none"
+        stroke="#12C0E1"
+        strokeMiterlimit="10"
+        points={getPoints(outputs, min, max, width, height)}
+      />
     </svg>
   );
 };
@@ -232,15 +250,66 @@ const formatMatrix = m => (
     .replace('], [', '],\n  [')
 );
 
-const readMatrix = m => m;
+const readMatrix = m => {
+  return eval(`matrix(${m})`);
+};
 
 const parseDataset = (text) => {
-  const allRows = text?.split('\n')?.map(r => r.trim()) ?? [];
-  const columns = allRows?.[0]?.split(',')?.map(c => c.trim()) ?? [];
-  const rows = allRows.slice(1).map(r => r?.split(',')?.map(c => c.trim()) ?? []);
+  const allRows = text
+    ?.split('\n')
+    ?.map(r => r.trim()) ?? [];
+
+  const columns = allRows
+    ?.[0]
+    ?.split(',')
+    ?.map(c => c.trim()) ?? [];
+
+  const rows = allRows
+    ?.slice(1)
+    ?.map(r => r?.split(',')?.map(c => c.trim()) ?? []);
 
   return { rows, columns };
 }
+
+const kalmanFilter = async ({
+  inputs,
+  measurements,
+  A, B, C, D, I, P0, Q, R,
+  x0
+}) => {
+  let y = measurements[0];
+  let x = x0;
+  let P = P0;
+
+  const Atrans = transpose(A);
+  const Ctrans = transpose(C);
+
+  return measurements.map((z, index) => {
+    const u = inputs[index];
+
+    // Update covariance
+    P = A * P * Atrans + Q;
+
+    // Optimize gain
+    const K =
+      (P * Ctrans) /
+      (C * P * Ctrans + R);
+
+    // Correct state with measurement
+    x = x + K * (z - y);
+
+    // Correct covariance
+    P =
+      (I - K * C) * P * transpose(I - K * C) +
+      K * R * transpose(K);
+
+    // Predict
+    y = C * x + D * u;
+
+    // Update state
+    x = A * x + B * u;
+  });
+};
 
 const KalmanFilter = () => {
   const [ order, setOrder ] = useState(1);
@@ -249,6 +318,7 @@ const KalmanFilter = () => {
   const [ columns, setColumns ] = useState([])
   const [ rows, setRows ] = useState([])
   const [ dataset, setDataset ] = useState()
+  const [ outputs, setOutputs ] = useState([])
 
   const { z, u } = columnMap;
   const { A, B, C, D, Q, x0, P0 } = params;
@@ -267,6 +337,7 @@ const KalmanFilter = () => {
       value
     }
   }) => {
+    console.log(readMatrix(value))
     setParams(p => ({
       ...p,
       [id]: readMatrix(value)
@@ -295,9 +366,11 @@ const KalmanFilter = () => {
     if (!file) return;
 
     const reader = new FileReader();
+
     reader.onload = (e) => {
       setDataset(e.target.result);
     };
+
     reader.readAsText(file);
   }, [])
 
@@ -321,15 +394,18 @@ const KalmanFilter = () => {
   return (
     <Wrapper>
       <h3>Kalman Filter</h3>
+
       {Boolean(rows.length) && <Plot>
         <ChartArea ref={chartAreaRef}>
           <Chart
             rows={rows}
+            outputs={outputs}
             columnIndex={z - 1}
             width={chartAreaRef.current?.clientWidth}
           />
         </ChartArea>
       </Plot>}
+
       <Dataset>
         <h3>Dataset</h3>
         <p>Drop or pick a .csv file to load data:</p>

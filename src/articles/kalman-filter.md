@@ -590,7 +590,7 @@ The [noise covariance](#noise-covariance) matrix `Q` represents how much uncerta
 
 ## demonstration
 
-Here's a Kalman filter implementation in JavaScript. Load a file and adjust parameters to update the chart:
+Below is a Kalman filter demonstration built with React and JavaScript. Simply load a file and adjust parameters to update the chart:
 
 <KalmanFilter />
 

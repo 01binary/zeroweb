@@ -572,11 +572,10 @@ const formatMatrix = m => (
     ?.toString()
     ?.replace('[[', '[\n  [')
     ?.replace(']]', ']\n]')
-    ?.replace('], ', '],\n  ')
-    ?.replace('], [', '],\n  [')
+    ?.replace('],[', '],\n  [')
 );
 
-const readMatrix = m => {
+const loadMatrix = m => {
   try {
     return matrix(eval(m));
   } catch {
@@ -599,32 +598,31 @@ const parseDataset = (text) => {
     ?.map(r => r?.split(',')?.map(c => c.trim()) ?? []);
 
   return { rows, columns };
-}
+};
 
-const parseParameters = (params) => {
-  const A = matrix(params.A);
-  const B = matrix(params.B);
-  const C = matrix(params.C);
-  const D = params.D;
-  const Q = matrix(params.Q);
-  const P0 = matrix(params.P0);
-  const R = params.R;
-  const x0 = matrix(params.x0);
-
-  return { A, B, C, D, Q, P0, R, x0 };
-}
+const serializeParams = (params) => ({
+  A: formatMatrix(JSON.stringify(params.A)),
+  B: formatMatrix(JSON.stringify(params.B)),
+  C: formatMatrix(JSON.stringify(params.C)),
+  D: params.D.toString(),
+  P0: formatMatrix(JSON.stringify(params.P0)),
+  Q: formatMatrix(JSON.stringify(params.Q)),
+  R: params.R.toString(),
+  x0: formatMatrix(JSON.stringify(params.x0))
+});
 
 const kalmanFilter = ({
   inputs,
   measurements,
-  A, B, C, D, I, P0, Q, R, x0
+  A, B, C, D, P0, Q, R, x0
 }) => {
+  const Atrans = transpose(A);
+  const Ctrans = transpose(C);
+  const I = identity(x0.size());
+
   let y = measurements[0];
   let x = x0;
   let P = P0;
-
-  const Atrans = transpose(A);
-  const Ctrans = transpose(C);
 
   return measurements.map((z, index) => {
     // Input
@@ -664,7 +662,7 @@ const kalmanFilter = ({
 };
 
 const InteractiveKalmanFilter = () => {
-  const [ params, setParams ] = useState(parseParameters(defaultParams));
+  const [ params, setParams ] = useState(serializeParams(defaultParams));
   const [ columnMap, setColumnMap ] = useState(defaultMapping);
   const [ columns, setColumns ] = useState(defaultInput[0]);
   const [ rows, setRows ] = useState(defaultInput.slice(1));
@@ -676,24 +674,22 @@ const InteractiveKalmanFilter = () => {
   const outputs = useMemo(() => {
     const inputs = rows.map(r => r[u - 1]);
     const measurements = rows.map(r => r[z - 1]);
-    const I = identity(x0.size());
 
     try {
       return kalmanFilter({
         inputs,
         measurements,
-        A,
-        B,
-        C,
+        A: loadMatrix(A),
+        B: loadMatrix(B),
+        C: loadMatrix(C),
         D,
-        Q,
+        Q: loadMatrix(Q),
         R,
-        x0,
-        P0,
-        I
-      }) ?? [];
+        x0: loadMatrix(x0),
+        P0: loadMatrix(P0)
+      });
     } catch {
-      return []
+      return [];
     }
   }, [rows, z, u, A, B, C, D, Q, x0, P0]);
 
@@ -705,9 +701,7 @@ const InteractiveKalmanFilter = () => {
   }) => {
     setParams(p => ({
       ...p,
-      [id]: id === 'D' || id === 'R'
-        ? parseFloat(value)
-        : readMatrix(value.toString())
+      [id]: value.toString()
     }))
   }, [])
 

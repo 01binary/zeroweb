@@ -227,19 +227,6 @@ const PreviewTable = styled.table`
   }
 `;
 
-const Param = ({ id, value, description, onChange, rows }) => (
-  <>
-    <Label>{id}:</Label>
-    <Description>{description}</Description>
-    <TextInput
-      id={id}
-      value={formatMatrix(value)}
-      onChange={onChange}
-      rows={rows}
-    />
-  </>
-);
-
 const ChartArea = styled.section`
   margin: 24px 16px 0 16px;
 `;
@@ -358,6 +345,19 @@ const Chart = ({
     </svg>
   );
 };
+
+const Param = ({ id, value, description, onChange, rows }) => (
+  <>
+    <Label>{id}:</Label>
+    <Description>{description}</Description>
+    <TextInput
+      id={id}
+      value={formatMatrix(value)}
+      onChange={onChange}
+      rows={rows}
+    />
+  </>
+);
 
 const KalmanDemo = () => {
   const [ params, setParams ] = useState(serializeParams(defaultParams));

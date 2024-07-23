@@ -6,15 +6,21 @@ import React, {
   useState
 } from 'react';
 import styled from 'styled-components';
-import { identity, matrix, transpose } from 'mathjs';
+import {
+  identity,
+  matrix,
+  transpose,
+  multiply,
+  divide,
+  add,
+  subtract
+} from 'mathjs';
 import { MOBILE } from '../../constants';
 import defaultMapping from './kalman-mapping.json';
 import defaultParams from './kalman-params.json';
 import defaultInput from './kalman-input.json';
 
 const Wrapper = styled.section`
-  margin: 30px 15px;
-
   display: grid;
   grid-template-rows: 200px 600px;
   grid-template-columns: 1fr 1fr;
@@ -210,7 +216,7 @@ const Param = ({ id, value, description, onChange, rows }) => (
 );
 
 const ChartArea = styled.section`
-  margin: 16px;
+  margin: 24px 16px;
 `;
 
 const getPoints = (samples, min, max, width, height) => {
@@ -219,12 +225,12 @@ const getPoints = (samples, min, max, width, height) => {
   const sampleWidth = width / samples.length;
 
   return samples
-    .map((sample, index) => {
+    ?.map((sample, index) => {
       const y = (sample - offset) * factor;
       const x = sampleWidth * index;
       return `${x},${y}`;
     })
-    .join(' ');
+    ?.join(' ') ?? '';
 };
 
 const Chart = ({
@@ -280,6 +286,7 @@ const formatMatrix = m => (
 );
 
 const readMatrix = m => {
+  console.log('eval', m)
   return matrix(eval(m));
 };
 
@@ -313,11 +320,10 @@ const parseParameters = (params) => {
   return { A, B, C, D, Q, P0, R, x0 };
 }
 
-const kalmanFilter = async ({
+const kalmanFilter = ({
   inputs,
   measurements,
-  A, B, C, D, I, P0, Q, R,
-  x0
+  A, B, C, D, I, P0, Q, R, x0
 }) => {
   let y = measurements[0];
   let x = x0;
@@ -327,29 +333,36 @@ const kalmanFilter = async ({
   const Ctrans = transpose(C);
 
   return measurements.map((z, index) => {
+    // Input
     const u = inputs[index];
 
     // Update covariance
-    P = A * P * Atrans + Q;
+    P = add(multiply(multiply(A, P), Atrans), Q);
 
     // Optimize gain
-    const K =
-      (P * Ctrans) /
-      (C * P * Ctrans + R);
+    const K = divide(
+      multiply(P, Ctrans),
+      add(
+        multiply(multiply(C, P), Ctrans),
+        R
+      ));
 
     // Correct state with measurement
-    x = x + K * (z - y);
+    x = add(x, multiply(K, (z - y)));
 
     // Correct covariance
-    P =
-      (I - K * C) * P * transpose(I - K * C) +
-      K * R * transpose(K);
+    P = add(
+      multiply(multiply(subtract(I, multiply(K, C)), P), transpose(subtract(I, multiply(K, C)))),
+      multiply(multiply(K, R), transpose(K)));
 
     // Predict
-    y = C * x + D * u;
+    y = add(multiply(C, x), multiply(D, u));
 
     // Update state
-    x = A * x + B * u;
+    x = add(multiply(A, x), multiply(B, u));
+
+    // Output
+    return y._data[0][0];
   });
 };
 
@@ -359,10 +372,29 @@ const KalmanFilter = () => {
   const [ columns, setColumns ] = useState(defaultInput[0]);
   const [ rows, setRows ] = useState(defaultInput.slice(1));
   const [ dataset, setDataset ] = useState();
-  const [ outputs, setOutputs ] = useState([]);
 
   const { z, u } = columnMap;
-  const { A, B, C, D, Q, x0, P0 } = params;
+  const { A, B, C, D, Q, P0, R, x0 } = params;
+
+  const outputs = useMemo(() => {
+    const inputs = rows.map(r => r[u - 1]);
+    const measurements = rows.map(r => r[z - 1]);
+    const I = identity(x0.size());
+
+    return kalmanFilter({
+      inputs,
+      measurements,
+      A,
+      B,
+      C,
+      D,
+      Q,
+      R,
+      x0,
+      P0,
+      I
+    }) ?? [];
+  }, [rows, z, u, A, B, C, D, Q, x0, P0]);
 
   const handleParamChange = useCallback(({
     target: {
@@ -372,7 +404,9 @@ const KalmanFilter = () => {
   }) => {
     setParams(p => ({
       ...p,
-      [id]: readMatrix(value)
+      [id]: id === 'D' || id === 'R'
+        ? parseFloat(value)
+        : readMatrix(value.toString())
     }))
   }, [])
 
@@ -424,7 +458,7 @@ const KalmanFilter = () => {
     <Wrapper>
       {Boolean(rows.length) &&
         <Plot>
-          <h3>Kalman Filter</h3>
+          <p>Load a dataset and experiment with filter parameters.</p>
           <ChartArea ref={chartAreaRef}>
             <Chart
               rows={rows}
@@ -438,7 +472,7 @@ const KalmanFilter = () => {
 
       <Dataset>
         <h3>Dataset</h3>
-        <p>Drop or pick a .csv file to load data:</p>
+        <p>Drop a .csv file to load data:</p>
 
         <Load
           onDragOver={(e) => e.preventDefault()}
@@ -492,15 +526,17 @@ const KalmanFilter = () => {
       <Params>
         <h3>Parameters</h3>
         <p>Enter filter parameters:</p>
+
         <Scrollable>
           <Form>
             <Param id="A" description="State transition matrix" value={A} {...matrixParam} />
             <Param id="B" description="Control/input matrix" value={B} {...matrixParam} />
             <Param id="C" description="Measurement matrix" value={C} {...matrixParam} />
             <Param id="D" description="Input contribution to immediate output" value={D} {...matrixParam} />
-            <Param id="Q" description="State transition noise/disturbance matrix" value={Q} {...matrixParam} />
-            <Param id="x0" description="Initial state vector" value={x0} {...matrixParam} />
             <Param id="P0" description="Initial estimate uncertainty matrix" value={P0} {...matrixParam} />
+            <Param id="Q" description="State transition noise/disturbance matrix" value={Q} {...matrixParam} />
+            <Param id="R" description="Measurement uncertainty" value={R} {...matrixParam} />
+            <Param id="x0" description="Initial state vector" value={x0} {...matrixParam} />
           </Form>
         </Scrollable>
       </Params>

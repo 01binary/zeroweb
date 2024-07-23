@@ -401,7 +401,7 @@ const KalmanDemo = () => {
       ...p,
       [id]: value.toString()
     }))
-  }, [])
+  }, []);
 
   const handleColumnIndexChange = useCallback(({
     target: {
@@ -413,7 +413,7 @@ const KalmanDemo = () => {
       ...p,
       [id]: parseInt(value)
     }))
-  }, [])
+  }, []);
 
   const handleDrop = useCallback((e) => {
     e.preventDefault();
@@ -431,6 +431,24 @@ const KalmanDemo = () => {
     };
 
     reader.readAsText(file);
+  }, []);
+
+  const handleSelectFile = useCallback((e) => {
+    const file = e.target.files[0]
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      setDataset(e.target.result);
+    };
+
+    reader.readAsText(file);
+  }, []);
+
+  const handleDropClick = useCallback(() => {
+    const input = document.getElementById('fileInput');
+    if (input) input.click();
   }, [])
 
   useEffect(() => {
@@ -438,14 +456,14 @@ const KalmanDemo = () => {
     const { rows, columns } = parseDataset(dataset);
     setRows(rows);
     setColumns(columns);
-  }, [dataset])
+  }, [dataset]);
 
   const matrixParam = {
     rows: 5,
     onChange: handleParamChange
-  }
+  };
 
-  const chartAreaRef = useRef()
+  const chartAreaRef = useRef();
 
   return (
     <Wrapper>
@@ -466,9 +484,17 @@ const KalmanDemo = () => {
         <h3>Dataset</h3>
         <p>Drop a .csv file to load data:</p>
 
+        <input
+          type="file"
+          id="fileInput"
+          style={{ display: 'none' }}
+          onChange={handleSelectFile}
+        />
+
         <Load
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
+          onClick={handleDropClick}
         >
           <LoadImage />
         </Load>

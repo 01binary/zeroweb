@@ -22,7 +22,7 @@ import defaultInput from './kalman-input.json';
 
 const Wrapper = styled.section`
   display: grid;
-  grid-template-rows: 200px 600px;
+  grid-template-rows: 220px 600px;
   grid-template-columns: 1fr 1fr;
   width: calc(100% - 30px);
 
@@ -51,6 +51,10 @@ const Dataset = styled.div`
   grid-column: 1;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${MOBILE}) {
+    max-height: 720px;
+  }
 `;
 
 const Params = styled.div`
@@ -216,18 +220,18 @@ const Param = ({ id, value, description, onChange, rows }) => (
 );
 
 const ChartArea = styled.section`
-  margin: 24px 16px;
+  margin: 24px 16px 0 16px;
 `;
 
-const getPoints = (samples, min, max, width, height) => {
+const getPoints = (samples, min, max, width, height, xOffset, yOffset) => {
   const offset = min;
-  const factor = height / (max - min);
+  const factor = (height - 2) / (max - min);
   const sampleWidth = width / samples.length;
 
   return samples
     ?.map((sample, index) => {
-      const y = (sample - offset) * factor;
-      const x = sampleWidth * index;
+      const y = (sample - offset) * factor + 1 + yOffset;
+      const x = sampleWidth * index + xOffset;
       return `${x},${y}`;
     })
     ?.join(' ') ?? '';
@@ -239,7 +243,8 @@ const Chart = ({
   outputs,
   width
 }) => {
-  const height = 100;
+  const height = 200;
+  const rulerMarkSize = 40;
 
   const samples = useMemo(
     () => rows.map(r => Number(r[columnIndex])),
@@ -260,18 +265,304 @@ const Chart = ({
       height={`${height}px`}
       viewBox={`0 0 ${width} ${height}`}
     >
+      <circle fill="#888888" cx="42.7" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="68.6" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="47.8" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="26.9" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="6" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="42.7" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="63.6" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="84.5" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="105.4" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="126.3" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="147.1" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="168" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="188.9" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="209.8" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="230.7" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="251.5" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="272.4" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="293.3" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="314.2" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="335.1" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="355.9" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="376.8" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="397.7" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="418.6" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="439.5" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="460.3" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="481.2" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="502.1" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="523" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="543.9" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="564.7" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="173" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="152.2" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="131.3" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="110.4" r="1.4"/>
+      <circle fill="#888888" cx="585.6" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="606.5" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="627.4" cy="89.5" r="1.4"/>
+      <circle fill="#888888" cx="648.3" cy="89.5" r="1.4"/>
       <polyline
         fill="none"
         stroke="#FF008E"
         strokeMiterlimit="10"
-        points={getPoints(samples, min, max, width, height)}
+        points={getPoints(
+          samples, min, max, width - rulerMarkSize, height - rulerMarkSize, rulerMarkSize, 0
+        )}
       />
       <polyline
         fill="none"
         stroke="#12C0E1"
         strokeMiterlimit="10"
-        points={getPoints(outputs, min, max, width, height)}
+        points={getPoints(
+          outputs, min, max, width - rulerMarkSize, height - rulerMarkSize, rulerMarkSize, 0
+        )}
       />
+      <g>
+        <g>
+          <polyline strokeWidth="1.5" fill="none" stroke="#AAAAAA" points="1.2,5.4 25.5,5.4 25.5,168.2 1.2,168.2 		"/>
+        </g>
+        <g>
+          <line strokeWidth="1.5" fill="none" stroke="#AAAAAA" x1="17.4" y1="30.9" x2="25.5" y2="30.9"/>
+          <line strokeWidth="1.5" fill="none" stroke="#AAAAAA" x1="17.4" y1="86.4" x2="25.5" y2="86.4"/>
+          <line strokeWidth="1.5" fill="none" stroke="#AAAAAA" x1="9.3" y1="58.6" x2="25.5" y2="58.6"/>
+          <line strokeWidth="1.5" fill="none" stroke="#AAAAAA" x1="9.3" y1="114.2" x2="25.5" y2="114.2"/>
+          <line strokeWidth="1.5" fill="none" stroke="#AAAAAA" x1="17.4" y1="141.9" x2="25.5" y2="141.9"/>
+        </g>
+      </g>
     </svg>
   );
 };
@@ -286,8 +577,11 @@ const formatMatrix = m => (
 );
 
 const readMatrix = m => {
-  console.log('eval', m)
-  return matrix(eval(m));
+  try {
+    return matrix(eval(m));
+  } catch {
+    return m;
+  }
 };
 
 const parseDataset = (text) => {
@@ -369,7 +663,7 @@ const kalmanFilter = ({
   });
 };
 
-const KalmanFilter = () => {
+const InteractiveKalmanFilter = () => {
   const [ params, setParams ] = useState(parseParameters(defaultParams));
   const [ columnMap, setColumnMap ] = useState(defaultMapping);
   const [ columns, setColumns ] = useState(defaultInput[0]);
@@ -465,7 +759,6 @@ const KalmanFilter = () => {
     <Wrapper>
       {Boolean(rows.length) &&
         <Plot>
-          <p>Load a dataset and experiment with filter parameters.</p>
           <ChartArea ref={chartAreaRef}>
             <Chart
               rows={rows}
@@ -551,4 +844,4 @@ const KalmanFilter = () => {
   );
 };
 
-export default KalmanFilter;
+export default InteractiveKalmanFilter;

@@ -20,8 +20,6 @@ import KalmanFilter from './components/kalman-filter';
 
 The Kalman filter is great at interpreting noisy or uncertain measurements from a variety of sources like servo encoders, GPS, and radar. This makes it ideal for use with dynamic systems like robots and autonomous vehicles.
 
-<KalmanFilter />
-
 ## background
 
 In this article I introduce the Kalman Filter in the shortest way possible with practical examples. When you're ready to go deeper check out *Kalman Filter from the Ground Up by Alex Becker* at [kalmanfilter.net](https://www.kalmanfilter.net/default.aspx):
@@ -588,6 +586,13 @@ P = A * P * A' + Q;
 Recall that `A` is the [state transition](#state-transition) matrix that represents the change made to the system state at each iteration.
 
 The [noise covariance](#noise-covariance) matrix `Q` represents how much uncertainty is added at each iteration by simulating the system based on an imperfect model and using noisy inputs to change the system state.
+
+
+## demonstration
+
+Here's a Kalman filter implementation in JavaScript. Load a file and adjust parameters to update the chart:
+
+<KalmanFilter />
 
 ## system identification
 

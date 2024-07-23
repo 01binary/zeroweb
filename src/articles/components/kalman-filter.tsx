@@ -352,17 +352,20 @@ const kalmanFilter = ({
 
     // Correct covariance
     P = add(
-      multiply(multiply(subtract(I, multiply(K, C)), P), transpose(subtract(I, multiply(K, C)))),
-      multiply(multiply(K, R), transpose(K)));
+      multiply(
+        multiply(subtract(I, multiply(K, C)), P),
+        transpose(subtract(I, multiply(K, C)))),
+      multiply(multiply(K, R), transpose(K))
+    );
 
     // Predict
-    y = add(multiply(C, x), multiply(D, u));
+    y = add(multiply(C, x), multiply(D, u))._data[0][0];
 
     // Update state
     x = add(multiply(A, x), multiply(B, u));
 
     // Output
-    return y._data[0][0];
+    return y;
   });
 };
 
@@ -381,19 +384,23 @@ const KalmanFilter = () => {
     const measurements = rows.map(r => r[z - 1]);
     const I = identity(x0.size());
 
-    return kalmanFilter({
-      inputs,
-      measurements,
-      A,
-      B,
-      C,
-      D,
-      Q,
-      R,
-      x0,
-      P0,
-      I
-    }) ?? [];
+    try {
+      return kalmanFilter({
+        inputs,
+        measurements,
+        A,
+        B,
+        C,
+        D,
+        Q,
+        R,
+        x0,
+        P0,
+        I
+      }) ?? [];
+    } catch {
+      return []
+    }
   }, [rows, z, u, A, B, C, D, Q, x0, P0]);
 
   const handleParamChange = useCallback(({

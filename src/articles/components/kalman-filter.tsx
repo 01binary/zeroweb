@@ -6,19 +6,17 @@ import React, {
   useState
 } from 'react';
 import styled from 'styled-components';
-import {
-  identity,
-  MathCollection,
-  matrix,
-  transpose
-} from 'mathjs';
+import { identity, matrix, transpose } from 'mathjs';
 import { MOBILE } from '../../constants';
+import defaultMapping from './kalman-mapping.json';
+import defaultParams from './kalman-params.json';
+import defaultInput from './kalman-input.json';
 
 const Wrapper = styled.section`
   margin: 30px 15px;
 
   display: grid;
-  grid-template-rows: 200px 1fr;
+  grid-template-rows: 200px 600px;
   grid-template-columns: 1fr 1fr;
   width: calc(100% - 30px);
 
@@ -45,11 +43,15 @@ const Plot = styled.div`
 const Dataset = styled.div`
   grid-row: 2;
   grid-column: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Params = styled.div`
   grid-row: 2;
   grid-column: 2;
+  display: flex;
+  flex-direction: column;
 `;
 
 const LoadImage = () => (
@@ -114,7 +116,13 @@ const Form = styled.div`
   grid-template-columns: max-content, 1fr;
   margin-left: 16px;
   margin-right: 16px;
-  direction: column;
+`;
+
+const Scrollable = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const Label = styled.div`
@@ -123,19 +131,52 @@ const Label = styled.div`
   color: #848D95;
 `;
 
+const Description = styled.div`
+  grid-column: 2;
+  font-size: 16px;
+  color: #848D95;
+`;
+
 const NumberInput = styled.input`
   grid-column: 2;
   width: 3rem;
   margin-bottom: 8px;
+
+  padding: 8px;
+
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.foregroundColor};
+  border: ${(props) => props.theme.border} solid ${(props) => props.theme.borderColor};
+
+  &:focus {
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-style: solid;
+    outline-width: medium;
+    border-radius: 1px;
+  }
 `;
 
 const TextInput = styled.textarea`
   grid-column: 2;
   margin-top: 8px;
+  margin-bottom: 8px;
+  min-width: 320px;
+
+  padding: 8px;
+
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.foregroundColor};
+  border: ${(props) => props.theme.border} solid ${(props) => props.theme.borderColor};
+
+  &:focus {
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-style: solid;
+    outline-width: medium;
+    border-radius: 1px;
+  }
 `;
 
 const Preview = styled.section`
-  height: 10rem;
   overflow: auto;
   margin: 16px;
 `;
@@ -155,11 +196,10 @@ const PreviewTable = styled.table`
   }
 `;
 
-const Param = ({ id, value, onChange, rows }) => (
+const Param = ({ id, value, description, onChange, rows }) => (
   <>
-    <Label>
-      {id}:
-    </Label>
+    <Label>{id}:</Label>
+    <Description>{description}</Description>
     <TextInput
       id={id}
       value={formatMatrix(value)}
@@ -170,7 +210,7 @@ const Param = ({ id, value, onChange, rows }) => (
 );
 
 const ChartArea = styled.section`
-  margin: 0 16px;
+  margin: 16px;
 `;
 
 const getPoints = (samples, min, max, width, height) => {
@@ -204,7 +244,7 @@ const Chart = ({
       min: min === undefined ? sample : Math.min(min, sample),
       max: max === undefined ? sample : Math.max(max, sample)
     }), {}),
-  []);
+  [samples]);
 
   if (!width) return null;
 
@@ -230,28 +270,17 @@ const Chart = ({
   );
 };
 
-const getInitialParams = (order) => ({
-  A: order === 1 ? 0 : identity(order),
-  B: order === 1 ? 0 : identity(order, 1),
-  C: order === 1 ? 0 : identity(1, order),
-  D: 0,
-  Q: order === 1 ? 0 : identity(order),
-  R: 0,
-  x0: order === 1 ? 0 : identity(order, 1),
-  P0: order === 1 ? 0 : identity(order)
-})
-
 const formatMatrix = m => (
   m
-    .toString()
-    .replace('[[', '[\n  [')
-    .replace(']]', ']\n]')
-    .replace('], ', '],\n  ')
-    .replace('], [', '],\n  [')
+    ?.toString()
+    ?.replace('[[', '[\n  [')
+    ?.replace(']]', ']\n]')
+    ?.replace('], ', '],\n  ')
+    ?.replace('], [', '],\n  [')
 );
 
 const readMatrix = m => {
-  return eval(`matrix(${m})`);
+  return matrix(eval(m));
 };
 
 const parseDataset = (text) => {
@@ -269,6 +298,19 @@ const parseDataset = (text) => {
     ?.map(r => r?.split(',')?.map(c => c.trim()) ?? []);
 
   return { rows, columns };
+}
+
+const parseParameters = (params) => {
+  const A = matrix(params.A);
+  const B = matrix(params.B);
+  const C = matrix(params.C);
+  const D = params.D;
+  const Q = matrix(params.Q);
+  const P0 = matrix(params.P0);
+  const R = params.R;
+  const x0 = matrix(params.x0);
+
+  return { A, B, C, D, Q, P0, R, x0 };
 }
 
 const kalmanFilter = async ({
@@ -312,24 +354,15 @@ const kalmanFilter = async ({
 };
 
 const KalmanFilter = () => {
-  const [ order, setOrder ] = useState(1);
-  const [ params, setParams ] = useState(getInitialParams(order));
-  const [ columnMap, setColumnMap ] = useState({ z: 2, u: 1 });
-  const [ columns, setColumns ] = useState([])
-  const [ rows, setRows ] = useState([])
-  const [ dataset, setDataset ] = useState()
-  const [ outputs, setOutputs ] = useState([])
+  const [ params, setParams ] = useState(parseParameters(defaultParams));
+  const [ columnMap, setColumnMap ] = useState(defaultMapping);
+  const [ columns, setColumns ] = useState(defaultInput[0]);
+  const [ rows, setRows ] = useState(defaultInput.slice(1));
+  const [ dataset, setDataset ] = useState();
+  const [ outputs, setOutputs ] = useState([]);
 
   const { z, u } = columnMap;
   const { A, B, C, D, Q, x0, P0 } = params;
-
-  const handleOrderChange = useCallback(({
-    target: {
-      value
-    }
-  }) => {
-    setOrder(parseInt(value))
-  }, [])
 
   const handleParamChange = useCallback(({
     target: {
@@ -337,7 +370,6 @@ const KalmanFilter = () => {
       value
     }
   }) => {
-    console.log(readMatrix(value))
     setParams(p => ({
       ...p,
       [id]: readMatrix(value)
@@ -375,17 +407,14 @@ const KalmanFilter = () => {
   }, [])
 
   useEffect(() => {
-    setParams(getInitialParams(order))
-  }, [order])
-
-  useEffect(() => {
+    if (!dataset) return;
     const { rows, columns } = parseDataset(dataset);
     setRows(rows);
     setColumns(columns);
   }, [dataset])
 
   const matrixParam = {
-    rows: order === 1 ? 1 : order + 2,
+    rows: 5,
     onChange: handleParamChange
   }
 
@@ -393,18 +422,19 @@ const KalmanFilter = () => {
 
   return (
     <Wrapper>
-      <h3>Kalman Filter</h3>
-
-      {Boolean(rows.length) && <Plot>
-        <ChartArea ref={chartAreaRef}>
-          <Chart
-            rows={rows}
-            outputs={outputs}
-            columnIndex={z - 1}
-            width={chartAreaRef.current?.clientWidth}
-          />
-        </ChartArea>
-      </Plot>}
+      {Boolean(rows.length) &&
+        <Plot>
+          <h3>Kalman Filter</h3>
+          <ChartArea ref={chartAreaRef}>
+            <Chart
+              rows={rows}
+              outputs={outputs}
+              columnIndex={z - 1}
+              width={chartAreaRef.current?.clientWidth}
+            />
+          </ChartArea>
+        </Plot>
+      }
 
       <Dataset>
         <h3>Dataset</h3>
@@ -462,22 +492,17 @@ const KalmanFilter = () => {
       <Params>
         <h3>Parameters</h3>
         <p>Enter filter parameters:</p>
-        <Form>
-          <Label>Order:</Label>
-          <NumberInput
-            id="order"
-            type="number"
-            value={order}
-            onChange={handleOrderChange}
-          />
-          <Param id="A" value={A} {...matrixParam} />
-          <Param id="B" value={B} {...matrixParam} />
-          <Param id="C" value={C} {...matrixParam} />
-          <Param id="D" value={D} {...matrixParam} />
-          <Param id="Q" value={Q} {...matrixParam} />
-          <Param id="x0" value={x0} {...matrixParam} />
-          <Param id="P0" value={P0} {...matrixParam} />
-        </Form>
+        <Scrollable>
+          <Form>
+            <Param id="A" description="State transition matrix" value={A} {...matrixParam} />
+            <Param id="B" description="Control/input matrix" value={B} {...matrixParam} />
+            <Param id="C" description="Measurement matrix" value={C} {...matrixParam} />
+            <Param id="D" description="Input contribution to immediate output" value={D} {...matrixParam} />
+            <Param id="Q" description="State transition noise/disturbance matrix" value={Q} {...matrixParam} />
+            <Param id="x0" description="Initial state vector" value={x0} {...matrixParam} />
+            <Param id="P0" description="Initial estimate uncertainty matrix" value={P0} {...matrixParam} />
+          </Form>
+        </Scrollable>
       </Params>
     </Wrapper>
   );

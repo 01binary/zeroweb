@@ -35,13 +35,19 @@ const kalmanFilter = ({
   const Ctrans = transpose(C);
   const I = identity(x0.size());
 
-  let y = measurements[0];
+  // Initial estimate from system with initial state
+  let y = multiply(C, x0)._data[0][0];
+
+  // Initial state
   let x = x0;
+
+  // Initial uncertainty
   let P = P0;
 
-  return measurements.map((z, index) => {
+  return measurements.map((measurement, index) => {
     // Input
-    const u = inputs[index];
+    const z = isNaN(measurement) ? 0 : measurement;
+    const u = isNaN(inputs[index]) ? 0 : inputs[index];
 
     // Update covariance
     P = add(multiply(multiply(A, P), Atrans), Q);
@@ -210,6 +216,7 @@ const TextInput = styled.textarea`
 const Preview = styled.section`
   overflow: auto;
   margin: 16px;
+  max-width: 300px;
 `;
 
 const PreviewTable = styled.table`
@@ -307,7 +314,7 @@ const Chart = ({
   const rulerMarkSize = 40;
 
   const samples = useMemo(
-    () => rows.map(r => Number(r[columnIndex])),
+    () => rows.map(r => Number(r[columnIndex] ?? 0)),
   [rows, columnIndex]);
   
   const { min, max } = useMemo(() => samples.reduce(
@@ -370,23 +377,27 @@ const KalmanDemo = () => {
   const { A, B, C, D, Q, P0, R, x0 } = params;
 
   const outputs = useMemo(() => {
-    const inputs = rows.map(r => r[u - 1]);
-    const measurements = rows.map(r => r[z - 1]);
-
     try {
+      const inputs = rows
+        .map(r => Number(r[u - 1]));
+
+      const measurements = rows
+        .map(r => Number(r[z - 1]));
+
       return kalmanFilter({
         inputs,
         measurements,
         A: loadMatrix(A),
         B: loadMatrix(B),
         C: loadMatrix(C),
-        D,
+        D: Number(D),
         Q: loadMatrix(Q),
-        R,
+        R: Number(R),
         x0: loadMatrix(x0),
         P0: loadMatrix(P0)
       });
-    } catch {
+    } catch(e) {
+      console.error(e);
       return [];
     }
   }, [rows, z, u, A, B, C, D, Q, x0, P0]);

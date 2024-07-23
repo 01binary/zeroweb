@@ -14,9 +14,11 @@ tags:
   ]
 ---
 
+import KalmanFilter from './components/kalman-filter';
+
 ## overview
 
-The Kalman filter is great at interpreting noisy or uncertain measurements from a variety of sources like servo encoders, GPS, and radar. This makes it ideal for use with dynamic systems like self-driving cars and robots.
+The Kalman filter is great at interpreting noisy or uncertain measurements from a variety of sources like servo encoders, GPS, and radar. This makes it ideal for use with dynamic systems like robots and autonomous vehicles.
 
 ## background
 
@@ -81,7 +83,7 @@ Compare the filter result with `0.1` and `0.001` coefficients to the original da
 
 This filter missed short temporal spikes in the data. This may be fine if the system is cyclical in nature, but if the subsequent state depends on previous system state, missing events could cause it to diverge far from reality.
 
-In the following video we test the moving average filter on real data:
+In the following video we test both filters on real data:
 
 `youtube:https://www.youtube.com/embed/5IUP3TfOMCw?si=XkhCUAAcJAaQMIBS`
 
@@ -101,16 +103,23 @@ MAX_VELOCITY = MAX_VELOCITY_RPM * PI * 2 / 60;
 PWM_NONLINEARITY = [1.0, 1.023, 1.03, 1.0, 0.98, 1.0];
 
 % System Model
-function nextPosition = systemModel(input, position, timeStep)
-  % Normalize PWM to 0...1 range
+function position = systemModel(...
+  input, ...
+  position, ...
+  timeStep ...
+)
+  % Map PWM to velocity
   norm = input / MAX_PWM;
 
-  % Map to velocity adjusting for PWM non-linearity curve
-  index = round(length(PWM_NONLINEARITY) * norm);
-  velocity = norm * PWM_NONLINEARITY[index] * MAX_VELOCITY;
+  index = round(...
+    length(PWM_NONLINEARITY) * norm...
+  );
+
+  velocity = ...
+    norm * PWM_NONLINEARITY[index] * MAX_VELOCITY;
 
   % Predict position
-  nextPosition = position + velocity * timeStep;
+  position = position + velocity * timeStep;
 end
 ```
 
@@ -126,32 +135,43 @@ FRONTAL_AREA = 2.5;
 AIR_DENSITY = 1.225;
 
 % System Model
-function [nextPosition, nextVelocity] = systemModel(...
-  input, position, velocity, timeStep)
-  % Map pressure on gas pedal to acceleration
+function [position, velocity] = systemModel(...
+  input, ...
+  position, ...
+  velocity, ...
+  timeStep ...
+)
+  % Input pressure on accelerator pedal
   acceleration = ...
     input * MAX_ACCELERATION
 
   % Subtract drag force
-  drag = DRAG_COEFFICIENT / 2.0 * ...
-    AIR_DENSITY * FRONTAL_AREA * velocity^2;
+  drag = ...
+    DRAG_COEFFICIENT / 2.0 * ...
+    AIR_DENSITY * ...
+    FRONTAL_AREA * ...
+    velocity^2;
 
   acceleration = acceleration - drag;
 
-  % Predict velocity
-  nextVelocity = velocity + acceleration * timeStep;
-
   % Predict position
-  nextPosition = position + velocity * timeStep;
+  position = position + velocity * timeStep;
+
+  % Predict velocity
+  velocity = velocity + acceleration * timeStep;
 end
 ```
 
-The first special thing about the Kalman filter is that it blends *measurements* with *predictions*, depending on which can provide the most accurate estimate:
+Prediction can be a valuable tool provided the model is detailed enough. The Kalman filter's key strength lies in its ability to combine measurements with predictions, depending on which offers the most accurate estimate.
+
+A basic Kalman filter algorithm look something like this:
 
 1. Start with an initial estimate
 2. Take a measurement
 3. Correct the estimate by the measurement
 4. Predict the next estimate
+
+We will add more detail to these steps in the [filter algorithm](#filter-algorithm) section later.
 
 ## variance
 
@@ -259,7 +279,7 @@ for i = 1:length(inputs)
   state = A * state + B * input;
 
   % Update estimate uncertainty
-  covariance = A * covariance * A' + Q;
+  covariance = A * covariance * A' + noiseCovariance;
 
   % Predict the next estimate
   estimate = C * state + D * input;
@@ -397,20 +417,36 @@ A covariance matrix that encodes the estimate uncertainty of a system with three
 
 ![estimate covariance of 3rd order system](./images/kalman-covariance3x3.png)
 
-There are a few ways to come up with an initial estimate uncertainty:
+There are a few ways to initialize the estimate uncertainty:
 
-+ If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), initial estimate covariance can be *projected* from initial state standard deviation available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property of the system by using the *measurement matrix* `C`:
++ If the approximate variances of state variables are known, they can be *projected* on the diagonal of the covariance matrix:
+
+  ```matlab
+  covariance = diag([ ...
+    100, ...
+    200, ...
+    300 ...
+  ]);
+
+  covariance =
+
+     100     0     0
+       0   200     0
+       0     0   300
+  ```
+
++ If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), the standard deviations of state variables are available in [dx0](https://www.mathworks.com/help/ident/ref/idss.idssdata.html#btahx3u-dx0) property. Squaring elements of `dx0` to convert standard deviation to variance and projecting them on the diagonal will give you the estimate covariance:
 
   ```matlab
   % ss - identified system
-  covariance = diag(ss.C * ss.dx0.^2 * ss.C')
+  covariance = diag(ss.dx0.^2);
+
+  5.5288e+13            0            0
+            0   1.5450e+19            0
+            0            0   2.6517e+21
   ```
 
-  Each element of `dx0` is squared to convert standard deviation to variance by using the "dot" notation in Matlab.
-
-  Multiplying variance by another quantity requires squaring that quantity. In order for this to work with matrix multiplication, the variance is pre-multiplied by the matrix and post-multiplied by the transpose of the same matrix. This is why you'll often see the pattern `X * y * X'`.
-
-+ If you have a data set that records system state over time you could use Matlab's [cov](https://www.mathworks.com/help/matlab/ref/cov.html) function to get initial estimate covariance:
++ If you have a data set that records system state over time you could use Matlab's [cov](https://www.mathworks.com/help/matlab/ref/cov.html) function to initialize the estimate covariance:
 
   ```matlab
   % CSV with position, velocity, acceleration
@@ -433,21 +469,7 @@ There are a few ways to come up with an initial estimate uncertainty:
   );
   ```
 
-+ If the approximate variances of state variables are known, the estimate covariance matrix can be built by projecting these variances on the diagonal and leaving covariances blank:
-
-  ```matlab
-  covariance = diag([ ...
-    100, ...
-    200, ...
-    300 ...
-  ]);
-
-  covariance =
-
-     100     0     0
-       0   200     0
-       0     0   300
-  ```
+    Multiplying variance by another quantity requires squaring that quantity. To make this work with matrices, the variance is pre-multiplied by the matrix and post-multiplied by the transpose of the same matrix. This is why you'll often see the pattern `X * y * X'`.
 
 + Lastly, you could assume the same variance for all initial state variables, leaving covariances blank:
 
@@ -464,13 +486,13 @@ There are a few ways to come up with an initial estimate uncertainty:
 
 These initialization strategies work because the Kalman filter will eventually converge on a more accurate estimate covariance.
 
-However, significantly over-estimating the uncertainty of the initial estimate will cause the algorithm to ignore model predictions while significantly over-estimating the measurement variance will cause the algorithm to ignore measurements.
+However, significantly over-estimating initial estimate uncertainty will cause the algorithm to ignore model predictions while significantly over-estimating the measurement variance will cause the algorithm to ignore measurements.
 
 > Recall that Kalman filter works by calculating a ratio between the two uncertainties, so if either one is many orders of magnitude greater than the other, it will break the filter.
 
 ## noise covariance
 
-A process *noise* or *disturbance* covariance matrix usually denoted by `Q` looks exactly like estimate covariance, but it encodes the variance of Gaussian *noise* affecting each state variable within a single algorithm iteration.
+A process *noise* or *disturbance* covariance matrix usually denoted by `Q` looks exactly like estimate covariance, but it encodes the variance of Gaussian *noise* affecting the *change* made to each state variable within a single iteration.
 
 > Noise or disturbance is the difference between the system model and the real system. Its covariance represents the likelihood of state variables being affected by random occurrences like external forces, noise, or the system state being updated using imperfect (noisy) inputs.
 
@@ -483,7 +505,7 @@ There are a few ways to initialize the `Q` covariance matrix:
   noiseCovariance = eye(length(state)) * noiseVariance
   ```
 
-+ If the approximate variance of noise introduced by updating the **system state** is known, it could be projected by using the *state transition matrix*:
++ If the approximate variance of noise introduced by updating the *system state* is known, it could be projected by using the *state transition matrix*:
 
   ```matlab
   noiseVariance = 200;
@@ -497,6 +519,13 @@ There are a few ways to initialize the `Q` covariance matrix:
   noiseCovariance = eye(length(state)) * ss1.NoiseVariance
   ```
 
++ If the approximate variance of noise introduced by the *system input* is known, it could be projected by using the *control matrix*:
+
+  ```matlab
+  inputNoiseVariance = 200;
+  noiseCovariance = B * inputNoiseVariance * B'
+  ```
+
 + If the approximate variances of noise or disturbances affecting each state variable are known, they could be used to fill in diagonal entries of the covariance matrix, leaving off-diagonal entries blank:
 
   ```matlab
@@ -505,13 +534,6 @@ There are a few ways to initialize the `Q` covariance matrix:
     velocityNoiseVariance, ...
     accelerationNoiseVariance ...
   ])
-  ```
-
-+ If the approximate variance of noise introduced by the **system input** is known, it could be projected by using the *control matrix*:
-
-  ```matlab
-  inputNoiseVariance = 200;
-  noiseCovariance = B * inputNoiseVariance * B'
   ```
 
 + If the system was identified with [Control System Toolbox](https://www.mathworks.com/products/control.html), the [covar](https://www.mathworks.com/help/control/ref/dynamicsystem.covar.html?s_tid=doc_ta) function will output its disturbance covariance:
@@ -791,6 +813,12 @@ int main(int argc, char** argv)
 ```
 
 See the complete Matlab and C++ examples demonstrating how to simulate a linear system in [systemid](https://github.com/01binary/systemid) companion repository.
+
+## demonstration
+
+Live Kalman filter demonstration that lets you load a file and tweak parameters:
+
+<KalmanFilter />
 
 ## kalman in matlab
 

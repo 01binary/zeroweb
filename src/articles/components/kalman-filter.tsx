@@ -101,6 +101,7 @@ const Wrapper = styled.section`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
   }
 `;
 
@@ -132,6 +133,7 @@ const Params = styled.div`
 
 const Load = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -147,7 +149,7 @@ const Load = styled.div`
   }
 `;
 
-const Form = styled.div`
+const GridForm = styled.div`
   display: grid;
   grid-template-rows: repeat(auto);
   grid-template-columns: max-content, 1fr;
@@ -174,8 +176,25 @@ const Description = styled.div`
   color: #848D95;
 `;
 
+const FlexForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  padding: 15px;
+
+  @media (max-width: ${MOBILE}) {
+    flex-direction: row;
+  }
+`;
+
+const FlexLabel = styled.label`
+  font-size: 16px;
+  color: #848D95;
+  margin-bottom: 0.5rem;
+`;
+
 const NumberInput = styled.input`
-  grid-column: 2;
   width: 3rem;
   margin-bottom: 8px;
 
@@ -191,6 +210,10 @@ const NumberInput = styled.input`
     outline-width: medium;
     border-radius: 1px;
   }
+`;
+
+const HiddenInput = styled.input`
+  display: none;
 `;
 
 const TextInput = styled.textarea`
@@ -217,6 +240,10 @@ const Preview = styled.section`
   overflow: auto;
   margin: 16px;
   max-width: 300px;
+
+  @media (max-width: ${MOBILE}) {
+    max-width: initial;
+  }
 `;
 
 const PreviewTable = styled.table`
@@ -493,12 +520,10 @@ const KalmanDemo = () => {
 
       <Dataset>
         <h3>Dataset</h3>
-        <p>Drop a .csv file to load data:</p>
 
-        <input
+        <HiddenInput
           type="file"
           id="fileInput"
-          style={{ display: 'none' }}
           onChange={handleSelectFile}
         />
 
@@ -507,11 +532,12 @@ const KalmanDemo = () => {
           onDrop={handleDrop}
           onClick={handleDropClick}
         >
+          <FlexLabel>Drop a .csv file to load data:</FlexLabel>
           <LoadImage />
         </Load>
 
-        <Form>
-          <Label>input column:</Label>
+        <FlexForm>
+          <FlexLabel>input column:</FlexLabel>
           <NumberInput
             id="u"
             type="number"
@@ -521,7 +547,7 @@ const KalmanDemo = () => {
             max={10}
           />
 
-          <Label>measurement column:</Label>
+          <FlexLabel>measurement column:</FlexLabel>
           <NumberInput
             id="z"
             type="number"
@@ -530,7 +556,7 @@ const KalmanDemo = () => {
             min={1}
             max={10}
           />
-        </Form>
+        </FlexForm>
 
         {Boolean(rows.length && columns.length) &&
           <Preview>
@@ -557,7 +583,7 @@ const KalmanDemo = () => {
         <p>Enter filter parameters:</p>
 
         <Scrollable>
-          <Form>
+          <GridForm>
             <Param id="A" description="State transition matrix" value={A} {...matrixParam} />
             <Param id="B" description="Control/input matrix" value={B} {...matrixParam} />
             <Param id="C" description="Measurement matrix" value={C} {...matrixParam} />
@@ -566,7 +592,7 @@ const KalmanDemo = () => {
             <Param id="Q" description="State transition noise/disturbance matrix" value={Q} {...matrixParam} />
             <Param id="R" description="Measurement uncertainty" value={R} {...matrixParam} />
             <Param id="x0" description="Initial state vector" value={x0} {...matrixParam} />
-          </Form>
+          </GridForm>
         </Scrollable>
       </Params>
     </Wrapper>

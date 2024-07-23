@@ -587,13 +587,6 @@ Recall that `A` is the [state transition](#state-transition) matrix that represe
 
 The [noise covariance](#noise-covariance) matrix `Q` represents how much uncertainty is added at each iteration by simulating the system based on an imperfect model and using noisy inputs to change the system state.
 
-
-## demonstration
-
-Below is a Kalman filter demonstration built with React and JavaScript. Simply load a file and adjust parameters to update the chart:
-
-<KalmanFilter />
-
 ## system identification
 
 The system model can be derived by analyzing the system (as we did in the overly simplified examples of a vehicle and PWM-controlled motor in [why predict?](#why-predict) section earlier), or by using [system identification](https://www.mathworks.com/products/sysid.html).
@@ -820,6 +813,12 @@ int main(int argc, char** argv)
 ```
 
 See the complete Matlab and C++ examples demonstrating how to simulate a linear system in [systemid](https://github.com/01binary/systemid) companion repository.
+
+## demonstration
+
+Live Kalman filter demonstration that lets you load a file and tweak parameters:
+
+<KalmanFilter />
 
 ## kalman in matlab
 

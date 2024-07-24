@@ -628,6 +628,7 @@ For more background on system identification, try this [series of tutorials](htt
 The quickest way to simulate a linear system is by using [lsim](https://www.mathworks.com/help/control/ref/dynamicsystem.lsim.html) in Matlab:
 
 ```matlab
+% Linear discrete system ss
 startTime = 0;
 endTime = 8;
 timeStep = ss.Ts;
@@ -644,173 +645,7 @@ Calling `lsim` without storing results in a variable will display a plot while a
 
 ![simulation plot](./images/kalman-simulation.png)
 
-It's useful to understand how linear system equations presented earlier are used by `lsim` under the hood to simulate the system. The following example simulates a linear discrete system model, storing the output in a vector:
-
-```matlab
-% Constants
-global A;
-global B;
-global C;
-global D;
-
-% A weights (3x3 matrix)
-A = [ ...
-  0.9988,     0.05193, -0.02261;
-  0.02222,   -0.01976,  0.7353;
-  0.0009856, -0.2093,  -0.5957;
-];
-
-% B weights (3x1 vector)
-B = [ ...
-  -0.00000266;
-  0.0000572747;
-  -0.0001872152;
-];
-
-% C weights (1x3 vector)
-C = [ ...
-  -5316.903919, ...
-  24.867656, ...
-  105.92416 ...
-];
-
-% D weight (scalar)
-D = 0;
-
-% Initial state (3x1 vector)
-initialState = [ ...
-  -0.0458;
-  0.0099;
-  -0.0139;
-];
-
-% Skipped opening file, see complete example
-
-% Initialize
-state = initialState;
-
-% Simulate
-for i = 1:length(inputs)
-  input = inputs(i);
-  [prediction, state] = systemModel(state, input);
-  outputs(i) = prediction;
-end
-
-% Linear discrete system model
-function [y, x] = systemModel(x, u)
-  global A;
-  global B;
-  global C;
-  global D;
-
-  % y = Cx + Du
-  y = ...
-    C * x + ... % Map state to output
-    D * u;      % Map input to output
-
-  % x = Ax + Bu
-  x = ...
-    A * x + ... % Transition state
-    B * u;      % Drive state by input
-end
-```
-
-Here's how this would look in C++ using the [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) library:
-
-```cpp
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <random>
-#include <limits>
-#include <Eigen/Dense>
-
-using namespace std;
-using namespace Eigen;
-
-// A weights (3x3 matrix)
-const MatrixXd A
-{
-  { 0.998800,   0.05193, -0.02261 },
-  { 0.0222200, -0.01976,  0.7353  },
-  { 0.0009856, -0.20930, -0.5957  }
-};
-
-// B weights (3x1 vector)
-const VectorXd B {{
-  -0.00000266,
-  0.0000572747,
-  -0.0001872152
-}};
-
-// C weights (1x3 vector)
-const RowVectorXd C {{
-  -5316.903919,
-  24.867656,
-  105.92416
-}};
-
-// D weight (scalar)
-const double D = 0;
-
-// Initial state (3x1 vector)
-const VectorXd x0 {{
-  -0.0458,
-  0.0099,
-  -0.0139
-}};
-
-/*
-  * Discrete state-space system model
-  * @param x: system state to update
-  * @param u: system input
-  * @returns: system output
-*/
-double systemModel(
-  VectorXd& x, double u)
-{
-  // Predict
-  // y = Cx + Du
-  double y =
-    // Add contribution of state
-    C.dot(x) +
-    // Add contribution of input
-    D * u;
-
-  // Update state
-  // x = Ax + Bu
-  x =
-    // Transition state
-    A * x +
-    // Control state
-    B * u;
-
-  return y;
-}
-
-int main(int argc, char** argv)
-{
-  // Skipped opening files, see complete example
-
-  VectorXd state = x0;
-  double time, measurement, input;
-
-  while(read(inputFile, time, measurement, input))
-  {
-    double prediction = systemModel(
-      state, input);
-
-    outputFile
-      << time << ","
-      << prediction << ","
-      << measurement
-      << endl;
-  }
-
-  return 0;
-}
-```
+It's useful to understand how linear system equations presented earlier are used by `lsim` under the hood to simulate the system.
 
 See the complete Matlab and C++ examples demonstrating how to simulate a linear system in [systemid](https://github.com/01binary/systemid) companion repository.
 
@@ -1250,9 +1085,96 @@ bool read(
 }
 ```
 
+## sensor fusion
+
+When the same measurement is available from multiple sources, readings can be combined by using a technique called *sensor fusion*.
+
+> For example, you might have readings from an absolute and a relative encoder, or an odometer and an accelerometer.
+
+The measurements and their uncertainties are combined into a single measurement and its uncertainty with the following equations.
+
++ Combined *measurement uncertainty* `σ` is the blend of all uncertainties, each weighted by its inverse:
+
+  σ = 1 / (1 / σ<sub>1</sub> + 1 / σ<sub>n</sub>)
+
+  Since "one divided by uncertainty" converts it to "certainty" (its opposite), the inner equation sums up all the weighted certainties, and the outer equation converts the result back to "uncertainty".
+
++ Combined *measurement mean* `μ` is the blend of all measurements, each weighted by inverse of its uncertainty:
+
+  μ = σ × (μ<sub>1</sub> / σ<sub>1</sub> + μ<sub>n</sub> / σ<sub>n</sub>)
+
+  This results in the combined measurement that blends in more certain measurement sources in greater amounts.
+
+Combining more measurements results in the combined measurement uncertainty less than the uncertainty of any one measurement:
+
+![sensor-fusion](./images/kalman-sensor-fusion3.png)
+
+These equations are simple to implement as two loops that accumulate values:
+
+```matlab
+% Same measurement from multiple sources
+measurements = [ 100, 120, 89 ];
+
+% Each source may have a different uncertainty
+measurementVariances = [ 1000, 800, 90000 ];
+
+% Combine measurement uncertainties
+sumVariances = 0;
+
+for n = 1:length(measurementVariances)
+  % Each uncertainty weighted by its inverse
+  sumVariances = sumVariances + ...
+    1 / measurementVariances(n);
+end
+
+measurementVariance = 1 / sumVariances
+
+% Combine measurements
+sumMeasurements = 0;
+
+for n = 1:length(measurements)
+  % Each measurement weighted by inverse of its uncertainty
+  sumMeasurements = sumMeasurements + ...
+    measurements(n) / measurementVariances(n);
+end
+
+measurement = sumMeasurements * measurementVariance
+
+
+>> measurementVariance =
+
+  442.2604
+
+>> measurement =
+
+  111.0025
+```
+
+The resulting measurement (`z`) and its variance (`R`) are simply plugged into the Kalman filter, with no changes required to the filter implementation.
+
+For sensor fusion in systems with multiple outputs and other advanced scenarios, see the [Kalman Filter from the Ground Up](https://www.kalmanfilter.net/book.html) book.
+
+## rate mismatch
+
+To fuse measurements taken at different rates, simply combine any measurements available during a single Kalman filter iteration:
+
+![rate mismatch](./images/kalman-rate-mismatch.png)
+
+In the example above, the `3` measurements could be combined in `7` ways:
+
++ Only the first measurement is available
++ Only the second measurement is available
++ Only the third measurement is available
++ Only the first and second measurements are available
++ Only the first and third measurements are available
++ Only the second and third measurements are available
++ All three measurements are available
+
+Since combining measurements is done in a loop, simply filling one vector with whichever measurements are available and another vector with their uncertainties will let you combine the available measurements.
+
 ## resources
 
-Some additional resources covering *Kalman filter design* and *linear system identification* are listed below. Some are sold as published books and others are available for free as digital eBooks.
+Additional resources covering *Kalman filter design* and *linear system identification* are listed below. Some are sold as published books and others are available for free as digital eBooks.
 
 + [Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python) includes code samples and [eBook](https://archive.org/download/KalmanAndBayesianFiltersInPython/Kalman_and_Bayesian_Filters_in_Python.pdf). The author simplifies a complex topic for practical application.
 

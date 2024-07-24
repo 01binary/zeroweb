@@ -164,6 +164,13 @@ const Scrollable = styled.div`
   overflow-y: auto;
 `;
 
+const SectionTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: lowercase;
+  margin-left: 16px;
+`;
+
 const Label = styled.div`
   grid-column: 1;
   font-size: 16px;
@@ -341,7 +348,7 @@ const Chart = ({
   const rulerMarkSize = 40;
 
   const samples = useMemo(
-    () => rows.map(r => Number(r[columnIndex] ?? 0)),
+    () => rows.slice(0, rows.length - 1).map(r => Number(r[columnIndex] ?? 0)),
   [rows, columnIndex]);
   
   const { min, max } = useMemo(() => samples.reduce(
@@ -365,7 +372,7 @@ const Chart = ({
         stroke="#FF008E"
         strokeMiterlimit="10"
         points={getPoints(
-          samples, min, max, width - rulerMarkSize, height - rulerMarkSize, rulerMarkSize, 0
+          samples, min, max, width - rulerMarkSize * 2, height - rulerMarkSize, rulerMarkSize, 0
         )}
       />
       <polyline
@@ -373,7 +380,7 @@ const Chart = ({
         stroke="#12C0E1"
         strokeMiterlimit="10"
         points={getPoints(
-          outputs, min, max, width - rulerMarkSize, height - rulerMarkSize, rulerMarkSize, 0
+          outputs, min, max, width - rulerMarkSize * 2, height - rulerMarkSize, rulerMarkSize, 0
         )}
       />
     </svg>
@@ -519,7 +526,7 @@ const KalmanDemo = () => {
       }
 
       <Dataset>
-        <h3>Dataset</h3>
+        <SectionTitle>Dataset</SectionTitle>
 
         <HiddenInput
           type="file"
@@ -579,7 +586,7 @@ const KalmanDemo = () => {
       </Dataset>
 
       <Params>
-        <h3>Parameters</h3>
+        <SectionTitle>Parameters</SectionTitle>
         <p>Enter filter parameters:</p>
 
         <Scrollable>

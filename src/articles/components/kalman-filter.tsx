@@ -13,7 +13,8 @@ import {
   multiply,
   divide,
   add,
-  subtract
+  subtract,
+  sum
 } from 'mathjs';
 import { MOBILE } from '../../constants';
 import LoadImage from './load';
@@ -34,6 +35,7 @@ const kalmanFilter = ({
   const Atrans = transpose(A);
   const Ctrans = transpose(C);
   const I = identity(x0.size());
+  const gains = [];
 
   // Initial estimate from system with initial state
   let y = multiply(C, x0)._data[0][0];
@@ -44,7 +46,7 @@ const kalmanFilter = ({
   // Initial uncertainty
   let P = P0;
 
-  return measurements.map((measurement, index) => {
+  const outputs = measurements.map((measurement, index) => {
     // Input
     const z = isNaN(measurement) ? 0 : measurement;
     const u = isNaN(inputs[index]) ? 0 : inputs[index];
@@ -78,8 +80,11 @@ const kalmanFilter = ({
     x = add(multiply(A, x), multiply(B, u));
 
     // Output
+    gains.push(sum(K));
     return y;
   });
+
+  return { outputs, gains };
 };
 
 //
@@ -342,10 +347,13 @@ const Chart = ({
   rows,
   columnIndex,
   outputs,
+  gains,
   width
 }) => {
   const height = 200;
   const rulerMarkSize = 40;
+
+  const [hoverPos, setHoverPos] = useState();
 
   const samples = useMemo(
     () => rows.slice(0, rows.length - 1).map(r => Number(r[columnIndex] ?? 0)),
@@ -358,13 +366,40 @@ const Chart = ({
     }), {}),
   [samples]);
 
+  const { minGain, maxGain } = useMemo(() => gains.reduce(
+    ({ minGain, maxGain }, gain) => ({
+      minGain: minGain === undefined ? gain : Math.min(minGain, gain),
+      maxGain: maxGain === undefined ? gain : Math.max(maxGain, gain),
+    }), {}),
+  [gains])
+
+  const chartRef = useRef();
+
+  const handleMouseMove = useCallback(({ clientX }) => {
+    const offset = 40;
+    const { x } = chartRef.current?.getBoundingClientRect();
+    const pos = Math.min(Math.max(0, clientX - x - offset), width);
+    setHoverPos(pos / width);
+  }, [width])
+
+  const handleMouseLeave = useCallback(() => {
+    setHoverPos(undefined);
+  }, [])
+
+  const hoverGain = Boolean(gains?.length && hoverPos)
+    ? (gains[Math.round(hoverPos * gains.length)] - minGain) / (maxGain - minGain)
+    : undefined;
+
   if (!width) return null;
 
   return (
     <svg
+      ref={chartRef}
       width={`${width}px`}
       height={`${height}px`}
       viewBox={`0 0 ${width} ${height}`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <ChartBackground />
       <polyline
@@ -383,6 +418,21 @@ const Chart = ({
           outputs, min, max, width - rulerMarkSize * 2, height - rulerMarkSize, rulerMarkSize, 0
         )}
       />
+      <polyline
+        fill="none"
+        stroke="#888888"
+        strokeMiterlimit="10"
+        points={getPoints(
+          gains, minGain, maxGain, width - rulerMarkSize * 2, height - rulerMarkSize, rulerMarkSize, 0
+        )}
+      />
+      {hoverGain && <path
+        fill="none"
+        stroke="#12e192"
+        strokeMiterlimit="10"
+        d={`M${-(1-hoverGain) * 100},59.7C27.1,60.1,${17.8 * hoverGain + 2 * (1 - hoverGain)},2.3,31.7,2.3S36.2,61,${63.3 + (1-hoverGain) * 100},60.6`}
+        transform={`translate(${hoverPos * width + 8} 112)`}
+      />}
     </svg>
   );
 };
@@ -410,7 +460,7 @@ const KalmanDemo = () => {
   const { z, u } = columnMap;
   const { A, B, C, D, Q, P0, R, x0 } = params;
 
-  const outputs = useMemo(() => {
+  const { outputs, gains } = useMemo(() => {
     try {
       const inputs = rows
         .map(r => Number(r[u - 1]));
@@ -518,6 +568,7 @@ const KalmanDemo = () => {
             <Chart
               rows={rows}
               outputs={outputs}
+              gains={gains}
               columnIndex={z - 1}
               width={chartAreaRef.current?.clientWidth}
             />

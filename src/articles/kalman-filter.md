@@ -1,9 +1,9 @@
 ---
 title: Kalman Filter
 description: Design and practical applications of Kalman filter
-image: ./images/kalman-filter.png
+image: ./images/kalman-filter2.png
 author: Valeriy Novytskyy
-date: 2024-07-17
+date: 2024-07-24
 location: ^H Hackerspace
 tags:
   [

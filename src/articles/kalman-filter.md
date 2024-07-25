@@ -164,7 +164,7 @@ end
 
 Prediction can be a valuable tool provided the model is detailed enough. The Kalman filter's key strength lies in its ability to combine measurements with predictions, depending on which offers the most accurate estimate.
 
-A basic Kalman filter algorithm look something like this:
+A basic Kalman filter algorithm looks something like this:
 
 1. Start with an initial estimate
 2. Take a measurement
@@ -175,7 +175,7 @@ We will add more detail to these steps in the [filter algorithm](#filter-algorit
 
 ## variance
 
-The second special thing about the Kalman filter is that its output isn't simply a value but a *likelihood of it being a certain value*. This concept is borrowed from statistics where it's called a *random variable*.
+Another special thing about the Kalman filter is that its output isn't simply a value but a *likelihood of it being a certain value*. This concept is borrowed from statistics where it's called a *random variable*.
 
 + A random variable is defined by a *mean* and a *spread* from that mean.
 + The *mean* is a sum of a set of samples divided by the size of the set. This represents the *center* of the random variable.

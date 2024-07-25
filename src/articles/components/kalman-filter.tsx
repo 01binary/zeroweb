@@ -22,6 +22,7 @@ import ChartBackground from './chart-background';
 import defaultMapping from './kalman-mapping.json';
 import defaultParams from './kalman-params.json';
 import defaultInput from './kalman-input.json';
+import KalmanFilterLegend from './kalman-filter-legend';
 
 //
 // Kalman Filter in JavaScript
@@ -36,6 +37,7 @@ const kalmanFilter = ({
   const Ctrans = transpose(C);
   const I = identity(x0.size());
   const gains = [];
+  const uncertainties = [];
 
   // Initial estimate from system with initial state
   let y = multiply(C, x0)._data[0][0];
@@ -81,10 +83,11 @@ const kalmanFilter = ({
 
     // Output
     gains.push(sum(K));
+    uncertainties.push(sum(P));
     return y;
   });
 
-  return { outputs, gains };
+  return { outputs, gains, uncertainties };
 };
 
 //
@@ -93,7 +96,7 @@ const kalmanFilter = ({
 
 const Wrapper = styled.section`
   display: grid;
-  grid-template-rows: 220px 600px;
+  grid-template-rows: 290px 600px;
   grid-template-columns: 1fr 1fr;
   width: calc(100% - 30px);
 
@@ -114,8 +117,6 @@ const Plot = styled.div`
   grid-row: 1;
   grid-column-start: 1;
   grid-column-end: none;
-
-  height: 200px;
 `;
 
 const Dataset = styled.div`
@@ -197,6 +198,7 @@ const FlexForm = styled.div`
 
   @media (max-width: ${MOBILE}) {
     flex-direction: row;
+    gap: 1rem;
   }
 `;
 
@@ -232,10 +234,11 @@ const TextInput = styled.textarea`
   grid-column: 2;
   margin-top: 8px;
   margin-bottom: 8px;
-  min-width: 320px;
+  min-width: 250px;
 
   padding: 8px;
 
+  font-size: ${(props) => props.theme.smallFontSize};
   background: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.foregroundColor};
   border: ${(props) => props.theme.border} solid ${(props) => props.theme.borderColor};
@@ -348,6 +351,7 @@ const Chart = ({
   columnIndex,
   outputs,
   gains,
+  uncertainties,
   width
 }) => {
   const height = 200;
@@ -373,6 +377,17 @@ const Chart = ({
     }), {}),
   [gains])
 
+  const { minUncertainty, maxUncertainty } = useMemo(() => uncertainties.reduce(
+    ({ minUncertainty, maxUncertainty }, uncertainty) => ({
+      minUncertainty: minUncertainty === undefined
+        ? uncertainty
+        : Math.min(minUncertainty, uncertainty),
+      maxUncertainty: maxUncertainty === undefined
+        ? uncertainty
+        : Math.max(maxUncertainty, uncertainty),
+    }), {}),
+  [uncertainties])
+
   const chartRef = useRef();
 
   const handleMouseMove = useCallback(({ clientX }) => {
@@ -386,11 +401,19 @@ const Chart = ({
     setHoverPos(undefined);
   }, [])
 
-  const hoverGain = Boolean(gains?.length && hoverPos)
+  if (!width) return null;
+
+  const uncertainty = Boolean(gains?.length && hoverPos)
     ? (gains[Math.round(hoverPos * gains.length)] - minGain) / (maxGain - minGain)
     : undefined;
 
-  if (!width) return null;
+  const probabilityNarrow = 25;
+  const probabilityWide = 1;
+  const probabilityHalfWidth = 8;
+  const probabilityPeak = 
+    probabilityNarrow * uncertainty +
+    probabilityWide * (1 - uncertainty);
+  const probabilityExpansion = (1 - uncertainty) * 100;
 
   return (
     <svg
@@ -412,7 +435,7 @@ const Chart = ({
       />
       <polyline
         fill="none"
-        stroke="#12C0E1"
+        stroke="#376be8"
         strokeMiterlimit="10"
         points={getPoints(
           outputs, min, max, width - rulerMarkSize * 2, height - rulerMarkSize, rulerMarkSize, 0
@@ -426,12 +449,12 @@ const Chart = ({
           gains, minGain, maxGain, width - rulerMarkSize * 2, height - rulerMarkSize, rulerMarkSize, 0
         )}
       />
-      {hoverGain && <path
+      {uncertainty && <path
         fill="none"
-        stroke="#12e192"
+        stroke="#00ffc2"
         strokeMiterlimit="10"
-        d={`M${-(1-hoverGain) * 100},59.7C27.1,60.1,${17.8 * hoverGain + 2 * (1 - hoverGain)},2.3,31.7,2.3S36.2,61,${63.3 + (1-hoverGain) * 100},60.6`}
-        transform={`translate(${hoverPos * width + 8} 112)`}
+        d={`M${-probabilityExpansion},59.7C27.1,60.1,${probabilityPeak},2.3,31.7,2.3S36.2,61,${63.3 + probabilityExpansion},60.6`}
+        transform={`translate(${hoverPos * width + probabilityHalfWidth} 110)`}
       />}
     </svg>
   );
@@ -460,7 +483,7 @@ const KalmanDemo = () => {
   const { z, u } = columnMap;
   const { A, B, C, D, Q, P0, R, x0 } = params;
 
-  const { outputs, gains } = useMemo(() => {
+  const { outputs, gains, uncertainties } = useMemo(() => {
     try {
       const inputs = rows
         .map(r => Number(r[u - 1]));
@@ -484,7 +507,7 @@ const KalmanDemo = () => {
       console.error(e);
       return [];
     }
-  }, [rows, z, u, A, B, C, D, Q, x0, P0]);
+  }, [rows, z, u, A, B, C, D, R, Q, x0, P0]);
 
   const handleParamChange = useCallback(({
     target: {
@@ -569,9 +592,11 @@ const KalmanDemo = () => {
               rows={rows}
               outputs={outputs}
               gains={gains}
-              columnIndex={z - 1}
+              uncertainties={uncertainties}
               width={chartAreaRef.current?.clientWidth}
+              columnIndex={z - 1}
             />
+            <KalmanFilterLegend />
           </ChartArea>
         </Plot>
       }

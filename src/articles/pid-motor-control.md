@@ -54,11 +54,15 @@ In this article I will demonstrate how to capture data from the motor, model the
 
 ## system identification
 
-TODO
+### linear model
+
+### transfer function
 
 ## pid tuner
 
-## ros controller
+## stock ros controller
+
+## custom ros controller
 
 ## real-time control
 

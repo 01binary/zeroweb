@@ -23,14 +23,9 @@ The Tau Cannon from Half-Life has captured imaginations of gamers and 3D artists
 
 I always wanted one, so I decided to build my own to get more experience with sheet metal and CNC fabrication, rubber casting, and tube bending.
 
-<Gallery>
-  <img alt="coils" src="./images/tau-cad01.jpg"/>
-  <img alt="muzzle" src="./images/tau-cad02.jpg"/>
-  <img alt="stock" src="./images/tau-cad03.jpg"/>
-  <img alt="view" src="./images/tau-cad04.jpg"/>
-</Gallery>
+`youtube:https://www.youtube.com/embed/5NiPVSd7cmM?si=UBcfIIHoa8esO2U6`
 
-## build
+## build details
 
 I started with sourcing external components because it's easier to reverse-engineer a sci-fi prop with no known dimensions by finding real-world equivalents of a few parts and sizing everything else relative to those.
 
@@ -38,22 +33,23 @@ The [top](https://www.amazon.com/SMALLRIG-Handle-Anti-Off-Designed-Adapter/dp/B0
 
 Installing picatinny rails added another dimension of realism -- you can mount [tactical straps](https://www.amazon.com/dp/B08RF1LJDT), [laser sights](https://www.amazon.com/EZshoot-Tactical-Picatinny-Magnetic-Rechargeable/dp/B09TB3W5LD), [flashlights](https://www.amazon.com/Feyachi-FL11-MB-Tactical-Flashlight-Picatinny/dp/B09MW4HV72), and even [bipods](https://www.amazon.com/CVLIFE-Tactical-Adjustable-Release-Picatinny/dp/B01N43IPLF) on those.
 
-Body and stock were machined out of aluminum, the coil and battery covers made out of sheet metal, and toroidal transformer cores were 3D printed.
+`youtube:https://www.youtube.com/embed/owwMjv__WYo?si=q29OIxsaySO-CLbi`
 
-<Gallery>
-  <img alt="parts" src="./images/tau-parts01.jpg"/>
-  <img alt="bends" src="./images/tau-parts02.jpg"/>
-  <img alt="body" src="./images/tau-parts03.jpg"/>
-  <img alt="muzzle" src="./images/tau-parts04.jpg"/>
-</Gallery>
+Body and stock were machined out of aluminum, the coil and battery covers made out of sheet metal, and toroidal transformer cores were 3D printed.
 
 I also designed some rubber parts: a [recoil pad](https://www.amazon.com/s?k=rubber+recoil+pad+AR-15&i=sporting), finger grip near the trigger, and a hose panel-mount connector. I still need to find a fitting wire gauge for winding the toroidal cores, weld, and paint all the parts.
 
+Finally, I added an *on-board computer* (a Raspberry Pi 4B) that processes video from a small webcam mounted near the muzzle and uses the OpenCV [HOG Descriptor](https://automaticaddison.com/how-to-detect-pedestrians-in-images-and-video-using-opencv/) to detect people in real-time and draw cross-hairs over them.
+
 <Gallery>
-  <img alt="casting" src="./images/tau-cast.jpg"/>
-  <img alt="colors" src="./images/tau-rubber1.jpg"/>
+  <img alt="assembly" src="./images/tau-test.jpg"/>
+  <img alt="sheet" src="./images/tau-parts02.jpg"/>
+  <img alt="aluminum" src="./images/tau-parts03.jpg"/>
+  <img alt="copper" src="./images/tau-parts04.jpg"/>
   <img alt="rubber" src="./images/tau-rubber2.jpg"/>
-  <img alt="winding" src="./images/tau-winding.jpg"/>
+  <img alt="painting" src="./images/tau-assembly.jpg"/>
+  <img alt="coils" src="./images/tau-coil-winding.jpg"/>
+  <img alt="computer" src="./images/tau-computer.jpg"/>
 </Gallery>
 
 ## downloads

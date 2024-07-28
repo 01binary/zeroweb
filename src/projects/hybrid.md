@@ -29,234 +29,41 @@ As modern music production trends placed musicians behind a computer, a need for
   <img alt="front" src="./images/hybrid-front.jpg"/>
   <img alt="top" src="./images/hybrid-top.jpg"/>
   <img alt="back" src="./images/hybrid-back.jpg"/>
-  <img alt="midi" src="./images/hybrid-midi.png"/>
+  <img alt="midi" src="./images/hybrid-midi-cad.png"/>
 </Gallery>
 
 ## midi pickups
 
 A built-in [Roland GK-3B](https://www.roland.com/us/products/gk-3b/) MIDI pickup is used to drive synth bass, including popular software synthesizers like [FM8](https://www.native-instruments.com/en/products/komplete/synths/fm8/) and [Massive X](https://www.native-instruments.com/en/products/komplete/synths/massive-x/).
 
+![bass pickup](./images/hybrid-midi-pickup.png)
+
+## bass pickups
+
+Fishman Fluence bass [soapbar pickups](https://www.fishman.com/portfolio/fluence-6-string-bass-pickups/) support blending modern and vintage voicing to add flavor to any track:
+
+![bass pickup](./images/hybrid-bass-pickup.png)
+
+## hardware
+
+This bass is equipped with [ABM7011C](https://abm-guitarpartsshop.com/ABM-GUITAR-PARTS/Headless-Systems/Bass/Headpieces/ABM-7011c-Chrome::439.html) string locks and [ABM3901C](https://abm-guitarpartsshop.com/ABM-GUITAR-PARTS/Single-Bridges/Bass/ABM-3901/ABM-3901c-Chrome::245.html) bridges.
+
+<Gallery>
+  <img alt="locks" src="./images/hybrid-string-lock-1.jpg"/>
+  <img alt="bridges" src="./images/hybrid-bridge-1.jpg"/>
+  <img alt="knobs" src="./images/hybrid-knobs.png"/>
+  <img alt="switches" src="./images/hybrid-switch.jpg"/>
+</Gallery>
+
+Two knobs on the bottom control *bass* and *treble* while a pair of [S701](https://www.digikey.com/en/products/detail/c&k/S701C21S207Q/3754449) slide switches accessible from the back toggle between *bridge/neck*, and *classic/modern* voicings.
+
+![hardware](./images/hybrid-cad-layout.png)
+
 ## oscilloscope
 
 The built-in oscilloscope implemented with [Itsy Bitsy 3V](https://www.adafruit.com/product/3675) micro-controller analyzes audio signals coming from a bluetooth audio receiver and displays the waveforms on the screen to provide visual feedback:
 
 `youtube:https://www.youtube.com/embed/auq8bbIgFvc`
-
-```c
-#include <Wire.h>
-#include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1305.h>
-#include "splash.h"
-
-/*
-  LED Screen SPI Connections
-
-  SSD1305   Arduino Uno   ItsyBitsy 3u4   Arduino Nano 33 BLE
- 
-  [1] GND   GND           GND             GND
-  [2] 3V3   3V3           3V3             3V3
-  
-  [4] DC    [8] Digital   [8] Digital     [8] Digital
-  [7] SCLK  [13] SCLK     SCLK            [D13] SCK
-  [8] DIN   [11] MOSI     MOSI            [D11] COPI
-  [15] CS   [10] CS       [6] CS          [6] CS
-  [16] RST  [9] Digital   [9] Digital     [9] Digital
-
-  Note: for 5V boards like Arduino Uno, everything goes through 5V to 3.3V level shifter
-  Note: for all boards, there must be a 220uF capacitor between 3V3 and GND
-*/
-
-/*
-  Bluetooth Audio Connections
-
-  HW-407    Arduino   Lipo Backpack
-  
-  VBAT                BAT
-  GND       GND
-  L         A2 through audio circuit (TODO)
-  Ref       3V3
-            GND        GND
-*/
-
-const int OLED_DC = 8;
-const int OLED_CS = 10;
-const int OLED_RESET = 9;
-const int AUDIO = A2;
-
-const int MIN = 0;
-const int MAX = 1024;
-const int BIAS = 512;
-// Signal level for "no signal"
-const int THRESHOLD = -60;
-const int WIDTH = 128;
-// Anti-alias smoothing multiplier
-const int ALIAS = 2;
-const int SAMPLES = WIDTH * ALIAS;
-const int HEIGHT = 32;
-const int HALF = HEIGHT / 2;
-// Sample average count
-const int AVG_COUNT = 32;
-const double AVG_MUL = 0.1;
-const int DRAW_DELAY = 50;
-
-// Using hardware SPI
-Adafruit_SSD1305 display(WIDTH, HEIGHT, &SPI, OLED_DC, OLED_RESET, OLED_CS, 7000000UL);
-
-short aud[SAMPLES] = {0};
-int sample = 0;
-
-int minCur = MAX;
-short minAvg[AVG_COUNT] = {0};
-int minSample = 0;
-
-int maxCur = MIN;
-short maxAvg[AVG_COUNT] = {0};
-int maxSample = 0;
-
-void setup() {
-  pinMode(AUDIO, INPUT);
-
-  initDisplay();
-}
-
-void loop() {
-  int value = analogRead(AUDIO) - BIAS;
- 
-  aud[sample++] = value;
-
-  averageRange(value, &minCur, minAvg, &minSample, true);
-  averageRange(value, &maxCur, maxAvg, &maxSample, false);
- 
-  if (sample >= SAMPLES)
-  {
-    sample = 0;
-
-    tuneRange();
- 
-    draw();
-  }
-}
-
-int averageRange(int value, int* current, short* samples, int* sample, bool minOrMax)
-{
-  if ((minOrMax && value < *current) || (!minOrMax && value > *current))
-    *current = value;
-
-  samples[*sample] = *current;
-  *sample = *sample + 1;
-
-  if (*sample >= AVG_COUNT)
-  {
-    int sum = 0;
-   
-    for (int n = 0; n < AVG_COUNT; ++n)
-    {
-      sum += samples[n];
-    }
-
-    *current = sum / AVG_COUNT;
-    *sample = 0;
-  }
-}
-
-void tuneRange()
-{
-  int localMin = MAX;
-  int localMax = MIN;
- 
-  for (int n = 0; n < SAMPLES; ++n)
-  {
-    if (aud[n] < localMin)
-      localMin = aud[n];
-    else if (aud[n] > localMax)
-      localMax = aud[n];
-  }
-
-  if (localMin > minCur)
-  {
-    minCur += ceil((localMin - minCur) * AVG_MUL);
-  }
-
-  if (localMax < maxCur)
-  {
-    maxCur -= ceil((maxCur - localMax) * AVG_MUL);
-  }
-}
-
-void draw()
-{
-  if (minCur < THRESHOLD) {
-    // Prevents from drawing too fast, which can look ugly and flickery
-    if (DRAW_DELAY) delay(DRAW_DELAY);
-
-    display.clearDisplay();
-  
-    int lastx = 0;
-    int lasty = mapSample(aud[0]);
-    int smoothy = lasty;
-   
-    for (int x = 0; x < WIDTH; ++x)
-    {
-      int sum = 0;
-     
-      for (int oversample = 0; oversample < ALIAS; ++oversample)
-      {
-        sum += aud[x];
-      }
-  
-      int y = (mapSample(sum / ALIAS) + lasty + smoothy) / 3;
-     
-      display.drawLine(lastx, lasty, x, y, WHITE);
-  
-      smoothy = lasty;
-      lasty = y;
-      lastx = x;
-    }
-  
-    display.display();
-  } else {
-    // When "no signal", present the logo
-    drawSplash();
-  }
-}
-
-inline int mapSample(int value)
-{
-  return max(map(value, minCur, maxCur, HEIGHT - 1, 0), 0);
-}
-
-void initDisplay()
-{
-  Serial.begin(9600);
-
-  if (!display.begin(0x3C) ) {
-     Serial.println("Unable to initialize OLED");
-     while (1) yield();
-  }
-
-  display.display();
-  delay(1000);
-  display.clearDisplay();
-
-  Serial.println("Initialized");
-}
-
-void drawSplash()
-{
-  display.clearDisplay();
-    
-  display.drawBitmap(
-    (WIDTH - splash2_width) / 2,
-    (HEIGHT - splash2_height) / 2,
-    splash2_data,
-    splash2_width,
-    splash2_height,
-    1);
-    
-  display.display();
-}
-```
 
 ## downloads
 

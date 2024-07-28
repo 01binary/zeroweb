@@ -32,6 +32,10 @@ For this project my goal is to learn [::ROS](https://www.ros.org/), create parts
   <img alt="arms" src="./images/drumming-robot-arms.png"/>
   <img alt="wiring" src="./images/drumming-robot-wiring.jpg"/>
   <img alt="still" src="./images/drumming-robot-still-life.png"/>
+  <img alt="actuators" src="./images/drumming-robot-lab.jpg"/>
+  <img alt="power" src="./images/drumming-robot-power.jpg"/>
+  <img alt="encoder" src="./images/drumming-robot-encoders.jpg"/>
+  <img alt="motor" src="./images/drumming-robot-motor.jpg"/>
 </Gallery>
 
 ## prototype

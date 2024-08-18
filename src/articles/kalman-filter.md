@@ -1,7 +1,7 @@
 ---
 title: Kalman Filter
 description: Design and practical applications of Kalman filter
-image: ./images/kalman-filter2.png
+image: ./images/kalman-filter.png
 author: Valeriy Novytskyy
 date: 2024-07-24
 location: ^H Hackerspace
@@ -18,7 +18,12 @@ import KalmanFilter from './components/kalman-filter';
 
 ## overview
 
-The Kalman filter is great at interpreting noisy or uncertain measurements from a variety of sources like servo encoders, GPS, and radar. This makes it ideal for use with dynamic systems like robots and autonomous vehicles.
+Kalman filter is a "smart" signal processing algorithm that *takes advantage of the way the Universe works* and even *predicts the future* to overcome measurement noise and deliver timely, accurate readings.
+
+This algorithm is ubiquitous: it's used in autonomous navigation systems like [Robot Localization in ROS](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md), for [Object Tracking in OpenCV](https://docs.opencv.org/3.4/dd/d6a/classcv_1_1KalmanFilter.html), and inside actuators like [Dynamixel](https://www.robotis.us/dynamixel-pm54-060-s250-r/) where measurements from the absolute encoder are fused with measurements from the quadrature encoder to enable precise positioning.
+
+This filter was first used in the Apollo space program and various defense projects in the early 1960s. It was introduced by Rudolf E. Kálmán in 1960 in his seminal paper, [A New Approach to Linear Filtering and Prediction Problems](https://www.unitedthc.com/DSP/Kalman1960.pdf), published in the Journal of Basic Engineering.
+
 
 ## background
 

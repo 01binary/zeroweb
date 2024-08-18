@@ -20,6 +20,8 @@ Building large robots requires *high-torque* servomotors which are [expensive](h
 
 Robotics researchers build their own servos by controlling DC motors in a closed loop as in the case of the [PR2](https://robotsguide.com/robots/pr2) robot with [Maxon](https://www.maxongroup.com/maxon/view/product/motor/dcmotor/re/re40/148866) motors, or design their own motors *and controllers* as in the case of [MIT Mini Cheetah](https://robotsguide.com/robots/minicheetah) and [Cassie](https://robotsguide.com/robots/cassie).
 
+In this article we'll explore how to build a servo using any motor and encoder.
+
 ## closed loop
 
 *Closed loop* control means that you are measuring what the device you are controlling is doing, and adjusting the input commands sent to the device based on these measurements.
@@ -40,7 +42,7 @@ The **Derivative gain** specifies how much effort to *subtract* based on a *futu
 
 This coefficient is applied to the continuously updated slope of the curve representing the motion of the motor, which is how it's able to predict that a motor will overshoot the desired position reduce the effort before it happens.
 
-## tuning pid controllers
+## tuning controllers
 
 The PID gains can be tuned by hand, simply by trying different values to find a combination that satisfies a given application. This is both time consuming and stressful to the motor, as small changes can result in violent oscillation at the maximum motor velocity.
 

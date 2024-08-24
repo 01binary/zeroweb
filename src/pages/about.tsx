@@ -38,7 +38,6 @@ import {
   Hero,
   SkillSummary,
 } from '../components/Story/Story';
-import Print from '../components/Story/Print';
 import { HeaderSection } from '../components/Story/Story.styles';
 
 const AboutEditLink = styled(EditLink)`
@@ -100,7 +99,6 @@ const About: FC<PageQuery> = ({ data }) => (
     <Story>
       <HeaderSection>
         <SkillSummary />
-        <Print />
       </HeaderSection>
 
       <Experience>
@@ -146,12 +144,12 @@ const About: FC<PageQuery> = ({ data }) => (
         </Stack>
         <Summary>
           <p>
-            `Coaching` engineers through pair programming to maximize `contributions`
-            from the `unique talents` on my team. Teaching software development `best
+            `Coached` engineers through pair programming to maximize `contributions`
+            from the `unique talents` on my team. Taught software development `best
             practices` across teams.
           </p>
           <p>
-            Working with the `backend` and `operations` teams to maintain
+            Partnered with the `backend` and `operations` teams to maintain
             features supported by stateless `microservices`, `databases`, and
             desktop applications communicating over a variety of channels
             including `Web Sockets`, `REST` API, `GraphQL`, and `USB` hardware.
@@ -159,39 +157,36 @@ const About: FC<PageQuery> = ({ data }) => (
         </Summary>
         <Details>
           <p>
-            Applying `functional programming` principles with `React`, `React
+            Applied `functional programming` principles with `React`, `React
             Native`, and `Typescript` to `empower` health care providers with
             accurate `clinical insights` and `create` better care `outcomes` for
             patients with Diabetes.
           </p>
           <p>
-            Unlocking extra `scaling` potential by leveraging `Service Workers`
-            and `Web Sockets` to shift costly data processing onto the client.
-          </p>
-          <p>
-            Growing `team capacity` by exposing and fixing critical quality
+            Increased `team capacity` by exposing and fixing critical quality
             issues to `deliver` features faster and `secure` our position as a
             market leader.
           </p>
           <p>
-            Delivering `practical solutions` with clear value by growing a `deep
+            Delivered `practical solutions` with clear value by growing a `deep
             understanding` of the business domain and sharing expertise to
             `maximize` contributions from the `unique talents` on my team.
           </p>
           <p>
-            Working with the backend team and `DevOps` to maintain features
+            Partnered with the backend team and `DevOps` to maintain features
             supported by stateless `microservices`, databases, and desktop
             applications communicating over a variety of channels including `Web
             Sockets` with `SignalR`, `REST` API, `GraphQL` API, and `USB`
             hardware.
           </p>
           <p>
-            Localizing application text using `i18n` libraries and browser
+            Localized application text using `i18n` libraries and browser
             `Internalization` (`Intl`) API.
           </p>
           <p>
-            Maintaining suites of integration tests with `Jest` and `Testing
-            Library`.
+            Created suites of integration tests with `Jest` and `Testing
+            Library`, eventually moving to `Cucumber` to make test suites
+            maintainable by non-technical stakeholders.
           </p>
         </Details>
         <Keywords>

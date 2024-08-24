@@ -1,6 +1,6 @@
 ---
 title: Kalman Filter
-description: Design and practical applications of Kalman filter
+description: Learn about this widely used signal processing algorithm capable of overcoming measurement noise in real time.
 image: ./images/kalman-filter.png
 author: Valeriy Novytskyy
 date: 2024-07-24

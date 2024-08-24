@@ -1,6 +1,6 @@
 ---
 title: Inverse Kinematics
-description: Numerical, Sampling-based, Analytical, and Geometric Solvers
+description: Learn how to position the joints on your robot to reach any point in space with Inverse Kinematics.
 image: ./images/inverse-kinematics.png
 author: Valeriy Novytskyy
 date: 2024-04-02

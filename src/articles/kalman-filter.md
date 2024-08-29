@@ -38,14 +38,14 @@ A basic *moving average* filter can be implemented as follows:
 ```matlab
 function output = movingAverageFilter(input, bufferSize)
   buffer = ones(bufferSize, 1) * input(1);
-  output = zeros(length(input));
+  output = zeros(length(input), 1);
 
   for sampleIndex = 1:length(input)
     bufferIndex = mod(sampleIndex - 1, bufferSize) + 1;
     buffer(bufferIndex) = input(sampleIndex);
 
     % Output is average of last bufferSize inputs
-    output(sampleIndex, 1) = ...
+    output(sampleIndex) = ...
       sum(buffer) / bufferSize;
   end
 end
@@ -67,7 +67,7 @@ A basic *low-pass* filter can be implemented as follows:
 ```matlab
 function output = lowPassFilter(input, coefficient)
   estimate = input(1);
-  output = zeros(length(input));
+  output = zeros(length(input), 1);
 
   for sampleIndex = 1:length(input)
     sample = input(sampleIndex);
@@ -77,7 +77,7 @@ function output = lowPassFilter(input, coefficient)
       (1.0 - coefficient) * estimate + ...
       coefficient * sample;
 
-    output(sampleIndex, 1) = estimate;
+    output(sampleIndex) = estimate;
   end
 end
 ```

@@ -24,7 +24,6 @@ This algorithm is ubiquitous: it's used in autonomous navigation systems like [R
 
 This filter was first used in the Apollo space program and various defense projects in the early 1960s. It was introduced by Rudolf E. Kálmán in 1960 in his seminal paper, [A New Approach to Linear Filtering and Prediction Problems](https://www.unitedthc.com/DSP/Kalman1960.pdf), published in the Journal of Basic Engineering.
 
-
 ## background
 
 In this article I introduce the Kalman Filter in the shortest way possible with practical examples. When you're ready to go deeper check out *Kalman Filter from the Ground Up by Alex Becker* at [kalmanfilter.net](https://www.kalmanfilter.net/default.aspx):
@@ -1178,6 +1177,12 @@ In the example above, the `3` measurements could be combined in `7` ways:
 Since combining measurements is done in a loop, simply filling one vector with whichever measurements are available and another vector with their uncertainties will let you combine the available measurements.
 
 ## resources
+
+See my [presentation](https://docs.google.com/presentation/d/1SfeqQU4QAj7UUllvx-Y_laaIZRK_RleD6xV3zeWHFMs/edit?usp=sharing) of these concepts at [Ctrl^H Hackerspace](https://pdxhackerspace.org/):
+
+![kalman filter presentation](./images/kalman-presentation.png)
+
+I take a slightly different path to build up to the Kalman filter in the presentation, which might help you see this topic from another perspective.
 
 Additional resources covering *Kalman filter design* and *linear system identification* are listed below. Some are sold as published books and others are available for free as digital eBooks.
 

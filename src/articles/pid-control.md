@@ -24,7 +24,7 @@ By the end of this article, you will be able to control a DC motor with a PID co
 
 `youtube:https://www.youtube.com/embed/azsj90bGa3w?si=cyy39zk6z0XiOCeT`
 
-If you are more of a visual learner, see the [presentation slides](https://docs.google.com/presentation/d/1MY7ZS5YL83aQoyHDS1kQtU45OQe2a02zv7njyi_CJF4/edit?usp=drive_link) I prepared.
+If you are more of a visual learner, see the [presentation slides](https://docs.google.com/presentation/d/1MY7ZS5YL83aQoyHDS1kQtU45OQe2a02zv7njyi_CJF4/edit?usp=drive_link).
 
 ## motivation
 
@@ -90,7 +90,7 @@ The [Atlas](https://robotsguide.com/robots/atlas2016) series of robots from Bost
 
 While PID controllers respond to changes without understanding the system they're controlling, MPC controllers use a model similar to the [Kalman Filter](https://www.01binary.us/articles/kalman-filter/).
 
-They run real-time physics simulation modeled by [Lagrangian Mechanics](https://www.amazon.com/Lagrangian-Mechanics-Non-Physicist-Modern-Physics/dp/B0CN7HMTJL) to determine how get the robot to the desired pose with the least effort.
+They run real-time physics simulation modeled by [Lagrangian Mechanics](https://www.amazon.com/Lagrangian-Mechanics-Non-Physicist-Modern-Physics/dp/B0CN7HMTJL) to determine how to get the robot to the desired pose with the least effort.
 
 ![Model Predictive Controls](./images/pid-model-predictive-control.png)
 
@@ -132,7 +132,7 @@ The `Kp`, `Ki`, and `Kd` weights applied to each term are called **gains**, and 
 
 ![PID controller terms](./images/pid-all-terms.png)
 
-The three terms are simply summed together, which is represented by ∑ at the right end of the diagram. This sum is called a *command* or an *input*.
+The three terms are simply summed together, which is represented by ∑ at the end of the diagram. This sum is called a *command* or an *input*.
 
 ### what is an error?
 
@@ -140,7 +140,7 @@ The *error* in PID controller equations is the difference between the **desired*
 
 > For example, the desired temperature in a room versus the current temperature, or the desired servo position and its current position.
 
-The ∑ at the left end of the diagram represents that the error is the goal (or *setpoint*) with the measurement subtracted from it.
+The ∑ at the start of the diagram represents that the error is the goal (or *setpoint*) with the measurement subtracted from it.
 
 ### proportional term
 
@@ -241,34 +241,47 @@ float pid(
 }
 ```
 
-PID controllers run on a *motor control board* at a specific frequency (number of times per second) measured in *hertz*. We can use an [Arduino](https://store-usa.arduino.cc/products/arduino-micro) for this:
+PID controllers run on a *motor control board* at a specific frequency (number of times per second) measured in *(kilo)hertz*. We can use an [Arduino](https://store-usa.arduino.cc/products/arduino-micro) for this:
 
 ```cpp
 //
 // Arduino Motor Control Board
 //
 
+#include <math.h>
+
 // PID control parameters
+const float FREQ_KHZ = 1.0;
 const float KP = 1.0;
 const float KI = 0.01;
 const float KD = 0.01;
 const float TOLERANCE = 0.01;
+const unsigned long TS = (unsigned long)(1000.0f / FREQ_KHZ + 0.5f);
 
 // PID control state
 float goal = 0.0;
 float lastError = 0.0;
-float integralError = 0.0;
-unsigned long lastTime = micros();
+unsigned long lastTime = 0;
+unsigned long nextTime = 0;
 
 void setup()
 {
   Serial.begin(9600);
+  lastTime = micros();
+  nextTime = lastTime + TS;
 }
 
 void loop()
 {
-  // Get time
+  // Scheduling
   unsigned long time = micros();
+
+  if ((long)(nextTime - time) > 0) {
+    delayMicroseconds((unsigned int)(nextTime - time));
+  }
+
+  time = micros();
+  nextTime += TS;
 
   // Receive goal position
   if (Serial.available())
@@ -282,11 +295,11 @@ void loop()
   // Calculate error
   float error = measurement - goal;
 
-  // Act until "close enough" to the goal
-  if (abs(error) > TOLERANCE)
+  // Calculate command
+  if (fabsf(error) > TOLERANCE)
   {
     // Calculate time step (difference in microseconds to seconds)
-    float timeStep = float(time - lastTime) / 1e-6f;
+    float timeStep = (float)(time - lastTime) * 1e-6f;
 
     // Calculate effort
     float command = pid(
@@ -302,7 +315,7 @@ void loop()
 }
 ```
 
-The code needed to read the encoder position and communicate with the motor driver is application-specific.
+The code needed to read the encoder position and communicate with the motor driver is application-specific, so it's not included in the listing.
 
 ## analysis
 
@@ -341,7 +354,7 @@ This makes the controller "live in the past" for a while, unable to adjust to it
 
 ![PID windup](./images/pid-windup.png)
 
-Fortunately there is a simple solution: clamping the integral gain by introducing two more parameters: `Imin` and `Imax`:
+Fortunately there is a simple solution to *windup*: clamping the integral gain by introducing two more parameters: `Imin` and `Imax`:
 
 ```c++
 integralError = clamp(integralError, Imin, Imax);
@@ -393,7 +406,7 @@ Plugging in PID gains manually is like tuning a guitar without a tuner: it's eas
 
 In this section we'll explore using Matlab [System Identification Toolbox](https://www.mathworks.com/products/sysid.html) to estimate a mathematical model for the system being controlled, and [Control System Toolbox](https://www.mathworks.com/products/control.html) to tune a PID controller automatically.
 
-> Why use Matlab? Precise PID tuning requires advanced techniques like identifying an [Autoregressive Exogenous](https://apmonitor.com/dde/index.php/Main/AutoRegressive) model, and calculating PID gains using [Frequency Response](https://www.youtube.com/watch?v=fq139cp1I6Y) analysis. Using wizards will get us immediate gratification and postpone treating these topics until later!
+> Why use Matlab? Precise PID tuning requires advanced techniques like identifying an [Autoregressive Exogenous](https://apmonitor.com/dde/index.php/Main/AutoRegressive) model, and calculating PID gains using [Frequency Response](https://www.youtube.com/watch?v=fq139cp1I6Y) analysis. Using wizards will let us get immediate gratification and postpone treating these topics until later!
 
 ### system identification
 
@@ -409,7 +422,7 @@ I built a [PID Tuner Web App](https://github.com/01binary/pidtuner) utility to f
 
 `youtube:https://www.youtube.com/embed/azsj90bGa3w?si=cyy39zk6z0XiOCeT`
 
-Prepare the **hardware** (a motor tuning fixture):
+Begin by preparing the **hardware** (a motor tuning fixture):
 
 + Connect an [Arduino board](https://store-usa.arduino.cc/products/arduino-mega-2560-rev3) to [motor driver](https://www.amazon.com/L6201P-Module-H-Bridge-Control-12V-48V/dp/B09N7L9TLB), [encoder](https://www.amazon.com/Magnetic-Encoder-Induction-Measurement-Precision/dp/B097QNG1CN/), and your computer.
 + Connect a [power supply](https://www.amazon.com/Adjustment-Quick-Charge-30V-10A-BLACK/dp/B09BFCF13Y) and a [motor](https://www.robotshop.com/search?q=DC%20motor) to the motor driver.

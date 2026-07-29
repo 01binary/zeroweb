@@ -1,6 +1,6 @@
 ---
 title: AI integration
-description: A practical, end-to-end workflow for tool-calling chat bots
+description: Train your own AI model this weekend, then wire it into the software you built!
 image: ./images/ai-integration.png
 author: Valeriy Novytskyy
 date: 2026-07-29

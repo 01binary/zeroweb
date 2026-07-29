@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { StaticImage } from 'gatsby-plugin-image';
 
 const Wrapper = styled.section`
   position: relative;
@@ -11,14 +10,19 @@ const ImageWrapper = styled.section`
   position: absolute;
   right: 12%;
   width: 84%;
+
+  img {
+    display: block;
+    width: 100%;
+  }
 `;
 
 const Process: FC = () => (
   <Wrapper>
     <ImageWrapper>
-      <StaticImage
-        src="../images/microsoft-authentication-process.png"
-        alt="test"
+      <img
+        src="/images/microsoft-authentication-process.png"
+        alt="Microsoft authentication process"
       />
     </ImageWrapper>
     <svg viewBox="0 0 2008 1405">

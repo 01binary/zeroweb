@@ -72,9 +72,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-image`,
-    },
-    {
       resolve: `gatsby-styled-components-dark-mode`,
       options: {
         light: require(`${__dirname}/src/theme.ts`).lightTheme,

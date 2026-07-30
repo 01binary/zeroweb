@@ -37,8 +37,6 @@ Some examples of fine-tuned models across different industries:
 + **Finance:** [AdaptLLM Finance-LLM](https://huggingface.co/AdaptLLM/finance-LLM)
 + **Legal:** [AdaptLLM Law-LLM](https://huggingface.co/AdaptLLM/law-LLM)
 
-### step-by-step
-
 In this tutorial, we'll walk through the complete steps for selecting an LLM, integrating it with your application, locking in the desired behavior by fine-tuning, and deploying it to production.
 
 ![timeline](./images/ai-integration-timeline.png)
@@ -50,7 +48,7 @@ In this tutorial, we'll walk through the complete steps for selecting an LLM, in
 
 Before we jump into integration and training, we’ll use prompts to evaluate models, learn how they are packaged on the Hugging Face Hub, and preview the Chat API we’ll use later for integration.
 
-## evaluating Models
+## evaluating models
 
 Few-shot prompting lets you quickly evaluate an LLM's behavior and capabilities before investing time in integration and training.
 
@@ -109,8 +107,6 @@ LM Studio lists models from Huggingface in its model browser and uses the same b
 |🛠️ Tool Calling|The model can call external tools by emitting structured JSON|
 |🧠 Reasoning|The model is optimized for multi-step reasoning and problem solving|
 |👁️ Vision|The model can process and reason about images|
-
-### downloading a model
 
 Select a model for experimentation and click **Download** at the bottom of the LM Studio browser. Once a model is downloaded, it can be selected at the top of the LM Studio window. The **Chat** tab can then be used to talk to the model.
 
@@ -442,7 +438,7 @@ The model response will include the data structure inside the message `content` 
 }
 ```
 
-### model context protocol
+### mcp
 
 Model Context Protocol (MCP) is a [standard developed by Anthropic](https://www.anthropic.com/news/model-context-protocol) to simplify integrating AI into applications.
 
@@ -479,7 +475,7 @@ Rather than configuring a scientific computing environment on your own machine, 
 
 Create a Kaggle account to get started. Kaggle provides free compute credits each month, with the option to add a credit card for additional usage.
 
-### loading a pre-trained model
+### loading a model
 
 In this section we'll pull a pre-trained AI model from Hugging Face Hub, and load it in our Python notebook.
 
@@ -519,7 +515,7 @@ Several compact dataset formats are commonly used for instruction fine-tuning. F
 
 In this tutorial, we focus on **ShareGPT format**, but the closely related **Hugging Face Generic format** is also shown for reference. Many libraries can convert between these formats if needed.
 
-#### shareGPT format
+#### shareGPT
 
 In ShareGPT format, the dataset is stored as a `.jsonl` (*JSON Lines*) file. Each line represents one conversation and contains a `conversations` array.
 
@@ -546,7 +542,7 @@ Example of a single dataset row (shown as formatted JSON):
 An example of a published dataset in ShareGPT format can be found here:
 [mlabonne/FineTome-100k](https://huggingface.co/datasets/mlabonne/FineTome-100k).
 
-#### hugging face generic format
+#### hugging face
 
 The Hugging Face Generic format uses the same structure (a `.jsonl` file with one conversation per line) but with slightly different field names - `role` instead of `from` and `content` instead of `value`:
 
@@ -558,7 +554,7 @@ The Hugging Face Generic format uses the same structure (a `.jsonl` file with on
 
 An example dataset in this format is available at: [allenai/tulu-3-sft-mixture](https://huggingface.co/datasets/allenai/tulu-3-sft-mixture/viewer/default/train).
 
-### uploading the dataset
+### uploading dataset
 
 In order to use an instruction prompt dataset during training, it has to be uploaded to a repository like [Huggingface](https://huggingface.co/datasets) or [Kaggle](https://www.kaggle.com/datasets). Both function like "GitHub for data science" and support pushing and pulling AI models and datasets.
 
@@ -598,8 +594,6 @@ Once the dataset is uploaded, it can be added to the **Inputs** section displaye
 
 This section covers how the model is fine-tuned using supervised learning, parameter-efficient techniques, and configurable training settings.
 
-### sft trainer
-
 The [Unsloth Kaggle template](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Llama3.2_(1B_and_3B)-Conversational.ipynb&accelerator=nvidiaTeslaT4) used in this tutorial relies on the [Hugging Face Supervised Fine-Tuning (SFT) Trainer](https://huggingface.co/docs/trl/en/sft_trainer).
 
 Supervised fine-tuning trains the model using labeled examples, where each input prompt is paired with an expected response. This allows the model to learn how to map questions to appropriate answers.
@@ -626,7 +620,7 @@ In this tutorial, hyperparameters fall into two main categories:
 
 Together, these settings determine training stability, speed, memory usage, and the quality of the final model.
 
-#### LoRA hyperparameters
+#### adaptation
 
 Low-Rank Adaptation (LoRA) introduces a small number of trainable weights on top of a frozen pre-trained model. The following hyperparameters control how those additional weights are configured:
 
@@ -644,7 +638,7 @@ Low-Rank Adaptation (LoRA) introduces a small number of trainable weights on top
 
 These hyperparameters determine *how much* the model can change and *where* those changes are applied.
 
-#### training hyperparameters
+#### learning
 
 Training hyperparameters control how the model learns from the dataset and how gradients are applied over time:
 
@@ -674,13 +668,13 @@ In this section we evaluate the fine-tuned model across the full lifecycle: in d
 
 Using a large language model to generate responses is referred to as *inference*. During inference, the model applies its learned weights to predict outputs based on supplied input, such as a user question or conversation history.
 
-### development inference
+### development
 
 During development, Unsloth provides a `generate` method on `FastLanguageModel` that allows running inference as soon as training completes. This makes it possible to test prompts and evaluate model behavior without first pushing the model to a repository.
 
 Development inference is useful for rapid iteration, debugging prompts, and verifying that fine-tuning produced the expected behavior - all within the confines of the Python training notebook.
 
-### testing inference
+### testing
 
 After training completes, the Python code in [fine-tune.py](./fine-tune.py) uses the `push_to_hub_merged` method to upload the model to a Hugging Face repository.
 
@@ -719,7 +713,7 @@ hf download <repo_id> <file_name> \
   --local-dir <destination_folder>
 ```
 
-### production inference
+### production
 
 Once your trained model is available on the Hugging Face registry, cloud providers can pull your model and start a virtual machine that exposes a Chat API:
 

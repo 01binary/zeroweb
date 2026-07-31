@@ -27,6 +27,10 @@ The [Build a Large Language Model (From Scratch)](https://www.amazon.com/Build-L
 
 This tutorial is designed to help you integrate an LLM chat bot into your application as quickly as possible.
 
+Two companion examples are included with this article: [Inventory application integrated with AI](https://github.com/01binary/inventory-llm) and [Fine-tuning Python scripts](https://github.com/01binary/chatbot).
+
+![ai integration demo](./images/ai-integration-inventory-demo.png)
+
 ### fine-tuning
 
 Fine-tuning is the process of teaching a pre-trained model to perform specialized tasks, which could be anything from updating database records to executing commands and accessing APIs.
@@ -67,7 +71,7 @@ There are a few popular tools that let you easily download and chat with LLM's:
 | [vLLM](https://vllm.ai/) | | ✓ | ✓ |
 | [Llama.cpp](https://github.com/ggml-org/llama.cpp)| | ✓ | ✓ |
 
-> LM Studio is used in this tutorial because of its rich user interface and ability to download models directly from [Huggingface](https://huggingface.co/models), the most popular model repository.
+> LM Studio is used in this tutorial because of its rich user interface and ability to download models directly from [Hugging Face](https://huggingface.co/models), the most popular model repository.
 
 LM Studio uses [Llama.cpp](https://github.com/ggml-org/llama.cpp) and [MLX](https://github.com/ml-explore/mlx) hardware-accelerated engines under the hood to run LLMs locally.
 
@@ -85,9 +89,17 @@ When it comes to selecting an LLM to chat with, the following table provides a r
 
 When first launching LM Studio, you'll be asked to choose a UI complexity level and download the first model. Select *Power User* and skip downloading a model for now - we'll look at model selection next.
 
-The **Discover** tab in LM Studio is a simple browsing interface for exploring models hosted on the [Hugging Face Hub](https://huggingface.co/models), which is like GitHub for machine learning models.
+The **Discover** tab in LM Studio is a simple browsing interface for exploring models hosted on the [Hugging Face Hub](https://huggingface.co/models):
 
-Each model is stored as a Git repository, typically containing a *README* and a set of model files. Hugging Face uses Git Large File Storage (LFS) under the hood to manage large assets such as model weights.
+![LM Studio Model Browser](./images/ai-integration-lm-studio-browser.png)
+
+The Hugging Face Hub is like GitHub for machine learning models:
+
+![Hugging Face Hub](./images/ai-integration-hugging-face-hub.png)
+
+Each model is stored as a Git repository, typically containing a *README* and a set of model files. Hugging Face uses Git Large File Storage (LFS) under the hood to manage large assets such as model weights:
+
+![Typical model repository files](./images/ai-integration-repository-files.png)
 
 The most common formats you’ll encounter for model weights are [Safetensors](https://huggingface.co/docs/text-generation-inference/en/conceptual/safetensors), [GGUF](https://huggingface.co/docs/hub/en/gguf), and [MLX](https://huggingface.co/docs/hub/en/mlx):
 
@@ -100,7 +112,7 @@ This format is optimized for inference like GGUF, but [designed specifically for
 
 ### model capabilities
 
-LM Studio lists models from Huggingface in its model browser and uses the same badges to communicate model capabilities:
+LM Studio lists models from Hugging Face in its model browser and uses the same badges to communicate model capabilities:
 
 |Badge|Capability|
 |-|-|
@@ -238,7 +250,7 @@ Try using [Postman](https://www.postman.com/) or [Bruno](https://www.usebruno.co
 
 ![postman](./images/ai-integration-postman.png)
 
-Multi-modal LLMs that support Vision (like [Gemma](https://deepmind.google/models/gemma/)) allow you include base-64 encoded images directly in the conversation:
+Multi-modal LLMs that support Vision (like [Gemma](https://deepmind.google/models/gemma/)) let you include the base-64 encoded images directly in the conversation:
 
 ```bash
 base64 -w 0 your_image.jpg > image.b64
@@ -493,9 +505,9 @@ We use the **Unsloth** library to load and fine-tune the model. Unsloth provides
 
 > For a deeper introduction to Unsloth, see the official [fine-tuning with Unsloth](https://docs.unsloth.ai/get-started/fine-tuning-llms-guide) guide.
 
-This notebook template from the Unsloth team was used as the basis for the [fine-tuning](./fine-tune.py) and [inference](./inference.py) scripts in this repository.
+This notebook template from the Unsloth team was used as the basis for the [fine-tuning](https://github.com/01binary/chatbot/blob/main/fine-tune.py) and [inference](https://github.com/01binary/chatbot/blob/main/inference.py) scripts in the demo repository.
 
-The fine-tuning script in this repository uses:
+The fine-tuning script in the [demo repository](https://github.com/01binary/chatbot) uses:
 
 **`unsloth/Llama-3.2-3B-Instruct-bnb-4bit`**
 
@@ -556,7 +568,7 @@ An example dataset in this format is available at: [allenai/tulu-3-sft-mixture](
 
 ### uploading dataset
 
-In order to use an instruction prompt dataset during training, it has to be uploaded to a repository like [Huggingface](https://huggingface.co/datasets) or [Kaggle](https://www.kaggle.com/datasets). Both function like "GitHub for data science" and support pushing and pulling AI models and datasets.
+In order to use an instruction prompt dataset during training, it has to be uploaded to a repository like [Hugging Face](https://huggingface.co/datasets) or [Kaggle](https://www.kaggle.com/datasets). Both function like "GitHub for data science" and support pushing and pulling AI models and datasets.
 
 Datasets are stored either directly as `JSONL` and `CSV`, or in a sharded format called [Parquet](https://www.snowflake.com/en/fundamentals/parquet/). Using shards lets repositories split large datasets into many pieces for efficient storage.
 

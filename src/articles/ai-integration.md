@@ -11,6 +11,8 @@ tags:
   ]
 ---
 
+`youtube:https://www.youtube.com/embed/OfbXIhvK4Kw?si=ThexMsb6gj5vJFEj`
+
 ## overview
 
 Modern chat bots are powered by *large language models* (LLMs). These models can understand and generate human language, making them ideal for conversational tasks.
@@ -156,39 +158,45 @@ You can quickly evaluate a model's performance with tool calling by including th
 ```
 You are a helpful assistant.
 
-Answer the user's question by making use of the following functions if needed. If none of the function can be used, please say so.
+Answer the user's question by making use of the following functions if needed.
+If none of the functions can be used, please say so.
 
-Here is a list of functions in JSON format:
+Here is a list of available functions:
 
 {
   "type": "function",
   "function": {
     "name": "trending_songs",
-    "description": "Returns the trending songs on a Music site",
-    "parameters": [
-      {
-        "type": "object",
-        "properties": [
-          {
-            "n": {
-              "type": "object",
-              "description": "The number of songs to return"
-            }
-          },
-          {
-            "genre": {
-              "type": "object",
-              "description": "The genre of the songs to return"
-            }
-          }
-        ],
-        "required": ["n"]
-      }
-    ]
+    "description": "Returns the trending songs on a music site",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "n": {
+          "type": "integer",
+          "description": "The number of songs to return"
+        },
+        "genre": {
+          "type": "string",
+          "description": "The genre of songs to return"
+        }
+      },
+      "required": ["n"]
+    }
   }
 }
 
-Return function calls in JSON format.
+When calling a function, return ONLY a JSON object in this format:
+
+{
+  "type": "function",
+  "name": "<function name>",
+  "parameters": {
+    "<parameter>": "<value>"
+  }
+}
+
+Do not repeat the function definition, parameter types, or descriptions.
+Return parameter values directly.
 ```
 
 When a relevant question is asked, the model will respond with a data structure:
@@ -324,7 +332,7 @@ In the following request, tool calls are advertised to the agent by including th
 
 ```json
 {
-  "model": "Llama-3.2-3B-Instruct",
+  "model": "google/gemma-3-12b",
   "messages": [
     {
       "role": "user",
@@ -347,8 +355,7 @@ In the following request, tool calls are advertised to the agent by including th
           },
           "required": ["location"],
           "additionalProperties": false
-        },
-        "strict": true
+        }
       }
     }
   ]

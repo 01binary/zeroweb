@@ -29,9 +29,18 @@ The [Build a Large Language Model (From Scratch)](https://www.amazon.com/Build-L
 
 This tutorial is designed to help you integrate an LLM chat bot into your application as quickly as possible.
 
-Two companion examples are included with this article: [Inventory application integrated with AI](https://github.com/01binary/inventory-llm) and [Fine-tuning Python scripts](https://github.com/01binary/chatbot).
+An [Inventory application integrated with AI](https://github.com/01binary/inventory-llm) is included with this article as a companion example:
 
 ![ai integration demo](./images/ai-integration-inventory-demo.png)
+
+|Concept|Example
+|-|-|
+|System Prompt|[SYSTEM_PROMPT.md](https://github.com/01binary/inventory-llm/blob/main/SYSTEM_PROMPT.md)|
+|Few-Shot Prompts|[FEW_SHOT_PROMPTS.md](https://github.com/01binary/inventory-llm/blob/main/FEW_SHOT_PROMPTS.json)|
+|Tool Calls|[TOOLS.json](https://github.com/01binary/inventory-llm/blob/main/TOOLS.json)|
+|MCP Server|[InventoryMcpTools.cs](https://github.com/01binary/inventory-llm/blob/main/server/Services/InventoryMcpTools.cs)|
+|Training|[train.py](https://github.com/01binary/inventory-llm/blob/main/training/train.py)|
+|Data Prep|[data-prep.py](https://github.com/01binary/inventory-llm/blob/main/training/data-prep.py)|
 
 ### fine-tuning
 
@@ -258,11 +267,15 @@ Try using [Postman](https://www.postman.com/) or [Bruno](https://www.usebruno.co
 
 ![postman](./images/ai-integration-postman.png)
 
-Multi-modal LLMs that support Vision (like [Gemma](https://deepmind.google/models/gemma/)) let you include the base-64 encoded images directly in the conversation:
+Multi-modal LLMs that support Vision (like [Gemma](https://deepmind.google/models/gemma/)) let you include the base-64 encoded images directly in the conversation.
+
+The [base64](https://linux.die.net/man/1/base64) utility available on Linux-like systems is an easy way to convert an image to a *base-64 string*:
 
 ```bash
-base64 -w 0 your_image.jpg > image.b64
+base64 -i image.jpg -o image.b64
 ```
+
+This string can be plugged into a standard image URL inside the user prompt (`PASTE_YOUR_BASE64_STRING_HERE` placeholder in the listing below):
 
 ```json
 {
@@ -293,7 +306,7 @@ base64 -w 0 your_image.jpg > image.b64
 }
 ```
 
-Newer versions of Llama Server (the engine behind LM Studio used in this tutorial) also support file URLs:
+Newer versions of [Llama.cpp Server](https://github.com/ggml-org/llama.cpp/tree/master/tools/server) also support file URLs:
 
 ```json
 {
@@ -328,7 +341,7 @@ Newer versions of Llama Server (the engine behind LM Studio used in this tutoria
 
 The Chat API supports a strongly-typed schema for advertising and making tool calls, as well as returning tool call results.
 
-In the following request, tool calls are advertised to the agent by including them in the `tools` array, using exactly the same format we've used earlier to describe them in the system prompt:
+In the following request, tool calls are advertised to the agent by including them in the `tools` array, with the data structure for each tool described by using [Json Schema](https://json-schema.org/).
 
 ```json
 {
@@ -362,7 +375,7 @@ In the following request, tool calls are advertised to the agent by including th
 }
 ```
 
-The agent responds with empty message `content` and tool calls listed in `tool_calls` array:
+Agents that support tool calls explicitly will respond with an empty message `content` and tool calls listed in `tool_calls` array:
 
 ```json
 {
@@ -395,7 +408,7 @@ This makes tool calls simple to extract from the JSON structure and execute for 
 
 ### structured output
 
-*Structured Output* is a way to reliably constrain the output of an LLM to a data structure.
+*Structured Output* is another way to reliably constrain the output of an LLM to a data structure defined by using [Json Schema](https://json-schema.org/).
 
 This feature is similar to tool calls in that it allows LLMs to return JSON or Python data structures in response to natural language prompts, and it's suppored by all major models:
 
@@ -466,18 +479,17 @@ The [MCP specification](https://modelcontextprotocol.io/docs/getting-started/int
 MCP addresses the shortcomings of *Tool Calling* and *Structured Output*:
 
 * **Structured Output** can only describe a single data structure with JSON Schema. The instructions for filling out this data structure must be included in the system prompt.
-* **Tool Calling** expands on this by providing AI agents with multiple data structures they can output. The system prompt explains how to work with these tools.
+* **Tool Calling** expands on this by providing AI agents with multiple data structures they can output, but the system prompt must explain how to work with these tools.
 
-The system prompt is a part of the agent's *context*. Model Context Protocol lets you switch an AI agent's context *on the fly*, giving it a system prompt and tool calls for working on a specific task only when needed:
+Model Context Protocol gives models the ability to discover tools, resources, and system prompts relevant to the user query instead of being narrowly constrained by a single system prompt and a small collection of tools for working on a particular task.
 
-* Without MCP, we would have to create our own system that can detect the task the user is working on and load the appropriate *system prompt* and *tools* to enable the AI agent to help with that task.
-* With MCP, AI agents can query a server to determine which tools are available to use, and how to use them. This lets you build a large *directory* of tools the agent can use, and even include prompts - all without any custom coding on your part.
+MCP servers are simple to setup for [many languages and frameworks](https://modelcontextprotocol.io/docs/sdk). A good starting point is using the [C# SDK](https://github.com/modelcontextprotocol/csharp-sdk) to standup a [server that lets AI agents query the National Weather Service](https://modelcontextprotocol.io/docs/develop/build-server#c%23).
 
-MCP servers are simple to setup for [many languages and frameworks](https://modelcontextprotocol.io/docs/sdk):
+Microsoft also published tutorials on [integrating an AI agent with a TODO list app](https://learn.microsoft.com/en-us/azure/app-service/tutorial-ai-model-context-protocol-server-dotnet) connected to a database, and an [echo server](https://devblogs.microsoft.com/dotnet/build-a-model-context-protocol-mcp-server-in-csharp/).
 
-* A good starting point is using the [C# SDK](https://github.com/modelcontextprotocol/csharp-sdk) to standup a [server that lets AI agents query the National Weather Service](https://modelcontextprotocol.io/docs/develop/build-server#c%23).
-* Microsoft also published tutorials on [integrating an AI agent with a TODO list app](https://learn.microsoft.com/en-us/azure/app-service/tutorial-ai-model-context-protocol-server-dotnet) connected to a database, and an [echo server](https://devblogs.microsoft.com/dotnet/build-a-model-context-protocol-mcp-server-in-csharp/).
-* The companion example created as part of this article [integrates an AI agent with an inventory tracking web application](https://github.com/01binary/inventory-llm) which includes a React frontend, a .NET backend, and a SQLite database.
+The inventory AI application included as a companion example to this article contains a C# class with methods the inventory AI agent can call to read and write the inventory database: [InventoryMcpTools.cs](https://github.com/01binary/inventory-llm/blob/main/server/Services/InventoryMcpTools.cs).
+
+See that project's [README.md](https://github.com/01binary/inventory-llm/blob/main/README.md) for instructions on setting it up and running locally.
 
 ## fine-tuning
 
@@ -487,7 +499,7 @@ Now that we've explored all the major methods for integrating AI into applicatio
 
 Data scientists use *Scientific computing notebooks* to fine-tune Large Language Models. These notebooks are divided into cells, with some cells containing text and graphics formatted with Markdown, and others containing Python code.
 
-Rather than configuring a scientific computing environment on your own machine, we’ll use the [Kaggle](https://www.kaggle.com/) cloud environment. This avoids many common hardware and software setup issues and lets you start training models immediately:
+Rather than configuring a scientific computing environment on your own machine, we'll use the [Kaggle](https://www.kaggle.com/) cloud environment, which runs on the [Jupyter](https://jupyter.org/) engine. This avoids many common hardware and software setup issues and lets you start training models immediately:
 
 - **Hardware**: Data-center GPUs such as the NVIDIA [T4](https://www.newegg.com/p/1FT-000P-005F0) or [P100](https://www.newegg.com/nvidia-900-2h400-0000-000-tesla-p100-16gb-graphics-card/p/2VV-000H-000J6) are expensive and typically require a custom PC or server. Both are supported in Kaggle out-of-the-box.
 - **Software**: Local Python and ML setups often run into dependency and version conflicts. Using a cloud Python notebook is essentially like spinning up a VM: everything is setup from scratch every time, exactly the right way.
@@ -498,9 +510,9 @@ Create a Kaggle account to get started. Kaggle provides free compute credits eac
 
 In this section we'll pull a pre-trained AI model from Hugging Face Hub, and load it in our Python notebook.
 
-**Llama 3.2** is a family of large language models chosen for this tutorial because it strikes a good balance between capability, accessibility, and ecosystem support:
+**Gemma 3** is a family of large language models chosen for this tutorial because it strikes a good balance between capability, accessibility, and ecosystem support:
 
-- Well documented, with extensive examples (see the [Llama Cookbook](https://github.com/meta-llama/llama-cookbook))
+- Well documented, with extensive examples (see [Google AI for Developers](https://ai.google.dev/gemma/docs))
 - Available in both base (*pre-trained*) and *instruction-tuned* variants
 - Available in [quantized](https://www.newline.co/@zaoyang/4-bit-vs-8-bit-quantization-key-differences--842272c7) form to reduce memory requirements
 - Supported by Kaggle’s cloud environment, with no local hardware setup required
@@ -508,18 +520,18 @@ In this section we'll pull a pre-trained AI model from Hugging Face Hub, and loa
 - Deployable to common cloud platforms such as [Microsoft Foundry](https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/meta%E2%80%99s-new-llama-3-2-slms-and-image-reasoning-models-now-available-on-azure-ai-m/4255167)
 - Supports external tool calling when using the *Instruct* variant
 
-We use the **Unsloth** library to load and fine-tune the model. Unsloth provides a ready-to-use [Python notebook template for Kaggle](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Llama3.2_(1B_and_3B)-Conversational.ipynb&accelerator=nvidiaTeslaT4) that includes all required setup code.
+We use the **Unsloth** library to load and fine-tune the model. Unsloth provides a ready-to-use [Python notebook template for Kaggle](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Gemma3_(4B).ipynb) that includes all required setup code.
 
 > For a deeper introduction to Unsloth, see the official [fine-tuning with Unsloth](https://docs.unsloth.ai/get-started/fine-tuning-llms-guide) guide.
 
-This notebook template from the Unsloth team was used as the basis for the [fine-tuning](https://github.com/01binary/chatbot/blob/main/fine-tune.py) and [inference](https://github.com/01binary/chatbot/blob/main/inference.py) scripts in the demo repository.
+This notebook template from the Unsloth team was used as the basis for the [fine-tuning](https://github.com/01binary/inventory-llm/blob/main/training/train.py) script in the demo repository.
 
-The fine-tuning script in the [demo repository](https://github.com/01binary/chatbot) uses:
+The fine-tuning script in the [companion demo](https://github.com/01binary/inventory-llm/tree/main) uses:
 
-**`unsloth/Llama-3.2-3B-Instruct-bnb-4bit`**
+**`unsloth/gemma-3-12b-it-unsloth-bnb-4bit`**
 
 This model is:
-- 3 billion parameters
+- `12` billion parameters
 - Pre-trained on large-scale text data
 - Instruction-tuned for conversational behavior and tool calling
 - Quantized to 4-bit using [BnB (Bits and Bytes) format](https://huggingface.co/docs/transformers/en/quantization/bitsandbytes) to reduce GPU memory usage
@@ -579,41 +591,20 @@ In order to use an instruction prompt dataset during training, it has to be uplo
 
 Datasets are stored either directly as `JSONL` and `CSV`, or in a sharded format called [Parquet](https://www.snowflake.com/en/fundamentals/parquet/). Using shards lets repositories split large datasets into many pieces for efficient storage.
 
-Install Kaggle CLI:
+To upload a dataset and use it in a Kaggle notebook:
 
-```bash
-pip install --break-system-packages kaggle
-```
-
-Go to [Kaggle Settings](https://www.kaggle.com/settings), scroll down to *Legacy API Credentials* and click **Create Legacy API Key**, which will download `kaggle.json` with your credentials.
-
-Move `kaggle.json` to the Kaggle configuration directory and set permissions:
-```
-mv ~/Downloads/kaggle.json ~/.kaggle
-chmod 600 ~/.kaggle/kaggle.json
-```
-
-Finally, upload the dataset:
-
-```bash
-kaggle datasets create -p upload
-```
-
-The following can be used to update the dataset later without having to re-create it:
-
-```bash
-kaggle datasets version -p upload -m "Update message"
-```
-
-For more information, see the [Kaggle API documentation](https://www.kaggle.com/docs/api#getting-started-installation-&-authentication).
-
-Once the dataset is uploaded, it can be added to the **Inputs** section displayed in a side-bar of a Kaggle notebook. When the notebook is executed, this will cause the dataset to be automatically downloaded to the working directory of the virtual machine spun up by Kaggle to run the notebook.
+1. Click **Upload** on the **Input** section of the **Notebook** sidebar
+2. Select **New Dataset**
+  ![upload sidebar](./images/ai-integration-upload-sidebar.png)
+3. Select or drop your dataset in the **Upload** modal, which also lets you pick visibility (*Public* or *Private*) and the license to use.
+  ![upload modal](./images/ai-integration-upload-modal.png)
+4. Click **Create** and wait until the new dataset appears in the **Input** section of the notebook sidebar.
+5. Expand the dataset and click **Copy** on the dataset file (in our case `training.jsonl`)
+  ![copy path](./images/ai-integration-input-path.png)
 
 ## training
 
-This section covers how the model is fine-tuned using supervised learning, parameter-efficient techniques, and configurable training settings.
-
-The [Unsloth Kaggle template](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Llama3.2_(1B_and_3B)-Conversational.ipynb&accelerator=nvidiaTeslaT4) used in this tutorial relies on the [Hugging Face Supervised Fine-Tuning (SFT) Trainer](https://huggingface.co/docs/trl/en/sft_trainer).
+The [Unsloth Kaggle template](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Gemma3_(4B).ipynb) used in this tutorial relies on the [Hugging Face Supervised Fine-Tuning (SFT) Trainer](https://huggingface.co/docs/trl/en/sft_trainer).
 
 Supervised fine-tuning trains the model using labeled examples, where each input prompt is paired with an expected response. This allows the model to learn how to map questions to appropriate answers.
 
@@ -621,17 +612,18 @@ This differs from pre-training, where the model is trained on large volumes of u
 
 ### low-rank adaptation
 
-The Unsloth template also uses [Low-Rank Adaptation (LoRA)](https://docs.unsloth.ai/get-started/fine-tuning-llms-guide/lora-hyperparameters-guide), a parameter-efficient fine-tuning technique.
-
-LoRA works by freezing the original pre-trained model weights and introducing a small number of additional trainable matrices. Only these new weights are updated during training, which significantly reduces memory usage and training cost.
-
-As described by the Unsloth team:
+The Unsloth template also uses [Low-Rank Adaptation (LoRA)](https://docs.unsloth.ai/get-started/fine-tuning-llms-guide/lora-hyperparameters-guide):
 
 > In LLMs, we have model weights. Llama 70B has 70 billion numbers. Instead of changing all 70B numbers, we add thin matrices A and B to each weight and optimize those instead. This typically means training around 1% of the total parameters.
 
+
+LoRA works by freezing the original pre-trained model weights and introducing a small number of additional trainable matrices.
+
+Only these new weights are updated during training, which significantly reduces memory usage and training cost.
+
 ### hyperparameters
 
-Model weights are commonly referred to as *parameters*. To avoid confusion, the configuration values that control *how* those parameters are trained are called *hyperparameters*.
+Model weights are commonly referred to as *parameters*. To avoid confusion, the configuration values that control how models are trained are called *hyperparameters*.
 
 In this tutorial, hyperparameters fall into two main categories:
 - **LoRA hyperparameters**, which control *what parts of the model are trainable*
@@ -641,7 +633,7 @@ Together, these settings determine training stability, speed, memory usage, and 
 
 #### adaptation
 
-Low-Rank Adaptation (LoRA) introduces a small number of trainable weights on top of a frozen pre-trained model. The following hyperparameters control how those additional weights are configured:
+ The following hyperparameters are used to configure the LoRa adapter:
 
 | Hyperparameter | Description | Practical Impact |
 |---------------|-------------|------------------|
@@ -659,7 +651,7 @@ These hyperparameters determine *how much* the model can change and *where* thos
 
 #### learning
 
-Training hyperparameters control how the model learns from the dataset and how gradients are applied over time:
+The following hyperparameters control how the model learns from the dataset and how gradients are applied over time:
 
 | Hyperparameter | Description | Practical Impact |
 |---------------|-------------|------------------|
@@ -685,33 +677,33 @@ Fine-tuning usually begins with conservative defaults and small experiments. Hyp
 
 In this section we evaluate the fine-tuned model across the full lifecycle: in development (directly in the notebook), in testing (by downloading from the Hub and running locally in LM Studio), and in production (by calling a deployed Chat API endpoint).
 
-Using a large language model to generate responses is referred to as *inference*. During inference, the model applies its learned weights to predict outputs based on supplied input, such as a user question or conversation history.
+Using a large language model to generate responses is referred to as *inference*. During inference, the model applies its learned weights to predict outputs based on supplied inputs like conversation messages.
 
 ### development
 
-During development, Unsloth provides a `generate` method on `FastLanguageModel` that allows running inference as soon as training completes. This makes it possible to test prompts and evaluate model behavior without first pushing the model to a repository.
+During development, Unsloth provides a [generate](https://unsloth.ai/docs/basics/inference-and-deployment/unsloth-inference) method on `FastLanguageModel` that allows running inference as soon as training completes. This makes it possible to test prompts and evaluate model behavior without first pushing the model to a repository.
 
 Development inference is useful for rapid iteration, debugging prompts, and verifying that fine-tuning produced the expected behavior - all within the confines of the Python training notebook.
 
 ### testing
 
-After training completes, the Python code in [fine-tune.py](./fine-tune.py) uses the `push_to_hub_merged` method to upload the model to a Hugging Face repository.
+After training completes, the Python code in [train.py](https://github.com/01binary/inventory-llm/blob/main/training/train.py) uses the [push_to_hub_gguf](https://unsloth.ai/docs/basics/inference-and-deployment/saving-to-gguf) method to convert model weights from `safetensors` format to `GGUF` and upload the model to a Hugging Face repository.
 
-This merges the frozen pre-trained weights with the fine-tuned LoRA weights into a single, fully deployable model.
+The frozen pre-trained weights are merged with the fine-tuned LoRA weights into a single, fully deployable model before the conversion.
 
-A typical model repository includes the following files:
+A typical model repository will include the following files:
 
 - `.gitattributes`: maps large files to Git Large File Storage (LFS)
 - `README.md`: model documentation, often generated from dataset metadata
-- `chat_template.jinja`: defines the request/response format used by inference services
+- `chat_template.jinja`: A [Jinja template](https://jinja.palletsprojects.com/en/stable/) that defines the request/response format used by inference services
 - `config.json`: model configuration (data types, vocabulary size, token IDs, etc.)
-- `*.safetensors`: one or more shards of model weights
+- `*.safetensors`, `*.gguf`, or `*.mlx`: one or more shards of model weights
 - `model.safetensors.index.json`: index mapping shards to model layers
 - `special_tokens_map.json`, `tokenizer.json`, `tokenizer_config.json`: tokenizer configuration files
 
 Large models are often split into multiple files, or *shards*, which allows registries to store and distribute them more efficiently.
 
-To load your fine-tuned model in LM Studio or try the [inference.py](./inference.py) notebook, first it must be pushed to Hugging Face model registry.
+To load your fine-tuned model in LM Studio, first it must be pushed to Hugging Face model registry.
 
 This will let you use the [Hugging Face CLI](https://huggingface.co/docs/huggingface_hub/en/guides/cli), configured with a Hugging Face API Token, to download the model into LM Studio's model folder for local testing:
 
@@ -741,3 +733,19 @@ Once your trained model is available on the Hugging Face registry, cloud provide
 - [Microsoft Foundry](https://ai.azure.com/catalog/publishers/hugging%20face,huggingface)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai)
 - [Friendli Endpoints](https://friendli.ai/product/dedicated-endpoints)
+
+Hugging Face [Inference endpoints](https://huggingface.co/docs/inference-endpoints/main/en/index) is a good starting point for experimenting with model deployment:
+
++ The virtual machines that run the models are billed *hourly*, with prices ranging from `$0.5/hr` to `$5/hr`
+  ![prices](./images/ai-integration-prices.png)
++ *Automatic scale-to-zero* ensures that **you only pay for hours when the endpoint was used**
+  ![autoscaling](./images/ai-integration-autoscaling.png)
++ The downscaling can be configured with an interval as small as `15 minutes`
+
+Your personal *Hugging Face API token* (or your organization's token) is used as the Bearer Token for sending REST API requests.
+
+A [read-only token](https://huggingface.co/docs/hub/security-tokens) is enough to access inference endpoints. It can be plugged in as follows in tools like PostMan:
+
+![token](./images/ai-integration-token.png)
+
+After this, sending API requests to an inference endpoint is no different than sending requests to a local LLM server.

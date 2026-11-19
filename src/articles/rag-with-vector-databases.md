@@ -60,7 +60,7 @@ Indexing with a vector database involves:
 + *Chunking* and *encoding* a collection of documents
 + Creating a database and inserting the encoded vectors
 
-The next few sections will demonstrate how to setup a *Chroma* database locally, use it for indexing documents, retrieve documents based on a search criteria, and ochestrate Retrieval Augmented Generation with a locally running model in [LM Studio](https://lmstudio.ai/).
+The next few sections will demonstrate how to setup a *Chroma* database locally, use it for indexing documents, retrieve documents based on a search criteria, and orchestrate Retrieval Augmented Generation with a locally running model in [LM Studio](https://lmstudio.ai/).
 
 The same steps are then repeated with a hosted *Pinecone* database to prepare you for deploying your solution to production.
 

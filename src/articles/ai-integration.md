@@ -7,7 +7,8 @@ date: 2026-07-29
 location: ^H Hackerspace
 tags:
   [
-    'engineering-software'
+    'engineering-software',
+    'engineering-datascience'
   ]
 ---
 

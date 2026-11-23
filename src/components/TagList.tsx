@@ -31,6 +31,7 @@ import EngineeringElectrical from '../images/engineering-electrical.svg';
 import EngineeringMechanical from '../images/engineering-mechanical.svg';
 import EngineeringRobotics from '../images/engineering-robotics.svg';
 import EngineeringSoftware from '../images/engineering-software.svg';
+import EngineeringDataScience from '../images/engineering-datascience.svg';
 import SoftwareArchitecture from '../images/software-architecture.svg';
 import Production from '../images/production.svg';
 import ToolAbleton from '../images/tool-ableton.svg';
@@ -88,7 +89,14 @@ const ICONS: CategoryMap = {
       icon: EngineeringMechanical,
       description: 'Mechanical engineering',
     },
-    robotics: { icon: EngineeringRobotics, description: 'Robotics' },
+    robotics: {
+      icon: EngineeringRobotics,
+      description: 'Robotics & Physical AI'
+    },
+    datascience: {
+      icon: EngineeringDataScience,
+      description: 'Machine Learning & AI',
+    },
     software: {
       icon: EngineeringSoftware,
       description: 'Software engineering',

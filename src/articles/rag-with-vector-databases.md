@@ -1,5 +1,5 @@
 ---
-title: Retrieval Augmented Generation with Vector Databases
+title: Retrieval Augmented Generation
 description: Introduction to Retrieval Augmented Generation (RAG) using popular Vector databases like Chroma and Pinecone
 image: ./images/theory-of-consciousness.png
 author: Valeriy Novytskyy
@@ -7,17 +7,22 @@ date: 2026-11-18
 location: ^H Hackerspace
 tags:
   [
-    'engineering-software'
+    'engineering-software',
+    'engineering-datascience'
   ]
 ---
 
 ## overview
 
-This tutorial will walk you through creating a search index for a collection of documents by using a vector database, and then using [Retrieval Augmented Generation](https://www.ibm.com/think/topics/retrieval-augmented-generation) (RAG) to build a chat bot that uses this database to answer questions.
+This tutorial will walk you through creating a search index for a collection of documents by using a vector database, and then using the [Retrieval Augmented Generation](https://www.ibm.com/think/topics/retrieval-augmented-generation) (RAG) technique to build a chat bot that relies on this database to answer your questions.
 
 While vector databases are useful on their own for indexing a collection of documents, combining this machine learning technique with generative AI provides agents with *long-term memory*, expanding their capabilities.
 
-This hands-on tutorial is designed to help you integrate Retrieval Augmented Generation into your application as quickly as possible. For a deeper introduction checkout [Vector Databases for Generative AI](https://www.amazon.com/Vector-Databases-Generative-AI-Build-ebook/dp/B0FH35DYNJ) by Leandro Calado.
+Creating an MCP server that lets agents insert facts they've learned during conversations with users is beyond the scope of this tutorial: the vectors are inserted at build time rather than at run-time.
+
+This hands-on tutorial is designed to help you integrate Retrieval Augmented Generation into your application as quickly as possible. For a deeper introduction checkout [Vector Databases for Generative AI](https://www.amazon.com/Vector-Databases-Generative-AI-Build-ebook/dp/B0FH35DYNJ) by Leandro Calado:
+
+![Vector Databases Book](./images/rag-book.png)
 
 ## why vector database?
 
@@ -44,16 +49,18 @@ A survey of popular vector databases reveals the following:
 
 |Solution|Deployment|Storage|Usage Limits|
 |-|-|-|-|
-|[Chroma](https://www.trychroma.com/)|`Local` `Serverless`|`1 GB`|**Low Cost**: `1T` transfer `$5` / month
+|[Chroma](https://www.trychroma.com/)|`Local`, `Serverless`|`1 GB`|**Low Cost**: `1T` transfer `$5` / month
 |[Pinecone](https://www.pinecone.io/)|`Serverless`|`2 GB`|**Free**: `1M` read + `2M` writes / month|
-|[Qdrant](https://qdrant.tech/cloud/)|`Local` `VM`|`4 GB`|**Free**: `0.5` vCPU, unlimited requests|
+|[Qdrant](https://qdrant.tech/cloud/)|`Local`, `VM`|`4 GB`|**Free**: `0.5` vCPU, unlimited requests|
 |[Upstash](https://upstash.com/)|`Serverless`|`2 GB`|**Free**: `10K` queries + `10K` updates / day|
+|[Milvus](https://milvus.io/)|`Local`, `Serverless`|`5 GB`|**Free**: `2.5M` vCUs / month, `5` collections|
+|[Weaviate](https://weaviate.io/)|`Local`, `Serverless`|`10 GB`|**Free**: `100K` objects, `1 GB` RAM, `1` collection|
 
 **Qdrant** and **Chroma** databases are open-source and can be operated locally or in the cloud while **Pinecone** and **Upstash** only run in the cloud and therefore require an API key.
 
 **Pinecone** is a better choice for unattended deployments, such as a personal blog or an app. Unlike Qdrant which [shuts down inactive virtual machine clusters](https://qdrant.tech/documentation/cloud/create-cluster), Pinecone is *serverless* and spins up virtual machines on request.
 
-## using a vector database
+## using a database
 
 Indexing with a vector database involves:
 
@@ -66,7 +73,7 @@ The same steps are then repeated with a hosted *Pinecone* database to prepare yo
 
 > The Python code snippets in this tutorial are from the [vector](https://github.com/01binary/vector) companion repository included with this tutorial. The `main` branch contains the code for using *Chroma* database locally, and `pinecone` branch contains the code for using the serverless *Pinecone* database with an API key.
 
-## chunking documents
+## chunking
 
 Indexing a document requires feeding it through an encoder-only neural network implemented with the [Transformer architecture](https://huggingface.co/learn/llm-course/chapter1/4).
 
@@ -348,6 +355,39 @@ response = chat_model.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
+
+## complete application
+
+Now that we examined the low-level details of how Retrieval Augmented Generation works by *orchestrating* the user's interaction with a chat model and injecting relevant snippets from the matching documents into the prompt, we can build a complete RAG application.
+
+On the [pinecone](https://github.com/01binary/vector/tree/pinecone) branch of the [companion repository](https://github.com/01binary/vector), there is a React.js application that displays a chat box created by using the [@assistant-ui/react](https://www.npmjs.com/package/@assistant-ui/react) Node.js package ([assistant-ui.com](https://www.assistant-ui.com/)).
+
+This lets you type in a question and replies with excerpts from the matching documents, allowing you to open any of the documents in a new window.
+
+The Pinecone API key, as well as the URL and API key of the AI model are configurable by using environment variables in `.env.local` which can be created by copying [.env.example](https://github.com/01binary/vector/blob/pinecone/.env.example):
+
+```bash
+PINECONE_API_KEY=
+OPENAI_BASE_URL=http://127.0.0.1:1234/v1
+OPENAI_API_KEY=lm-studio
+OPENAI_MODEL=google/gemma-3-12b
+```
+
+To test locally with a locally running AI in [LM Studio](https://lmstudio.ai/), update the `OPENAI_MODEL` to the identifier of your model:
+
+![LM Studio Local Server Setup](./images/rag-lm-studio.png)
+
+The only other setting is your Pinecone API key which can be found on the dashboard under API Keys:
+
+![Pinecone Dashboard with API Keys](./images/rag-pinecone-api-keys.png)
+
+To test with an AI model running in the cloud, plug in the URL and API key of the model's OpenAPI-compatible endpoint:
+
+![Inference Endpoints Dashboard](./images/rag-inference-url.png)
+
+See [production deployment](./ai-integration.md#production) section of the previous article for a primer on how to run serverless AI models in the cloud:
+
+![Inference Endpoints Authentication Settings](./images/rag-inference-auth.png)
 
 ## closing
 

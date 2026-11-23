@@ -56,7 +56,7 @@ A survey of popular vector databases reveals the following:
 |[Milvus](https://milvus.io/)|`Local`, `Serverless`|`5 GB`|**Free**: `2.5M` vCUs / month, `5` collections|
 |[Weaviate](https://weaviate.io/)|`Local`, `Serverless`|`10 GB`|**Free**: `100K` objects, `1 GB` RAM, `1` collection|
 
-**Qdrant** and **Chroma** databases are open-source and can be operated locally or in the cloud while **Pinecone** and **Upstash** only run in the cloud and therefore require an API key.
+**Qdrant**, **Chroma**, **Milvus**, and **Weaviate** databases are open-source and can be operated locally or in the cloud while **Pinecone** and **Upstash** only run in the cloud and therefore require an API key.
 
 **Pinecone** is a better choice for unattended deployments, such as a personal blog or an app. Unlike Qdrant which [shuts down inactive virtual machine clusters](https://qdrant.tech/documentation/cloud/create-cluster), Pinecone is *serverless* and spins up virtual machines on request.
 

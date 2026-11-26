@@ -1,7 +1,7 @@
 ---
 title: Retrieval Augmented Generation
 description: Introduction to Retrieval Augmented Generation (RAG) using popular Vector databases like Chroma and Pinecone
-image: ./images/theory-of-consciousness.png
+image: ./images/rag.png
 author: Valeriy Novytskyy
 date: 2026-11-18
 location: ^H Hackerspace
@@ -24,9 +24,11 @@ This hands-on tutorial is designed to help you integrate Retrieval Augmented Gen
 + Build a chat bot that answers questions by searching documents
 + Build a chat bot that remembers facts from prior conversations
 
-For a deeper introduction to this topic see [Vector Databases for Generative AI](https://www.amazon.com/Vector-Databases-Generative-AI-Build-ebook/dp/B0FH35DYNJ) by Leandro Calado:
+For a deeper introduction to this topic read [Vector Databases for Generative AI](https://www.amazon.com/Vector-Databases-Generative-AI-Build-ebook/dp/B0FH35DYNJ): *Build RAG Apps in 48 Hours* by Leandro Calado.
 
 ![Vector Databases Book](./images/rag-book.png)
+
+This book also introduces [LangGraph](https://github.com/langchain-ai/langgraph), an AI orchestration framework for building stateful agents, covered in this tutorial.
 
 ## vector databases
 
@@ -37,7 +39,7 @@ Anyone implementing full-text search has to think about:
 + **Stemming**, or transforming words into their most basic versions so that a query like "running" also matches documents containing "runs" or "run".
 + **Stop words**, or common words like "the", "and", "for" that must be filtered from the query to avoid matching every document.
 + **Similarity**, or matching by meaning rather than exact words ("run" - "sprint"), which is usually done by loading a thesaurus.
-+ **Ranking**, or evaluating each maching document against the entire search criteria, usually based on how many of the terms match and their frequency in the document.
++ **Ranking**, or evaluating each matching document against the entire search criteria, usually based on how many of the terms match and their frequency in the document.
 
 While a home-made search engine that uses tokenizing and sub-string matching is often sufficient for a personal blog or a hobby app, deployment at scale requires the intuitiveness of stemming, similarity matching, and ranking to meet the varied needs of many users.
 
@@ -53,7 +55,7 @@ A survey of popular vector databases reveals the following:
 
 |Solution|Deployment|Storage|Usage Limits|
 |-|-|-|-|
-|[Chroma](https://www.trychroma.com/)|`Local`, `Serverless`|`1 GB`|**Low Cost**: `1T` transfer `$5` / month
+|[Chroma](https://www.trychroma.com/)|`Local`, `Serverless`|`1 GB`|**Low Cost**: `1T` transfer `$5` / month|
 |[Pinecone](https://www.pinecone.io/)|`Serverless`|`2 GB`|**Free**: `1M` read + `2M` writes / month|
 |[Qdrant](https://qdrant.tech/cloud/)|`Local`, `VM`|`4 GB`|**Free**: `0.5` vCPU, unlimited requests|
 |[Upstash](https://upstash.com/)|`Serverless`|`2 GB`|**Free**: `10K` queries + `10K` updates / day|
@@ -413,7 +415,7 @@ This application uses exactly the same configuration as the previous demonstrati
 
 The [frontend](https://github.com/01binary/vector/tree/readwrite/app) remains the same, only simplified to remove the ability to open markdown documents. The documents themselves have been removed as well.
 
-The new [facts.js](https://github.com/01binary/vector/blob/readwrite/lib/facts.js) module is responsible for saving and retrieving facts from the user's conversations with the agent is called.
+The new [facts.js](https://github.com/01binary/vector/blob/readwrite/lib/facts.js) module is responsible for saving and retrieving facts from the user's conversations when the agent is called.
 
 It initializes the Pinecone client in the constructor, using the same `vector` database but a different *namespace* (essentially another database table) called `facts`:
 
@@ -610,6 +612,6 @@ When *Fields returned* is set to `text` and *Score by* to `Dense Embedding`, you
 
 In this tutorial we've looked at using modern, open-source vector databases to easily replicate what used to be hours of work in setting up a complex deployment like Elasticsearch, or using advanced algorithms like [BM25](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables) to roll your own full-text search.
 
-This sample code in this tutorial can be run on most Mac and Windows computers using a local vector database called *Chroma*.
+The sample code in this tutorial can be run on most Mac and Windows computers using a local vector database called *Chroma*.
 
-For practical deployment in production, the code can be easily adopted to *Pinecone*, an online serverless vector database with a generous free tier that doesn't ask for a credit card, making it a good choice for prototypes and personal projects.
+For practical deployment in production, the code can be easily adapted to *Pinecone*, an online serverless vector database with a generous free tier that doesn't ask for a credit card, making it a good choice for prototypes and personal projects.
